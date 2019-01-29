@@ -4,7 +4,7 @@ import javafx.geometry.Point3D;
 
 import java.awt.*;
 import java.util.LinkedList;
-
+// THIS CODE IS NOT USED ANYMORE!!!!!!!! AS OF 24/01/2019 TEAM MEETING
 /*
 The AI that controls the computer player character when doing single player.
 
@@ -90,8 +90,6 @@ public class PlayerAI {
                 }
             }
         }
-
-
 
 
 

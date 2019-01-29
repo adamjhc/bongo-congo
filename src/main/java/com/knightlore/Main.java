@@ -5,7 +5,13 @@ import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
 
+import com.knightlore.audio.MusicPlayer;
+
+import java.io.IOException;
 import java.nio.IntBuffer;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -17,6 +23,7 @@ public class Main {
 
     // The window handle
     private long window;
+    private MusicPlayer music;
 
     public static void main(String[] args) {
         new Main().run();
@@ -36,6 +43,14 @@ public class Main {
     }
 
     private void init() {
+    	
+    	try {
+			music = new MusicPlayer("src/main/java/com/knightlore/ingame-02-cavern.wav");
+			music.play();
+		} catch (Exception e) {
+			System.err.println("Unable to set up music player: " + e);
+		}
+    	
         // Setup an error callback. The default implementation
         // will print the error message in System.err.
         GLFWErrorCallback.createPrint(System.err).set();
@@ -58,6 +73,15 @@ public class Main {
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
             if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+            else if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE)
+            	try {
+            		if (music.isPlaying())
+            			music.stop();
+            		else
+            			music.play();
+            	} catch (Exception e) {
+            		System.err.println("Unable to operate on music: " + e);
+            	}
         });
 
         // Get the thread stack and push a new frame

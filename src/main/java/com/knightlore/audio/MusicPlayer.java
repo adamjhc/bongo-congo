@@ -15,53 +15,56 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class MusicPlayer {
 
 	Clip clip;
-	
-	String status;
-	
 	AudioInputStream source;
-	static String filePath;
+	String filePath;
+	boolean loops;
 	
 	
-	
-	public MusicPlayer(String file) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+	/* param1: path to audio file
+	 * param2: whether or not the audio file loops
+	 */
+	public MusicPlayer(String file, boolean shouldLoop) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		this.filePath = file;
 		this.source = AudioSystem.getAudioInputStream(new File (filePath).getAbsoluteFile());
 		
-		this.status = "stopped";
+		this.loops = shouldLoop;
 		
 		this.clip = AudioSystem.getClip();
-		this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+		if (this.loops) {
+			this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+		}
 	}
 	
+	
+	// Resets audio stream if necessary and then starts playing the audio file
 	public void play() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-		if (this.status.equals("stopped")) {
+		if (!this.isPlaying()) {
 			this.resetStream();
 			this.clip.stop();
 		}
 		
 		clip.start();
-		this.status = "playing";
 	}
 	
+	// Stops and closes the audio file (closing is necessary so that it can be played again)
 	public void stop() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		this.clip.stop();
 		this.clip.close();
-		this.status = "stopped";
 	}
 	
+	// Resets the audio stream. Once an audio file is closed it cannot be closed unless the audio stream is reset
 	private void resetStream() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		this.source = AudioSystem.getAudioInputStream(new File (filePath).getAbsoluteFile());
 		this.clip.open(this.source);
 		this.clip.stop();
-		this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+		if (this.loops) {
+			this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+		}
 		
 	}
 	
+	// Gets whether the sound is currently being played or not
 	public boolean isPlaying() {
-		if (this.status.equals("playing")) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.clip.isActive();
 	}
 }

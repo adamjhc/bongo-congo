@@ -10,7 +10,6 @@ import java.io.IOException;
 
 public class Main {
 
-    public GameServer gameserver;
 
     public static void main(String[] args) {
 

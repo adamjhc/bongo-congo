@@ -1,11 +1,7 @@
 package com.knightlore.client.networking.backend;// Java implementation for a com.knightlore.server.client
-// Save file as com.knightlore.client.networking.backend.Client.java
+// Save file as Client.java
 
 import com.google.gson.Gson;
-import com.knightlore.client.networking.backend.ResponseHandlers.GetGame;
-import com.knightlore.client.networking.backend.ResponseHandlers.SessionKey;
-import com.knightlore.networking.ApiKey;
-import com.knightlore.networking.Sendable;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -13,11 +9,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
 
-// com.knightlore.client.networking.backend.Client class
+// Client class
 public class Client
 {
 

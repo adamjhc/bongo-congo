@@ -7,7 +7,6 @@ import com.knightlore.server.ClientHandler;
 import com.knightlore.server.database.SessionGenerator;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 
 public class GetSessionToken extends Command{
     SessionGenerator apikey = new SessionGenerator();

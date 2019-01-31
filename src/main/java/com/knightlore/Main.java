@@ -5,7 +5,7 @@ import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
 
-import com.knightlore.audio.MusicPlayer;
+import com.knightlore.client.util.audio.MusicPlayer;
 
 import java.io.IOException;
 import java.nio.IntBuffer;

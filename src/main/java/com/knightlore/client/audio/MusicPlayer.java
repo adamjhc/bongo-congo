@@ -1,8 +1,7 @@
-package com.knightlore.client.util.audio;
+package com.knightlore.client.audio;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;

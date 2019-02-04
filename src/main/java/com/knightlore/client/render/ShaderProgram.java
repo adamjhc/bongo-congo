@@ -15,8 +15,8 @@ import static org.lwjgl.opengl.GL20.glUniform3fv;
 import static org.lwjgl.opengl.GL20.glUniform4fv;
 import static org.lwjgl.opengl.GL20.glValidateProgram;
 
-import com.knightlore.client.render.math.Vector3f;
-import com.knightlore.client.render.math.Vector4f;
+import com.knightlore.game.math.Vector3f;
+import com.knightlore.game.math.Vector4f;
 import java.util.HashMap;
 import java.util.Map;
 

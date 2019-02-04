@@ -1,4 +1,4 @@
-package com.knightlore.client.render.math;
+package com.knightlore.game.math;
 
 import java.nio.FloatBuffer;
 import org.lwjgl.BufferUtils;

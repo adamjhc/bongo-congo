@@ -1,7 +1,8 @@
 package com.knightlore.game.entity;
 
+import com.knightlore.game.math.Vector3f;
+
 public abstract class Entity {
 
-    public Coordinate coordinates;
-
+  public Vector3f position;
 }

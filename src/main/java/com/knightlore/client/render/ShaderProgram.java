@@ -20,12 +20,12 @@ import com.knightlore.game.math.Vector4f;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ShaderProgram {
+class ShaderProgram {
 
   private final int id;
   private Map<String, Integer> locationCache = new HashMap<>();
 
-  public ShaderProgram(String vertexShaderPath, String fragmentShaderPath) {
+  ShaderProgram(String vertexShaderPath, String fragmentShaderPath) {
     id = glCreateProgram();
 
     Shader vertexShader = new Shader(GL_VERTEX_SHADER, vertexShaderPath);
@@ -46,15 +46,27 @@ public class ShaderProgram {
    *
    * @return Shader program Id
    */
-  public int getId() {
+  int getId() {
     return id;
   }
 
-  public void attachShader(int shaderId) {
+  void setUniform(String name, int value) {
+    glUniform1i(getUniformLocation(name), value);
+  }
+
+  void setUniform(String name, Vector3f value) {
+    glUniform3fv(getUniformLocation(name), value.toBuffer());
+  }
+
+  void setUniform(String name, Vector4f value) {
+    glUniform4fv(getUniformLocation(name), value.toBuffer());
+  }
+
+  private void attachShader(int shaderId) {
     glAttachShader(id, shaderId);
   }
 
-  public void link() {
+  private void link() {
     glLinkProgram(id);
 
     if (glGetProgrami(id, GL_LINK_STATUS) == GL_FALSE) {
@@ -62,11 +74,11 @@ public class ShaderProgram {
     }
   }
 
-  public void validate() {
+  private void validate() {
     glValidateProgram(id);
   }
 
-  public int getUniformLocation(String name) {
+  private int getUniformLocation(String name) {
     if (locationCache.containsKey(name)) {
       return locationCache.get(name);
     }
@@ -78,17 +90,5 @@ public class ShaderProgram {
 
     locationCache.put(name, location);
     return location;
-  }
-
-  public void setUniform(String name, int value) {
-    glUniform1i(getUniformLocation(name), value);
-  }
-
-  public void setUniform(String name, Vector3f value) {
-    glUniform3fv(getUniformLocation(name), value.toBuffer());
-  }
-
-  public void setUniform(String name, Vector4f value) {
-    glUniform4fv(getUniformLocation(name), value.toBuffer());
   }
 }

@@ -3,19 +3,19 @@ package com.knightlore.client.render;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
-public class VertexArrayObject {
+class VertexArrayObject {
 
   private final int id;
 
-  public VertexArrayObject() {
+  VertexArrayObject() {
     id = glGenVertexArrays();
   }
 
-  public int getId() {
+  int getId() {
     return id;
   }
 
-  public void bind() {
+  void bind() {
     glBindVertexArray(id);
   }
 }

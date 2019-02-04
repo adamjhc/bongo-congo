@@ -11,22 +11,22 @@ import static org.lwjgl.opengl.GL20.glShaderSource;
 
 import com.knightlore.client.util.FileUtils;
 
-public class Shader {
+class Shader {
 
   private final int id;
 
-  public Shader(int type, String shaderPath) {
+  Shader(int type, String shaderPath) {
     String shader = FileUtils.readFileAsString(shaderPath);
     id = createShader(type);
     source(shader);
     compile();
   }
 
-  public int getId() {
+  int getId() {
     return id;
   }
 
-  public void delete() {
+  void delete() {
     glDeleteShader(id);
   }
 

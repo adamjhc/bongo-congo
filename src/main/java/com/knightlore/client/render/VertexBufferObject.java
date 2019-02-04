@@ -10,30 +10,30 @@ import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 
 import java.nio.FloatBuffer;
 
-public class VertexBufferObject {
+class VertexBufferObject {
 
   private final int id;
 
   private int size;
 
-  public VertexBufferObject() {
+  VertexBufferObject() {
     id = glGenBuffers();
   }
 
-  public int getId() {
+  int getId() {
     return id;
   }
 
-  public void bind() {
+  void bind() {
     glBindBuffer(GL_ARRAY_BUFFER, id);
   }
 
-  public void upload(FloatBuffer data) {
+  void upload(FloatBuffer data) {
     size = data.capacity();
     glBufferData(GL_ARRAY_BUFFER, data, GL_STATIC_DRAW);
   }
 
-  public void vertexAttribPointer(int index) {
+  void vertexAttribPointer(int index) {
     glVertexAttribPointer(index, size, GL_FLOAT, false, 0, 0);
   }
 }

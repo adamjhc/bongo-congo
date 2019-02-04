@@ -6,7 +6,7 @@ import static org.lwjgl.opengl.GL15.glBindBuffer;
 import static org.lwjgl.opengl.GL15.glBufferData;
 import static org.lwjgl.opengl.GL15.glGenBuffers;
 
-import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
 public class ElementBufferObject {
 
@@ -24,7 +24,7 @@ public class ElementBufferObject {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);
   }
 
-  public void upload(FloatBuffer data) {
+  public void upload(IntBuffer data) {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, data, GL_STATIC_DRAW);
   }
 }

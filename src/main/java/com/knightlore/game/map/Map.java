@@ -41,13 +41,13 @@ public class Map {
   }
 
   public void setTile(Vector3i location, Tile tile) {
-    if (size.isWithinBounds(location)) {
+    if (size.hasPosition(location)) {
       this.tiles[location.x - 1][location.y - 1][location.z - 1] = tile;
     }
   }
 
   public Tile getTile(Vector3i location) {
-    if (size.isWithinBounds(location)) {
+    if (size.hasPosition(location)) {
       return this.tiles[location.x + 1][location.y + 1][location.z + 1];
     }
 

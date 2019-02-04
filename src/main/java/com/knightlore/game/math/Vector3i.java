@@ -6,7 +6,7 @@ public class Vector3i extends org.joml.Vector3i {
     super(x, y, z);
   }
 
-  public boolean isWithinBounds(Vector3i vector) {
+  public boolean hasPosition(Vector3i vector) {
     return vector.x >= 0
         && vector.y >= 0
         && vector.z >= 0

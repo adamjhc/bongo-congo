@@ -4,5 +4,13 @@ import com.knightlore.game.math.Vector3f;
 
 public abstract class Entity {
 
-  public Vector3f position;
+  private Vector3f position;
+
+  public Vector3f getPosition() {
+    return position;
+  }
+
+  public void setPosition(Vector3f position) {
+    this.position = position;
+  }
 }

@@ -1,7 +1,6 @@
 package com.knightlore.game.math;
 
 import java.nio.FloatBuffer;
-import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 
 public class Matrix4f extends org.joml.Matrix4f {
@@ -21,5 +20,9 @@ public class Matrix4f extends org.joml.Matrix4f {
 
   public Matrix4f translate(Vector3f vector3f) {
     return new Matrix4f(super.translate(vector3f));
+  }
+
+  public Matrix4f setTranslation(Vector3f vector3f) {
+    return new Matrix4f(super.setTranslation(vector3f));
   }
 }

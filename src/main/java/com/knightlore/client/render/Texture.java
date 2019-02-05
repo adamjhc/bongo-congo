@@ -7,9 +7,12 @@ import static org.lwjgl.opengl.GL11.GL_TEXTURE_MAG_FILTER;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_MIN_FILTER;
 import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
 import static org.lwjgl.opengl.GL11.glBindTexture;
+import static org.lwjgl.opengl.GL11.glDeleteTextures;
 import static org.lwjgl.opengl.GL11.glGenTextures;
 import static org.lwjgl.opengl.GL11.glTexImage2D;
 import static org.lwjgl.opengl.GL11.glTexParameterf;
+import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
+import static org.lwjgl.opengl.GL13.glActiveTexture;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -70,11 +73,23 @@ public class Texture {
     return height;
   }
 
-  void bind() {
+  public void bind(int sampler) {
+    if (sampler >= 0 && sampler <= 31) {
+      glActiveTexture(GL_TEXTURE0 + sampler);
+      bind();
+    }
+  }
+
+  protected void finalize() throws Throwable {
+    glDeleteTextures(id);
+    super.finalize();
+  }
+
+  private void bind() {
     glBindTexture(GL_TEXTURE_2D, id);
   }
 
-  void unbind() {
+  private void unbind() {
     glBindTexture(GL_TEXTURE_2D, 0);
   }
 }

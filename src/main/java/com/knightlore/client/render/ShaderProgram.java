@@ -13,19 +13,22 @@ import static org.lwjgl.opengl.GL20.glLinkProgram;
 import static org.lwjgl.opengl.GL20.glUniform1i;
 import static org.lwjgl.opengl.GL20.glUniform3fv;
 import static org.lwjgl.opengl.GL20.glUniform4fv;
+import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
+import static org.lwjgl.opengl.GL20.glUseProgram;
 import static org.lwjgl.opengl.GL20.glValidateProgram;
 
+import com.knightlore.game.math.Matrix4f;
 import com.knightlore.game.math.Vector3f;
 import com.knightlore.game.math.Vector4f;
 import java.util.HashMap;
 import java.util.Map;
 
-class ShaderProgram {
+public class ShaderProgram {
 
   private final int id;
   private Map<String, Integer> locationCache = new HashMap<>();
 
-  ShaderProgram(String vertexShaderPath, String fragmentShaderPath) {
+  public ShaderProgram(String vertexShaderPath, String fragmentShaderPath) {
     id = glCreateProgram();
 
     Shader vertexShader = new Shader(GL_VERTEX_SHADER, vertexShaderPath);
@@ -50,16 +53,24 @@ class ShaderProgram {
     return id;
   }
 
-  void setUniform(String name, int value) {
+  public void bind() {
+    glUseProgram(id);
+  }
+
+  public void setUniform(String name, int value) {
     glUniform1i(getUniformLocation(name), value);
   }
 
-  void setUniform(String name, Vector3f value) {
+  public void setUniform(String name, Vector3f value) {
     glUniform3fv(getUniformLocation(name), value.toBuffer());
   }
 
-  void setUniform(String name, Vector4f value) {
+  public void setUniform(String name, Vector4f value) {
     glUniform4fv(getUniformLocation(name), value.toBuffer());
+  }
+
+  public void setUniform(String name, Matrix4f value) {
+    glUniformMatrix4fv(getUniformLocation(name), false, value.toBuffer());
   }
 
   private void attachShader(int shaderId) {

@@ -28,11 +28,11 @@ public class ShaderProgram {
   private final int id;
   private Map<String, Integer> locationCache = new HashMap<>();
 
-  public ShaderProgram(String vertexShaderPath, String fragmentShaderPath) {
+  public ShaderProgram(String shaderFileName) {
     id = glCreateProgram();
 
-    Shader vertexShader = new Shader(GL_VERTEX_SHADER, vertexShaderPath);
-    Shader fragmentShader = new Shader(GL_FRAGMENT_SHADER, fragmentShaderPath);
+    Shader vertexShader = new Shader(GL_VERTEX_SHADER, shaderFileName);
+    Shader fragmentShader = new Shader(GL_FRAGMENT_SHADER, shaderFileName);
 
     attachShader(vertexShader.getId());
     attachShader(fragmentShader.getId());

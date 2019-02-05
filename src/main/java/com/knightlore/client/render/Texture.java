@@ -14,33 +14,22 @@ import static org.lwjgl.opengl.GL11.glTexParameterf;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import com.knightlore.client.util.FileUtils;
 import java.nio.ByteBuffer;
-import javax.imageio.ImageIO;
 import org.lwjgl.BufferUtils;
 
 public class Texture {
 
+  private static final String texturePathPrefix = "./src/main/resources/textures/";
+
   private final int id;
   private int width, height;
 
-  public Texture(String path) {
-    BufferedImage bufferedImage;
-    int[] pixels;
-
-    try {
-      bufferedImage = ImageIO.read(new File(path));
-
-      width = bufferedImage.getWidth();
-      height = bufferedImage.getHeight();
-
-      pixels = bufferedImage.getRGB(0, 0, width, height, null, 0, width);
-
-    } catch (IOException e) {
-      throw new IllegalStateException("Texture does not exist");
-    }
+  public Texture(String fileName) {
+    Image image = FileUtils.loadImage(texturePathPrefix + fileName);
+    width = image.getWidth();
+    height = image.getHeight();
+    int[] pixels = image.getPixels();
 
     ByteBuffer pixelBuffer = BufferUtils.createByteBuffer(width * height * 4);
 

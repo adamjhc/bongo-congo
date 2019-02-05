@@ -1,4 +1,4 @@
-package com.knightlore.client.util.audio;
+package com.knightlore.client.audio;
 
 import java.io.IOException;
 

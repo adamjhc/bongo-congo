@@ -1,22 +1,16 @@
 package com.knightlore.game;
 
-import com.knightlore.game.entity.Enemies;
-import com.knightlore.game.entity.Player;
-import com.knightlore.game.map.Map;
-
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 
 public class Game {
 
-    Map map;
+    String uuid;
+    HashMap<String, Level> levels;
+    String currentLevel;
 
-    ArrayList<Player> players;
-    ArrayList<Enemies> enemies;
 
-    Date startedAt;
-    int duration;
-
-    public Game(){
+    public Level getCurrentLevel(){
+        return this.levels.get(this.currentLevel);
     }
+
 }

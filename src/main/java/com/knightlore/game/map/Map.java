@@ -46,12 +46,12 @@ public class Map {
 
     public void setTile(Location location, Tile tile){
         // TODO sanity location check
-        this.tiles[location.x - 1][location.y - 1][location.z - 1] = tile;
+        this.tiles[location.x - 1][location.y - 1][location.z] = tile;
     }
 
     public Tile getTile(Location location){
         // TODO sanity location check
-        return this.tiles[location.x + 1][location.y + 1][location.z + 1];
+        return this.tiles[location.x + 1][location.y + 1][location.z];
     }
 
 }

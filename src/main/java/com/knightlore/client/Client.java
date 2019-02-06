@@ -16,7 +16,8 @@ import static org.lwjgl.opengl.GL11.glEnable;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Window;
 import com.knightlore.client.render.Camera;
-import com.knightlore.client.world.FloorTile;
+import com.knightlore.client.render.ShaderProgram;
+import com.knightlore.client.world.TileSet;
 import com.knightlore.game.math.Matrix4f;
 import com.knightlore.game.math.Vector3f;
 import org.lwjgl.opengl.GL;
@@ -41,7 +42,7 @@ public class Client {
     }
 
     window = new Window();
-    window.createWindow("Bongo Congo Client");
+    window.createWindow("Bongo Congo");
     window.setCallbacks();
     Keyboard.setWindow(window.getWindow());
 
@@ -54,7 +55,9 @@ public class Client {
 
   private void loop() {
     Camera camera = new Camera(window.getWidth(), window.getHeight());
-    FloorTile tile = new FloorTile();
+
+    TileSet tileSet = new TileSet();
+    ShaderProgram shaderProgram = new ShaderProgram("shader");
 
     Matrix4f world = new Matrix4f().setTranslation(new Vector3f(0));
     world.scale(128);
@@ -64,7 +67,8 @@ public class Client {
 
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-      tile.render(0, 0, world, camera.getProjection());
+      tileSet.getTile(1).render(1, 1, shaderProgram, world, camera.getProjection());
+      tileSet.getTile(0).render(0, 0, shaderProgram, world, camera.getProjection());
 
       window.swapBuffers();
     }

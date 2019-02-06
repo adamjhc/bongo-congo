@@ -6,10 +6,9 @@ import com.knightlore.game.math.Vector3f;
 public abstract class Renderable {
 
   protected RenderModel model;
-  protected ShaderProgram shaderProgram;
   protected Texture texture;
 
-  public void render(int x, int y, Matrix4f world, Matrix4f camera) {
+  public void render(int x, int y, ShaderProgram shaderProgram, Matrix4f world, Matrix4f camera) {
     shaderProgram.bind();
     texture.bind(0);
 

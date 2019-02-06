@@ -9,7 +9,6 @@ import static org.lwjgl.opengl.GL20.glAttachShader;
 import static org.lwjgl.opengl.GL20.glBindAttribLocation;
 import static org.lwjgl.opengl.GL20.glCreateProgram;
 import static org.lwjgl.opengl.GL20.glDeleteProgram;
-import static org.lwjgl.opengl.GL20.glDeleteShader;
 import static org.lwjgl.opengl.GL20.glDetachShader;
 import static org.lwjgl.opengl.GL20.glGetProgramInfoLog;
 import static org.lwjgl.opengl.GL20.glGetProgrami;
@@ -50,8 +49,8 @@ public class ShaderProgram {
     link();
     validate();
 
-    //    vertexShader.delete();
-    //    fragmentShader.delete();
+    vertexShader.delete();
+    fragmentShader.delete();
   }
 
   /**

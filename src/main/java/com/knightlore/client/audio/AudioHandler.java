@@ -32,6 +32,7 @@ public class AudioHandler {
 	MusicPlayer gameOverJingle;
 	
 	MusicPlayer[] audioFiles;
+	boolean isOn;
 	
 	public AudioHandler() {
 		String audioPath = "src/main/resources/audio/";
@@ -54,7 +55,9 @@ public class AudioHandler {
 
 	// param1: the audio file to be played
 	public void play(AudioName file) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		this.audioFiles[file.ordinal()].play();
+		if (this.isOn) {
+			this.audioFiles[file.ordinal()].play();
+		}
 	}
 	
 	// Closes any audio files that have finished playing so that they can be played again
@@ -65,5 +68,9 @@ public class AudioHandler {
 				currentFile.stop();
 			}
 		}
+	}
+	
+	public void toggle() {
+		this.isOn = !this.isOn;
 	}
 }

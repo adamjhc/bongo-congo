@@ -30,7 +30,7 @@ class VertexBufferObject {
   }
 
   void upload(FloatBuffer data) {
-    size = data.capacity();
+    size = data.capacity() / 4;
     glBufferData(GL_ARRAY_BUFFER, data, GL_STATIC_DRAW);
   }
 

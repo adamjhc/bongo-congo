@@ -44,6 +44,9 @@ public class ShaderProgram {
     attachShader(vertexShader.getId());
     attachShader(fragmentShader.getId());
 
+    bindAttribLocation(0, "vertices");
+    bindAttribLocation(1, "textures");
+
     link();
     validate();
 

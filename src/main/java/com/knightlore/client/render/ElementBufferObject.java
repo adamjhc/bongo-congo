@@ -7,6 +7,7 @@ import static org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15.GL_STATIC_DRAW;
 import static org.lwjgl.opengl.GL15.glBindBuffer;
 import static org.lwjgl.opengl.GL15.glBufferData;
+import static org.lwjgl.opengl.GL15.glDeleteBuffers;
 import static org.lwjgl.opengl.GL15.glGenBuffers;
 
 import java.nio.IntBuffer;
@@ -33,5 +34,9 @@ class ElementBufferObject {
 
   void draw(int count) {
     glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, 0);
+  }
+
+  void delete() {
+    glDeleteBuffers(id);
   }
 }

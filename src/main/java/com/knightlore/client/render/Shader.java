@@ -28,10 +28,11 @@ class Shader {
   private final int id;
 
   Shader(int type, String shaderFileName) {
-    String shader =
-        FileUtils.readFileAsString(shaderPathPrefix + shaderFileName + fileExtensions.get(type));
     id = createShader(type);
-    source(shader);
+
+    source(
+        FileUtils.readFileAsString(shaderPathPrefix + shaderFileName + fileExtensions.get(type)));
+
     compile();
   }
 

@@ -63,4 +63,11 @@ public class RenderModel {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
   }
+
+  protected void finalize() throws Throwable {
+    vertexBufferObject.delete();
+    textureBufferObject.delete();
+    elementBufferObject.delete();
+    super.finalize();
+  }
 }

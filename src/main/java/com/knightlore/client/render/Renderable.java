@@ -9,13 +9,13 @@ public abstract class Renderable {
   protected ShaderProgram shaderProgram;
   protected Texture texture;
 
-  public void render(int x, int y, Matrix4f world, Camera camera) {
+  public void render(int x, int y, Matrix4f world, Matrix4f camera) {
     shaderProgram.bind();
     texture.bind(0);
 
     Matrix4f position = new Matrix4f().translate(new Vector3f(x, y, 0));
     Matrix4f target = new Matrix4f();
-    camera.getProjection().mul(world, target);
+    camera.mul(world, target);
     target.mul(position);
 
     shaderProgram.setUniform("sampler", 0);

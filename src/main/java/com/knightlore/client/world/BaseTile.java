@@ -2,19 +2,21 @@ package com.knightlore.client.world;
 
 import com.knightlore.client.render.RenderModel;
 import com.knightlore.client.render.Renderable;
-import com.knightlore.client.render.ShaderProgram;
 import com.knightlore.client.render.Texture;
 
-public class FloorTile extends Renderable {
+public class BaseTile extends Renderable {
   // 256 * 512
 
-  public FloorTile() {
+  public BaseTile(String textureFileName) {
+    texture = new Texture(textureFileName);
+    float tileHeight = (float) texture.getHeight() / texture.getWidth();
+
     float[] vertices =
         new float[] {
-          -1f, 2f, 0, // TOP LEFT     0
-          1f, 2f, 0, // TOP RIGHT    1
-          1f, -2f, 0, // BOTTOM RIGHT 2
-          -1f, -2f, 0, // BOTTOM LEFT  3
+          -1f, tileHeight, 0, // TOP LEFT     0
+          1f, tileHeight, 0, // TOP RIGHT    1
+          1f, -tileHeight, 0, // BOTTOM RIGHT 2
+          -1f, -tileHeight, 0, // BOTTOM LEFT  3
         };
 
     float[] textureCoords =
@@ -32,7 +34,5 @@ public class FloorTile extends Renderable {
         };
 
     model = new RenderModel(vertices, textureCoords, indices);
-    shaderProgram = new ShaderProgram("shader");
-    texture = new Texture("floor_E.png");
   }
 }

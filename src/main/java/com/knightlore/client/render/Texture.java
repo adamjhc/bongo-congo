@@ -34,10 +34,10 @@ public class Texture {
     ByteBuffer pixelBuffer = BufferUtils.createByteBuffer(width * height * 4);
 
     for (int i = 0; i < width * height; i++) {
-      pixelBuffer.put((byte) ((pixels[i] >> 24) & 0xFF)); // ALPHA
       pixelBuffer.put((byte) ((pixels[i] >> 16) & 0xFF)); // RED
       pixelBuffer.put((byte) ((pixels[i] >> 8) & 0xFF)); // GREEN
       pixelBuffer.put((byte) (pixels[i] & 0xFF)); // BLUE
+      pixelBuffer.put((byte) ((pixels[i] >> 24) & 0xFF)); // ALPHA
     }
     pixelBuffer.flip();
 
@@ -51,7 +51,7 @@ public class Texture {
     glTexImage2D(
         GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixelBuffer);
 
-//    unbind();
+    unbind();
   }
 
   public int getWidth() {

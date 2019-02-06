@@ -89,7 +89,7 @@ public class Window {
 
     // TODO Uncomment if Keyboard becomes a GLFWKeyCallback
     // glfwSetKeyCallback(window, new Keyboard());
-    glfwSetMouseButtonCallback(window, new Mouse());
+//    glfwSetMouseButtonCallback(window, new Mouse());
   }
 
   public boolean shouldClose() {

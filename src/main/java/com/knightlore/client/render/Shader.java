@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 class Shader {
 
-  private static final String shaderPathPrefix = "src/resources/shaders/";
+  private static final String shaderPathPrefix = "./src/main/resources/shaders/";
   private static final HashMap fileExtensions =
       new HashMap<Integer, String>() {
         {

@@ -30,6 +30,8 @@ public class Keyboard extends GLFWKeyCallback {
 
   @Override
   public void invoke(long window, int key, int scancode, int action, int mods) {
-    previousKeyStates[key] = action != GLFW_RELEASE;
+    if (key != -1) {
+      previousKeyStates[key] = action != GLFW_RELEASE;
+    }
   }
 }

@@ -64,16 +64,23 @@ public class Client {
     Matrix4f world = new Matrix4f().setTranslation(new Vector3f(0));
     world.scale(64);
 
-    int[][] map = Map.getSetMap();
+    int[][][] map = Map.getSetMap();
 
     while (!window.shouldClose()) {
       glfwPollEvents();
 
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-      for (int x = map.length - 1; x >= 0; x--) {
-        for (int y = map[0].length - 1; y >= 0; y--) {
-          tileSet.getTile(map[x][y]).render(x, y, shaderProgram, world, camera.getProjection());
+      for (int z = 0; z < map.length; z++) {
+        for (int y = map[z].length - 1; y >= 0; y--) {
+          for (int x = map[z][y].length - 1; x >= 0; x--) {
+            int tileId = map[z][y][x];
+            if (tileId != -1) {
+              tileSet
+                  .getTile(tileId)
+                  .render(x + z, y + z, shaderProgram, world, camera.getProjection());
+            }
+          }
         }
       }
 

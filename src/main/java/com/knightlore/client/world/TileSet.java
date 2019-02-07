@@ -17,6 +17,7 @@ public class TileSet {
 
   private void loadTiles() {
     tileSet.add(new BaseTile("floor_E.png"));
+    tileSet.add(new BaseTile("slab_N.png"));
     tileSet.add(new BaseTile("blockHuge_E.png"));
   }
 }

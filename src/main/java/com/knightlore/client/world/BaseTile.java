@@ -2,10 +2,17 @@ package com.knightlore.client.world;
 
 import com.knightlore.client.render.RenderModel;
 import com.knightlore.client.render.Renderable;
+import com.knightlore.client.render.ShaderProgram;
 import com.knightlore.client.render.Texture;
+import com.knightlore.client.util.CoordinateUtils;
+import com.knightlore.game.math.Matrix4f;
+import com.knightlore.game.math.Vector3f;
 
 public class BaseTile extends Renderable {
   // 256 * 512
+
+  public static float tileWidth = 2f;
+  public static float tileHeight = 1.171875f;
 
   public BaseTile(String textureFileName) {
     texture = new Texture(textureFileName);
@@ -34,5 +41,11 @@ public class BaseTile extends Renderable {
         };
 
     model = new RenderModel(vertices, textureCoords, indices);
+  }
+
+  @Override
+  public void render(float x, float y, ShaderProgram shaderProgram, Matrix4f world, Matrix4f camera) {
+    Vector3f cartesian = CoordinateUtils.toCartesian(new Vector3f(x, y, 0));
+    super.render(cartesian.x, cartesian.y, shaderProgram, world, camera);
   }
 }

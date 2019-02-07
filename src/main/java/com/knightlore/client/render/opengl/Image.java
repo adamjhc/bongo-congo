@@ -1,4 +1,4 @@
-package com.knightlore.client.render;
+package com.knightlore.client.render.opengl;
 
 public class Image {
   private int width;

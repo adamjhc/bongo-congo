@@ -1,4 +1,4 @@
-package com.knightlore.client.render;
+package com.knightlore.client.render.opengl;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
@@ -11,34 +11,34 @@ import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 
 import java.nio.FloatBuffer;
 
-class VertexBufferObject {
+public class VertexBufferObject {
 
   private final int id;
 
   private int size;
 
-  VertexBufferObject() {
+  public VertexBufferObject() {
     id = glGenBuffers();
   }
 
-  int getId() {
+  public int getId() {
     return id;
   }
 
-  void bind() {
+  public void bind() {
     glBindBuffer(GL_ARRAY_BUFFER, id);
   }
 
-  void upload(FloatBuffer data) {
+  public void upload(FloatBuffer data) {
     size = data.capacity() / 4;
     glBufferData(GL_ARRAY_BUFFER, data, GL_STATIC_DRAW);
   }
 
-  void vertexAttribPointer(int index) {
+  public void vertexAttribPointer(int index) {
     glVertexAttribPointer(index, size, GL_FLOAT, false, 0, 0);
   }
 
-  void delete() {
+  public void delete() {
     glDeleteBuffers(id);
   }
 }

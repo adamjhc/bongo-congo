@@ -6,6 +6,9 @@ import static org.lwjgl.opengl.GL15.glBindBuffer;
 import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 
+import com.knightlore.client.render.opengl.ElementBufferObject;
+import com.knightlore.client.render.opengl.VertexArrayObject;
+import com.knightlore.client.render.opengl.VertexBufferObject;
 import com.knightlore.client.util.BufferUtils;
 
 public class RenderModel {

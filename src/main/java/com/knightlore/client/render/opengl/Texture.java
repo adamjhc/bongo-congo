@@ -1,4 +1,4 @@
-package com.knightlore.client.render;
+package com.knightlore.client.render.opengl;
 
 import static org.lwjgl.opengl.GL11.GL_NEAREST;
 import static org.lwjgl.opengl.GL11.GL_RGBA;

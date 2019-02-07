@@ -1,20 +1,20 @@
-package com.knightlore.client.world;
+package com.knightlore.client.render.world;
 
 import com.knightlore.client.render.RenderModel;
 import com.knightlore.client.render.Renderable;
-import com.knightlore.client.render.ShaderProgram;
-import com.knightlore.client.render.Texture;
+import com.knightlore.client.render.opengl.ShaderProgram;
+import com.knightlore.client.render.opengl.Texture;
 import com.knightlore.client.util.CoordinateUtils;
 import com.knightlore.game.math.Matrix4f;
 import com.knightlore.game.math.Vector3f;
 
-public class BaseTile extends Renderable {
+public class TileGameObject extends Renderable {
   // 256 * 512
 
   public static float tileWidth = 2f;
   public static float tileHeight = 1.171875f;
 
-  public BaseTile(String textureFileName) {
+  public TileGameObject(String textureFileName) {
     texture = new Texture(textureFileName);
     float tileHeight = (float) texture.getHeight() / texture.getWidth();
 

@@ -1,4 +1,4 @@
-package com.knightlore.client.render;
+package com.knightlore.client.render.opengl;
 
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL11.GL_UNSIGNED_INT;
@@ -12,31 +12,31 @@ import static org.lwjgl.opengl.GL15.glGenBuffers;
 
 import java.nio.IntBuffer;
 
-class ElementBufferObject {
+public class ElementBufferObject {
 
   private final int id;
 
-  ElementBufferObject() {
+  public ElementBufferObject() {
     id = glGenBuffers();
   }
 
-  int getId() {
+  public int getId() {
     return id;
   }
 
-  void bind() {
+  public void bind() {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);
   }
 
-  void upload(IntBuffer data) {
+  public void upload(IntBuffer data) {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, data, GL_STATIC_DRAW);
   }
 
-  void draw(int count) {
+  public void draw(int count) {
     glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, 0);
   }
 
-  void delete() {
+  public void delete() {
     glDeleteBuffers(id);
   }
 }

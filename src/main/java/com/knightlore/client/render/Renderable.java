@@ -1,5 +1,7 @@
 package com.knightlore.client.render;
 
+import com.knightlore.client.render.opengl.ShaderProgram;
+import com.knightlore.client.render.opengl.Texture;
 import com.knightlore.game.math.Matrix4f;
 import com.knightlore.game.math.Vector3f;
 

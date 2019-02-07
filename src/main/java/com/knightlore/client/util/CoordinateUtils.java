@@ -1,6 +1,6 @@
 package com.knightlore.client.util;
 
-import com.knightlore.client.world.BaseTile;
+import com.knightlore.client.render.world.TileGameObject;
 import com.knightlore.game.math.Vector3f;
 
 public class CoordinateUtils {
@@ -12,8 +12,8 @@ public class CoordinateUtils {
 
   public static Vector3f toCartesian(Vector3f iso) {
     return new Vector3f(
-        (iso.x * BaseTile.tileWidth / 2) - (iso.y * BaseTile.tileWidth / 2),
-        (iso.y * BaseTile.tileHeight / 2) + (iso.x * BaseTile.tileHeight / 2),
+        (iso.x * TileGameObject.tileWidth / 2) - (iso.y * TileGameObject.tileWidth / 2),
+        (iso.y * TileGameObject.tileHeight / 2) + (iso.x * TileGameObject.tileHeight / 2),
         iso.z);
   }
 }

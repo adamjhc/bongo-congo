@@ -1,4 +1,4 @@
-package com.knightlore.client.render;
+package com.knightlore.client.render.opengl;
 
 import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER;
@@ -6,9 +6,6 @@ import static org.lwjgl.opengl.GL15.glBindBuffer;
 import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 
-import com.knightlore.client.render.opengl.ElementBufferObject;
-import com.knightlore.client.render.opengl.VertexArrayObject;
-import com.knightlore.client.render.opengl.VertexBufferObject;
 import com.knightlore.client.util.BufferUtils;
 
 public class RenderModel {
@@ -63,7 +60,7 @@ public class RenderModel {
   private void unbind() {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-//    glBindVertexArray(0);
+    //    glBindVertexArray(0);
   }
 
   protected void finalize() throws Throwable {

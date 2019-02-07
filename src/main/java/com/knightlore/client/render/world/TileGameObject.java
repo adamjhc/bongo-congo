@@ -1,7 +1,6 @@
 package com.knightlore.client.render.world;
 
-import com.knightlore.client.render.RenderModel;
-import com.knightlore.client.render.Renderable;
+import com.knightlore.client.render.opengl.RenderModel;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.opengl.Texture;
 import com.knightlore.client.util.CoordinateUtils;
@@ -44,7 +43,8 @@ public class TileGameObject extends Renderable {
   }
 
   @Override
-  public void render(float x, float y, ShaderProgram shaderProgram, Matrix4f world, Matrix4f camera) {
+  public void render(
+      float x, float y, ShaderProgram shaderProgram, Matrix4f world, Matrix4f camera) {
     Vector3f cartesian = CoordinateUtils.toCartesian(new Vector3f(x, y, 0));
     super.render(cartesian.x, cartesian.y, shaderProgram, world, camera);
   }

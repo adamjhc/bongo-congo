@@ -1,8 +1,8 @@
 package com.knightlore.client;
 
-import static org.lwjgl.glfw.GLFW.glfwInit;
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
+import static org.lwjgl.opengl.GL.createCapabilities;
 import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
@@ -21,7 +21,6 @@ import com.knightlore.client.world.TileSet;
 import com.knightlore.game.map.Map;
 import com.knightlore.game.math.Matrix4f;
 import com.knightlore.game.math.Vector3f;
-import org.lwjgl.opengl.GL;
 
 public class Client {
 
@@ -38,17 +37,14 @@ public class Client {
   }
 
   private void init() {
-    if (!glfwInit()) {
-      throw new IllegalStateException("Unable to initialise GLFW");
-    }
-
+    // Setting up GLFW
     window = new Window();
     window.createWindow("Bongo Congo");
     window.setCallbacks();
     Keyboard.setWindow(window.getWindow());
 
-    GL.createCapabilities();
-
+    // Setting up OpenGL
+    createCapabilities();
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

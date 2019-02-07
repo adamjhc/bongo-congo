@@ -4,6 +4,11 @@ import java.nio.FloatBuffer;
 import org.lwjgl.BufferUtils;
 
 public class Vector3f extends org.joml.Vector3f {
+
+  public Vector3f(float d) {
+    super(d);
+  }
+
   public Vector3f(float x, float y, float z) {
     super(x, y, z);
   }

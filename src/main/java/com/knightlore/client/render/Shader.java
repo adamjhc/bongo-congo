@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 class Shader {
 
-  private static final String shaderPathPrefix = "src/resources/shaders/";
+  private static final String shaderPathPrefix = "./src/main/resources/shaders/";
   private static final HashMap fileExtensions =
       new HashMap<Integer, String>() {
         {
@@ -28,10 +28,11 @@ class Shader {
   private final int id;
 
   Shader(int type, String shaderFileName) {
-    String shader =
-        FileUtils.readFileAsString(shaderPathPrefix + shaderFileName + fileExtensions.get(type));
     id = createShader(type);
-    source(shader);
+
+    source(
+        FileUtils.readFileAsString(shaderPathPrefix + shaderFileName + fileExtensions.get(type)));
+
     compile();
   }
 

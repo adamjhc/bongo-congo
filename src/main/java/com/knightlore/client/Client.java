@@ -18,6 +18,7 @@ import com.knightlore.client.io.Window;
 import com.knightlore.client.render.Camera;
 import com.knightlore.client.render.ShaderProgram;
 import com.knightlore.client.world.TileSet;
+import com.knightlore.game.map.Map;
 import com.knightlore.game.math.Matrix4f;
 import com.knightlore.game.math.Vector3f;
 import org.lwjgl.opengl.GL;
@@ -55,20 +56,26 @@ public class Client {
 
   private void loop() {
     Camera camera = new Camera(window.getWidth(), window.getHeight());
+    camera.addPosition(new Vector3f(0, -250, 0));
 
     TileSet tileSet = new TileSet();
     ShaderProgram shaderProgram = new ShaderProgram("shader");
 
     Matrix4f world = new Matrix4f().setTranslation(new Vector3f(0));
-    world.scale(128);
+    world.scale(64);
+
+    int[][] map = Map.getSetMap();
 
     while (!window.shouldClose()) {
       glfwPollEvents();
 
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-      tileSet.getTile(1).render(1, 1, shaderProgram, world, camera.getProjection());
-      tileSet.getTile(0).render(0, 0, shaderProgram, world, camera.getProjection());
+      for (int x = map.length - 1; x >= 0; x--) {
+        for (int y = map[0].length - 1; y >= 0; y--) {
+          tileSet.getTile(map[x][y]).render(x, y, shaderProgram, world, camera.getProjection());
+        }
+      }
 
       window.swapBuffers();
     }

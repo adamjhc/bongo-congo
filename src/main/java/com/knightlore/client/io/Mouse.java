@@ -2,6 +2,7 @@ package com.knightlore.client.io;
 
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LAST;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
+import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
 import static org.lwjgl.glfw.GLFW.glfwGetMouseButton;
 
@@ -15,21 +16,24 @@ public class Mouse extends GLFWMouseButtonCallback {
   private static long window = 0;
   private static boolean[] previousMouseButtonStates = new boolean[GLFW_MOUSE_BUTTON_LAST];
 
-  public static boolean isMouseButtonDown(int button) {
+  public static void setWindow(long windowNew) {
+    window = windowNew;
+  }
+
+  public static boolean isButtonDown(int button) {
     return glfwGetMouseButton(window, button) == GLFW_PRESS;
   }
 
-  public static boolean isMouseButtonPressed(int button) {
-    return isMouseButtonDown(button) && !previousMouseButtonStates[button];
+  public static boolean isButtonPressed(int button) {
+    return previousMouseButtonStates[button];
   }
 
-  public static boolean isMouseButtonReleased(int button) {
-    return !isMouseButtonDown(button) && previousMouseButtonStates[button];
+  public static boolean isButtonReleased(int button) {
+    return !previousMouseButtonStates[button] && isButtonDown(button);
   }
 
-  public static boolean isMouseButtonReleasedInArea(
-      int button, Vector2i bottomLeft, Vector2i topRight) {
-    if (!isMouseButtonReleased(button)) {
+  public static boolean isButtonReleasedInArea(int button, Vector2i bottomLeft, Vector2i topRight) {
+    if (!isButtonReleased(button)) {
       return false;
     }
 
@@ -48,10 +52,6 @@ public class Mouse extends GLFWMouseButtonCallback {
 
   @Override
   public void invoke(long window, int button, int action, int mods) {
-    if (window == 0) {
-      Mouse.window = window;
-    }
-
-    previousMouseButtonStates[button] = action == GLFW_PRESS;
+    previousMouseButtonStates[button] = action != GLFW_RELEASE;
   }
 }

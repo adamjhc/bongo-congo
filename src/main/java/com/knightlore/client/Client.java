@@ -1,6 +1,5 @@
 package com.knightlore.client;
 
-import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 import static org.lwjgl.opengl.GL.createCapabilities;
 import static org.lwjgl.opengl.GL11.GL_BLEND;
@@ -63,7 +62,7 @@ public class Client {
     int[][][] map = Map.getSetMap();
 
     while (!window.shouldClose()) {
-      glfwPollEvents();
+      window.update();
 
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

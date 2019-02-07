@@ -21,11 +21,11 @@ public class Keyboard extends GLFWKeyCallback {
   }
 
   public static boolean isKeyPressed(int keyCode) {
-    return isKeyDown(keyCode) && !previousKeyStates[keyCode];
+    return previousKeyStates[keyCode];
   }
 
   public static boolean isKeyReleased(int keyCode) {
-    return !isKeyDown(keyCode) && previousKeyStates[keyCode];
+    return !previousKeyStates[keyCode] && isKeyDown(keyCode);
   }
 
   @Override

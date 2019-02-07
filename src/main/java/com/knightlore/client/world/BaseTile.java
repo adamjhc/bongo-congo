@@ -13,10 +13,10 @@ public class BaseTile extends Renderable {
 
     float[] vertices =
         new float[] {
-          -1f, tileHeight, 0, // TOP LEFT     0
-          1f, tileHeight, 0, // TOP RIGHT    1
-          1f, -tileHeight, 0, // BOTTOM RIGHT 2
-          -1f, -tileHeight, 0, // BOTTOM LEFT  3
+          -1f, 2 * tileHeight, 0, // TOP LEFT     0
+          1f, 2 * tileHeight, 0, // TOP RIGHT    1
+          1f, 0, 0, // BOTTOM RIGHT 2
+          -1f, 0, 0, // BOTTOM LEFT  3
         };
 
     float[] textureCoords =

@@ -16,6 +16,7 @@ public class TileSet {
   }
 
   private void loadTiles() {
+    tileSet.add(new TileGameObject());
     tileSet.add(new TileGameObject("floor_E.png"));
     tileSet.add(new TileGameObject("slab_N.png"));
     tileSet.add(new TileGameObject("blockHuge_E.png"));

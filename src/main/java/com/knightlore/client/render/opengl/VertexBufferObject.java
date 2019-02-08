@@ -13,32 +13,59 @@ import java.nio.FloatBuffer;
 
 public class VertexBufferObject {
 
+  /**
+   * The OpenGL id of the VBO
+   */
   private final int id;
 
+  /**
+   * Size of the buffer
+   */
   private int size;
 
-  public VertexBufferObject() {
+  /**
+   * Initialise the VBO
+   */
+  VertexBufferObject() {
     id = glGenBuffers();
   }
 
+  /**
+   * Get the OpenGL id of the VBO
+   * @return OpenGL id of the VBO
+   */
   public int getId() {
     return id;
   }
 
-  public void bind() {
+  /**
+   * Bind the VBO
+   */
+  void bind() {
     glBindBuffer(GL_ARRAY_BUFFER, id);
   }
 
-  public void upload(FloatBuffer data) {
+  /**
+   * Send the data off to the graphics card
+   * @param data Data to send
+   */
+  void upload(FloatBuffer data) {
     size = data.capacity() / 4;
     glBufferData(GL_ARRAY_BUFFER, data, GL_STATIC_DRAW);
   }
 
-  public void vertexAttribPointer(int index) {
+  /**
+   * Define an array of generic vertex attribute data
+   * @param index Index to define the array at
+   */
+  void vertexAttribPointer(int index) {
     glVertexAttribPointer(index, size, GL_FLOAT, false, 0, 0);
   }
 
-  public void delete() {
+  /**
+   * Delete the buffer
+   */
+  void delete() {
     glDeleteBuffers(id);
   }
 }

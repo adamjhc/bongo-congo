@@ -16,7 +16,10 @@ import java.util.HashMap;
 
 class Shader {
 
+  /** Path to the shaders directory */
   private static final String shaderPathPrefix = "./src/main/resources/shaders/";
+
+  /** File extensions for the two types of shaders */
   private static final HashMap fileExtensions =
       new HashMap<Integer, String>() {
         {
@@ -25,10 +28,18 @@ class Shader {
         }
       };
 
+  /** OpenGL id of the shader */
   private final int id;
 
+  /**
+   * Initialise the shader
+   *
+   * @param type Type of the shader, either <code>GL_VERTEX_SHADER</code> or <code>
+   *     GL_FRAGMENT_SHADER</code>
+   * @param shaderFileName File name of the shader
+   */
   Shader(int type, String shaderFileName) {
-    id = createShader(type);
+    id = glCreateShader(type);
 
     source(
         FileUtils.readFileAsString(shaderPathPrefix + shaderFileName + fileExtensions.get(type)));
@@ -36,22 +47,30 @@ class Shader {
     compile();
   }
 
+  /**
+   * Get the OpenGL id of the shader
+   *
+   * @return OpenGL id
+   */
   int getId() {
     return id;
   }
 
+  /** Delete the shader */
   void delete() {
     glDeleteShader(id);
   }
 
-  private int createShader(int type) {
-    return glCreateShader(type);
-  }
-
+  /**
+   * Set the source of the shader
+   *
+   * @param shader Shader file read as a string
+   */
   private void source(String shader) {
     glShaderSource(id, shader);
   }
 
+  /** Compile the shader */
   private void compile() {
     glCompileShader(id);
 

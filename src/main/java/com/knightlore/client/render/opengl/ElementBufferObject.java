@@ -14,29 +14,48 @@ import java.nio.IntBuffer;
 
 public class ElementBufferObject {
 
+  /** OpenGL id of the EBO */
   private final int id;
 
-  public ElementBufferObject() {
+  /** Initialise EBO */
+  ElementBufferObject() {
     id = glGenBuffers();
   }
 
+  /**
+   * Get the OpenGL id
+   *
+   * @return OpenGL id
+   */
   public int getId() {
     return id;
   }
 
-  public void bind() {
+  /** Sets the buffer object as the current working object */
+  void bind() {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);
   }
 
-  public void upload(IntBuffer data) {
+  /**
+   * Send the data off to the graphics card
+   *
+   * @param data Data to send
+   */
+  void upload(IntBuffer data) {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, data, GL_STATIC_DRAW);
   }
 
-  public void draw(int count) {
+  /**
+   * Draw the triangles according to the bound indices
+   *
+   * @param count The number of indices
+   */
+  void draw(int count) {
     glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, 0);
   }
 
-  public void delete() {
+  /** Delete the buffer object */
+  void delete() {
     glDeleteBuffers(id);
   }
 }

@@ -10,18 +10,27 @@ import com.knightlore.client.util.BufferUtils;
 
 public class RenderModel {
 
+  /** Number of indices to draw */
   private int draw_count;
 
-  private VertexArrayObject vertexArrayObject;
+  /** Buffer object to draw the quad (using triangles) */
   private VertexBufferObject vertexBufferObject;
+
+  /** Buffer object to map the texture on top of the quad */
   private VertexBufferObject textureBufferObject;
+
+  /** Buffer object used to index vertices for multiple uses */
   private ElementBufferObject elementBufferObject;
 
+  /**
+   * Initialise the OpenGL render model
+   *
+   * @param vertices Four vertices to draw the quad with
+   * @param textureCoords The points of the quad to map the texture onto
+   * @param indices The indices of the vertices to draw the two triangles to make up the quad with
+   */
   public RenderModel(float[] vertices, float[] textureCoords, int[] indices) {
     draw_count = indices.length;
-
-    //    vertexArrayObject = new VertexArrayObject();
-    //    vertexArrayObject.bind();
 
     vertexBufferObject = new VertexBufferObject();
     vertexBufferObject.bind();
@@ -38,6 +47,7 @@ public class RenderModel {
     unbind();
   }
 
+  /** Render the object using the initialised buffer objects */
   public void render() {
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
@@ -57,12 +67,17 @@ public class RenderModel {
     glDisableVertexAttribArray(1);
   }
 
+  /** Unbind the OpenGL bindings */
   private void unbind() {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    //    glBindVertexArray(0);
   }
 
+  /**
+   * Clean up memory
+   *
+   * @throws Throwable Exception
+   */
   protected void finalize() throws Throwable {
     vertexBufferObject.delete();
     textureBufferObject.delete();

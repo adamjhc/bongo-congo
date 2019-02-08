@@ -20,26 +20,29 @@ import org.lwjgl.BufferUtils;
 
 public class Texture {
 
+  /**
+   * Path to the textures directory
+   */
   private static final String texturePathPrefix = "./src/main/resources/textures/";
 
+  /**
+   * The OpenGL id of the texture
+   */
   private final int id;
+
+  /**
+   * Width and height in pixels of the texture
+   */
   private int width, height;
 
+  /**
+   * Initialise the texture object
+   * @param fileName Name of the texture file
+   */
   public Texture(String fileName) {
     Image image = FileUtils.loadImage(texturePathPrefix + fileName);
     width = image.getWidth();
     height = image.getHeight();
-    int[] pixels = image.getPixels();
-
-    ByteBuffer pixelBuffer = BufferUtils.createByteBuffer(width * height * 4);
-
-    for (int i = 0; i < width * height; i++) {
-      pixelBuffer.put((byte) ((pixels[i] >> 16) & 0xFF)); // RED
-      pixelBuffer.put((byte) ((pixels[i] >> 8) & 0xFF)); // GREEN
-      pixelBuffer.put((byte) (pixels[i] & 0xFF)); // BLUE
-      pixelBuffer.put((byte) ((pixels[i] >> 24) & 0xFF)); // ALPHA
-    }
-    pixelBuffer.flip();
 
     id = glGenTextures();
 
@@ -49,19 +52,39 @@ public class Texture {
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     glTexImage2D(
-        GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixelBuffer);
+        GL_TEXTURE_2D,
+        0,
+        GL_RGBA,
+        width,
+        height,
+        0,
+        GL_RGBA,
+        GL_UNSIGNED_BYTE,
+        createPixelBuffer(image.getPixels()));
 
     unbind();
   }
 
+  /**
+   * Get the width of the texture in pixels
+   * @return Width of the texture in pixels
+   */
   public int getWidth() {
     return width;
   }
 
+  /**
+   * Get the height of the texture in pixels
+   * @return Height of the texture in pixels
+   */
   public int getHeight() {
     return height;
   }
 
+  /**
+   * Binds the texture to the current object and activates
+   * @param sampler Sampler of the texture
+   */
   public void bind(int sampler) {
     if (sampler >= 0 && sampler <= 31) {
       glActiveTexture(GL_TEXTURE0 + sampler);
@@ -69,15 +92,43 @@ public class Texture {
     }
   }
 
+  /**
+   * Cleans up memory
+   * @throws Throwable Exception
+   */
   protected void finalize() throws Throwable {
     glDeleteTextures(id);
     super.finalize();
   }
 
+  /**
+   * Binds the texture to the current object
+   */
   private void bind() {
     glBindTexture(GL_TEXTURE_2D, id);
   }
 
+  /**
+   * Separates the individual colour streams and populates a buffer with them
+   * @param pixels Raw pixel array
+   * @return ByteBuffer
+   */
+  private ByteBuffer createPixelBuffer(int[] pixels) {
+    ByteBuffer pixelBuffer = BufferUtils.createByteBuffer(width * height * 4);
+    for (int i = 0; i < width * height; i++) {
+      pixelBuffer.put((byte) ((pixels[i] >> 16) & 0xFF)); // RED
+      pixelBuffer.put((byte) ((pixels[i] >> 8) & 0xFF)); // GREEN
+      pixelBuffer.put((byte) (pixels[i] & 0xFF)); // BLUE
+      pixelBuffer.put((byte) ((pixels[i] >> 24) & 0xFF)); // ALPHA
+    }
+    pixelBuffer.flip();
+
+    return pixelBuffer;
+  }
+
+  /**
+   * Unbinds the textures
+   */
   private void unbind() {
     glBindTexture(GL_TEXTURE_2D, 0);
   }

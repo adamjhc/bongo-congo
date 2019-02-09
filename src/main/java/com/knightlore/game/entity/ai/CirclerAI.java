@@ -9,7 +9,7 @@ public class CirclerAI extends EnemyAI{
     public float radius;
 
     @Override
-    public List<Vector3f> getPath() {
+    public List<Vector3f> pathfind() {
         return null;
     }
 }

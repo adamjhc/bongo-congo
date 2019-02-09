@@ -7,12 +7,12 @@ import com.knightlore.game.math.Vector3f;
 
 import java.util.List;
 
-public class ChargerAI extends EnemyAI{
-    public float range;
+public class ChargerAI extends EnemyAI {
+  public float range;
 
-    @Override
-    public List<Vector3f> getPath() {
+  @Override
+    public List<Vector3f> pathfind() {
 
-        return null;
-    }
+    return null;
+  }
 }

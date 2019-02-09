@@ -13,4 +13,6 @@ public abstract class Entity {
   public void setPosition(Vector3f position) {
     this.position = position;
   }
+
+  abstract void update();
 }

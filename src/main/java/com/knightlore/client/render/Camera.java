@@ -17,12 +17,12 @@ public class Camera {
     return position;
   }
 
-  public Matrix4f getProjection() {
-    return projection.translate(position, new Matrix4f());
-  }
-
   public void setPosition(Vector3f position) {
     this.position = position;
+  }
+
+  public Matrix4f getProjection() {
+    return projection.translate(position, new Matrix4f());
   }
 
   public void addPosition(Vector3f delta) {

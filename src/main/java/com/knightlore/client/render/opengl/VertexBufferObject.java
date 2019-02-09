@@ -1,4 +1,4 @@
-package com.knightlore.client.render;
+package com.knightlore.client.render.opengl;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
@@ -11,33 +11,53 @@ import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 
 import java.nio.FloatBuffer;
 
-class VertexBufferObject {
+public class VertexBufferObject {
 
+  /** The OpenGL id of the VBO */
   private final int id;
 
+  /** Size of the buffer */
   private int size;
 
+  /** Initialise the VBO */
   VertexBufferObject() {
     id = glGenBuffers();
   }
 
-  int getId() {
+  /**
+   * Get the OpenGL id of the VBO
+   *
+   * @return OpenGL id of the VBO
+   */
+  public int getId() {
     return id;
   }
 
+  /** Bind the VBO */
   void bind() {
     glBindBuffer(GL_ARRAY_BUFFER, id);
   }
 
+  /**
+   * Send the data off to the graphics card
+   *
+   * @param data Data to send
+   */
   void upload(FloatBuffer data) {
     size = data.capacity() / 4;
     glBufferData(GL_ARRAY_BUFFER, data, GL_STATIC_DRAW);
   }
 
+  /**
+   * Define an array of generic vertex attribute data
+   *
+   * @param index Index to define the array at
+   */
   void vertexAttribPointer(int index) {
     glVertexAttribPointer(index, size, GL_FLOAT, false, 0, 0);
   }
 
+  /** Delete the buffer */
   void delete() {
     glDeleteBuffers(id);
   }

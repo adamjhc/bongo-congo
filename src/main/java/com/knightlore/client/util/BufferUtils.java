@@ -4,6 +4,7 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
 public class BufferUtils {
+
   public static FloatBuffer createBuffer(float[] data) {
     FloatBuffer buffer = org.lwjgl.BufferUtils.createFloatBuffer(data.length);
     buffer.put(data);

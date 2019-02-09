@@ -19,18 +19,17 @@ public class Client
     public ClientReceiver receiver;
 
     int socket;
+    InetAddress ip;
 
-    public Client(int socket){
+    public Client(InetAddress ip, int socket){
         this.socket = socket;
+        this.ip = ip;
     }
 
     public void run(){
         try {
-            // Retrieve local IP
-            InetAddress ip = InetAddress.getByName("localhost");
-
             // Join socket
-            Socket s = new Socket(ip, socket);
+            Socket s = new Socket(this.ip, socket);
 
             // Get input output streams
             this.dos = new ObjectOutputStream(s.getOutputStream());

@@ -1,7 +1,7 @@
 package com.knightlore.client.render;
 
+import com.knightlore.game.math.Matrix4f;
 import com.knightlore.game.math.Vector3f;
-import org.joml.Matrix4f;
 
 public class Camera {
 
@@ -21,11 +21,11 @@ public class Camera {
     this.position = position;
   }
 
-  public void addPosition(Vector3f change) {
-    position.add(change);
+  public Matrix4f getProjection() {
+    return projection.translate(position, new Matrix4f());
   }
 
-  public Matrix4f getProjection() {
-    return projection;
+  public void addPosition(Vector3f delta) {
+    position.add(delta);
   }
 }

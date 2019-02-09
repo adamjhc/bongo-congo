@@ -13,6 +13,8 @@ import java.util.Optional;
 
 public class Authenticator {
 
+    public static Authenticator instance;
+
     Optional<String> sessionKey;
     boolean authenticated = false;
     Client client;

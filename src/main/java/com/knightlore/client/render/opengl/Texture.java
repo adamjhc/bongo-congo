@@ -20,27 +20,25 @@ import org.lwjgl.BufferUtils;
 
 public class Texture {
 
-  /**
-   * Path to the textures directory
-   */
+  /** Path to the textures directory */
   private static final String texturePathPrefix = "./src/main/resources/textures/";
 
-  /**
-   * The OpenGL id of the texture
-   */
+  /** File extension of images */
+  private static final String fileExtension = ".png";
+
+  /** The OpenGL id of the texture */
   private final int id;
 
-  /**
-   * Width and height in pixels of the texture
-   */
+  /** Width and height in pixels of the texture */
   private int width, height;
 
   /**
    * Initialise the texture object
+   *
    * @param fileName Name of the texture file
    */
   public Texture(String fileName) {
-    Image image = FileUtils.loadImage(texturePathPrefix + fileName);
+    Image image = FileUtils.loadImage(texturePathPrefix + fileName + fileExtension);
     width = image.getWidth();
     height = image.getHeight();
 
@@ -67,6 +65,7 @@ public class Texture {
 
   /**
    * Get the width of the texture in pixels
+   *
    * @return Width of the texture in pixels
    */
   public int getWidth() {
@@ -75,6 +74,7 @@ public class Texture {
 
   /**
    * Get the height of the texture in pixels
+   *
    * @return Height of the texture in pixels
    */
   public int getHeight() {
@@ -83,6 +83,7 @@ public class Texture {
 
   /**
    * Binds the texture to the current object and activates
+   *
    * @param sampler Sampler of the texture
    */
   public void bind(int sampler) {
@@ -94,6 +95,7 @@ public class Texture {
 
   /**
    * Cleans up memory
+   *
    * @throws Throwable Exception
    */
   protected void finalize() throws Throwable {
@@ -101,15 +103,14 @@ public class Texture {
     super.finalize();
   }
 
-  /**
-   * Binds the texture to the current object
-   */
+  /** Binds the texture to the current object */
   private void bind() {
     glBindTexture(GL_TEXTURE_2D, id);
   }
 
   /**
    * Separates the individual colour streams and populates a buffer with them
+   *
    * @param pixels Raw pixel array
    * @return ByteBuffer
    */
@@ -126,9 +127,7 @@ public class Texture {
     return pixelBuffer;
   }
 
-  /**
-   * Unbinds the textures
-   */
+  /** Unbinds the textures */
   private void unbind() {
     glBindTexture(GL_TEXTURE_2D, 0);
   }

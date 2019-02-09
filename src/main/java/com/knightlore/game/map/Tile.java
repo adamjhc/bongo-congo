@@ -10,16 +10,6 @@ public abstract class Tile {
   private boolean hazard;
   private boolean goal;
 
-  Tile() {
-    id = inc;
-    inc++;
-
-    walkable = true;
-    climbable = false;
-    hazard = false;
-    goal = false;
-  }
-
   Tile(boolean walkable, boolean climbable, boolean hazard, boolean goal) {
     id = inc;
     inc++;

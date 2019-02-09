@@ -1,6 +1,8 @@
 package com.knightlore.client;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
+import static org.lwjgl.glfw.GLFW.glfwGetTime;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 
@@ -9,6 +11,7 @@ import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;
 import com.knightlore.client.render.Renderer;
 import com.knightlore.game.Game;
+import com.knightlore.game.entity.Direction;
 
 public class Client {
 
@@ -40,22 +43,43 @@ public class Client {
   }
 
   private void loop() {
+    boolean canRender = false;
+    float targetFPS = 60;
+    float interval = 1 / targetFPS;
+    float delta = 0.0f;
+    double previousTime = glfwGetTime();
+
     while (!window.shouldClose()) {
-      input();
-      update();
-      renderer.render(gameModel);
+      double currentTime = glfwGetTime();
+      delta += currentTime - previousTime;
+      previousTime = currentTime;
+
+      while (delta >= interval) {
+        delta -= interval;
+
+        canRender = true;
+
+        input(delta);
+        gameModel.update(delta);
+      }
+
+      if (canRender) {
+        renderer.render(gameModel);
+      }
     }
   }
 
-  private void input() {
+  private void input(float delta) {
     window.update();
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       glfwSetWindowShouldClose(window.getWindow(), true);
     }
-  }
 
-  private void update() {}
+    if (Keyboard.isKeyPressed(GLFW_KEY_W)) {
+      gameModel.movePlayerInDirection(Direction.NORTH_WEST, delta);
+    }
+  }
 
   private void dispose() {
     window.freeCallbacks();

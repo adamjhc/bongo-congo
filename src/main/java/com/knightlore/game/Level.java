@@ -16,8 +16,9 @@ public class Level {
   Date startedAt;
   int duration;
 
-  public Level(Map map) {
+  public Level(Map map, ArrayList<Player> players) {
     this.map = map;
+    this.players = players;
   }
 
   public Map getMap() {

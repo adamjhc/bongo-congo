@@ -5,8 +5,8 @@ import com.knightlore.game.math.Vector3f;
 public abstract class Entity {
 
   protected int id;
-  private Vector3f position;
-  private Direction direction;
+  protected Vector3f position;
+  protected Direction direction;
 
   public Entity() {
     position = new Vector3f();

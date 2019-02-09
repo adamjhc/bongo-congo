@@ -21,6 +21,10 @@ public class World {
     return projection;
   }
 
+  public int getScale() {
+    return scale;
+  }
+
   public void setScale(int scale) {
     this.scale = scale;
   }

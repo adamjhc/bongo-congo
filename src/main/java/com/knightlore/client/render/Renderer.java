@@ -13,6 +13,7 @@ import static org.lwjgl.opengl.GL11.glEnable;
 
 import com.knightlore.client.io.Window;
 import com.knightlore.client.render.opengl.ShaderProgram;
+import com.knightlore.client.render.world.PlayerSet;
 import com.knightlore.client.render.world.TileSet;
 import com.knightlore.game.Game;
 import com.knightlore.game.entity.Player;
@@ -24,9 +25,10 @@ public class Renderer {
   private World world;
   private Camera camera;
   private ShaderProgram shaderProgram;
-  private MapRenderer mapRenderer;
-  private PlayerRenderer playerRenderer;
   private TileSet tileSet;
+  private MapRenderer mapRenderer;
+  private PlayerSet playerSet;
+  private PlayerRenderer playerRenderer;
 
   public Renderer(Window window) {
     this.window = window;
@@ -40,15 +42,18 @@ public class Renderer {
     // Setting up the world
     world = new World();
     camera = new Camera(window.getWidth(), window.getHeight());
-    camera.addPosition(new Vector3f(0, -250, 0));
     shaderProgram = new ShaderProgram("shader");
     tileSet = new TileSet();
     mapRenderer = new MapRenderer(tileSet);
-    playerRenderer = new PlayerRenderer();
+    playerSet = new PlayerSet();
+    playerRenderer = new PlayerRenderer(playerSet);
   }
 
   public void render(Game gameModel) {
     clearBuffers();
+
+    camera.setPosition(
+        playerSet.getPlayer(0).getTransform().getPosition().mul(-world.getScale(), new Vector3f()));
 
     mapRenderer.render(
         gameModel.getCurrentLevel().getMap(),
@@ -56,9 +61,9 @@ public class Renderer {
         world.getProjection(),
         camera.getProjection());
 
-//    for (Player player : gameModel.getCurrentLevel().getPlayers()) {
-//      playerRenderer.render(shaderProgram, world.getProjection(), camera.getProjection(), player);
-//    }
+    for (Player player : gameModel.getCurrentLevel().getPlayers()) {
+      playerRenderer.render(player, shaderProgram, world.getProjection(), camera.getProjection());
+    }
 
     swapBuffers();
   }

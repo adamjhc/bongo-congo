@@ -35,9 +35,7 @@ public class Window {
   private int width, height;
   private boolean fullscreen;
 
-  /**
-   * Initialises the GLFW window
-   */
+  /** Initialises the GLFW window */
   public Window() {
     if (!glfwInit()) {
       throw new IllegalStateException("Unable to initialise GLFW");
@@ -53,6 +51,7 @@ public class Window {
 
   /**
    * Gets the window handle
+   *
    * @return Window handle
    */
   public long getWindow() {
@@ -61,6 +60,7 @@ public class Window {
 
   /**
    * Gets the window width
+   *
    * @return The window width
    */
   public int getWidth() {
@@ -69,6 +69,7 @@ public class Window {
 
   /**
    * Gets the window height
+   *
    * @return The window height
    */
   public int getHeight() {
@@ -77,6 +78,7 @@ public class Window {
 
   /**
    * Returns whether the window is fullscreen
+   *
    * @return Whether the window is fullscreen
    */
   public boolean isFullscreen() {
@@ -85,6 +87,7 @@ public class Window {
 
   /**
    * Sets whether the window is fullscreen
+   *
    * @param fullscreen Whether the window is fullscreen
    */
   public void setFullscreen(boolean fullscreen) {
@@ -93,6 +96,7 @@ public class Window {
 
   /**
    * Sets the size of the screen
+   *
    * @param width Width of the screen
    * @param height Height of the screen
    */
@@ -103,6 +107,7 @@ public class Window {
 
   /**
    * Creates and shows the window
+   *
    * @param title Title of the window
    */
   public void createWindow(String title) {
@@ -129,9 +134,7 @@ public class Window {
     glfwShowWindow(window);
   }
 
-  /**
-   * Sets the callbacks of the window
-   */
+  /** Sets the callbacks of the window */
   public void setCallbacks() {
     glfwSetErrorCallback(
         new GLFWErrorCallback() {
@@ -150,37 +153,30 @@ public class Window {
 
   /**
    * Returns whether the window should close
+   *
    * @return Whether the window should close
    */
   public boolean shouldClose() {
     return glfwWindowShouldClose(window);
   }
 
-  /**
-   * Updates the callbacks
-   */
+  /** Updates the callbacks */
   public void update() {
     glfwPollEvents();
   }
 
-  /**
-   * Swaps the buffers
-   */
+  /** Swaps the buffers */
   public void swapBuffers() {
     glfwSwapBuffers(window);
   }
 
-  /**
-   * Frees the callbacks
-   */
+  /** Frees the callbacks */
   public void freeCallbacks() {
     glfwFreeCallbacks(window);
     glfwSetErrorCallback(null).free();
   }
 
-  /**
-   * Destroys the window
-   */
+  /** Destroys the window */
   public void destroyWindow() {
     glfwDestroyWindow(window);
   }

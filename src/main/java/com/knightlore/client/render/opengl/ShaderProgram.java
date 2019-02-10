@@ -21,11 +21,12 @@ import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 import static org.lwjgl.opengl.GL20.glValidateProgram;
 
-import com.knightlore.game.math.Matrix4f;
-import com.knightlore.game.math.Vector3f;
-import com.knightlore.game.math.Vector4f;
+import com.knightlore.client.util.BufferUtils;
 import java.util.HashMap;
 import java.util.Map;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 public class ShaderProgram {
 
@@ -96,7 +97,7 @@ public class ShaderProgram {
    * @param value Value to set to
    */
   public void setUniform(String name, Vector3f value) {
-    glUniform3fv(getUniformLocation(name), value.toBuffer());
+    glUniform3fv(getUniformLocation(name), BufferUtils.createBuffer(value));
   }
 
   /**
@@ -106,7 +107,7 @@ public class ShaderProgram {
    * @param value Value to set to
    */
   public void setUniform(String name, Vector4f value) {
-    glUniform4fv(getUniformLocation(name), value.toBuffer());
+    glUniform4fv(getUniformLocation(name), BufferUtils.createBuffer(value));
   }
 
   /**
@@ -116,7 +117,7 @@ public class ShaderProgram {
    * @param value Value to set to
    */
   public void setUniform(String name, Matrix4f value) {
-    glUniformMatrix4fv(getUniformLocation(name), false, value.toBuffer());
+    glUniformMatrix4fv(getUniformLocation(name), false, BufferUtils.createBuffer(value));
   }
 
   /**

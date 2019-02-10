@@ -5,11 +5,18 @@ import com.knightlore.client.render.world.TileGameObject;
 import com.knightlore.client.render.world.TileSet;
 import com.knightlore.game.map.Map;
 import com.knightlore.game.map.Tile;
-import com.knightlore.game.math.Matrix4f;
+import org.joml.Matrix4f;
 
 public class MapRenderer {
+
+  /** Tile set used in the world */
   private TileSet tileSet;
 
+  /**
+   * Initialise the Map renderer
+   *
+   * @param tileSet Tile set to use in rendering
+   */
   public MapRenderer(TileSet tileSet) {
     this.tileSet = tileSet;
   }

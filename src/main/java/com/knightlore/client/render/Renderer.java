@@ -17,19 +17,36 @@ import com.knightlore.client.render.world.PlayerSet;
 import com.knightlore.client.render.world.TileSet;
 import com.knightlore.game.Game;
 import com.knightlore.game.entity.Player;
-import com.knightlore.game.math.Vector3f;
+import org.joml.Vector3f;
 
 public class Renderer {
 
+  /** Window reference */
   private Window window;
+
+  /** World object used in renderer */
   private World world;
+
+  /** Camera to view the world through */
   private Camera camera;
+
+  /** Shader program used in rendering */
   private ShaderProgram shaderProgram;
-  private TileSet tileSet;
+
+  /** Renderer used for the map */
   private MapRenderer mapRenderer;
+
+  /** Player set of active players */
   private PlayerSet playerSet;
+
+  /** Renderer used for the players */
   private PlayerRenderer playerRenderer;
 
+  /**
+   * Initialise the renderer
+   *
+   * @param window Reference to the GLFW window class
+   */
   public Renderer(Window window) {
     this.window = window;
 
@@ -43,12 +60,16 @@ public class Renderer {
     world = new World();
     camera = new Camera(window.getWidth(), window.getHeight());
     shaderProgram = new ShaderProgram("shader");
-    tileSet = new TileSet();
-    mapRenderer = new MapRenderer(tileSet);
+    mapRenderer = new MapRenderer(new TileSet());
     playerSet = new PlayerSet();
     playerRenderer = new PlayerRenderer(playerSet);
   }
 
+  /**
+   * Render the game model
+   *
+   * @param gameModel Game model to render
+   */
   public void render(Game gameModel) {
     clearBuffers();
 
@@ -68,10 +89,12 @@ public class Renderer {
     swapBuffers();
   }
 
+  /** Clears the colour and depth buffers */
   private void clearBuffers() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   }
 
+  /** Swaps the window's buffers */
   private void swapBuffers() {
     window.swapBuffers();
   }

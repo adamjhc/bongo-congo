@@ -3,15 +3,20 @@ package com.knightlore.client.render.world;
 import com.knightlore.client.render.Transform;
 import com.knightlore.client.render.opengl.RenderModel;
 import com.knightlore.client.render.opengl.ShaderProgram;
-import com.knightlore.client.render.opengl.Texture;
-import com.knightlore.client.util.CoordinateUtils;
-import com.knightlore.game.math.Matrix4f;
-import com.knightlore.game.math.Vector3f;
+import com.knightlore.client.render.opengl.StaticTexture;
+import com.knightlore.game.util.CoordinateUtils;
+import org.joml.Matrix4f;
 
 public class PlayerGameObject extends Renderable {
 
+  /** Player transform used for moving the player around the world */
   private Transform transform;
 
+  /**
+   * Initialise the player game object
+   *
+   * @param textureFileName File name of the player texture
+   */
   public PlayerGameObject(String textureFileName) {
     float[] vertices =
         new float[] {
@@ -35,15 +40,29 @@ public class PlayerGameObject extends Renderable {
           2, 3, 0
         };
 
-    texture = new Texture(textureFileName);
+    texture = new StaticTexture(textureFileName);
     model = new RenderModel(vertices, textureCoords, indices);
-    transform = new Transform(new Vector3f(64, 64, 1));
+    transform = new Transform(48);
   }
 
+  /**
+   * Get the Player transform
+   *
+   * @return Player transform
+   */
   public Transform getTransform() {
     return transform;
   }
 
+  /**
+   * Render the player
+   *
+   * @param x Isometric x position of the player
+   * @param y Isometric y position of the player
+   * @param shaderProgram Shader program used
+   * @param world World projection
+   * @param camera Camera projection
+   */
   @Override
   public void render(
       float x, float y, ShaderProgram shaderProgram, Matrix4f world, Matrix4f camera) {

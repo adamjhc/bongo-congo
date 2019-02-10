@@ -7,8 +7,8 @@ import com.knightlore.game.math.Matrix4f;
 
 public abstract class Renderable {
 
-  protected RenderModel model;
-  protected Texture texture;
+  RenderModel model;
+  Texture texture;
 
   public abstract void render(
       float x, float y, ShaderProgram shaderProgram, Matrix4f world, Matrix4f camera);

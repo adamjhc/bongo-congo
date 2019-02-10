@@ -8,9 +8,9 @@ public class Transform {
   private Vector3f position;
   private Vector3f scale;
 
-  public Transform(Vector3f scale) {
+  public Transform(int scale) {
     position = new Vector3f();
-    this.scale = scale;
+    this.scale = new Vector3f(scale, scale, 1);
   }
 
   public Vector3f getPosition() {

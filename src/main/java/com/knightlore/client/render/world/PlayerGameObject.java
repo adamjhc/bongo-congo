@@ -3,7 +3,7 @@ package com.knightlore.client.render.world;
 import com.knightlore.client.render.Transform;
 import com.knightlore.client.render.opengl.RenderModel;
 import com.knightlore.client.render.opengl.ShaderProgram;
-import com.knightlore.client.render.opengl.Texture;
+import com.knightlore.client.render.opengl.StaticTexture;
 import com.knightlore.client.util.CoordinateUtils;
 import com.knightlore.game.math.Matrix4f;
 import com.knightlore.game.math.Vector3f;
@@ -35,9 +35,9 @@ public class PlayerGameObject extends Renderable {
           2, 3, 0
         };
 
-    texture = new Texture(textureFileName);
+    texture = new StaticTexture(textureFileName);
     model = new RenderModel(vertices, textureCoords, indices);
-    transform = new Transform(new Vector3f(64, 64, 1));
+    transform = new Transform(48);
   }
 
   public Transform getTransform() {

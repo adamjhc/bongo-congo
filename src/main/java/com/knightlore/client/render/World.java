@@ -11,7 +11,7 @@ public class World {
 
   public World() {
     this.view = 32;
-    this.scale = 64;
+    this.scale = 48;
 
     projection = new Matrix4f().setTranslation(new Vector3f(0));
     projection.scale(scale);

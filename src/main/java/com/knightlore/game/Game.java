@@ -29,9 +29,7 @@ public class Game {
 
   public void update(float delta) {}
 
-  public void movePlayerInDirection(Direction direction, float delta) {
-
-  }
+  public void movePlayerInDirection(Direction direction, float delta) {}
 
   private void createNewLevel(String uuid, Map map) {
     ArrayList<Player> players = new ArrayList<>();

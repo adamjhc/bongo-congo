@@ -1,6 +1,6 @@
 package com.knightlore.game.entity;
 
-import com.knightlore.game.math.Vector3f;
+import org.joml.Vector3f;
 
 public abstract class Entity {
 
@@ -17,12 +17,12 @@ public abstract class Entity {
     return position;
   }
 
-  public int getId() {
-    return id;
-  }
-
   public void setPosition(Vector3f position) {
     this.position = position;
+  }
+
+  public int getId() {
+    return id;
   }
 
   public Direction getDirection() {

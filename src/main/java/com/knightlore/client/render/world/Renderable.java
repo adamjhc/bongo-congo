@@ -3,7 +3,7 @@ package com.knightlore.client.render.world;
 import com.knightlore.client.render.opengl.RenderModel;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.opengl.Texture;
-import com.knightlore.game.math.Matrix4f;
+import org.joml.Matrix4f;
 
 public abstract class Renderable {
 

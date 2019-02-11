@@ -1,67 +1,58 @@
 package com.knightlore.game.map;
 
-public class Tile {
+public abstract class Tile {
 
-    boolean hazard;
-    boolean goal;
-    boolean climbable;
-    boolean solid;
-    boolean empty;
+  private static int inc = 0;
+  private int id;
 
-    int tileX;
-    int tileY;
-    int tileZ;
+  private boolean walkable;
+  private boolean climbable;
+  private boolean hazard;
+  private boolean goal;
 
-    public Tile(TileProperty property){
-        this.hazard = property.hazard;
-        this.goal = property.goal;
-        this.climbable = property.climbable;
-        this.solid = property.solid;
-        this.empty = false;
-    }
+  Tile(boolean walkable, boolean climbable, boolean hazard, boolean goal) {
+    id = inc;
+    inc++;
 
-    // Generate empty
-    public Tile(){
-        this.hazard = false;
-        this.goal = false;
-        this.climbable = false;
-        this.solid = false;
-        this.empty = true;
-    }
+    this.walkable = walkable;
+    this.climbable = climbable;
+    this.hazard = hazard;
+    this.goal = goal;
+  }
 
-    public void setHazard(boolean hazard) {
-        this.hazard = hazard;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public void setGoal(boolean goal) {
-        this.goal = goal;
-    }
+  public boolean isWalkable() {
+    return walkable;
+  }
 
-    public void setClimbable(boolean climbable) {
-        this.climbable = climbable;
-    }
+  public void setWalkable(boolean walkable) {
+    this.walkable = walkable;
+  }
 
-    public void setSolid(boolean solid) {
-        this.solid = solid;
-    }
+  public boolean isClimbable() {
+    return climbable;
+  }
 
-    public boolean isHazard() {
-        return hazard;
-    }
+  public void setClimbable(boolean climbable) {
+    this.climbable = climbable;
+  }
 
-    public boolean isGoal() {
-        return goal;
-    }
+  public boolean isHazard() {
+    return hazard;
+  }
 
-    public boolean isClimbable() {
-        return climbable;
-    }
+  public void setHazard(boolean hazard) {
+    this.hazard = hazard;
+  }
 
-    public boolean isSolid() {
-        return solid;
-    }
+  public boolean isGoal() {
+    return goal;
+  }
 
-
-
-
+  public void setGoal(boolean goal) {
+    this.goal = goal;
+  }
 }

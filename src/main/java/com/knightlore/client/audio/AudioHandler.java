@@ -34,19 +34,19 @@ public class AudioHandler {
 	MusicPlayer[] audioFiles;
 	boolean isOn;
 	
-	public AudioHandler() {
+	public AudioHandler() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		String audioPath = "src/main/resources/audio/";
-		/* this.menuMusic = 		new MusicPlayer(audioPath + "MUSIC_MENU.wav", true);
-		   this.gameMusic = 		new MusicPlayer(audioPath + "MUSIC_GAME.wav", true);
-		   this.endgameMusic = 		new MusicPlayer(audioPath + "MUSIC_ENDGAME.wav", true);
-		   this.menuSelectSound = 	new MusicPlayer(audioPath + "SOUND_MENUSELECT.wav", false);
-		   this.hitSound = 			new MusicPlayer(audioPath + "SOUND_HIT.wav", false);
-		   this.deathSound = 		new MusicPlayer(audioPath + "SOUND_DEATH.wav", false);
-		   this.rollSound = 		new MusicPlayer(audioPath + "SOUND_ROLL.wav", false);
-		   this.climbSound =		new MusicPlayer(audioPath + "SOUND_CLIMB.wav", false);
-		   this.victoryJingle = 	new MusicPlayer(audioPath + "JINGLE_VICTORY.wav", false);
-		   this.gameOverJingle = 	new MusicPlayer(audioPath + "JINGLE_GAMEOVER.wav", false);
-		 */
+		// this.menuMusic = 		new MusicPlayer(audioPath + "MUSIC_MENU.wav", true);
+		   this.gameMusic = 		new MusicPlayer((audioPath + "MUSIC_GAME.wav"), true);
+		// this.endgameMusic = 		new MusicPlayer(audioPath + "MUSIC_ENDGAME.wav", true);
+		// this.menuSelectSound = 	new MusicPlayer(audioPath + "SOUND_MENUSELECT.wav", false);
+		// this.hitSound = 			new MusicPlayer(audioPath + "SOUND_HIT.wav", false);
+		// this.deathSound = 		new MusicPlayer(audioPath + "SOUND_DEATH.wav", false);
+		// this.rollSound = 		new MusicPlayer(audioPath + "SOUND_ROLL.wav", false);
+		// this.climbSound =		new MusicPlayer(audioPath + "SOUND_CLIMB.wav", false);
+		// this.victoryJingle = 	new MusicPlayer(audioPath + "JINGLE_VICTORY.wav", false);
+		// this.gameOverJingle = 	new MusicPlayer(audioPath + "JINGLE_GAMEOVER.wav", false);
+		
 		
 		this.audioFiles = new MusicPlayer[] {menuMusic, gameMusic, endgameMusic,
 											 menuSelectSound, hitSound, deathSound,
@@ -70,7 +70,14 @@ public class AudioHandler {
 		}
 	}
 	
-	public void toggle() {
+	public void toggle() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		this.isOn = !this.isOn;
+		if (!this.isOn) {
+			for (MusicPlayer audio : this.audioFiles) {
+				gameMusic.stop();
+			}
+		} else {
+			this.play(AudioName.MUSIC_GAME);
+		}
 	}
 }

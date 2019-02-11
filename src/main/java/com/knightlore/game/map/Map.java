@@ -1,6 +1,7 @@
 package com.knightlore.game.map;
 
-import com.knightlore.game.math.Vector3i;
+import com.knightlore.game.util.CoordinateUtils;
+import org.joml.Vector3i;
 
 public class Map {
   private Tile[][][] tiles;
@@ -54,7 +55,7 @@ public class Map {
   }
 
   public Tile getTile(Vector3i location) {
-    if (size.hasPosition(location)) {
+    if (CoordinateUtils.mapHasPosition(size, location)) {
       return this.tiles[location.x][location.y][location.z];
     }
 
@@ -62,7 +63,7 @@ public class Map {
   }
 
   public void setTile(Vector3i location, Tile tile) {
-    if (size.hasPosition(location)) {
+    if (CoordinateUtils.mapHasPosition(size, location)) {
       this.tiles[location.x - 1][location.y - 1][location.z - 1] = tile;
     }
   }

@@ -3,17 +3,31 @@ package com.knightlore.client.render;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.world.PlayerSet;
 import com.knightlore.game.entity.Player;
-import com.knightlore.game.math.Matrix4f;
-import com.knightlore.game.math.Vector3f;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 public class PlayerRenderer {
 
+  /** Player set used in the world */
   private PlayerSet playerSet;
 
+  /**
+   * Initialise the Player renderer
+   *
+   * @param playerSet The player set to use to render
+   */
   public PlayerRenderer(PlayerSet playerSet) {
     this.playerSet = playerSet;
   }
 
+  /**
+   * Renders the player in the world
+   *
+   * @param player Game Player object to render
+   * @param shaderProgram Shader program to use
+   * @param world World projection
+   * @param camera Camera projection
+   */
   public void render(Player player, ShaderProgram shaderProgram, Matrix4f world, Matrix4f camera) {
     Vector3f position = player.getPosition();
 

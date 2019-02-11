@@ -1,11 +1,11 @@
 package com.knightlore.server.test;
 
 import com.google.gson.Gson;
-import com.knightlore.game.math.Vector3f;
-import com.knightlore.game.math.Vector3i;
 import com.knightlore.game.util.Map;
 import com.knightlore.networking.ApiKey;
 import com.knightlore.networking.Sendable;
+import org.joml.Vector3f;
+import org.joml.Vector3i;
 
 public class Test {
 

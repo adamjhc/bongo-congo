@@ -37,6 +37,9 @@ public class GameLogic implements IGameLogic {
         if (window.isKeyPressed(GLFW_KEY_L)) {
         	hud.setP1Lives();
         }
+        if (window.isKeyPressed(GLFW_KEY_P)) {
+        	hud.setP1Score();
+        }
     }
 
     @Override

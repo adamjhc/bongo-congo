@@ -5,6 +5,7 @@ import java.awt.GraphicsEnvironment;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.joml.Vector4f;
 import com.knightlore.hud.engine.GameItem;
@@ -79,6 +80,17 @@ public class Hud implements IHud {
     		}
     		this.player1Lives.getMesh().getMaterial().setAmbientColour(new Vector4f(1, 0, 0, 1));
     	}
+    }
+    
+    public void setP1Score() {
+    	int score = Integer.parseInt(player1Score.getText().substring(3, player1Score.getText().length()));
+    	int increment = ThreadLocalRandom.current().nextInt(100, 10000 + 1);
+    	score += increment;
+    	if (score > 99999999) {
+    		score = 99999999;
+    	}
+    	String text = String.format("%08d", score);
+    	this.player1Score.setText("P1:"+text);
     }
     
     @Override

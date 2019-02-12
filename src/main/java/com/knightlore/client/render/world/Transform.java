@@ -1,5 +1,6 @@
-package com.knightlore.client.render;
+package com.knightlore.client.render.world;
 
+import com.knightlore.client.render.World;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -8,17 +9,9 @@ public class Transform {
   /** Position of the transform */
   private Vector3f position;
 
-  /** Scale of the transform */
-  private Vector3f scale;
-
-  /**
-   * Initialise the transform
-   *
-   * @param scale Scale of the transform
-   */
-  public Transform(int scale) {
+  /** Initialise the transform */
+  public Transform() {
     position = new Vector3f();
-    this.scale = new Vector3f(scale, scale, 1);
   }
 
   /**
@@ -46,7 +39,7 @@ public class Transform {
    * @return Projection of the transform
    */
   public Matrix4f getProjection(Matrix4f target) {
-    target.scale(scale);
+    target.scale(World.scale);
     target.translate(position);
 
     return target;

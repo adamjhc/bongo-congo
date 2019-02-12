@@ -35,98 +35,9 @@ public class ClientHandler extends Thread{
         this.sessionKey = Optional.empty();
     }
 
-    private boolean attemptRegister(Sendable request){
-        // No session key received, must register!
-//        String session = "";
-//        if(request.getData().has("session")){
-//            try{
-//                session = request.getData().getString("session");
-//            }catch (JSONException e){
-//                // Pass
-//            }
-//        }
-//
-//        // Check if token is currently active in db
-//        Model sessionToken = SessionToken.instance.createNewInstance();
-//        sessionToken.where(new Condition("token", "=", session));
-//
-//        if(sessionToken.count() > 0){
-//            sessionKey = Optional.of(session);
-//            return true;
-//        }
-
-        return false;
-    }
-
     @Override
     public void run() {
-        Object received;
 
-//        while (true) {
-//            try {
-//                // New packet from client
-//                received = dis.readObject();
-//
-//                if(received.getFunction().equals("exit")){
-//                    break;
-//                }
-//
-//                System.out.println("Game received: " + received.getFunction());
-//
-//                Sendable response = new Sendable();
-//
-//                if(!sessionKey.isPresent()){
-//                    if(attemptRegister(received)){
-//                        response.success = true;
-//                    }else{
-//                        response.success = false;
-//                    }
-//                    dos.writeObject(response);
-//                    continue;
-//                }
-//
-//                // Retrieve json
-//
-//
-//                try{
-//                    JSONObject jsonObject = new JSONObject(received);
-//                    String function = jsonObject.getString("function");
-//
-//                    if(!sessionKey.isPresent()){
-//                        // Check com.knightlore.server.client is allowed in
-//                        String session = jsonObject.getString("session");
-//
-//                        // Compare to active sessions
-//                        Model sessionToken = SessionToken.instance.createNewInstance();
-//
-//                        sessionToken.where(new Condition("token", "=", session));
-//
-//                        response = new JSONObject();
-//
-//                        if(sessionToken.count() > 0){
-//                            sessionKey = Optional.of(jsonObject.getString("session"));
-//                            response.put("success", "true");
-//                        }else {
-//                            response.put("success", "false");
-//                        }
-//
-//                        System.out.println("DNE");
-//
-//                        dos.writeUTF(response.toString());
-//                        continue;
-//                    }
-//
-//                    if(jsonObject.getString("function").equals("bye")){
-//                        break;
-//                    }
-//
-//                    Factory.create(function, new JSONObject(received), dos);
-//            } catch (ClassNotFoundException e) {
-//                e.printStackTrace();
-//            } catch(IOException e){
-//            e.printStackTrace();
-//        }
-//   }
 
 
         try{

@@ -5,17 +5,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.UUID;
 
 public class GameServer extends Thread {
-    public static void main(String[] args) throws IOException{
-        GameServer server = new GameServer("1234", 6969);
-        server.start();
-    }
+    UUID id;
+    public int socket;
 
-    String id;
-    int socket;
-
-    public GameServer(String id, int socket){
+    public GameServer(UUID id, int socket){
         this.id = id;
         this.socket = socket;
     }

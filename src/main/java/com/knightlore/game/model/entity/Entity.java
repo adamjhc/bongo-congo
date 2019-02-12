@@ -1,6 +1,6 @@
-package com.knightlore.game.entity;
+package com.knightlore.game.model.entity;
 
-import com.knightlore.game.math.Vector3f;
+import com.knightlore.game.model.math.Vector3f;
 
 public abstract class Entity {
 

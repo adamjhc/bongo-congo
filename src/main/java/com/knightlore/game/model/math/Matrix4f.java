@@ -1,4 +1,4 @@
-package com.knightlore.game.math;
+package com.knightlore.game.model.math;
 
 import java.nio.FloatBuffer;
 import org.joml.Vector3f;

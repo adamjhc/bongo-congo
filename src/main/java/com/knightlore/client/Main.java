@@ -3,11 +3,9 @@ package com.knightlore.client;
 
 import com.knightlore.client.exceptions.ClientAlreadyAuthenticatedException;
 import com.knightlore.client.exceptions.ConfigItemNotFoundException;
-import com.knightlore.client.networking.Authenticator;
+import com.knightlore.client.networking.ServerConnection;
 import com.knightlore.client.networking.backend.Client;
-import com.knightlore.game.server.GameServer;
 import com.knightlore.util.Config;
-import com.knightlore.util.ConfigReader;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -32,7 +30,7 @@ public class Main {
                 authClient = new Client(InetAddress.getByName(authServerIp.get()), authServerPort.get());
                 authClient.run();
 
-                Authenticator.instance = new Authenticator(authClient);
+                ServerConnection.instance = new ServerConnection(authClient);
             }catch(UnknownHostException e){
                 System.out.println("Warning: Invalid IP");
                 System.exit(1);
@@ -43,7 +41,7 @@ public class Main {
         }
 
         try {
-            Authenticator.instance.auth();
+            ServerConnection.instance.auth();
 
 
         }catch(ClientAlreadyAuthenticatedException e){

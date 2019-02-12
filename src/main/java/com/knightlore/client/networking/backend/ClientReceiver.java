@@ -28,7 +28,7 @@ public class ClientReceiver extends Thread{
 
                 if(received.hasUUID()){
                     // Request is a command response, pass to handler
-                    System.out.println("UUID" + received.getUuid());
+                    System.out.println("UUID " + received.getUuid());
                     ResponseHandler.handle(received.getUuid(), received);
                 }
 

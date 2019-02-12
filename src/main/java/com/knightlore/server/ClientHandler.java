@@ -1,5 +1,6 @@
 package com.knightlore.server;
 
+import com.knightlore.client.networking.backend.ResponseHandlers.SessionKey;
 import com.knightlore.networking.Sendable;
 import com.knightlore.server.commandhandler.Factory;
 import com.knightlore.server.database.Authenticate;
@@ -7,6 +8,7 @@ import com.knightlore.server.database.Authenticate;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Optional;
 
@@ -54,48 +56,6 @@ public class ClientHandler extends Thread
                 // If not, pass to factory
                 Factory.create(this, sendable);
 
-                // Pick correct handler
-//                try{
-//
-//
-//
-//                    switch (function) {
-//                        // Generate session based on authentication token
-//                        case "get_session_token":
-//                            Optional<String> token = apikey.getToken(jsonObject.getString("key"));
-//
-//
-//                            response = new JSONObject();
-//
-//                            if(token.isPresent()){
-//                                this.sessionKey = token;
-//                                response.put("success", "true");
-//                                response.put("token", token.get());
-//                            }else{
-//                                response.put("success", "false");
-//                            }
-//
-//                            dos.writeUTF(response.toString());
-//                            break;
-//
-//
-//                        case "check_auth":
-//                            response = new JSONObject();
-//
-//                            if(this.sessionKey.isPresent()){
-//                                response.put("success", "true");
-//                            }else{
-//                                response.put("success", "false");
-//                            }
-//
-//                            dos.writeUTF(response.toString());
-//                            break;
-//                    }
-//
-//                }catch(JSONException e){
-//                    System.out.println("INVALID REQUEST");
-//                    System.out.println(e);
-//                }
             } catch (IOException e) {
                 e.printStackTrace();
             }  catch (ClassNotFoundException e) {
@@ -112,5 +72,18 @@ public class ClientHandler extends Thread
         }catch(IOException e){
             e.printStackTrace();
         }
+    }
+
+    public InetAddress getSocketIP(){
+        return this.s.getInetAddress();
+    }
+
+    public SessionKey getSessionKey(){
+        if(this.sessionKey.isPresent()){
+            // Return session key with that value
+
+        }
+
+        return null;
     }
 }

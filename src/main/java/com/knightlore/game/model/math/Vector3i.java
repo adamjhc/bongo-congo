@@ -1,4 +1,4 @@
-package com.knightlore.game.math;
+package com.knightlore.game.model.math;
 
 public class Vector3i extends org.joml.Vector3i {
 

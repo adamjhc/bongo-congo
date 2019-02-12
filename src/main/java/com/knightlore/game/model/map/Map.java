@@ -1,6 +1,6 @@
-package com.knightlore.game.map;
+package com.knightlore.game.model.map;
 
-import com.knightlore.game.math.Vector3i;
+import com.knightlore.game.model.math.Vector3i;
 
 public class Map {
   private Tile[][][] tiles;

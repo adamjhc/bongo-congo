@@ -1,8 +1,8 @@
-package com.knightlore.game;
+package com.knightlore.game.model;
 
-import com.knightlore.game.entity.Enemies;
-import com.knightlore.game.entity.Player;
-import com.knightlore.game.map.Map;
+import com.knightlore.game.model.entity.Enemies;
+import com.knightlore.game.model.entity.Player;
+import com.knightlore.game.model.map.Map;
 
 import java.util.ArrayList;
 import java.util.Date;

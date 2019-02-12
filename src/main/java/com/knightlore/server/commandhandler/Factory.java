@@ -12,5 +12,9 @@ public class Factory {
             GetSessionToken handler = new GetSessionToken();
             handler.run(clientHandler, sendable);
         }
+        if(sendable.getFunction().equals("request_game")){
+            GameRequest handler = new GameRequest();
+            handler.run(clientHandler, sendable);
+        }
     }
 }

@@ -170,7 +170,7 @@ public abstract class Model {
         if(this.conditions.size() > 0){
             statement += " WHERE ";
             for(Condition condition: this.conditions){
-                statement += condition.key + condition.condition + "?" + " AND ";
+                statement += "`" + condition.key+ "`" + condition.condition + "?" + " AND ";
             }
             statement = statement.substring(0, statement.length() - 4);
         }
@@ -183,7 +183,6 @@ public abstract class Model {
             PreparedStatement stmt = conn.prepareStatement(statement);
             ErrorHandler.logSQL(statement);
             stmt = this.bindWhereParams(stmt);
-
             ResultSet results = stmt.executeQuery();
 
             while(results.next()){
@@ -262,7 +261,6 @@ public abstract class Model {
                         currentM.setAttribute(key, results.getObject(key));
                     }
                 }else{
-                    System.out.println("YER");
                     currentM.loadAttributes(results.getObject(currentM.attributes.getPrimaryKey()));
                 }
 
@@ -278,6 +276,23 @@ public abstract class Model {
 
 
         return new ArrayList<>();
+    }
+
+    public Optional<Model> first(){
+        return this.first(new ArrayList<>());
+    }
+
+    public Optional<Model> first(ArrayList<String> columns) {
+        // Run get
+        ArrayList<Model> models = this.get(columns);
+
+        // Check if empty
+        if(models.isEmpty()){
+            return Optional.empty();
+        }
+
+        // Return first
+        return Optional.of(models.get(0));
     }
 
     public abstract Model createNewInstance();

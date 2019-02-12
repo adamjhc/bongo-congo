@@ -1,12 +1,14 @@
 package com.knightlore.server;
 
 import com.knightlore.server.database.Connection;
+import com.knightlore.util.Config;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Optional;
 
 
 // Main registration/game server handler
@@ -20,8 +22,14 @@ public class Server
             System.exit(1);
         }
 
+        Optional<Integer> authServerPort = Config.authServerPort();
+
+        if(!authServerPort.isPresent()){
+            System.out.println("Port not defined");
+            System.exit(0);
+        }
         // Spin up server
-        ServerSocket ss = new ServerSocket(12123);
+        ServerSocket ss = new ServerSocket(authServerPort.get());
 
         // Capture new clients
         while (true)

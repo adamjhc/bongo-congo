@@ -1,22 +1,26 @@
 package com.knightlore.server.test;
 
 import com.google.gson.Gson;
-import com.knightlore.game.math.Vector3f;
-import com.knightlore.game.math.Vector3i;
-import com.knightlore.game.util.Map;
-import com.knightlore.networking.ApiKey;
-import com.knightlore.networking.Sendable;
+import com.knightlore.server.database.Connection;
+import com.knightlore.server.database.model.*;
+
+import java.util.Calendar;
+import java.util.Optional;
 
 public class Test {
 
 
 
     public static void main(String[] args){
-        Vector3i location = new Vector3i(1,1,1);
 
-        Vector3f coordinate = Map.getCoordinateFromTile(location);
+        Connection.connect();
 
-        System.out.println(coordinate);
+
+        RegistrationKey token = new RegistrationKey();
+        token.where(new Condition("description", "=", "yeet"));
+        Optional<Model> mine = token.first();
+
+        System.out.println(mine.get().getAttribute("key"));
 
 //        ApiKey key = new ApiKey("mykey");
 //

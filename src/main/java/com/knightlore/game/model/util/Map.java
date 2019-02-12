@@ -1,8 +1,8 @@
-package com.knightlore.game.util;
+package com.knightlore.game.model.util;
 
 
-import com.knightlore.game.math.Vector3f;
-import com.knightlore.game.math.Vector3i;
+import com.knightlore.game.model.math.Vector3f;
+import com.knightlore.game.model.math.Vector3i;
 
 public class Map {
 

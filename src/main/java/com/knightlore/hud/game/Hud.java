@@ -22,7 +22,7 @@ public class Hud implements IHud {
     
     private static final int MAX_SCORE = 99999999;
 
-    private final GameItem[] gameItems;
+    private GameItem[] gameItems;
 
     private final TextItem player1Score;
     
@@ -35,6 +35,8 @@ public class Hud implements IHud {
     private final TextItem counter;
     
     private final TextItem exit;
+    
+    private final TextItem singleplayer;
 
     public Hud() throws Exception {
     	InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
@@ -59,8 +61,11 @@ public class Hud implements IHud {
         
         this.exit = new TextItem("Exit", fontTexture);
         this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        
+        this.singleplayer = new TextItem("Singleplayer", fontTexture);
+        this.singleplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
 
-        gameItems = new GameItem[]{player1Score, player2Score, counter, player1Lives, player2Lives, exit};
+        gameItems = new GameItem[]{player1Score, player2Score, counter, player1Lives, player2Lives, exit, singleplayer};
     }
 
     public void setP1Score(String statusText) {
@@ -82,6 +87,14 @@ public class Hud implements IHud {
     
     public void setRestoreExit() {
     	this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    }
+    
+    public void setSingleplayer() {
+    	this.singleplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
+    }
+    
+    public void setRestoreSingleplayer() {
+    	this.singleplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
     }
     
     public void setP1Lives() {
@@ -112,6 +125,19 @@ public class Hud implements IHud {
     public GameItem[] getGameItems() {
         return gameItems;
     }
+    
+    public void deleteGameItem() {
+    	if (gameItems.length == 7) {
+	    	GameItem[] gameItemsNew = new GameItem[gameItems.length -1];
+	    	for (int i = 0, k = 0; i < gameItems.length; i++) {
+	    		if (i == gameItems.length-1) {
+	    			continue;
+	    		}
+	    		gameItemsNew[k++] = gameItems[i];
+	    	}
+	    	gameItems = gameItemsNew.clone();
+    	}
+    }
    
     public void updateSize(Window window) {
         this.player1Score.setPosition(5, 5, 0);
@@ -120,5 +146,6 @@ public class Hud implements IHud {
         this.player2Lives.setPosition(430, 20, 0);
         this.counter.setPosition(240, 5, 0);
         this.exit.setPosition(5, 460, 0);
+        this.singleplayer.setPosition(window.getWidth()/2 - 85, window.getHeight()/2, 0);
     }
 }

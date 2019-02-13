@@ -31,16 +31,20 @@ public class GameLogic implements IGameLogic {
     	if (window.isKeyPressed(GLFW_KEY_E)) {
     		System.out.println("E pressed");
     	}
-    	if (mouseInput.isLeftButtonPressed()) {
-    		System.out.println(mouseInput.getXPos()+" "+mouseInput.getYPos());
-    	}
-    	
     	if (mouseInput.getXPos() < 65 && mouseInput.getYPos() > 455) {
     		hud.setExit();
     		if (mouseInput.isLeftButtonPressed()) {
     			glfwSetWindowShouldClose(window.getWindowHandle(), true);
     		}
     	} else hud.setRestoreExit();
+    	if (mouseInput.getXPos() > 212 && mouseInput.getXPos() < 394 && mouseInput.getYPos() > 236 && mouseInput.getYPos() < 255) {
+    		hud.setSingleplayer();
+    		if (mouseInput.isLeftButtonPressed()) {
+    			hud.deleteGameItem();
+    		}
+    	} else hud.setRestoreSingleplayer();
+    	if (mouseInput.isLeftButtonPressed()) {
+    	}
     }
 
     @Override

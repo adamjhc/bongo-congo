@@ -1,4 +1,4 @@
-package com.knightlore.hud.engine.graph;
+package com.knightlore.hud.engine.graphics;
 
 import org.joml.Matrix4f;
 import com.knightlore.hud.engine.GameItem;

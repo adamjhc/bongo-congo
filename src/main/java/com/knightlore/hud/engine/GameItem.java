@@ -1,7 +1,8 @@
 package com.knightlore.hud.engine;
 
 import org.joml.Vector3f;
-import com.knightlore.hud.engine.graph.Mesh;
+
+import com.knightlore.hud.engine.graphics.Mesh;
 
 public class GameItem {
 

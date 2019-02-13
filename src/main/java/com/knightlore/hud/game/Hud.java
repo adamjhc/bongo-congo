@@ -12,7 +12,7 @@ import com.knightlore.hud.engine.GameItem;
 import com.knightlore.hud.engine.IHud;
 import com.knightlore.hud.engine.TextItem;
 import com.knightlore.hud.engine.Window;
-import com.knightlore.hud.engine.graph.FontTexture;
+import com.knightlore.hud.engine.graphics.FontTexture;
 
 public class Hud implements IHud {
 
@@ -39,19 +39,19 @@ public class Hud implements IHud {
     	
         FontTexture fontTexture = new FontTexture(FONT, CHARSET);
         this.player1Score = new TextItem("P1:00000000", fontTexture);
-        this.player1Score.getMesh().getMaterial().setAmbientColour(new Vector4f(1, 1, 1, 1));
+        this.player1Score.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
         
         this.player2Score = new TextItem("P2:00000000", fontTexture);
-        this.player2Score.getMesh().getMaterial().setAmbientColour(new Vector4f(1, 1, 1, 1));
+        this.player2Score.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
         
         this.player1Lives = new TextItem("***", fontTexture);
-        this.player1Lives.getMesh().getMaterial().setAmbientColour(new Vector4f(1, 0, 0, 1));
+        this.player1Lives.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         
         this.player2Lives = new TextItem("***", fontTexture);
-        this.player2Lives.getMesh().getMaterial().setAmbientColour(new Vector4f(1, 0, 0, 1));
+        this.player2Lives.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         
         this.counter = new TextItem("Time: 90", fontTexture);
-        this.counter.getMesh().getMaterial().setAmbientColour(new Vector4f(1, 1, 0, 1));
+        this.counter.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
 
         gameItems = new GameItem[]{player1Score, player2Score, counter, player1Lives, player2Lives};
     }
@@ -66,7 +66,7 @@ public class Hud implements IHud {
     
     public void setCounter(String statusText) {
     	this.counter.setText(statusText);
-    	this.counter.getMesh().getMaterial().setAmbientColour(new Vector4f(1, 1, 0, 1));
+    	this.counter.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
     }
     
     public void setP1Lives() {
@@ -78,7 +78,7 @@ public class Hud implements IHud {
     			text = text.substring(0, text.length()-1);
     			this.player1Lives.setText(text);
     		}
-    		this.player1Lives.getMesh().getMaterial().setAmbientColour(new Vector4f(1, 0, 0, 1));
+    		this.player1Lives.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
     	}
     }
     

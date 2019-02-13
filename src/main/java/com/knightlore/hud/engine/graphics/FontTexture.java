@@ -1,4 +1,4 @@
-package com.knightlore.hud.engine.graph;
+package com.knightlore.hud.engine.graphics;
 
 import java.awt.Color;
 import java.awt.Font;

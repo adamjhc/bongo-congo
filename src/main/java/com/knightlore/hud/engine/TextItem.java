@@ -2,9 +2,10 @@ package com.knightlore.hud.engine;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.knightlore.hud.engine.graph.FontTexture;
-import com.knightlore.hud.engine.graph.Material;
-import com.knightlore.hud.engine.graph.Mesh;
+
+import com.knightlore.hud.engine.graphics.FontTexture;
+import com.knightlore.hud.engine.graphics.Material;
+import com.knightlore.hud.engine.graphics.Mesh;
 
 public class TextItem extends GameItem {
 

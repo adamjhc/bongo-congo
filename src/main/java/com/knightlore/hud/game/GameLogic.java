@@ -1,10 +1,10 @@
 package com.knightlore.hud.game;
 
-import com.knightlore.hud.engine.graph.Renderer;
 import static org.lwjgl.glfw.GLFW.*;
 import com.knightlore.hud.engine.IGameLogic;
 import com.knightlore.hud.engine.MouseInput;
 import com.knightlore.hud.engine.Window;
+import com.knightlore.hud.engine.graphics.Renderer;
 
 
 public class GameLogic implements IGameLogic {

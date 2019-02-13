@@ -1,4 +1,4 @@
-package com.knightlore.hud.engine.graph;
+package com.knightlore.hud.engine.graphics;
 
 import de.matthiasmann.twl.utils.PNGDecoder;
 import de.matthiasmann.twl.utils.PNGDecoder.Format;

@@ -1,4 +1,4 @@
-package com.knightlore.hud.engine.graph;
+package com.knightlore.hud.engine.graphics;
 
 import org.joml.Matrix4f;
 import static org.lwjgl.opengl.GL11.*;
@@ -58,7 +58,7 @@ public class Renderer {
 
             Matrix4f projModelMatrix = transformation.getOrtoProjModelMatrix(gameItem, ortho);
             hudShaderProgram.setUniform("projModelMatrix", projModelMatrix);
-            hudShaderProgram.setUniform("colour", gameItem.getMesh().getMaterial().getAmbientColour());
+            hudShaderProgram.setUniform("colour", gameItem.getMesh().getMaterial().getColour());
             hudShaderProgram.setUniform("hasTexture", gameItem.getMesh().getMaterial().isTextured() ? 1 : 0);
 
             mesh.render();

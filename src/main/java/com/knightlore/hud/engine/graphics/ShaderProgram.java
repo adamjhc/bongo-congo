@@ -1,4 +1,4 @@
-package com.knightlore.hud.engine.graph;
+package com.knightlore.hud.engine.graphics;
 
 import java.nio.FloatBuffer;
 import java.util.HashMap;
@@ -35,14 +35,6 @@ public class ShaderProgram {
         uniforms.put(uniformName, uniformLocation);
     }
 
-    public void createMaterialUniform(String uniformName) throws Exception {
-        createUniform(uniformName + ".ambient");
-        createUniform(uniformName + ".diffuse");
-        createUniform(uniformName + ".specular");
-        createUniform(uniformName + ".hasTexture");
-        createUniform(uniformName + ".reflectance");
-    }
-
     public void setUniform(String uniformName, Matrix4f value) {
         try (MemoryStack stack = MemoryStack.stackPush()) {
             // Dump the matrix into a float buffer
@@ -69,11 +61,8 @@ public class ShaderProgram {
     }
 
     public void setUniform(String uniformName, Material material) {
-        setUniform(uniformName + ".ambient", material.getAmbientColour());
-        setUniform(uniformName + ".diffuse", material.getDiffuseColour());
-        setUniform(uniformName + ".specular", material.getSpecularColour());
+        setUniform(uniformName + ".colour", material.getColour());
         setUniform(uniformName + ".hasTexture", material.isTextured() ? 1 : 0);
-        setUniform(uniformName + ".reflectance", material.getReflectance());
     }
 
     public void createVertexShader(String shaderCode) throws Exception {

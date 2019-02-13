@@ -15,10 +15,6 @@ public class Texture {
 
     private final int height;
 
-    public Texture(String fileName) throws Exception {
-        this(Texture.class.getResourceAsStream(fileName));
-    }
-
     public Texture(InputStream is) throws Exception {
         // Load Texture file
         PNGDecoder decoder = new PNGDecoder(is);

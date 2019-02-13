@@ -32,13 +32,13 @@ public class Hud implements IHud {
     
     private final TextItem counter;
 
-    public Hud(String statusText) throws Exception {
+    public Hud() throws Exception {
     	InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
     	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
     	ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, myStream));
     	
         FontTexture fontTexture = new FontTexture(FONT, CHARSET);
-        this.player1Score = new TextItem(statusText, fontTexture);
+        this.player1Score = new TextItem("P1:00000000", fontTexture);
         this.player1Score.getMesh().getMaterial().setAmbientColour(new Vector4f(1, 1, 1, 1));
         
         this.player2Score = new TextItem("P2:00000000", fontTexture);

@@ -20,7 +20,7 @@ public class GameLogic implements IGameLogic {
     @Override
     public void init(Window window) throws Exception {
         renderer.init(window);
-        hud = new Hud("P1:00000000");
+        hud = new Hud();
     }
 
     @Override

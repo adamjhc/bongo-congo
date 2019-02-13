@@ -1,9 +1,6 @@
 package com.knightlore.hud.game;
 
 import static org.lwjgl.glfw.GLFW.*;
-
-import java.util.concurrent.TimeUnit;
-
 import com.knightlore.hud.engine.IGameLogic;
 import com.knightlore.hud.engine.MouseInput;
 import com.knightlore.hud.engine.Window;

@@ -76,6 +76,14 @@ public class Hud implements IHud {
     	this.counter.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
     }
     
+    public void setExit() {
+    	this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
+    }
+    
+    public void setRestoreExit() {
+    	this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    }
+    
     public void setP1Lives() {
     	String text = player1Lives.getText();
     	if (text.length() > 0 && text != "Dead") {

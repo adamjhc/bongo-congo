@@ -1,6 +1,9 @@
 package com.knightlore.hud.game;
 
 import static org.lwjgl.glfw.GLFW.*;
+
+import java.util.concurrent.TimeUnit;
+
 import com.knightlore.hud.engine.IGameLogic;
 import com.knightlore.hud.engine.MouseInput;
 import com.knightlore.hud.engine.Window;
@@ -34,9 +37,13 @@ public class GameLogic implements IGameLogic {
     	if (mouseInput.isLeftButtonPressed()) {
     		System.out.println(mouseInput.getXPos()+" "+mouseInput.getYPos());
     	}
-    	if (mouseInput.getXPos() < 65 && mouseInput.getYPos() > 455 && mouseInput.isLeftButtonPressed()) {
-    		glfwSetWindowShouldClose(window.getWindowHandle(), true);
-    	}
+    	
+    	if (mouseInput.getXPos() < 65 && mouseInput.getYPos() > 455) {
+    		hud.setExit();
+    		if (mouseInput.isLeftButtonPressed()) {
+    			glfwSetWindowShouldClose(window.getWindowHandle(), true);
+    		}
+    	} else hud.setRestoreExit();
     }
 
     @Override

@@ -5,22 +5,12 @@ import com.knightlore.hud.engine.GameItem;
 
 public class Transformation {
 
-    private final Matrix4f projectionMatrix;
-
     private final Matrix4f orthoMatrix;
 
     public Transformation() {
-        projectionMatrix = new Matrix4f();
         orthoMatrix = new Matrix4f();
     }
 
-    public final Matrix4f getProjectionMatrix(float fov, float width, float height, float zNear, float zFar) {
-        float aspectRatio = width / height;        
-        projectionMatrix.identity();
-        projectionMatrix.perspective(fov, aspectRatio, zNear, zFar);
-        return projectionMatrix;
-    }
-    
     public final Matrix4f getOrthoProjectionMatrix(float left, float right, float bottom, float top) {
         orthoMatrix.identity();
         orthoMatrix.setOrtho2D(left, right, bottom, top);

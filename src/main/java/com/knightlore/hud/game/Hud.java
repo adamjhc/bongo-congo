@@ -56,11 +56,11 @@ public class Hud implements IHud {
         gameItems = new GameItem[]{player1Score, player2Score, counter, player1Lives, player2Lives};
     }
 
-    public void setStatusText(String statusText) {
+    public void setP1Score(String statusText) {
         this.player1Score.setText(statusText);
     }
     
-    public void setStatusText2(String statusText) {
+    public void setP2Score(String statusText) {
         this.player2Score.setText(statusText);
     }
     

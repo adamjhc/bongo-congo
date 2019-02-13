@@ -18,7 +18,9 @@ public class Window {
     private long windowHandle;
 
     private boolean resized;
-
+    
+    private int keyCode;
+    
     private boolean vSync;
 
     public Window(String title, int width, int height, boolean vSync) {
@@ -27,6 +29,7 @@ public class Window {
         this.height = height;
         this.vSync = vSync;
         this.resized = false;
+        this.keyCode = -1;
     }
 
     public void init() {
@@ -64,6 +67,9 @@ public class Window {
         glfwSetKeyCallback(windowHandle, (window, key, scancode, action, mods) -> {
             if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+            }
+            else if (action == GLFW_RELEASE) {
+            	this.keyCode = key;
             }
         });
 
@@ -106,9 +112,13 @@ public class Window {
     public void setClearColor(float r, float g, float b, float alpha) {
         glClearColor(r, g, b, alpha);
     }
-
+    
     public boolean isKeyPressed(int keyCode) {
-        return glfwGetKey(windowHandle, keyCode) == GLFW_PRESS;
+    	if (keyCode == this.keyCode) {
+    		this.keyCode = -1;
+    		return true;
+    	}
+    	return false;
     }
 
     public boolean windowShouldClose() {

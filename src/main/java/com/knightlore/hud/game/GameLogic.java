@@ -28,6 +28,15 @@ public class GameLogic implements IGameLogic {
     	if (window.isKeyPressed(GLFW_KEY_W)) {
     		System.out.println("W pressed");
     	}
+    	if (window.isKeyPressed(GLFW_KEY_E)) {
+    		System.out.println("E pressed");
+    	}
+    	if (mouseInput.isLeftButtonPressed()) {
+    		System.out.println(mouseInput.getXPos()+" "+mouseInput.getYPos());
+    	}
+    	if (mouseInput.getXPos() < 65 && mouseInput.getYPos() > 455 && mouseInput.isLeftButtonPressed()) {
+    		glfwSetWindowShouldClose(window.getWindowHandle(), true);
+    	}
     }
 
     @Override

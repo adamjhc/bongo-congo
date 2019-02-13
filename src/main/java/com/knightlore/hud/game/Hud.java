@@ -19,6 +19,8 @@ public class Hud implements IHud {
     private static final Font FONT = new Font("Press Start 2P", Font.PLAIN, 15);
 
     private static final String CHARSET = "ISO-8859-1";
+    
+    private static final int MAX_SCORE = 99999999;
 
     private final GameItem[] gameItems;
 
@@ -31,6 +33,8 @@ public class Hud implements IHud {
     private final TextItem player2Lives;
     
     private final TextItem counter;
+    
+    private final TextItem exit;
 
     public Hud() throws Exception {
     	InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
@@ -52,8 +56,11 @@ public class Hud implements IHud {
         
         this.counter = new TextItem("Time: 90", fontTexture);
         this.counter.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        
+        this.exit = new TextItem("Exit", fontTexture);
+        this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
 
-        gameItems = new GameItem[]{player1Score, player2Score, counter, player1Lives, player2Lives};
+        gameItems = new GameItem[]{player1Score, player2Score, counter, player1Lives, player2Lives, exit};
     }
 
     public void setP1Score(String statusText) {
@@ -86,8 +93,8 @@ public class Hud implements IHud {
     	int score = Integer.parseInt(player1Score.getText().substring(3, player1Score.getText().length()));
     	int increment = ThreadLocalRandom.current().nextInt(100, 10000 + 1);
     	score += increment;
-    	if (score > 99999999) {
-    		score = 99999999;
+    	if (score > MAX_SCORE) {
+    		score = MAX_SCORE;
     	}
     	String text = String.format("%08d", score);
     	this.player1Score.setText("P1:"+text);
@@ -104,5 +111,6 @@ public class Hud implements IHud {
         this.player1Lives.setPosition(5, 20, 0);
         this.player2Lives.setPosition(430, 20, 0);
         this.counter.setPosition(240, 5, 0);
+        this.exit.setPosition(5, 460, 0);
     }
 }

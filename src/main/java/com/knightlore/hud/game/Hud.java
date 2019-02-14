@@ -69,9 +69,9 @@ public class Hud implements IHud {
         this.player2Score.setPosition(window.getWidth()-170, 5, 0);
         this.player1Lives.setPosition(5, 20, 0);
         this.player2Lives.setPosition(window.getWidth()-170, 20, 0);
-        this.counter.setPosition(window.getWidth()/2-58, 5, 0);
+        this.counter.setPosition(window.getWidth()/2-58, window.getHeight()-20, 0);
         this.exit.setPosition(5, window.getHeight()-20, 0);
-        this.singleplayer.setPosition(window.getWidth()/2 - 90, window.getHeight()/2, 0);
+        this.singleplayer.setPosition(window.getWidth()/2 - 90, window.getHeight()/2+100, 0);
 
         gameItems = new GameItem[]{player1Score, player2Score, counter, player1Lives, player2Lives, exit, singleplayer};
     }

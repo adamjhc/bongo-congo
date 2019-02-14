@@ -7,14 +7,14 @@ import com.knightlore.hud.engine.IHud;
 import com.knightlore.hud.engine.Utils;
 import com.knightlore.hud.engine.Window;
 
-public class Renderer {
+public class HUDRenderer {
 
     private final Transformation transformation;
     
-    private ShaderProgram hudShaderProgram;
+    private HUDShaderProgram hudShaderProgram;
 
 
-    public Renderer() {
+    public HUDRenderer() {
         transformation = new Transformation();
     }
 
@@ -23,7 +23,7 @@ public class Renderer {
     }
 
     private void setupHudShader() throws Exception {
-        hudShaderProgram = new ShaderProgram();
+        hudShaderProgram = new HUDShaderProgram();
         hudShaderProgram.createVertexShader(Utils.loadResource("/shaders/hud_vertex.vs"));
         hudShaderProgram.createFragmentShader(Utils.loadResource("/shaders/hud_fragment.fs"));
         hudShaderProgram.link();

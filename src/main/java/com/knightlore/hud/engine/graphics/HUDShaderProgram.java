@@ -9,7 +9,7 @@ import org.joml.Vector4f;
 import static org.lwjgl.opengl.GL20.*;
 import org.lwjgl.system.MemoryStack;
 
-public class ShaderProgram {
+public class HUDShaderProgram {
 
     private final int programId;
 
@@ -19,19 +19,13 @@ public class ShaderProgram {
 
     private final Map<String, Integer> uniforms;
 
-    public ShaderProgram() throws Exception {
+    public HUDShaderProgram() {
         programId = glCreateProgram();
-        if (programId == 0) {
-            throw new Exception("Could not create Shader");
-        }
         uniforms = new HashMap<>();
     }
 
-    public void createUniform(String uniformName) throws Exception {
+    public void createUniform(String uniformName) {
         int uniformLocation = glGetUniformLocation(programId, uniformName);
-        if (uniformLocation < 0) {
-            throw new Exception("Could not find uniform:" + uniformName);
-        }
         uniforms.put(uniformName, uniformLocation);
     }
 
@@ -65,37 +59,27 @@ public class ShaderProgram {
         setUniform(uniformName + ".hasTexture", material.isTextured() ? 1 : 0);
     }
 
-    public void createVertexShader(String shaderCode) throws Exception {
+    public void createVertexShader(String shaderCode) {
         vertexShaderId = createShader(shaderCode, GL_VERTEX_SHADER);
     }
 
-    public void createFragmentShader(String shaderCode) throws Exception {
+    public void createFragmentShader(String shaderCode) {
         fragmentShaderId = createShader(shaderCode, GL_FRAGMENT_SHADER);
     }
 
-    protected int createShader(String shaderCode, int shaderType) throws Exception {
+    protected int createShader(String shaderCode, int shaderType) {
         int shaderId = glCreateShader(shaderType);
-        if (shaderId == 0) {
-            throw new Exception("Error creating shader. Type: " + shaderType);
-        }
 
         glShaderSource(shaderId, shaderCode);
         glCompileShader(shaderId);
-
-        if (glGetShaderi(shaderId, GL_COMPILE_STATUS) == 0) {
-            throw new Exception("Error compiling Shader code: " + glGetShaderInfoLog(shaderId, 1024));
-        }
 
         glAttachShader(programId, shaderId);
 
         return shaderId;
     }
 
-    public void link() throws Exception {
+    public void link() {
         glLinkProgram(programId);
-        if (glGetProgrami(programId, GL_LINK_STATUS) == 0) {
-            throw new Exception("Error linking Shader code: " + glGetProgramInfoLog(programId, 1024));
-        }
 
         if (vertexShaderId != 0) {
             glDetachShader(programId, vertexShaderId);

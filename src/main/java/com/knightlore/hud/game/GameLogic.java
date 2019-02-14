@@ -1,25 +1,28 @@
 package com.knightlore.hud.game;
 
 import static org.lwjgl.glfw.GLFW.*;
+
+import com.knightlore.client.render.Renderer;
+import com.knightlore.game.Game;
 import com.knightlore.hud.engine.IGameLogic;
 import com.knightlore.hud.engine.MouseInput;
 import com.knightlore.hud.engine.Window;
-import com.knightlore.hud.engine.graphics.Renderer;
+import com.knightlore.hud.engine.graphics.HUDRenderer;
 
 
 public class GameLogic implements IGameLogic {
 
-    private final Renderer renderer;
+    private final HUDRenderer hudRenderer;
     
     private Hud hud;
 
     public GameLogic() {
-        renderer = new Renderer();
+        hudRenderer = new HUDRenderer();
     }
 
     @Override
     public void init(Window window) throws Exception {
-        renderer.init(window);
+        hudRenderer.init(window);
         hud = new Hud(window);
     }
 
@@ -41,7 +44,7 @@ public class GameLogic implements IGameLogic {
     	} else hud.setRestoreExit();
     	
     	if (mouseInput.getXPos() > window.getWidth()/2-90 && mouseInput.getXPos() < window.getWidth()/2+90 &&
-    	mouseInput.getYPos() > window.getHeight()/2-10 && mouseInput.getYPos() < window.getHeight()/2+15) {
+    	mouseInput.getYPos() > window.getHeight()/2+90 && mouseInput.getYPos() < window.getHeight()/2+115) {
     		hud.setSingleplayer();
     		if (mouseInput.isLeftButtonPressed()) {
     			System.out.println("Singleplayer button pressed");
@@ -61,13 +64,13 @@ public class GameLogic implements IGameLogic {
     }
 
     @Override
-    public void render(Window window) {
-        renderer.render(window, hud);
+    public void render(Window window, Renderer renderer, Game gameModel) {
+    	renderer.render(gameModel, window, hud);
     }
 
     @Override
     public void cleanup() {
-        renderer.cleanup();
+        hudRenderer.cleanup();
         hud.cleanup();
     }
 

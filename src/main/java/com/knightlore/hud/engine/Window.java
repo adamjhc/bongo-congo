@@ -76,6 +76,7 @@ public class Window {
 
         GL.createCapabilities();
 
+        /*
         // Set the clear colour
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glEnable(GL_DEPTH_TEST);
@@ -84,6 +85,7 @@ public class Window {
         // Support for transparencies
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        */
     }
 
     public long getWindowHandle() {
@@ -117,9 +119,12 @@ public class Window {
     public int getHeight() {
         return height;
     }
+    
+    public void swapBuffers() {
+        glfwSwapBuffers(windowHandle);
+    }
 
     public void update() {
-        glfwSwapBuffers(windowHandle);
         glfwPollEvents();
     }
 }

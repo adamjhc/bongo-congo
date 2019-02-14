@@ -1,8 +1,11 @@
 package com.knightlore.hud.engine;
 
+import com.knightlore.client.render.Renderer;
+import com.knightlore.game.Game;
+
 public class GameEngine {
 
-    public static final int TARGET_UPS = 30;
+    public static final int TARGET_UPS = 60;
 
     private final Window window;
 
@@ -11,6 +14,9 @@ public class GameEngine {
     private final IGameLogic gameLogic;
 
     private final MouseInput mouseInput;
+    
+    private Renderer renderer;
+    private Game gameModel;
 
     public GameEngine(String windowTitle, int width, int height, IGameLogic gameLogic) {
         window = new Window(windowTitle, width, height);
@@ -35,6 +41,9 @@ public class GameEngine {
         timer.init();
         mouseInput.init(window);
         gameLogic.init(window);
+        
+        renderer = new Renderer(window);
+        gameModel = new Game();
     }
 
     protected void gameLoop() {
@@ -47,15 +56,20 @@ public class GameEngine {
             elapsedTime = timer.getElapsedTime();
             fullTime = timer.getFullTime();
             accumulator += elapsedTime;
-
-            input();
+            
+            
 
             while (accumulator >= interval) {
+            	accumulator -= interval;
+            	
+            	input();
+            	
                 update(interval, fullTime);
-                accumulator -= interval;
+                gameModel.update(interval);
+                
             }
 
-            render();
+            render(renderer, gameModel);
         }
     }
 
@@ -64,6 +78,7 @@ public class GameEngine {
     }
 
     protected void input() {
+    	window.update();
         gameLogic.input(window, mouseInput);
     }
 
@@ -71,8 +86,7 @@ public class GameEngine {
         gameLogic.update(interval, elapsedTime);
     }
 
-    protected void render() {
-        gameLogic.render(window);
-        window.update();
+    protected void render(Renderer renderer, Game gameModel) {
+        gameLogic.render(window, renderer, gameModel);
     }
 }

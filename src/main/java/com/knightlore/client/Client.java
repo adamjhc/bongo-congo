@@ -46,12 +46,8 @@ public class Client {
     Keyboard.setWindow(window.getWindow());
     Mouse.setWindow(window.getWindow());
     
-    try {
-    	audio = new AudioHandler();
-    	audio.toggle();
-    } catch (Exception e) {
-    	e.printStackTrace();
-    }
+    audio = new AudioHandler();
+    audio.toggle();
 
     renderer = new Renderer(window);
     gameModel = new Game();

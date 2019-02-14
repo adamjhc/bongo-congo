@@ -25,38 +25,38 @@ public class GameLogic implements IGameLogic {
 
     @Override
     public void input(Window window, MouseInput mouseInput) {
-    	if (window.isKeyPressed(GLFW_KEY_W)) {
-    		System.out.println("W pressed");
-    	}
-    	if (window.isKeyPressed(GLFW_KEY_E)) {
-    		System.out.println("E pressed");
-    	}
-    	if (mouseInput.getXPos() < 65 && mouseInput.getYPos() > 455) {
+        if (window.isKeyPressed(GLFW_KEY_L)) {
+        	hud.setP1Lives();
+        }
+        
+        if (window.isKeyPressed(GLFW_KEY_P)) {
+        	hud.setP1Score();
+        }
+        
+    	if (mouseInput.getXPos() < 65 && mouseInput.getYPos() > window.getHeight()-25) {
     		hud.setExit();
     		if (mouseInput.isLeftButtonPressed()) {
     			glfwSetWindowShouldClose(window.getWindowHandle(), true);
     		}
     	} else hud.setRestoreExit();
-    	if (mouseInput.getXPos() > 212 && mouseInput.getXPos() < 394 && mouseInput.getYPos() > 236 && mouseInput.getYPos() < 255) {
+    	
+    	if (mouseInput.getXPos() > window.getWidth()/2-90 && mouseInput.getXPos() < window.getWidth()/2+90 &&
+    	mouseInput.getYPos() > window.getHeight()/2-10 && mouseInput.getYPos() < window.getHeight()/2+15) {
     		hud.setSingleplayer();
     		if (mouseInput.isLeftButtonPressed()) {
     			hud.deleteGameItem();
     		}
     	} else hud.setRestoreSingleplayer();
+    	
     	if (mouseInput.isLeftButtonPressed()) {
+    		System.out.println(mouseInput.getXPos()+" "+mouseInput.getYPos());
     	}
+    	if (mouseInput.isRightButtonPressed()) {}
     }
 
     @Override
-    public void update(float interval, float elapsedTime, MouseInput mouseInput, Window window) {
+    public void update(float interval, float elapsedTime) {
         hud.setCounter("Time: "+Integer.toString(90 - Math.round(elapsedTime)));
-
-        if (window.isKeyPressed(GLFW_KEY_L)) {
-        	hud.setP1Lives();
-        }
-        if (window.isKeyPressed(GLFW_KEY_P)) {
-        	hud.setP1Score();
-        }
     }
 
     @Override

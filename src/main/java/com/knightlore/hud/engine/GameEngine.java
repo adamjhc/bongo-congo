@@ -2,8 +2,6 @@ package com.knightlore.hud.engine;
 
 public class GameEngine implements Runnable {
 
-    public static final int TARGET_FPS = 75;
-
     public static final int TARGET_UPS = 30;
 
     private final Window window;
@@ -16,9 +14,9 @@ public class GameEngine implements Runnable {
 
     private final MouseInput mouseInput;
 
-    public GameEngine(String windowTitle, int width, int height, boolean vSync, IGameLogic gameLogic) throws Exception {
+    public GameEngine(String windowTitle, int width, int height, IGameLogic gameLogic) throws Exception {
         gameLoopThread = new Thread(this, "GAME_LOOP_THREAD");
-        window = new Window(windowTitle, width, height, vSync);
+        window = new Window(windowTitle, width, height);
         mouseInput = new MouseInput();
         this.gameLogic = gameLogic;
         timer = new Timer();
@@ -57,8 +55,7 @@ public class GameEngine implements Runnable {
         float accumulator = 0f;
         float interval = 1f / TARGET_UPS;
 
-        boolean running = true;
-        while (running && !window.windowShouldClose()) {
+        while (!window.windowShouldClose()) {
             elapsedTime = timer.getElapsedTime();
             fullTime = timer.getFullTime();
             accumulator += elapsedTime;
@@ -71,26 +68,11 @@ public class GameEngine implements Runnable {
             }
 
             render();
-
-            if ( !window.isvSync() ) {
-                sync();
-            }
         }
     }
 
     protected void cleanup() {
         gameLogic.cleanup();                
-    }
-    
-    private void sync() {
-        float loopSlot = 1f / TARGET_FPS;
-        double endTime = timer.getLastLoopTime() + loopSlot;
-        while (timer.getTime() < endTime) {
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException ie) {
-            }
-        }
     }
 
     protected void input() {
@@ -98,7 +80,7 @@ public class GameEngine implements Runnable {
     }
 
     protected void update(float interval, float elapsedTime) {
-        gameLogic.update(interval, elapsedTime, mouseInput, window);
+        gameLogic.update(interval, elapsedTime);
     }
 
     protected void render() {

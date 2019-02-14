@@ -7,9 +7,8 @@ public class Main {
  
     public static void main(String[] args) {
         try {
-            boolean vSync = true;
-            IGameLogic gameLogic = new GameLogic();
-            GameEngine gameEng = new GameEngine("Bongo Congo", 600, 480, vSync, gameLogic);
+            IGameLogic gameLogic = new GameLogic();			  //600, 480
+            GameEngine gameEng = new GameEngine("Bongo Congo", 1280, 720, gameLogic);
             gameEng.start();
         } catch (Exception excp) {
             excp.printStackTrace();

@@ -99,11 +99,10 @@ public class Client {
 
     if ((Keyboard.isKeyPressed(GLFW_KEY_S)
             && Keyboard.isKeyDown(GLFW_KEY_A))
-            || Keyboard.isKeyDown(GLFW_KEY_W)
-            && Keyboard.isKeyPressed(GLFW_KEY_S)) {
+            || (Keyboard.isKeyDown(GLFW_KEY_W)
+            && Keyboard.isKeyPressed(GLFW_KEY_S))) {
       gameModel.movePlayerInDirection(Direction.WEST, delta);
     }
-
 
     if (!Keyboard.isKeyPressed(GLFW_KEY_W) && !Keyboard.isKeyPressed(GLFW_KEY_A) && !Keyboard.isKeyPressed(GLFW_KEY_S) && Keyboard.isKeyPressed(GLFW_KEY_D)) {
       gameModel.movePlayerInDirection(Direction.NORTH_WEST, delta);

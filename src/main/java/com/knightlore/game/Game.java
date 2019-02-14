@@ -5,14 +5,15 @@ import com.knightlore.game.entity.Player;
 import com.knightlore.game.map.Map;
 import com.knightlore.game.map.MapSet;
 import com.knightlore.game.map.TileSet;
-import com.knightlore.game.math.Vector3f;
+import com.knightlore.game.util.CoordinateUtils;
 
-import java.nio.FloatBuffer;
+import org.joml.Vector3f;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Vector;
 
-import static com.knightlore.game.entity.Direction.NORTH_EAST;
+
+
 
 public class Game {
 
@@ -37,38 +38,38 @@ public class Game {
 
   public void movePlayerInDirection(Direction direction, float delta) {
     Player player = getCurrentLevel().getPlayers().get(0);
-    float speed = 0.05f;
+    float speed = 0.1f;
 
     player.setDirection(direction);
     Vector3f origPos = player.getPosition();
-    Vector3f newPos = origPos;
+    Vector3f newPos = new Vector3f(origPos);
     switch (direction) {
       case NORTH_EAST:
-        newPos.set(origPos.x + speed, origPos.y + speed, origPos.z);
+        newPos.set(newPos.x + speed, newPos.y + speed, newPos.z);
         break;
       case EAST:
-        newPos.set(origPos.x + speed,origPos.y, origPos.z );
+        newPos.set(newPos.x + speed,newPos.y, newPos.z );
         break;
       case SOUTH_EAST:
-        newPos.set(origPos.x - speed,origPos.y + speed, origPos.z);
+        newPos.set(newPos.x - speed,newPos.y + speed, newPos.z);
         break;
       case SOUTH:
-        newPos.set(origPos.x,origPos.y - speed, origPos.z );
+        newPos.set(newPos.x,newPos.y - speed, newPos.z );
         break;
       case SOUTH_WEST:
-        newPos.set(origPos.x - speed,origPos.y - speed, origPos.z);
+        newPos.set(newPos.x - speed,newPos.y - speed, newPos.z);
         break;
       case WEST:
-        newPos.set(origPos.x - speed, origPos.y, origPos.z );
+        newPos.set(newPos.x - speed, newPos.y, newPos.z );
         break;
       case NORTH_WEST:
-        newPos.set(origPos.x + speed,origPos.y - speed, origPos.z);
+        newPos.set(newPos.x + speed,newPos.y - speed, newPos.z);
         break;
       case NORTH:
-        newPos.set(origPos.x,origPos.y + speed, origPos.z );
+        newPos.set(newPos.x,newPos.y + speed, newPos.z );
         break;
     }
-    player.update(origPos, newPos);
+    player.update(origPos, newPos, getCurrentLevel().getMap());
 
   }
 

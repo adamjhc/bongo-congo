@@ -20,7 +20,7 @@ public class GameLogic implements IGameLogic {
     @Override
     public void init(Window window) throws Exception {
         renderer.init(window);
-        hud = new Hud();
+        hud = new Hud(window);
     }
 
     @Override
@@ -44,7 +44,8 @@ public class GameLogic implements IGameLogic {
     	mouseInput.getYPos() > window.getHeight()/2-10 && mouseInput.getYPos() < window.getHeight()/2+15) {
     		hud.setSingleplayer();
     		if (mouseInput.isLeftButtonPressed()) {
-    			hud.deleteGameItem();
+    			System.out.println("Singleplayer button pressed");
+    			//hud.deleteGameItem();
     		}
     	} else hud.setRestoreSingleplayer();
     	
@@ -61,7 +62,6 @@ public class GameLogic implements IGameLogic {
 
     @Override
     public void render(Window window) {
-        hud.updateSize(window);
         renderer.render(window, hud);
     }
 

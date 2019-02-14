@@ -7,9 +7,9 @@ public class Main {
  
     public static void main(String[] args) {
         try {
-            IGameLogic gameLogic = new GameLogic();			  //600, 480
+            IGameLogic gameLogic = new GameLogic();
             GameEngine gameEng = new GameEngine("Bongo Congo", 1280, 720, gameLogic);
-            gameEng.start();
+            gameEng.run();
         } catch (Exception excp) {
             excp.printStackTrace();
             System.exit(-1);

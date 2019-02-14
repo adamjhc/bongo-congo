@@ -38,7 +38,7 @@ public class Hud implements IHud {
     
     private final TextItem singleplayer;
 
-    public Hud() throws Exception {
+    public Hud(Window window) throws Exception {
     	InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
     	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
     	ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, myStream));
@@ -64,6 +64,14 @@ public class Hud implements IHud {
         
         this.singleplayer = new TextItem("Singleplayer", fontTexture);
         this.singleplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        
+        this.player1Score.setPosition(5, 5, 0);
+        this.player2Score.setPosition(window.getWidth()-170, 5, 0);
+        this.player1Lives.setPosition(5, 20, 0);
+        this.player2Lives.setPosition(window.getWidth()-170, 20, 0);
+        this.counter.setPosition(window.getWidth()/2-58, 5, 0);
+        this.exit.setPosition(5, window.getHeight()-20, 0);
+        this.singleplayer.setPosition(window.getWidth()/2 - 90, window.getHeight()/2, 0);
 
         gameItems = new GameItem[]{player1Score, player2Score, counter, player1Lives, player2Lives, exit, singleplayer};
     }
@@ -137,15 +145,5 @@ public class Hud implements IHud {
 	    	}
 	    	gameItems = gameItemsNew.clone();
     	}
-    }
-   
-    public void updateSize(Window window) {
-        this.player1Score.setPosition(5, 5, 0);
-        this.player2Score.setPosition(window.getWidth()-170, 5, 0);
-        this.player1Lives.setPosition(5, 20, 0);
-        this.player2Lives.setPosition(window.getWidth()-170, 20, 0);
-        this.counter.setPosition(window.getWidth()/2-58, 5, 0);
-        this.exit.setPosition(5, window.getHeight()-20, 0);
-        this.singleplayer.setPosition(window.getWidth()/2 - 90, window.getHeight()/2, 0);
     }
 }

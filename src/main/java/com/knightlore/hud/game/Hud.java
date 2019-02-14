@@ -17,6 +17,8 @@ import com.knightlore.hud.engine.graphics.FontTexture;
 public class Hud implements IHud {
 
     private static final Font FONT = new Font("Press Start 2P", Font.PLAIN, 15);
+    
+    private static final Font FONT_LARGE = new Font("Press Start 2P", Font.PLAIN, 40);
 
     private static final String CHARSET = "ISO-8859-1";
     
@@ -37,6 +39,8 @@ public class Hud implements IHud {
     private final TextItem exit;
     
     private final TextItem singleplayer;
+    
+    private final TextItem soundOn;
 
     public Hud(Window window) throws Exception {
     	InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
@@ -44,6 +48,8 @@ public class Hud implements IHud {
     	ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, myStream));
     	
         FontTexture fontTexture = new FontTexture(FONT, CHARSET);
+        FontTexture fontTextureLarge = new FontTexture(FONT_LARGE, CHARSET);
+        
         this.player1Score = new TextItem("P1:00000000", fontTexture);
         this.player1Score.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
         
@@ -65,6 +71,9 @@ public class Hud implements IHud {
         this.singleplayer = new TextItem("Singleplayer", fontTexture);
         this.singleplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
+        this.soundOn = new TextItem("(", fontTextureLarge);
+        this.soundOn.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        
         this.player1Score.setPosition(5, 5, 0);
         this.player2Score.setPosition(window.getWidth()-170, 5, 0);
         this.player1Lives.setPosition(5, 20, 0);
@@ -72,8 +81,9 @@ public class Hud implements IHud {
         this.counter.setPosition(window.getWidth()/2-58, window.getHeight()-20, 0);
         this.exit.setPosition(5, window.getHeight()-20, 0);
         this.singleplayer.setPosition(window.getWidth()/2 - 90, window.getHeight()/2+100, 0);
+        this.soundOn.setPosition(window.getWidth()-40, window.getHeight()-40, 0);
 
-        gameItems = new GameItem[]{player1Score, player2Score, counter, player1Lives, player2Lives, exit, singleplayer};
+        gameItems = new GameItem[]{player1Score, player2Score, counter, player1Lives, player2Lives, exit, singleplayer, soundOn};
     }
 
     public void setP1Score(String statusText) {

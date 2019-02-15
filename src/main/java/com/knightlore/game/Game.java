@@ -52,7 +52,7 @@ public class Game {
         newPos.set(newPos.x + speed ,newPos.y, newPos.z );
         break;
       case SOUTH_EAST:
-        newPos.set(newPos.x - speed,newPos.y + speed, newPos.z);
+        newPos.set(newPos.x - speed*0.7f,newPos.y + speed*0.7f, newPos.z);
         break;
       case SOUTH:
         newPos.set(newPos.x,newPos.y - speed, newPos.z );
@@ -64,7 +64,7 @@ public class Game {
         newPos.set(newPos.x - speed, newPos.y, newPos.z );
         break;
       case NORTH_WEST:
-        newPos.set(newPos.x + speed,newPos.y - speed, newPos.z);
+        newPos.set(newPos.x + speed*0.7f,newPos.y - speed*0.7f, newPos.z);
         break;
       case NORTH:
         newPos.set(newPos.x,newPos.y + speed, newPos.z );

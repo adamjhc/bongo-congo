@@ -1,6 +1,5 @@
 package com.knightlore.client.render.world;
 
-import com.knightlore.client.render.Transform;
 import com.knightlore.client.render.opengl.RenderModel;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.opengl.StaticTexture;
@@ -42,7 +41,7 @@ public class PlayerGameObject extends Renderable {
 
     texture = new StaticTexture(textureFileName);
     model = new RenderModel(vertices, textureCoords, indices);
-    transform = new Transform(48);
+    transform = new Transform();
   }
 
   /**

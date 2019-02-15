@@ -136,13 +136,7 @@ public class Window {
 
   /** Sets the callbacks of the window */
   public void setCallbacks() {
-    glfwSetErrorCallback(
-        new GLFWErrorCallback() {
-          @Override
-          public void invoke(int error, long description) {
-            throw new IllegalStateException(GLFWErrorCallback.getDescription(description));
-          }
-        });
+    glfwSetErrorCallback(GLFWErrorCallback.createThrow());
 
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GLFW_TRUE);
     glfwSetKeyCallback(window, new Keyboard());

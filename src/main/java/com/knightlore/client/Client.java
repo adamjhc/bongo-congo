@@ -1,5 +1,18 @@
 package com.knightlore.client;
 
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_X;
+import static org.lwjgl.glfw.GLFW.glfwGetTime;
+import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
+import static org.lwjgl.glfw.GLFW.glfwTerminate;
+
+import java.io.IOException;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+import com.knightlore.client.audio.AudioHandler;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;
@@ -14,6 +27,7 @@ public class Client {
   private Window window;
   private Renderer renderer;
   private Game gameModel;
+  private AudioHandler audio;
   //  private PlayerRenderer player;
 
   public static void main(String[] args) {
@@ -33,6 +47,9 @@ public class Client {
     window.setCallbacks();
     Keyboard.setWindow(window.getWindow());
     Mouse.setWindow(window.getWindow());
+    
+    audio = new AudioHandler();
+    audio.toggle();
 
     renderer = new Renderer(window);
     gameModel = new Game();
@@ -92,37 +109,13 @@ public class Client {
             && Keyboard.isKeyPressed(GLFW_KEY_D)) {
       gameModel.movePlayerInDirection(Direction.NORTH_WEST, delta);
     }
-    if ((Keyboard.isKeyPressed(GLFW_KEY_S) // Player presses S and A
-            && Keyboard.isKeyDown(GLFW_KEY_A))
-            || (Keyboard.isKeyDown(GLFW_KEY_W)
-            && Keyboard.isKeyPressed(GLFW_KEY_S))) {
-      gameModel.movePlayerInDirection(Direction.WEST, delta);
-    }
-    if (!Keyboard.isKeyPressed(GLFW_KEY_W) // Player presses S
-            && !Keyboard.isKeyPressed(GLFW_KEY_A)
-            && Keyboard.isKeyPressed(GLFW_KEY_S)
-            && !Keyboard.isKeyPressed(GLFW_KEY_D)) {
-      gameModel.movePlayerInDirection(Direction.SOUTH_WEST, delta);
-    }
-    if ((Keyboard.isKeyPressed(GLFW_KEY_S) // Player presses S and D
-            && Keyboard.isKeyDown(GLFW_KEY_D))
-            || Keyboard.isKeyDown(GLFW_KEY_S)
-            && Keyboard.isKeyPressed(GLFW_KEY_D)) {
-      gameModel.movePlayerInDirection(Direction.SOUTH, delta);
-    }
-
-    if (!Keyboard.isKeyPressed(GLFW_KEY_W) // Player presses A
-            && Keyboard.isKeyPressed(GLFW_KEY_A)
-            && !Keyboard.isKeyPressed(GLFW_KEY_S)
-            && !Keyboard.isKeyPressed(GLFW_KEY_D)) {
-      gameModel.movePlayerInDirection(Direction.SOUTH_EAST, delta);
-    }
-
-    if ((Keyboard.isKeyPressed(GLFW_KEY_W) // Player presses W and D
-            && Keyboard.isKeyDown(GLFW_KEY_D))
-            || Keyboard.isKeyDown(GLFW_KEY_W)
-            && Keyboard.isKeyPressed(GLFW_KEY_D)) {
-      gameModel.movePlayerInDirection(Direction.EAST, delta);
+    
+    if (Keyboard.isKeyReleased(GLFW_KEY_X)) {
+    	try {
+			audio.toggle();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
   }
 

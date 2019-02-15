@@ -44,13 +44,13 @@ public class GameLogic implements IGameLogic {
     	} else hud.setRestoreExit();
     	
     	if (mouseInput.getXPos() > window.getWidth()-35 && mouseInput.getYPos() > window.getHeight()-35) {
-    		hud.setSound();
+    		//hud.setSound();
     		if (mouseInput.isLeftButtonPressed()) {
     			hud.setSoundOff();
     		}
     	} else hud.setRestoreSound();
     	
-    	if (mouseInput.getXPos() > window.getWidth()/2-90 && mouseInput.getXPos() < window.getWidth()/2+90 &&
+        if (mouseInput.getXPos() > window.getWidth()/2-90 && mouseInput.getXPos() < window.getWidth()/2+90 &&
     	mouseInput.getYPos() > window.getHeight()/2+90 && mouseInput.getYPos() < window.getHeight()/2+115) {
     		hud.setSingleplayer();
     		if (mouseInput.isLeftButtonPressed()) {
@@ -59,14 +59,12 @@ public class GameLogic implements IGameLogic {
     		}
     	} else hud.setRestoreSingleplayer();
     	
-    	/*
     	if (mouseInput.isLeftButtonPressed()) {
     		System.out.println(mouseInput.getXPos()+" "+mouseInput.getYPos());
     	}
     	if (mouseInput.isRightButtonPressed()) {
     		System.out.println(mouseInput.getXPos()+" "+mouseInput.getYPos());
     	}
-    	*/
     }
 
     @Override

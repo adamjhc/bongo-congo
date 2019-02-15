@@ -23,14 +23,15 @@ public class MouseInput {
             this.yPos = yPos;
         });
         glfwSetMouseButtonCallback(window.getWindowHandle(), (windowHandle, button, action, mode) -> {
+        	/*
             if (button == GLFW_MOUSE_BUTTON_1 && action == GLFW_RELEASE) {
             	leftButtonPressed = true;
             }
             if (button == GLFW_MOUSE_BUTTON_2 && action == GLFW_RELEASE) {
             	rightButtonPressed = true;
-            }
+            } */
             leftButtonPressed = button == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS;
-            rightButtonPressed = button == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS;
+            rightButtonPressed = button == GLFW_MOUSE_BUTTON_2 && action == GLFW_PRESS;
         });
     }
 

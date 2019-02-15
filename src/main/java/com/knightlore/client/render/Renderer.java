@@ -108,22 +108,26 @@ public class Renderer {
   public void render(Game gameModel, Window window, IHud hud) {
     clearBuffers();
 
-    camera.setPosition(
-        playerSet.getPlayer(0).getTransform().getPosition().mul(-world.getScale(), new Vector3f()));
-
-    mapRenderer.render(
-        gameModel.getCurrentLevel().getMap(),
-        shaderProgram,
-        world.getProjection(),
-        camera.getProjection());
-
-    for (Player player : gameModel.getCurrentLevel().getPlayers()) {
-      playerRenderer.render(player, shaderProgram, world.getProjection(), camera.getProjection());
-    }
+    renderGame(gameModel);
     
     renderHud(window, hud);
 
     swapBuffers();
+  }
+  
+  private void renderGame(Game gameModel) {
+	    camera.setPosition(
+	            playerSet.getPlayer(0).getTransform().getPosition().mul(-world.getScale(), new Vector3f()));
+
+	        mapRenderer.render(
+	            gameModel.getCurrentLevel().getMap(),
+	            shaderProgram,
+	            world.getProjection(),
+	            camera.getProjection());
+
+	        for (Player player : gameModel.getCurrentLevel().getPlayers()) {
+	          playerRenderer.render(player, shaderProgram, world.getProjection(), camera.getProjection());
+	        }
   }
   
   private void renderHud(Window window, IHud hud) {

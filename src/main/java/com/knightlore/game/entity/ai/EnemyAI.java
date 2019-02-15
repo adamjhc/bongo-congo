@@ -1,6 +1,6 @@
 package com.knightlore.game.entity.ai;
 
-import com.knightlore.game.math.Vector3f;
+import org.joml.Vector3f;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,7 +26,7 @@ public abstract class EnemyAI {
     }
 
     public List<Vector3f> pathfind() {
-        this.path = new LinkedList<Vector3f>(); // TODO: confirm what the 'coordinates' are
+        this.path = new LinkedList<Vector3f>();
         return path;
     }
 

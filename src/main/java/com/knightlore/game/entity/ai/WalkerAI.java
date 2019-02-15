@@ -1,6 +1,6 @@
 package com.knightlore.game.entity.ai;
 
-import com.knightlore.game.math.Vector3f;
+import org.joml.Vector3f;
 import org.lwjgl.system.CallbackI;
 
 import java.util.LinkedList;
@@ -9,7 +9,7 @@ import java.util.List;
 // Walks back and forth on the same plane
 public class WalkerAI extends EnemyAI {
 
-    Object startDirection; // TODO: need to decide how we implement this
+    Object startDirection;
 
 
     public WalkerAI(Vector3f home, Object startDirection) {

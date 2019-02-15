@@ -1,6 +1,6 @@
 package com.knightlore.game.entity.ai;
 
-import com.knightlore.game.math.Vector3f;
+import org.joml.Vector3f;
 
 import java.util.List;
 

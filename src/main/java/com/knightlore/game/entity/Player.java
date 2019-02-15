@@ -37,7 +37,6 @@ public class Player extends Entity {
     public void update(Vector3f oldPos, Vector3f newPos, Map map) {
         Vector3i coords = CoordinateUtils.getTileCoord(setPadding(newPos));
 
-
         try {
             Tile newTile = map.getTile(coords);
             if (!newTile.isWalkable()) {
@@ -54,32 +53,22 @@ public class Player extends Entity {
     }
 
     private Vector3f setPadding(Vector3f npos) {
-      //TODO: make this more efficient
       Vector3f pos = new Vector3f(npos);
       switch (this.direction){
           case NORTH_EAST:
-              pos.set(pos.x+0.7f,pos.y + 0.7f,pos.z);
+              pos.set(pos.x + 0.7f,pos.y + 0.7f,pos.z);
               break;
           case EAST:
-              pos.set(pos.x+0.7f,pos.y+0.7f ,pos.z);
+              pos.set(pos.x + 0.7f,pos.y + 0.7f ,pos.z);
               break;
           case SOUTH_EAST:
-              pos.set(pos.x,pos.y+0.7f,pos.z);
-              break;
-          case SOUTH:
-              pos.set(pos.x,pos.y,pos.z);
-              break;
-          case SOUTH_WEST:
-              pos.set(pos.x,pos.y,pos.z);
-              break;
-          case WEST:
-              pos.set(pos.x,pos.y ,pos.z);
+              pos.set(pos.x,pos.y + 0.7f, pos.z);
               break;
           case NORTH_WEST:
-              pos.set(pos.x+0.7f,pos.y,pos.z);
+              pos.set(pos.x + 0.7f, pos.y, pos.z);
               break;
           case NORTH:
-              pos.set(pos.x+0.7f,pos.y+0.7f,pos.z);
+              pos.set(pos.x + 0.7f,pos.y + 0.7f, pos.z);
               break;
       }
       return pos;

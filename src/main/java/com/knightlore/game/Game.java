@@ -39,6 +39,7 @@ public class Game {
   public void movePlayerInDirection(Direction direction, float delta) {
     Player player = getCurrentLevel().getPlayers().get(0);
     float speed = 0.1f;
+    float speedEq = speed * 0.7f;
 
     player.setDirection(direction);
     Vector3f origPos = player.getPosition();
@@ -52,7 +53,7 @@ public class Game {
         newPos.set(newPos.x + speed ,newPos.y, newPos.z );
         break;
       case SOUTH_EAST:
-        newPos.set(newPos.x - speed*0.7f,newPos.y + speed*0.7f, newPos.z);
+        newPos.set(newPos.x - speedEq,newPos.y + speedEq, newPos.z);
         break;
       case SOUTH:
         newPos.set(newPos.x,newPos.y - speed, newPos.z );
@@ -64,7 +65,7 @@ public class Game {
         newPos.set(newPos.x - speed, newPos.y, newPos.z );
         break;
       case NORTH_WEST:
-        newPos.set(newPos.x + speed*0.7f,newPos.y - speed*0.7f, newPos.z);
+        newPos.set(newPos.x + speedEq,newPos.y - speedEq, newPos.z);
         break;
       case NORTH:
         newPos.set(newPos.x,newPos.y + speed, newPos.z );

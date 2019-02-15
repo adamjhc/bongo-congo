@@ -35,7 +35,4 @@ public abstract class Entity {
     this.direction = direction;
   }
 
-  public Direction getDirection() {
-    return direction;
-  }
 }

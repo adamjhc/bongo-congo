@@ -6,4 +6,8 @@ public class Enemies extends Entity {
 
     public EnemyAI AI;
 
+    @Override
+    void update() {
+
+    }
 }

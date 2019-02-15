@@ -10,11 +10,6 @@ import static org.lwjgl.glfw.GLFW.glfwGetTime;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 
-import java.io.IOException;
-
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-
 import com.knightlore.client.audio.AudioHandler;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
@@ -49,7 +44,7 @@ public class Client {
     window.setCallbacks();
     Keyboard.setWindow(window.getWindow());
     Mouse.setWindow(window.getWindow());
-    
+
     audio = new AudioHandler();
     audio.toggle();
 
@@ -148,11 +143,7 @@ public class Client {
     }
 
     if (Keyboard.isKeyReleased(GLFW_KEY_X)) {
-    	try {
-			audio.toggle();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+      audio.toggle();
     }
   }
 

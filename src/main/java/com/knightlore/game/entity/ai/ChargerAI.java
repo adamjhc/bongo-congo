@@ -1,9 +1,8 @@
 package com.knightlore.game.entity.ai;
 
 // Idles until player walks into range, then moves towards player
-// TODO: Do A* Euclidean distance pathfinding towards player entity
-
-import com.knightlore.game.math.Vector3f;
+// TODO: Do A* Euclidean distance pathfinding towards player entityimport com.knightlore.game.math.Vector3f;
+import org.joml.Vector3f;
 
 import java.util.List;
 

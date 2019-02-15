@@ -1,7 +1,8 @@
 package com.knightlore.game.entity.ai;
 
-import com.knightlore.game.math.Vector3f;
-import org.lwjgl.system.CallbackI;
+
+import com.knightlore.game.entity.Direction;
+import org.joml.Vector3f;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -9,10 +10,10 @@ import java.util.List;
 // Walks back and forth on the same plane
 public class WalkerAI extends EnemyAI {
 
-    Object startDirection; // TODO: need to decide how we implement this
+    Object startDirection; 
 
 
-    public WalkerAI(Vector3f home, Object startDirection) {
+    public WalkerAI(Vector3f home, Direction startDirection) {
         this.home = home;
         this.startDirection = startDirection;
     }
@@ -23,7 +24,7 @@ public class WalkerAI extends EnemyAI {
 
         LinkedList<Vector3f> path = new LinkedList<Vector3f>();
 
-        // some maths to get direction i guess
+
         //-------------------------------------------------------------------------
         // do (add tile to list if not a wall else get the other direction ??)
         // while (list.peek(!home))

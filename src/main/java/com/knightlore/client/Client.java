@@ -140,7 +140,7 @@ public class Client {
       gameModel.movePlayerInDirection(Direction.SOUTH_EAST, delta);
     }
 
-    if ((Keyboard.isKeyPressed(GLFW_KEY_W) // Player presses S and A
+    if ((Keyboard.isKeyPressed(GLFW_KEY_W) // Player presses W and A
             && Keyboard.isKeyDown(GLFW_KEY_A))
             || Keyboard.isKeyDown(GLFW_KEY_W)
             && Keyboard.isKeyPressed(GLFW_KEY_A)) {

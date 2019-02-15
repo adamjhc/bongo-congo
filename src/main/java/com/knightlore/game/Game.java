@@ -43,12 +43,13 @@ public class Game {
     player.setDirection(direction);
     Vector3f origPos = player.getPosition();
     Vector3f newPos = new Vector3f(origPos);
+
     switch (direction) {
       case NORTH_EAST:
         newPos.set(newPos.x + speed, newPos.y + speed, newPos.z);
         break;
       case EAST:
-        newPos.set(newPos.x + speed,newPos.y, newPos.z );
+        newPos.set(newPos.x + speed ,newPos.y, newPos.z );
         break;
       case SOUTH_EAST:
         newPos.set(newPos.x - speed,newPos.y + speed, newPos.z);

@@ -25,28 +25,63 @@ public class Player extends Entity {
   }
 
     @Override
+    public Vector3f getPosition() {
+      return position;
+    }
+
+    @Override
     void update() {
 
     }
 
     public void update(Vector3f oldPos, Vector3f newPos, Map map) {
-        Vector3i coords = CoordinateUtils.getTileCoord(newPos);
+        Vector3i coords = CoordinateUtils.getTileCoord(setPadding(newPos));
+
 
         try {
             Tile newTile = map.getTile(coords);
             if (!newTile.isWalkable()) {
-              System.out.println("BLOCK Iso:" +  newPos + ", 2D:" + coords);
               setPosition(oldPos);
             } else {
               setPosition(newPos);
             }
-        } catch (NullPointerException e) {
-            System.out.println("Null: Iso: " + newPos + "2D: " + coords);
+        } catch (NullPointerException e) { // catches SW and SE edges
+            setPosition(oldPos);
+
+        } catch (ArrayIndexOutOfBoundsException e) { //  catches NE and NW edges
             setPosition(oldPos);
         }
-        catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Array: " + coords + e.getMessage());
-            setPosition(oldPos);
-        }
+    }
+
+    private Vector3f setPadding(Vector3f npos) {
+      //TODO: make this more efficient
+      Vector3f pos = new Vector3f(npos);
+      switch (this.direction){
+          case NORTH_EAST:
+              pos.set(pos.x+0.7f,pos.y + 0.7f,pos.z);
+              break;
+          case EAST:
+              pos.set(pos.x+0.7f,pos.y+0.7f ,pos.z);
+              break;
+          case SOUTH_EAST:
+              pos.set(pos.x,pos.y+0.7f,pos.z);
+              break;
+          case SOUTH:
+              pos.set(pos.x,pos.y,pos.z);
+              break;
+          case SOUTH_WEST:
+              pos.set(pos.x,pos.y,pos.z);
+              break;
+          case WEST:
+              pos.set(pos.x,pos.y ,pos.z);
+              break;
+          case NORTH_WEST:
+              pos.set(pos.x+0.7f,pos.y,pos.z);
+              break;
+          case NORTH:
+              pos.set(pos.x+0.7f,pos.y+0.7f,pos.z);
+              break;
+      }
+      return pos;
     }
 }

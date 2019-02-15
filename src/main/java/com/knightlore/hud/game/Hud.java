@@ -18,6 +18,8 @@ public class Hud implements IHud {
 
     private static final Font FONT = new Font("Press Start 2P", Font.PLAIN, 15);
     
+    private static final Font FONT_25 = new Font("Press Start 2P", Font.PLAIN, 30);
+    
     private static final Font FONT_LARGE = new Font("Press Start 2P", Font.PLAIN, 40);
 
     private static final String CHARSET = "ISO-8859-1";
@@ -41,6 +43,8 @@ public class Hud implements IHud {
     private final TextItem singleplayer;
     
     private final TextItem soundOn;
+    
+    private final TextItem soundOff;
 
     public Hud(Window window) throws Exception {
     	InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
@@ -49,6 +53,7 @@ public class Hud implements IHud {
     	
         FontTexture fontTexture = new FontTexture(FONT, CHARSET);
         FontTexture fontTextureLarge = new FontTexture(FONT_LARGE, CHARSET);
+        FontTexture fontTexture25 = new FontTexture(FONT_25, CHARSET);
         
         this.player1Score = new TextItem("P1:00000000", fontTexture);
         this.player1Score.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
@@ -72,7 +77,10 @@ public class Hud implements IHud {
         this.singleplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
         this.soundOn = new TextItem("(", fontTextureLarge);
-        this.soundOn.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        this.soundOn.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
+        
+        this.soundOff = new TextItem("/", fontTexture25);
+        this.soundOff.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         
         this.player1Score.setPosition(5, 5, 0);
         this.player2Score.setPosition(window.getWidth()-170, 5, 0);
@@ -82,6 +90,7 @@ public class Hud implements IHud {
         this.exit.setPosition(5, window.getHeight()-20, 0);
         this.singleplayer.setPosition(window.getWidth()/2 - 90, window.getHeight()/2+100, 0);
         this.soundOn.setPosition(window.getWidth()-40, window.getHeight()-40, 0);
+        this.soundOff.setPosition(window.getWidth()-30, window.getHeight()-30, 0);
 
         gameItems = new GameItem[]{player1Score, player2Score, counter, player1Lives, player2Lives, exit, singleplayer, soundOn};
     }
@@ -113,6 +122,35 @@ public class Hud implements IHud {
     
     public void setRestoreSingleplayer() {
     	this.singleplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    }
+    
+    public void setSound() {
+    	this.soundOn.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    }
+    
+    public void setRestoreSound() {
+    	this.soundOn.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
+    }
+    
+    public void setSoundOff() {
+    	if (gameItems.length == 8) {
+	    	GameItem[] gameItemsNew = new GameItem[gameItems.length +1];
+	    	for (int i = 0; i < gameItems.length; i++) {
+	    		gameItemsNew[i] = gameItems[i];
+	    	}
+	    	gameItemsNew[gameItems.length] = soundOff;
+	    	gameItems = gameItemsNew.clone();
+    	}
+    	else if (gameItems.length == 9) {
+	    	GameItem[] gameItemsNew = new GameItem[gameItems.length -1];
+	    	for (int i = 0, k = 0; i < gameItems.length; i++) {
+	    		if (i == gameItems.length-1) {
+	    			continue;
+	    		}
+	    		gameItemsNew[k++] = gameItems[i];
+	    	}
+	    	gameItems = gameItemsNew.clone();
+    	}
     }
     
     public void setP1Lives() {

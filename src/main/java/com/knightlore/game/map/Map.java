@@ -44,6 +44,7 @@ public class Map {
         }
       }
     }
+    this.size = new Vector3i(tiles[0][0].length, tiles[0].length, tiles.length);
   }
 
   public Tile[][][] getTiles() {
@@ -56,7 +57,7 @@ public class Map {
 
   public Tile getTile(Vector3i location) {
     if (CoordinateUtils.mapHasPosition(size, location)) {
-      return this.tiles[location.x][location.y][location.z];
+        return this.tiles[location.z][location.y][location.x];
     }
 
     return null;
@@ -64,7 +65,7 @@ public class Map {
 
   public void setTile(Vector3i location, Tile tile) {
     if (CoordinateUtils.mapHasPosition(size, location)) {
-      this.tiles[location.x - 1][location.y - 1][location.z - 1] = tile;
+      this.tiles[location.z -1][location.y -1][location.x -1] = tile;
     }
   }
 }

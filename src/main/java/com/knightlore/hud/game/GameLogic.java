@@ -59,12 +59,14 @@ public class GameLogic implements IGameLogic {
     		}
     	} else hud.setRestoreSingleplayer();
     	
+    	/*
     	if (mouseInput.isLeftButtonPressed()) {
     		System.out.println(mouseInput.getXPos()+" "+mouseInput.getYPos());
     	}
     	if (mouseInput.isRightButtonPressed()) {
     		System.out.println(mouseInput.getXPos()+" "+mouseInput.getYPos());
     	}
+    	*/
     }
 
     @Override

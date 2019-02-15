@@ -29,6 +29,8 @@ public class MouseInput {
             if (button == GLFW_MOUSE_BUTTON_2 && action == GLFW_RELEASE) {
             	rightButtonPressed = true;
             }
+            leftButtonPressed = button == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS;
+            rightButtonPressed = button == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS;
         });
     }
 

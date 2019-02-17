@@ -5,8 +5,8 @@ import com.knightlore.client.exceptions.ClientAlreadyAuthenticatedException;
 import com.knightlore.client.exceptions.ConfigItemNotFoundException;
 import com.knightlore.client.networking.backend.Client;
 import com.knightlore.client.networking.backend.ResponseHandler;
-import com.knightlore.client.networking.backend.ResponseHandlers.GameRequest;
-import com.knightlore.client.networking.backend.ResponseHandlers.SessionKey;
+import com.knightlore.client.networking.backend.responsehandlers.server.GameRequest;
+import com.knightlore.client.networking.backend.responsehandlers.server.SessionKey;
 import com.knightlore.networking.ApiKey;
 import com.knightlore.networking.Sendable;
 import com.knightlore.util.Config;
@@ -120,5 +120,9 @@ public class ServerConnection {
                 System.out.println(e);
             }
         }
+    }
+
+    public Optional<String> getSessionKey() {
+        return sessionKey;
     }
 }

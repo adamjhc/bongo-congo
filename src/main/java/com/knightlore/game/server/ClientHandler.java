@@ -1,9 +1,10 @@
 package com.knightlore.game.server;
 
+import com.google.gson.Gson;
+import com.knightlore.game.model.Game;
 import com.knightlore.networking.Sendable;
-import com.knightlore.server.database.Authenticate;
-import com.knightlore.server.database.SessionGenerator;
-import com.knightlore.server.game.commands.Factory;
+import com.knightlore.game.server.commandhandler.Factory;
+import com.knightlore.networking.SetLevel;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -13,31 +14,59 @@ import java.util.Optional;
 
 // Client handler class for game
 public class ClientHandler extends Thread{
-    // Omitted for first commit
-
     // Declare input and output streams
     final ObjectInputStream dis;
     final ObjectOutputStream dos;
 
-    SessionGenerator apikey = new SessionGenerator();
-    Authenticate authenticate = new Authenticate();
-    Optional<String> sessionKey = Optional.empty();
-    Factory factory = new Factory();
+    public Optional<String> sessionKey = Optional.empty();
 
     // Socket
     final Socket s;
+    final GameServer gameServer;
 
-    public ClientHandler(Socket s, ObjectInputStream dis, ObjectOutputStream dos)
+    public ClientHandler(Socket s, ObjectInputStream dis, ObjectOutputStream dos, GameServer gameServer)
     {
         this.s = s;
         this.dis = dis;
         this.dos = dos;
         this.sessionKey = Optional.empty();
+        this.gameServer = gameServer;
     }
 
     @Override
     public void run() {
 
+        Sendable sendable;
+        while (true)
+        {
+            try {
+                // Retrieve new incoming sendable object
+                sendable = (Sendable) dis.readObject();
+
+                // First check for connection close
+                if(sendable.getFunction().equals("close_connection")){
+                    System.out.println("Closing this connection.");
+                    this.s.close();
+                    System.out.println("Connection closed");
+                    break;
+                }
+
+                // Next check for session
+                if(!this.sessionKey.isPresent()){
+                    // Assume this message is the session key
+
+                }
+
+                // If not, pass to factory
+                // TODO implement factory
+                Factory.create(this, sendable);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }  catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
 
 
         try{
@@ -48,4 +77,21 @@ public class ClientHandler extends Thread{
             e.printStackTrace();
         }
     }
+
+    public boolean isOwner(){
+        return this.gameServer.sessionOwner().equals(this.sessionKey.get());
+    }
+
+    public GameServer server(){
+        return this.gameServer;
+    }
+
+    public Game model(){
+        return this.gameServer.getModel();
+    }
+
+    public boolean registered(){
+        return this.sessionKey.isPresent();
+    }
+
 }

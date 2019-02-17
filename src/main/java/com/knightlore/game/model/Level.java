@@ -18,5 +18,20 @@ public class Level {
     int duration;
 
     public Level(){
+        this.enemies = new ArrayList<>();
+        this.players = new ArrayList<>();
     }
+
+    public void addEnemy(Enemies enemy){
+        this.enemies.add(enemy);
+    }
+
+    public Map getMap() {
+        return map;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
+    }
+
 }

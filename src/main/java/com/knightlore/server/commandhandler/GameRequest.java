@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class GameRequest extends Command{
     SessionGenerator apikey = new SessionGenerator();
@@ -33,14 +34,22 @@ public class GameRequest extends Command{
         if(handler.sessionKey.isPresent()){
             String sessionKey = handler.sessionKey.get();
 
+            // Find session id
+            SessionToken token = new SessionToken();
+            token.where(new Condition("token", "=", handler.sessionKey.get()));
+            Optional<Model> sessionToken = token.first();
+
+            // Assume session token exists
+            int sessionID = (int) sessionToken.get().getAttribute("id");
+
             // Generate port and UUID
             int port = GameRepository.instance.getNewPort();
             UUID uuid = UUID.randomUUID();
 
-            // Create new game
-            GameRepository.instance.newServer(uuid, port);
+            // Create new game server
+            GameRepository.instance.newServer(uuid, port, handler.sessionKey.get());
 
-            // Start Server
+            // Start server
             GameRepository.instance.startServer(uuid);
 
             // Finally make db
@@ -52,21 +61,32 @@ public class GameRequest extends Command{
 
             Game game = new Game();
             game.setAttribute("uuid", uuid.toString());
-            game.setAttribute("session_id", handler.sessionKey);
+            game.setAttribute("session_id", sessionID);
             game.setAttribute("created_at", currentTimestamp);
             game.setAttribute("started_at", currentTimestamp);
             game.setAttribute("ends_at", currentTimestamp);
             game.setAttribute("ip", ip);
             game.setAttribute("port", port);
+            game.save();
 
+            // Build response
             try{
                 gameRequestResponse = new GameRequestResponse(uuid, InetAddress.getByName(ip), port);
                 response.setData(gson.toJson(gameRequestResponse));
+                response.success = true;
             }catch(UnknownHostException e){
                 System.out.println("Unknown host " + ip + " Specified as regserver in config");
             }
 
             System.out.println("Starting game server (" + uuid.toString() + ") IP: " + ip + " Port:" + port);
+
+            // Finally wait until server ready
+            try{
+                TimeUnit.SECONDS.sleep(5);
+            }catch (InterruptedException e){
+                // Shouldn't be interrupted
+            }
+
 
         }else{
             response.success = false;
@@ -74,10 +94,10 @@ public class GameRequest extends Command{
         }
 
 
-//        try{
-//            handler.dos.writeObject(response);
-//        }catch (IOException e){
-//            e.printStackTrace();
-//        }
+        try{
+            handler.dos.writeObject(response);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 }

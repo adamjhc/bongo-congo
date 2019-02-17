@@ -1,6 +1,6 @@
 package com.knightlore.server;
 
-import com.knightlore.client.networking.backend.ResponseHandlers.SessionKey;
+import com.knightlore.client.networking.backend.responsehandlers.server.SessionKey;
 import com.knightlore.networking.Sendable;
 import com.knightlore.server.commandhandler.Factory;
 import com.knightlore.server.database.Authenticate;
@@ -38,7 +38,7 @@ public class ClientHandler extends Thread
     {
         Sendable sendable;
 
-        // Continuously get clients
+        // Continuously wait for messages
         while (true)
         {
             try {

@@ -1,5 +1,6 @@
 package com.knightlore.server.game;
 
+import com.knightlore.game.model.Game;
 import com.knightlore.game.server.GameServer;
 
 import java.util.HashMap;
@@ -17,8 +18,29 @@ public class GameRepository {
         servers = new HashMap<>();
     }
 
-    public void newServer(UUID uuid, int port){
-        GameServer server = new GameServer(uuid, port);
+
+    /**
+     * Create new game server instance with default game model
+     * Store in repository
+     * @param uuid
+     * @param port
+     * @param sessionOwner
+     */
+    public void newServer(UUID uuid, int port, String sessionOwner){
+        Game game = Generator.makeDefault(uuid);
+        this.newServer(uuid, port, sessionOwner, game);
+    }
+
+    /**
+     * Create new game server instance with predefined model
+     * Store in repository
+     * @param uuid
+     * @param port
+     * @param sessionOwner
+     * @param game
+     */
+    public void newServer(UUID uuid, int port, String sessionOwner, Game game){
+        GameServer server = new GameServer(uuid, port, sessionOwner, game);
         servers.put(uuid, server);
     }
 

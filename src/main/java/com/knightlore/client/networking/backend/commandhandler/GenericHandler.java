@@ -1,7 +1,6 @@
-package com.knightlore.client.networking.backend.ResponseHandlers;
+package com.knightlore.client.networking.backend.commandhandler;
 
 import com.knightlore.networking.Sendable;
-import org.json.JSONObject;
 
 public interface GenericHandler {
 

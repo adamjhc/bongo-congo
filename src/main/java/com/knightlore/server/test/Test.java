@@ -4,8 +4,11 @@ import com.google.gson.Gson;
 import com.knightlore.server.database.Connection;
 import com.knightlore.server.database.model.*;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collector;
 
 public class Test {
 
@@ -13,14 +16,20 @@ public class Test {
 
     public static void main(String[] args){
 
-        Connection.connect();
+        ArrayList<Integer> e = new ArrayList<>();
+        e.add(1);
+        e.add(2);
+        e.add(3);
 
 
-        RegistrationKey token = new RegistrationKey();
-        token.where(new Condition("description", "=", "yeet"));
-        Optional<Model> mine = token.first();
-
-        System.out.println(mine.get().getAttribute("key"));
+//        Connection.connect();
+//
+//
+//        RegistrationKey token = new RegistrationKey();
+//        token.where(new Condition("description", "=", "yeet"));
+//        Optional<Model> mine = token.first();
+//
+//        System.out.println(mine.get().getAttribute("key"));
 
 //        ApiKey key = new ApiKey("mykey");
 //

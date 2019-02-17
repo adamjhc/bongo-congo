@@ -21,16 +21,17 @@ public class ClientReceiver extends Thread{
 
         while (true) {
             try {
-                System.out.println("WAIT");
                 received = (Sendable) dis.readObject();
                 System.out.println(received.getFunction());
 
-
-                if(received.hasUUID()){
+                if(received.hasUUID() && ResponseHandler.isWaiting(received.getUuid())){
                     // Request is a command response, pass to handler
                     System.out.println("UUID " + received.getUuid());
                     ResponseHandler.handle(received.getUuid(), received);
                 }
+
+                // Pass to handlers
+
 
 
                 System.out.println("CLIENT RECEIVED: " + received);

@@ -1,16 +1,18 @@
-package com.knightlore.client.networking.backend.ResponseHandlers;
+package com.knightlore.client.networking.backend.responsehandlers.server;
 
-import com.google.gson.Gson;
 import com.knightlore.client.networking.ServerConnection;
+import com.knightlore.client.networking.backend.responsehandlers.GenericHandler;
 import com.knightlore.networking.Sendable;
 import com.knightlore.networking.SessionKeyResponse;
+import com.google.gson.Gson;
 
-public class GameRequest implements GenericHandler{
+public class SessionKey implements GenericHandler {
+
 
     Gson gson = new Gson();
 
     public void run(Sendable response){
-        System.out.println("Game Request response received");
+        System.out.println("Session key received");
         SessionKeyResponse data = gson.fromJson(response.getData(), SessionKeyResponse.class);
 
 

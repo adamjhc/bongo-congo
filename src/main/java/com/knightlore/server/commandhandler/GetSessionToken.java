@@ -1,6 +1,5 @@
 package com.knightlore.server.commandhandler;
 
-import com.knightlore.client.networking.backend.ResponseHandlers.SessionKey;
 import com.knightlore.networking.ApiKey;
 import com.knightlore.networking.Sendable;
 import com.knightlore.networking.SessionKeyResponse;
@@ -12,10 +11,8 @@ import com.knightlore.server.database.model.RegistrationKey;
 import com.knightlore.server.database.model.SessionToken;
 
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Optional;
 
 public class GetSessionToken extends Command{

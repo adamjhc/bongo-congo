@@ -52,19 +52,19 @@ public class Client {
     timer = new Timer();
 
     audio = new AudioHandler();
-    audio.toggle();
 
     window.init();
     timer.init();
     mouseInput.init(window);
 
-    
     hudRenderer = new HUDRenderer();
     hudRenderer.init(window);
     hud = new Hud(window);
     
     renderer = new Renderer(window);
     gameModel = new Game();
+    
+    audio.toggle();
   }
 
   private void loop() {

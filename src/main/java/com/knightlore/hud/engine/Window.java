@@ -96,12 +96,16 @@ public class Window {
         glClearColor(r, g, b, alpha);
     }
     
-    public boolean isKeyPressed(int keyCode) {
+    public boolean isKeyReleased(int keyCode) {
     	if (keyCode == this.keyCode) {
     		this.keyCode = -1;
     		return true;
     	}
     	return false;
+    }
+    
+    public boolean isKeyPressed(int keyCode) {
+        return glfwGetKey(windowHandle, keyCode) == GLFW_PRESS;
     }
 
     public boolean windowShouldClose() {

@@ -28,12 +28,15 @@ public class GameLogic implements IGameLogic {
 
     @Override
     public void input(Window window, MouseInput mouseInput) {
-        if (window.isKeyPressed(GLFW_KEY_L)) {
+        if (window.isKeyReleased(GLFW_KEY_L)) {
         	hud.setP1Lives();
         }
         
-        if (window.isKeyPressed(GLFW_KEY_P)) {
+        if (window.isKeyReleased(GLFW_KEY_P)) {
         	hud.setP1Score();
+        }
+        if (window.isKeyPressed(GLFW_KEY_W)) {
+        	System.out.println("W pressed");
         }
         
     	if (mouseInput.getXPos() < 65 && mouseInput.getYPos() > window.getHeight()-25) {

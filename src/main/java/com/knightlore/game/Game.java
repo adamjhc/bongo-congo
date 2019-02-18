@@ -2,25 +2,20 @@ package com.knightlore.game;
 
 import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.Player;
+import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.Map;
 import com.knightlore.game.map.MapSet;
 import com.knightlore.game.map.TileSet;
-import com.knightlore.game.util.CoordinateUtils;
-
-import org.joml.Vector3f;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-
-
-
+import org.joml.Vector3f;
 
 public class Game {
 
-  HashMap<String, Level> levels;
-  String currentLevel;
-  TileSet tileSet;
-  MapSet mapSet;
+  private HashMap<String, Level> levels;
+  private String currentLevel;
+  private TileSet tileSet;
+  private MapSet mapSet;
 
   public Game() {
     tileSet = new TileSet();
@@ -38,41 +33,16 @@ public class Game {
 
   public void movePlayerInDirection(Direction direction, float delta) {
     Player player = getCurrentLevel().getPlayers().get(0);
-    float speed = 0.1f;
-    float speedEq = speed * 0.7f;
 
     player.setDirection(direction);
+    player.setPlayerState(PlayerState.MOVING);
+
+    int speed = 7;
     Vector3f origPos = player.getPosition();
-    Vector3f newPos = new Vector3f(origPos);
-
-    switch (direction) {
-      case NORTH_EAST:
-        newPos.set(newPos.x + speed, newPos.y + speed, newPos.z);
-        break;
-      case EAST:
-        newPos.set(newPos.x + speed ,newPos.y, newPos.z );
-        break;
-      case SOUTH_EAST:
-        newPos.set(newPos.x - speedEq,newPos.y + speedEq, newPos.z);
-        break;
-      case SOUTH:
-        newPos.set(newPos.x,newPos.y - speed, newPos.z );
-        break;
-      case SOUTH_WEST:
-        newPos.set(newPos.x - speed,newPos.y - speed, newPos.z);
-        break;
-      case WEST:
-        newPos.set(newPos.x - speed, newPos.y, newPos.z );
-        break;
-      case NORTH_WEST:
-        newPos.set(newPos.x + speedEq,newPos.y - speedEq, newPos.z);
-        break;
-      case NORTH:
-        newPos.set(newPos.x,newPos.y + speed, newPos.z );
-        break;
-    }
+    Vector3f newPos = new Vector3f();
+    direction.getNormalisedDirection().mul(delta, newPos).mul(speed, newPos);
+    origPos.add(newPos, newPos);
     player.update(origPos, newPos, getCurrentLevel().getMap());
-
   }
 
   private void createNewLevel(String uuid, Map map) {
@@ -86,4 +56,7 @@ public class Game {
     }
   }
 
+  public void updatePlayerState(PlayerState state) {
+    getCurrentLevel().getPlayers().get(0).setPlayerState(state);
+  }
 }

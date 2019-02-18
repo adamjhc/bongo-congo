@@ -3,6 +3,7 @@ package com.knightlore.client.io;
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.GLFW_FALSE;
 import static org.lwjgl.glfw.GLFW.GLFW_RESIZABLE;
+import static org.lwjgl.glfw.GLFW.GLFW_SAMPLES;
 import static org.lwjgl.glfw.GLFW.GLFW_STICKY_KEYS;
 import static org.lwjgl.glfw.GLFW.GLFW_STICKY_MOUSE_BUTTONS;
 import static org.lwjgl.glfw.GLFW.GLFW_TRUE;
@@ -44,6 +45,7 @@ public class Window {
     glfwDefaultWindowHints();
     glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+    glfwWindowHint(GLFW_SAMPLES, 4);
 
     setSize(1280, 720);
     setFullscreen(false);

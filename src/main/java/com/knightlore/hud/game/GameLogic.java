@@ -35,9 +35,6 @@ public class GameLogic implements IGameLogic {
         if (window.isKeyReleased(GLFW_KEY_P)) {
         	hud.setP1Score();
         }
-        if (window.isKeyPressed(GLFW_KEY_W)) {
-        	System.out.println("W pressed");
-        }
         
     	if (mouseInput.getXPos() < 65 && mouseInput.getYPos() > window.getHeight()-25) {
     		hud.setExit();
@@ -71,7 +68,7 @@ public class GameLogic implements IGameLogic {
     }
 
     @Override
-    public void update(float interval, float elapsedTime) {
+    public void update(float elapsedTime) {
         hud.setCounter("Time: "+Integer.toString(90 - Math.round(elapsedTime)));
     }
 

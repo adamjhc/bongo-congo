@@ -13,6 +13,8 @@ public abstract class Entity {
     direction = Direction.SOUTH;
   }
 
+  abstract void update();
+
   public Vector3f getPosition() {
     return position;
   }
@@ -32,4 +34,5 @@ public abstract class Entity {
   public void setDirection(Direction direction) {
     this.direction = direction;
   }
+
 }

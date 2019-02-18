@@ -10,10 +10,10 @@ public class Timer {
         startTime = getTime();
     }
     
-    public float getFullTime() {
+    public float getGameTime() {
     	double time = getTime();
-    	float fullTime = (float) (time - startTime);
-    	return fullTime;
+    	float gameTime = (float) (time - startTime);
+    	return gameTime;
     }
 
     public double getTime() {

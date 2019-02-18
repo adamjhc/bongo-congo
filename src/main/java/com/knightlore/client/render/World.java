@@ -6,15 +6,13 @@ import org.joml.Vector3f;
 public class World {
 
   /** Scale of the world */
-  private int scale;
+  public static int scale = 48;
 
   /** Projection of the world */
   private Matrix4f projection;
 
   /** Initialise the render world */
   public World() {
-    this.scale = 48;
-
     projection = new Matrix4f().setTranslation(new Vector3f(0));
     projection.scale(scale);
   }

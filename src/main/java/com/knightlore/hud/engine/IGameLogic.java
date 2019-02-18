@@ -9,7 +9,7 @@ public interface IGameLogic {
     
     void input(Window window, MouseInput mouseInput);
 
-    void update(float interval, float elapsedTime);
+    void update(float elapsedTime);
     
     void render(Window window, Renderer renderer, Game gameModel);
     

@@ -113,8 +113,10 @@ public class Hud implements IHud {
         this.bongo.setPosition(window.getWidth()/2-360, window.getHeight()/2-200, 0);
         this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-200, 0);
 
+        //gameItems = new GameItem[]{player1Score, player2Score, counter, player1Lives,
+        //		player2Lives, exit, singleplayer, multiplayer, bongo, congo, soundOn};
         gameItems = new GameItem[]{player1Score, player2Score, counter, player1Lives,
-        		player2Lives, exit, singleplayer, multiplayer, bongo, congo, soundOn};
+        		player2Lives, exit, soundOn};
     }
 
     public void setP1Score(String statusText) {
@@ -155,7 +157,7 @@ public class Hud implements IHud {
     }
     
     public void setSoundOff() {
-    	if (gameItems.length == 11) {
+    	if (gameItems.length == 7) {
 	    	GameItem[] gameItemsNew = new GameItem[gameItems.length +1];
 	    	for (int i = 0; i < gameItems.length; i++) {
 	    		gameItemsNew[i] = gameItems[i];
@@ -163,7 +165,7 @@ public class Hud implements IHud {
 	    	gameItemsNew[gameItems.length] = soundOff;
 	    	gameItems = gameItemsNew.clone();
     	}
-    	else if (gameItems.length == 12) {
+    	else if (gameItems.length == 8) {
 	    	GameItem[] gameItemsNew = new GameItem[gameItems.length -1];
 	    	for (int i = 0, k = 0; i < gameItems.length; i++) {
 	    		if (i == gameItems.length-1) {

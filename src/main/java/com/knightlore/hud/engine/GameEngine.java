@@ -48,13 +48,13 @@ public class GameEngine {
 
     protected void gameLoop() {
         float elapsedTime;
-        float fullTime;
+        float gameTime;
         float accumulator = 0f;
         float interval = 1f / TARGET_UPS;
 
         while (!window.windowShouldClose()) {
             elapsedTime = timer.getElapsedTime();
-            fullTime = timer.getFullTime();
+            gameTime = timer.getGameTime();
             accumulator += elapsedTime;
             
             
@@ -64,7 +64,7 @@ public class GameEngine {
             	
             	input();
             	
-                update(interval, fullTime);
+                update(gameTime);
                 gameModel.update(interval);
                 
             }
@@ -82,8 +82,8 @@ public class GameEngine {
         gameLogic.input(window, mouseInput);
     }
 
-    protected void update(float interval, float elapsedTime) {
-        gameLogic.update(interval, elapsedTime);
+    protected void update(float elapsedTime) {
+        gameLogic.update(elapsedTime);
     }
 
     protected void render(Renderer renderer, Game gameModel) {

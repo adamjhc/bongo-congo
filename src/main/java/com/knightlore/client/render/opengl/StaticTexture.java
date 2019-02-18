@@ -18,7 +18,7 @@ import com.knightlore.client.util.FileUtils;
 import java.nio.ByteBuffer;
 import org.lwjgl.BufferUtils;
 
-public class StaticTexture extends Texture{
+public class StaticTexture extends Texture {
 
   /** Path to the textures directory */
   private static final String texturePathPrefix = "./src/main/resources/textures/";

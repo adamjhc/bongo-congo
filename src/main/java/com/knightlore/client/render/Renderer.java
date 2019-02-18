@@ -4,7 +4,6 @@ import static org.lwjgl.opengl.GL.createCapabilities;
 import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_MULT;
 import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
@@ -86,7 +85,7 @@ public class Renderer {
         camera.getProjection());
 
     for (Player player : gameModel.getCurrentLevel().getPlayers()) {
-      playerRenderer.render(player, shaderProgram, world.getProjection(), camera.getProjection());
+      playerRenderer.render(player, shaderProgram, camera.getProjection());
     }
 
     swapBuffers();

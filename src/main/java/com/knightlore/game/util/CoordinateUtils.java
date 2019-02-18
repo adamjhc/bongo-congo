@@ -6,7 +6,7 @@ import org.joml.Vector3i;
 
 public class CoordinateUtils {
 
-  public static Vector3f toCartesian(float x, float y) {
+  public static Vector3f toIsometric(float x, float y) {
     return new Vector3f(
         (x * TileGameObject.tileWidth / 2) - (y * TileGameObject.tileWidth / 2),
         (y * TileGameObject.tileHeight / 2) + (x * TileGameObject.tileHeight / 2),
@@ -23,11 +23,6 @@ public class CoordinateUtils {
   }
 
   public static Vector3i getTileCoord(Vector3f coord) {
-    return new Vector3i(
-            ((int) Math.floor(coord.x)),
-            ((int) Math.floor(coord.y)),
-            ((int) coord.z)
-    );
+    return new Vector3i(((int) Math.floor(coord.x)), ((int) Math.floor(coord.y)), ((int) coord.z));
   }
-
 }

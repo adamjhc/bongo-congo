@@ -16,16 +16,25 @@ import com.knightlore.hud.game.Hud;
 
 
 public class Client {
+	
+  public static final int TARGET_UPS = 60;
 
   private Window window;
+  
   private Renderer renderer;
+  
   private Game gameModel;
+  
   private AudioHandler audio;
+  
   private MouseInput mouseInput;
+  
   private Timer timer;
-  public static final int TARGET_UPS = 60;
+  
   private HUDRenderer hudRenderer;
+  
   private Hud hud;
+  
   //  private PlayerRenderer player;
 
   public static void main(String[] args) {
@@ -39,7 +48,7 @@ public class Client {
 	} catch (Exception e) {
 		e.printStackTrace();
 	} finally {
-    dispose();
+		dispose();
 	}
   }
 
@@ -50,7 +59,6 @@ public class Client {
     mouseInput = new MouseInput();
     
     timer = new Timer();
-
     audio = new AudioHandler();
 
     window.init();
@@ -59,6 +67,7 @@ public class Client {
 
     hudRenderer = new HUDRenderer();
     hudRenderer.init(window);
+    
     hud = new Hud(window);
     
     renderer = new Renderer(window);
@@ -84,10 +93,11 @@ public class Client {
         	input(accumulator);
         	
             update(accumulator, gameTime);
-              
+        
         }
         
         render(renderer, gameModel);
+        
       }
   }
 
@@ -200,6 +210,12 @@ public class Client {
   }
   
   private void dispose() {
+	hud.cleanup();
+	hudRenderer.cleanup();
+	
+	window.freeCallbacks();
+	window.destroyWindow();
+	
     glfwTerminate();
   }
 }

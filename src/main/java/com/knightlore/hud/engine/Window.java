@@ -75,27 +75,12 @@ public class Window {
         glfwShowWindow(windowHandle);
 
         GL.createCapabilities();
-
-        /*
-        // Set the clear colour
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        glEnable(GL_DEPTH_TEST);
-        //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-        
-        // Support for transparencies
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        */
     }
 
     public long getWindowHandle() {
         return windowHandle;
     }
 
-    public void setClearColor(float r, float g, float b, float alpha) {
-        glClearColor(r, g, b, alpha);
-    }
-    
     public boolean isKeyReleased(int keyCode) {
     	if (keyCode == this.keyCode) {
     		this.keyCode = -1;
@@ -131,4 +116,15 @@ public class Window {
     public void update() {
         glfwPollEvents();
     }
+    
+    public void freeCallbacks() {
+        //glfwFreeCallbacks(windowHandle);
+        glfwSetErrorCallback(null).free();
+    }
+    
+    public void destroyWindow() {
+        glfwDestroyWindow(windowHandle);
+      }
+
+
 }

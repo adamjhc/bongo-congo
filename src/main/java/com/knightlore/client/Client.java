@@ -177,16 +177,16 @@ public class Client {
 	mouseInput.getYPos() > window.getHeight()/2+90 && mouseInput.getYPos() < window.getHeight()/2+115) {
 		hud.setSingleplayer();
 		if (mouseInput.isLeftButtonPressed()) {
-			System.out.println("Singleplayer button pressed");
+			//System.out.println("Singleplayer button pressed");
 			//hud.deleteGameItem();
 		}
 	} else hud.setRestoreSingleplayer();
 	
 	if (mouseInput.isLeftButtonPressed()) {
-		System.out.println(mouseInput.getXPos()+" "+mouseInput.getYPos());
+		//System.out.println(mouseInput.getXPos()+" "+mouseInput.getYPos());
 	}
 	if (mouseInput.isRightButtonPressed()) {
-		System.out.println(mouseInput.getXPos()+" "+mouseInput.getYPos());
+		//System.out.println(mouseInput.getXPos()+" "+mouseInput.getYPos());
 	}
   }
   

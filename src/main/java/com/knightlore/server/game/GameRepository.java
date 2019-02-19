@@ -1,8 +1,7 @@
 package com.knightlore.server.game;
 
-import com.knightlore.game.model.Game;
+import com.knightlore.game.Game;
 import com.knightlore.game.server.GameServer;
-import com.knightlore.server.commandhandler.GameRequest;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;

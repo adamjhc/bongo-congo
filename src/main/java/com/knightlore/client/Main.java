@@ -5,7 +5,7 @@ import com.knightlore.client.exceptions.ClientAlreadyAuthenticatedException;
 import com.knightlore.client.exceptions.ConfigItemNotFoundException;
 import com.knightlore.client.networking.ServerConnection;
 import com.knightlore.client.networking.backend.Client;
-import com.knightlore.game.model.Game;
+import com.knightlore.game.Game;
 import com.knightlore.util.Config;
 
 import java.io.IOException;

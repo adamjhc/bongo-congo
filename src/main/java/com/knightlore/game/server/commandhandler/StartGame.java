@@ -1,17 +1,9 @@
 package com.knightlore.game.server.commandhandler;
 
-import com.knightlore.game.model.GameState;
 import com.knightlore.game.server.ClientHandler;
-import com.knightlore.game.server.GameServer;
 import com.knightlore.networking.ApiKey;
 import com.knightlore.networking.Sendable;
 import com.knightlore.networking.SessionKeyResponse;
-import org.lwjgl.system.CallbackI;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Optional;
 
 public class StartGame extends Command {
 

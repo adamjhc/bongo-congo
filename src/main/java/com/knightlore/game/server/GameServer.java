@@ -1,13 +1,10 @@
 package com.knightlore.game.server;
 
 import com.google.gson.Gson;
-import com.knightlore.client.networking.backend.Client;
-import com.knightlore.game.model.Game;
-import com.knightlore.game.model.GameState;
-import com.knightlore.game.server.commandhandler.StartGame;
+import com.knightlore.game.Game;
+import com.knightlore.game.GameState;
 import com.knightlore.networking.GameStart;
 import com.knightlore.networking.Sendable;
-import com.knightlore.networking.SetLevel;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -15,7 +12,6 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.UUID;
 
 public class GameServer extends Thread {

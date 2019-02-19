@@ -1,4 +1,4 @@
-package com.knightlore.game.model.math;
+package com.knightlore.game.math;
 
 import java.util.Arrays;
 import java.util.Collection;

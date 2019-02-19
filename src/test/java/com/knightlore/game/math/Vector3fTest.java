@@ -1,4 +1,4 @@
-package com.knightlore.game.model.math;
+package com.knightlore.game.math;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;

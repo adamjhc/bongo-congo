@@ -1,10 +1,10 @@
 package com.knightlore.server.game;
 
-import com.knightlore.game.model.Game;
-import com.knightlore.game.model.Level;
-import com.knightlore.game.model.entity.Enemies;
-import com.knightlore.game.model.map.Map;
-import com.knightlore.game.model.math.Vector3f;
+import com.knightlore.game.Game;
+import com.knightlore.game.Level;
+import com.knightlore.game.entity.Enemies;
+import com.knightlore.game.map.Map;
+import com.knightlore.game.math.Vector3f;
 
 import java.util.UUID;
 

@@ -1,4 +1,4 @@
-package com.knightlore.game.model;
+package com.knightlore.game;
 
 public enum GameState {
     LOBBY, PLAYING

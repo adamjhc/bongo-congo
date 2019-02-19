@@ -1,10 +1,8 @@
 package com.knightlore.game.server;
 
-import com.google.gson.Gson;
-import com.knightlore.game.model.Game;
+import com.knightlore.game.Game;
 import com.knightlore.networking.Sendable;
 import com.knightlore.game.server.commandhandler.Factory;
-import com.knightlore.networking.SetLevel;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

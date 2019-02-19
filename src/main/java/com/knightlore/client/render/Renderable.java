@@ -1,7 +1,7 @@
 package com.knightlore.client.render;
 
-import com.knightlore.game.model.math.Matrix4f;
-import com.knightlore.game.model.math.Vector3f;
+import com.knightlore.game.math.Matrix4f;
+import com.knightlore.game.math.Vector3f;
 
 public abstract class Renderable {
 

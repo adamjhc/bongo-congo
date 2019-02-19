@@ -1,4 +1,4 @@
-package com.knightlore.game.model.map;
+package com.knightlore.game.map;
 
 public class TileProperty {
 

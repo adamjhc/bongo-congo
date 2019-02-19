@@ -1,8 +1,6 @@
-package com.knightlore.game.model;
+package com.knightlore.game;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
 
 public class Game {
 

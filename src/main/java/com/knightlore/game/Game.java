@@ -59,7 +59,7 @@ public class Game {
 
     player.setDirection(direction);
     player.setPlayerState(PlayerState.MOVING);
-
+    
     int speed = 7;
     Vector3f origPos = player.getPosition();
     Vector3f newPos = new Vector3f();
@@ -78,7 +78,7 @@ public class Game {
       currentLevelIndex = 0;
     }
   }
-
+  
   public void updatePlayerState(PlayerState state) {
     getCurrentLevel().getPlayers().get(0).setPlayerState(state);
   }

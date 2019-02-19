@@ -12,12 +12,20 @@ import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL13.GL_MULTISAMPLE;
 
-import com.knightlore.client.io.Window;
+import com.knightlore.hud.engine.Window;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.world.PlayerSet;
 import com.knightlore.client.render.world.TileSet;
 import com.knightlore.game.Game;
 import com.knightlore.game.entity.Player;
+import com.knightlore.hud.engine.GameItem;
+import com.knightlore.hud.engine.IHud;
+import com.knightlore.hud.engine.Utils;
+import com.knightlore.hud.engine.graphics.HUDShaderProgram;
+import com.knightlore.hud.engine.graphics.Mesh;
+import com.knightlore.hud.engine.graphics.Transformation;
+
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 public class Renderer {
@@ -42,6 +50,10 @@ public class Renderer {
 
   /** Renderer used for the players */
   private PlayerRenderer playerRenderer;
+  
+  private final Transformation transformation;
+  
+  private HUDShaderProgram hudShaderProgram;
 
   /**
    * Initialise the renderer
@@ -65,6 +77,29 @@ public class Renderer {
     mapRenderer = new MapRenderer(new TileSet());
     playerSet = new PlayerSet();
     playerRenderer = new PlayerRenderer(playerSet);
+    
+    transformation = new Transformation();
+    
+    setupHudShader();
+  }
+  
+  private void setupHudShader() {
+      hudShaderProgram = new HUDShaderProgram();
+      try {
+		hudShaderProgram.createVertexShader(Utils.loadResource("/shaders/hud_vertex.vs"));
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+      try {
+		hudShaderProgram.createFragmentShader(Utils.loadResource("/shaders/hud_fragment.fs"));
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+      hudShaderProgram.link();
+
+      hudShaderProgram.createUniform("projModelMatrix");
+      hudShaderProgram.createUniform("colour");
+      hudShaderProgram.createUniform("hasTexture");
   }
 
   /**
@@ -72,23 +107,47 @@ public class Renderer {
    *
    * @param gameModel Game model to render
    */
-  public void render(Game gameModel) {
+  public void render(Game gameModel, Window window, IHud hud) {
     clearBuffers();
 
-    camera.setPosition(
-        playerSet.getPlayer(0).getTransform().getPosition().mul(-world.getScale(), new Vector3f()));
-
-    mapRenderer.render(
-        gameModel.getCurrentLevel().getMap(),
-        shaderProgram,
-        world.getProjection(),
-        camera.getProjection());
-
-    for (Player player : gameModel.getCurrentLevel().getPlayers()) {
-      playerRenderer.render(player, shaderProgram, camera.getProjection());
-    }
+    renderGame(gameModel);
+    
+    renderHud(window, hud);
 
     swapBuffers();
+  }
+  
+  private void renderGame(Game gameModel) {
+	    camera.setPosition(
+	            playerSet.getPlayer(0).getTransform().getPosition().mul(-world.getScale(), new Vector3f()));
+
+	        mapRenderer.render(
+	            gameModel.getCurrentLevel().getMap(),
+	            shaderProgram,
+	            world.getProjection(),
+	            camera.getProjection());
+
+	        for (Player player : gameModel.getCurrentLevel().getPlayers()) {
+	        	playerRenderer.render(player, shaderProgram, camera.getProjection());
+	        }
+  }
+  
+  private void renderHud(Window window, IHud hud) {
+      hudShaderProgram.bind();
+
+      Matrix4f ortho = transformation.getOrthoProjectionMatrix(0, window.getWidth(), window.getHeight(), 0);
+      for (GameItem gameItem : hud.getGameItems()) {
+          Mesh mesh = gameItem.getMesh();
+
+          Matrix4f projModelMatrix = transformation.getOrtoProjModelMatrix(gameItem, ortho);
+          hudShaderProgram.setUniform("projModelMatrix", projModelMatrix);
+          hudShaderProgram.setUniform("colour", gameItem.getMesh().getMaterial().getColour());
+          hudShaderProgram.setUniform("hasTexture", gameItem.getMesh().getMaterial().isTextured() ? 1 : 0);
+
+          mesh.render();
+      }
+
+      hudShaderProgram.unbind();
   }
 
   /** Clears the colour and depth buffers */
@@ -100,4 +159,11 @@ public class Renderer {
   private void swapBuffers() {
     window.swapBuffers();
   }
+  
+  public void cleanup() {
+      if (hudShaderProgram != null) {
+          hudShaderProgram.cleanup();
+      }
+  }
 }
+

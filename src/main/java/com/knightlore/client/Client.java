@@ -69,21 +69,21 @@ public class Client {
 
   private void loop() {
       float elapsedTime;
-      float delta = 0f;
+      float accumulator = 0f;
       float interval = 1f / TARGET_UPS;
 
     while (!window.windowShouldClose()) {
         elapsedTime = timer.getElapsedTime();
         
-        delta += elapsedTime;
+        accumulator += elapsedTime;
         
         input(interval);
         
-        while (delta >= interval) {
-        	delta -= interval;
+        while (accumulator >= interval) {
+        	update(interval);
         	
-            update(interval);
-        
+        	accumulator -= interval;
+
         }
         
         render(gameModel);

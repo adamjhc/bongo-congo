@@ -6,7 +6,9 @@ import com.knightlore.client.networking.backend.ResponseHandler;
 import com.knightlore.client.networking.backend.responsehandlers.game.GameRegister;
 import com.knightlore.client.networking.backend.responsehandlers.server.GameRequest;
 import com.knightlore.networking.ApiKey;
+import com.knightlore.networking.PositionUpdate;
 import com.knightlore.networking.Sendable;
+import org.joml.Vector3f;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -49,6 +51,27 @@ public class GameConnection {
         Gson gson = new Gson();
 
         com.knightlore.networking.GameRequest request = new com.knightlore.networking.GameRequest();
+        sendable.setData(gson.toJson(request));
+
+        // Specify handler
+        System.out.println("SENDING " + sendable.getData());
+
+        try{
+            client.dos.writeObject(sendable);
+        }catch(IOException e){
+            System.out.println(e);
+        }
+    }
+
+    public void updatePosition(Vector3f vector){
+        // Build up get session string
+        Sendable sendable = new Sendable();
+        sendable.setUuid();
+        sendable.setFunction("position_update");
+
+        Gson gson = new Gson();
+
+        PositionUpdate request = new com.knightlore.networking.PositionUpdate(vector);
         sendable.setData(gson.toJson(request));
 
         // Specify handler

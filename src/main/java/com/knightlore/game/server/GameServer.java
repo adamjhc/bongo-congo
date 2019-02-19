@@ -3,6 +3,8 @@ package com.knightlore.game.server;
 import com.google.gson.Gson;
 import com.knightlore.game.Game;
 import com.knightlore.game.GameState;
+import com.knightlore.game.map.MapSet;
+import com.knightlore.game.map.TileSet;
 import com.knightlore.networking.GameStart;
 import com.knightlore.networking.Sendable;
 
@@ -108,9 +110,23 @@ public class GameServer extends Thread {
         }
     }
 
+    public void sendToRegisteredExceptSelf(Sendable sendable, String ownSessionKey){
+        System.out.println("SENDING TO EXCEPT SELF");
+        try{
+            for(ClientHandler registered : this.registeredClients()){
+                if(!registered.sessionKey.get().equals(ownSessionKey)){
+                    registered.dos.writeObject(sendable);
+                }
+            }
+        }catch(IOException e){
+            System.out.println("FAILED TO SEND " + e);
+        }
+    }
+
     public void startGame(){
         // Update model
         this.model.setState(GameState.PLAYING);
+        this.model.createNewLevel(new MapSet(new TileSet()).getMap(0));
 
         // Send
         Gson gson = new Gson();

@@ -11,5 +11,10 @@ public class Factory {
             StartGame handler = new StartGame();
             handler.run(client, sendable);
         }
+
+        if(sendable.getFunction().equals("position_update")){
+            PositionUpdate handler = new PositionUpdate();
+            handler.run(client, sendable);
+        }
     }
 }

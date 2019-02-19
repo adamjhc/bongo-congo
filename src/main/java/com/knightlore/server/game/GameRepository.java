@@ -1,6 +1,8 @@
 package com.knightlore.server.game;
 
 import com.knightlore.game.Game;
+import com.knightlore.game.map.MapSet;
+import com.knightlore.game.map.TileSet;
 import com.knightlore.game.server.GameServer;
 import org.apache.log4j.Logger;
 
@@ -29,7 +31,7 @@ public class GameRepository {
      * @param sessionOwner
      */
     public void newServer(UUID uuid, int port, String sessionOwner){
-        Game game = Generator.makeDefault(uuid);
+        Game game = new Game("1", new MapSet(new TileSet()));
         this.newServer(uuid, port, sessionOwner, game);
     }
 

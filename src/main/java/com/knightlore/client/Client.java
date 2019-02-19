@@ -18,13 +18,16 @@ import com.knightlore.client.render.Renderer;
 import com.knightlore.game.Game;
 import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.PlayerState;
+import com.knightlore.game.map.MapSet;
+import com.knightlore.game.map.TileSet;
 
-public class Client {
+public class Client extends Thread{
 
   private Window window;
   private Renderer renderer;
   private Game gameModel;
   private AudioHandler audio;
+  public static Game model;
 
   public static void main(String[] args) {
     new Client().run();
@@ -48,7 +51,7 @@ public class Client {
     audio.toggle();
 
     renderer = new Renderer(window);
-    gameModel = new Game();
+    gameModel = model;
   }
 
   private void loop() {

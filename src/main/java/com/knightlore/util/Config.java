@@ -12,6 +12,13 @@ public class Config {
         return sessionKey;
     }
 
+    public static Optional<String> apiKey() {
+        Optional<String> apiKey = env.getVariable("api_key");
+
+        // Split on comma
+        return apiKey;
+    }
+
     public static Optional<String> authServerIp() {
         Optional<String> authServerIp = env.getVariable("auth_server_ip");
 

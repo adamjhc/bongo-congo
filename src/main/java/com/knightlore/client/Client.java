@@ -14,12 +14,16 @@ import com.knightlore.client.render.Renderer;
 import com.knightlore.game.Game;
 import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.PlayerState;
+import com.knightlore.game.map.MapSet;
+import com.knightlore.game.map.TileSet;
 import com.knightlore.hud.engine.MouseInput;
 import com.knightlore.hud.engine.Timer;
 import com.knightlore.hud.engine.Window;
 import com.knightlore.hud.game.Hud;
 
-public class Client {
+public class Client extends Thread {
+
+  public static Game model;
 
   private static final int TARGET_UPS = 60;
 
@@ -67,7 +71,13 @@ public class Client {
     hud = new Hud(window);
 
     renderer = new Renderer(window);
-    gameModel = new Game();
+    if (model == null) {
+      MapSet mapSet = new MapSet(new TileSet());
+      gameModel = new Game("", mapSet);
+      gameModel.createNewLevel(mapSet.getMap(0));
+    } else {
+      gameModel = model;
+    }
 
     audio.toggle();
   }

@@ -1,6 +1,5 @@
 package com.knightlore.server.database.model;
 
-import com.knightlore.server.util.ErrorHandler;
 
 import java.sql.*;
 import java.util.ArrayList;

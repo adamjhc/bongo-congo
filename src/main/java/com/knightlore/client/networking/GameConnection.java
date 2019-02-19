@@ -3,6 +3,8 @@ package com.knightlore.client.networking;
 import com.google.gson.Gson;
 import com.knightlore.client.networking.backend.Client;
 import com.knightlore.client.networking.backend.ResponseHandler;
+import com.knightlore.client.networking.backend.responsehandlers.game.GameRegister;
+import com.knightlore.client.networking.backend.responsehandlers.server.GameRequest;
 import com.knightlore.networking.ApiKey;
 import com.knightlore.networking.Sendable;
 
@@ -72,6 +74,8 @@ public class GameConnection {
 
         // Specify handler
         System.out.println("SENDING " + sendable.getData());
+        ResponseHandler.waiting.put(sendable.getUuid(), new GameRegister());
+
 
         try{
             client.dos.writeObject(sendable);

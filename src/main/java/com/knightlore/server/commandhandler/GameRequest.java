@@ -9,6 +9,7 @@ import com.knightlore.server.database.SessionGenerator;
 import com.knightlore.server.database.model.*;
 import com.knightlore.server.game.GameRepository;
 import com.knightlore.util.Config;
+import org.apache.log4j.Logger;
 import sun.security.x509.IPAddressName;
 
 import java.io.IOException;
@@ -18,10 +19,11 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class GameRequest extends Command{
-    SessionGenerator apikey = new SessionGenerator();
+
+    final static Logger logger = Logger.getLogger(GameRequest.class);
 
     public void run(ClientHandler handler, Sendable sendable) {
-        System.out.println("Game request made");
+        logger.info("Game request made");
 
         // Create json data
         String json = sendable.getData();
@@ -30,7 +32,6 @@ public class GameRequest extends Command{
         Sendable response = sendable.makeResponse();
         GameRequestResponse gameRequestResponse;
 
-        System.out.println("KEY" + handler.sessionKey.isPresent());
         if(handler.sessionKey.isPresent()){
             String sessionKey = handler.sessionKey.get();
 
@@ -74,23 +75,21 @@ public class GameRequest extends Command{
                 gameRequestResponse = new GameRequestResponse(uuid, InetAddress.getByName(ip), port);
                 response.setData(gson.toJson(gameRequestResponse));
                 response.success = true;
+
             }catch(UnknownHostException e){
-                System.out.println("Unknown host " + ip + " Specified as regserver in config");
+                logger.warn("Unknown host " + ip + " Specified as regserver in config");
             }
 
-            System.out.println("Starting game server (" + uuid.toString() + ") IP: " + ip + " Port:" + port);
+            logger.info("Starting game server (" + uuid.toString() + ") IP: " + ip + " Port:" + port);
 
-            // Finally wait until server ready
+            // Finally wait until server ready (default 5 seconds)
             try{
                 TimeUnit.SECONDS.sleep(5);
             }catch (InterruptedException e){
                 // Shouldn't be interrupted
             }
-
-
         }else{
             response.success = false;
-
         }
 
 

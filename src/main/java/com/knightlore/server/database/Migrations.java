@@ -38,9 +38,4 @@ public class Migrations {
 
     }
 
-    public static void main(String[] args){
-        System.out.println(com.knightlore.server.database.Connection.connect());
-
-        migrate();
-    }
 }

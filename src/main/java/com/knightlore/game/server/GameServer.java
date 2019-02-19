@@ -102,6 +102,7 @@ public class GameServer extends Thread {
     }
 
     public void sendToRegistered(Sendable sendable){
+        System.out.println("SENDING TO ALL");
         try{
             for(ClientHandler registered : this.registeredClients()){
                 registered.dos.writeObject(sendable);
@@ -112,6 +113,10 @@ public class GameServer extends Thread {
     }
 
     public void startGame(){
+        // Update model
+        this.model.setState(GameState.PLAYING);
+
+        // Send
         Gson gson = new Gson();
         Sendable sendable = new Sendable();
         GameStart startGame = new GameStart();
@@ -133,4 +138,12 @@ public class GameServer extends Thread {
 //        // Send to registered clients
 //        sendToRegistered(sendable);
 //    }
+
+    public UUID getUUID(){
+        return this.id;
+    }
+
+    public int getPort(){
+        return this.socket;
+    }
 }

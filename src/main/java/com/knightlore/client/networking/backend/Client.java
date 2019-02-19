@@ -39,7 +39,7 @@ public class Client
             this.dis = new ObjectInputStream(s.getInputStream());
 
             // Start Client Receiver thread
-            receiver = new ClientReceiver(this.dis);
+            receiver = new ClientReceiver(this, this.dis);
             receiver.start();
 
             this.ready = true;

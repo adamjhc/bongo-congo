@@ -78,6 +78,14 @@ public class ClientHandler extends Thread{
         }
     }
 
+    public void send(Sendable sendable){
+        try{
+            this.dos.writeObject(sendable);
+        }catch(IOException e){
+            System.out.println(e);
+        }
+    }
+
     public boolean isOwner(){
         return this.gameServer.sessionOwner().equals(this.sessionKey.get());
     }

@@ -16,5 +16,9 @@ public class Factory {
             GameRequest handler = new GameRequest();
             handler.run(clientHandler, sendable);
         }
+        if(sendable.getFunction().equals("list_games")){
+            ListGames handler = new ListGames();
+            handler.run(clientHandler, sendable);
+        }
     }
 }

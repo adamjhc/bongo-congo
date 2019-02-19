@@ -5,6 +5,7 @@ import com.knightlore.client.exceptions.ClientAlreadyAuthenticatedException;
 import com.knightlore.client.exceptions.ConfigItemNotFoundException;
 import com.knightlore.client.networking.backend.Client;
 import com.knightlore.client.networking.backend.ResponseHandler;
+import com.knightlore.client.networking.backend.responsehandlers.server.GameList;
 import com.knightlore.client.networking.backend.responsehandlers.server.GameRequest;
 import com.knightlore.client.networking.backend.responsehandlers.server.SessionKey;
 import com.knightlore.networking.ApiKey;
@@ -113,6 +114,26 @@ public class ServerConnection {
             ResponseHandler.waiting.put(sendable.getUuid(), new GameRequest());
 
             System.out.println("SENDING" + sendable.getData());
+
+            try{
+                client.dos.writeObject(sendable);
+            }catch(IOException e){
+                System.out.println(e);
+            }
+        }
+    }
+
+    public void listGames(){
+        if(this.authenticated){
+            // Build up get session string
+            Sendable sendable = new Sendable();
+            sendable.setUuid();
+            sendable.setFunction("list_games");
+
+
+            // Specify handler
+            ResponseHandler.waiting.put(sendable.getUuid(), new GameList());
+
 
             try{
                 client.dos.writeObject(sendable);

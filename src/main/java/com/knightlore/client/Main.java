@@ -15,6 +15,8 @@ import java.util.Optional;
 
 public class Main {
 
+    public static Game model;
+
     public static void main(String[] args) throws ConfigItemNotFoundException {
         System.out.println(Config.authServerIp());
         System.out.println(Config.authServerPort());

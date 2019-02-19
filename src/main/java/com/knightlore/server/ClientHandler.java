@@ -3,7 +3,9 @@ package com.knightlore.server;
 import com.knightlore.client.networking.backend.responsehandlers.server.SessionKey;
 import com.knightlore.networking.Sendable;
 import com.knightlore.server.commandhandler.Factory;
+import com.knightlore.server.commandhandler.GameRequest;
 import com.knightlore.server.database.Authenticate;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -15,6 +17,7 @@ import java.util.Optional;
 // Client handler class
 public class ClientHandler extends Thread
 {
+    final static Logger logger = Logger.getLogger(ClientHandler.class);
 
     // Declare input and output streams
     public final ObjectInputStream dis;
@@ -47,9 +50,9 @@ public class ClientHandler extends Thread
 
                 // First check for connection close
                 if(sendable.getFunction().equals("close_connection")){
-                    System.out.println("Closing this connection.");
+                    logger.info("Closing this connection.");
                     this.s.close();
-                    System.out.println("Connection closed");
+                    logger.info("Connection closed");
                     break;
                 }
 

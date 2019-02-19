@@ -2,12 +2,16 @@ package com.knightlore.server.game;
 
 import com.knightlore.game.model.Game;
 import com.knightlore.game.server.GameServer;
+import com.knightlore.server.commandhandler.GameRequest;
+import org.apache.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.Random;
 
 public class GameRepository {
+
+    final static Logger logger = Logger.getLogger(GameRepository.class);
 
     public static GameRepository instance = new GameRepository();
     final Random rand = new Random();
@@ -17,7 +21,6 @@ public class GameRepository {
     public GameRepository() {
         servers = new HashMap<>();
     }
-
 
     /**
      * Create new game server instance with default game model
@@ -45,7 +48,7 @@ public class GameRepository {
     }
 
     public void startServer(UUID uuid){
-        System.out.println("Starting");
+        logger.info("Starting server: " + uuid.toString());
         servers.get(uuid).start();
     }
 
@@ -65,5 +68,9 @@ public class GameRepository {
         }
 
         return port;
+    }
+
+    public HashMap<UUID, GameServer> getServers(){
+        return this.servers;
     }
 }

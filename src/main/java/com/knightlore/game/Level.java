@@ -22,16 +22,28 @@ public class Level {
         this.players = new ArrayList<>();
     }
 
-    public void addEnemy(Enemies enemy){
-        this.enemies.add(enemy);
+    public Level(Map map, ArrayList<Player> players) {
+        this.map = map;
+        this.players = players;
     }
 
-    public Map getMap() {
-        return map;
+    public void addEnemy(Enemies enemy){
+        this.enemies.add(enemy);
     }
 
     public void setMap(Map map) {
         this.map = map;
     }
 
+  public Map getMap() {
+    return map;
+  }
+
+  public ArrayList<Player> getPlayers() {
+    return players;
+  }
+
+  public ArrayList<Enemies> getEnemies() {
+    return enemies;
+  }
 }

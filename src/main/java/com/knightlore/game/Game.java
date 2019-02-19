@@ -10,48 +10,48 @@ import org.joml.Vector3f;
 
 public class Game {
 
-    String uuid;
-    ArrayList<Level> levels;
-    Integer currentLevelIndex;
-    GameState currentState;
+  String uuid;
+  ArrayList<Level> levels;
+  Integer currentLevelIndex;
+  GameState currentState;
 
-    public Game(String uuid, MapSet mapSet){
-        levels = new ArrayList<>();
-        this.uuid = uuid;
-        this.currentState = GameState.LOBBY;
-        this.levels = new ArrayList<>();
-        //createNewLevel(mapSet.getMap(0));
+  public Game(String uuid, MapSet mapSet) {
+    levels = new ArrayList<>();
+    this.uuid = uuid;
+    this.currentState = GameState.LOBBY;
+    this.levels = new ArrayList<>();
+    // createNewLevel(mapSet.getMap(0));
+  }
+
+  public Level getCurrentLevel() {
+    return this.levels.get(this.currentLevelIndex);
+  }
+
+  public int addLevel(Level level) {
+    if (this.currentLevelIndex == null) {
+      this.currentLevelIndex = 0;
     }
+    this.levels.add(level);
 
+    return this.levels.size() - 1;
+  }
 
-    public Level getCurrentLevel(){
-        return this.levels.get(this.currentLevelIndex);
-    }
+  public GameState getState() {
+    return currentState;
+  }
 
-    public int addLevel(Level level){
-        if(this.currentLevelIndex == null){
-            this.currentLevelIndex = 0;
-        }
-        this.levels.add(level);
+  public void setState(GameState state) {
+    this.currentState = state;
+  }
 
-        return this.levels.size() - 1;
-    }
+  public void setLevel(int index) {
+    this.currentLevelIndex = index;
+  }
 
-    public GameState getState() {
-        return currentState;
-    }
+  public void incrementLevel() {
+    this.currentLevelIndex += 1;
+  }
 
-    public void setState(GameState state) {
-        this.currentState = state;
-    }
-
-    public void setLevel(int index){
-        this.currentLevelIndex = index;
-    }
-
-    public void incrementLevel(){
-        this.currentLevelIndex += 1;
-    }
   public void update(float delta) {}
 
   public void movePlayerInDirection(Direction direction, float delta) {

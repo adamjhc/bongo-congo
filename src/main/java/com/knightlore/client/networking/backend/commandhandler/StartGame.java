@@ -1,16 +1,15 @@
 package com.knightlore.client.networking.backend.commandhandler;
 
-import com.knightlore.client.Main;
 import com.knightlore.client.networking.backend.Client;
 import com.knightlore.game.GameState;
 import com.knightlore.networking.Sendable;
 
-public class StartGame implements GenericHandler{
+public class StartGame implements GenericHandler {
 
-    public void run(Client client, Sendable sendable){
-        // Set state
-        com.knightlore.client.Client.model.setState(GameState.PLAYING);
+  public void run(Client client, Sendable sendable) {
+    // Set state
+    com.knightlore.client.Client.model.setState(GameState.PLAYING);
 
-        new com.knightlore.client.Client().start();
-    }
+    new com.knightlore.client.Client().start();
+  }
 }

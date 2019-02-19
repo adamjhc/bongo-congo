@@ -10,6 +10,7 @@ import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL13.GL_MULTISAMPLE;
 
 import com.knightlore.client.io.Window;
 import com.knightlore.client.render.opengl.ShaderProgram;
@@ -53,6 +54,7 @@ public class Renderer {
     // Setting up OpenGL
     createCapabilities();
     glEnable(GL_TEXTURE_2D);
+    glEnable(GL_MULTISAMPLE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -83,7 +85,7 @@ public class Renderer {
         camera.getProjection());
 
     for (Player player : gameModel.getCurrentLevel().getPlayers()) {
-      playerRenderer.render(player, shaderProgram, world.getProjection(), camera.getProjection());
+      playerRenderer.render(player, shaderProgram, camera.getProjection());
     }
 
     swapBuffers();

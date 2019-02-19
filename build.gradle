@@ -60,4 +60,8 @@ dependencies {
     runtimeOnly "org.lwjgl:lwjgl-stb:$lwjglVersion:$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-vulkan:$lwjglVersion:$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-xxhash:$lwjglVersion:$lwjglNatives"
+    
+    // HUD Dependencies
+    compile group: 'org.joml', name: 'joml', version: '1.9.12'
+	compile group: 'org.l33tlabs.twl', name: 'pngdecoder', version: '1.0'
 }

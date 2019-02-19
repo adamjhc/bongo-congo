@@ -70,20 +70,20 @@ public class Client {
   private void loop() {
       float elapsedTime;
       float gameTime;
-      float accumulator = 0f;
+      float delta = 0f;
       float interval = 1f / TARGET_UPS;
 
     while (!window.windowShouldClose()) {
         elapsedTime = timer.getElapsedTime();
         gameTime = timer.getGameTime();
-        accumulator += elapsedTime;
+        delta += elapsedTime;
         
-        while (accumulator >= interval) {
-        	accumulator -= interval;
+        input(interval);
+        
+        while (delta >= interval) {
+        	delta -= interval;
         	
-        	input(accumulator);
-        	
-            update(accumulator, gameTime);
+            update(interval, gameTime);
         
         }
         
@@ -100,36 +100,32 @@ public class Client {
             && !window.isKeyPressed(GLFW_KEY_S)
             && !window.isKeyPressed(GLFW_KEY_D)) {
           gameModel.movePlayerInDirection(Direction.NORTH_WEST, delta);
-        } else if ((window.isKeyPressed(GLFW_KEY_W) // Player presses W and D
-                && window.isKeyPressed(GLFW_KEY_D))
-            || (window.isKeyPressed(GLFW_KEY_W) && window.isKeyPressed(GLFW_KEY_D))) {
+        } else if (window.isKeyPressed(GLFW_KEY_W) // Player presses W and D
+                && window.isKeyPressed(GLFW_KEY_D)) {
           gameModel.movePlayerInDirection(Direction.NORTH, delta);
         } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses D
             && !window.isKeyPressed(GLFW_KEY_A)
             && !window.isKeyPressed(GLFW_KEY_S)
             && window.isKeyPressed(GLFW_KEY_D)) {
           gameModel.movePlayerInDirection(Direction.NORTH_EAST, delta);
-        } else if ((window.isKeyPressed(GLFW_KEY_S) // Player presses S and D
-                && window.isKeyPressed(GLFW_KEY_D))
-            || window.isKeyPressed(GLFW_KEY_S) && window.isKeyPressed(GLFW_KEY_D)) {
+        } else if (window.isKeyPressed(GLFW_KEY_S) // Player presses S and D
+                && window.isKeyPressed(GLFW_KEY_D)) {
           gameModel.movePlayerInDirection(Direction.EAST, delta);
         } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses S
             && !window.isKeyPressed(GLFW_KEY_A)
             && window.isKeyPressed(GLFW_KEY_S)
             && !window.isKeyPressed(GLFW_KEY_D)) {
           gameModel.movePlayerInDirection(Direction.SOUTH_EAST, delta);
-        } else if ((window.isKeyPressed(GLFW_KEY_S) // Player presses S and A
-                && window.isKeyPressed(GLFW_KEY_A))
-            || window.isKeyPressed(GLFW_KEY_S) && window.isKeyPressed(GLFW_KEY_A)) {
+        } else if (window.isKeyPressed(GLFW_KEY_S) // Player presses S and A
+                && window.isKeyPressed(GLFW_KEY_A)) {
           gameModel.movePlayerInDirection(Direction.SOUTH, delta);
         } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses A
             && window.isKeyPressed(GLFW_KEY_A)
             && !window.isKeyPressed(GLFW_KEY_S)
             && !window.isKeyPressed(GLFW_KEY_D)) {
           gameModel.movePlayerInDirection(Direction.SOUTH_WEST, delta);
-        } else if ((window.isKeyPressed(GLFW_KEY_W) // Player presses W and A
-                && window.isKeyPressed(GLFW_KEY_A))
-            || window.isKeyPressed(GLFW_KEY_W) && window.isKeyPressed(GLFW_KEY_A)) {
+        } else if (window.isKeyPressed(GLFW_KEY_W) // Player presses W and A
+                && window.isKeyPressed(GLFW_KEY_A)) {
           gameModel.movePlayerInDirection(Direction.WEST, delta);
         } else {
           gameModel.updatePlayerState(PlayerState.IDLE);
@@ -175,9 +171,9 @@ public class Client {
 	}
   }
   
-  private void update(float accumulator, float gameTime) {
+  private void update(float delta, float gameTime) {
 	  hud.setCounter("Time: "+Integer.toString(90 - Math.round(gameTime)));
-      gameModel.update(accumulator);
+      gameModel.update(delta);
   }
 
   private void render(Game gameModel) {

@@ -21,13 +21,14 @@ import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.MapSet;
 import com.knightlore.game.map.TileSet;
 
-public class Client extends Thread{
+public class Client extends Thread {
+
+  public static Game model;
 
   private Window window;
   private Renderer renderer;
   private Game gameModel;
   private AudioHandler audio;
-  public static Game model;
 
   public static void main(String[] args) {
     new Client().run();
@@ -51,7 +52,13 @@ public class Client extends Thread{
     audio.toggle();
 
     renderer = new Renderer(window);
-    gameModel = model;
+    if (model == null) {
+      MapSet mapSet = new MapSet(new TileSet());
+      gameModel = new Game("", mapSet);
+      gameModel.createNewLevel(mapSet.getMap(0));
+    } else {
+      gameModel = model;
+    }
   }
 
   private void loop() {

@@ -69,13 +69,12 @@ public class Client {
 
   private void loop() {
       float elapsedTime;
-      float gameTime;
       float delta = 0f;
       float interval = 1f / TARGET_UPS;
 
     while (!window.windowShouldClose()) {
         elapsedTime = timer.getElapsedTime();
-        gameTime = timer.getGameTime();
+        
         delta += elapsedTime;
         
         input(interval);
@@ -83,7 +82,7 @@ public class Client {
         while (delta >= interval) {
         	delta -= interval;
         	
-            update(interval, gameTime);
+            update(interval);
         
         }
         
@@ -171,7 +170,9 @@ public class Client {
 	}
   }
   
-  private void update(float delta, float gameTime) {
+  private void update(float delta) {
+	  float gameTime = timer.getGameTime();
+	  
 	  hud.setCounter("Time: "+Integer.toString(90 - Math.round(gameTime)));
       gameModel.update(delta);
   }

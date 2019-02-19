@@ -1,18 +1,16 @@
 package com.knightlore.client;
 
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
-import static org.lwjgl.glfw.GLFW.glfwTerminate;
 
 import com.knightlore.client.audio.AudioHandler;
 import com.knightlore.hud.engine.Window;
-import com.knightlore.hud.engine.graphics.HUDRenderer;
 import com.knightlore.client.render.Renderer;
 import com.knightlore.game.Game;
 import com.knightlore.game.entity.Direction;
 import com.knightlore.hud.engine.MouseInput;
 import com.knightlore.hud.engine.Timer;
 import com.knightlore.hud.game.Hud;
+import com.knightlore.game.entity.PlayerState;
 
 
 public class Client {
@@ -31,11 +29,7 @@ public class Client {
   
   private Timer timer;
   
-  private HUDRenderer hudRenderer;
-  
   private Hud hud;
-  
-  //  private PlayerRenderer player;
 
   public static void main(String[] args) {
     new Client().run();
@@ -64,9 +58,6 @@ public class Client {
     window.init();
     timer.init();
     mouseInput.init(window);
-
-    hudRenderer = new HUDRenderer();
-    hudRenderer.init(window);
     
     hud = new Hud(window);
     
@@ -96,7 +87,7 @@ public class Client {
         
         }
         
-        render(renderer, gameModel);
+        render(gameModel);
         
       }
   }
@@ -108,57 +99,41 @@ public class Client {
             && !window.isKeyPressed(GLFW_KEY_A)
             && !window.isKeyPressed(GLFW_KEY_S)
             && !window.isKeyPressed(GLFW_KEY_D)) {
-      gameModel.movePlayerInDirection(Direction.NORTH_EAST, delta);
-    }
-
-    if ((window.isKeyPressed(GLFW_KEY_W) // Player presses W and D
-            && window.isKeyPressed(GLFW_KEY_D))
-            || (window.isKeyPressed(GLFW_KEY_W)
-            && window.isKeyPressed(GLFW_KEY_D))) {
-      gameModel.movePlayerInDirection(Direction.EAST, delta);
-    }
-
-    if (!window.isKeyPressed(GLFW_KEY_W) // Player presses D
+          gameModel.movePlayerInDirection(Direction.NORTH_WEST, delta);
+        } else if ((window.isKeyPressed(GLFW_KEY_W) // Player presses W and D
+                && window.isKeyPressed(GLFW_KEY_D))
+            || (window.isKeyPressed(GLFW_KEY_W) && window.isKeyPressed(GLFW_KEY_D))) {
+          gameModel.movePlayerInDirection(Direction.NORTH, delta);
+        } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses D
             && !window.isKeyPressed(GLFW_KEY_A)
             && !window.isKeyPressed(GLFW_KEY_S)
             && window.isKeyPressed(GLFW_KEY_D)) {
-      gameModel.movePlayerInDirection(Direction.NORTH_WEST, delta);
-    }
-
-    if ((window.isKeyPressed(GLFW_KEY_S) // Player presses S and D
-            && window.isKeyPressed(GLFW_KEY_D))
-            || window.isKeyPressed(GLFW_KEY_S)
-            && window.isKeyPressed(GLFW_KEY_D)) {
-      gameModel.movePlayerInDirection(Direction.SOUTH, delta);
-    }
-
-    if (!window.isKeyPressed(GLFW_KEY_W) // Player presses S
+          gameModel.movePlayerInDirection(Direction.NORTH_EAST, delta);
+        } else if ((window.isKeyPressed(GLFW_KEY_S) // Player presses S and D
+                && window.isKeyPressed(GLFW_KEY_D))
+            || window.isKeyPressed(GLFW_KEY_S) && window.isKeyPressed(GLFW_KEY_D)) {
+          gameModel.movePlayerInDirection(Direction.EAST, delta);
+        } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses S
             && !window.isKeyPressed(GLFW_KEY_A)
             && window.isKeyPressed(GLFW_KEY_S)
             && !window.isKeyPressed(GLFW_KEY_D)) {
-      gameModel.movePlayerInDirection(Direction.SOUTH_WEST, delta);
-    }
-
-    if ((window.isKeyPressed(GLFW_KEY_S) // Player presses S and A
-            && window.isKeyPressed(GLFW_KEY_A))
-            || window.isKeyPressed(GLFW_KEY_S)
-            && window.isKeyPressed(GLFW_KEY_A)) {
-      gameModel.movePlayerInDirection(Direction.WEST, delta);
-    }
-
-    if (!window.isKeyPressed(GLFW_KEY_W) // Player presses A
+          gameModel.movePlayerInDirection(Direction.SOUTH_EAST, delta);
+        } else if ((window.isKeyPressed(GLFW_KEY_S) // Player presses S and A
+                && window.isKeyPressed(GLFW_KEY_A))
+            || window.isKeyPressed(GLFW_KEY_S) && window.isKeyPressed(GLFW_KEY_A)) {
+          gameModel.movePlayerInDirection(Direction.SOUTH, delta);
+        } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses A
             && window.isKeyPressed(GLFW_KEY_A)
             && !window.isKeyPressed(GLFW_KEY_S)
             && !window.isKeyPressed(GLFW_KEY_D)) {
-      gameModel.movePlayerInDirection(Direction.SOUTH_EAST, delta);
-    }
-
-    if ((window.isKeyPressed(GLFW_KEY_W) // Player presses W and A
-            && window.isKeyPressed(GLFW_KEY_A))
-            || window.isKeyPressed(GLFW_KEY_W)
-            && window.isKeyPressed(GLFW_KEY_A)) {
-      gameModel.movePlayerInDirection(Direction.NORTH, delta);
-    }
+          gameModel.movePlayerInDirection(Direction.SOUTH_WEST, delta);
+        } else if ((window.isKeyPressed(GLFW_KEY_W) // Player presses W and A
+                && window.isKeyPressed(GLFW_KEY_A))
+            || window.isKeyPressed(GLFW_KEY_W) && window.isKeyPressed(GLFW_KEY_A)) {
+          gameModel.movePlayerInDirection(Direction.WEST, delta);
+        } else {
+          gameModel.updatePlayerState(PlayerState.IDLE);
+        }
     
     if (window.isKeyReleased(GLFW_KEY_L)) {
     	hud.setP1Lives();
@@ -205,13 +180,13 @@ public class Client {
       gameModel.update(accumulator);
   }
 
-  private void render(Renderer renderer, Game gameModel) {
+  private void render(Game gameModel) {
 	  renderer.render(gameModel, window, hud);
   }
   
   private void dispose() {
 	hud.cleanup();
-	hudRenderer.cleanup();
+	renderer.cleanup();
 	
 	window.freeCallbacks();
 	window.destroyWindow();

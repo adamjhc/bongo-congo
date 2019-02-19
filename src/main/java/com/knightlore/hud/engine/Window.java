@@ -6,6 +6,8 @@ import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
+import static org.lwjgl.glfw.GLFW.GLFW_SAMPLES;
+import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 
 public class Window {
 
@@ -38,6 +40,7 @@ public class Window {
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+        glfwWindowHint(GLFW_SAMPLES, 4);
 
 
         // Create the window, use (width, height, title, glfwGetPrimaryMonitor(), 0) for full-screen
@@ -49,7 +52,7 @@ public class Window {
         // Setup a key callback. It will be called every time a key is pressed, repeated or released.
         glfwSetKeyCallback(windowHandle, (window, key, scancode, action, mods) -> {
             if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
-                glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+                glfwSetWindowShouldClose(window, true);
             }
             else if (action == GLFW_RELEASE) {
             	this.keyCode = key;
@@ -58,7 +61,7 @@ public class Window {
 
         // Get the resolution of the primary monitor
         GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-        // Center our window
+        // Centre window
         glfwSetWindowPos(
                 windowHandle,
                 (vidmode.width() - width) / 2,
@@ -118,7 +121,7 @@ public class Window {
     }
     
     public void freeCallbacks() {
-        //glfwFreeCallbacks(windowHandle);
+        glfwFreeCallbacks(windowHandle);
         glfwSetErrorCallback(null).free();
     }
     

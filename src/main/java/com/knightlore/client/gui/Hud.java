@@ -171,6 +171,13 @@ public class Hud implements IGui {
     	}
     }
     
+    public boolean isP1Dead() {
+    	if (player1Lives.getText() == "Dead") {
+    		return true;
+    	}
+    	else return false;
+    }
+    
     public void setP1Score() {
     	int score = Integer.parseInt(player1Score.getText().substring(3, player1Score.getText().length()));
     	int increment = ThreadLocalRandom.current().nextInt(100, 10000 + 1);

@@ -45,7 +45,7 @@ public class Client extends Thread {
   private Menu menu;
   
   private enum State {
-	    MENU, PLAY 
+	    MENU, PLAY, DEAD 
   };
   
   private static State gameState = State.MENU;
@@ -128,7 +128,9 @@ public class Client extends Thread {
         	menu.setSingleplayer();
         	if (mouseInput.isLeftButtonPressed()) {
         		timer.setStartTime();
-        		gameState = State.PLAY;
+        		if (hud.isP1Dead()) {
+        			gameState = State.DEAD;
+        		} else gameState = State.PLAY;
             }
         } else menu.setRestoreSingleplayer();
         
@@ -193,6 +195,12 @@ public class Client extends Thread {
 
         if (window.isKeyReleased(GLFW_KEY_L)) {
         	hud.setP1Lives();
+        	gameModel.resetPlayer();
+        	
+        	if (hud.isP1Dead()) {
+        		gameModel.updatePlayerState(PlayerState.IDLE);
+        		gameState = State.DEAD;
+        	}
         }
 
         if (window.isKeyReleased(GLFW_KEY_P)) {
@@ -202,6 +210,7 @@ public class Client extends Thread {
         if (mouseInput.getXPos() < 65 && mouseInput.getYPos() > window.getHeight() - 25) {
         	hud.setExit();
             if (mouseInput.isLeftButtonPressed()) {
+            	gameModel.resetPlayer();
             	gameState = State.MENU;
             }
         } else hud.setRestoreExit();
@@ -215,6 +224,27 @@ public class Client extends Thread {
             }
         }
   
+    	break;
+    	
+    case DEAD:
+    	
+        if (mouseInput.getXPos() < 65 && mouseInput.getYPos() > window.getHeight() - 25) {
+        	hud.setExit();
+            if (mouseInput.isLeftButtonPressed()) {
+            	gameModel.resetPlayer();
+            	gameState = State.MENU;
+            }
+        } else hud.setRestoreExit();
+
+        if (mouseInput.getXPos() > window.getWidth() - 35
+                && mouseInput.getYPos() > window.getHeight() - 35) {
+        	if (mouseInput.isLeftButtonPressed()) {
+        		menu.setSoundOff();
+                hud.setSoundOff();
+                audio.toggle();
+            }
+        }
+    	
     	break;
     	
     }
@@ -241,6 +271,13 @@ public class Client extends Thread {
 		  gameModel.update(delta); 
 		  
 		  break;	  
+		  
+	  case DEAD:
+		  
+		  gameModel.update(delta); 
+		  
+		  break;
+		  
 	  }
   }
 
@@ -260,6 +297,12 @@ public class Client extends Thread {
     	
     	  break;
     	
+	  case DEAD:
+		  
+		  renderer.render(gameModel, window, hud);
+		  
+		  break;
+		  
 	  }
   }
 

@@ -1,4 +1,4 @@
-package com.knightlore.client.hud.engine;
+package com.knightlore.client.gui.engine;
 
 public class Timer {
 

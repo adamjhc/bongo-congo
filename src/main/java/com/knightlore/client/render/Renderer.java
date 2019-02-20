@@ -12,13 +12,13 @@ import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL13.GL_MULTISAMPLE;
 
-import com.knightlore.client.hud.engine.GameItem;
-import com.knightlore.client.hud.engine.IHud;
-import com.knightlore.client.hud.engine.Utils;
-import com.knightlore.client.hud.engine.Window;
-import com.knightlore.client.hud.engine.graphics.HUDShaderProgram;
-import com.knightlore.client.hud.engine.graphics.Mesh;
-import com.knightlore.client.hud.engine.graphics.Transformation;
+import com.knightlore.client.gui.engine.GameItem;
+import com.knightlore.client.gui.engine.IGui;
+import com.knightlore.client.gui.engine.Utils;
+import com.knightlore.client.gui.engine.Window;
+import com.knightlore.client.gui.engine.graphics.HudShaderProgram;
+import com.knightlore.client.gui.engine.graphics.Mesh;
+import com.knightlore.client.gui.engine.graphics.Transformation;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.world.PlayerSet;
 import com.knightlore.client.render.world.TileSet;
@@ -53,7 +53,7 @@ public class Renderer {
   
   private final Transformation transformation;
   
-  private HUDShaderProgram hudShaderProgram;
+  private HudShaderProgram hudShaderProgram;
 
   /**
    * Initialise the renderer
@@ -84,7 +84,7 @@ public class Renderer {
   }
   
   private void setupHudShader() {
-      hudShaderProgram = new HUDShaderProgram();
+      hudShaderProgram = new HudShaderProgram();
       try {
 		hudShaderProgram.createVertexShader(Utils.loadResource("/shaders/hud_vertex.vs"));
 	} catch (Exception e) {
@@ -107,7 +107,7 @@ public class Renderer {
    *
    * @param gameModel Game model to render
    */
-  public void render(Game gameModel, Window window, IHud hud) {
+  public void render(Game gameModel, Window window, IGui hud) {
     clearBuffers();
 
     renderGame(gameModel);
@@ -132,7 +132,7 @@ public class Renderer {
 	        }
   }
   
-  private void renderHud(Window window, IHud hud) {
+  private void renderHud(Window window, IGui hud) {
       hudShaderProgram.bind();
 
       Matrix4f ortho = transformation.getOrthoProjectionMatrix(0, window.getWidth(), window.getHeight(), 0);

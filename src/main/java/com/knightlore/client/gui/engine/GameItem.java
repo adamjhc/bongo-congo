@@ -1,8 +1,8 @@
-package com.knightlore.client.hud.engine;
+package com.knightlore.client.gui.engine;
 
 import org.joml.Vector3f;
 
-import com.knightlore.client.hud.engine.graphics.Mesh;
+import com.knightlore.client.gui.engine.graphics.Mesh;
 
 public class GameItem {
 

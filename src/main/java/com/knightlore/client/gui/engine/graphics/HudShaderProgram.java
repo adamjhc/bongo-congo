@@ -1,4 +1,4 @@
-package com.knightlore.client.hud.engine.graphics;
+package com.knightlore.client.gui.engine.graphics;
 
 import java.nio.FloatBuffer;
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import org.joml.Vector4f;
 import static org.lwjgl.opengl.GL20.*;
 import org.lwjgl.system.MemoryStack;
 
-public class HUDShaderProgram {
+public class HudShaderProgram {
 
     private final int programId;
 
@@ -19,7 +19,7 @@ public class HUDShaderProgram {
 
     private final Map<String, Integer> uniforms;
 
-    public HUDShaderProgram() {
+    public HudShaderProgram() {
         programId = glCreateProgram();
         uniforms = new HashMap<>();
     }

@@ -1,6 +1,6 @@
-package com.knightlore.client.hud.engine;
+package com.knightlore.client.gui.engine;
 
-public interface IHud {
+public interface IGui {
 
     GameItem[] getGameItems();
 

@@ -10,10 +10,10 @@ import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 
 import com.knightlore.client.audio.AudioHandler;
-import com.knightlore.client.hud.Hud;
-import com.knightlore.client.hud.engine.MouseInput;
-import com.knightlore.client.hud.engine.Timer;
-import com.knightlore.client.hud.engine.Window;
+import com.knightlore.client.gui.Hud;
+import com.knightlore.client.gui.engine.MouseInput;
+import com.knightlore.client.gui.engine.Timer;
+import com.knightlore.client.gui.engine.Window;
 import com.knightlore.client.render.Renderer;
 import com.knightlore.game.Game;
 import com.knightlore.game.entity.Direction;

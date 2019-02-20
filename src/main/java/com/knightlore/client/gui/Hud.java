@@ -1,4 +1,4 @@
-package com.knightlore.client.hud;
+package com.knightlore.client.gui;
 
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
@@ -9,13 +9,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.joml.Vector4f;
 
-import com.knightlore.client.hud.engine.GameItem;
-import com.knightlore.client.hud.engine.IHud;
-import com.knightlore.client.hud.engine.TextItem;
-import com.knightlore.client.hud.engine.Window;
-import com.knightlore.client.hud.engine.graphics.FontTexture;
+import com.knightlore.client.gui.engine.GameItem;
+import com.knightlore.client.gui.engine.IGui;
+import com.knightlore.client.gui.engine.TextItem;
+import com.knightlore.client.gui.engine.Window;
+import com.knightlore.client.gui.engine.graphics.FontTexture;
 
-public class Hud implements IHud {
+public class Hud implements IGui {
 
     private static final Font FONT = new Font("Press Start 2P", Font.PLAIN, 15);
     

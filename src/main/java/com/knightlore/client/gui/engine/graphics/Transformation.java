@@ -1,8 +1,8 @@
-package com.knightlore.client.hud.engine.graphics;
+package com.knightlore.client.gui.engine.graphics;
 
 import org.joml.Matrix4f;
 
-import com.knightlore.client.hud.engine.GameItem;
+import com.knightlore.client.gui.engine.GameItem;
 
 public class Transformation {
 

@@ -1,4 +1,4 @@
-package com.knightlore.hud.engine.graphics;
+package com.knightlore.client.hud.engine.graphics;
 
 import org.joml.Vector4f;
 

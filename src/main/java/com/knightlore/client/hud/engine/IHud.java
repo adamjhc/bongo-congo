@@ -1,4 +1,4 @@
-package com.knightlore.hud.engine;
+package com.knightlore.client.hud.engine;
 
 public interface IHud {
 

@@ -1,4 +1,4 @@
-package com.knightlore.hud.engine;
+package com.knightlore.client.hud.engine;
 
 import java.io.InputStream;
 import java.util.List;

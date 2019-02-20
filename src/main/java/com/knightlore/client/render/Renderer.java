@@ -12,18 +12,18 @@ import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL13.GL_MULTISAMPLE;
 
-import com.knightlore.hud.engine.Window;
+import com.knightlore.client.hud.engine.GameItem;
+import com.knightlore.client.hud.engine.IHud;
+import com.knightlore.client.hud.engine.Utils;
+import com.knightlore.client.hud.engine.Window;
+import com.knightlore.client.hud.engine.graphics.HUDShaderProgram;
+import com.knightlore.client.hud.engine.graphics.Mesh;
+import com.knightlore.client.hud.engine.graphics.Transformation;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.world.PlayerSet;
 import com.knightlore.client.render.world.TileSet;
 import com.knightlore.game.Game;
 import com.knightlore.game.entity.Player;
-import com.knightlore.hud.engine.GameItem;
-import com.knightlore.hud.engine.IHud;
-import com.knightlore.hud.engine.Utils;
-import com.knightlore.hud.engine.graphics.HUDShaderProgram;
-import com.knightlore.hud.engine.graphics.Mesh;
-import com.knightlore.hud.engine.graphics.Transformation;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;

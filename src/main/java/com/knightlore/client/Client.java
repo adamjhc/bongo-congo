@@ -10,16 +10,16 @@ import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 
 import com.knightlore.client.audio.AudioHandler;
+import com.knightlore.client.hud.Hud;
+import com.knightlore.client.hud.engine.MouseInput;
+import com.knightlore.client.hud.engine.Timer;
+import com.knightlore.client.hud.engine.Window;
 import com.knightlore.client.render.Renderer;
 import com.knightlore.game.Game;
 import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.MapSet;
 import com.knightlore.game.map.TileSet;
-import com.knightlore.hud.engine.MouseInput;
-import com.knightlore.hud.engine.Timer;
-import com.knightlore.hud.engine.Window;
-import com.knightlore.hud.game.Hud;
 
 public class Client extends Thread {
 

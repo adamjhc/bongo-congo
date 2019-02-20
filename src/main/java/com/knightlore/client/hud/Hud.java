@@ -1,4 +1,4 @@
-package com.knightlore.hud.game;
+package com.knightlore.client.hud;
 
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
@@ -8,11 +8,12 @@ import java.io.InputStream;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.joml.Vector4f;
-import com.knightlore.hud.engine.GameItem;
-import com.knightlore.hud.engine.IHud;
-import com.knightlore.hud.engine.TextItem;
-import com.knightlore.hud.engine.Window;
-import com.knightlore.hud.engine.graphics.FontTexture;
+
+import com.knightlore.client.hud.engine.GameItem;
+import com.knightlore.client.hud.engine.IHud;
+import com.knightlore.client.hud.engine.TextItem;
+import com.knightlore.client.hud.engine.Window;
+import com.knightlore.client.hud.engine.graphics.FontTexture;
 
 public class Hud implements IHud {
 

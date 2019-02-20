@@ -151,10 +151,6 @@ public class Client extends Thread {
             }
         } else menu.setRestoreQuit();
         
-        if (mouseInput.isLeftButtonPressed()) {
-        	System.out.println(mouseInput.getXPos()+" "+mouseInput.getYPos());
-        }
-        
     	break;
     	
     case PLAY:
@@ -225,36 +221,46 @@ public class Client extends Thread {
   }
 
   private void update(float delta) {
+	  
 	  switch(gameState) {
-		  case MENU:
+	  
+	  case MENU:
+		  
+		  break;	
+		  
+	  case PLAY:
+		  
+		  float gameTime = timer.getGameTime();
 
-			  break;
+		  int timeLeft = 90 - Math.round(gameTime);
+		  if (timeLeft < 0) {
+			  timeLeft = 0;
+		  }
 			  
-		  case PLAY:
-			  float gameTime = timer.getGameTime();
-
-			  int timeLeft = 90 - Math.round(gameTime);
-			  if (timeLeft < 0) {
-			      timeLeft = 0;
-			  }
-			  
-			  hud.setCounter("Time: " + timeLeft);
-			  gameModel.update(delta);
-			  
-			  break;
-			  
+		  hud.setCounter("Time: " + timeLeft);
+		  gameModel.update(delta); 
+		  
+		  break;	  
 	  }
   }
 
   private void render(Game gameModel) {
-    switch(gameState){
-    case MENU:
-    	renderer.render(window, menu);
-    	break;
-    case PLAY:
-    	renderer.render(gameModel, window, hud);
-    	break;
-	}
+	  
+	  switch(gameState){   
+    
+      case MENU:
+    	
+    	  renderer.render(window, menu);
+    	
+    	  break;
+    	
+      case PLAY:
+    	
+    	  renderer.render(gameModel, window, hud);
+    	
+    	  break;
+    	
+	  }
   }
 
   private void dispose() {

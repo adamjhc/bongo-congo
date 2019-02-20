@@ -118,98 +118,132 @@ public class Client extends Thread {
     window.update();
     
     switch(gameState) {
+    
     case MENU:
+    	
         if (mouseInput.getXPos() > window.getWidth() / 2 - 90
-                && mouseInput.getXPos() < window.getWidth() / 2 + 90
+        		&& mouseInput.getXPos() < window.getWidth() / 2 + 90
                 && mouseInput.getYPos() > window.getHeight() / 2 + 90
                 && mouseInput.getYPos() < window.getHeight() / 2 + 115) {
-              menu.setSingleplayer();
-              if (mouseInput.isLeftButtonPressed()) {
-            	  gameState = State.PLAY;
-              }
-            } else menu.setRestoreSingleplayer();
+        	menu.setSingleplayer();
+        	if (mouseInput.isLeftButtonPressed()) {
+        		timer.setStartTime();
+        		gameState = State.PLAY;
+            }
+        } else menu.setRestoreSingleplayer();
+        
+        if (mouseInput.getXPos() > window.getWidth() - 35
+                && mouseInput.getYPos() > window.getHeight() - 35) {
+        	if (mouseInput.isLeftButtonPressed()) {
+        		menu.setSoundOff();
+                hud.setSoundOff();
+                audio.toggle();
+            }
+        }
+        
+        if (mouseInput.getXPos() > window.getWidth() / 2 - 30
+        		&& mouseInput.getXPos() < window.getWidth() / 2 + 30
+        		&& mouseInput.getYPos() > window.getHeight() / 2 + 138
+        		&& mouseInput.getYPos() < window.getHeight() / 2 + 154) {
+        	menu.setQuit();
+            if (mouseInput.isLeftButtonPressed()) {
+            	glfwSetWindowShouldClose(window.getWindowHandle(), true);
+            }
+        } else menu.setRestoreQuit();
+        
+        if (mouseInput.isLeftButtonPressed()) {
+        	System.out.println(mouseInput.getXPos()+" "+mouseInput.getYPos());
+        }
+        
     	break;
+    	
     case PLAY:
+    	
         if (window.isKeyPressed(GLFW_KEY_W) // Player presses W
                 && !window.isKeyPressed(GLFW_KEY_A)
                 && !window.isKeyPressed(GLFW_KEY_S)
                 && !window.isKeyPressed(GLFW_KEY_D)) {
-              gameModel.movePlayerInDirection(Direction.NORTH_WEST, delta);
-            } else if (window.isKeyPressed(GLFW_KEY_W) // Player presses W and D
+        	gameModel.movePlayerInDirection(Direction.NORTH_WEST, delta);
+        } else if (window.isKeyPressed(GLFW_KEY_W) // Player presses W and D
                 && window.isKeyPressed(GLFW_KEY_D)) {
-              gameModel.movePlayerInDirection(Direction.NORTH, delta);
-            } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses D
+            gameModel.movePlayerInDirection(Direction.NORTH, delta);
+        } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses D
                 && !window.isKeyPressed(GLFW_KEY_A)
                 && !window.isKeyPressed(GLFW_KEY_S)
                 && window.isKeyPressed(GLFW_KEY_D)) {
-              gameModel.movePlayerInDirection(Direction.NORTH_EAST, delta);
-            } else if (window.isKeyPressed(GLFW_KEY_S) // Player presses S and D
+            gameModel.movePlayerInDirection(Direction.NORTH_EAST, delta);
+        } else if (window.isKeyPressed(GLFW_KEY_S) // Player presses S and D
                 && window.isKeyPressed(GLFW_KEY_D)) {
-              gameModel.movePlayerInDirection(Direction.EAST, delta);
-            } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses S
+            gameModel.movePlayerInDirection(Direction.EAST, delta);
+        } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses S
                 && !window.isKeyPressed(GLFW_KEY_A)
                 && window.isKeyPressed(GLFW_KEY_S)
                 && !window.isKeyPressed(GLFW_KEY_D)) {
-              gameModel.movePlayerInDirection(Direction.SOUTH_EAST, delta);
-            } else if (window.isKeyPressed(GLFW_KEY_S) // Player presses S and A
+            gameModel.movePlayerInDirection(Direction.SOUTH_EAST, delta);
+        } else if (window.isKeyPressed(GLFW_KEY_S) // Player presses S and A
                 && window.isKeyPressed(GLFW_KEY_A)) {
-              gameModel.movePlayerInDirection(Direction.SOUTH, delta);
-            } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses A
+            gameModel.movePlayerInDirection(Direction.SOUTH, delta);
+        } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses A
                 && window.isKeyPressed(GLFW_KEY_A)
                 && !window.isKeyPressed(GLFW_KEY_S)
                 && !window.isKeyPressed(GLFW_KEY_D)) {
-              gameModel.movePlayerInDirection(Direction.SOUTH_WEST, delta);
-            } else if (window.isKeyPressed(GLFW_KEY_W) // Player presses W and A
+            gameModel.movePlayerInDirection(Direction.SOUTH_WEST, delta);
+        } else if (window.isKeyPressed(GLFW_KEY_W) // Player presses W and A
                 && window.isKeyPressed(GLFW_KEY_A)) {
-              gameModel.movePlayerInDirection(Direction.WEST, delta);
-            } else {
-              gameModel.updatePlayerState(PlayerState.IDLE);
+            gameModel.movePlayerInDirection(Direction.WEST, delta);
+        } else {
+        	gameModel.updatePlayerState(PlayerState.IDLE);
+        }
+
+        if (window.isKeyReleased(GLFW_KEY_L)) {
+        	hud.setP1Lives();
+        }
+
+        if (window.isKeyReleased(GLFW_KEY_P)) {
+            hud.setP1Score();
+        }
+
+        if (mouseInput.getXPos() < 65 && mouseInput.getYPos() > window.getHeight() - 25) {
+        	hud.setExit();
+            if (mouseInput.isLeftButtonPressed()) {
+            	gameState = State.MENU;
             }
+        } else hud.setRestoreExit();
 
-            if (window.isKeyReleased(GLFW_KEY_L)) {
-              hud.setP1Lives();
-            }
-
-            if (window.isKeyReleased(GLFW_KEY_P)) {
-              hud.setP1Score();
-            }
-
-            if (mouseInput.getXPos() < 65 && mouseInput.getYPos() > window.getHeight() - 25) {
-              hud.setExit();
-              if (mouseInput.isLeftButtonPressed()) {
-                glfwSetWindowShouldClose(window.getWindowHandle(), true);
-              }
-            } else hud.setRestoreExit();
-
-            if (mouseInput.getXPos() > window.getWidth() - 35
+        if (mouseInput.getXPos() > window.getWidth() - 35
                 && mouseInput.getYPos() > window.getHeight() - 35) {
-              // hud.setSound();
-              if (mouseInput.isLeftButtonPressed()) {
+        	if (mouseInput.isLeftButtonPressed()) {
+        		menu.setSoundOff();
                 hud.setSoundOff();
                 audio.toggle();
-              }
-            } else hud.setRestoreSound();
-
-            if (mouseInput.isLeftButtonPressed()) {
-              // System.out.println(mouseInput.getXPos()+" "+mouseInput.getYPos());
             }
-            if (mouseInput.isRightButtonPressed()) {
-              // System.out.println(mouseInput.getXPos()+" "+mouseInput.getYPos());
-            }
+        }
+  
     	break;
+    	
     }
   }
 
   private void update(float delta) {
-    float gameTime = timer.getGameTime();
+	  switch(gameState) {
+		  case MENU:
 
-    int timeLeft = 90 - Math.round(gameTime);
-    if (timeLeft < 0) {
-      timeLeft = 0;
-    }
+			  break;
+			  
+		  case PLAY:
+			  float gameTime = timer.getGameTime();
 
-    hud.setCounter("Time: " + timeLeft);
-    gameModel.update(delta);
+			  int timeLeft = 90 - Math.round(gameTime);
+			  if (timeLeft < 0) {
+			      timeLeft = 0;
+			  }
+			  
+			  hud.setCounter("Time: " + timeLeft);
+			  gameModel.update(delta);
+			  
+			  break;
+			  
+	  }
   }
 
   private void render(Game gameModel) {

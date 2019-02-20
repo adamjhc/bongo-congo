@@ -42,11 +42,7 @@ public class Hud implements IGui {
     private final TextItem counter;
     
     private final TextItem exit;
-    
-    private final TextItem singleplayer;
-    
-    private final TextItem multiplayer;
-    
+
     private final TextItem soundOn;
     
     private final TextItem soundOff;
@@ -82,13 +78,7 @@ public class Hud implements IGui {
         
         this.exit = new TextItem("Exit", fontTexture);
         this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
-        
-        this.singleplayer = new TextItem("Singleplayer", fontTexture);
-        this.singleplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
-        
-        this.multiplayer = new TextItem("Multiplayer", fontTexture);
-        this.multiplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
-        
+
         this.soundOn = new TextItem("(", fontTextureLarge);
         this.soundOn.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
         
@@ -107,8 +97,6 @@ public class Hud implements IGui {
         this.player2Lives.setPosition(window.getWidth()-170, 20, 0);
         this.counter.setPosition(window.getWidth()/2-118, window.getHeight()-30, 0);
         this.exit.setPosition(5, window.getHeight()-20, 0);
-        this.singleplayer.setPosition(window.getWidth()/2 - 90, window.getHeight()/2+100, 0);
-        this.multiplayer.setPosition(window.getWidth()/2 - 82, window.getHeight()/2+120, 0);
         this.soundOn.setPosition(window.getWidth()-40, window.getHeight()-40, 0);
         this.soundOff.setPosition(window.getWidth()-30, window.getHeight()-30, 0);
         this.bongo.setPosition(window.getWidth()/2-360, window.getHeight()/2-200, 0);
@@ -139,14 +127,6 @@ public class Hud implements IGui {
     
     public void setRestoreExit() {
     	this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
-    }
-    
-    public void setSingleplayer() {
-    	this.singleplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
-    }
-    
-    public void setRestoreSingleplayer() {
-    	this.singleplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
     }
     
     public void setSound() {

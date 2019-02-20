@@ -107,15 +107,23 @@ public class Renderer {
    *
    * @param gameModel Game model to render
    */
-  public void render(Game gameModel, Window window, IGui hud) {
+  public void render(Game gameModel, Window window, IGui gui) {
     clearBuffers();
 
     renderGame(gameModel);
     
-    renderHud(window, hud);
+    renderGui(window, gui);
 
     swapBuffers();
   }
+  
+  public void render(Window window, IGui gui) {
+	    clearBuffers();
+	    
+	    renderGui(window, gui);
+
+	    swapBuffers();
+	  }
   
   private void renderGame(Game gameModel) {
 	    camera.setPosition(
@@ -132,11 +140,11 @@ public class Renderer {
 	        }
   }
   
-  private void renderHud(Window window, IGui hud) {
+  private void renderGui(Window window, IGui gui) {
       hudShaderProgram.bind();
 
       Matrix4f ortho = transformation.getOrthoProjectionMatrix(0, window.getWidth(), window.getHeight(), 0);
-      for (GameItem gameItem : hud.getGameItems()) {
+      for (GameItem gameItem : gui.getGameItems()) {
           Mesh mesh = gameItem.getMesh();
 
           Matrix4f projModelMatrix = transformation.getOrtoProjModelMatrix(gameItem, ortho);

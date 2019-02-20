@@ -11,6 +11,5 @@ public class Helper {
         // Retrieve games
 
         return games;
-
     }
 }

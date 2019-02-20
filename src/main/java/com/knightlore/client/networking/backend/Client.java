@@ -17,6 +17,8 @@ public class Client
     public ObjectOutputStream dos;
     public ObjectInputStream dis;
     public ClientReceiver receiver;
+    public boolean ready;
+
 
     int socket;
     InetAddress ip;
@@ -24,6 +26,7 @@ public class Client
     public Client(InetAddress ip, int socket){
         this.socket = socket;
         this.ip = ip;
+        this.ready = false;
     }
 
     public void run(){
@@ -36,11 +39,12 @@ public class Client
             this.dis = new ObjectInputStream(s.getInputStream());
 
             // Start Client Receiver thread
-            receiver = new ClientReceiver(this.dis);
+            receiver = new ClientReceiver(this, this.dis);
             receiver.start();
 
+            this.ready = true;
         }catch(Exception e){
-            e.printStackTrace();
+            System.out.println("There wan an error establishing the socket connection");
         }
     }
 

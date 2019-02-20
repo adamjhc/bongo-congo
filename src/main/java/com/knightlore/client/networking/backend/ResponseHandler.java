@@ -1,8 +1,7 @@
 package com.knightlore.client.networking.backend;
 
-import com.knightlore.client.networking.backend.ResponseHandlers.GenericHandler;
+import com.knightlore.client.networking.backend.responsehandlers.GenericHandler;
 import com.knightlore.networking.Sendable;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -15,5 +14,9 @@ public class ResponseHandler {
             GenericHandler handler = waiting.get(uuid);
             handler.run(response);
         }
+    }
+
+    public static boolean isWaiting(String uuid){
+        return waiting.containsKey(uuid);
     }
 }

@@ -5,28 +5,51 @@ import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.Map;
 import com.knightlore.game.map.MapSet;
-import com.knightlore.game.map.TileSet;
 import java.util.ArrayList;
-import java.util.HashMap;
 import org.joml.Vector3f;
 
 public class Game {
 
-  private HashMap<String, Level> levels;
-  private String currentLevel;
-  private TileSet tileSet;
-  private MapSet mapSet;
+  String uuid;
+  ArrayList<Level> levels;
+  Integer currentLevelIndex;
+  GameState currentState;
 
-  public Game() {
-    tileSet = new TileSet();
-    mapSet = new MapSet(tileSet);
-    levels = new HashMap<>();
-
-    createNewLevel("1", mapSet.getMap(0));
+  public Game(String uuid, MapSet mapSet) {
+    levels = new ArrayList<>();
+    this.uuid = uuid;
+    this.currentState = GameState.LOBBY;
+    this.levels = new ArrayList<>();
+    // createNewLevel(mapSet.getMap(0));
   }
 
   public Level getCurrentLevel() {
-    return levels.get(currentLevel);
+    return this.levels.get(this.currentLevelIndex);
+  }
+
+  public int addLevel(Level level) {
+    if (this.currentLevelIndex == null) {
+      this.currentLevelIndex = 0;
+    }
+    this.levels.add(level);
+
+    return this.levels.size() - 1;
+  }
+
+  public GameState getState() {
+    return currentState;
+  }
+
+  public void setState(GameState state) {
+    this.currentState = state;
+  }
+
+  public void setLevel(int index) {
+    this.currentLevelIndex = index;
+  }
+
+  public void incrementLevel() {
+    this.currentLevelIndex += 1;
   }
 
   public void update(float delta) {}
@@ -45,14 +68,14 @@ public class Game {
     player.update(origPos, newPos, getCurrentLevel().getMap());
   }
 
-  private void createNewLevel(String uuid, Map map) {
+  public void createNewLevel(Map map) {
     ArrayList<Player> players = new ArrayList<>();
     players.add(new Player());
 
-    levels.put(uuid, new Level(map, players));
+    levels.add(new Level(map, players));
 
-    if (currentLevel == null) {
-      currentLevel = uuid;
+    if (currentLevelIndex == null) {
+      currentLevelIndex = 0;
     }
   }
   

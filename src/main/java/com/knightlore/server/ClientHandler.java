@@ -1,18 +1,23 @@
 package com.knightlore.server;
 
+import com.knightlore.client.networking.backend.responsehandlers.server.SessionKey;
 import com.knightlore.networking.Sendable;
 import com.knightlore.server.commandhandler.Factory;
+import com.knightlore.server.commandhandler.GameRequest;
 import com.knightlore.server.database.Authenticate;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Optional;
 
 // Client handler class
 public class ClientHandler extends Thread
 {
+    final static Logger logger = Logger.getLogger(ClientHandler.class);
 
     // Declare input and output streams
     public final ObjectInputStream dis;
@@ -36,7 +41,7 @@ public class ClientHandler extends Thread
     {
         Sendable sendable;
 
-        // Continuously get clients
+        // Continuously wait for messages
         while (true)
         {
             try {
@@ -45,57 +50,15 @@ public class ClientHandler extends Thread
 
                 // First check for connection close
                 if(sendable.getFunction().equals("close_connection")){
-                    System.out.println("Closing this connection.");
+                    logger.info("Closing this connection.");
                     this.s.close();
-                    System.out.println("Connection closed");
+                    logger.info("Connection closed");
                     break;
                 }
 
                 // If not, pass to factory
                 Factory.create(this, sendable);
 
-                // Pick correct handler
-//                try{
-//
-//
-//
-//                    switch (function) {
-//                        // Generate session based on authentication token
-//                        case "get_session_token":
-//                            Optional<String> token = apikey.getToken(jsonObject.getString("key"));
-//
-//
-//                            response = new JSONObject();
-//
-//                            if(token.isPresent()){
-//                                this.sessionKey = token;
-//                                response.put("success", "true");
-//                                response.put("token", token.get());
-//                            }else{
-//                                response.put("success", "false");
-//                            }
-//
-//                            dos.writeUTF(response.toString());
-//                            break;
-//
-//
-//                        case "check_auth":
-//                            response = new JSONObject();
-//
-//                            if(this.sessionKey.isPresent()){
-//                                response.put("success", "true");
-//                            }else{
-//                                response.put("success", "false");
-//                            }
-//
-//                            dos.writeUTF(response.toString());
-//                            break;
-//                    }
-//
-//                }catch(JSONException e){
-//                    System.out.println("INVALID REQUEST");
-//                    System.out.println(e);
-//                }
             } catch (IOException e) {
                 e.printStackTrace();
             }  catch (ClassNotFoundException e) {
@@ -112,5 +75,18 @@ public class ClientHandler extends Thread
         }catch(IOException e){
             e.printStackTrace();
         }
+    }
+
+    public InetAddress getSocketIP(){
+        return this.s.getInetAddress();
+    }
+
+    public SessionKey getSessionKey(){
+        if(this.sessionKey.isPresent()){
+            // Return session key with that value
+
+        }
+
+        return null;
     }
 }

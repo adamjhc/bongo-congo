@@ -119,7 +119,7 @@ public class Renderer {
   
   private void renderGame(Game gameModel) {
 	    camera.setPosition(
-	            playerSet.getPlayer(0).getTransform().getPosition().mul(-world.getScale(), new Vector3f()));
+	            playerSet.getPlayer(gameModel.getCurrentLevel().myPlayer().getId()).getTransform().getPosition().mul(-world.getScale(), new Vector3f()));
 
 	        mapRenderer.render(
 	            gameModel.getCurrentLevel().getMap(),
@@ -127,7 +127,7 @@ public class Renderer {
 	            world.getProjection(),
 	            camera.getProjection());
 
-	        for (Player player : gameModel.getCurrentLevel().getPlayers()) {
+	        for (Player player : gameModel.getCurrentLevel().getPlayers().values()) {
 	        	playerRenderer.render(player, shaderProgram, camera.getProjection());
 	        }
   }

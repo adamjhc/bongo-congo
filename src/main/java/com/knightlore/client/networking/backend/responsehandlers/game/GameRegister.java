@@ -14,8 +14,6 @@ public class GameRegister implements GenericHandler {
     Gson gson = new Gson();
 
     Game model = gson.fromJson(sendable.getData(), Game.class);
-    model.createNewLevel(new MapSet(new TileSet()).getMap(0));
-
     Client.model = model;
   }
 }

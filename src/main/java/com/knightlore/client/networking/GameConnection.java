@@ -17,21 +17,16 @@ public class GameConnection {
 
     public static GameConnection instance;
 
-    Optional<String> sessionKey;
+    public String sessionKey;
     boolean authenticated = false;
     Client client;
 
-
-    // Generate new key
-    public GameConnection(Client client) {
-        this.client = client;
-        this.sessionKey = Optional.empty();
-    }
+    public int playerIndex;
 
     // Key already validated
     public GameConnection(Client client, String sessionKey) {
         this.client = client;
-        this.sessionKey = Optional.of(sessionKey);
+        this.sessionKey = sessionKey;
     }
 
     public boolean ready(){
@@ -71,7 +66,7 @@ public class GameConnection {
 
         Gson gson = new Gson();
 
-        PositionUpdate request = new com.knightlore.networking.PositionUpdate(vector);
+        PositionUpdate request = new com.knightlore.networking.PositionUpdate(vector, this.sessionKey);
         sendable.setData(gson.toJson(request));
 
         // Specify handler
@@ -84,7 +79,7 @@ public class GameConnection {
         }
     }
 
-    public void register(String sessionKey){
+    public void register(){
         // Build up get session string
         Sendable sendable = new Sendable();
         sendable.setUuid();
@@ -92,7 +87,7 @@ public class GameConnection {
 
         Gson gson = new Gson();
 
-        ApiKey key = new ApiKey(sessionKey);
+        ApiKey key = new ApiKey(this.sessionKey);
         sendable.setData(gson.toJson(key));
 
         // Specify handler

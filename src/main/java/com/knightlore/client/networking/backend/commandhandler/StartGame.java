@@ -10,6 +10,7 @@ public class StartGame implements GenericHandler {
     // Set state
     com.knightlore.client.Client.model.setState(GameState.PLAYING);
 
+
     new com.knightlore.client.Client().start();
   }
 }

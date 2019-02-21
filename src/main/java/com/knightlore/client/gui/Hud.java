@@ -171,6 +171,11 @@ public class Hud implements IGui {
     	}
     }
     
+    public void resetP1Lives() {
+    	this.player1Lives.setText("***");
+    	this.player1Lives.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
+    }
+    
     public boolean isP1Dead() {
     	if (player1Lives.getText() == "Dead") {
     		return true;

@@ -127,10 +127,12 @@ public class Client extends Thread {
                 && mouseInput.getYPos() < window.getHeight() / 2 + 115) {
         	menu.setSingleplayer();
         	if (mouseInput.isLeftButtonPressed()) {
+        		audio.toggle();
+        		audio.toggle(); //eventually change this so switches between menu and game music
+        		
         		timer.setStartTime();
-        		if (hud.isP1Dead()) {
-        			gameState = State.DEAD;
-        		} else gameState = State.PLAY;
+        		hud.resetP1Lives();
+        		gameState = State.PLAY;
             }
         } else menu.setRestoreSingleplayer();
         
@@ -210,6 +212,9 @@ public class Client extends Thread {
         if (mouseInput.getXPos() < 65 && mouseInput.getYPos() > window.getHeight() - 25) {
         	hud.setExit();
             if (mouseInput.isLeftButtonPressed()) {
+        		audio.toggle();
+        		audio.toggle();
+        		
             	gameModel.resetPlayer();
             	gameState = State.MENU;
             }
@@ -231,6 +236,9 @@ public class Client extends Thread {
         if (mouseInput.getXPos() < 65 && mouseInput.getYPos() > window.getHeight() - 25) {
         	hud.setExit();
             if (mouseInput.isLeftButtonPressed()) {
+        		audio.toggle();
+        		audio.toggle();
+        		
             	gameModel.resetPlayer();
             	gameState = State.MENU;
             }

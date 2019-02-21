@@ -12,7 +12,7 @@ import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL13.GL_MULTISAMPLE;
 
-import com.knightlore.client.gui.engine.GameItem;
+import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.Utils;
 import com.knightlore.client.gui.engine.Window;
@@ -144,13 +144,13 @@ public class Renderer {
       hudShaderProgram.bind();
 
       Matrix4f ortho = transformation.getOrthoProjectionMatrix(0, window.getWidth(), window.getHeight(), 0);
-      for (GameItem gameItem : gui.getGameItems()) {
-          Mesh mesh = gameItem.getMesh();
+      for (GuiObject guiObject : gui.getGuiObjects()) {
+          Mesh mesh = guiObject.getMesh();
 
-          Matrix4f projModelMatrix = transformation.getOrtoProjModelMatrix(gameItem, ortho);
+          Matrix4f projModelMatrix = transformation.getOrtoProjModelMatrix(guiObject, ortho);
           hudShaderProgram.setUniform("projModelMatrix", projModelMatrix);
-          hudShaderProgram.setUniform("colour", gameItem.getMesh().getMaterial().getColour());
-          hudShaderProgram.setUniform("hasTexture", gameItem.getMesh().getMaterial().isTextured() ? 1 : 0);
+          hudShaderProgram.setUniform("colour", guiObject.getMesh().getMaterial().getColour());
+          hudShaderProgram.setUniform("hasTexture", guiObject.getMesh().getMaterial().isTextured() ? 1 : 0);
 
           mesh.render();
       }

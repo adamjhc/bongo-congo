@@ -4,7 +4,7 @@ import org.joml.Vector3f;
 
 import com.knightlore.client.gui.engine.graphics.Mesh;
 
-public class GameItem {
+public class GuiObject {
 
     private Mesh mesh;
     
@@ -12,12 +12,12 @@ public class GameItem {
     
     private float scale;
 
-    public GameItem() {
+    public GuiObject() {
         position = new Vector3f(0, 0, 0);
         scale = 1;
     }
     
-    public GameItem(Mesh mesh) {
+    public GuiObject(Mesh mesh) {
         this();
         this.mesh = mesh;
     }

@@ -9,9 +9,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.joml.Vector4f;
 
-import com.knightlore.client.gui.engine.GameItem;
+import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
-import com.knightlore.client.gui.engine.TextItem;
+import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.gui.engine.Window;
 import com.knightlore.client.gui.engine.graphics.FontTexture;
 
@@ -27,23 +27,23 @@ public class Hud implements IGui {
     
     private static final int MAX_SCORE = 99999999;
 
-    private GameItem[] gameItems;
+    private GuiObject[] guiObjects;
 
-    private final TextItem player1Score;
+    private final TextObject player1Score;
     
-    private final TextItem player1Lives;
+    private final TextObject player1Lives;
     
-    private final TextItem player2Score;
+    private final TextObject player2Score;
 
-    private final TextItem player2Lives;
+    private final TextObject player2Lives;
     
-    private final TextItem counter;
+    private final TextObject counter;
     
-    private final TextItem exit;
+    private final TextObject exit;
 
-    private final TextItem soundOn;
+    private final TextObject soundOn;
     
-    private final TextItem soundOff;
+    private final TextObject soundOff;
 
     public Hud(Window window) throws Exception {
     	InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
@@ -54,28 +54,28 @@ public class Hud implements IGui {
         FontTexture fontTextureLarge = new FontTexture(FONT_LARGE, CHARSET);
         FontTexture fontTexture25 = new FontTexture(FONT_25, CHARSET);
         
-        this.player1Score = new TextItem("P1:00000000", fontTexture);
+        this.player1Score = new TextObject("P1:00000000", fontTexture);
         this.player1Score.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
         
-        this.player2Score = new TextItem("P2:00000000", fontTexture);
+        this.player2Score = new TextObject("P2:00000000", fontTexture);
         this.player2Score.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
         
-        this.player1Lives = new TextItem("***", fontTexture);
+        this.player1Lives = new TextObject("***", fontTexture);
         this.player1Lives.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         
-        this.player2Lives = new TextItem("***", fontTexture);
+        this.player2Lives = new TextObject("***", fontTexture);
         this.player2Lives.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         
-        this.counter = new TextItem("Time: 90", fontTexture25);
+        this.counter = new TextObject("Time: 90", fontTexture25);
         this.counter.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
-        this.exit = new TextItem("Exit", fontTexture);
+        this.exit = new TextObject("Exit", fontTexture);
         this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
 
-        this.soundOn = new TextItem("(", fontTextureLarge);
+        this.soundOn = new TextObject("(", fontTextureLarge);
         this.soundOn.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
         
-        this.soundOff = new TextItem("/", fontTexture25);
+        this.soundOff = new TextObject("/", fontTexture25);
         this.soundOff.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         this.player1Score.setPosition(5, 5, 0);
         this.player2Score.setPosition(window.getWidth()-170, 5, 0);
@@ -86,7 +86,7 @@ public class Hud implements IGui {
         this.soundOn.setPosition(window.getWidth()-40, window.getHeight()-40, 0);
         this.soundOff.setPosition(window.getWidth()-30, window.getHeight()-30, 0);
 
-        gameItems = new GameItem[]{player1Score, player2Score, counter, player1Lives,
+        guiObjects = new GuiObject[]{player1Score, player2Score, counter, player1Lives,
         		player2Lives, exit, soundOn};
     }
 
@@ -120,23 +120,23 @@ public class Hud implements IGui {
     }
     
     public void setSoundOff() {
-    	if (gameItems.length == 7) {
-	    	GameItem[] gameItemsNew = new GameItem[gameItems.length +1];
-	    	for (int i = 0; i < gameItems.length; i++) {
-	    		gameItemsNew[i] = gameItems[i];
+    	if (guiObjects.length == 7) {
+	    	GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length +1];
+	    	for (int i = 0; i < guiObjects.length; i++) {
+	    		guiObjectsNew[i] = guiObjects[i];
 	    	}
-	    	gameItemsNew[gameItems.length] = soundOff;
-	    	gameItems = gameItemsNew.clone();
+	    	guiObjectsNew[guiObjects.length] = soundOff;
+	    	guiObjects = guiObjectsNew.clone();
     	}
-    	else if (gameItems.length == 8) {
-	    	GameItem[] gameItemsNew = new GameItem[gameItems.length -1];
-	    	for (int i = 0, k = 0; i < gameItems.length; i++) {
-	    		if (i == gameItems.length-1) {
+    	else if (guiObjects.length == 8) {
+	    	GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length -1];
+	    	for (int i = 0, k = 0; i < guiObjects.length; i++) {
+	    		if (i == guiObjects.length-1) {
 	    			continue;
 	    		}
-	    		gameItemsNew[k++] = gameItems[i];
+	    		guiObjectsNew[k++] = guiObjects[i];
 	    	}
-	    	gameItems = gameItemsNew.clone();
+	    	guiObjects = guiObjectsNew.clone();
     	}
     }
     
@@ -177,20 +177,20 @@ public class Hud implements IGui {
     }
     
     @Override
-    public GameItem[] getGameItems() {
-        return gameItems;
+    public GuiObject[] getGuiObjects() {
+        return guiObjects;
     }
     
     public void deleteGameItem() {
-    	if (gameItems.length == 7) {
-	    	GameItem[] gameItemsNew = new GameItem[gameItems.length -1];
-	    	for (int i = 0, k = 0; i < gameItems.length; i++) {
-	    		if (i == gameItems.length-1) {
+    	if (guiObjects.length == 7) {
+	    	GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length -1];
+	    	for (int i = 0, k = 0; i < guiObjects.length; i++) {
+	    		if (i == guiObjects.length-1) {
 	    			continue;
 	    		}
-	    		gameItemsNew[k++] = gameItems[i];
+	    		guiObjectsNew[k++] = guiObjects[i];
 	    	}
-	    	gameItems = gameItemsNew.clone();
+	    	guiObjects = guiObjectsNew.clone();
     	}
     }
 }

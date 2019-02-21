@@ -2,12 +2,12 @@ package com.knightlore.client.gui.engine;
 
 public interface IGui {
 
-    GameItem[] getGameItems();
+    GuiObject[] getGuiObjects();
 
     default void cleanup() {
-        GameItem[] gameItems = getGameItems();
-        for (GameItem gameItem : gameItems) {
-            gameItem.getMesh().cleanUp();
+        GuiObject[] guiObjects = getGuiObjects();
+        for (GuiObject guiObject : guiObjects) {
+            guiObject.getMesh().cleanUp();
         }
     }
 }

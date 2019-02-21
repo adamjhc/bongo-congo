@@ -32,8 +32,8 @@ public class Material {
         return colour;
     }
 
-    public void setColour(Vector4f ambientColour) {
-        this.colour = ambientColour;
+    public void setColour(Vector4f colour) {
+        this.colour = colour;
     }
 
     public boolean isTextured() {

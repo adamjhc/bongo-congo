@@ -8,13 +8,13 @@ import java.io.InputStream;
 
 import org.joml.Vector4f;
 
-import com.knightlore.client.gui.engine.GameItem;
+import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
-import com.knightlore.client.gui.engine.TextItem;
+import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.gui.engine.Window;
 import com.knightlore.client.gui.engine.graphics.FontTexture;
 
-public class Menu implements IGui {
+public class MainMenu implements IGui {
 	
 	private static final Font FONT = new Font("Press Start 2P", Font.PLAIN, 15);
 	
@@ -26,23 +26,23 @@ public class Menu implements IGui {
 	
 	private static final String CHARSET = "ISO-8859-1";
 	
-    private GameItem[] gameItems;
+    private GuiObject[] guiObjects;
     
-    private final TextItem singleplayer;
+    private final TextObject singleplayer;
     
-    private final TextItem multiplayer;
+    private final TextObject multiplayer;
     
-    private final TextItem quit;
+    private final TextObject quit;
     
-    private final TextItem bongo;
+    private final TextObject bongo;
     
-    private final TextItem congo;
+    private final TextObject congo;
     
-    private final TextItem soundOn;
+    private final TextObject soundOn;
     
-    private final TextItem soundOff;
+    private final TextObject soundOff;
     
-    public Menu(Window window) throws Exception {
+    public MainMenu(Window window) throws Exception {
     	InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
     	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
     	ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, myStream));
@@ -52,25 +52,25 @@ public class Menu implements IGui {
         FontTexture fontTextureMedium = new FontTexture(FONT_MEDIUM, CHARSET);
     	FontTexture fontTextureTitle = new FontTexture(FONT_TITLE, CHARSET);
     	
-    	this.bongo = new TextItem("Bongo", fontTextureTitle);
+    	this.bongo = new TextObject("Bongo", fontTextureTitle);
         this.bongo.getMesh().getMaterial().setColour(new Vector4f(0.29f, 0.92f, 0.95f, 1));
         
-        this.congo = new TextItem("Congo", fontTextureTitle);
+        this.congo = new TextObject("Congo", fontTextureTitle);
         this.congo.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         
-        this.singleplayer = new TextItem("Singleplayer", fontTexture);
+        this.singleplayer = new TextObject("Singleplayer", fontTexture);
         this.singleplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
-        this.multiplayer = new TextItem("Multiplayer", fontTexture);
+        this.multiplayer = new TextObject("Multiplayer", fontTexture);
         this.multiplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
-        this.soundOn = new TextItem("(", fontTextureLarge);
+        this.soundOn = new TextObject("(", fontTextureLarge);
         this.soundOn.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
         
-        this.soundOff = new TextItem("/", fontTextureMedium);
+        this.soundOff = new TextObject("/", fontTextureMedium);
         this.soundOff.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         
-        this.quit = new TextItem("Quit", fontTexture);
+        this.quit = new TextObject("Quit", fontTexture);
         this.quit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
         
@@ -89,7 +89,7 @@ public class Menu implements IGui {
         
 
         
-        gameItems = new GameItem[]{bongo, congo, singleplayer, multiplayer, quit, soundOn};
+        guiObjects = new GuiObject[]{bongo, congo, singleplayer, multiplayer, quit, soundOn};
     }
     
     public void setSingleplayer() {
@@ -109,29 +109,29 @@ public class Menu implements IGui {
     }
     
     public void setSoundOff() {
-    	if (gameItems.length == 6) {
-	    	GameItem[] gameItemsNew = new GameItem[gameItems.length +1];
-	    	for (int i = 0; i < gameItems.length; i++) {
-	    		gameItemsNew[i] = gameItems[i];
+    	if (guiObjects.length == 6) {
+	    	GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length +1];
+	    	for (int i = 0; i < guiObjects.length; i++) {
+	    		guiObjectsNew[i] = guiObjects[i];
 	    	}
-	    	gameItemsNew[gameItems.length] = soundOff;
-	    	gameItems = gameItemsNew.clone();
+	    	guiObjectsNew[guiObjects.length] = soundOff;
+	    	guiObjects = guiObjectsNew.clone();
     	}
-    	else if (gameItems.length == 7) {
-	    	GameItem[] gameItemsNew = new GameItem[gameItems.length -1];
-	    	for (int i = 0, k = 0; i < gameItems.length; i++) {
-	    		if (i == gameItems.length-1) {
+    	else if (guiObjects.length == 7) {
+	    	GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length -1];
+	    	for (int i = 0, k = 0; i < guiObjects.length; i++) {
+	    		if (i == guiObjects.length-1) {
 	    			continue;
 	    		}
-	    		gameItemsNew[k++] = gameItems[i];
+	    		guiObjectsNew[k++] = guiObjects[i];
 	    	}
-	    	gameItems = gameItemsNew.clone();
+	    	guiObjects = guiObjectsNew.clone();
     	}
     }
     
     @Override
-    public GameItem[] getGameItems() {
-        return gameItems;
+    public GuiObject[] getGuiObjects() {
+        return guiObjects;
     }
 
 }

@@ -11,7 +11,7 @@ import static org.lwjgl.glfw.GLFW.glfwTerminate;
 
 import com.knightlore.client.audio.AudioHandler;
 import com.knightlore.client.gui.Hud;
-import com.knightlore.client.gui.Menu;
+import com.knightlore.client.gui.MainMenu;
 import com.knightlore.client.gui.engine.MouseInput;
 import com.knightlore.client.gui.engine.Timer;
 import com.knightlore.client.gui.engine.Window;
@@ -42,13 +42,13 @@ public class Client extends Thread {
 
   private Hud hud;
   
-  private Menu menu;
+  private MainMenu menu;
   
   private enum State {
-	    MENU, PLAY, DEAD 
+	    MAINMENU, PLAY, DEAD 
   };
   
-  private static State gameState = State.MENU;
+  private static State gameState = State.MAINMENU;
 
   public static void main(String[] args) {
     new Client().run();
@@ -78,7 +78,7 @@ public class Client extends Thread {
     mouseInput.init(window);
 
     hud = new Hud(window);
-    menu = new Menu(window);
+    menu = new MainMenu(window);
 
     renderer = new Renderer(window);
     if (model == null) {
@@ -119,7 +119,7 @@ public class Client extends Thread {
     
     switch(gameState) {
     
-    case MENU:
+    case MAINMENU:
     	
         if (mouseInput.getXPos() > window.getWidth() / 2 - 90
         		&& mouseInput.getXPos() < window.getWidth() / 2 + 90
@@ -216,7 +216,7 @@ public class Client extends Thread {
         		audio.toggle();
         		
             	gameModel.resetPlayer();
-            	gameState = State.MENU;
+            	gameState = State.MAINMENU;
             }
         } else hud.setRestoreExit();
 
@@ -240,7 +240,7 @@ public class Client extends Thread {
         		audio.toggle();
         		
             	gameModel.resetPlayer();
-            	gameState = State.MENU;
+            	gameState = State.MAINMENU;
             }
         } else hud.setRestoreExit();
 
@@ -262,7 +262,7 @@ public class Client extends Thread {
 	  
 	  switch(gameState) {
 	  
-	  case MENU:
+	  case MAINMENU:
 		  
 		  break;	
 		  
@@ -293,7 +293,7 @@ public class Client extends Thread {
 	  
 	  switch(gameState){   
     
-      case MENU:
+      case MAINMENU:
     	
     	  renderer.render(window, menu);
     	

@@ -102,7 +102,7 @@ public class Game {
   }
   
   public void resetPlayer() {
-	  getCurrentLevel().getPlayers().get(0).setPosition(new Vector3f(1, 1, 0));
-	  getCurrentLevel().getPlayers().get(0).setDirection(Direction.SOUTH);
+	  getCurrentLevel().myPlayer().setPosition(new Vector3f(1, 1, 0));
+	  getCurrentLevel().myPlayer().setDirection(Direction.SOUTH);
   }
 }

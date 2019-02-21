@@ -126,6 +126,14 @@ public class Window {
     return windowHandle;
   }
 
+  public int getWidth() {
+    return width;
+  }
+
+  public int getHeight() {
+    return height;
+  }
+
   public boolean isKeyReleased(int keyCode) {
     if (keyCode == this.keyCode) {
       this.keyCode = -1;
@@ -140,14 +148,6 @@ public class Window {
 
   public boolean windowShouldClose() {
     return glfwWindowShouldClose(windowHandle);
-  }
-
-  public int getWidth() {
-    return width;
-  }
-
-  public int getHeight() {
-    return height;
   }
 
   public void swapBuffers() {

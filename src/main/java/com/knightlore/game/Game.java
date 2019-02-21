@@ -4,39 +4,22 @@ import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.Map;
-import com.knightlore.game.map.MapSet;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
-
 import org.joml.Vector3f;
 
 public class Game {
 
-  String uuid;
-  ArrayList<Level> levels;
-  Integer currentLevelIndex;
-  GameState currentState;
+  private String uuid;
+  private ArrayList<Level> levels;
+  private Integer currentLevelIndex;
+  private GameState currentState;
 
-  public Game(String uuid, MapSet mapSet) {
-    levels = new ArrayList<>();
+  public Game(String uuid) {
     this.uuid = uuid;
-    this.currentState = GameState.LOBBY;
-    this.levels = new ArrayList<>();
-    // createNewLevel(mapSet.getMap(0));
-  }
-
-  public Level getCurrentLevel() {
-    return this.levels.get(this.currentLevelIndex);
-  }
-
-  public int addLevel(Level level) {
-    if (this.currentLevelIndex == null) {
-      this.currentLevelIndex = 0;
-    }
-    this.levels.add(level);
-
-    return this.levels.size() - 1;
+    levels = new ArrayList<>();
+    currentState = GameState.LOBBY;
+    levels = new ArrayList<>();
   }
 
   public GameState getState() {
@@ -44,15 +27,45 @@ public class Game {
   }
 
   public void setState(GameState state) {
-    this.currentState = state;
+    currentState = state;
+  }
+
+  public Level getCurrentLevel() {
+    return levels.get(currentLevelIndex);
+  }
+
+  public int addLevel(Level level) {
+    if (currentLevelIndex == null) {
+      currentLevelIndex = 0;
+    }
+
+    levels.add(level);
+
+    return levels.size() - 1;
   }
 
   public void setLevel(int index) {
-    this.currentLevelIndex = index;
+    currentLevelIndex = index;
   }
 
   public void incrementLevel() {
-    this.currentLevelIndex += 1;
+    currentLevelIndex++;
+  }
+
+  public int addPlayer(String uuid) {
+    // Generate player
+    Player player = new Player(uuid);
+
+    // Add to all levels
+    int size = -1;
+
+    for (Level level : levels) {
+      level.players.put(uuid, player);
+      size = level.players.size();
+    }
+
+    // Return index
+    return size - 1;
   }
 
   public void update(float delta) {}
@@ -62,7 +75,7 @@ public class Game {
 
     player.setDirection(direction);
     player.setPlayerState(PlayerState.MOVING);
-    
+
     int speed = 7;
     Vector3f origPos = player.getPosition();
     Vector3f newPos = new Vector3f();
@@ -80,24 +93,8 @@ public class Game {
       currentLevelIndex = 0;
     }
   }
-  
+
   public void updatePlayerState(PlayerState state) {
     getCurrentLevel().myPlayer().setPlayerState(state);
-  }
-
-  public int addPlayer(String uuid){
-    // Generate player
-    Player player = new Player(uuid);
-
-    // Add to all levels
-    int size = -1;
-
-    for(Level level : this.levels){
-      level.players.put(uuid, player);
-      size = level.players.size();
-    }
-
-    // Return index
-    return size - 1;
   }
 }

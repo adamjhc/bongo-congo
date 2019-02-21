@@ -119,7 +119,7 @@ public class Renderer {
   
   private void renderGame(Game gameModel) {
 	    camera.setPosition(
-	            playerSet.getPlayer(gameModel.getCurrentLevel().myPlayer().getId()).getTransform().getPosition().mul(-world.getScale(), new Vector3f()));
+	            playerSet.getPlayer(gameModel.getCurrentLevel().myPlayer().getId()).getPosition().mul(-world.getScale(), new Vector3f()));
 
 	        mapRenderer.render(
 	            gameModel.getCurrentLevel().getMap(),

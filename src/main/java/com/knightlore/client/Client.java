@@ -10,6 +10,7 @@ import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 
 import com.knightlore.client.audio.AudioHandler;
+import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.render.Renderer;
 import com.knightlore.game.Game;
 import com.knightlore.game.entity.Direction;
@@ -74,7 +75,10 @@ public class Client extends Thread {
     if (model == null) {
       MapSet mapSet = new MapSet(new TileSet());
       gameModel = new Game("", mapSet);
+
       gameModel.createNewLevel(mapSet.getMap(0));
+      gameModel.addPlayer("1");
+
     } else {
       gameModel = model;
     }

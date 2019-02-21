@@ -1,6 +1,7 @@
 package com.knightlore.client.networking.backend.commandhandler;
 
 import com.knightlore.client.networking.backend.Client;
+import com.knightlore.game.entity.Player;
 import com.knightlore.networking.Sendable;
 
 public class Factory {
@@ -14,6 +15,11 @@ public class Factory {
 
         if(sendable.getFunction().equals("position_update")){
             PositionUpdate handler = new PositionUpdate();
+            handler.run(client, sendable);
+        }
+
+        if(sendable.getFunction().equals("player_joined")){
+            PlayerJoined handler = new PlayerJoined();
             handler.run(client, sendable);
         }
     }

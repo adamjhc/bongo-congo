@@ -23,9 +23,6 @@ public abstract class Entity {
   public void setPosition(Vector3f position) {
     this.position = position;
 
-    if (GameConnection.instance != null) {
-      GameConnection.instance.updatePosition(position);
-    }
   }
 
   public int getId() {

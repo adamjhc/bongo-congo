@@ -126,7 +126,6 @@ public class GameServer extends Thread {
     public void startGame(){
         // Update model
         this.model.setState(GameState.PLAYING);
-        this.model.createNewLevel(new MapSet(new TileSet()).getMap(0));
 
         // Send
         Gson gson = new Gson();

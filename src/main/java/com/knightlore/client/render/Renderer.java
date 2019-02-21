@@ -86,12 +86,12 @@ public class Renderer {
   private void setupHudShader() {
       hudShaderProgram = new HUDShaderProgram();
       try {
-		hudShaderProgram.createVertexShader(Utils.loadResource("/shaders/hud_vertex.vs"));
+		hudShaderProgram.createVertexShader(Utils.loadResource("/shaders/hud.vert"));
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
       try {
-		hudShaderProgram.createFragmentShader(Utils.loadResource("/shaders/hud_fragment.fs"));
+		hudShaderProgram.createFragmentShader(Utils.loadResource("/shaders/hud.frag"));
 	} catch (Exception e) {
 		e.printStackTrace();
 	}

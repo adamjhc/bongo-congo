@@ -24,8 +24,8 @@ public class HUDRenderer {
 
     private void setupHudShader() throws Exception {
         hudShaderProgram = new HUDShaderProgram();
-        hudShaderProgram.createVertexShader(Utils.loadResource("/shaders/hud_vertex.vs"));
-        hudShaderProgram.createFragmentShader(Utils.loadResource("/shaders/hud_fragment.fs"));
+        hudShaderProgram.createVertexShader(Utils.loadResource("/shaders/hud.vert"));
+        hudShaderProgram.createFragmentShader(Utils.loadResource("/shaders/hud.frag"));
         hudShaderProgram.link();
 
         hudShaderProgram.createUniform("projModelMatrix");

@@ -5,8 +5,10 @@ import static org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15.glBindBuffer;
 import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
+import static org.lwjgl.system.MemoryStack.stackPush;
 
 import com.knightlore.client.util.BufferUtils;
+import org.lwjgl.system.MemoryStack;
 
 public class RenderModel {
 
@@ -32,17 +34,19 @@ public class RenderModel {
   public RenderModel(float[] vertices, float[] textureCoords, int[] indices) {
     draw_count = indices.length;
 
-    vertexBufferObject = new VertexBufferObject();
-    vertexBufferObject.bind();
-    vertexBufferObject.upload(BufferUtils.createBuffer(vertices));
+    try (MemoryStack stack = stackPush()) {
+      vertexBufferObject = new VertexBufferObject();
+      vertexBufferObject.bind();
+      vertexBufferObject.upload(BufferUtils.createBuffer(stack, vertices));
 
-    textureBufferObject = new VertexBufferObject();
-    textureBufferObject.bind();
-    textureBufferObject.upload(BufferUtils.createBuffer(textureCoords));
+      textureBufferObject = new VertexBufferObject();
+      textureBufferObject.bind();
+      textureBufferObject.upload(BufferUtils.createBuffer(stack, textureCoords));
 
-    elementBufferObject = new ElementBufferObject();
-    elementBufferObject.bind();
-    elementBufferObject.upload(BufferUtils.createBuffer(indices));
+      elementBufferObject = new ElementBufferObject();
+      elementBufferObject.bind();
+      elementBufferObject.upload(BufferUtils.createBuffer(stack, indices));
+    }
 
     unbind();
   }

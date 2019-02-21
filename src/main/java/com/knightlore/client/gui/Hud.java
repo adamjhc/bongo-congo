@@ -23,8 +23,6 @@ public class Hud implements IGui {
     
     private static final Font FONT_LARGE = new Font("Press Start 2P", Font.PLAIN, 40);
     
-    private static final Font FONT_TITLE = new Font("Press Start 2P", Font.PLAIN, 72);
-
     private static final String CHARSET = "ISO-8859-1";
     
     private static final int MAX_SCORE = 99999999;
@@ -46,10 +44,6 @@ public class Hud implements IGui {
     private final TextItem soundOn;
     
     private final TextItem soundOff;
-    
-    private final TextItem bongo;
-    
-    private final TextItem congo;
 
     public Hud(Window window) throws Exception {
     	InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
@@ -59,7 +53,6 @@ public class Hud implements IGui {
         FontTexture fontTexture = new FontTexture(FONT, CHARSET);
         FontTexture fontTextureLarge = new FontTexture(FONT_LARGE, CHARSET);
         FontTexture fontTexture25 = new FontTexture(FONT_25, CHARSET);
-        FontTexture fontTextureTitle = new FontTexture(FONT_TITLE, CHARSET);
         
         this.player1Score = new TextItem("P1:00000000", fontTexture);
         this.player1Score.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
@@ -84,13 +77,6 @@ public class Hud implements IGui {
         
         this.soundOff = new TextItem("/", fontTexture25);
         this.soundOff.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
-        
-        this.bongo = new TextItem("Bongo", fontTextureTitle);
-        this.bongo.getMesh().getMaterial().setColour(new Vector4f(0.29f, 0.92f, 0.95f, 1));
-        
-        this.congo = new TextItem("Congo", fontTextureTitle);
-        this.congo.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
-        
         this.player1Score.setPosition(5, 5, 0);
         this.player2Score.setPosition(window.getWidth()-170, 5, 0);
         this.player1Lives.setPosition(5, 20, 0);
@@ -99,11 +85,7 @@ public class Hud implements IGui {
         this.exit.setPosition(5, window.getHeight()-20, 0);
         this.soundOn.setPosition(window.getWidth()-40, window.getHeight()-40, 0);
         this.soundOff.setPosition(window.getWidth()-30, window.getHeight()-30, 0);
-        this.bongo.setPosition(window.getWidth()/2-360, window.getHeight()/2-200, 0);
-        this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-200, 0);
 
-        //gameItems = new GameItem[]{player1Score, player2Score, counter, player1Lives,
-        //		player2Lives, exit, singleplayer, multiplayer, bongo, congo, soundOn};
         gameItems = new GameItem[]{player1Score, player2Score, counter, player1Lives,
         		player2Lives, exit, soundOn};
     }

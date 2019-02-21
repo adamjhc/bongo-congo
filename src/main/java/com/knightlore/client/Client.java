@@ -129,7 +129,7 @@ public class Client extends Thread {
     	
         if (mouseInput.getXPos() > window.getWidth() / 2 - 90
         		&& mouseInput.getXPos() < window.getWidth() / 2 + 90
-                && mouseInput.getYPos() > window.getHeight() / 2 + 90
+                && mouseInput.getYPos() > window.getHeight() / 2 + 95
                 && mouseInput.getYPos() < window.getHeight() / 2 + 115) {
         	menu.setSingleplayer();
         	if (mouseInput.isLeftButtonPressed()) {

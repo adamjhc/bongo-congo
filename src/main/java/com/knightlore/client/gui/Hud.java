@@ -19,6 +19,8 @@ public class Hud implements IGui {
 
     private static final Font FONT = new Font("Press Start 2P", Font.PLAIN, 15);
     
+    private static final Font FONT_BACKGROUND = new Font("Press Start 2P", Font.PLAIN, 50);
+    
     private static final Font FONT_25 = new Font("Press Start 2P", Font.PLAIN, 30);
     
     private static final Font FONT_LARGE = new Font("Press Start 2P", Font.PLAIN, 40);
@@ -44,6 +46,10 @@ public class Hud implements IGui {
     private final TextObject soundOn;
     
     private final TextObject soundOff;
+    
+    private final TextObject backgroundTop;
+    
+    private final TextObject backgroundBottom;
 
     public Hud(Window window) throws Exception {
     	InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
@@ -53,6 +59,7 @@ public class Hud implements IGui {
         FontTexture fontTexture = new FontTexture(FONT, CHARSET);
         FontTexture fontTextureLarge = new FontTexture(FONT_LARGE, CHARSET);
         FontTexture fontTexture25 = new FontTexture(FONT_25, CHARSET);
+        FontTexture backgroundFont = new FontTexture(FONT_BACKGROUND, CHARSET);
         
         this.player1Score = new TextObject("P1:00000000", fontTexture);
         this.player1Score.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
@@ -75,6 +82,13 @@ public class Hud implements IGui {
         this.soundOn = new TextObject("(", fontTextureLarge);
         this.soundOn.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
         
+        this.backgroundTop = new TextObject("))))))))))))))))))))))))))", backgroundFont);
+        this.backgroundTop.getMesh().getMaterial().setColour(new Vector4f(0, 0, 0, 1));
+        
+        this.backgroundBottom = new TextObject("))))))))))))))))))))))))))", backgroundFont);
+        this.backgroundBottom.getMesh().getMaterial().setColour(new Vector4f(0, 0, 0, 1));
+        
+        
         this.soundOff = new TextObject("/", fontTexture25);
         this.soundOff.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         this.player1Score.setPosition(5, 5, 0);
@@ -85,8 +99,10 @@ public class Hud implements IGui {
         this.exit.setPosition(5, window.getHeight()-20, 0);
         this.soundOn.setPosition(window.getWidth()-40, window.getHeight()-40, 0);
         this.soundOff.setPosition(window.getWidth()-30, window.getHeight()-30, 0);
+        this.backgroundTop.setPosition(0, -10, 0);
+        this.backgroundBottom.setPosition(0, window.getHeight()-50, 0);
 
-        guiObjects = new GuiObject[]{player1Score, player2Score, counter, player1Lives,
+        guiObjects = new GuiObject[]{backgroundTop, backgroundBottom, player1Score, player2Score, counter, player1Lives,
         		player2Lives, exit, soundOn};
     }
 
@@ -120,7 +136,7 @@ public class Hud implements IGui {
     }
     
     public void setSoundOff() {
-    	if (guiObjects.length == 7) {
+    	if (guiObjects.length == 9) {
 	    	GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length +1];
 	    	for (int i = 0; i < guiObjects.length; i++) {
 	    		guiObjectsNew[i] = guiObjects[i];
@@ -128,7 +144,7 @@ public class Hud implements IGui {
 	    	guiObjectsNew[guiObjects.length] = soundOff;
 	    	guiObjects = guiObjectsNew.clone();
     	}
-    	else if (guiObjects.length == 8) {
+    	else if (guiObjects.length == 10) {
 	    	GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length -1];
 	    	for (int i = 0, k = 0; i < guiObjects.length; i++) {
 	    		if (i == guiObjects.length-1) {

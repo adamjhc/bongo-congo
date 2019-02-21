@@ -77,9 +77,6 @@ public class Player extends Entity {
     } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
       setPosition(oldPos);
     }
-
-
-
   }
 
   private Vector3f setPadding(Vector3f pos) {

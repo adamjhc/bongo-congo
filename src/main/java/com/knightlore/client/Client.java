@@ -45,7 +45,13 @@ public class Client extends Thread {
   private MainMenu menu;
   
   private enum State {
-	    MAINMENU, PLAY, DEAD 
+	    MAINMENU,
+	    SERVERMENU,
+	    OPTIONSMENU,
+	    LOBBY,
+	    PLAY,
+	    DEAD,
+	    END
   };
   
   private static State gameState = State.MAINMENU;

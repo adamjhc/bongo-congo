@@ -29,7 +29,6 @@ public class PlayerRenderer {
    */
   public void render(Player player, ShaderProgram shaderProgram, Matrix4f camera) {
     Vector3f position = player.getPosition();
-
     playerSet
         .getPlayer(player.getId())
         .render(

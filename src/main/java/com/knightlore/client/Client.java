@@ -15,6 +15,7 @@ import com.knightlore.client.gui.MainMenu;
 import com.knightlore.client.gui.engine.MouseInput;
 import com.knightlore.client.gui.engine.Timer;
 import com.knightlore.client.gui.engine.Window;
+import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.render.Renderer;
 import com.knightlore.game.Game;
 import com.knightlore.game.entity.Direction;
@@ -90,7 +91,10 @@ public class Client extends Thread {
     if (model == null) {
       MapSet mapSet = new MapSet(new TileSet());
       gameModel = new Game("", mapSet);
+
       gameModel.createNewLevel(mapSet.getMap(0));
+      gameModel.addPlayer("1");
+
     } else {
       gameModel = model;
     }

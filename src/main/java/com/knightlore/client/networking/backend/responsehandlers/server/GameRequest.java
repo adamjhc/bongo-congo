@@ -25,7 +25,7 @@ public class GameRequest implements GenericHandler {
             Client gameClient = new Client(data.ip, data.port);
             gameClient.run();
 
-            GameConnection.instance = new GameConnection(gameClient);
+            GameConnection.instance = new GameConnection(gameClient, ServerConnection.instance.getSessionKey().get());
 
             // Connection established
             // Call additional listeners

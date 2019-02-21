@@ -86,12 +86,12 @@ public class Renderer {
   private void setupHudShader() {
       hudShaderProgram = new HudShaderProgram();
       try {
-		hudShaderProgram.createVertexShader(Utils.loadResource("/shaders/hud_vertex.vs"));
+		hudShaderProgram.createVertexShader(Utils.loadResource("/shaders/hud.vert"));
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
       try {
-		hudShaderProgram.createFragmentShader(Utils.loadResource("/shaders/hud_fragment.fs"));
+		hudShaderProgram.createFragmentShader(Utils.loadResource("/shaders/hud.frag"));
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
@@ -127,7 +127,7 @@ public class Renderer {
   
   private void renderGame(Game gameModel) {
 	    camera.setPosition(
-	            playerSet.getPlayer(0).getTransform().getPosition().mul(-world.getScale(), new Vector3f()));
+	            playerSet.getPlayer(gameModel.getCurrentLevel().myPlayer().getId()).getTransform().getPosition().mul(-world.getScale(), new Vector3f()));
 
 	        mapRenderer.render(
 	            gameModel.getCurrentLevel().getMap(),
@@ -135,7 +135,7 @@ public class Renderer {
 	            world.getProjection(),
 	            camera.getProjection());
 
-	        for (Player player : gameModel.getCurrentLevel().getPlayers()) {
+	        for (Player player : gameModel.getCurrentLevel().getPlayers().values()) {
 	        	playerRenderer.render(player, shaderProgram, camera.getProjection());
 	        }
   }

@@ -6,6 +6,9 @@ import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.Map;
 import com.knightlore.game.map.MapSet;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
+
 import org.joml.Vector3f;
 
 public class Game {
@@ -55,7 +58,7 @@ public class Game {
   public void update(float delta) {}
 
   public void movePlayerInDirection(Direction direction, float delta) {
-    Player player = getCurrentLevel().getPlayers().get(0);
+    Player player = getCurrentLevel().myPlayer();
 
     player.setDirection(direction);
     player.setPlayerState(PlayerState.MOVING);
@@ -69,8 +72,7 @@ public class Game {
   }
 
   public void createNewLevel(Map map) {
-    ArrayList<Player> players = new ArrayList<>();
-    players.add(new Player());
+    HashMap<String, Player> players = new HashMap<>();
 
     levels.add(new Level(map, players));
 
@@ -80,7 +82,23 @@ public class Game {
   }
   
   public void updatePlayerState(PlayerState state) {
-    getCurrentLevel().getPlayers().get(0).setPlayerState(state);
+    getCurrentLevel().myPlayer().setPlayerState(state);
+  }
+
+  public int addPlayer(String uuid){
+    // Generate player
+    Player player = new Player(uuid);
+
+    // Add to all levels
+    int size = -1;
+
+    for(Level level : this.levels){
+      level.players.put(uuid, player);
+      size = level.players.size();
+    }
+
+    // Return index
+    return size - 1;
   }
   
   public void resetPlayer() {

@@ -26,5 +26,8 @@ public class PlayerSet {
   /** Loads the player game objects into the player set */
   private void loadPlayers() {
     playerSet.add(new PlayerGameObject("player"));
+    playerSet.add(new PlayerGameObject("player"));
+    playerSet.add(new PlayerGameObject("player"));
+    playerSet.add(new PlayerGameObject("player"));
   }
 }

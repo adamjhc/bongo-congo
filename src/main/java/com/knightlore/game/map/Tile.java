@@ -1,6 +1,6 @@
 package com.knightlore.game.map;
 
-public abstract class Tile {
+public class Tile {
 
   private static int inc = 0;
   private int id;
@@ -10,9 +10,6 @@ public abstract class Tile {
   private boolean hazard;
   private boolean goal;
 
-  public Tile(){
-
-  }
 
   public Tile(boolean walkable, boolean climbable, boolean hazard, boolean goal) {
     id = inc;

@@ -1,10 +1,13 @@
 package com.knightlore.game.entity;
 
+import com.knightlore.client.networking.GameConnection;
 import com.knightlore.game.map.Map;
 import com.knightlore.game.map.Tile;
 import com.knightlore.game.util.CoordinateUtils;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
+
+import java.util.UUID;
 
 public class Player extends Entity {
 
@@ -12,6 +15,7 @@ public class Player extends Entity {
   private int lives;
   private int score;
   private PlayerState playerState;
+  private String associatedSession;
 
   public Player() {
     id = inc;
@@ -23,6 +27,11 @@ public class Player extends Entity {
 
     lives = 3;
     score = 0;
+  }
+
+  public Player(String sessionID){
+    this();
+    this.associatedSession = sessionID;
   }
 
   @Override
@@ -41,6 +50,9 @@ public class Player extends Entity {
       if (!newTile.isWalkable()) {
         setPosition(oldPos);
       } else {
+        if (GameConnection.instance != null) {
+          GameConnection.instance.updatePosition(position);
+        }
         setPosition(newPos);
       }
       // catches SW and SE edges    catches NE and NW edges

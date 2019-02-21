@@ -60,13 +60,11 @@ public class TileGameObject extends GameObject {
 
       texture.bind(0);
 
-      Matrix4f position = new Matrix4f().translate(CoordinateUtils.toIsometric(x, y));
-      Matrix4f target = new Matrix4f();
-      camera.mul(world, target);
-      target.mul(position);
+      Matrix4f position =
+          new Matrix4f(camera).mul(world).translate(CoordinateUtils.toIsometric(x, y));
 
       shaderProgram.setUniform("sampler", 0);
-      shaderProgram.setUniform("projection", target);
+      shaderProgram.setUniform("projection", position);
 
       model.render();
     }

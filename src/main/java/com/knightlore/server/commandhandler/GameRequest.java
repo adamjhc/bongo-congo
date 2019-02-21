@@ -10,7 +10,7 @@ import com.knightlore.server.database.model.*;
 import com.knightlore.server.game.GameRepository;
 import com.knightlore.util.Config;
 import org.apache.log4j.Logger;
-import sun.security.x509.IPAddressName;
+
 
 import java.io.IOException;
 import java.net.InetAddress;

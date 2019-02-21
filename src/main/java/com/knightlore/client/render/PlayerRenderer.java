@@ -25,14 +25,19 @@ public class PlayerRenderer {
    *
    * @param player Game Player object to render
    * @param shaderProgram Shader program to use
-   * @param world World projection
    * @param camera Camera projection
    */
-  public void render(Player player, ShaderProgram shaderProgram, Matrix4f world, Matrix4f camera) {
+  public void render(Player player, ShaderProgram shaderProgram, Matrix4f camera) {
     Vector3f position = player.getPosition();
 
     playerSet
         .getPlayer(player.getId())
-        .render(position.x + position.z, position.y + position.z, shaderProgram, world, camera);
+        .render(
+            player.getPlayerState(),
+            player.getDirection(),
+            position.x + position.z,
+            position.y + position.z,
+            shaderProgram,
+            camera);
   }
 }

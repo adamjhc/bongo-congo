@@ -10,6 +10,10 @@ public class Sendable implements Serializable{
     private String data;
     public boolean success;
 
+    public Sendable(){
+        this.uuid = UUID.randomUUID().toString();
+    }
+
     public String getUuid() {
         return uuid;
     }

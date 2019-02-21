@@ -38,15 +38,36 @@ public class Player extends Entity {
 
     try {
       Tile newTile = map.getTile(coords);
-      if (!newTile.isWalkable()) {
+
+      if (!newTile.isWalkable() && !newTile.isClimbable()) {
+        newPos.z -= 1;
+        setPosition(newPos);
+      }
+
+      else if (!newTile.isWalkable()) {
         setPosition(oldPos);
       } else {
         setPosition(newPos);
       }
+
+      if (newTile.isClimbable()) {
+        newPos.z += 1;
+        coords = CoordinateUtils.getTileCoord(setPadding(newPos));
+        newTile = map.getTile(coords);
+        if (newTile.isWalkable()){
+          setPosition(newPos);
+        } else {
+          setPosition(oldPos);
+        }
+      }
+      
       // catches SW and SE edges    catches NE and NW edges
     } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
       setPosition(oldPos);
     }
+
+
+
   }
 
   private Vector3f setPadding(Vector3f pos) {

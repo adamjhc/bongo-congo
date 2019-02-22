@@ -17,7 +17,6 @@ import com.knightlore.client.gui.MainMenu;
 import com.knightlore.client.gui.engine.MouseInput;
 import com.knightlore.client.gui.engine.Timer;
 import com.knightlore.client.gui.engine.Window;
-import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.render.Renderer;
 import com.knightlore.game.Game;
 import com.knightlore.game.entity.Direction;
@@ -27,37 +26,17 @@ import com.knightlore.game.map.TileSet;
 
 public class Client extends Thread {
 
-  public static Game model;
-
   private static final int TARGET_UPS = 60;
-
-  private Window window;
-
-  private Renderer renderer;
-
-  private Game gameModel;
-
-  private AudioHandler audio;
-
-  private MouseInput mouseInput;
-
-  private Timer timer;
-
-  private Hud hud;
-  
-  private MainMenu menu;
-  
-  private enum State {
-	    MAINMENU,
-	    SERVERMENU,
-	    OPTIONSMENU,
-	    LOBBY,
-	    PLAY,
-	    DEAD,
-	    END
-  };
-  
+  public static Game model;
   private static State gameState = State.MAINMENU;
+  private Window window;
+  private Renderer renderer;
+  private Game gameModel;
+  private AudioHandler audio;
+  private MouseInput mouseInput;
+  private Timer timer;
+  private Hud hud;
+  private MainMenu menu;
 
   public static void main(String[] args) {
     new Client().run();
@@ -90,13 +69,13 @@ public class Client extends Thread {
     menu = new MainMenu(window);
 
     renderer = new Renderer(window);
+
     if (model == null) {
       MapSet mapSet = new MapSet(new TileSet());
-      gameModel = new Game("", mapSet);
+      gameModel = new Game("");
 
       gameModel.createNewLevel(mapSet.getMap(0));
       gameModel.addPlayer("1");
-
     } else {
       gameModel = model;
     }
@@ -135,18 +114,18 @@ public class Client extends Thread {
     	
     	// SINGEPLAYER BUTTON
         if (mouseInput.getXPos() > window.getWidth() / 2 - 90
-        		&& mouseInput.getXPos() < window.getWidth() / 2 + 90
-                && mouseInput.getYPos() > window.getHeight() / 2 + 95
-                && mouseInput.getYPos() < window.getHeight() / 2 + 115) {
-        	menu.setSingleplayer();
-        	if (mouseInput.isLeftButtonPressed()) {
-        		audio.toggle();
-        		audio.toggle(); //eventually change this so switches between menu and game music
-        		
-        		timer.setStartTime();
-        		hud.resetP1Lives();
-        		gameState = State.PLAY;
-            }
+            && mouseInput.getXPos() < window.getWidth() / 2 + 90
+            && mouseInput.getYPos() > window.getHeight() / 2 + 95
+            && mouseInput.getYPos() < window.getHeight() / 2 + 115) {
+          menu.setSingleplayer();
+          if (mouseInput.isLeftButtonPressed()) {
+            audio.toggle();
+            audio.toggle(); // eventually change this so switches between menu and game music
+
+            timer.setStartTime();
+            hud.resetP1Lives();
+            gameState = State.PLAY;
+          }
         } else menu.setRestoreSingleplayer();
         
         // AUDIO BUTTON
@@ -179,54 +158,54 @@ public class Client extends Thread {
     case PLAY:
     	
         if (window.isKeyPressed(GLFW_KEY_W) // Player presses W
-                && !window.isKeyPressed(GLFW_KEY_A)
-                && !window.isKeyPressed(GLFW_KEY_S)
-                && !window.isKeyPressed(GLFW_KEY_D)) {
-        	gameModel.movePlayerInDirection(Direction.NORTH_WEST, delta);
+            && !window.isKeyPressed(GLFW_KEY_A)
+            && !window.isKeyPressed(GLFW_KEY_S)
+            && !window.isKeyPressed(GLFW_KEY_D)) {
+          gameModel.movePlayerInDirection(Direction.NORTH_WEST, delta);
         } else if (window.isKeyPressed(GLFW_KEY_W) // Player presses W and D
-                && window.isKeyPressed(GLFW_KEY_D)) {
-            gameModel.movePlayerInDirection(Direction.NORTH, delta);
+            && window.isKeyPressed(GLFW_KEY_D)) {
+          gameModel.movePlayerInDirection(Direction.NORTH, delta);
         } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses D
-                && !window.isKeyPressed(GLFW_KEY_A)
-                && !window.isKeyPressed(GLFW_KEY_S)
-                && window.isKeyPressed(GLFW_KEY_D)) {
-            gameModel.movePlayerInDirection(Direction.NORTH_EAST, delta);
+            && !window.isKeyPressed(GLFW_KEY_A)
+            && !window.isKeyPressed(GLFW_KEY_S)
+            && window.isKeyPressed(GLFW_KEY_D)) {
+          gameModel.movePlayerInDirection(Direction.NORTH_EAST, delta);
         } else if (window.isKeyPressed(GLFW_KEY_S) // Player presses S and D
-                && window.isKeyPressed(GLFW_KEY_D)) {
-            gameModel.movePlayerInDirection(Direction.EAST, delta);
+            && window.isKeyPressed(GLFW_KEY_D)) {
+          gameModel.movePlayerInDirection(Direction.EAST, delta);
         } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses S
-                && !window.isKeyPressed(GLFW_KEY_A)
-                && window.isKeyPressed(GLFW_KEY_S)
-                && !window.isKeyPressed(GLFW_KEY_D)) {
-            gameModel.movePlayerInDirection(Direction.SOUTH_EAST, delta);
+            && !window.isKeyPressed(GLFW_KEY_A)
+            && window.isKeyPressed(GLFW_KEY_S)
+            && !window.isKeyPressed(GLFW_KEY_D)) {
+          gameModel.movePlayerInDirection(Direction.SOUTH_EAST, delta);
         } else if (window.isKeyPressed(GLFW_KEY_S) // Player presses S and A
-                && window.isKeyPressed(GLFW_KEY_A)) {
-            gameModel.movePlayerInDirection(Direction.SOUTH, delta);
+            && window.isKeyPressed(GLFW_KEY_A)) {
+          gameModel.movePlayerInDirection(Direction.SOUTH, delta);
         } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses A
-                && window.isKeyPressed(GLFW_KEY_A)
-                && !window.isKeyPressed(GLFW_KEY_S)
-                && !window.isKeyPressed(GLFW_KEY_D)) {
-            gameModel.movePlayerInDirection(Direction.SOUTH_WEST, delta);
+            && window.isKeyPressed(GLFW_KEY_A)
+            && !window.isKeyPressed(GLFW_KEY_S)
+            && !window.isKeyPressed(GLFW_KEY_D)) {
+          gameModel.movePlayerInDirection(Direction.SOUTH_WEST, delta);
         } else if (window.isKeyPressed(GLFW_KEY_W) // Player presses W and A
-                && window.isKeyPressed(GLFW_KEY_A)) {
-            gameModel.movePlayerInDirection(Direction.WEST, delta);
+            && window.isKeyPressed(GLFW_KEY_A)) {
+          gameModel.movePlayerInDirection(Direction.WEST, delta);
         } else {
-        	gameModel.updatePlayerState(PlayerState.IDLE);
+          gameModel.updatePlayerState(PlayerState.IDLE);
         }
 
         // LIVES
         if (window.isKeyReleased(GLFW_KEY_L)) {
-        	hud.setP1Lives();
-        	gameModel.resetPlayer();
-        	
-        	if (hud.isP1Dead()) {
-        		gameModel.updatePlayerState(PlayerState.IDLE);
-        		gameState = State.DEAD;
-        	}
+          hud.setP1Lives();
+          gameModel.resetPlayer();
+
+          if (hud.isP1Dead()) {
+            gameModel.updatePlayerState(PlayerState.IDLE);
+            gameState = State.DEAD;
+          }
         }
 
         if (window.isKeyReleased(GLFW_KEY_P)) {
-            hud.setP1Score();
+          hud.setP1Score();
         }
         
         if (window.isKeyReleased(GLFW_KEY_ESCAPE)) {
@@ -298,9 +277,8 @@ public class Client extends Thread {
                 audio.toggle();
             }
         }
-    	
-    	break;
-    	
+
+        break;
     }
   }
 
@@ -336,28 +314,17 @@ public class Client extends Thread {
   }
 
   private void render(Game gameModel) {
-	  
-	  switch(gameState){   
-    
+    switch (gameState) {
       case MAINMENU:
-    	
-    	  renderer.render(window, menu);
-    	
-    	  break;
-    	
+        renderer.render(window, menu);
+        break;
       case PLAY:
-    	
-    	  renderer.render(gameModel, window, hud);
-    	
-    	  break;
-    	
-	  case DEAD:
-		  
-		  renderer.render(gameModel, window, hud);
-		  
-		  break;
-		  
-	  }
+        renderer.render(gameModel, window, hud);
+        break;
+      case DEAD:
+        renderer.render(gameModel, window, hud);
+        break;
+    }
   }
 
   private void dispose() {
@@ -368,5 +335,15 @@ public class Client extends Thread {
     window.destroyWindow();
 
     glfwTerminate();
+  }
+
+  private enum State {
+    MAINMENU,
+    SERVERMENU,
+    OPTIONSMENU,
+    LOBBY,
+    PLAY,
+    DEAD,
+    END
   }
 }

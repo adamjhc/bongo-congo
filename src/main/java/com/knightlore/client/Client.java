@@ -7,6 +7,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_P;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_TAB;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 
@@ -150,10 +151,10 @@ public class Client extends Thread {
         
         // AUDIO BUTTON
         if (mouseInput.getXPos() > window.getWidth() - 35
-                && mouseInput.getYPos() > window.getHeight() - 35) {
+                && mouseInput.getYPos() < 35) {
         	if (mouseInput.isLeftButtonPressed()) {
-        		menu.setSoundOff();
-                hud.setSoundOff();
+        		menu.toggleSound();
+                hud.toggleSound();
                 audio.toggle();
             }
         }
@@ -251,10 +252,17 @@ public class Client extends Thread {
         if (mouseInput.getXPos() > window.getWidth() - 35
                 && mouseInput.getYPos() < 35) {
         	if (mouseInput.isLeftButtonPressed()) {
-        		menu.setSoundOff();
-                hud.setSoundOff();
+        		menu.toggleSound();
+                hud.toggleSound();
                 audio.toggle();
             }
+        }
+        
+        if (window.isKeyPressed(GLFW_KEY_TAB)) {
+        	hud.toggleScore(true);
+        } 
+        if (window.isKeyReleased(GLFW_KEY_TAB)) {
+        	hud.toggleScore(false);
         }
   
     	break;
@@ -285,8 +293,8 @@ public class Client extends Thread {
         if (mouseInput.getXPos() > window.getWidth() - 35
                 && mouseInput.getYPos() > window.getHeight() - 35) {
         	if (mouseInput.isLeftButtonPressed()) {
-        		menu.setSoundOff();
-                hud.setSoundOff();
+        		menu.toggleSound();
+                hud.toggleSound();
                 audio.toggle();
             }
         }

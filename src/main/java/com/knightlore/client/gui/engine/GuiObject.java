@@ -13,18 +13,33 @@ public class GuiObject {
     private float scale;
     
     private final Vector3f rotation;
+    
+    private Boolean render;
 
     public GuiObject() {
         position = new Vector3f(0, 0, 0);
         scale = 1;
         rotation = new Vector3f(0, 0, 0);
+        render = true;
     }
     
     public GuiObject(Mesh mesh) {
         this();
         this.mesh = mesh;
     }
+    
+    public boolean getRender() {
+    	return render;
+    }
 
+    public void setRender() {
+    	this.render = !this.render;
+    }
+    
+    public void setRender(boolean state) {
+    	this.render = state;
+    }
+    
     public Vector3f getPosition() {
         return position;
     }

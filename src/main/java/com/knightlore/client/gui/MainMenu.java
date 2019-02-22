@@ -88,14 +88,14 @@ public class MainMenu implements IGui {
         
         this.options.setPosition(window.getWidth()/2-50, window.getHeight()/2+140, 0);
         
-        this.soundOn.setPosition(window.getWidth()-40, window.getHeight()-40, 0);
-        this.soundOff.setPosition(window.getWidth()-30, window.getHeight()-30, 0);
+        this.soundOn.setPosition(window.getWidth()-40, -5, 0);
+        this.soundOff.setPosition(window.getWidth()-30, 5, 0);
         
         this.quit.setPosition(window.getWidth()/2-30, window.getHeight()/2+160, 0);
         
-
+        this.soundOff.setRender();
         
-        guiObjects = new GuiObject[]{bongo, congo, singleplayer, multiplayer, quit, options, soundOn};
+        guiObjects = new GuiObject[]{bongo, congo, singleplayer, multiplayer, quit, options, soundOn, soundOff};
     }
     
     public void setSingleplayer() {
@@ -114,25 +114,8 @@ public class MainMenu implements IGui {
     	this.quit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
     }
     
-    public void setSoundOff() {
-    	if (guiObjects.length == 7) {
-	    	GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length +1];
-	    	for (int i = 0; i < guiObjects.length; i++) {
-	    		guiObjectsNew[i] = guiObjects[i];
-	    	}
-	    	guiObjectsNew[guiObjects.length] = soundOff;
-	    	guiObjects = guiObjectsNew.clone();
-    	}
-    	else if (guiObjects.length == 8) {
-	    	GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length -1];
-	    	for (int i = 0, k = 0; i < guiObjects.length; i++) {
-	    		if (i == guiObjects.length-1) {
-	    			continue;
-	    		}
-	    		guiObjectsNew[k++] = guiObjects[i];
-	    	}
-	    	guiObjects = guiObjectsNew.clone();
-    	}
+    public void toggleSound() {
+    	this.soundOff.setRender();
     }
     
     @Override

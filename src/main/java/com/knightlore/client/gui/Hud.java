@@ -18,6 +18,8 @@ import com.knightlore.client.gui.engine.graphics.FontTexture;
 public class Hud implements IGui {
 
     private static final Font FONT = new Font("Press Start 2P", Font.PLAIN, 15);
+
+    private static final Font FONT_LIVES = new Font("Press Start 2P", Font.PLAIN, 20);
     
     private static final Font FONT_BACKGROUND = new Font("Press Start 2P", Font.PLAIN, 48);
     
@@ -30,6 +32,10 @@ public class Hud implements IGui {
     private static final int MAX_SCORE = 99999999;
 
     private GuiObject[] guiObjects;
+    
+    private GuiObject[] guiObjectsTab;
+    
+    private GuiObject[] guiObjectsNoTab;
 
     private final TextObject player1Score;
     
@@ -80,6 +86,7 @@ public class Hud implements IGui {
         FontTexture fontTextureLarge = new FontTexture(FONT_LARGE, CHARSET);
         FontTexture fontTexture25 = new FontTexture(FONT_25, CHARSET);
         FontTexture backgroundFont = new FontTexture(FONT_BACKGROUND, CHARSET);
+        FontTexture fontTextureLives = new FontTexture(FONT_LIVES, CHARSET);
         
         this.player1Score = new TextObject("P1:00000000", fontTexture);
         this.player1Score.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
@@ -99,22 +106,22 @@ public class Hud implements IGui {
         this.player6Score = new TextObject("P6:00000000", fontTexture);
         this.player6Score.getMesh().getMaterial().setColour(new Vector4f(0, 0, 1, 1));
         
-        this.player1Lives = new TextObject("***", fontTexture);
+        this.player1Lives = new TextObject("***", fontTextureLives);
         this.player1Lives.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         
-        this.player2Lives = new TextObject("***", fontTexture);
+        this.player2Lives = new TextObject("***", fontTextureLives);
         this.player2Lives.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         
-        this.player3Lives = new TextObject("***", fontTexture);
+        this.player3Lives = new TextObject("***", fontTextureLives);
         this.player3Lives.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
 
-        this.player4Lives = new TextObject("***", fontTexture);
+        this.player4Lives = new TextObject("***", fontTextureLives);
         this.player4Lives.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
 
-        this.player5Lives = new TextObject("***", fontTexture);
+        this.player5Lives = new TextObject("***", fontTextureLives);
         this.player5Lives.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         
-        this.player6Lives = new TextObject("***", fontTexture);
+        this.player6Lives = new TextObject("***", fontTextureLives);
         this.player6Lives.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         
         this.counter = new TextObject("90", fontTexture25);
@@ -143,20 +150,20 @@ public class Hud implements IGui {
         this.soundOff.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         
         this.player1Score.setPosition(5, 5, 0);
-        this.player2Score.setPosition(185, 5, 0);
-        this.player3Score.setPosition(365, 5, 0);
-        this.player4Score.setPosition(545, 5, 0);
-        this.player5Score.setPosition(725, 5, 0);
-        this.player6Score.setPosition(905, 5, 0);
+        this.player2Score.setPosition(5, 25, 0);
+        this.player3Score.setPosition(5, 45, 0);
+        this.player4Score.setPosition(5, 65, 0);
+        this.player5Score.setPosition(5, 85, 0);
+        this.player6Score.setPosition(5, 105, 0);
         
-        this.player1Lives.setPosition(5, 20, 0);
-        this.player2Lives.setPosition(185, 20, 0);
-        this.player3Lives.setPosition(365, 20, 0);
-        this.player4Lives.setPosition(545, 20, 0);
-        this.player5Lives.setPosition(725, 20, 0);
-        this.player6Lives.setPosition(905, 20, 0);
+        this.player1Lives.setPosition(175, 1, 0);
+        this.player2Lives.setPosition(175, 21, 0);
+        this.player3Lives.setPosition(175, 41, 0);
+        this.player4Lives.setPosition(175, 61, 0);
+        this.player5Lives.setPosition(175, 81, 0);
+        this.player6Lives.setPosition(175, 101, 0);
         
-        this.counter.setPosition(1135, 5, 0);
+        this.counter.setPosition(1175, 5, 0);
         this.exit.setPosition(5, window.getHeight()-20, 0);
         this.soundOn.setPosition(window.getWidth()-40, -5, 0);
         this.soundOff.setPosition(window.getWidth()-30, 5, 0);
@@ -168,11 +175,12 @@ public class Hud implements IGui {
         this.backgroundBottom.setRotation(0, 0, 180);
         this.backgroundLeft.setRotation(0, 0, 90);
         this.backgroundRight.setRotation(0, 0, 270);
-
-        //guiObjects = new GuiObject[]{backgroundTop, backgroundBottom, backgroundLeft, backgroundRight, player1Score, player2Score, counter, player1Lives,
-        //		player2Lives, exit, soundOn};
-        guiObjects = new GuiObject[]{backgroundTop, player1Score, player2Score, player3Score, player4Score, player5Score, player6Score, counter, player1Lives,
-        		player2Lives, player3Lives, player4Lives, player5Lives, player6Lives, soundOn};
+        
+        toggleScore(false);
+        toggleSound();
+        
+        guiObjects = new GuiObject[]{player1Score, player2Score, player3Score, player4Score, player5Score, player6Score, player1Lives,
+        		player2Lives, player3Lives, player4Lives, player5Lives, player6Lives, counter, soundOn, soundOff};
     }
 
     public void setP1Score(String statusText) {
@@ -204,25 +212,21 @@ public class Hud implements IGui {
     	this.soundOn.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
     }
     
-    public void setSoundOff() {
-    	if (guiObjects.length == 15) {
-	    	GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length +1];
-	    	for (int i = 0; i < guiObjects.length; i++) {
-	    		guiObjectsNew[i] = guiObjects[i];
-	    	}
-	    	guiObjectsNew[guiObjects.length] = soundOff;
-	    	guiObjects = guiObjectsNew.clone();
-    	}
-    	else if (guiObjects.length == 16) {
-	    	GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length -1];
-	    	for (int i = 0, k = 0; i < guiObjects.length; i++) {
-	    		if (i == guiObjects.length-1) {
-	    			continue;
-	    		}
-	    		guiObjectsNew[k++] = guiObjects[i];
-	    	}
-	    	guiObjects = guiObjectsNew.clone();
-    	}
+    public void toggleScore(boolean state) {
+        this.player2Lives.setRender(state);
+        this.player2Score.setRender(state);
+        this.player3Lives.setRender(state);
+        this.player3Score.setRender(state);
+        this.player4Lives.setRender(state);
+        this.player4Score.setRender(state);
+        this.player5Lives.setRender(state);
+        this.player5Score.setRender(state);
+        this.player6Lives.setRender(state);
+        this.player6Score.setRender(state);
+    }
+    
+    public void toggleSound() {
+    	this.soundOff.setRender();
     }
     
     public void setP1Lives() {

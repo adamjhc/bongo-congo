@@ -38,7 +38,7 @@ public class StaticTexture extends Texture {
    * @param fileName Name of the texture file
    */
   public StaticTexture(String fileName) {
-    Image image = FileUtils.loadImage(texturePathPrefix + fileName + fileExtension);
+    Image image = FileUtils.loadTexture(texturePathPrefix + fileName + fileExtension);
     width = image.getWidth();
     height = image.getHeight();
 

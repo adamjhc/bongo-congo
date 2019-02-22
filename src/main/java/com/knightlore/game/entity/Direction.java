@@ -1,5 +1,6 @@
 package com.knightlore.game.entity;
 
+import com.knightlore.client.render.world.TileGameObject;
 import org.joml.Vector3f;
 
 public enum Direction {
@@ -18,11 +19,13 @@ public enum Direction {
     SOUTH.normalisedDirection = new Vector3f(-1, 0, 0);
     WEST.normalisedDirection = new Vector3f(0, 1, 0);
 
-    float root2over2 = 0.7071f;
-    NORTH_EAST.normalisedDirection = new Vector3f(root2over2, -root2over2, 0);
-    SOUTH_EAST.normalisedDirection = new Vector3f(-root2over2, -root2over2, 0);
-    SOUTH_WEST.normalisedDirection = new Vector3f(-root2over2, root2over2, 0);
-    NORTH_WEST.normalisedDirection = new Vector3f(root2over2, root2over2, 0);
+    // The ratio between vertical movement speed and horizontal movement speed should be the same as
+    // the ratio between tile height and tile width. 1.4142 is pythagoras of the above vectors
+    float normalised = (float) (1.4142 * TileGameObject.tileHeight / TileGameObject.tileWidth);
+    NORTH_EAST.normalisedDirection = new Vector3f(normalised, -normalised, 0);
+    SOUTH_EAST.normalisedDirection = new Vector3f(-normalised, -normalised, 0);
+    SOUTH_WEST.normalisedDirection = new Vector3f(-normalised, normalised, 0);
+    NORTH_WEST.normalisedDirection = new Vector3f(normalised, normalised, 0);
   }
 
   private final String abbreviation;

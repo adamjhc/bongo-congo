@@ -24,12 +24,12 @@ import com.knightlore.client.render.world.PlayerSet;
 import com.knightlore.client.render.world.TileSet;
 import com.knightlore.game.Game;
 import com.knightlore.game.entity.Player;
-
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 public class Renderer {
 
+  private final Transformation transformation;
   /** Window reference */
   private Window window;
 
@@ -50,9 +50,7 @@ public class Renderer {
 
   /** Renderer used for the players */
   private PlayerRenderer playerRenderer;
-  
-  private final Transformation transformation;
-  
+
   private HudShaderProgram hudShaderProgram;
 
   /**
@@ -77,29 +75,29 @@ public class Renderer {
     mapRenderer = new MapRenderer(new TileSet());
     playerSet = new PlayerSet();
     playerRenderer = new PlayerRenderer(playerSet);
-    
+
     transformation = new Transformation();
-    
+
     setupHudShader();
   }
-  
-  private void setupHudShader() {
-      hudShaderProgram = new HudShaderProgram();
-      try {
-		hudShaderProgram.createVertexShader(Utils.loadResource("/shaders/hud.vert"));
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-      try {
-		hudShaderProgram.createFragmentShader(Utils.loadResource("/shaders/hud.frag"));
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-      hudShaderProgram.link();
 
-      hudShaderProgram.createUniform("projModelMatrix");
-      hudShaderProgram.createUniform("colour");
-      hudShaderProgram.createUniform("hasTexture");
+  private void setupHudShader() {
+    hudShaderProgram = new HudShaderProgram();
+    try {
+      hudShaderProgram.createVertexShader(Utils.loadResource("/shaders/hud.vert"));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    try {
+      hudShaderProgram.createFragmentShader(Utils.loadResource("/shaders/hud.frag"));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    hudShaderProgram.link();
+
+    hudShaderProgram.createUniform("projModelMatrix");
+    hudShaderProgram.createUniform("colour");
+    hudShaderProgram.createUniform("hasTexture");
   }
 
   /**
@@ -111,51 +109,56 @@ public class Renderer {
     clearBuffers();
 
     renderGame(gameModel);
-    
+
     renderGui(window, gui);
 
     swapBuffers();
   }
-  
+
   public void render(Window window, IGui gui) {
-	    clearBuffers();
-	    
-	    renderGui(window, gui);
+    clearBuffers();
 
-	    swapBuffers();
-	  }
-  
-  private void renderGame(Game gameModel) {
-	    camera.setPosition(
-	            playerSet.getPlayer(gameModel.getCurrentLevel().myPlayer().getId()).getTransform().getPosition().mul(-world.getScale(), new Vector3f()));
+    renderGui(window, gui);
 
-	        mapRenderer.render(
-	            gameModel.getCurrentLevel().getMap(),
-	            shaderProgram,
-	            world.getProjection(),
-	            camera.getProjection());
-
-	        for (Player player : gameModel.getCurrentLevel().getPlayers().values()) {
-	        	playerRenderer.render(player, shaderProgram, camera.getProjection());
-	        }
+    swapBuffers();
   }
-  
+
+  private void renderGame(Game gameModel) {
+    camera.setPosition(
+        playerSet
+            .getPlayer(gameModel.getCurrentLevel().myPlayer().getId())
+            .getPosition()
+            .mul(-world.getScale(), new Vector3f()));
+
+    mapRenderer.render(
+        gameModel.getCurrentLevel().getMap(),
+        shaderProgram,
+        world.getProjection(),
+        camera.getProjection());
+
+    for (Player player : gameModel.getCurrentLevel().getPlayers().values()) {
+      playerRenderer.render(player, shaderProgram, camera.getProjection());
+    }
+  }
+
   private void renderGui(Window window, IGui gui) {
-      hudShaderProgram.bind();
+    hudShaderProgram.bind();
 
-      Matrix4f ortho = transformation.getOrthoProjectionMatrix(0, window.getWidth(), window.getHeight(), 0);
-      for (GuiObject guiObject : gui.getGuiObjects()) {
-          Mesh mesh = guiObject.getMesh();
+    Matrix4f ortho =
+        transformation.getOrthoProjectionMatrix(0, window.getWidth(), window.getHeight(), 0);
+    for (GuiObject guiObject : gui.getGuiObjects()) {
+      Mesh mesh = guiObject.getMesh();
 
-          Matrix4f projModelMatrix = transformation.getOrtoProjModelMatrix(guiObject, ortho);
-          hudShaderProgram.setUniform("projModelMatrix", projModelMatrix);
-          hudShaderProgram.setUniform("colour", guiObject.getMesh().getMaterial().getColour());
-          hudShaderProgram.setUniform("hasTexture", guiObject.getMesh().getMaterial().isTextured() ? 1 : 0);
+      Matrix4f projModelMatrix = transformation.getOrtoProjModelMatrix(guiObject, ortho);
+      hudShaderProgram.setUniform("projModelMatrix", projModelMatrix);
+      hudShaderProgram.setUniform("colour", guiObject.getMesh().getMaterial().getColour());
+      hudShaderProgram.setUniform(
+          "hasTexture", guiObject.getMesh().getMaterial().isTextured() ? 1 : 0);
 
-          mesh.render();
-      }
+      mesh.render();
+    }
 
-      hudShaderProgram.unbind();
+    hudShaderProgram.unbind();
   }
 
   /** Clears the colour and depth buffers */
@@ -167,11 +170,10 @@ public class Renderer {
   private void swapBuffers() {
     window.swapBuffers();
   }
-  
+
   public void cleanup() {
-      if (hudShaderProgram != null) {
-          hudShaderProgram.cleanup();
-      }
+    if (hudShaderProgram != null) {
+      hudShaderProgram.cleanup();
+    }
   }
 }
-

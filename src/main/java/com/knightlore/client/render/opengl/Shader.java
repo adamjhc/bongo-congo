@@ -42,7 +42,7 @@ class Shader {
     id = glCreateShader(type);
 
     source(
-        FileUtils.readFileAsString(shaderPathPrefix + shaderFileName + fileExtensions.get(type)));
+        FileUtils.readShader(shaderPathPrefix + shaderFileName + fileExtensions.get(type)));
 
     compile();
   }

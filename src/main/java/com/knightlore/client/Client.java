@@ -157,8 +157,8 @@ public class Client extends Thread {
         
         if (mouseInput.getXPos() > window.getWidth() / 2 - 30
         		&& mouseInput.getXPos() < window.getWidth() / 2 + 30
-        		&& mouseInput.getYPos() > window.getHeight() / 2 + 138
-        		&& mouseInput.getYPos() < window.getHeight() / 2 + 154) {
+        		&& mouseInput.getYPos() > window.getHeight() / 2 + 160
+        		&& mouseInput.getYPos() < window.getHeight() / 2 + 176) {
         	menu.setQuit();
             if (mouseInput.isLeftButtonPressed()) {
             	glfwSetWindowShouldClose(window.getWindowHandle(), true);

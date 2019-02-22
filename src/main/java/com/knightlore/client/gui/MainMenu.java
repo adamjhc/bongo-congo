@@ -42,6 +42,8 @@ public class MainMenu implements IGui {
     
     private final TextObject soundOff;
     
+    private final TextObject options;
+    
     public MainMenu(Window window) throws Exception {
     	InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
     	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -73,6 +75,8 @@ public class MainMenu implements IGui {
         this.quit = new TextObject("Quit", fontTexture);
         this.quit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
+        this.options = new TextObject("Options", fontTexture);
+        this.options.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
         
         
@@ -82,14 +86,16 @@ public class MainMenu implements IGui {
         this.singleplayer.setPosition(window.getWidth()/2 - 90, window.getHeight()/2+100, 0);
         this.multiplayer.setPosition(window.getWidth()/2 - 82, window.getHeight()/2+120, 0);
         
+        this.options.setPosition(window.getWidth()/2-50, window.getHeight()/2+140, 0);
+        
         this.soundOn.setPosition(window.getWidth()-40, window.getHeight()-40, 0);
         this.soundOff.setPosition(window.getWidth()-30, window.getHeight()-30, 0);
         
-        this.quit.setPosition(window.getWidth()/2-30, window.getHeight()/2+140, 0);
+        this.quit.setPosition(window.getWidth()/2-30, window.getHeight()/2+160, 0);
         
 
         
-        guiObjects = new GuiObject[]{bongo, congo, singleplayer, multiplayer, quit, soundOn};
+        guiObjects = new GuiObject[]{bongo, congo, singleplayer, multiplayer, quit, options, soundOn};
     }
     
     public void setSingleplayer() {
@@ -109,7 +115,7 @@ public class MainMenu implements IGui {
     }
     
     public void setSoundOff() {
-    	if (guiObjects.length == 6) {
+    	if (guiObjects.length == 7) {
 	    	GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length +1];
 	    	for (int i = 0; i < guiObjects.length; i++) {
 	    		guiObjectsNew[i] = guiObjects[i];
@@ -117,7 +123,7 @@ public class MainMenu implements IGui {
 	    	guiObjectsNew[guiObjects.length] = soundOff;
 	    	guiObjects = guiObjectsNew.clone();
     	}
-    	else if (guiObjects.length == 7) {
+    	else if (guiObjects.length == 8) {
 	    	GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length -1];
 	    	for (int i = 0, k = 0; i < guiObjects.length; i++) {
 	    		if (i == guiObjects.length-1) {

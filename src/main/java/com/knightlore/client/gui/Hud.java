@@ -118,7 +118,9 @@ public class Hud implements IGui {
         this.backgroundLeft.setRotation(0, 0, 90);
         this.backgroundRight.setRotation(0, 0, 270);
 
-        guiObjects = new GuiObject[]{backgroundTop, backgroundBottom, backgroundLeft, backgroundRight, player1Score, player2Score, counter, player1Lives,
+        //guiObjects = new GuiObject[]{backgroundTop, backgroundBottom, backgroundLeft, backgroundRight, player1Score, player2Score, counter, player1Lives,
+        //		player2Lives, exit, soundOn};
+        guiObjects = new GuiObject[]{player1Score, player2Score, counter, player1Lives,
         		player2Lives, exit, soundOn};
     }
 
@@ -152,7 +154,7 @@ public class Hud implements IGui {
     }
     
     public void setSoundOff() {
-    	if (guiObjects.length == 11) {
+    	if (guiObjects.length == 7) {
 	    	GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length +1];
 	    	for (int i = 0; i < guiObjects.length; i++) {
 	    		guiObjectsNew[i] = guiObjects[i];
@@ -160,7 +162,7 @@ public class Hud implements IGui {
 	    	guiObjectsNew[guiObjects.length] = soundOff;
 	    	guiObjects = guiObjectsNew.clone();
     	}
-    	else if (guiObjects.length == 12) {
+    	else if (guiObjects.length == 8) {
 	    	GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length -1];
 	    	for (int i = 0, k = 0; i < guiObjects.length; i++) {
 	    		if (i == guiObjects.length-1) {

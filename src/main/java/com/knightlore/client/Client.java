@@ -291,7 +291,7 @@ public class Client extends Thread {
 
         // AUDIO BUTTON
         if (mouseInput.getXPos() > window.getWidth() - 35
-                && mouseInput.getYPos() > window.getHeight() - 35) {
+                && mouseInput.getYPos() < 35) {
         	if (mouseInput.isLeftButtonPressed()) {
         		menu.toggleSound();
                 hud.toggleSound();

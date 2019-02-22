@@ -8,32 +8,6 @@ public class Map {
 
   private Vector3i size;
 
-  public Map(int sizeX, int sizeY, int sizeZ) {
-    size = new Vector3i(sizeX, sizeY, sizeZ);
-
-    // Build array List
-    Tile[][][] currentX = new Tile[sizeX][][];
-
-    for (int x = 0; x < sizeX; x++) {
-      Tile[][] currentY = new Tile[sizeY][];
-
-      for (int y = 0; y < sizeY; y++) {
-        Tile[] currentZ = new Tile[sizeZ];
-
-        for (int z = 0; z < sizeZ; z++) {
-          Tile currentTile = new FloorTile();
-          currentZ[z] = currentTile;
-        }
-
-        currentY[y] = currentZ;
-      }
-
-      currentX[x] = currentY;
-    }
-
-    this.tiles = currentX;
-  }
-
   public Map(int[][][] tiles, TileSet tileSet) {
     this.tiles = new Tile[tiles.length][tiles[0].length][tiles[0][0].length];
 

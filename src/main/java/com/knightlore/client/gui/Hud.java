@@ -50,6 +50,10 @@ public class Hud implements IGui {
     private final TextObject backgroundTop;
     
     private final TextObject backgroundBottom;
+    
+    private final TextObject backgroundLeft;
+    
+    private final TextObject backgroundRight;
 
     public Hud(Window window) throws Exception {
     	InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
@@ -88,6 +92,12 @@ public class Hud implements IGui {
         this.backgroundBottom = new TextObject("))))))))))))))))))))))))))", backgroundFont);
         this.backgroundBottom.getMesh().getMaterial().setColour(new Vector4f(0, 0, 0, 1));
         
+        this.backgroundLeft = new TextObject("))))))))))))))))))))))))))", backgroundFont);
+        this.backgroundLeft.getMesh().getMaterial().setColour(new Vector4f(0, 0, 0, 1));
+        
+        this.backgroundRight = new TextObject("))))))))))))))))))))))))))", backgroundFont);
+        this.backgroundRight.getMesh().getMaterial().setColour(new Vector4f(0, 0, 0, 1));
+        
         
         this.soundOff = new TextObject("/", fontTexture25);
         this.soundOff.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
@@ -101,10 +111,14 @@ public class Hud implements IGui {
         this.soundOff.setPosition(window.getWidth()-30, window.getHeight()-30, 0);
         this.backgroundTop.setPosition(0, -10, 0);
         this.backgroundBottom.setPosition(window.getWidth(), window.getHeight()+10, 0);
+        this.backgroundLeft.setPosition(-10, window.getHeight(), 0);
+        this.backgroundRight.setPosition(window.getWidth()+10, 0, 0);
         
         this.backgroundBottom.setRotation(0, 0, 180);
+        this.backgroundLeft.setRotation(0, 0, 90);
+        this.backgroundRight.setRotation(0, 0, 270);
 
-        guiObjects = new GuiObject[]{backgroundTop, backgroundBottom, player1Score, player2Score, counter, player1Lives,
+        guiObjects = new GuiObject[]{backgroundTop, backgroundBottom, backgroundLeft, backgroundRight, player1Score, player2Score, counter, player1Lives,
         		player2Lives, exit, soundOn};
     }
 
@@ -138,7 +152,7 @@ public class Hud implements IGui {
     }
     
     public void setSoundOff() {
-    	if (guiObjects.length == 9) {
+    	if (guiObjects.length == 11) {
 	    	GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length +1];
 	    	for (int i = 0; i < guiObjects.length; i++) {
 	    		guiObjectsNew[i] = guiObjects[i];
@@ -146,7 +160,7 @@ public class Hud implements IGui {
 	    	guiObjectsNew[guiObjects.length] = soundOff;
 	    	guiObjects = guiObjectsNew.clone();
     	}
-    	else if (guiObjects.length == 10) {
+    	else if (guiObjects.length == 12) {
 	    	GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length -1];
 	    	for (int i = 0, k = 0; i < guiObjects.length; i++) {
 	    		if (i == guiObjects.length-1) {

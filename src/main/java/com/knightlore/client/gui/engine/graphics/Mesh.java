@@ -1,4 +1,4 @@
-package com.knightlore.hud.engine.graphics;
+package com.knightlore.client.gui.engine.graphics;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;

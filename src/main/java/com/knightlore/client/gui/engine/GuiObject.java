@@ -1,23 +1,26 @@
-package com.knightlore.hud.engine;
+package com.knightlore.client.gui.engine;
 
 import org.joml.Vector3f;
 
-import com.knightlore.hud.engine.graphics.Mesh;
+import com.knightlore.client.gui.engine.graphics.Mesh;
 
-public class GameItem {
+public class GuiObject {
 
     private Mesh mesh;
     
     private final Vector3f position;
     
     private float scale;
+    
+    private final Vector3f rotation;
 
-    public GameItem() {
+    public GuiObject() {
         position = new Vector3f(0, 0, 0);
         scale = 1;
+        rotation = new Vector3f(0, 0, 0);
     }
     
-    public GameItem(Mesh mesh) {
+    public GuiObject(Mesh mesh) {
         this();
         this.mesh = mesh;
     }
@@ -38,6 +41,16 @@ public class GameItem {
 
     public void setScale(float scale) {
         this.scale = scale;
+    }
+    
+    public Vector3f getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(float x, float y, float z) {
+        this.rotation.x = x;
+        this.rotation.y = y;
+        this.rotation.z = z;
     }
 
     public Mesh getMesh() {

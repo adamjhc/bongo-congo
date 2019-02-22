@@ -100,4 +100,9 @@ public class Game {
     // Return index
     return size - 1;
   }
+  
+  public void resetPlayer() {
+	  getCurrentLevel().myPlayer().setPosition(new Vector3f(1, 1, 0));
+	  getCurrentLevel().myPlayer().setDirection(Direction.SOUTH);
+  }
 }

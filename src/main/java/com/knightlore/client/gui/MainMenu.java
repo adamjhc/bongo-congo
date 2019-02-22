@@ -106,12 +106,28 @@ public class MainMenu implements IGui {
     	this.singleplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
     }
     
+    public void setMultiplayer() {
+    	this.multiplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
+    }
+    
+    public void setRestoreMultiplayer() {
+    	this.multiplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    }
+    
     public void setQuit() {
     	this.quit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
     }
     
     public void setRestoreQuit() {
     	this.quit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    }
+    
+    public void setOptions() {
+    	this.options.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
+    }
+    
+    public void setRestoreOptions() {
+    	this.options.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
     }
     
     public void toggleSound() {

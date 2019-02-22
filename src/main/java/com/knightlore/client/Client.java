@@ -7,7 +7,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_P;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_TAB;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_CONTROL;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 
@@ -25,17 +25,27 @@ import com.knightlore.game.map.MapSet;
 import com.knightlore.game.map.TileSet;
 
 public class Client extends Thread {
+	
+  private static State gameState = State.MAINMENU;
 
   private static final int TARGET_UPS = 60;
+  
   public static Game model;
-  private static State gameState = State.MAINMENU;
+  
   private Window window;
+  
   private Renderer renderer;
+  
   private Game gameModel;
+  
   private AudioHandler audio;
+  
   private MouseInput mouseInput;
+  
   private Timer timer;
+  
   private Hud hud;
+  
   private MainMenu menu;
 
   public static void main(String[] args) {
@@ -138,6 +148,27 @@ public class Client extends Thread {
             }
         }
         
+        if (mouseInput.getXPos() > window.getWidth() / 2 - 84
+        		&& mouseInput.getXPos() < window.getWidth() / 2 + 84
+        		&& mouseInput.getYPos() > window.getHeight() / 2 + 117
+        		&& mouseInput.getYPos() < window.getHeight() / 2 + 135) {
+        	menu.setMultiplayer();
+        	if (mouseInput.isLeftButtonPressed()) {
+        		
+        	}
+        } else menu.setRestoreMultiplayer();
+        
+        // OPTIONS BUTTON
+        if (mouseInput.getXPos() > window.getWidth() / 2 - 52
+        		&& mouseInput.getXPos() < window.getWidth() / 2 + 52
+        		&& mouseInput.getYPos() > window.getHeight() / 2 + 138
+        		&& mouseInput.getYPos() < window.getHeight() / 2 + 155) {
+        	menu.setOptions();
+        	if (mouseInput.isLeftButtonPressed()) {
+        		
+        	} 
+        } else menu.setRestoreOptions();
+        
         // QUIT BUTTON
         if (mouseInput.getXPos() > window.getWidth() / 2 - 30
         		&& mouseInput.getXPos() < window.getWidth() / 2 + 30
@@ -237,10 +268,10 @@ public class Client extends Thread {
             }
         }
         
-        if (window.isKeyPressed(GLFW_KEY_TAB)) {
+        if (window.isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
         	hud.toggleScore(true);
         } 
-        if (window.isKeyReleased(GLFW_KEY_TAB)) {
+        if (window.isKeyReleased(GLFW_KEY_LEFT_CONTROL)) {
         	hud.toggleScore(false);
         }
   
@@ -309,21 +340,29 @@ public class Client extends Thread {
 		  gameModel.update(delta); 
 		  
 		  break;
-		  
 	  }
   }
 
   private void render(Game gameModel) {
     switch (gameState) {
-      case MAINMENU:
+    
+    case MAINMENU:
+    	
         renderer.render(window, menu);
+        
         break;
-      case PLAY:
+        
+    case PLAY:
+    	
         renderer.render(gameModel, window, hud);
+        
         break;
-      case DEAD:
+        
+    case DEAD:
+    	
         renderer.render(gameModel, window, hud);
-        break;
+        
+        break;    
     }
   }
 

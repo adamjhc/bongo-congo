@@ -132,6 +132,7 @@ public class Client extends Thread {
     
     case MAINMENU:
     	
+    	// SINGEPLAYER BUTTON
         if (mouseInput.getXPos() > window.getWidth() / 2 - 90
         		&& mouseInput.getXPos() < window.getWidth() / 2 + 90
                 && mouseInput.getYPos() > window.getHeight() / 2 + 95
@@ -147,6 +148,7 @@ public class Client extends Thread {
             }
         } else menu.setRestoreSingleplayer();
         
+        // AUDIO BUTTON
         if (mouseInput.getXPos() > window.getWidth() - 35
                 && mouseInput.getYPos() > window.getHeight() - 35) {
         	if (mouseInput.isLeftButtonPressed()) {
@@ -156,6 +158,7 @@ public class Client extends Thread {
             }
         }
         
+        // QUIT BUTTON
         if (mouseInput.getXPos() > window.getWidth() / 2 - 30
         		&& mouseInput.getXPos() < window.getWidth() / 2 + 30
         		&& mouseInput.getYPos() > window.getHeight() / 2 + 160
@@ -210,6 +213,7 @@ public class Client extends Thread {
         	gameModel.updatePlayerState(PlayerState.IDLE);
         }
 
+        // LIVES
         if (window.isKeyReleased(GLFW_KEY_L)) {
         	hud.setP1Lives();
         	gameModel.resetPlayer();
@@ -243,6 +247,7 @@ public class Client extends Thread {
 //            }
 //        } else hud.setRestoreExit();
 
+        // AUDIO BUTTON
         if (mouseInput.getXPos() > window.getWidth() - 35
                 && mouseInput.getYPos() < 35) {
         	if (mouseInput.isLeftButtonPressed()) {
@@ -256,6 +261,7 @@ public class Client extends Thread {
     	
     case DEAD:
     	
+    	// LEAVE GAME
         if (window.isKeyReleased(GLFW_KEY_ESCAPE)) {
     		audio.toggle();
     		audio.toggle();
@@ -264,17 +270,18 @@ public class Client extends Thread {
         	gameState = State.MAINMENU;
         }
     	
-        if (mouseInput.getXPos() < 65 && mouseInput.getYPos() > window.getHeight() - 25) {
-        	hud.setExit();
-            if (mouseInput.isLeftButtonPressed()) {
-        		audio.toggle();
-        		audio.toggle();
-        		
-            	gameModel.resetPlayer();
-            	gameState = State.MAINMENU;
-            }
-        } else hud.setRestoreExit();
+//        if (mouseInput.getXPos() < 65 && mouseInput.getYPos() > window.getHeight() - 25) {
+//        	hud.setExit();
+//            if (mouseInput.isLeftButtonPressed()) {
+//        		audio.toggle();
+//        		audio.toggle();
+//        		
+//            	gameModel.resetPlayer();
+//            	gameState = State.MAINMENU;
+//            }
+//        } else hud.setRestoreExit();
 
+        // AUDIO BUTTON
         if (mouseInput.getXPos() > window.getWidth() - 35
                 && mouseInput.getYPos() > window.getHeight() - 35) {
         	if (mouseInput.isLeftButtonPressed()) {

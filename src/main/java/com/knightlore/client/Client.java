@@ -244,7 +244,7 @@ public class Client extends Thread {
 //        } else hud.setRestoreExit();
 
         if (mouseInput.getXPos() > window.getWidth() - 35
-                && mouseInput.getYPos() > window.getHeight() - 35) {
+                && mouseInput.getYPos() < 35) {
         	if (mouseInput.isLeftButtonPressed()) {
         		menu.setSoundOff();
                 hud.setSoundOff();
@@ -255,6 +255,14 @@ public class Client extends Thread {
     	break;
     	
     case DEAD:
+    	
+        if (window.isKeyReleased(GLFW_KEY_ESCAPE)) {
+    		audio.toggle();
+    		audio.toggle();
+    		
+        	gameModel.resetPlayer();
+        	gameState = State.MAINMENU;
+        }
     	
         if (mouseInput.getXPos() < 65 && mouseInput.getYPos() > window.getHeight() - 25) {
         	hud.setExit();

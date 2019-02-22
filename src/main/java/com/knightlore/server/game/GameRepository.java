@@ -32,7 +32,7 @@ public class GameRepository {
      */
     public void newServer(UUID uuid, int port, String sessionOwner){
         MapSet ms = new MapSet(new TileSet());
-        Game game = new Game("1", ms);
+        Game game = new Game("1");
         game.createNewLevel(ms.getMap(0));
         this.newServer(uuid, port, sessionOwner, game);
     }

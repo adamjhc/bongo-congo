@@ -27,15 +27,18 @@ public class LevelReader {
 		String mapString = "";
 		try {
 			mapString = this.readLevel();
+			System.out.println(mapString);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		String[] str_layers = mapString.split("\n\n");
 		int[][][] map = new int[str_layers.length][][];
-		
+		int baseSize = str_layers[0].length();
 		for (int i = 0; i < str_layers.length; i++) {
 			if (!str_layers[i].matches("(\\d\\s)+\\d*")) {
 				throw new IncorrectMapFormatException("Maps must be rows of single digits separated by a single space, each row by a new line and each block by 2 new lines");
+			} else if (str_layers[i].length() != baseSize) {
+				throw new IncorrectMapFormatException("Each layer must be the same size as the last");
 			}
 			String[] str_rows = str_layers[i].split("\n");
 			int baseLength = str_rows[0].length();
@@ -60,9 +63,17 @@ public class LevelReader {
 	
 	private String readLevel() throws IOException {
 		String mapString = "";
-		String line;
-		while((line = this.levelReader.readLine()) != null) {
-			mapString = mapString + line;
+		while(true) {
+			String lineOne = this.levelReader.readLine();
+			String lineTwo = this.levelReader.readLine();
+			if (lineOne == null) {
+				break;
+			} else if (lineTwo == null) {
+				mapString = mapString + lineOne;
+				break;
+			} else {
+				mapString = mapString + lineOne + "\n" + lineTwo + "\n";
+			}
 		}
 		
 		return mapString;

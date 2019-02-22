@@ -4,7 +4,6 @@ import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.Map;
-import com.knightlore.game.map.MapSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -18,12 +17,11 @@ public class Game {
   Integer currentLevelIndex;
   GameState currentState;
 
-  public Game(String uuid, MapSet mapSet) {
+  public Game(String uuid) {
     levels = new ArrayList<>();
     this.uuid = uuid;
     this.currentState = GameState.LOBBY;
     this.levels = new ArrayList<>();
-    // createNewLevel(mapSet.getMap(0));
   }
 
   public Level getCurrentLevel() {

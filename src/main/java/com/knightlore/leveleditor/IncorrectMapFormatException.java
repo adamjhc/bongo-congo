@@ -1,6 +1,6 @@
 package com.knightlore.leveleditor;
 
-public class IncorrectMapFormatException extends Throwable {
+public class IncorrectMapFormatException extends Exception {
 	
 	public IncorrectMapFormatException() {
 		super();

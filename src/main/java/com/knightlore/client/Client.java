@@ -74,7 +74,7 @@ public class Client extends Thread {
     renderer = new Renderer(window);
     if (model == null) {
       MapSet mapSet = new MapSet(new TileSet());
-      gameModel = new Game("", mapSet);
+      gameModel = new Game("");
 
       gameModel.createNewLevel(mapSet.getMap(0));
       gameModel.addPlayer("1");

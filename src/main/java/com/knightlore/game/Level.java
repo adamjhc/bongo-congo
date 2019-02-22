@@ -28,6 +28,10 @@ public class Level {
     this.map = map;
     this.players = players;
   }
+  
+  public Level(Map map) {
+	  this.map = map;
+  }
 
   public void addEnemy(Enemies enemy) {
     this.enemies.add(enemy);

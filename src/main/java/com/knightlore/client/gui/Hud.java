@@ -100,7 +100,9 @@ public class Hud implements IGui {
         this.soundOn.setPosition(window.getWidth()-40, window.getHeight()-40, 0);
         this.soundOff.setPosition(window.getWidth()-30, window.getHeight()-30, 0);
         this.backgroundTop.setPosition(0, -10, 0);
-        this.backgroundBottom.setPosition(0, window.getHeight()-50, 0);
+        this.backgroundBottom.setPosition(window.getWidth(), window.getHeight()+10, 0);
+        
+        this.backgroundBottom.setRotation(0, 0, 180);
 
         guiObjects = new GuiObject[]{backgroundTop, backgroundBottom, player1Score, player2Score, counter, player1Lives,
         		player2Lives, exit, soundOn};

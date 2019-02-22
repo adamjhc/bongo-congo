@@ -11,10 +11,13 @@ public class GuiObject {
     private final Vector3f position;
     
     private float scale;
+    
+    private final Vector3f rotation;
 
     public GuiObject() {
         position = new Vector3f(0, 0, 0);
         scale = 1;
+        rotation = new Vector3f(0, 0, 0);
     }
     
     public GuiObject(Mesh mesh) {
@@ -38,6 +41,16 @@ public class GuiObject {
 
     public void setScale(float scale) {
         this.scale = scale;
+    }
+    
+    public Vector3f getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(float x, float y, float z) {
+        this.rotation.x = x;
+        this.rotation.y = y;
+        this.rotation.z = z;
     }
 
     public Mesh getMesh() {

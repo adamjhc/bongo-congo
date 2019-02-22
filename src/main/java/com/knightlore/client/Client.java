@@ -6,6 +6,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_L;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_P;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 
@@ -165,6 +166,10 @@ public class Client extends Thread {
             }
         } else menu.setRestoreQuit();
         
+        if (window.isKeyReleased(GLFW_KEY_ESCAPE)) {
+        	glfwSetWindowShouldClose(window.getWindowHandle(), true);
+        }
+        
     	break;
     	
     case PLAY:
@@ -218,17 +223,25 @@ public class Client extends Thread {
         if (window.isKeyReleased(GLFW_KEY_P)) {
             hud.setP1Score();
         }
+        
+        if (window.isKeyReleased(GLFW_KEY_ESCAPE)) {
+    		audio.toggle();
+    		audio.toggle();
+    		
+        	gameModel.resetPlayer();
+        	gameState = State.MAINMENU;
+        }
 
-        if (mouseInput.getXPos() < 65 && mouseInput.getYPos() > window.getHeight() - 25) {
-        	hud.setExit();
-            if (mouseInput.isLeftButtonPressed()) {
-        		audio.toggle();
-        		audio.toggle();
-        		
-            	gameModel.resetPlayer();
-            	gameState = State.MAINMENU;
-            }
-        } else hud.setRestoreExit();
+//        if (mouseInput.getXPos() < 65 && mouseInput.getYPos() > window.getHeight() - 25) {
+//        	hud.setExit();
+//            if (mouseInput.isLeftButtonPressed()) {
+//        		audio.toggle();
+//        		audio.toggle();
+//        		
+//            	gameModel.resetPlayer();
+//            	gameState = State.MAINMENU;
+//            }
+//        } else hud.setRestoreExit();
 
         if (mouseInput.getXPos() > window.getWidth() - 35
                 && mouseInput.getYPos() > window.getHeight() - 35) {
@@ -285,7 +298,7 @@ public class Client extends Thread {
 			  timeLeft = 0;
 		  }
 			  
-		  hud.setCounter("Time: " + timeLeft);
+		  hud.setCounter(Integer.toString(timeLeft));
 		  gameModel.update(delta); 
 		  
 		  break;	  

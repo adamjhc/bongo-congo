@@ -19,7 +19,7 @@ public class Hud implements IGui {
 
     private static final Font FONT = new Font("Press Start 2P", Font.PLAIN, 15);
     
-    private static final Font FONT_BACKGROUND = new Font("Press Start 2P", Font.PLAIN, 50);
+    private static final Font FONT_BACKGROUND = new Font("Press Start 2P", Font.PLAIN, 48);
     
     private static final Font FONT_25 = new Font("Press Start 2P", Font.PLAIN, 30);
     
@@ -77,7 +77,7 @@ public class Hud implements IGui {
         this.player2Lives = new TextObject("***", fontTexture);
         this.player2Lives.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         
-        this.counter = new TextObject("Time: 90", fontTexture25);
+        this.counter = new TextObject("90", fontTexture25);
         this.counter.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
         this.exit = new TextObject("Exit", fontTexture);
@@ -86,7 +86,7 @@ public class Hud implements IGui {
         this.soundOn = new TextObject("(", fontTextureLarge);
         this.soundOn.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
         
-        this.backgroundTop = new TextObject("))))))))))))))))))))))))))", backgroundFont);
+        this.backgroundTop = new TextObject(")))))))))))))))))))))))))))))", backgroundFont);
         this.backgroundTop.getMesh().getMaterial().setColour(new Vector4f(0, 0, 0, 1));
         
         this.backgroundBottom = new TextObject("))))))))))))))))))))))))))", backgroundFont);
@@ -105,7 +105,7 @@ public class Hud implements IGui {
         this.player2Score.setPosition(window.getWidth()-170, 5, 0);
         this.player1Lives.setPosition(5, 20, 0);
         this.player2Lives.setPosition(window.getWidth()-170, 20, 0);
-        this.counter.setPosition(window.getWidth()/2-118, window.getHeight()-30, 0);
+        this.counter.setPosition(window.getWidth()/2-28, 5, 0);
         this.exit.setPosition(5, window.getHeight()-20, 0);
         this.soundOn.setPosition(window.getWidth()-40, window.getHeight()-40, 0);
         this.soundOff.setPosition(window.getWidth()-30, window.getHeight()-30, 0);
@@ -120,8 +120,8 @@ public class Hud implements IGui {
 
         //guiObjects = new GuiObject[]{backgroundTop, backgroundBottom, backgroundLeft, backgroundRight, player1Score, player2Score, counter, player1Lives,
         //		player2Lives, exit, soundOn};
-        guiObjects = new GuiObject[]{player1Score, player2Score, counter, player1Lives,
-        		player2Lives, exit, soundOn};
+        guiObjects = new GuiObject[]{backgroundTop, player1Score, player2Score, counter, player1Lives,
+        		player2Lives, soundOn};
     }
 
     public void setP1Score(String statusText) {

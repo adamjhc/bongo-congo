@@ -51,10 +51,10 @@ public class Window {
 
         // Setup a key callback. It will be called every time a key is pressed, repeated or released.
         glfwSetKeyCallback(windowHandle, (window, key, scancode, action, mods) -> {
-            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
-                glfwSetWindowShouldClose(window, true);
-            }
-            else if (action == GLFW_RELEASE) {
+            //if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
+            //    glfwSetWindowShouldClose(window, true);
+            //}
+            if (action == GLFW_RELEASE) {
             	this.keyCode = key;
             }
         });

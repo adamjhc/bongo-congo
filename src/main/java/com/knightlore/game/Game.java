@@ -52,22 +52,6 @@ public class Game {
     currentLevelIndex++;
   }
 
-  public int addPlayer(String uuid) {
-    // Generate player
-    Player player = new Player(uuid);
-
-    // Add to all levels
-    int size = -1;
-
-    for (Level level : levels) {
-      level.players.put(uuid, player);
-      size = level.players.size();
-    }
-
-    // Return index
-    return size - 1;
-  }
-
   public void update(float delta) {}
 
   public void movePlayerInDirection(Direction direction, float delta) {
@@ -96,5 +80,26 @@ public class Game {
 
   public void updatePlayerState(PlayerState state) {
     getCurrentLevel().myPlayer().setPlayerState(state);
+  }
+
+  public int addPlayer(String uuid) {
+    // Generate player
+    Player player = new Player(uuid);
+
+    // Add to all levels
+    int size = -1;
+
+    for (Level level : this.levels) {
+      level.players.put(uuid, player);
+      size = level.players.size();
+    }
+
+    // Return index
+    return size - 1;
+  }
+
+  public void resetPlayer() {
+    getCurrentLevel().myPlayer().setPosition(new Vector3f(1, 1, 0));
+    getCurrentLevel().myPlayer().setDirection(Direction.SOUTH);
   }
 }

@@ -1,7 +1,9 @@
-package com.knightlore.hud.engine.graphics;
+package com.knightlore.client.gui.engine.graphics;
 
 import org.joml.Matrix4f;
-import com.knightlore.hud.engine.GameItem;
+import org.joml.Vector3f;
+
+import com.knightlore.client.gui.engine.GuiObject;
 
 public class Transformation {
 
@@ -17,10 +19,14 @@ public class Transformation {
         return orthoMatrix;
     }
 
-    public Matrix4f getOrtoProjModelMatrix(GameItem gameItem, Matrix4f orthoMatrix) {
+    public Matrix4f getOrtoProjModelMatrix(GuiObject guiObject, Matrix4f orthoMatrix) {
+    	Vector3f rotation = guiObject.getRotation();
         Matrix4f modelMatrix = new Matrix4f();
-        modelMatrix.identity().translate(gameItem.getPosition()).
-                scale(gameItem.getScale());
+        modelMatrix.identity().translate(guiObject.getPosition()).
+        		rotateX((float)Math.toRadians(-rotation.x)).
+        		rotateY((float)Math.toRadians(-rotation.y)).
+        		rotateZ((float)Math.toRadians(-rotation.z)).
+                scale(guiObject.getScale());
         Matrix4f orthoMatrixCurr = new Matrix4f(orthoMatrix);
         orthoMatrixCurr.mul(modelMatrix);
         return orthoMatrixCurr;

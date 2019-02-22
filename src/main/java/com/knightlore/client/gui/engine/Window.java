@@ -1,4 +1,4 @@
-package com.knightlore.hud.engine;
+package com.knightlore.client.gui.engine;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;

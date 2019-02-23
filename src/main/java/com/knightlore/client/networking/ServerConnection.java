@@ -86,6 +86,7 @@ public class ServerConnection {
         System.out.println("FAILIURE");
     }
 
+
     public boolean ready(){
         return this.client.ready;
     }

@@ -1,6 +1,7 @@
 package com.knightlore.game.server;
 
 import com.google.gson.Gson;
+import com.knightlore.client.networking.backend.Client;
 import com.knightlore.game.Game;
 import com.knightlore.game.GameState;
 import com.knightlore.game.map.MapSet;
@@ -157,5 +158,15 @@ public class GameServer extends Thread {
 
     public int getPort(){
         return this.socket;
+    }
+
+    public ArrayList<String> registeredUUIDs(){
+        ArrayList<String> uuids = new ArrayList<>();
+
+        for(ClientHandler client : this.registeredClients()){
+            uuids.add(client.sessionKey.get());
+        }
+
+        return uuids;
     }
 }

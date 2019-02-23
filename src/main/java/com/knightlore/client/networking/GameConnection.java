@@ -84,7 +84,7 @@ public class GameConnection {
         }
     }
 
-    public void register(String sessionKey){
+    public void register(){
         // Build up get session string
         Sendable sendable = new Sendable();
         sendable.setUuid();
@@ -92,7 +92,7 @@ public class GameConnection {
 
         Gson gson = new Gson();
 
-        ApiKey key = new ApiKey(sessionKey);
+        ApiKey key = new ApiKey(this.sessionKey.get());
         sendable.setData(gson.toJson(key));
 
         // Specify handler

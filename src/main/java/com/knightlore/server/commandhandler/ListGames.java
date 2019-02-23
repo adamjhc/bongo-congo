@@ -26,25 +26,29 @@ public class ListGames extends Command{
     public void run(ClientHandler handler, Sendable sendable) {
         logger.info("List games received");
 
-        // Create json data
-        String json = sendable.getData();
-
+        // Make new response,
         Sendable response = sendable.makeResponse();
-        ListGameResponse sessionKeyResponse = new ListGameResponse();
+        ListGameResponse listGameResponse = new ListGameResponse();
 
+        // Retrieve servers from our repository
         HashMap<UUID, GameServer> servers = GameRepository.instance.getServers();
 
-        System.out.println("length " + servers.size());
-
+        // Add to response
         for(GameServer server : servers.values()){
             try{
-                sessionKeyResponse.addGame(server.getUUID(), InetAddress.getByName(Config.authServerIp().get()), server.getPort());
+                //
+                listGameResponse.addGame(
+                        server.getUUID(),
+                        InetAddress.getByName(Config.authServerIp().get()),
+                        server.getPort(),
+                        server.registeredUUIDs()
+                );
             }catch(UnknownHostException e){
 
             }
         }
 
-        response.setData(gson.toJson(sessionKeyResponse));
+        response.setData(gson.toJson(listGameResponse));
 
         try{
             handler.dos.writeObject(response);

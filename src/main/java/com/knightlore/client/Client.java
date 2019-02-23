@@ -269,9 +269,11 @@ public class Client extends Thread {
         }
         
         if (window.isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
+        	hud.moveScore();
         	hud.toggleScore(true);
         } 
         if (window.isKeyReleased(GLFW_KEY_LEFT_CONTROL)) {
+        	hud.restoreScore();
         	hud.toggleScore(false);
         }
   

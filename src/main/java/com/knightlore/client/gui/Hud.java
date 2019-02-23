@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 import com.knightlore.client.gui.engine.GuiObject;
@@ -150,18 +151,18 @@ public class Hud implements IGui {
         this.soundOff.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         
         this.player1Score.setPosition(5, 5, 0);
-        this.player2Score.setPosition(5, 25, 0);
-        this.player3Score.setPosition(5, 45, 0);
-        this.player4Score.setPosition(5, 65, 0);
-        this.player5Score.setPosition(5, 85, 0);
-        this.player6Score.setPosition(5, 105, 0);
+        this.player2Score.setPosition(-165, 25, 0);
+        this.player3Score.setPosition(-165, 45, 0);
+        this.player4Score.setPosition(-165, 65, 0);
+        this.player5Score.setPosition(-165, 85, 0);
+        this.player6Score.setPosition(-165, 105, 0);
         
         this.player1Lives.setPosition(175, 1, 0);
-        this.player2Lives.setPosition(175, 21, 0);
-        this.player3Lives.setPosition(175, 41, 0);
-        this.player4Lives.setPosition(175, 61, 0);
-        this.player5Lives.setPosition(175, 81, 0);
-        this.player6Lives.setPosition(175, 101, 0);
+        this.player2Lives.setPosition(5, 21, 0);
+        this.player3Lives.setPosition(5, 41, 0);
+        this.player4Lives.setPosition(5, 61, 0);
+        this.player5Lives.setPosition(5, 81, 0);
+        this.player6Lives.setPosition(5, 101, 0);
         
         this.counter.setPosition(1175, 5, 0);
         this.exit.setPosition(5, window.getHeight()-20, 0);
@@ -223,6 +224,38 @@ public class Hud implements IGui {
         this.player5Score.setRender(state);
         this.player6Lives.setRender(state);
         this.player6Score.setRender(state);
+    }
+    
+    public void moveScore() {
+    	float xPosScore = this.player2Score.getPositionX();
+    	float xPosLives = this.player2Lives.getPositionX();
+    	float move = 10.0f;
+    	
+    	if (xPosScore < 5) {
+    		this.player2Score.setPositionX(xPosScore+move);
+    		this.player3Score.setPositionX(xPosScore+move);
+    		this.player4Score.setPositionX(xPosScore+move);
+    		this.player5Score.setPositionX(xPosScore+move);
+    		this.player6Score.setPositionX(xPosScore+move);
+    		this.player2Lives.setPositionX(xPosLives+move);
+    		this.player3Lives.setPositionX(xPosLives+move);
+    		this.player4Lives.setPositionX(xPosLives+move);
+    		this.player5Lives.setPositionX(xPosLives+move);
+    		this.player6Lives.setPositionX(xPosLives+move);
+    	}
+    }
+    
+    public void restoreScore() {
+    		this.player2Score.setPositionX(-165);
+    		this.player3Score.setPositionX(-165);
+    		this.player4Score.setPositionX(-165);
+    		this.player5Score.setPositionX(-165);
+    		this.player6Score.setPositionX(-165);
+    		this.player2Lives.setPositionX(5);
+    		this.player3Lives.setPositionX(5);
+    		this.player4Lives.setPositionX(5);
+    		this.player5Lives.setPositionX(5);
+    		this.player6Lives.setPositionX(5);
     }
     
     public void toggleSound() {

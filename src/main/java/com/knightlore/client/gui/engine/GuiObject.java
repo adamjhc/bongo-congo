@@ -43,6 +43,14 @@ public class GuiObject {
     public Vector3f getPosition() {
         return position;
     }
+    
+    public float getPositionX() {
+    	return position.x;
+    }
+    
+    public void setPositionX(float x) {
+    	this.position.x = x;
+    }
 
     public void setPosition(float x, float y, float z) {
         this.position.x = x;

@@ -140,7 +140,7 @@ public class Client extends Thread {
         
         // AUDIO BUTTON
         if (mouseInput.getXPos() > window.getWidth() - 35
-                && mouseInput.getYPos() < 35) {
+                && mouseInput.getYPos() > window.getHeight()-35) {
         	if (mouseInput.isLeftButtonPressed()) {
         		menu.toggleSound();
                 hud.toggleSound();
@@ -260,7 +260,7 @@ public class Client extends Thread {
 
         // AUDIO BUTTON
         if (mouseInput.getXPos() > window.getWidth() - 35
-                && mouseInput.getYPos() < 35) {
+                && mouseInput.getYPos() > window.getHeight()-35) {
         	if (mouseInput.isLeftButtonPressed()) {
         		menu.toggleSound();
                 hud.toggleSound();
@@ -302,7 +302,7 @@ public class Client extends Thread {
 
         // AUDIO BUTTON
         if (mouseInput.getXPos() > window.getWidth() - 35
-                && mouseInput.getYPos() < 35) {
+                && mouseInput.getYPos() > window.getHeight()-35) {
         	if (mouseInput.isLeftButtonPressed()) {
         		menu.toggleSound();
                 hud.toggleSound();
@@ -330,8 +330,9 @@ public class Client extends Thread {
 		  if (timeLeft < 0) {
 			  timeLeft = 0;
 		  }
-			  
-		  hud.setCounter(Integer.toString(timeLeft));
+		  String text = String.format("%02d", timeLeft);
+		  
+		  hud.setCounter(text);
 		  gameModel.update(delta); 
 		  
 		  break;	  

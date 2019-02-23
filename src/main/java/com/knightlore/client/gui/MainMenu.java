@@ -88,8 +88,8 @@ public class MainMenu implements IGui {
         
         this.options.setPosition(window.getWidth()/2-50, window.getHeight()/2+140, 0);
         
-        this.soundOn.setPosition(window.getWidth()-40, -5, 0);
-        this.soundOff.setPosition(window.getWidth()-30, 5, 0);
+        this.soundOn.setPosition(window.getWidth()-40, window.getHeight()-40, 0);
+        this.soundOff.setPosition(window.getWidth()-30, window.getHeight()-30, 0);
         
         this.quit.setPosition(window.getWidth()/2-30, window.getHeight()/2+160, 0);
         

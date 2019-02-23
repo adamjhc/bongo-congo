@@ -151,18 +151,18 @@ public class Hud implements IGui {
         this.soundOff.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         
         this.player1Score.setPosition(5, 5, 0);
-        this.player2Score.setPosition(-165, 25, 0);
-        this.player3Score.setPosition(-165, 45, 0);
-        this.player4Score.setPosition(-165, 65, 0);
-        this.player5Score.setPosition(-165, 85, 0);
-        this.player6Score.setPosition(-165, 105, 0);
+        this.player2Score.setPosition(-230, 25, 0);
+        this.player3Score.setPosition(-230, 45, 0);
+        this.player4Score.setPosition(-230, 65, 0);
+        this.player5Score.setPosition(-230, 85, 0);
+        this.player6Score.setPosition(-230, 105, 0);
         
         this.player1Lives.setPosition(175, 1, 0);
-        this.player2Lives.setPosition(5, 21, 0);
-        this.player3Lives.setPosition(5, 41, 0);
-        this.player4Lives.setPosition(5, 61, 0);
-        this.player5Lives.setPosition(5, 81, 0);
-        this.player6Lives.setPosition(5, 101, 0);
+        this.player2Lives.setPosition(-60, 21, 0);
+        this.player3Lives.setPosition(-60, 41, 0);
+        this.player4Lives.setPosition(-60, 61, 0);
+        this.player5Lives.setPosition(-60, 81, 0);
+        this.player6Lives.setPosition(-60, 101, 0);
         
         this.counter.setPosition(1175, 5, 0);
         this.exit.setPosition(5, window.getHeight()-20, 0);
@@ -177,7 +177,7 @@ public class Hud implements IGui {
         this.backgroundLeft.setRotation(0, 0, 90);
         this.backgroundRight.setRotation(0, 0, 270);
         
-        toggleScore(false);
+        //toggleScore(false);
         toggleSound();
         
         guiObjects = new GuiObject[]{player1Score, player2Score, player3Score, player4Score, player5Score, player6Score, player1Lives,
@@ -226,36 +226,32 @@ public class Hud implements IGui {
         this.player6Score.setRender(state);
     }
     
-    public void moveScore() {
+    public void moveScore(float move, float targetXPos) {
     	float xPosScore = this.player2Score.getPositionX();
     	float xPosLives = this.player2Lives.getPositionX();
-    	float move = 10.0f;
     	
-    	if (xPosScore < 5) {
-    		this.player2Score.setPositionX(xPosScore+move);
-    		this.player3Score.setPositionX(xPosScore+move);
-    		this.player4Score.setPositionX(xPosScore+move);
-    		this.player5Score.setPositionX(xPosScore+move);
-    		this.player6Score.setPositionX(xPosScore+move);
-    		this.player2Lives.setPositionX(xPosLives+move);
-    		this.player3Lives.setPositionX(xPosLives+move);
-    		this.player4Lives.setPositionX(xPosLives+move);
-    		this.player5Lives.setPositionX(xPosLives+move);
-    		this.player6Lives.setPositionX(xPosLives+move);
+    	if (xPosScore < targetXPos && move > 0) {
+    		setPosition(move, xPosScore, xPosLives);
+    		if (this.player2Score.getPositionX() > targetXPos) {
+    			setPosition(0, targetXPos, targetXPos+170);
+    		}
+    	}
+    	else if (xPosScore > targetXPos && move < 0) {
+    		setPosition(move, xPosScore, xPosLives);
     	}
     }
     
-    public void restoreScore() {
-    		this.player2Score.setPositionX(-165);
-    		this.player3Score.setPositionX(-165);
-    		this.player4Score.setPositionX(-165);
-    		this.player5Score.setPositionX(-165);
-    		this.player6Score.setPositionX(-165);
-    		this.player2Lives.setPositionX(5);
-    		this.player3Lives.setPositionX(5);
-    		this.player4Lives.setPositionX(5);
-    		this.player5Lives.setPositionX(5);
-    		this.player6Lives.setPositionX(5);
+    public void setPosition(float move, float xPosScore, float xPosLives) {
+		this.player2Score.setPositionX(xPosScore+move);
+		this.player3Score.setPositionX(xPosScore+move);
+		this.player4Score.setPositionX(xPosScore+move);
+		this.player5Score.setPositionX(xPosScore+move);
+		this.player6Score.setPositionX(xPosScore+move);
+		this.player2Lives.setPositionX(xPosLives+move);
+		this.player3Lives.setPositionX(xPosLives+move);
+		this.player4Lives.setPositionX(xPosLives+move);
+		this.player5Lives.setPositionX(xPosLives+move);
+		this.player6Lives.setPositionX(xPosLives+move);
     }
     
     public void toggleSound() {

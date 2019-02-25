@@ -10,24 +10,22 @@ import javax.imageio.ImageIO;
 
 public class FileUtils {
 
-  public static String readFileAsString(String filePath) {
-    StringBuilder stringBuilder = new StringBuilder();
-
+  public static String readShader(String filePath) {
     try (BufferedReader reader = new BufferedReader(new FileReader(new java.io.File(filePath)))) {
+      StringBuilder stringBuilder = new StringBuilder();
       String line;
 
       while ((line = reader.readLine()) != null) {
         stringBuilder.append(line);
         stringBuilder.append("\n");
       }
+      return stringBuilder.toString();
     } catch (IOException ex) {
-      ex.getMessage();
+      throw new IllegalStateException("Shader does not exist");
     }
-
-    return stringBuilder.toString();
   }
 
-  public static Image loadImage(String filePath) {
+  public static Image loadTexture(String filePath) {
     try {
       BufferedImage bufferedImage = ImageIO.read(new File(filePath));
 

@@ -1,4 +1,4 @@
-package com.knightlore.hud.engine.graphics;
+package com.knightlore.client.gui.engine.graphics;
 
 import org.joml.Vector4f;
 
@@ -32,8 +32,8 @@ public class Material {
         return colour;
     }
 
-    public void setColour(Vector4f ambientColour) {
-        this.colour = ambientColour;
+    public void setColour(Vector4f colour) {
+        this.colour = colour;
     }
 
     public boolean isTextured() {

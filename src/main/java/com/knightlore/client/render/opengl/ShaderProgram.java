@@ -20,6 +20,7 @@ import static org.lwjgl.opengl.GL20.glUniform4fv;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 import static org.lwjgl.opengl.GL20.glValidateProgram;
+import static org.lwjgl.system.MemoryStack.stackPush;
 
 import com.knightlore.client.util.BufferUtils;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import java.util.Map;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+import org.lwjgl.system.MemoryStack;
 
 public class ShaderProgram {
 
@@ -97,7 +99,9 @@ public class ShaderProgram {
    * @param value Value to set to
    */
   public void setUniform(String name, Vector3f value) {
-    glUniform3fv(getUniformLocation(name), BufferUtils.createBuffer(value));
+    try (MemoryStack stack = stackPush()) {
+      glUniform3fv(getUniformLocation(name), BufferUtils.createBuffer(stack, value));
+    }
   }
 
   /**
@@ -107,7 +111,9 @@ public class ShaderProgram {
    * @param value Value to set to
    */
   public void setUniform(String name, Vector4f value) {
-    glUniform4fv(getUniformLocation(name), BufferUtils.createBuffer(value));
+    try (MemoryStack stack = stackPush()) {
+      glUniform4fv(getUniformLocation(name), BufferUtils.createBuffer(stack, value));
+    }
   }
 
   /**
@@ -117,7 +123,9 @@ public class ShaderProgram {
    * @param value Value to set to
    */
   public void setUniform(String name, Matrix4f value) {
-    glUniformMatrix4fv(getUniformLocation(name), false, BufferUtils.createBuffer(value));
+    try (MemoryStack stack = stackPush()) {
+      glUniformMatrix4fv(getUniformLocation(name), false, BufferUtils.createBuffer(stack, value));
+    }
   }
 
   /**

@@ -13,8 +13,7 @@ public class World {
 
   /** Initialise the render world */
   public World() {
-    projection = new Matrix4f().setTranslation(new Vector3f(0));
-    projection.scale(scale);
+    projection = new Matrix4f().scale(scale);
   }
 
   /**

@@ -1,4 +1,4 @@
-package com.knightlore.hud.engine;
+package com.knightlore.client.gui.engine;
 
 public class Timer {
 
@@ -7,7 +7,10 @@ public class Timer {
     
     public void init() {
         lastLoopTime = getTime();
-        startTime = getTime();
+    }
+    
+    public void setStartTime() {
+    	startTime = getTime();
     }
     
     public float getGameTime() {

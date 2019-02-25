@@ -10,6 +10,7 @@ import com.knightlore.game.util.CoordinateUtils;
 import java.util.EnumMap;
 import java.util.Map;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 public class PlayerGameObject extends GameObject {
 
@@ -72,12 +73,12 @@ public class PlayerGameObject extends GameObject {
   }
 
   /**
-   * Get the Player transform
+   * Get the Player transform position
    *
-   * @return Player transform
+   * @return Player transform position
    */
-  public Transform getTransform() {
-    return transform;
+  public Vector3f getPosition() {
+    return transform.getPosition();
   }
 
   /**

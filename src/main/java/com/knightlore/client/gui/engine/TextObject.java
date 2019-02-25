@@ -1,13 +1,13 @@
-package com.knightlore.hud.engine;
+package com.knightlore.client.gui.engine;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.knightlore.hud.engine.graphics.FontTexture;
-import com.knightlore.hud.engine.graphics.Material;
-import com.knightlore.hud.engine.graphics.Mesh;
+import com.knightlore.client.gui.engine.graphics.FontTexture;
+import com.knightlore.client.gui.engine.graphics.Material;
+import com.knightlore.client.gui.engine.graphics.Mesh;
 
-public class TextItem extends GameItem {
+public class TextObject extends GuiObject {
 
     private static final float ZPOS = 0.0f;
 
@@ -17,7 +17,7 @@ public class TextItem extends GameItem {
     
     private String text;
 
-    public TextItem(String text, FontTexture fontTexture) {
+    public TextObject(String text, FontTexture fontTexture) {
         super();
         this.text = text;
         this.fontTexture = fontTexture;

@@ -148,6 +148,7 @@ public class Client extends Thread {
             }
         }
         
+        // MULTIPLAYER BUTTON
         if (mouseInput.getXPos() > window.getWidth() / 2 - 84
         		&& mouseInput.getXPos() < window.getWidth() / 2 + 84
         		&& mouseInput.getYPos() > window.getHeight() / 2 + 117
@@ -180,6 +181,7 @@ public class Client extends Thread {
             }
         } else menu.setRestoreQuit();
         
+        // ESC TO EXIT
         if (window.isKeyReleased(GLFW_KEY_ESCAPE)) {
         	glfwSetWindowShouldClose(window.getWindowHandle(), true);
         }
@@ -235,10 +237,12 @@ public class Client extends Thread {
           }
         }
 
+        // SCORE 
         if (window.isKeyReleased(GLFW_KEY_P)) {
           hud.setP1Score();
         }
         
+        // ESC TO EXIT TO MAIN MENU
         if (window.isKeyReleased(GLFW_KEY_ESCAPE)) {
     		audio.toggle();
     		audio.toggle();
@@ -268,6 +272,7 @@ public class Client extends Thread {
             }
         }
         
+        // CONTROL TO SHOW OTHER PLAYERS SCORES
         if (window.isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
         	hud.moveScore(20, 5);
         	//hud.toggleScore(true);
@@ -280,7 +285,7 @@ public class Client extends Thread {
     	
     case DEAD:
     	
-    	// LEAVE GAME
+    	// ESC TO EXIT TO MAIN MENU
         if (window.isKeyReleased(GLFW_KEY_ESCAPE)) {
     		audio.toggle();
     		audio.toggle();

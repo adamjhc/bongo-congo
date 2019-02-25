@@ -33,10 +33,6 @@ public class Hud implements IGui {
     private static final int MAX_SCORE = 99999999;
 
     private GuiObject[] guiObjects;
-    
-    private GuiObject[] guiObjectsTab;
-    
-    private GuiObject[] guiObjectsNoTab;
 
     private final TextObject player1Score;
     
@@ -70,14 +66,6 @@ public class Hud implements IGui {
     
     private final TextObject soundOff;
     
-    private final TextObject backgroundTop;
-    
-    private final TextObject backgroundBottom;
-    
-    private final TextObject backgroundLeft;
-    
-    private final TextObject backgroundRight;
-
     public Hud(Window window) throws Exception {
     	InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
     	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -134,19 +122,6 @@ public class Hud implements IGui {
         this.soundOn = new TextObject("(", fontTextureLarge);
         this.soundOn.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
         
-        this.backgroundTop = new TextObject(")))))))))))))))))))))))))))))", backgroundFont);
-        this.backgroundTop.getMesh().getMaterial().setColour(new Vector4f(0, 0, 0, 1));
-        
-        this.backgroundBottom = new TextObject("))))))))))))))))))))))))))", backgroundFont);
-        this.backgroundBottom.getMesh().getMaterial().setColour(new Vector4f(0, 0, 0, 1));
-        
-        this.backgroundLeft = new TextObject("))))))))))))))))))))))))))", backgroundFont);
-        this.backgroundLeft.getMesh().getMaterial().setColour(new Vector4f(0, 0, 0, 1));
-        
-        this.backgroundRight = new TextObject("))))))))))))))))))))))))))", backgroundFont);
-        this.backgroundRight.getMesh().getMaterial().setColour(new Vector4f(0, 0, 0, 1));
-        
-        
         this.soundOff = new TextObject("/", fontTexture25);
         this.soundOff.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         
@@ -168,14 +143,6 @@ public class Hud implements IGui {
         this.exit.setPosition(5, window.getHeight()-20, 0);
         this.soundOn.setPosition(window.getWidth()-40, window.getHeight()-40, 0);
         this.soundOff.setPosition(window.getWidth()-30, window.getHeight()-30, 0);
-        this.backgroundTop.setPosition(0, -10, 0);
-        this.backgroundBottom.setPosition(window.getWidth(), window.getHeight()+10, 0);
-        this.backgroundLeft.setPosition(-10, window.getHeight(), 0);
-        this.backgroundRight.setPosition(window.getWidth()+10, 0, 0);
-        
-        this.backgroundBottom.setRotation(0, 0, 180);
-        this.backgroundLeft.setRotation(0, 0, 90);
-        this.backgroundRight.setRotation(0, 0, 270);
         
         //toggleScore(false);
         toggleSound();

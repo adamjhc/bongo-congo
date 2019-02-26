@@ -4,8 +4,8 @@ import com.knightlore.game.entity.ai.EnemyAI;
 
 public class Enemies extends Entity {
 
-  public EnemyAI AI;
+    public EnemyAI AI;
 
-  @Override
-  void update() {}
+    @Override
+    void update() {}
 }

@@ -13,6 +13,7 @@ public class Player extends Entity {
     private static int inc = 0;
     private int lives;
     private int score;
+    private boolean fallFlag = false;
     private PlayerState playerState;
     private String associatedSession;
 
@@ -61,8 +62,16 @@ public class Player extends Entity {
             Tile newTile = map.getTile(coords);
 
             if (!newTile.isWalkable() && !newTile.isClimbable()) { // Checks if tile is an air tile
-                newPos.z -= 1;
-                setPosition(newPos);
+                if (fallFlag) {
+                    newPos.z -= 1;
+                    setPosition(newPos);
+                    System.out.println("Dead"); //TODO: replace this with death state/reset
+                    reset();                    //TODO: needs some sort of pause/animation here too
+                 } else {
+                    fallFlag = true;
+                    newPos.z -= 1;
+                    setPosition(newPos);
+                }
 
             } else if (!newTile.isWalkable()) { // Checks if tile is a blocking tile
                 setPosition(oldPos);
@@ -71,6 +80,7 @@ public class Player extends Entity {
                 if (GameConnection.instance != null) {
                     GameConnection.instance.updatePosition(position);
                 }
+                fallFlag = false;
                 setPosition(newPos);
             }
 
@@ -79,6 +89,7 @@ public class Player extends Entity {
                 coords = CoordinateUtils.getTileCoord(setPadding(newPos));
                 newTile = map.getTile(coords);
                 if (newTile.isWalkable()) { // Checks if the tile above climbable tile is accessible
+                    fallFlag = false;
                     setPosition(newPos);
                 } else {
                     setPosition(oldPos);
@@ -105,6 +116,17 @@ public class Player extends Entity {
         pos.add(padded, padded);
         return padded;
     }
+
+    private void reset() {
+        lives -= 1;
+        if (lives <= 0) {
+            System.out.println("Lost all lives");
+        }
+        setPosition(new Vector3f(1,1,0)); // TODO: need a 'start position' variable to use here
+        setDirection(Direction.SOUTH);
+        fallFlag = false;
+    }
+
 
     public PlayerState getPlayerState() {
         return playerState;

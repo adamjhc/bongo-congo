@@ -7,7 +7,6 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 import com.knightlore.client.gui.engine.GuiObject;
@@ -21,8 +20,6 @@ public class Hud implements IGui {
     private static final Font FONT = new Font("Press Start 2P", Font.PLAIN, 15);
 
     private static final Font FONT_LIVES = new Font("Press Start 2P", Font.PLAIN, 20);
-    
-    private static final Font FONT_BACKGROUND = new Font("Press Start 2P", Font.PLAIN, 48);
     
     private static final Font FONT_25 = new Font("Press Start 2P", Font.PLAIN, 30);
     
@@ -74,7 +71,6 @@ public class Hud implements IGui {
         FontTexture fontTexture = new FontTexture(FONT, CHARSET);
         FontTexture fontTextureLarge = new FontTexture(FONT_LARGE, CHARSET);
         FontTexture fontTexture25 = new FontTexture(FONT_25, CHARSET);
-        FontTexture backgroundFont = new FontTexture(FONT_BACKGROUND, CHARSET);
         FontTexture fontTextureLives = new FontTexture(FONT_LIVES, CHARSET);
         
         this.player1Score = new TextObject("P1:00000000", fontTexture);

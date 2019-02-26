@@ -14,6 +14,8 @@ import static org.lwjgl.glfw.GLFW.glfwTerminate;
 import com.knightlore.client.audio.AudioHandler;
 import com.knightlore.client.gui.Hud;
 import com.knightlore.client.gui.MainMenu;
+import com.knightlore.client.gui.OptionsMenu;
+import com.knightlore.client.gui.ServerMenu;
 import com.knightlore.client.gui.engine.MouseInput;
 import com.knightlore.client.gui.engine.Timer;
 import com.knightlore.client.gui.engine.Window;
@@ -47,6 +49,10 @@ public class Client extends Thread {
   private Hud hud;
   
   private MainMenu menu;
+  
+  private ServerMenu serverMenu;
+  
+  private OptionsMenu optionsMenu;
 
   public static void main(String[] args) {
     new Client().run();
@@ -77,6 +83,8 @@ public class Client extends Thread {
 
     hud = new Hud(window);
     menu = new MainMenu(window);
+    serverMenu = new ServerMenu(window);
+    optionsMenu = new OptionsMenu(window);
 
     renderer = new Renderer(window);
 
@@ -155,6 +163,7 @@ public class Client extends Thread {
         		&& mouseInput.getYPos() < window.getHeight() / 2 + 135) {
         	menu.setMultiplayer();
         	if (mouseInput.isLeftButtonPressed()) {
+        		gameState = State.SERVERMENU;
         		
         	}
         } else menu.setRestoreMultiplayer();
@@ -166,7 +175,7 @@ public class Client extends Thread {
         		&& mouseInput.getYPos() < window.getHeight() / 2 + 155) {
         	menu.setOptions();
         	if (mouseInput.isLeftButtonPressed()) {
-        		
+        		gameState = State.OPTIONSMENU;
         	} 
         } else menu.setRestoreOptions();
         
@@ -187,6 +196,25 @@ public class Client extends Thread {
         }
         
     	break;
+    
+    case SERVERMENU:
+    	
+        // ESC TO EXIT TO MAIN MENU
+        if (window.isKeyReleased(GLFW_KEY_ESCAPE)) {
+        	gameState = State.MAINMENU;
+        }
+    	
+    	break;
+    	
+    case OPTIONSMENU:
+    	
+        // ESC TO EXIT TO MAIN MENU
+        if (window.isKeyReleased(GLFW_KEY_ESCAPE)) {
+        	gameState = State.MAINMENU;
+        }
+    	
+    	break;
+    	
     	
     case PLAY:
     	
@@ -327,6 +355,14 @@ public class Client extends Thread {
 		  
 		  break;	
 		  
+	  case SERVERMENU:
+		  
+		  break;
+		  
+	  case OPTIONSMENU:
+		  
+		  break;
+		  
 	  case PLAY:
 		  
 		  float gameTime = timer.getGameTime();
@@ -358,6 +394,18 @@ public class Client extends Thread {
         renderer.render(window, menu);
         
         break;
+        
+    case SERVERMENU:
+    	
+    	renderer.render(window, serverMenu);
+    	
+    	break;
+    	
+    case OPTIONSMENU:
+    	
+    	renderer.render(window, optionsMenu);
+    	
+    	break;
         
     case PLAY:
     	

@@ -1,6 +1,7 @@
 package com.knightlore.game.map;
 
 import java.util.ArrayList;
+import org.joml.Vector3f;
 
 public class TileSet {
 
@@ -23,7 +24,9 @@ public class TileSet {
     tileSet.add(5, goalTile);
   }
 
-  Tile getTile(int index) {
-    return tileSet.get(index);
+  Tile getTile(int index, Vector3f position) {
+    Tile tile = new Tile(tileSet.get(index));
+    tile.setPosition(position);
+    return tile;
   }
 }

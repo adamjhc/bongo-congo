@@ -5,19 +5,20 @@ import com.knightlore.client.render.opengl.RenderModel;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.opengl.StaticTexture;
 import com.knightlore.client.render.opengl.Texture;
-import com.knightlore.game.util.CoordinateUtils;
 import org.joml.Matrix4f;
 
 public class TileGameObject extends GameObject {
 
   /** Set rendering width of the tiles */
-  public static float tileWidth = 2f;
+  public static final float TILE_WIDTH = 2f;
 
   /** Set rendering height of the tiles */
-  public static float tileHeight = 1f;
+  public static final float TILE_HEIGHT = 1f;
 
   /** Texture rendered on the tile */
   private Texture texture;
+
+  private boolean isFloor = false;
 
   /** Empty constructor for tiles without textures (e.g. air tiles) */
   TileGameObject() {}
@@ -27,7 +28,8 @@ public class TileGameObject extends GameObject {
    *
    * @param textureFileName Name of the texture file
    */
-  TileGameObject(String textureFileName) {
+  TileGameObject(boolean isFloor, String textureFileName) {
+    this.isFloor = isFloor;
     texture = new StaticTexture(textureFileName);
     setupRenderModel();
   }
@@ -39,29 +41,36 @@ public class TileGameObject extends GameObject {
    * @param frames Number of frames
    * @param fps Frames to render per second
    */
-  TileGameObject(String textFileName, int frames, int fps) {
+  TileGameObject(boolean isFloor, String textFileName, int frames, int fps) {
+    this.isFloor = isFloor;
     texture = new AnimatedTexture(textFileName, frames, fps);
     setupRenderModel();
+  }
+
+  TileGameObject(TileGameObject copy) {
+    texture = copy.texture;
+    model = copy.model;
+    isFloor = copy.isFloor;
+  }
+
+  public boolean isFloor() {
+    return isFloor;
   }
 
   /**
    * Render the tile
    *
-   * @param x Isometric x position of the tile
-   * @param y Isometric y position of the tile
    * @param shaderProgram Shader program to use
    * @param world World projection
    * @param camera Camera projection
    */
-  public void render(
-      float x, float y, ShaderProgram shaderProgram, Matrix4f world, Matrix4f camera) {
+  public void render(ShaderProgram shaderProgram, Matrix4f world, Matrix4f camera) {
     if (texture != null) {
       shaderProgram.bind();
 
       texture.bind(0);
 
-      Matrix4f position =
-          new Matrix4f(camera).mul(world).translate(CoordinateUtils.toIsometric(x, y));
+      Matrix4f position = new Matrix4f(camera).mul(world).translate(getIsometricPosition());
 
       shaderProgram.setUniform("sampler", 0);
       shaderProgram.setUniform("projection", position);

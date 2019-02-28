@@ -86,8 +86,8 @@ public class Renderer {
     tileGameObjectSet = new TileGameObjectSet();
     tileGameObjects = new ArrayList<>();
     playerGameObjects = new ArrayList<>();
-    viewX = ((float) window.getWidth() / (World.SCALE * 2)) + 4;
-    viewY = ((float) window.getHeight() / (World.SCALE * 2)) + 4;
+    viewX = ((float) window.getWidth() / (World.SCALE * 2)) + 1;
+    viewY = ((float) window.getHeight() / (World.SCALE * 2)) + 1;
   }
 
   private void setupHudShader() {

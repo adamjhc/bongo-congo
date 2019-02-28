@@ -42,6 +42,11 @@ public class ServerMenu implements IGui {
         this.bongo.setPosition(window.getWidth()/2-360, window.getHeight()/2-300, 0);
         this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-300, 0);
         
+        // RECEIVE LIST OF CLIENT NAMES
+        // CREATE LOBBY
+        // JOIN LOBBY
+        // PLAYER COUNT IN LOBBY
+        
         guiObjects = new GuiObject[]{bongo, congo};
     }
 

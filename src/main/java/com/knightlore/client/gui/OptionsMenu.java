@@ -57,6 +57,9 @@ public class OptionsMenu implements IGui {
         this.volume = new TextObject("100", fontTexture);
         this.volume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
+        //ADD VOLUME CONTROL FOR MUSIC AND IN-GAME SOUNDS SEPARATELY
+        //GAME CONTROLS?
+        
         this.bongo.setPosition(window.getWidth()/2-360, window.getHeight()/2-300, 0);
         this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-300, 0);
         this.incVolume.setPosition(window.getWidth()/2-50, window.getHeight()/2+100, 0);

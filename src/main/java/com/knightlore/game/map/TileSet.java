@@ -12,20 +12,20 @@ public class TileSet {
   private static Tile hazardTile = new Tile(true, false, true, false);
   private static Tile goalTile = new Tile(true, false, false, true);
 
-  private ArrayList<Tile> tileSet;
+  private ArrayList<Tile> set;
 
   public TileSet() {
-    tileSet = new ArrayList<>();
-    tileSet.add(0, airTile);
-    tileSet.add(1, floorTile);
-    tileSet.add(2, wallTile);
-    tileSet.add(3, climbableWallTile);
-    tileSet.add(4, hazardTile);
-    tileSet.add(5, goalTile);
+    set = new ArrayList<>();
+    set.add(0, airTile);
+    set.add(1, floorTile);
+    set.add(2, wallTile);
+    set.add(3, climbableWallTile);
+    set.add(4, hazardTile);
+    set.add(5, goalTile);
   }
 
   Tile getTile(int index, Vector3f position) {
-    Tile tile = new Tile(tileSet.get(index));
+    Tile tile = new Tile(set.get(index));
     tile.setPosition(position);
     return tile;
   }

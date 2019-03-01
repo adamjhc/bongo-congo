@@ -58,35 +58,35 @@ public class Window {
     this.keyCode = -1;
   }
 
-  public void init() {
-    // Setup an error callback. The default implementation
-    // will print the error message in System.err.
-    GLFWErrorCallback.createPrint(System.err).set();
+    public void init() {
+        // Setup an error callback. The default implementation
+        // will print the error message in System.err.
+        GLFWErrorCallback.createPrint(System.err).set();
 
-    if (!glfwInit()) {
-      throw new IllegalStateException("Unable to initialize GLFW");
-    }
+        if (!glfwInit()) {
+            throw new IllegalStateException("Unable to initialize GLFW");
+        }
 
-    glfwDefaultWindowHints();
-    glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
-    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-    glfwWindowHint(GLFW_SAMPLES, 4);
+        glfwDefaultWindowHints();
+        glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
+        glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+        glfwWindowHint(GLFW_SAMPLES, 4);
 
-    // Create the window, use (width, height, title, glfwGetPrimaryMonitor(), 0) for full-screen
-    windowHandle = glfwCreateWindow(width, height, title, NULL, NULL);
-    if (windowHandle == NULL) {
-      throw new RuntimeException("Failed to create the GLFW window");
-    }
 
-    // Setup a key callback. It will be called every time a key is pressed, repeated or released.
-    glfwSetKeyCallback(
-        windowHandle,
-        (window, key, scancode, action, mods) -> {
-          if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
-            glfwSetWindowShouldClose(window, true);
-          } else if (action == GLFW_RELEASE) {
-            this.keyCode = key;
-          }
+        // Create the window, use (width, height, title, glfwGetPrimaryMonitor(), 0) for full-screen
+        windowHandle = glfwCreateWindow(width, height, title, NULL, NULL);
+        if (windowHandle == NULL) {
+            throw new RuntimeException("Failed to create the GLFW window");
+        }
+
+        // Setup a key callback. It will be called every time a key is pressed, repeated or released.
+        glfwSetKeyCallback(windowHandle, (window, key, scancode, action, mods) -> {
+            //if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
+            //    glfwSetWindowShouldClose(window, true);
+            //}
+            if (action == GLFW_RELEASE) {
+            	this.keyCode = key;
+            }
         });
 
     // Get the resolution of the primary monitor

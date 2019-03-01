@@ -230,19 +230,19 @@ public class Renderer {
   private void renderGui(Window window, IGui gui) {
     hudShaderProgram.bind();
 
-    Matrix4f ortho =
-        transformation.getOrthoProjectionMatrix(0, window.getWidth(), window.getHeight(), 0);
-    for (GuiObject guiObject : gui.getGuiObjects()) {
-      Mesh mesh = guiObject.getMesh();
+      Matrix4f ortho = transformation.getOrthoProjectionMatrix(0, window.getWidth(), window.getHeight(), 0);
+      for (GuiObject guiObject : gui.getGuiObjects()) {
+    	  if (guiObject.getRender()) {
+              Mesh mesh = guiObject.getMesh();
 
-      Matrix4f projModelMatrix = transformation.getOrtoProjModelMatrix(guiObject, ortho);
-      hudShaderProgram.setUniform("projModelMatrix", projModelMatrix);
-      hudShaderProgram.setUniform("colour", guiObject.getMesh().getMaterial().getColour());
-      hudShaderProgram.setUniform(
-          "hasTexture", guiObject.getMesh().getMaterial().isTextured() ? 1 : 0);
+              Matrix4f projModelMatrix = transformation.getOrtoProjModelMatrix(guiObject, ortho);
+              hudShaderProgram.setUniform("projModelMatrix", projModelMatrix);
+              hudShaderProgram.setUniform("colour", guiObject.getMesh().getMaterial().getColour());
+              hudShaderProgram.setUniform("hasTexture", guiObject.getMesh().getMaterial().isTextured() ? 1 : 0);
 
-      mesh.render();
-    }
+              mesh.render();
+    	  }
+      }
 
     hudShaderProgram.unbind();
   }

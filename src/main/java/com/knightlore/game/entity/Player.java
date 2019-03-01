@@ -7,8 +7,6 @@ import com.knightlore.game.util.CoordinateUtils;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
-import java.util.UUID;
-
 public class Player extends Entity {
 
   private static int inc = 0;
@@ -29,7 +27,7 @@ public class Player extends Entity {
     score = 0;
   }
 
-  public Player(String sessionID){
+  public Player(String sessionID) {
     this();
     this.associatedSession = sessionID;
   }

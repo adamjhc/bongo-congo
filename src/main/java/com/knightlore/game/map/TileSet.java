@@ -5,7 +5,7 @@ import org.joml.Vector3f;
 
 public class TileSet {
 
-  private static Tile airTile = new Tile(true, false, false, false);
+  private static Tile airTile = new Tile(false, false, false, false);
   private static Tile floorTile = new Tile(true, false, false, false);
   private static Tile wallTile = new Tile(false, false, false, false);
   private static Tile climbableWallTile = new Tile(false, true, false, false);

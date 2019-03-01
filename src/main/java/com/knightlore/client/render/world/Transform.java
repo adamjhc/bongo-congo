@@ -39,7 +39,7 @@ public class Transform {
    * @return Projection of the transform
    */
   public Matrix4f getProjection(Matrix4f target) {
-    target.scale(World.scale);
+    target.scale(World.SCALE);
     target.translate(position);
 
     return target;

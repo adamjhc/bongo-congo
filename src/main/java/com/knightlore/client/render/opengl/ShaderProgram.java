@@ -141,7 +141,7 @@ public class ShaderProgram {
 
     int location = glGetUniformLocation(id, name);
     if (location == -1) {
-      throw new RuntimeException(glGetProgramInfoLog(id));
+      throw new IllegalStateException(glGetProgramInfoLog(id));
     }
 
     locationCache.put(name, location);
@@ -172,7 +172,7 @@ public class ShaderProgram {
     glLinkProgram(id);
 
     if (glGetProgrami(id, GL_LINK_STATUS) == GL_FALSE) {
-      throw new RuntimeException(glGetProgramInfoLog(id));
+      throw new IllegalStateException(glGetProgramInfoLog(id));
     }
   }
 
@@ -181,7 +181,7 @@ public class ShaderProgram {
     glValidateProgram(id);
 
     if (glGetProgrami(id, GL_VALIDATE_STATUS) == GL_FALSE) {
-      throw new RuntimeException(glGetProgramInfoLog(id));
+      throw new IllegalStateException(glGetProgramInfoLog(id));
     }
   }
 

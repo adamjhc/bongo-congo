@@ -20,16 +20,22 @@ import com.knightlore.client.gui.engine.graphics.HudShaderProgram;
 import com.knightlore.client.gui.engine.graphics.Mesh;
 import com.knightlore.client.gui.engine.graphics.Transformation;
 import com.knightlore.client.render.opengl.ShaderProgram;
-import com.knightlore.client.render.world.PlayerSet;
-import com.knightlore.client.render.world.TileSet;
+import com.knightlore.client.render.world.GameObject;
+import com.knightlore.client.render.world.PlayerGameObject;
+import com.knightlore.client.render.world.TileGameObject;
+import com.knightlore.client.render.world.TileGameObjectSet;
 import com.knightlore.game.Game;
 import com.knightlore.game.entity.Player;
+import java.util.ArrayList;
+import java.util.Collection;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.joml.Vector3i;
 
 public class Renderer {
 
-  private final Transformation transformation;
+  private Transformation transformation;
+
   /** Window reference */
   private Window window;
 
@@ -42,16 +48,15 @@ public class Renderer {
   /** Shader program used in rendering */
   private ShaderProgram shaderProgram;
 
-  /** Renderer used for the map */
-  private MapRenderer mapRenderer;
-
-  /** Player set of active players */
-  private PlayerSet playerSet;
-
-  /** Renderer used for the players */
-  private PlayerRenderer playerRenderer;
+  private TileGameObjectSet tileGameObjectSet;
 
   private HudShaderProgram hudShaderProgram;
+
+  private ArrayList<TileGameObject> tileGameObjects;
+  private ArrayList<PlayerGameObject> playerGameObjects;
+
+  private float viewX;
+  private float viewY;
 
   /**
    * Initialise the renderer
@@ -61,37 +66,42 @@ public class Renderer {
   public Renderer(Window window) {
     this.window = window;
 
-    // Setting up OpenGL
+    setupOpenGL();
+    setupWorld();
+    setupHudShader();
+  }
+
+  private void setupOpenGL() {
     createCapabilities();
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_MULTISAMPLE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  }
 
-    // Setting up the world
+  private void setupWorld() {
     world = new World();
     camera = new Camera(window.getWidth(), window.getHeight());
     shaderProgram = new ShaderProgram("shader");
-    mapRenderer = new MapRenderer(new TileSet());
-    playerSet = new PlayerSet();
-    playerRenderer = new PlayerRenderer(playerSet);
-
-    transformation = new Transformation();
-
-    setupHudShader();
+    tileGameObjectSet = new TileGameObjectSet();
+    tileGameObjects = new ArrayList<>();
+    playerGameObjects = new ArrayList<>();
+    viewX = ((float) window.getWidth() / (World.SCALE * 2)) + 1;
+    viewY = ((float) window.getHeight() / (World.SCALE * 2)) + 1;
   }
 
   private void setupHudShader() {
+    transformation = new Transformation();
     hudShaderProgram = new HudShaderProgram();
     try {
       hudShaderProgram.createVertexShader(Utils.loadResource("/shaders/hud.vert"));
     } catch (Exception e) {
-      e.printStackTrace();
+      throw new IllegalStateException("Could not find shader");
     }
     try {
       hudShaderProgram.createFragmentShader(Utils.loadResource("/shaders/hud.frag"));
     } catch (Exception e) {
-      e.printStackTrace();
+      throw new IllegalStateException("Could not find shader");
     }
     hudShaderProgram.link();
 
@@ -109,7 +119,6 @@ public class Renderer {
     clearBuffers();
 
     renderGame(gameModel);
-
     renderGui(window, gui);
 
     swapBuffers();
@@ -124,21 +133,95 @@ public class Renderer {
   }
 
   private void renderGame(Game gameModel) {
-    camera.setPosition(
-        playerSet
-            .getPlayer(gameModel.getCurrentLevel().myPlayer().getId())
-            .getPosition()
-            .mul(-world.getScale(), new Vector3f()));
+    Collection<Player> players = gameModel.getCurrentLevel().getPlayers().values();
 
-    mapRenderer.render(
-        gameModel.getCurrentLevel().getMap(),
-        shaderProgram,
-        world.getProjection(),
-        camera.getProjection());
-
-    for (Player player : gameModel.getCurrentLevel().getPlayers().values()) {
-      playerRenderer.render(player, shaderProgram, camera.getProjection());
+    if (tileGameObjects.isEmpty()) {
+      tileGameObjects.addAll(
+          tileGameObjectSet.fromGameModel(gameModel.getCurrentLevel().getMap().getTiles()));
+      playerGameObjects.addAll(PlayerGameObject.fromGameModel(players));
     }
+
+    players.forEach(player -> playerGameObjects.get(player.getId()).update(player));
+
+    Vector3f isometricPosition =
+        playerGameObjects
+            .get(gameModel.getCurrentLevel().myPlayer().getId())
+            .getIsometricPosition();
+
+    camera.setPosition(isometricPosition.mul(-World.SCALE, new Vector3f()));
+
+    ArrayList<GameObject> gameObjectsToDepthSort = new ArrayList<>();
+    tileGameObjects.forEach(
+        tileGameObject -> {
+          if (isWithinView(isometricPosition, tileGameObject.getIsometricPosition())) {
+            gameObjectsToDepthSort.add(tileGameObject);
+          }
+        });
+    playerGameObjects.forEach(
+        playerGameObject -> {
+          if (isWithinView(isometricPosition, playerGameObject.getIsometricPosition())) {
+            gameObjectsToDepthSort.add(playerGameObject);
+          }
+        });
+
+    ArrayList<GameObject> depthSortedGameObjects =
+        depthSort(gameModel.getCurrentLevel().getMap().getSize(), gameObjectsToDepthSort);
+
+    depthSortedGameObjects.forEach(
+        gameObject -> {
+          if (gameObject instanceof PlayerGameObject) {
+            ((PlayerGameObject) gameObject).render(shaderProgram, camera.getProjection());
+          } else {
+            ((TileGameObject) gameObject)
+                .render(shaderProgram, world.getProjection(), camera.getProjection());
+          }
+        });
+  }
+
+  private boolean isWithinView(Vector3f playerPosition, Vector3f gameObjectPosition) {
+    return playerPosition.x + viewX >= gameObjectPosition.x
+        && playerPosition.y + viewY >= gameObjectPosition.y
+        && playerPosition.x - viewX <= gameObjectPosition.x
+        && playerPosition.y - viewY <= gameObjectPosition.y;
+  }
+
+  private ArrayList<GameObject> depthSort(Vector3i mapSize, ArrayList<GameObject> gameObjects) {
+    // initalise the buckets
+    ArrayList<ArrayList<GameObject>> buckets = new ArrayList<>();
+    for (int i = 0; i < getScreenDepth(mapSize, new Vector3f(0, 0, mapSize.z - 1)) + 1; i++) {
+      buckets.add(new ArrayList<>());
+    }
+
+    // distribute to buckets
+    gameObjects.forEach(
+        gameObject -> {
+          if (gameObject instanceof TileGameObject && ((TileGameObject) gameObject).isFloor()) {
+            buckets
+                .get(getLevelScreenDepth(mapSize, gameObject.getModelPosition().z))
+                .add(gameObject);
+          } else {
+            buckets.get(getScreenDepth(mapSize, gameObject.getModelPosition())).add(gameObject);
+          }
+        });
+
+    // flatten
+    ArrayList<GameObject> depthSortedGameObjects = new ArrayList<>();
+    buckets.forEach(depthSortedGameObjects::addAll);
+    return depthSortedGameObjects;
+  }
+
+  private int getScreenDepth(Vector3i mapSize, Vector3f position) {
+    return (int)
+        Math.ceil(
+            mapSize.x
+                - position.x
+                + mapSize.y
+                - position.y
+                + getLevelScreenDepth(mapSize, position.z));
+  }
+
+  private int getLevelScreenDepth(Vector3i mapSize, float z) {
+    return (int) z * (mapSize.x + mapSize.y);
   }
 
   private void renderGui(Window window, IGui gui) {

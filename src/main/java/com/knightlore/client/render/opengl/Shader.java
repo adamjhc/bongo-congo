@@ -12,21 +12,24 @@ import static org.lwjgl.opengl.GL20.glGetShaderi;
 import static org.lwjgl.opengl.GL20.glShaderSource;
 
 import com.knightlore.client.util.FileUtils;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 class Shader {
 
   /** Path to the shaders directory */
-  private static final String shaderPathPrefix = "./src/main/resources/shaders/";
+  private static final String SHADER_PATH_PREFIX = "./src/main/resources/shaders/";
 
   /** File extensions for the two types of shaders */
-  private static final HashMap fileExtensions =
-      new HashMap<Integer, String>() {
-        {
-          put(GL_VERTEX_SHADER, ".vert");
-          put(GL_FRAGMENT_SHADER, ".frag");
-        }
-      };
+  private static final Map<Integer, String> FILE_EXTENSIONS;
+
+  static {
+    Map<Integer, String> map = new HashMap<>();
+    map.put(GL_VERTEX_SHADER, ".vert");
+    map.put(GL_FRAGMENT_SHADER, ".frag");
+    FILE_EXTENSIONS = Collections.unmodifiableMap(map);
+  }
 
   /** OpenGL id of the shader */
   private final int id;
@@ -41,8 +44,7 @@ class Shader {
   Shader(int type, String shaderFileName) {
     id = glCreateShader(type);
 
-    source(
-        FileUtils.readShader(shaderPathPrefix + shaderFileName + fileExtensions.get(type)));
+    source(FileUtils.readShader(SHADER_PATH_PREFIX + shaderFileName + FILE_EXTENSIONS.get(type)));
 
     compile();
   }
@@ -75,7 +77,7 @@ class Shader {
     glCompileShader(id);
 
     if (glGetShaderi(id, GL_COMPILE_STATUS) == GL_FALSE) {
-      throw new RuntimeException(glGetShaderInfoLog(id));
+      throw new IllegalStateException(glGetShaderInfoLog(id));
     }
   }
 }

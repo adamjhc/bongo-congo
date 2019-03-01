@@ -19,7 +19,13 @@ public class Camera {
    */
   public Camera(int width, int height) {
     position = new Vector3f(0, 0, 0);
-    projection = new Matrix4f().setOrtho2D(-width / 2, width / 2, -height / 2, height / 2);
+    projection =
+        new Matrix4f()
+            .setOrtho2D(
+                ((float) -width) / 2,
+                ((float) width) / 2,
+                ((float) -height) / 2,
+                ((float) height) / 2);
   }
 
   /**

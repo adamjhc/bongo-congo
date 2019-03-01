@@ -2,7 +2,7 @@ package com.knightlore.client.render.opengl;
 
 import static org.lwjgl.glfw.GLFW.glfwGetTime;
 
-public class AnimatedTexture extends Texture {
+public class AnimatedTexture implements Texture {
 
   /** Frames of the animation */
   private StaticTexture[] frames;

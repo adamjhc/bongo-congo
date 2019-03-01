@@ -1,5 +1,7 @@
 package com.knightlore.game.map;
 
+import org.joml.Vector3f;
+
 public class Tile {
 
   private static int inc = 0;
@@ -10,6 +12,7 @@ public class Tile {
   private boolean hazard;
   private boolean goal;
 
+  private Vector3f position;
 
   public Tile(boolean walkable, boolean climbable, boolean hazard, boolean goal) {
     id = inc;
@@ -19,6 +22,15 @@ public class Tile {
     this.climbable = climbable;
     this.hazard = hazard;
     this.goal = goal;
+  }
+
+  public Tile(Tile copy) {
+    id = copy.id;
+    walkable = copy.walkable;
+    climbable = copy.climbable;
+    hazard = copy.hazard;
+    goal = copy.goal;
+    position = copy.position;
   }
 
   public int getId() {
@@ -55,5 +67,13 @@ public class Tile {
 
   public void setGoal(boolean goal) {
     this.goal = goal;
+  }
+
+  public Vector3f getPosition() {
+    return position;
+  }
+
+  public void setPosition(Vector3f position) {
+    this.position = position;
   }
 }

@@ -6,11 +6,17 @@ import org.joml.Vector3i;
 
 public class CoordinateUtils {
 
-  public static Vector3f toIsometric(float x, float y) {
+  private CoordinateUtils() {}
+
+  private static Vector3f toIsometric(float x, float y) {
     return new Vector3f(
-        (x * TileGameObject.tileWidth / 2) - (y * TileGameObject.tileWidth / 2),
-        (y * TileGameObject.tileHeight / 2) + (x * TileGameObject.tileHeight / 2),
+        (x * TileGameObject.TILE_WIDTH / 2) - (y * TileGameObject.TILE_WIDTH / 2),
+        (y * TileGameObject.TILE_HEIGHT / 2) + (x * TileGameObject.TILE_HEIGHT / 2),
         0);
+  }
+
+  public static Vector3f toIsometric(Vector3f pos) {
+    return toIsometric(pos.x + pos.z, pos.y + pos.z);
   }
 
   public static boolean mapHasPosition(Vector3i map, Vector3i position) {

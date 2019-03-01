@@ -1,10 +1,10 @@
 package com.knightlore.client.render.opengl;
 
-public abstract class Texture {
+public interface Texture {
 
-  public abstract int getWidth();
+  int getWidth();
 
-  public abstract int getHeight();
+  int getHeight();
 
-  public abstract void bind(int sampler);
+  void bind(int sampler);
 }

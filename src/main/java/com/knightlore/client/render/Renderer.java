@@ -96,12 +96,12 @@ public class Renderer {
     try {
       hudShaderProgram.createVertexShader(Utils.loadResource("/shaders/hud.vert"));
     } catch (Exception e) {
-      e.printStackTrace();
+      throw new IllegalStateException("Could not find shader");
     }
     try {
       hudShaderProgram.createFragmentShader(Utils.loadResource("/shaders/hud.frag"));
     } catch (Exception e) {
-      e.printStackTrace();
+      throw new IllegalStateException("Could not find shader");
     }
     hudShaderProgram.link();
 

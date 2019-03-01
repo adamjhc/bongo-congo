@@ -212,11 +212,12 @@ public class Renderer {
 
   private int getScreenDepth(Vector3i mapSize, Vector3f position) {
     return (int)
-        (mapSize.x
-            - position.x
-            + mapSize.y
-            - position.y
-            + getLevelScreenDepth(mapSize, position.z));
+        Math.ceil(
+            mapSize.x
+                - position.x
+                + mapSize.y
+                - position.y
+                + getLevelScreenDepth(mapSize, position.z));
   }
 
   private int getLevelScreenDepth(Vector3i mapSize, float z) {

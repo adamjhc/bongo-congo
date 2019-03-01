@@ -19,14 +19,14 @@ public enum Direction {
         SOUTH.normalisedDirection = new Vector3f(-1, 0, 0);
         WEST.normalisedDirection = new Vector3f(0, 1, 0);
 
-        // The ratio between vertical movement speed and horizontal movement speed should be the same as
-        // the ratio between tile height and tile width. 1.4142 is pythagoras of the above vectors
-        float normalised = (float) (1.4142 * TileGameObject.tileHeight / TileGameObject.tileWidth);
-        NORTH_EAST.normalisedDirection = new Vector3f(normalised, -normalised, 0);
-        SOUTH_EAST.normalisedDirection = new Vector3f(-normalised, -normalised, 0);
-        SOUTH_WEST.normalisedDirection = new Vector3f(-normalised, normalised, 0);
-        NORTH_WEST.normalisedDirection = new Vector3f(normalised, normalised, 0);
-    }
+    // The ratio between vertical movement speed and horizontal movement speed should be the same as
+    // the ratio between tile height and tile width. 1.4142 is pythagoras of the above vectors
+    float normalised = (float) (1.4142 * TileGameObject.TILE_HEIGHT / TileGameObject.TILE_WIDTH);
+    NORTH_EAST.normalisedDirection = new Vector3f(normalised, -normalised, 0);
+    SOUTH_EAST.normalisedDirection = new Vector3f(-normalised, -normalised, 0);
+    SOUTH_WEST.normalisedDirection = new Vector3f(-normalised, normalised, 0);
+    NORTH_WEST.normalisedDirection = new Vector3f(normalised, normalised, 0);
+  }
 
     private final String abbreviation;
     private Vector3f normalisedDirection;

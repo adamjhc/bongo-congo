@@ -1,6 +1,5 @@
 package com.knightlore.game.entity;
 
-import com.knightlore.client.networking.GameConnection;
 import org.joml.Vector3f;
 
 public abstract class Entity {
@@ -20,10 +19,9 @@ public abstract class Entity {
         return position;
     }
 
-    public void setPosition(Vector3f position) {
-        this.position = position;
-
-    }
+  public void setPosition(Vector3f position) {
+    this.position = position;
+  }
 
     public int getId() {
         return id;

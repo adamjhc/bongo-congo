@@ -32,10 +32,10 @@ public class Player extends Entity {
         score = 0;
     }
 
-    public Player(String sessionID) {
-        this();
-        this.associatedSession = sessionID;
-    }
+  public Player(String sessionID) {
+    this();
+    this.associatedSession = sessionID;
+  }
 
     @Override
     public Vector3f getPosition() {

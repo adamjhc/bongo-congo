@@ -7,7 +7,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_P;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_CONTROL;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 
@@ -301,7 +301,7 @@ public class Client extends Thread {
         }
         
         // CONTROL TO SHOW OTHER PLAYERS SCORES
-        if (window.isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
+        if (window.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
         	hud.moveScore(20, 5);
         	//hud.toggleScore(true);
         } else {

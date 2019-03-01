@@ -46,7 +46,9 @@ public class Renderer {
   private Camera camera;
 
   /** Shader program used in rendering */
-  private ShaderProgram shaderProgram;
+  private ShaderProgram worldShaderProgram;
+
+  private ShaderProgram playerShaderProgram;
 
   private TileGameObjectSet tileGameObjectSet;
 
@@ -82,7 +84,8 @@ public class Renderer {
   private void setupWorld() {
     world = new World();
     camera = new Camera(window.getWidth(), window.getHeight());
-    shaderProgram = new ShaderProgram("shader");
+    worldShaderProgram = new ShaderProgram("world");
+    playerShaderProgram = new ShaderProgram("player");
     tileGameObjectSet = new TileGameObjectSet();
     tileGameObjects = new ArrayList<>();
     playerGameObjects = new ArrayList<>();
@@ -170,10 +173,10 @@ public class Renderer {
     depthSortedGameObjects.forEach(
         gameObject -> {
           if (gameObject instanceof PlayerGameObject) {
-            ((PlayerGameObject) gameObject).render(shaderProgram, camera.getProjection());
+            ((PlayerGameObject) gameObject).render(playerShaderProgram, camera.getProjection());
           } else {
             ((TileGameObject) gameObject)
-                .render(shaderProgram, world.getProjection(), camera.getProjection());
+                .render(worldShaderProgram, world.getProjection(), camera.getProjection());
           }
         });
   }

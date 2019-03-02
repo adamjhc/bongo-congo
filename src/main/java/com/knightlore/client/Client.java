@@ -191,13 +191,18 @@ public class Client extends Thread {
     
     case SERVERMENU:
     	
-    	if (mouseInput.scrolledDown()) {
-    		serverMenu.moveDown();
+    	if (mouseInput.getXPos() > window.getWidth()/2 - 225
+    			&& mouseInput.getXPos() < window.getWidth() + 255
+    			&& mouseInput.getYPos() > window.getHeight()/2-185
+    			&& mouseInput.getYPos() < window.getHeight()/2+200) {
+        	if (mouseInput.scrolledDown()) {
+        		serverMenu.moveDown();
+        	}
+        	if (mouseInput.scrolledUp()) {
+        		serverMenu.moveUp();
+        	}
     	}
-    	if (mouseInput.scrolledUp()) {
-    		serverMenu.moveUp();
-    	}
-    	
+
     	leaveMenu();
     	
     	break;

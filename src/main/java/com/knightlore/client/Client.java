@@ -194,6 +194,9 @@ public class Client extends Thread {
     	if (mouseInput.scrolledDown()) {
     		serverMenu.moveDown();
     	}
+    	if (mouseInput.scrolledUp()) {
+    		serverMenu.moveUp();
+    	}
     	
     	leaveMenu();
     	

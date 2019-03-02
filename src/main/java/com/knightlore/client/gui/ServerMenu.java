@@ -46,6 +46,8 @@ public class ServerMenu implements IGui {
     
     private int length;
     
+    private int current = 0;
+    
     public ServerMenu(Window window) throws Exception {
     	InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
     	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -141,13 +143,14 @@ public class ServerMenu implements IGui {
     }
     
     public void moveDown() {
-    	if (servers.size() > 18) {
+    	if (servers.size() > 18 && current < servers.size()-18) {
+    		current ++;
     		GuiObject[] guiObjectsNew = new GuiObject[length + 18];
         	for (int i = 0; i < length; i++) {
         		guiObjectsNew[i] = guiObjects[i];
         	}
         	for (int i = length; i < length + 18; i++) {
-        		guiObjectsNew[i] = servers.get((i - length) + 1);
+        		guiObjectsNew[i] = servers.get((i - length) + current);
         	}
         	guiObjects = guiObjectsNew.clone();
         	
@@ -156,6 +159,28 @@ public class ServerMenu implements IGui {
         	}
     	}	
     }
+    
+    public void moveUp() {
+    	if (current > 0) {
+    		current --;
+
+    		GuiObject[] guiObjectsNew = new GuiObject[length + 18];
+        	for (int i = 0; i < length; i++) {
+        		guiObjectsNew[i] = guiObjects[i];
+        	}
+        	for (int i = length; i < length + 18; i++) {
+        		guiObjectsNew[i] = servers.get((i - length) + current);
+        	}
+        	guiObjects = guiObjectsNew.clone();
+        	
+        	for (int i = 0; i < servers.size(); i++) {
+        		servers.get(i).setPositionY(servers.get(i).getPositionY()+20);
+        	}	
+        	
+
+    	}	
+    }
+    
 
     @Override
     public GuiObject[] getGuiObjects() {

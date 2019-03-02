@@ -2,10 +2,13 @@ package com.knightlore.client.render.opengl;
 
 import static org.lwjgl.glfw.GLFW.glfwGetTime;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AnimatedTexture implements Texture {
 
   /** Frames of the animation */
-  private StaticTexture[] frames;
+  private List<StaticTexture> frames;
 
   /** The index of the current texture to render */
   private int currentTextureIndex;
@@ -27,9 +30,9 @@ public class AnimatedTexture implements Texture {
    * @param fps Number of frames to render every second
    */
   public AnimatedTexture(String textureFileName, int noOfFrames, int fps) {
-    frames = new StaticTexture[noOfFrames];
+    frames = new ArrayList<>(noOfFrames);
     for (int i = 0; i < noOfFrames; i++) {
-      frames[i] = new StaticTexture(textureFileName + "_" + i);
+      frames.add(i, new StaticTexture(textureFileName + "_" + i));
     }
 
     currentTextureIndex = 0;
@@ -45,7 +48,7 @@ public class AnimatedTexture implements Texture {
    */
   @Override
   public int getWidth() {
-    return frames[0].getWidth();
+    return frames.get(0).getWidth();
   }
 
   /**
@@ -55,7 +58,7 @@ public class AnimatedTexture implements Texture {
    */
   @Override
   public int getHeight() {
-    return frames[0].getHeight();
+    return frames.get(0).getHeight();
   }
 
   /**
@@ -74,10 +77,14 @@ public class AnimatedTexture implements Texture {
       currentTextureIndex++;
     }
 
-    if (currentTextureIndex == frames.length) {
+    if (currentTextureIndex == frames.size()) {
       currentTextureIndex = 0;
     }
 
-    frames[currentTextureIndex].bind(sampler);
+    frames.get(currentTextureIndex).bind(sampler);
+  }
+
+  public void cleanup() {
+    frames.forEach(StaticTexture::cleanup);
   }
 }

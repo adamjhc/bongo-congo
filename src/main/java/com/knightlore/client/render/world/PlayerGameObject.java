@@ -4,6 +4,7 @@ import com.knightlore.client.render.opengl.AnimatedTexture;
 import com.knightlore.client.render.opengl.RenderModel;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.opengl.StaticTexture;
+import com.knightlore.client.render.opengl.Texture;
 import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
@@ -150,5 +151,10 @@ public class PlayerGameObject extends GameObject {
     }
 
     model.render();
+  }
+
+  public void cleanup() {
+    idleTextures.values().forEach(StaticTexture::cleanup);
+    movingTextures.values().forEach(AnimatedTexture::cleanup);
   }
 }

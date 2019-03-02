@@ -79,6 +79,12 @@ public class TileGameObject extends GameObject {
     }
   }
 
+  public void cleanup() {
+    if (texture != null) {
+      texture.cleanup();
+    }
+  }
+
   /** Setup OpenGL render model */
   private void setupRenderModel() {
     float scaledTextureHeight = 2 * (float) texture.getHeight() / texture.getWidth();

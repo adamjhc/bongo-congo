@@ -98,14 +98,9 @@ public class StaticTexture implements Texture {
     }
   }
 
-  /**
-   * Cleans up memory
-   *
-   * @throws Throwable Exception
-   */
-  protected void finalize() throws Throwable {
+  /** Cleans up memory */
+  public void cleanup() {
     glDeleteTextures(id);
-    super.finalize();
   }
 
   /** Binds the texture to the current object */

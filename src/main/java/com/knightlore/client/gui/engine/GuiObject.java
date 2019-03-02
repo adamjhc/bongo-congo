@@ -48,8 +48,16 @@ public class GuiObject {
     	return position.x;
     }
     
+    public float getPositionY() {
+    	return position.y;
+    }
+    
     public void setPositionX(float x) {
     	this.position.x = x;
+    }
+    
+    public void setPositionY(float y) {
+    	this.position.y = y;
     }
 
     public void setPosition(float x, float y, float z) {

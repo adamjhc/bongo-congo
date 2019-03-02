@@ -191,6 +191,10 @@ public class Client extends Thread {
     
     case SERVERMENU:
     	
+    	if (mouseInput.scrolledDown()) {
+    		serverMenu.moveDown();
+    	}
+    	
     	leaveMenu();
     	
     	break;

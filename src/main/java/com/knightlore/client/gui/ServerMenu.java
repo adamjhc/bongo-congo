@@ -1,7 +1,10 @@
 package com.knightlore.client.gui;
 
 import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -16,6 +19,8 @@ import com.knightlore.client.gui.engine.graphics.FontTexture;
 
 public class ServerMenu implements IGui {
 	
+	private static final Font FONT = new Font("Press Start 2P", Font.PLAIN, 15);
+	
 	private static final Font FONT_TITLE = new Font("Press Start 2P", Font.PLAIN, 72);
 	
 	private static final String CHARSET = "ISO-8859-1";
@@ -26,12 +31,25 @@ public class ServerMenu implements IGui {
     
     private final TextObject congo;
     
+    private final TextObject multiplayer;
+    
+    private final TextObject separator;
+    
     public ServerMenu(Window window) throws Exception {
     	InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
     	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
     	ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, myStream));
     	
+    	FontTexture fontTexture = new FontTexture(FONT, CHARSET);
     	FontTexture fontTextureTitle = new FontTexture(FONT_TITLE, CHARSET);
+    	
+//    	Toolkit toolkit =  Toolkit.getDefaultToolkit();
+//    	FontMetrics fontMetrics = toolkit.getFontMetrics(FONT_TITLE);
+//    	
+//    	String s = "Bongo";
+//    	char[] chars = s.toCharArray();
+//    	
+//    	System.out.println(fontMetrics.charsWidth(chars, 0, 5));
     	
     	this.bongo = new TextObject("Bongo", fontTextureTitle);
         this.bongo.getMesh().getMaterial().setColour(new Vector4f(0.29f, 0.92f, 0.95f, 1));
@@ -39,15 +57,24 @@ public class ServerMenu implements IGui {
         this.congo = new TextObject("Congo", fontTextureTitle);
         this.congo.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         
+        this.multiplayer = new TextObject("Play Multiplayer", fontTexture);
+        this.multiplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0 , 1));
+        
+        this.separator = new TextObject("------------------------------", fontTexture);
+        this.separator.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0 , 1));
+        
         this.bongo.setPosition(window.getWidth()/2-360, window.getHeight()/2-300, 0);
         this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-300, 0);
+        
+        this.multiplayer.setPosition(window.getWidth()/2-120, window.getHeight()/2, 0);
+        this.separator.setPosition(window.getWidth()/2-225, window.getHeight()/2+15, 0);
         
         // RECEIVE LIST OF CLIENT NAMES
         // CREATE LOBBY
         // JOIN LOBBY
         // PLAYER COUNT IN LOBBY
         
-        guiObjects = new GuiObject[]{bongo, congo};
+        guiObjects = new GuiObject[]{bongo, congo, multiplayer, separator};
     }
 
     @Override

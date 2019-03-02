@@ -82,6 +82,7 @@ public class TileGameObject extends GameObject {
   public void cleanup() {
     if (texture != null) {
       texture.cleanup();
+      model.cleanup();
     }
   }
 

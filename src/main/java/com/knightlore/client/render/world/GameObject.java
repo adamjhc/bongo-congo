@@ -22,4 +22,6 @@ public abstract class GameObject {
   public Vector3f getModelPosition() {
     return modelPosition;
   }
+
+  public abstract void cleanup();
 }

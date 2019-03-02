@@ -185,17 +185,12 @@ public class ShaderProgram {
     }
   }
 
-  /**
-   * Clean up memory
-   *
-   * @throws Throwable Exception
-   */
-  protected void finalize() throws Throwable {
+  /** Clean up memory */
+  public void cleanup() {
     glDetachShader(id, vertexShader.getId());
     glDetachShader(id, fragmentShader.getId());
     vertexShader.delete();
     fragmentShader.delete();
     glDeleteProgram(id);
-    super.finalize();
   }
 }

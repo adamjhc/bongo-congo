@@ -33,7 +33,13 @@ public class ServerMenu implements IGui {
     
     private final TextObject multiplayer;
     
-    private final TextObject separator;
+    private final TextObject separatorTop;
+    
+    private final TextObject separatorBot;
+    
+    private final TextObject join;
+    
+    private final TextObject create;
     
     public ServerMenu(Window window) throws Exception {
     	InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
@@ -58,23 +64,35 @@ public class ServerMenu implements IGui {
         this.congo.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         
         this.multiplayer = new TextObject("Play Multiplayer", fontTexture);
-        this.multiplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0 , 1));
+        this.multiplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
-        this.separator = new TextObject("------------------------------", fontTexture);
-        this.separator.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0 , 1));
+        this.separatorTop = new TextObject("------------------------------", fontTexture);
+        this.separatorTop.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0 , 1));
+        
+        this.separatorBot = new TextObject("------------------------------", fontTexture);
+        this.separatorBot.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0 , 1));
+        
+        this.join = new TextObject("Join game", fontTexture);
+        this.join.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        
+        this.create = new TextObject("Create game", fontTexture);
+        this.create.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
         this.bongo.setPosition(window.getWidth()/2-360, window.getHeight()/2-300, 0);
         this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-300, 0);
         
-        this.multiplayer.setPosition(window.getWidth()/2-120, window.getHeight()/2, 0);
-        this.separator.setPosition(window.getWidth()/2-225, window.getHeight()/2+15, 0);
+        this.multiplayer.setPosition(window.getWidth()/2-120, window.getHeight()/2-200, 0);
+        this.separatorTop.setPosition(window.getWidth()/2-225, window.getHeight()/2-185, 0);
+        this.separatorBot.setPosition(window.getWidth()/2-225, window.getHeight()/2+200, 0);
+        this.join.setPosition(window.getWidth()/2-190, window.getHeight()/2+215, 0);
+        this.create.setPosition(window.getWidth()/2+55, window.getHeight()/2+215, 0);
         
         // RECEIVE LIST OF CLIENT NAMES
         // CREATE LOBBY
         // JOIN LOBBY
         // PLAYER COUNT IN LOBBY
         
-        guiObjects = new GuiObject[]{bongo, congo, multiplayer, separator};
+        guiObjects = new GuiObject[]{bongo, congo, multiplayer, separatorTop, separatorBot, join, create};
     }
 
     @Override

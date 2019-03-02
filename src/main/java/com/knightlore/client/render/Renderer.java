@@ -241,8 +241,10 @@ public class Renderer {
   }
 
   public void cleanup() {
-    if (hudShaderProgram != null) {
-      hudShaderProgram.cleanup();
-    }
+    hudShaderProgram.cleanup();
+    playerShaderProgram.cleanup();
+    worldShaderProgram.cleanup();
+    tileGameObjects.forEach(TileGameObject::cleanup);
+    playerGameObjects.forEach(PlayerGameObject::cleanup);
   }
 }

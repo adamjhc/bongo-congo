@@ -7,4 +7,6 @@ public interface Texture {
   int getHeight();
 
   void bind(int sampler);
+
+  void cleanup();
 }

@@ -18,7 +18,7 @@ public class ElementBufferObject {
   private final int id;
 
   /** Initialise EBO */
-  ElementBufferObject() {
+  public ElementBufferObject() {
     id = glGenBuffers();
   }
 
@@ -32,7 +32,7 @@ public class ElementBufferObject {
   }
 
   /** Sets the buffer object as the current working object */
-  void bind() {
+  public void bind() {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);
   }
 
@@ -41,7 +41,7 @@ public class ElementBufferObject {
    *
    * @param data Data to send
    */
-  void upload(IntBuffer data) {
+  public void upload(IntBuffer data) {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, data, GL_STATIC_DRAW);
   }
 
@@ -50,12 +50,12 @@ public class ElementBufferObject {
    *
    * @param count The number of indices
    */
-  void draw(int count) {
+  public void draw(int count) {
     glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, 0);
   }
 
   /** Delete the buffer object */
-  void delete() {
+  public void delete() {
     glDeleteBuffers(id);
   }
 }

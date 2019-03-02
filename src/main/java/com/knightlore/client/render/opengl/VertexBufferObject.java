@@ -20,7 +20,7 @@ public class VertexBufferObject {
   private int size;
 
   /** Initialise the VBO */
-  VertexBufferObject() {
+  public VertexBufferObject() {
     id = glGenBuffers();
   }
 
@@ -34,7 +34,7 @@ public class VertexBufferObject {
   }
 
   /** Bind the VBO */
-  void bind() {
+  public void bind() {
     glBindBuffer(GL_ARRAY_BUFFER, id);
   }
 
@@ -43,7 +43,7 @@ public class VertexBufferObject {
    *
    * @param data Data to send
    */
-  void upload(FloatBuffer data) {
+  public void upload(FloatBuffer data) {
     size = data.capacity() / 4;
     glBufferData(GL_ARRAY_BUFFER, data, GL_STATIC_DRAW);
   }
@@ -53,12 +53,16 @@ public class VertexBufferObject {
    *
    * @param index Index to define the array at
    */
-  void vertexAttribPointer(int index) {
+  public void vertexAttribPointer(int index) {
+    vertexAttribPointer(index, size);
+  }
+
+  public void vertexAttribPointer(int index, int size) {
     glVertexAttribPointer(index, size, GL_FLOAT, false, 0, 0);
   }
 
   /** Delete the buffer */
-  void delete() {
+  public void delete() {
     glDeleteBuffers(id);
   }
 }

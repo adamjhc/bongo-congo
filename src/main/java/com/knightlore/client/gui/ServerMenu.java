@@ -2,7 +2,6 @@ package com.knightlore.client.gui;
 
 import java.awt.Font;
 import java.awt.FontMetrics;
-import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.io.BufferedInputStream;
@@ -25,6 +24,8 @@ public class ServerMenu implements IGui {
 	private static final Font FONT_TITLE = new Font("Press Start 2P", Font.PLAIN, 72);
 	
 	private static final String CHARSET = "ISO-8859-1";
+	
+	private static final int MAX_SERVERS = 18;
 	
     private GuiObject[] guiObjects;
     
@@ -96,7 +97,7 @@ public class ServerMenu implements IGui {
         
         servers = new ArrayList<TextObject>();
         
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < 100; i++) {
         	servers.add(new TextObject(i+"'s "+"Server", fontTexture));
         }
         
@@ -107,7 +108,6 @@ public class ServerMenu implements IGui {
         	servers.get(i).setPosition(window.getWidth()/2-width, window.getHeight()/2-yPos, 0);
         	yPos -= 20;
         }
-        
         
         // RECEIVE LIST OF CLIENT NAMES
         // CREATE LOBBY
@@ -121,7 +121,7 @@ public class ServerMenu implements IGui {
     }
     
     public void addServers() {
-    	if (servers.size() <= 18) {
+    	if (servers.size() <= MAX_SERVERS) {
         	GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length + servers.size()];
         	for (int i = 0; i < guiObjects.length; i++) {
         		guiObjectsNew[i] = guiObjects[i];
@@ -131,11 +131,11 @@ public class ServerMenu implements IGui {
         	}
         	guiObjects = guiObjectsNew.clone();
     	} else {
-        	GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length + 18];
+        	GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length + MAX_SERVERS];
         	for (int i = 0; i < guiObjects.length; i++) {
         		guiObjectsNew[i] = guiObjects[i];
         	}
-        	for (int i = guiObjects.length; i < guiObjects.length + 18; i++) {
+        	for (int i = guiObjects.length; i < guiObjects.length + MAX_SERVERS; i++) {
         		guiObjectsNew[i] = servers.get(i - guiObjects.length);
         	}
         	guiObjects = guiObjectsNew.clone();
@@ -143,13 +143,13 @@ public class ServerMenu implements IGui {
     }
     
     public void moveDown() {
-    	if (servers.size() > 18 && current < servers.size()-18) {
+    	if (servers.size() > MAX_SERVERS && current < servers.size()-MAX_SERVERS) {
     		current ++;
-    		GuiObject[] guiObjectsNew = new GuiObject[length + 18];
+    		GuiObject[] guiObjectsNew = new GuiObject[length + MAX_SERVERS];
         	for (int i = 0; i < length; i++) {
         		guiObjectsNew[i] = guiObjects[i];
         	}
-        	for (int i = length; i < length + 18; i++) {
+        	for (int i = length; i < length + MAX_SERVERS; i++) {
         		guiObjectsNew[i] = servers.get((i - length) + current);
         	}
         	guiObjects = guiObjectsNew.clone();
@@ -164,11 +164,11 @@ public class ServerMenu implements IGui {
     	if (current > 0) {
     		current --;
 
-    		GuiObject[] guiObjectsNew = new GuiObject[length + 18];
+    		GuiObject[] guiObjectsNew = new GuiObject[length + MAX_SERVERS];
         	for (int i = 0; i < length; i++) {
         		guiObjectsNew[i] = guiObjects[i];
         	}
-        	for (int i = length; i < length + 18; i++) {
+        	for (int i = length; i < length + MAX_SERVERS; i++) {
         		guiObjectsNew[i] = servers.get((i - length) + current);
         	}
         	guiObjects = guiObjectsNew.clone();
@@ -176,12 +176,37 @@ public class ServerMenu implements IGui {
         	for (int i = 0; i < servers.size(); i++) {
         		servers.get(i).setPositionY(servers.get(i).getPositionY()+20);
         	}	
-        	
-
     	}	
     }
     
-
+    public void highlight(Window window, double yPos) {
+    	double pos = (yPos-(window.getHeight()/2-145))/20;
+    	int posInt = (int) Math.ceil(pos);
+    	if (posInt >= 0 && posInt < MAX_SERVERS) {
+    		setHighlight(window, posInt);
+    	}
+    }
+    
+    public void resetHighlight(Window window) {
+    	for (int i = 0; i < servers.size(); i++) {
+    		if (servers.get(i).getHighlighted() == true) {
+    			servers.get(i).setHighlighted();
+    			servers.get(i).setText(servers.get(i).getText().substring(4, servers.get(i).getText().length()-4));
+    			int width = servers.get(i).getText().length()*15/2;
+    			servers.get(i).setPositionX(window.getWidth()/2-width);
+    			servers.get(i).getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    		}
+    	}
+    }
+    
+    public void setHighlight(Window window, int listPos) {
+    	resetHighlight(window);
+		servers.get(listPos+current).setHighlighted();
+		servers.get(listPos+current).setText("=== "+servers.get(listPos+current).getText()+" ===");
+		int width = servers.get(listPos+current).getText().length()*15/2;
+		servers.get(listPos+current).setPositionX(window.getWidth()/2-width);
+    }
+    
     @Override
     public GuiObject[] getGuiObjects() {
         return guiObjects;

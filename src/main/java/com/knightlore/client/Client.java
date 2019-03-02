@@ -201,6 +201,9 @@ public class Client extends Thread {
         	if (mouseInput.scrolledUp()) {
         		serverMenu.moveUp();
         	}
+        	if (mouseInput.isLeftButtonPressed()) {
+        		serverMenu.highlight(window, mouseInput.getYPos());
+        	}
     	}
 
     	leaveMenu();

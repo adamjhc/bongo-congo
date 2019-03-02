@@ -68,7 +68,7 @@ public class Renderer {
 
     setupOpenGL();
     setupWorld();
-    setupHudShader();
+    setupHud();
   }
 
   private void setupOpenGL() {
@@ -91,7 +91,7 @@ public class Renderer {
     viewY = ((float) window.getHeight() / (World.SCALE * 2)) + 1;
   }
 
-  private void setupHudShader() {
+  private void setupHud() {
     transformation = new Transformation();
     hudShaderProgram = new ShaderProgram("hud");
   }

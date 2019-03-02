@@ -6,11 +6,14 @@ import java.util.List;
 
 public class TileGameObjectSet {
 
-  private List<TileGameObject> tileSet;
+  private final List<TileGameObject> tileSet;
 
   public TileGameObjectSet() {
     tileSet = new ArrayList<>();
-    load();
+    tileSet.add(new TileGameObject());
+    tileSet.add(new TileGameObject(true, "floor", 4, 2));
+    tileSet.add(new TileGameObject(false, "slab"));
+    tileSet.add(new TileGameObject(false, "block"));
   }
 
   public List<TileGameObject> fromGameModel(Tile[][][] tiles) {
@@ -26,13 +29,5 @@ public class TileGameObjectSet {
     }
 
     return tileGameObjects;
-  }
-
-  /** Loads the tile game objects into the tile set. Corresponds to the Game.TileSet class */
-  private void load() {
-    tileSet.add(new TileGameObject());
-    tileSet.add(new TileGameObject(true, "floor", 4, 2));
-    tileSet.add(new TileGameObject(false, "slab"));
-    tileSet.add(new TileGameObject(false, "block"));
   }
 }

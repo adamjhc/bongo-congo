@@ -53,6 +53,21 @@ public class TileGameObject extends GameObject {
     isFloor = copy.isFloor;
   }
 
+  /** Setup OpenGL render model */
+  private void setupRenderModel() {
+    float scaledTextureHeight = 2 * (float) texture.getHeight() / texture.getWidth();
+
+    float[] vertices =
+        new float[] {
+          -1f, scaledTextureHeight, 0, // TOP LEFT     0
+          1f, scaledTextureHeight, 0, // TOP RIGHT    1
+          1f, 0, 0, // BOTTOM RIGHT 2
+          -1f, 0, 0, // BOTTOM LEFT  3
+        };
+
+    model = new RenderModel(vertices, textureCoordinates, indices);
+  }
+
   public boolean isFloor() {
     return isFloor;
   }
@@ -70,7 +85,7 @@ public class TileGameObject extends GameObject {
 
       texture.bind(0);
 
-      Matrix4f position = new Matrix4f(camera).mul(world).translate(getIsometricPosition());
+      Matrix4f position = new Matrix4f(camera).mul(world).translate(isometricPosition);
 
       shaderProgram.setUniform("sampler", 0);
       shaderProgram.setUniform("projection", position);
@@ -84,42 +99,5 @@ public class TileGameObject extends GameObject {
       texture.cleanup();
       model.cleanup();
     }
-  }
-
-  /** Setup OpenGL render model */
-  private void setupRenderModel() {
-    float scaledTextureHeight = 2 * (float) texture.getHeight() / texture.getWidth();
-
-    float[] vertices =
-        new float[] {
-          -1f,
-          scaledTextureHeight,
-          0, // TOP LEFT     0
-          1f,
-          scaledTextureHeight,
-          0, // TOP RIGHT    1
-          1f,
-          0,
-          0, // BOTTOM RIGHT 2
-          -1f,
-          0,
-          0, // BOTTOM LEFT  3
-        };
-
-    float[] textureCoords =
-        new float[] {
-          0, 0,
-          1, 0,
-          1, 1,
-          0, 1,
-        };
-
-    int[] indices =
-        new int[] {
-          0, 1, 2,
-          2, 3, 0
-        };
-
-    model = new RenderModel(vertices, textureCoords, indices);
   }
 }

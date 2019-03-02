@@ -1,6 +1,6 @@
 package com.knightlore.game.entity;
 
-public enum PlayerState {
+public enum PlayerState implements EntityState {
   IDLE,
   MOVING,
   CLIMBING

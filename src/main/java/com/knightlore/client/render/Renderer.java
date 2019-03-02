@@ -18,11 +18,14 @@ import com.knightlore.client.gui.engine.Window;
 import com.knightlore.client.gui.engine.graphics.Mesh;
 import com.knightlore.client.gui.engine.graphics.Transformation;
 import com.knightlore.client.render.opengl.ShaderProgram;
+import com.knightlore.client.render.world.EnemyGameObject;
+import com.knightlore.client.render.world.EnemyGameObjectSet;
 import com.knightlore.client.render.world.GameObject;
 import com.knightlore.client.render.world.PlayerGameObject;
 import com.knightlore.client.render.world.TileGameObject;
 import com.knightlore.client.render.world.TileGameObjectSet;
 import com.knightlore.game.Game;
+import com.knightlore.game.entity.Enemy;
 import com.knightlore.game.entity.Player;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -48,12 +51,14 @@ public class Renderer {
 
   private ShaderProgram playerShaderProgram;
 
-  private TileGameObjectSet tileGameObjectSet;
-
   private ShaderProgram hudShaderProgram;
+
+  private TileGameObjectSet tileGameObjectSet;
+  private EnemyGameObjectSet enemyGameObjectSet;
 
   private ArrayList<TileGameObject> tileGameObjects;
   private ArrayList<PlayerGameObject> playerGameObjects;
+  private ArrayList<EnemyGameObject> enemyGameObjects;
 
   private float viewX;
   private float viewY;
@@ -87,6 +92,8 @@ public class Renderer {
     tileGameObjectSet = new TileGameObjectSet();
     tileGameObjects = new ArrayList<>();
     playerGameObjects = new ArrayList<>();
+    enemyGameObjectSet = new EnemyGameObjectSet();
+    enemyGameObjects = new ArrayList<>();
     viewX = ((float) window.getWidth() / (World.SCALE * 2)) + 1;
     viewY = ((float) window.getHeight() / (World.SCALE * 2)) + 1;
   }
@@ -120,14 +127,17 @@ public class Renderer {
 
   private void renderGame(Game gameModel) {
     Collection<Player> players = gameModel.getCurrentLevel().getPlayers().values();
+    Collection<Enemy> enemies = gameModel.getCurrentLevel().getEnemies();
 
     if (tileGameObjects.isEmpty()) {
       tileGameObjects.addAll(
           tileGameObjectSet.fromGameModel(gameModel.getCurrentLevel().getMap().getTiles()));
       playerGameObjects.addAll(PlayerGameObject.fromGameModel(players));
+      enemyGameObjects.addAll(enemyGameObjectSet.fromGameModel(enemies));
     }
 
     players.forEach(player -> playerGameObjects.get(player.getId()).update(player));
+    enemies.forEach(enemy -> enemyGameObjects.get(enemy.getId()).update(enemy));
 
     Vector3f isometricPosition =
         playerGameObjects
@@ -138,17 +148,14 @@ public class Renderer {
 
     ArrayList<GameObject> gameObjectsToDepthSort = new ArrayList<>();
     tileGameObjects.forEach(
-        tileGameObject -> {
-          if (isWithinView(isometricPosition, tileGameObject.getIsometricPosition())) {
-            gameObjectsToDepthSort.add(tileGameObject);
-          }
-        });
+        tileGameObject ->
+            ifWithinViewAddTo(gameObjectsToDepthSort, isometricPosition, tileGameObject));
     playerGameObjects.forEach(
-        playerGameObject -> {
-          if (isWithinView(isometricPosition, playerGameObject.getIsometricPosition())) {
-            gameObjectsToDepthSort.add(playerGameObject);
-          }
-        });
+        playerGameObject ->
+            ifWithinViewAddTo(gameObjectsToDepthSort, isometricPosition, playerGameObject));
+    enemyGameObjects.forEach(
+        enemyGameObject ->
+            ifWithinViewAddTo(gameObjectsToDepthSort, isometricPosition, enemyGameObject));
 
     ArrayList<GameObject> depthSortedGameObjects =
         depthSort(gameModel.getCurrentLevel().getMap().getSize(), gameObjectsToDepthSort);
@@ -157,11 +164,22 @@ public class Renderer {
         gameObject -> {
           if (gameObject instanceof PlayerGameObject) {
             ((PlayerGameObject) gameObject).render(playerShaderProgram, camera.getProjection());
+          } else if (gameObject instanceof EnemyGameObject) {
+            ((EnemyGameObject) gameObject).render(worldShaderProgram, camera.getProjection());
           } else {
             ((TileGameObject) gameObject)
                 .render(worldShaderProgram, world.getProjection(), camera.getProjection());
           }
         });
+  }
+
+  private void ifWithinViewAddTo(
+      ArrayList<GameObject> gameObjectsToDepthSort,
+      Vector3f isometricPosition,
+      GameObject playerGameObject) {
+    if (isWithinView(isometricPosition, playerGameObject.getIsometricPosition())) {
+      gameObjectsToDepthSort.add(playerGameObject);
+    }
   }
 
   private boolean isWithinView(Vector3f playerPosition, Vector3f gameObjectPosition) {

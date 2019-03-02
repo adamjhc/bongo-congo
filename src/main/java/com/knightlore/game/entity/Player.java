@@ -12,7 +12,6 @@ public class Player extends Entity {
   private static int inc = 0;
   private int lives;
   private int score;
-  private PlayerState playerState;
   private String associatedSession;
 
   public Player() {
@@ -21,7 +20,7 @@ public class Player extends Entity {
 
     direction = Direction.SOUTH;
     position = new Vector3f(1, 1, 0);
-    playerState = PlayerState.IDLE;
+    currentState = PlayerState.IDLE;
 
     lives = 3;
     score = 0;
@@ -64,13 +63,5 @@ public class Player extends Entity {
     direction.getNormalisedDirection().mul(0.4f, padded);
     pos.add(padded, padded);
     return padded;
-  }
-
-  public PlayerState getPlayerState() {
-    return playerState;
-  }
-
-  public void setPlayerState(PlayerState playerState) {
-    this.playerState = playerState;
   }
 }

@@ -58,7 +58,7 @@ public class Game {
     Player player = getCurrentLevel().myPlayer();
 
     player.setDirection(direction);
-    player.setPlayerState(PlayerState.MOVING);
+    player.setCurrentState(PlayerState.MOVING);
 
     int speed = 7;
     Vector3f origPos = player.getPosition();
@@ -79,7 +79,7 @@ public class Game {
   }
 
   public void updatePlayerState(PlayerState state) {
-    getCurrentLevel().myPlayer().setPlayerState(state);
+    getCurrentLevel().myPlayer().setCurrentState(state);
   }
 
   public int addPlayer(String uuid) {

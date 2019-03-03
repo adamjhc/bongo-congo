@@ -43,6 +43,8 @@ public class ServerMenu implements IGui {
     
     private final TextObject create;
     
+    private final TextObject exit;
+    
     private final ArrayList<TextObject> servers;
     
     private int length;
@@ -86,14 +88,18 @@ public class ServerMenu implements IGui {
         this.create = new TextObject("Create game", fontTexture);
         this.create.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
+        this.exit = new TextObject("Exit", fontTexture);
+        this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        
         this.bongo.setPosition(window.getWidth()/2-360, window.getHeight()/2-300, 0);
         this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-300, 0);
         
         this.multiplayer.setPosition(window.getWidth()/2-120, window.getHeight()/2-200, 0);
         this.separatorTop.setPosition(window.getWidth()/2-225, window.getHeight()/2-185, 0);
         this.separatorBot.setPosition(window.getWidth()/2-225, window.getHeight()/2+200, 0);
-        this.join.setPosition(window.getWidth()/2-190, window.getHeight()/2+215, 0);
-        this.create.setPosition(window.getWidth()/2+55, window.getHeight()/2+215, 0);
+        this.join.setPosition(window.getWidth()/2-195, window.getHeight()/2+215, 0);
+        this.create.setPosition(window.getWidth()/2+45, window.getHeight()/2+215, 0);
+        this.exit.setPosition(window.getWidth()/2-30, window.getHeight()/2+215, 0);	
         
         servers = new ArrayList<TextObject>();
         
@@ -114,7 +120,7 @@ public class ServerMenu implements IGui {
         // JOIN LOBBY
         // PLAYER COUNT IN LOBBY
         
-        guiObjects = new GuiObject[]{bongo, congo, multiplayer, separatorTop, separatorBot, join, create};
+        guiObjects = new GuiObject[]{bongo, congo, multiplayer, separatorTop, separatorBot, join, create, exit};
         length = guiObjects.length;
         
         addServers();

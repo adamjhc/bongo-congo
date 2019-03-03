@@ -97,9 +97,9 @@ public class ServerMenu implements IGui {
         this.multiplayer.setPosition(window.getWidth()/2-120, window.getHeight()/2-200, 0);
         this.separatorTop.setPosition(window.getWidth()/2-225, window.getHeight()/2-185, 0);
         this.separatorBot.setPosition(window.getWidth()/2-225, window.getHeight()/2+200, 0);
-        this.join.setPosition(window.getWidth()/2-195, window.getHeight()/2+215, 0);
-        this.create.setPosition(window.getWidth()/2+45, window.getHeight()/2+215, 0);
-        this.exit.setPosition(window.getWidth()/2-30, window.getHeight()/2+215, 0);	
+        this.join.setPosition(window.getWidth()/2-67.5f, window.getHeight()/2+235, 0);
+        this.create.setPosition(window.getWidth()/2-82.5f, window.getHeight()/2+215, 0);
+        this.exit.setPosition(window.getWidth()/2-30, window.getHeight()/2+255, 0);	
         
         servers = new ArrayList<TextObject>();
         
@@ -211,6 +211,14 @@ public class ServerMenu implements IGui {
 		servers.get(listPos+current).setText("=== "+servers.get(listPos+current).getText()+" ===");
 		int width = servers.get(listPos+current).getText().length()*15/2;
 		servers.get(listPos+current).setPositionX(window.getWidth()/2-width);
+    }
+    
+    public void setExit() {
+    	this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
+    }
+    
+    public void setRestoreExit() {
+    	this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
     }
     
     @Override

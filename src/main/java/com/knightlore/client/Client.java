@@ -205,6 +205,16 @@ public class Client extends Thread {
         		serverMenu.highlight(window, mouseInput.getYPos());
         	}
     	}
+    	
+        if (mouseInput.getXPos() > window.getWidth()/2 - 30
+        		&& mouseInput.getXPos() < window.getWidth()/2 + 30
+        		&& mouseInput.getYPos() < window.getHeight()/2 + 270
+        		&& mouseInput.getYPos() > window.getHeight()/2 + 255) {
+        	serverMenu.setExit();
+        	if (mouseInput.isLeftButtonPressed()) {
+        		gameState = State.MAINMENU;
+        	} 
+        } else serverMenu.setRestoreExit();
 
     	leaveMenu();
     	

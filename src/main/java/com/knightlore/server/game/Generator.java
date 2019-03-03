@@ -2,7 +2,7 @@
 //
 //import com.knightlore.game.Game;
 //import com.knightlore.game.Level;
-//import com.knightlore.game.entity.Enemies;
+//import com.knightlore.game.entity.Enemy;
 //import com.knightlore.game.map.Map;
 //import org.joml.Vector3f;
 //
@@ -23,7 +23,7 @@
 //        Map levelOneMap = new Map(10, 10, 10);
 //
 //        // Add enemies
-//        Enemies enemy = new Enemies();
+//        Enemy enemy = new Enemy();
 //        enemy.setPosition(new Vector3f(5, 5, 0));
 //
 //        levelOne.addEnemy(enemy);

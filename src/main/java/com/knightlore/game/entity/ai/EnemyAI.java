@@ -15,7 +15,7 @@ import java.util.List;
 */
 public abstract class EnemyAI {
 
-    public Vector3f home; // Enemies 'start' point and where the pathfinding assumes the enemy is at that moment
+    public Vector3f home; // Enemy 'start' point and where the pathfinding assumes the enemy is at that moment
     private List<Vector3f> path;
 
     protected EnemyAI() {

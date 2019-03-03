@@ -10,7 +10,7 @@ public class Transform {
   private Vector3f position;
 
   /** Initialise the transform */
-  public Transform() {
+  Transform() {
     position = new Vector3f();
   }
 
@@ -38,7 +38,7 @@ public class Transform {
    * @param target Matrix to manipulate and return
    * @return Projection of the transform
    */
-  public Matrix4f getProjection(Matrix4f target) {
+  Matrix4f getProjection(Matrix4f target) {
     target.scale(World.SCALE);
     target.translate(position);
 

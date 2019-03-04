@@ -89,7 +89,7 @@ public class OptionsMenu implements IGui {
         
         //ADD VOLUME CONTROL FOR MUSIC AND IN-GAME SOUNDS SEPARATELY
         //GAME CONTROLS?
-        int width = (volume.getText().length())*30/2;
+        float width = (volume.getText().length())*30/2;
         this.bongo.setPosition(window.getWidth()/2-360, window.getHeight()/2-300, 0);
         this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-300, 0);
         this.volume.setPosition(window.getWidth()/2-width, window.getHeight()/2-145, 0);

@@ -99,7 +99,7 @@ public class ServerMenu implements IGui {
         this.multiplayer.setPosition(window.getWidth()/2-120, window.getHeight()/2-200, 0);
         this.separatorTop.setPosition(window.getWidth()/2-225, window.getHeight()/2-185, 0);
         this.separatorBot.setPosition(window.getWidth()/2-225, window.getHeight()/2+200, 0);
-        int width = (join.getText().length())*15/2;
+        float width = (join.getText().length())*15/2;
         this.join.setPosition(window.getWidth()/2-width, window.getHeight()/2+235, 0);
         width = (create.getText().length())*15/2;
         this.create.setPosition(window.getWidth()/2-width, window.getHeight()/2+215, 0);
@@ -138,7 +138,7 @@ public class ServerMenu implements IGui {
 		}
 		
     	TextObject newServer = new TextObject("New Server "+servers.size(), fontTexture);
-    	int width = (newServer.getText().length())*15/2;
+    	float width = (newServer.getText().length())*15/2;
     	newServer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
     	newServer.setPosition(window.getWidth()/2-width, window.getHeight()/2-yPos-(current*20), 0);
     	yPos -= 20;
@@ -233,7 +233,7 @@ public class ServerMenu implements IGui {
     public void highlight(Window window, double yPos) {
     	double pos = (yPos-(window.getHeight()/2-145))/20;
     	int posInt = (int) Math.ceil(pos);
-    	if (posInt >= 0 && posInt < MAX_SERVERS) {
+    	if (posInt >= 0 && posInt < Math.min(MAX_SERVERS,servers.size())) {
     		setHighlight(window, posInt);
     	}
     }
@@ -243,7 +243,7 @@ public class ServerMenu implements IGui {
     		if (servers.get(i).getHighlighted() == true) {
     			servers.get(i).setHighlighted();
     			servers.get(i).setText(servers.get(i).getText().substring(4, servers.get(i).getText().length()-4));
-    			int width = servers.get(i).getText().length()*15/2;
+    			float width = servers.get(i).getText().length()*15/2;
     			servers.get(i).setPositionX(window.getWidth()/2-width);
     			servers.get(i).getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
     		}
@@ -254,7 +254,7 @@ public class ServerMenu implements IGui {
     	resetHighlight(window);
 		servers.get(listPos+current).setHighlighted();
 		servers.get(listPos+current).setText("=== "+servers.get(listPos+current).getText()+" ===");
-		int width = servers.get(listPos+current).getText().length()*15/2;
+		float width = servers.get(listPos+current).getText().length()*15/2;
 		servers.get(listPos+current).setPositionX(window.getWidth()/2-width);
     }
     

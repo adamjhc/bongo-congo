@@ -97,8 +97,10 @@ public class ServerMenu implements IGui {
         this.multiplayer.setPosition(window.getWidth()/2-120, window.getHeight()/2-200, 0);
         this.separatorTop.setPosition(window.getWidth()/2-225, window.getHeight()/2-185, 0);
         this.separatorBot.setPosition(window.getWidth()/2-225, window.getHeight()/2+200, 0);
-        this.join.setPosition(window.getWidth()/2-67.5f, window.getHeight()/2+235, 0);
-        this.create.setPosition(window.getWidth()/2-82.5f, window.getHeight()/2+215, 0);
+        int width = (join.getText().length())*15/2;
+        this.join.setPosition(window.getWidth()/2-width, window.getHeight()/2+235, 0);
+        width = (create.getText().length())*15/2;
+        this.create.setPosition(window.getWidth()/2-width, window.getHeight()/2+215, 0);
         this.exit.setPosition(window.getWidth()/2-30, window.getHeight()/2+255, 0);	
         
         servers = new ArrayList<TextObject>();
@@ -109,7 +111,7 @@ public class ServerMenu implements IGui {
         
         int yPos = 165;
         for (int i = 0; i < servers.size(); i++) {
-        	int width = (servers.get(i).getText().length())*15/2;
+        	width = (servers.get(i).getText().length())*15/2;
         	servers.get(i).getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         	servers.get(i).setPosition(window.getWidth()/2-width, window.getHeight()/2-yPos, 0);
         	yPos -= 20;

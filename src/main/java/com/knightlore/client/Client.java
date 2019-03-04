@@ -222,15 +222,37 @@ public class Client extends Thread {
     	
     case OPTIONSMENU:
     	
-    	if (mouseInput.getXPos() > window.getWidth()/2 + 42.5f
-    			&& mouseInput.getXPos() < window.getWidth()/2 + 57.5f
-    			&& mouseInput.getYPos() > window.getHeight()/2 + 100
-    			&& mouseInput.getYPos() < window.getHeight()/2 + 120) {
+    	if (mouseInput.getXPos() > window.getWidth()/2 + 85
+    			&& mouseInput.getXPos() < window.getWidth()/2 + 115
+    			&& mouseInput.getYPos() > window.getHeight()/2 - 145
+    			&& mouseInput.getYPos() < window.getHeight()/2 - 115) {
     		optionsMenu.setIncVol();
     		if (mouseInput.isLeftButtonHeld()) {
     			optionsMenu.incVolume();
+    			audio.incVolume();
     		}
     	} else optionsMenu.setRestoreIncVol();
+    	
+    	if (mouseInput.getXPos() > window.getWidth()/2 - 115
+    			&& mouseInput.getXPos() < window.getWidth()/2 - 85
+    			&& mouseInput.getYPos() > window.getHeight()/2 - 145
+    			&& mouseInput.getYPos() < window.getHeight()/2 - 115) {
+    		optionsMenu.setDecVol();
+    		if (mouseInput.isLeftButtonHeld()) {
+    			optionsMenu.decVolume();
+    			audio.decVolume();
+    		}
+    	} else optionsMenu.setRestoreDecVol();
+    	
+        if (mouseInput.getXPos() > window.getWidth()/2 - 30
+        		&& mouseInput.getXPos() < window.getWidth()/2 + 30
+        		&& mouseInput.getYPos() < window.getHeight()/2 + 270
+        		&& mouseInput.getYPos() > window.getHeight()/2 + 255) {
+        	optionsMenu.setExit();
+        	if (mouseInput.isLeftButtonPressed()) {
+        		gameState = State.MAINMENU;
+        	} 
+        } else optionsMenu.setRestoreExit();
     	
     	leaveMenu();
     	

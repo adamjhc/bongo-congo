@@ -6,6 +6,7 @@ import java.io.IOException;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
@@ -17,6 +18,7 @@ public class MusicPlayer {
 	AudioInputStream source;
 	String filePath;
 	boolean loops;
+	FloatControl gainControl;
 	
 	
 	/* param1: path to audio file
@@ -29,6 +31,7 @@ public class MusicPlayer {
 		this.loops = shouldLoop;
 		
 		this.clip = AudioSystem.getClip();
+		
 		if (this.loops) {
 			this.clip.loop(Clip.LOOP_CONTINUOUSLY);
 		}
@@ -55,11 +58,25 @@ public class MusicPlayer {
 	private void resetStream() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		this.source = AudioSystem.getAudioInputStream(new File (filePath).getAbsoluteFile());
 		this.clip.open(this.source);
+		gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+		gainControl.setValue(-80.0f);
 		this.clip.stop();
 		if (this.loops) {
 			this.clip.loop(Clip.LOOP_CONTINUOUSLY);
 		}
 		
+	}
+	
+	public void incVolume() {
+		System.out.println(gainControl.getMaximum());
+		System.out.println(gainControl.getMinimum());
+		float prev = gainControl.getValue();
+		gainControl.setValue(Math.min(prev + 0.86f, gainControl.getMaximum()));
+	}
+	
+	public void decVolume() {
+		float prev = gainControl.getValue();
+		gainControl.setValue(Math.max(prev - 0.86f, gainControl.getMinimum()));
 	}
 	
 	// Gets whether the sound is currently being played or not

@@ -19,6 +19,7 @@ public class MusicPlayer {
 	String filePath;
 	boolean loops;
 	FloatControl gainControl;
+	float previousVolume = -80.0f;
 	
 	
 	/* param1: path to audio file
@@ -59,7 +60,7 @@ public class MusicPlayer {
 		this.source = AudioSystem.getAudioInputStream(new File (filePath).getAbsoluteFile());
 		this.clip.open(this.source);
 		gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-		gainControl.setValue(-80.0f);
+		gainControl.setValue(previousVolume);
 		this.clip.stop();
 		if (this.loops) {
 			this.clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -68,15 +69,15 @@ public class MusicPlayer {
 	}
 	
 	public void incVolume() {
-		System.out.println(gainControl.getMaximum());
-		System.out.println(gainControl.getMinimum());
 		float prev = gainControl.getValue();
 		gainControl.setValue(Math.min(prev + 0.86f, gainControl.getMaximum()));
+		previousVolume = gainControl.getValue();
 	}
 	
 	public void decVolume() {
 		float prev = gainControl.getValue();
 		gainControl.setValue(Math.max(prev - 0.86f, gainControl.getMinimum()));
+		previousVolume = gainControl.getValue();
 	}
 	
 	// Gets whether the sound is currently being played or not

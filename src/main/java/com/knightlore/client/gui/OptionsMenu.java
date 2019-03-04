@@ -84,7 +84,7 @@ public class OptionsMenu implements IGui {
         this.separatorBot = new TextObject("------------------------------", fontTexture);
         this.separatorBot.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0 , 1));
         
-        this.musicVolume = new TextObject("Menu music volume", fontTexture);
+        this.musicVolume = new TextObject("Game music volume", fontTexture);
         this.musicVolume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
         //ADD VOLUME CONTROL FOR MUSIC AND IN-GAME SOUNDS SEPARATELY

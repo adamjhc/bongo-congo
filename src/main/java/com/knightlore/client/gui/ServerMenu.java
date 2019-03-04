@@ -51,6 +51,8 @@ public class ServerMenu implements IGui {
     
     private int current = 0;
     
+    private int yPos = 165;
+    
     public ServerMenu(Window window) throws Exception {
     	InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
     	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -105,11 +107,10 @@ public class ServerMenu implements IGui {
         
         servers = new ArrayList<TextObject>();
         
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
         	servers.add(new TextObject(i+"'s "+"Server", fontTexture));
         }
         
-        int yPos = 165;
         for (int i = 0; i < servers.size(); i++) {
         	width = (servers.get(i).getText().length())*15/2;
         	servers.get(i).getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
@@ -126,6 +127,48 @@ public class ServerMenu implements IGui {
         length = guiObjects.length;
         
         addServers();
+    }
+    
+    public void createServer(Window window) {
+    	FontTexture fontTexture = null;
+		try {
+			fontTexture = new FontTexture(FONT, CHARSET);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+    	TextObject newServer = new TextObject("New Server "+servers.size(), fontTexture);
+    	int width = (newServer.getText().length())*15/2;
+    	newServer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    	newServer.setPosition(window.getWidth()/2-width, window.getHeight()/2-yPos-(current*20), 0);
+    	yPos -= 20;
+    	
+    	servers.add(newServer);
+    	reAddServers();
+    	for (int i = 0; i < servers.size(); i++) moveDown();
+    }
+    
+    public void reAddServers() {
+    	if (servers.size() <= MAX_SERVERS) {
+        	GuiObject[] guiObjectsNew = new GuiObject[length + servers.size()];
+        	for (int i = 0; i < length; i++) {
+        		guiObjectsNew[i] = guiObjects[i];
+        	}
+        	for (int i = length; i < length + servers.size(); i++) {
+        		guiObjectsNew[i] = servers.get(i - length);
+        	}
+        	guiObjects = guiObjectsNew.clone();
+    	} 
+    	/* else {
+        	GuiObject[] guiObjectsNew = new GuiObject[length + MAX_SERVERS];
+        	for (int i = 0; i < length; i++) {
+        		guiObjectsNew[i] = guiObjects[i];
+        	}
+        	for (int i = length; i < length + MAX_SERVERS; i++) {
+        		guiObjectsNew[i] = servers.get(i - length);
+        	}
+        	guiObjects = guiObjectsNew.clone();
+    	} */
     }
     
     public void addServers() {
@@ -221,6 +264,14 @@ public class ServerMenu implements IGui {
     
     public void setRestoreExit() {
     	this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    }
+    
+    public void setCreate() {
+    	this.create.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
+    }
+    
+    public void setRestoreCreate() {
+    	this.create.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
     }
     
     @Override

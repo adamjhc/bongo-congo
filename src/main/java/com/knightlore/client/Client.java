@@ -206,6 +206,16 @@ public class Client extends Thread {
         	}
     	}
     	
+    	if (mouseInput.getXPos() > window.getWidth()/2 - 82.5f
+    			&& mouseInput.getXPos() < window.getWidth()/2 + 82.5f
+    			&& mouseInput.getYPos() > window.getHeight()/2 + 215
+    			&& mouseInput.getYPos() < window.getHeight()/2 + 230) {
+    		serverMenu.setCreate();
+    		if (mouseInput.isLeftButtonPressed()) {
+    			serverMenu.createServer(window);
+    		}
+    	} else serverMenu.setRestoreCreate();
+    	
         if (mouseInput.getXPos() > window.getWidth()/2 - 30
         		&& mouseInput.getXPos() < window.getWidth()/2 + 30
         		&& mouseInput.getYPos() < window.getHeight()/2 + 270

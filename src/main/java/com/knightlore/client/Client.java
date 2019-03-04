@@ -222,6 +222,16 @@ public class Client extends Thread {
     	
     case OPTIONSMENU:
     	
+    	if (mouseInput.getXPos() > window.getWidth()/2 + 42.5f
+    			&& mouseInput.getXPos() < window.getWidth()/2 + 57.5f
+    			&& mouseInput.getYPos() > window.getHeight()/2 + 100
+    			&& mouseInput.getYPos() < window.getHeight()/2 + 120) {
+    		optionsMenu.setIncVol();
+    		if (mouseInput.isLeftButtonHeld()) {
+    			optionsMenu.incVolume();
+    		}
+    	} else optionsMenu.setRestoreIncVol();
+    	
     	leaveMenu();
     	
     	break;

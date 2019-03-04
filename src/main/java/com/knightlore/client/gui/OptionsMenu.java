@@ -22,6 +22,8 @@ public class OptionsMenu implements IGui {
 	
 	private static final String CHARSET = "ISO-8859-1";
 	
+	private static final int MAX_VOLUME = 100;
+	
     private GuiObject[] guiObjects;
     
     private final TextObject bongo;
@@ -33,6 +35,14 @@ public class OptionsMenu implements IGui {
     private final TextObject decVolume;
     
     private final TextObject volume;
+    
+    private final TextObject exit;
+    
+    private final TextObject options;
+    
+    private final TextObject separatorTop;
+    
+    private final TextObject separatorBot;
     
     public OptionsMenu(Window window) throws Exception {
     	InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
@@ -48,25 +58,60 @@ public class OptionsMenu implements IGui {
         this.congo = new TextObject("Congo", fontTextureTitle);
         this.congo.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         
-        this.incVolume = new TextObject("+", fontTexture);
+        this.incVolume = new TextObject(">", fontTexture);
         this.incVolume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
-        this.decVolume = new TextObject("-", fontTexture);
+        this.decVolume = new TextObject("<", fontTexture);
         this.decVolume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
-        this.volume = new TextObject("100", fontTexture);
+        this.volume = new TextObject("000", fontTexture);
         this.volume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        
+        this.exit = new TextObject("Exit", fontTexture);
+        this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        
+        this.options = new TextObject("Game Options", fontTexture);
+        this.options.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        
+        this.separatorTop = new TextObject("------------------------------", fontTexture);
+        this.separatorTop.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0 , 1));
+        
+        this.separatorBot = new TextObject("------------------------------", fontTexture);
+        this.separatorBot.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0 , 1));
         
         //ADD VOLUME CONTROL FOR MUSIC AND IN-GAME SOUNDS SEPARATELY
         //GAME CONTROLS?
-        
+        int width = (volume.getText().length())*15/2;
         this.bongo.setPosition(window.getWidth()/2-360, window.getHeight()/2-300, 0);
         this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-300, 0);
-        this.incVolume.setPosition(window.getWidth()/2-50, window.getHeight()/2+100, 0);
-        this.decVolume.setPosition(window.getWidth()/2+40, window.getHeight()/2+100, 0);
-        this.volume.setPosition(window.getWidth()/2-22, window.getHeight()/2+100, 0);
+        this.volume.setPosition(window.getWidth()/2-width, window.getHeight()/2+100, 0);
+        width = (incVolume.getText().length())*15/2;
+        this.incVolume.setPosition(window.getWidth()/2-width+50, window.getHeight()/2+100, 0);
+        width = (decVolume.getText().length())*15/2;
+        this.decVolume.setPosition(window.getWidth()/2-width-50, window.getHeight()/2+100, 0);
+        width = (exit.getText().length())*15/2;
+        this.exit.setPosition(window.getWidth()/2-width, window.getHeight()/2+255, 0);	
+        this.options.setPosition(window.getWidth()/2-90, window.getHeight()/2-200, 0);
+        this.separatorTop.setPosition(window.getWidth()/2-225, window.getHeight()/2-185, 0);
+        this.separatorBot.setPosition(window.getWidth()/2-225, window.getHeight()/2+240, 0);
         
-        guiObjects = new GuiObject[]{bongo, congo, incVolume, decVolume, volume};
+        
+        guiObjects = new GuiObject[]{bongo, congo, incVolume, decVolume, volume, exit, options, separatorTop, separatorBot};
+    }
+    
+    public void incVolume() {
+    	int volume = Integer.parseInt(this.volume.getText());
+    	if (volume < MAX_VOLUME) volume ++;
+    	this.volume.setText((String.format("%03d", volume)));
+    	this.volume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    }
+    
+    public void setIncVol() {
+    	this.incVolume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
+    }
+    
+    public void setRestoreIncVol() {
+    	this.incVolume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
     }
 
     @Override

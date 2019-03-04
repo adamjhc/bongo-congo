@@ -48,7 +48,7 @@ public class Player extends Entity {
     /**
      * The main method called in the game loop. Continuously checks for collision events with
      * specific tiles such as blocking or hazards. Also allows the player to climb up layers of
-     * the map.
+     * the map, and manages falling down layers.
      *
      * @param oldPos The position of the player before collision check update
      * @param newPos The potential position of the player after collision check update
@@ -62,15 +62,21 @@ public class Player extends Entity {
             Tile newTile = map.getTile(coords);
 
             if (!newTile.isWalkable() && !newTile.isClimbable()) { // Checks if tile is an air tile
-                if (fallFlag) {
+
+                if (fallFlag) { // TODO: this is bugged but thats cause of tile property stuff
                     newPos.z -= 1;
                     setPosition(newPos);
-                    System.out.println("Dead"); //TODO: replace this with death state/reset
-                    reset();                    //TODO: needs some sort of pause/animation here too
+                    System.out.println("Fall"); //debug statement
+                    loseLife();                    //TODO: needs some sort of pause/animation here too
                  } else {
-                    fallFlag = true;
-                    newPos.z -= 1;
-                    setPosition(newPos);
+                    Tile below = map.getTile(new Vector3i(coords.x,coords.y,coords.z-1));
+                    if (!below.isWalkable()) { // Check if the tile you are falling onto is walkable
+                        setPosition(oldPos);
+                    } else {
+                        fallFlag = true;
+                        newPos.z -= 1;
+                        setPosition(newPos);
+                    }
                 }
 
             } else if (!newTile.isWalkable()) { // Checks if tile is a blocking tile
@@ -96,6 +102,19 @@ public class Player extends Entity {
                 }
             }
 
+            if (newTile.isGoal()) { // Checks for goal
+                System.out.println("Win!"); // debug statement
+                setPosition(newPos);
+                // TODO: Switch game state here
+            }
+
+            if (newTile.isHazard()) {
+                System.out.println("Ow!"); // debug statement
+                loseLife();
+            }
+
+            //TODO: Enemy collisions
+
             // catches SW and SE edges    catches NE and NW edges
         } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
             setPosition(oldPos);
@@ -108,7 +127,7 @@ public class Player extends Entity {
      *
      * @param pos The position to be padded
      * @return The padded coordinates of the player
-     * @author Jacqueline Henes
+     * @author Jacqueline Henes, Adam Cox
      */
     private Vector3f setPadding(Vector3f pos) {
         Vector3f padded = new Vector3f();
@@ -117,7 +136,11 @@ public class Player extends Entity {
         return padded;
     }
 
-    private void reset() {
+    /**
+     *  Resets player to spawn point having lost a life
+     * @author Jacqueline Henes
+     */
+    private void loseLife() {
         lives -= 1;
         if (lives <= 0) {
             System.out.println("Lost all lives");

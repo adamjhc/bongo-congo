@@ -18,19 +18,21 @@ import com.knightlore.client.util.FileUtils;
 import java.nio.ByteBuffer;
 import org.lwjgl.BufferUtils;
 
-public class StaticTexture extends Texture {
+public class StaticTexture implements Texture {
 
   /** Path to the textures directory */
-  private static final String texturePathPrefix = "./src/main/resources/textures/";
+  private static final String TEXTURE_PATH_PREFIX = "./src/main/resources/textures/";
 
   /** File extension of images */
-  private static final String fileExtension = ".png";
+  private static final String FILE_EXTENSION = ".png";
 
   /** The OpenGL id of the texture */
   private final int id;
 
   /** Width and height in pixels of the texture */
-  private int width, height;
+  private int width;
+
+  private int height;
 
   /**
    * Initialise the texture object
@@ -38,7 +40,7 @@ public class StaticTexture extends Texture {
    * @param fileName Name of the texture file
    */
   public StaticTexture(String fileName) {
-    Image image = FileUtils.loadTexture(texturePathPrefix + fileName + fileExtension);
+    Image image = FileUtils.loadTexture(TEXTURE_PATH_PREFIX + fileName + FILE_EXTENSION);
     width = image.getWidth();
     height = image.getHeight();
 
@@ -96,14 +98,9 @@ public class StaticTexture extends Texture {
     }
   }
 
-  /**
-   * Cleans up memory
-   *
-   * @throws Throwable Exception
-   */
-  protected void finalize() throws Throwable {
+  /** Cleans up memory */
+  public void cleanup() {
     glDeleteTextures(id);
-    super.finalize();
   }
 
   /** Binds the texture to the current object */

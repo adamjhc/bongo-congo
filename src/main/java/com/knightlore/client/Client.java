@@ -6,12 +6,16 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_L;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_P;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 
 import com.knightlore.client.audio.AudioHandler;
 import com.knightlore.client.gui.Hud;
 import com.knightlore.client.gui.MainMenu;
+import com.knightlore.client.gui.OptionsMenu;
+import com.knightlore.client.gui.ServerMenu;
 import com.knightlore.client.gui.engine.MouseInput;
 import com.knightlore.client.gui.engine.Timer;
 import com.knightlore.client.gui.engine.Window;
@@ -23,18 +27,32 @@ import com.knightlore.game.map.MapSet;
 import com.knightlore.game.map.TileSet;
 
 public class Client extends Thread {
+	
+  private static State gameState = State.MAINMENU;
 
   private static final int TARGET_UPS = 60;
+  
   public static Game model;
-  private static State gameState = State.MAINMENU;
+  
   private Window window;
+  
   private Renderer renderer;
+  
   private Game gameModel;
+  
   private AudioHandler audio;
+  
   private MouseInput mouseInput;
+  
   private Timer timer;
+  
   private Hud hud;
+  
   private MainMenu menu;
+  
+  private ServerMenu serverMenu;
+  
+  private OptionsMenu optionsMenu;
 
   public static void main(String[] args) {
     new Client().run();
@@ -65,6 +83,8 @@ public class Client extends Thread {
 
     hud = new Hud(window);
     menu = new MainMenu(window);
+    serverMenu = new ServerMenu(window);
+    optionsMenu = new OptionsMenu(window);
 
     renderer = new Renderer(window);
 
@@ -105,9 +125,12 @@ public class Client extends Thread {
 
   private void input(float delta) {
     window.update();
-
-    switch (gameState) {
-      case MAINMENU:
+    
+    switch(gameState) {
+    
+    case MAINMENU:
+    	
+    	// SINGEPLAYER BUTTON
         if (mouseInput.getXPos() > window.getWidth() / 2 - 90
             && mouseInput.getXPos() < window.getWidth() / 2 + 90
             && mouseInput.getYPos() > window.getHeight() / 2 + 95
@@ -119,68 +142,86 @@ public class Client extends Thread {
 
             timer.setStartTime();
             hud.resetP1Lives();
-            gameState = State.PLAY;
+            gameState = State.SINGLEPLAYER;
           }
         } else menu.setRestoreSingleplayer();
-
-        if (mouseInput.getXPos() > window.getWidth() - 35
-            && mouseInput.getYPos() > window.getHeight() - 35) {
-          if (mouseInput.isLeftButtonPressed()) {
-            menu.setSoundOff();
-            hud.setSoundOff();
-            audio.toggle();
-          }
-        }
-
+        
+        // MULTIPLAYER BUTTON
+        if (mouseInput.getXPos() > window.getWidth() / 2 - 84
+        		&& mouseInput.getXPos() < window.getWidth() / 2 + 84
+        		&& mouseInput.getYPos() > window.getHeight() / 2 + 117
+        		&& mouseInput.getYPos() < window.getHeight() / 2 + 135) {
+        	menu.setMultiplayer();
+        	if (mouseInput.isLeftButtonPressed()) {
+        		gameState = State.SERVERMENU;
+        		
+        	}
+        } else menu.setRestoreMultiplayer();
+        
+        // OPTIONS BUTTON
+        if (mouseInput.getXPos() > window.getWidth() / 2 - 52
+        		&& mouseInput.getXPos() < window.getWidth() / 2 + 52
+        		&& mouseInput.getYPos() > window.getHeight() / 2 + 138
+        		&& mouseInput.getYPos() < window.getHeight() / 2 + 155) {
+        	menu.setOptions();
+        	if (mouseInput.isLeftButtonPressed()) {
+        		gameState = State.OPTIONSMENU;
+        	} 
+        } else menu.setRestoreOptions();
+        
+        // QUIT BUTTON
         if (mouseInput.getXPos() > window.getWidth() / 2 - 30
-            && mouseInput.getXPos() < window.getWidth() / 2 + 30
-            && mouseInput.getYPos() > window.getHeight() / 2 + 138
-            && mouseInput.getYPos() < window.getHeight() / 2 + 154) {
-          menu.setQuit();
-          if (mouseInput.isLeftButtonPressed()) {
-            glfwSetWindowShouldClose(window.getWindowHandle(), true);
-          }
+        		&& mouseInput.getXPos() < window.getWidth() / 2 + 30
+        		&& mouseInput.getYPos() > window.getHeight() / 2 + 160
+        		&& mouseInput.getYPos() < window.getHeight() / 2 + 176) {
+        	menu.setQuit();
+            if (mouseInput.isLeftButtonPressed()) {
+            	glfwSetWindowShouldClose(window.getWindowHandle(), true);
+            }
         } else menu.setRestoreQuit();
-
-        break;
-
-      case PLAY:
-        if (window.isKeyPressed(GLFW_KEY_W) // Player presses W
-            && !window.isKeyPressed(GLFW_KEY_A)
-            && !window.isKeyPressed(GLFW_KEY_S)
-            && !window.isKeyPressed(GLFW_KEY_D)) {
-          gameModel.movePlayerInDirection(Direction.NORTH_WEST, delta);
-        } else if (window.isKeyPressed(GLFW_KEY_W) // Player presses W and D
-            && window.isKeyPressed(GLFW_KEY_D)) {
-          gameModel.movePlayerInDirection(Direction.NORTH, delta);
-        } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses D
-            && !window.isKeyPressed(GLFW_KEY_A)
-            && !window.isKeyPressed(GLFW_KEY_S)
-            && window.isKeyPressed(GLFW_KEY_D)) {
-          gameModel.movePlayerInDirection(Direction.NORTH_EAST, delta);
-        } else if (window.isKeyPressed(GLFW_KEY_S) // Player presses S and D
-            && window.isKeyPressed(GLFW_KEY_D)) {
-          gameModel.movePlayerInDirection(Direction.EAST, delta);
-        } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses S
-            && !window.isKeyPressed(GLFW_KEY_A)
-            && window.isKeyPressed(GLFW_KEY_S)
-            && !window.isKeyPressed(GLFW_KEY_D)) {
-          gameModel.movePlayerInDirection(Direction.SOUTH_EAST, delta);
-        } else if (window.isKeyPressed(GLFW_KEY_S) // Player presses S and A
-            && window.isKeyPressed(GLFW_KEY_A)) {
-          gameModel.movePlayerInDirection(Direction.SOUTH, delta);
-        } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses A
-            && window.isKeyPressed(GLFW_KEY_A)
-            && !window.isKeyPressed(GLFW_KEY_S)
-            && !window.isKeyPressed(GLFW_KEY_D)) {
-          gameModel.movePlayerInDirection(Direction.SOUTH_WEST, delta);
-        } else if (window.isKeyPressed(GLFW_KEY_W) // Player presses W and A
-            && window.isKeyPressed(GLFW_KEY_A)) {
-          gameModel.movePlayerInDirection(Direction.WEST, delta);
-        } else {
-          gameModel.updatePlayerState(PlayerState.IDLE);
+        
+        audio();
+        
+        // ESC TO EXIT
+        if (window.isKeyReleased(GLFW_KEY_ESCAPE)) {
+        	glfwSetWindowShouldClose(window.getWindowHandle(), true);
         }
+        
+    	break;
+    
+    case SERVERMENU:
+    	
+    	if (mouseInput.getXPos() > window.getWidth()/2 - 225
+    			&& mouseInput.getXPos() < window.getWidth()/2 + 255
+    			&& mouseInput.getYPos() > window.getHeight()/2-185
+    			&& mouseInput.getYPos() < window.getHeight()/2+200) {
+        	if (mouseInput.scrolledDown()) {
+        		serverMenu.moveDown();
+        	}
+        	if (mouseInput.scrolledUp()) {
+        		serverMenu.moveUp();
+        	}
+        	if (mouseInput.isLeftButtonPressed()) {
+        		serverMenu.highlight(window, mouseInput.getYPos());
+        	}
+    	}
 
+    	leaveMenu();
+    	
+    	break;
+    	
+    case OPTIONSMENU:
+    	
+    	leaveMenu();
+    	
+    	break;
+    	
+    	
+    case SINGLEPLAYER:
+    	
+    	movement(delta);
+
+        // LIVES
         if (window.isKeyReleased(GLFW_KEY_L)) {
           hud.setP1Lives();
           gameModel.resetPlayer();
@@ -191,92 +232,171 @@ public class Client extends Thread {
           }
         }
 
+        // SCORE 
         if (window.isKeyReleased(GLFW_KEY_P)) {
           hud.setP1Score();
         }
+        
+        leaveGame();
 
-        if (mouseInput.getXPos() < 65 && mouseInput.getYPos() > window.getHeight() - 25) {
-          hud.setExit();
-          if (mouseInput.isLeftButtonPressed()) {
-            audio.toggle();
-            audio.toggle();
-
-            gameModel.resetPlayer();
-            gameState = State.MAINMENU;
-          }
-        } else hud.setRestoreExit();
-
-        if (mouseInput.getXPos() > window.getWidth() - 35
-            && mouseInput.getYPos() > window.getHeight() - 35) {
-          if (mouseInput.isLeftButtonPressed()) {
-            menu.setSoundOff();
-            hud.setSoundOff();
-            audio.toggle();
-          }
+        audio();
+        
+        // CONTROL TO SHOW OTHER PLAYERS SCORES
+        if (window.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
+        	hud.moveScore(20, 5);
+        } else {
+        	hud.moveScore(-10, -230);
         }
+        
+    	break;
+    	
+    case DEAD:
+    	
+    	leaveGame();
 
-        break;
-
-      case DEAD:
-        if (mouseInput.getXPos() < 65 && mouseInput.getYPos() > window.getHeight() - 25) {
-          hud.setExit();
-          if (mouseInput.isLeftButtonPressed()) {
-            audio.toggle();
-            audio.toggle();
-
-            gameModel.resetPlayer();
-            gameState = State.MAINMENU;
-          }
-        } else hud.setRestoreExit();
-
-        if (mouseInput.getXPos() > window.getWidth() - 35
-            && mouseInput.getYPos() > window.getHeight() - 35) {
-          if (mouseInput.isLeftButtonPressed()) {
-            menu.setSoundOff();
-            hud.setSoundOff();
-            audio.toggle();
-          }
-        }
+        audio();
 
         break;
     }
   }
 
   private void update(float delta) {
-    switch (gameState) {
-      case MAINMENU:
-        break;
-      case PLAY:
-        float gameTime = timer.getGameTime();
+	  
+	  switch(gameState) {
+	  
+	  case MAINMENU:
+		  
+		  break;	
+		  
+	  case SERVERMENU:
+		  
+		  break;
+		  
+	  case OPTIONSMENU:
+		  
+		  break;
+		  
+	  case SINGLEPLAYER:
+		  
+		  float gameTime = timer.getGameTime();
 
-        int timeLeft = 90 - Math.round(gameTime);
-        if (timeLeft < 0) {
-          timeLeft = 0;
-        }
-
-        hud.setCounter("Time: " + timeLeft);
-        gameModel.update(delta);
-
-        break;
-      case DEAD:
-        gameModel.update(delta);
-
-        break;
-    }
+		  int timeLeft = 90 - Math.round(gameTime);
+		  if (timeLeft < 0) {
+			  timeLeft = 0;
+		  }
+		  String text = String.format("%02d", timeLeft);
+		  
+		  hud.setCounter(text);
+		  gameModel.update(delta); 
+		  
+		  break;	  
+		  
+	  case DEAD:
+		  
+		  gameModel.update(delta); 
+		  
+		  break;
+	  }
   }
 
   private void render(Game gameModel) {
     switch (gameState) {
-      case MAINMENU:
+    
+    case MAINMENU:
+    	
         renderer.render(window, menu);
+        
         break;
-      case PLAY:
+        
+    case SERVERMENU:
+    	
+    	renderer.render(window, serverMenu);
+    	
+    	break;
+    	
+    case OPTIONSMENU:
+    	
+    	renderer.render(window, optionsMenu);
+    	
+    	break;
+        
+    case SINGLEPLAYER:
+    	
         renderer.render(gameModel, window, hud);
+        
         break;
-      case DEAD:
+        
+    case DEAD:
+    	
         renderer.render(gameModel, window, hud);
-        break;
+        
+        break;    
     }
+  }
+  
+  private void movement(float delta) {
+      if (window.isKeyPressed(GLFW_KEY_W) // Player presses W
+              && !window.isKeyPressed(GLFW_KEY_A)
+              && !window.isKeyPressed(GLFW_KEY_S)
+              && !window.isKeyPressed(GLFW_KEY_D)) {
+            gameModel.movePlayerInDirection(Direction.NORTH_WEST, delta);
+          } else if (window.isKeyPressed(GLFW_KEY_W) // Player presses W and D
+              && window.isKeyPressed(GLFW_KEY_D)) {
+            gameModel.movePlayerInDirection(Direction.NORTH, delta);
+          } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses D
+              && !window.isKeyPressed(GLFW_KEY_A)
+              && !window.isKeyPressed(GLFW_KEY_S)
+              && window.isKeyPressed(GLFW_KEY_D)) {
+            gameModel.movePlayerInDirection(Direction.NORTH_EAST, delta);
+          } else if (window.isKeyPressed(GLFW_KEY_S) // Player presses S and D
+              && window.isKeyPressed(GLFW_KEY_D)) {
+            gameModel.movePlayerInDirection(Direction.EAST, delta);
+          } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses S
+              && !window.isKeyPressed(GLFW_KEY_A)
+              && window.isKeyPressed(GLFW_KEY_S)
+              && !window.isKeyPressed(GLFW_KEY_D)) {
+            gameModel.movePlayerInDirection(Direction.SOUTH_EAST, delta);
+          } else if (window.isKeyPressed(GLFW_KEY_S) // Player presses S and A
+              && window.isKeyPressed(GLFW_KEY_A)) {
+            gameModel.movePlayerInDirection(Direction.SOUTH, delta);
+          } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses A
+              && window.isKeyPressed(GLFW_KEY_A)
+              && !window.isKeyPressed(GLFW_KEY_S)
+              && !window.isKeyPressed(GLFW_KEY_D)) {
+            gameModel.movePlayerInDirection(Direction.SOUTH_WEST, delta);
+          } else if (window.isKeyPressed(GLFW_KEY_W) // Player presses W and A
+              && window.isKeyPressed(GLFW_KEY_A)) {
+            gameModel.movePlayerInDirection(Direction.WEST, delta);
+          } else {
+            gameModel.updatePlayerState(PlayerState.IDLE);
+          }
+  }
+  
+  private void audio() {
+      if (mouseInput.getXPos() > window.getWidth() - 35
+              && mouseInput.getYPos() > window.getHeight()-35) {
+      	if (mouseInput.isLeftButtonPressed()) {
+      		menu.toggleSound();
+            hud.toggleSound();
+            audio.toggle();
+          }
+      }
+  }
+  
+  private void leaveGame() {
+      if (window.isKeyReleased(GLFW_KEY_ESCAPE)) {
+  		audio.toggle();
+  		audio.toggle();
+  		
+      	gameModel.resetPlayer();
+      	gameState = State.MAINMENU;
+      }
+  }
+  
+  private void leaveMenu() {
+      if (window.isKeyReleased(GLFW_KEY_ESCAPE)) {
+      	gameState = State.MAINMENU;
+      }
   }
 
   private void dispose() {
@@ -294,7 +414,7 @@ public class Client extends Thread {
     SERVERMENU,
     OPTIONSMENU,
     LOBBY,
-    PLAY,
+    SINGLEPLAYER,
     DEAD,
     END
   }

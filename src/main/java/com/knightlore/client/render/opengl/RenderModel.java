@@ -13,7 +13,7 @@ import org.lwjgl.system.MemoryStack;
 public class RenderModel {
 
   /** Number of indices to draw */
-  private int draw_count;
+  private int drawCount;
 
   /** Buffer object to draw the quad (using triangles) */
   private VertexBufferObject vertexBufferObject;
@@ -32,7 +32,7 @@ public class RenderModel {
    * @param indices The indices of the vertices to draw the two triangles to make up the quad with
    */
   public RenderModel(float[] vertices, float[] textureCoords, int[] indices) {
-    draw_count = indices.length;
+    drawCount = indices.length;
 
     try (MemoryStack stack = stackPush()) {
       vertexBufferObject = new VertexBufferObject();
@@ -63,7 +63,7 @@ public class RenderModel {
     textureBufferObject.vertexAttribPointer(1);
 
     elementBufferObject.bind();
-    elementBufferObject.draw(draw_count);
+    elementBufferObject.draw(drawCount);
 
     unbind();
 
@@ -77,15 +77,10 @@ public class RenderModel {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
   }
 
-  /**
-   * Clean up memory
-   *
-   * @throws Throwable Exception
-   */
-  protected void finalize() throws Throwable {
+  /** Clean up memory */
+  public void cleanup() {
     vertexBufferObject.delete();
     textureBufferObject.delete();
     elementBufferObject.delete();
-    super.finalize();
   }
 }

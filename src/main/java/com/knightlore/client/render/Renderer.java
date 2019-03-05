@@ -14,22 +14,29 @@ import static org.lwjgl.opengl.GL13.GL_MULTISAMPLE;
 
 import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
-import com.knightlore.client.gui.engine.Utils;
 import com.knightlore.client.gui.engine.Window;
-import com.knightlore.client.gui.engine.graphics.HudShaderProgram;
 import com.knightlore.client.gui.engine.graphics.Mesh;
 import com.knightlore.client.gui.engine.graphics.Transformation;
 import com.knightlore.client.render.opengl.ShaderProgram;
-import com.knightlore.client.render.world.PlayerSet;
-import com.knightlore.client.render.world.TileSet;
+import com.knightlore.client.render.world.EnemyGameObject;
+import com.knightlore.client.render.world.EnemyGameObjectSet;
+import com.knightlore.client.render.world.GameObject;
+import com.knightlore.client.render.world.PlayerGameObject;
+import com.knightlore.client.render.world.TileGameObject;
+import com.knightlore.client.render.world.TileGameObjectSet;
 import com.knightlore.game.Game;
+import com.knightlore.game.entity.Enemy;
 import com.knightlore.game.entity.Player;
+import java.util.ArrayList;
+import java.util.Collection;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.joml.Vector3i;
 
 public class Renderer {
 
-  private final Transformation transformation;
+  private Transformation transformation;
+
   /** Window reference */
   private Window window;
 
@@ -40,18 +47,21 @@ public class Renderer {
   private Camera camera;
 
   /** Shader program used in rendering */
-  private ShaderProgram shaderProgram;
+  private ShaderProgram worldShaderProgram;
 
-  /** Renderer used for the map */
-  private MapRenderer mapRenderer;
+  private ShaderProgram playerShaderProgram;
 
-  /** Player set of active players */
-  private PlayerSet playerSet;
+  private ShaderProgram hudShaderProgram;
 
-  /** Renderer used for the players */
-  private PlayerRenderer playerRenderer;
+  private TileGameObjectSet tileGameObjectSet;
+  private EnemyGameObjectSet enemyGameObjectSet;
 
-  private HudShaderProgram hudShaderProgram;
+  private ArrayList<TileGameObject> tileGameObjects;
+  private ArrayList<PlayerGameObject> playerGameObjects;
+  private ArrayList<EnemyGameObject> enemyGameObjects;
+
+  private float viewX;
+  private float viewY;
 
   /**
    * Initialise the renderer
@@ -61,43 +71,36 @@ public class Renderer {
   public Renderer(Window window) {
     this.window = window;
 
-    // Setting up OpenGL
+    setupOpenGL();
+    setupWorld();
+    setupHud();
+  }
+
+  private void setupOpenGL() {
     createCapabilities();
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_MULTISAMPLE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    // Setting up the world
-    world = new World();
-    camera = new Camera(window.getWidth(), window.getHeight());
-    shaderProgram = new ShaderProgram("shader");
-    mapRenderer = new MapRenderer(new TileSet());
-    playerSet = new PlayerSet();
-    playerRenderer = new PlayerRenderer(playerSet);
-
-    transformation = new Transformation();
-
-    setupHudShader();
   }
 
-  private void setupHudShader() {
-    hudShaderProgram = new HudShaderProgram();
-    try {
-      hudShaderProgram.createVertexShader(Utils.loadResource("/shaders/hud.vert"));
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    try {
-      hudShaderProgram.createFragmentShader(Utils.loadResource("/shaders/hud.frag"));
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    hudShaderProgram.link();
+  private void setupWorld() {
+    world = new World();
+    camera = new Camera(window.getWidth(), window.getHeight());
+    worldShaderProgram = new ShaderProgram("world");
+    playerShaderProgram = new ShaderProgram("player");
+    tileGameObjectSet = new TileGameObjectSet();
+    tileGameObjects = new ArrayList<>();
+    playerGameObjects = new ArrayList<>();
+    enemyGameObjectSet = new EnemyGameObjectSet();
+    enemyGameObjects = new ArrayList<>();
+    viewX = ((float) window.getWidth() / (World.SCALE * 2)) + 1;
+    viewY = ((float) window.getHeight() / (World.SCALE * 2)) + 1;
+  }
 
-    hudShaderProgram.createUniform("projModelMatrix");
-    hudShaderProgram.createUniform("colour");
-    hudShaderProgram.createUniform("hasTexture");
+  private void setupHud() {
+    transformation = new Transformation();
+    hudShaderProgram = new ShaderProgram("hud");
   }
 
   /**
@@ -109,7 +112,6 @@ public class Renderer {
     clearBuffers();
 
     renderGame(gameModel);
-
     renderGui(window, gui);
 
     swapBuffers();
@@ -124,21 +126,106 @@ public class Renderer {
   }
 
   private void renderGame(Game gameModel) {
-    camera.setPosition(
-        playerSet
-            .getPlayer(gameModel.getCurrentLevel().myPlayer().getId())
-            .getPosition()
-            .mul(-world.getScale(), new Vector3f()));
+    Collection<Player> players = gameModel.getCurrentLevel().getPlayers().values();
+    Collection<Enemy> enemies = gameModel.getCurrentLevel().getEnemies();
 
-    mapRenderer.render(
-        gameModel.getCurrentLevel().getMap(),
-        shaderProgram,
-        world.getProjection(),
-        camera.getProjection());
-
-    for (Player player : gameModel.getCurrentLevel().getPlayers().values()) {
-      playerRenderer.render(player, shaderProgram, camera.getProjection());
+    if (tileGameObjects.isEmpty()) {
+      tileGameObjects.addAll(
+          tileGameObjectSet.fromGameModel(gameModel.getCurrentLevel().getMap().getTiles()));
+      playerGameObjects.addAll(PlayerGameObject.fromGameModel(players));
+      enemyGameObjects.addAll(enemyGameObjectSet.fromGameModel(enemies));
     }
+
+    players.forEach(player -> playerGameObjects.get(player.getId()).update(player));
+    enemies.forEach(enemy -> enemyGameObjects.get(enemy.getId()).update(enemy));
+
+    Vector3f isometricPosition =
+        playerGameObjects
+            .get(gameModel.getCurrentLevel().myPlayer().getId())
+            .getIsometricPosition();
+
+    camera.setPosition(isometricPosition.mul(-World.SCALE, new Vector3f()));
+
+    ArrayList<GameObject> gameObjectsToDepthSort = new ArrayList<>();
+    tileGameObjects.forEach(
+        tileGameObject ->
+            ifWithinViewAddTo(gameObjectsToDepthSort, isometricPosition, tileGameObject));
+    playerGameObjects.forEach(
+        playerGameObject ->
+            ifWithinViewAddTo(gameObjectsToDepthSort, isometricPosition, playerGameObject));
+    enemyGameObjects.forEach(
+        enemyGameObject ->
+            ifWithinViewAddTo(gameObjectsToDepthSort, isometricPosition, enemyGameObject));
+
+    ArrayList<GameObject> depthSortedGameObjects =
+        depthSort(gameModel.getCurrentLevel().getMap().getSize(), gameObjectsToDepthSort);
+
+    depthSortedGameObjects.forEach(
+        gameObject -> {
+          if (gameObject instanceof PlayerGameObject) {
+            ((PlayerGameObject) gameObject).render(playerShaderProgram, camera.getProjection());
+          } else if (gameObject instanceof EnemyGameObject) {
+            ((EnemyGameObject) gameObject).render(worldShaderProgram, camera.getProjection());
+          } else {
+            ((TileGameObject) gameObject)
+                .render(worldShaderProgram, world.getProjection(), camera.getProjection());
+          }
+        });
+  }
+
+  private void ifWithinViewAddTo(
+      ArrayList<GameObject> gameObjectsToDepthSort,
+      Vector3f isometricPosition,
+      GameObject playerGameObject) {
+    if (isWithinView(isometricPosition, playerGameObject.getIsometricPosition())) {
+      gameObjectsToDepthSort.add(playerGameObject);
+    }
+  }
+
+  private boolean isWithinView(Vector3f playerPosition, Vector3f gameObjectPosition) {
+    return playerPosition.x + viewX >= gameObjectPosition.x
+        && playerPosition.y + viewY >= gameObjectPosition.y
+        && playerPosition.x - viewX <= gameObjectPosition.x
+        && playerPosition.y - viewY <= gameObjectPosition.y;
+  }
+
+  private ArrayList<GameObject> depthSort(Vector3i mapSize, ArrayList<GameObject> gameObjects) {
+    // initalise the buckets
+    ArrayList<ArrayList<GameObject>> buckets = new ArrayList<>();
+    for (int i = 0; i < getScreenDepth(mapSize, new Vector3f(0, 0, mapSize.z - 1)) + 1; i++) {
+      buckets.add(new ArrayList<>());
+    }
+
+    // distribute to buckets
+    gameObjects.forEach(
+        gameObject -> {
+          if (gameObject instanceof TileGameObject && ((TileGameObject) gameObject).isFloor()) {
+            buckets
+                .get(getLevelScreenDepth(mapSize, gameObject.getModelPosition().z))
+                .add(gameObject);
+          } else {
+            buckets.get(getScreenDepth(mapSize, gameObject.getModelPosition())).add(gameObject);
+          }
+        });
+
+    // flatten
+    ArrayList<GameObject> depthSortedGameObjects = new ArrayList<>();
+    buckets.forEach(depthSortedGameObjects::addAll);
+    return depthSortedGameObjects;
+  }
+
+  private int getScreenDepth(Vector3i mapSize, Vector3f position) {
+    return (int)
+        Math.ceil(
+            mapSize.x
+                - position.x
+                + mapSize.y
+                - position.y
+                + getLevelScreenDepth(mapSize, position.z));
+  }
+
+  private int getLevelScreenDepth(Vector3i mapSize, float z) {
+    return (int) z * (mapSize.x + mapSize.y);
   }
 
   private void renderGui(Window window, IGui gui) {
@@ -147,18 +234,18 @@ public class Renderer {
     Matrix4f ortho =
         transformation.getOrthoProjectionMatrix(0, window.getWidth(), window.getHeight(), 0);
     for (GuiObject guiObject : gui.getGuiObjects()) {
-      Mesh mesh = guiObject.getMesh();
+      if (guiObject.getRender()) {
+        Mesh mesh = guiObject.getMesh();
 
-      Matrix4f projModelMatrix = transformation.getOrtoProjModelMatrix(guiObject, ortho);
-      hudShaderProgram.setUniform("projModelMatrix", projModelMatrix);
-      hudShaderProgram.setUniform("colour", guiObject.getMesh().getMaterial().getColour());
-      hudShaderProgram.setUniform(
-          "hasTexture", guiObject.getMesh().getMaterial().isTextured() ? 1 : 0);
+        Matrix4f projModelMatrix = transformation.getOrtoProjModelMatrix(guiObject, ortho);
+        hudShaderProgram.setUniform("projModelMatrix", projModelMatrix);
+        hudShaderProgram.setUniform("colour", guiObject.getMesh().getMaterial().getColour());
+        hudShaderProgram.setUniform(
+            "hasTexture", guiObject.getMesh().getMaterial().isTextured() ? 1 : 0);
 
-      mesh.render();
+        mesh.render();
+      }
     }
-
-    hudShaderProgram.unbind();
   }
 
   /** Clears the colour and depth buffers */
@@ -172,8 +259,10 @@ public class Renderer {
   }
 
   public void cleanup() {
-    if (hudShaderProgram != null) {
-      hudShaderProgram.cleanup();
-    }
+    hudShaderProgram.cleanup();
+    playerShaderProgram.cleanup();
+    worldShaderProgram.cleanup();
+    tileGameObjects.forEach(TileGameObject::cleanup);
+    playerGameObjects.forEach(PlayerGameObject::cleanup);
   }
 }

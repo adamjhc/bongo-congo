@@ -11,6 +11,10 @@ public class MouseInput {
     private boolean leftButtonPressed = false;
 
     private boolean rightButtonPressed = false;
+    
+    private boolean scrollUp = false;
+    
+    private boolean scrollDown = false;
 
     public MouseInput() {
         xPos = 0;
@@ -33,6 +37,10 @@ public class MouseInput {
             leftButtonPressed = button == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS;
             rightButtonPressed = button == GLFW_MOUSE_BUTTON_2 && action == GLFW_PRESS;
         });
+        glfwSetScrollCallback(window.getWindowHandle(), (windowhandle, xoffset, yoffset) -> {
+        	scrollUp = yoffset > 0;
+        	scrollDown = yoffset < 0;
+        });
     }
 
     public double getXPos() {
@@ -41,6 +49,22 @@ public class MouseInput {
     
     public double getYPos() {
     	return yPos;
+    }
+    
+    public boolean scrolledUp() {
+    	if (scrollUp) {
+    		scrollUp = false;
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public boolean scrolledDown() {
+    	if (scrollDown) {
+    		scrollDown = false;
+    		return true;
+    	}
+    	return false;
     }
 
     public boolean isLeftButtonPressed() {

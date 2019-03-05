@@ -17,9 +17,15 @@ public class Camera {
    * @param width Width of the window
    * @param height Height of the window
    */
-  public Camera(int width, int height) {
+  Camera(int width, int height) {
     position = new Vector3f(0, 0, 0);
-    projection = new Matrix4f().setOrtho2D(-width / 2, width / 2, -height / 2, height / 2);
+    projection =
+        new Matrix4f()
+            .setOrtho2D(
+                ((float) -width) / 2,
+                ((float) width) / 2,
+                ((float) -height) / 2,
+                ((float) height) / 2);
   }
 
   /**
@@ -36,7 +42,7 @@ public class Camera {
    *
    * @return Projection of the camera
    */
-  public Matrix4f getProjection() {
+  Matrix4f getProjection() {
     return projection.translate(position, new Matrix4f());
   }
 }

@@ -95,7 +95,7 @@ public class Renderer {
     enemyGameObjectSet = new EnemyGameObjectSet();
     enemyGameObjects = new ArrayList<>();
     viewX = ((float) window.getWidth() / (World.SCALE * 2)) + 1;
-    viewY = ((float) window.getHeight() / (World.SCALE * 2)) + 1;
+    viewY = ((float) window.getHeight() / (World.SCALE * 2)) + 2;
   }
 
   private void setupHud() {
@@ -185,8 +185,8 @@ public class Renderer {
   private boolean isWithinView(Vector3f playerPosition, Vector3f gameObjectPosition) {
     return playerPosition.x + viewX >= gameObjectPosition.x
         && playerPosition.y + viewY >= gameObjectPosition.y
-        && playerPosition.x - viewX <= gameObjectPosition.x
-        && playerPosition.y - viewY <= gameObjectPosition.y;
+        && playerPosition.x - viewX <= gameObjectPosition.x - gameObjectPosition.z
+        && playerPosition.y - viewY <= gameObjectPosition.y - gameObjectPosition.z;
   }
 
   private ArrayList<GameObject> depthSort(Vector3i mapSize, ArrayList<GameObject> gameObjects) {

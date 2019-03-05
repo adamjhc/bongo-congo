@@ -16,7 +16,8 @@ vec4 colourise(in vec4 grayscale, in vec4 colour)
     return (grayscale * colour);
 }
 
-void main() {
+void main()
+{
   vec4 texture = texture2D(sampler, tex_coords);
 
   if (texture.a == 0)

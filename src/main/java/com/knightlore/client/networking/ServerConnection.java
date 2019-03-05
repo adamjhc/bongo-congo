@@ -15,6 +15,7 @@ import com.knightlore.util.Config;
 
 import java.io.IOException;
 import java.util.Optional;
+import java.util.UUID;
 
 public class ServerConnection {
 
@@ -109,6 +110,8 @@ public class ServerConnection {
             Gson gson = new Gson();
 
             com.knightlore.networking.GameRequest request = new com.knightlore.networking.GameRequest();
+            // TODO make dynamic
+            request.addLevel(UUID.fromString("47eb096a-a88c-4933-afc2-ed961ce2158e"));
             sendable.setData(gson.toJson(request));
 
             // Specify handler

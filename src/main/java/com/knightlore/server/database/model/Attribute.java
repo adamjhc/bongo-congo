@@ -54,6 +54,11 @@ public class Attribute {
                 stmt.setTimestamp(i, (Timestamp) this.value);
                 break;
 
+            default:
+
+                stmt.setString(i, (String) this.value);
+                break;
+
         }
 
         return stmt;

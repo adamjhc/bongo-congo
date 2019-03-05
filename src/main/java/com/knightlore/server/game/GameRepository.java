@@ -1,12 +1,16 @@
 package com.knightlore.server.game;
 
+import com.google.gson.Gson;
 import com.knightlore.game.Game;
 import com.knightlore.game.map.MapSet;
 import com.knightlore.game.map.TileSet;
 import com.knightlore.game.server.GameServer;
+import com.knightlore.server.database.model.Level;
+import com.knightlore.server.database.model.Model;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.Random;
 
@@ -33,7 +37,19 @@ public class GameRepository {
     public void newServer(UUID uuid, int port, String sessionOwner){
         MapSet ms = new MapSet(new TileSet());
         Game game = new Game("1");
-        game.createNewLevel(ms.getMap(0));
+
+
+        Optional<Model> optLevel = Level.instance.first();
+
+        if(!optLevel.isPresent()){
+            logger.warn("No levels could be found! Defaulting");
+            game.createNewLevel(ms.getMap(0));
+        }else{
+            Level level = (Level) optLevel.get();
+            game.addLevel(level.getModelLevel());
+        }
+
+
         this.newServer(uuid, port, sessionOwner, game);
     }
 

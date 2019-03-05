@@ -18,7 +18,7 @@ public class TileGameObjectSet {
     for (Tile[][] layer : tiles) {
       for (Tile[] columns : layer) {
         for (Tile tile : columns) {
-          TileGameObject tileGameObject = new TileGameObject(tileSet.get(tile.getId()));
+          TileGameObject tileGameObject = new TileGameObject(tileSet.get(tile.getIndex()));
           tileGameObject.setPosition(tile.getPosition());
           tileGameObjects.add(tileGameObject);
         }

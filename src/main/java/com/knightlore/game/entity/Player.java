@@ -61,16 +61,16 @@ public class Player extends Entity {
         try {
             Tile newTile = map.getTile(coords);
 
-            if (!newTile.isWalkable() && !newTile.isClimbable()) { // Checks if tile is an air tile
+            if (newTile.getIndex() == 0) { // Checks if tile is an air tile
 
-                if (fallFlag) { // TODO: this is bugged but thats cause of tile property stuff
+                if (fallFlag) {
                     newPos.z -= 1;
                     setPosition(newPos);
                     System.out.println("Fall"); //debug statement
                     loseLife();                    //TODO: needs some sort of pause/animation here too
                  } else {
                     Tile below = map.getTile(new Vector3i(coords.x,coords.y,coords.z-1));
-                    if (!below.isWalkable()) { // Check if the tile you are falling onto is walkable
+                    if (!(newTile.getIndex() == 0 || newTile.getIndex() == 1)) { // Check if the tile you are falling onto is walkable
                         setPosition(oldPos);
                     } else {
                         fallFlag = true;
@@ -79,7 +79,7 @@ public class Player extends Entity {
                     }
                 }
 
-            } else if (!newTile.isWalkable()) { // Checks if tile is a blocking tile
+            } else if (newTile.getIndex() == 2) { // Checks if tile is a blocking tile
                 setPosition(oldPos);
 
             } else { // Sets new position
@@ -90,28 +90,28 @@ public class Player extends Entity {
                 setPosition(newPos);
             }
 
-            if (newTile.isClimbable()) { // Checks for climbable tile
+            if (newTile.getIndex() == 3) { // Checks for climbable tile
                 newPos.z += 1;
                 coords = CoordinateUtils.getTileCoord(setPadding(newPos));
                 newTile = map.getTile(coords);
-                if (newTile.isWalkable()) { // Checks if the tile above climbable tile is accessible
+                if (newTile.getIndex() == 1) { // Checks if the tile above climbable tile is accessible
                     fallFlag = false;
                     setPosition(newPos);
                 } else {
                     setPosition(oldPos);
                 }
             }
+            if (newTile.getIndex() == 4) {
+                System.out.println("Ow!"); // debug statement
+                loseLife();
+            }
 
-            if (newTile.isGoal()) { // Checks for goal
+            if (newTile.getIndex() == 5) { // Checks for goal
                 System.out.println("Win!"); // debug statement
                 setPosition(newPos);
                 // TODO: Switch game state here
             }
 
-            if (newTile.isHazard()) {
-                System.out.println("Ow!"); // debug statement
-                loseLife();
-            }
 
             //TODO: Enemy collisions
 

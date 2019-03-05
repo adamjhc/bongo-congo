@@ -5,23 +5,23 @@ import org.joml.Vector3f;
 
 public class TileSet {
 
-  private static Tile airTile = new Tile(false, false, false, false);
-  private static Tile floorTile = new Tile(true, false, false, false);
-  private static Tile wallTile = new Tile(false, false, false, false);
-  private static Tile climbableWallTile = new Tile(false, true, false, false);
-  private static Tile hazardTile = new Tile(true, false, true, false);
-  private static Tile goalTile = new Tile(true, false, false, true);
+  private static Tile airTile = new Tile(TileType.AIR);
+  private static Tile floorTile = new Tile(TileType.FLOOR);
+  private static Tile wallTile = new Tile(TileType.WALL);
+  private static Tile climbableWallTile = new Tile(TileType.CLIMBABLE_WALL);
+  private static Tile hazardTile = new Tile(TileType.HAZARD);
+  private static Tile goalTile = new Tile(TileType.GOAL);
 
   private ArrayList<Tile> set;
 
   public TileSet() {
     set = new ArrayList<>();
-    set.add(0, airTile);
-    set.add(1, floorTile);
-    set.add(2, wallTile);
-    set.add(3, climbableWallTile);
-    set.add(4, hazardTile);
-    set.add(5, goalTile);
+    set.add(airTile.getIndex(), airTile);
+    set.add(floorTile.getIndex(), floorTile);
+    set.add(wallTile.getIndex(), wallTile);
+    set.add(climbableWallTile.getIndex(), climbableWallTile);
+    set.add(hazardTile.getIndex(), hazardTile);
+    set.add(goalTile.getIndex(), goalTile);
   }
 
   Tile getTile(int index, Vector3f position) {

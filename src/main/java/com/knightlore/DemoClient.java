@@ -4,6 +4,7 @@ import com.knightlore.client.exceptions.ClientAlreadyAuthenticatedException;
 import com.knightlore.client.exceptions.ConfigItemNotFoundException;
 import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.networking.ServerConnection;
+import com.knightlore.server.Server;
 import com.knightlore.util.Config;
 
 import java.io.IOException;
@@ -61,6 +62,7 @@ public class DemoClient {
         System.out.println("1. Create new game");
         System.out.println("2. Join game");
         System.out.println("3. Close connection");
+        System.out.println("4. List Levels");
 
         int option = Integer.valueOf(scanner.nextLine());
         switch(option){
@@ -100,6 +102,11 @@ public class DemoClient {
                 }catch(IOException e){
                     System.out.println("COULD NOT CLOSE");
                 }
+
+            case 4:
+                // List levels
+                ServerConnection.instance.listLevels();
+                break;
 
         }
     }

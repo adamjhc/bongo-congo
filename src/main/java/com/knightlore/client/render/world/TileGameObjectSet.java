@@ -34,5 +34,7 @@ public class TileGameObjectSet {
     tileSet.add(new TileGameObject(true, "floor", 4, 2));
     tileSet.add(new TileGameObject(false, "slab"));
     tileSet.add(new TileGameObject(false, "block"));
+    tileSet.add(new TileGameObject(true, "hazard"));
+    tileSet.add(new TileGameObject(true, "goal"));
   }
 }

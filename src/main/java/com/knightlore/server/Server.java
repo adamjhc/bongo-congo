@@ -42,6 +42,10 @@ public class Server
         // Spin up server
         ServerSocket ss = new ServerSocket(authServerPort.get());
 
+        // Input
+        InputHandler inputHandler = new InputHandler();
+        inputHandler.start();
+
         // Capture new clients
         while (true)
         {

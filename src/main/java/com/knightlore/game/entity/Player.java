@@ -13,6 +13,7 @@ public class Player extends Entity {
   private int lives;
   private int score;
   private String associatedSession;
+  private PlayerState currentState;
 
   public Player() {
     id = inc;
@@ -29,6 +30,14 @@ public class Player extends Entity {
   public Player(String sessionID) {
     this();
     this.associatedSession = sessionID;
+  }
+
+  public PlayerState getCurrentState() {
+    return currentState;
+  }
+
+  public void setCurrentState(PlayerState currentState) {
+    this.currentState = currentState;
   }
 
   @Override

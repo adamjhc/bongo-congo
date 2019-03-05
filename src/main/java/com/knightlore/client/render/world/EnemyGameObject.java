@@ -1,10 +1,14 @@
 package com.knightlore.client.render.world;
 
 import com.knightlore.client.render.opengl.ShaderProgram;
+import com.knightlore.game.entity.Enemy;
 import com.knightlore.game.entity.EnemyState;
+import com.knightlore.game.entity.Entity;
 import org.joml.Matrix4f;
 
 public class EnemyGameObject extends EntityGameObject {
+
+  private EnemyState currentState;
 
   EnemyGameObject(EnemyGameObject copy) {
     model = copy.model;
@@ -16,6 +20,12 @@ public class EnemyGameObject extends EntityGameObject {
   }
 
   @Override
+  public void update(Entity entity) {
+    super.update(entity);
+    currentState = ((Enemy) entity).getCurrentState();
+  }
+
+  @Override
   public void render(ShaderProgram shaderProgram, Matrix4f camera) {
     transform.setPosition(isometricPosition);
 
@@ -23,7 +33,7 @@ public class EnemyGameObject extends EntityGameObject {
     shaderProgram.setUniform("sampler", 0);
     shaderProgram.setUniform("projection", transform.getProjection(camera));
 
-    switch ((EnemyState) currentState) {
+    switch (currentState) {
       case IDLE:
         idleTextures.get(currentDirection).bind(0);
         break;

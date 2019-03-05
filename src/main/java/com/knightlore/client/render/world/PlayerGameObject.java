@@ -1,6 +1,7 @@
 package com.knightlore.client.render.world;
 
 import com.knightlore.client.render.opengl.ShaderProgram;
+import com.knightlore.game.entity.Entity;
 import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class PlayerGameObject extends EntityGameObject {
     availableColours.add(new Vector3f(1, 1, 1));
   }
 
+  private PlayerState currentState;
   private Vector3f colour;
 
   /**
@@ -52,6 +54,12 @@ public class PlayerGameObject extends EntityGameObject {
     return playerGameObjects;
   }
 
+  @Override
+  public void update(Entity entity) {
+    super.update(entity);
+    currentState = ((Player) entity).getCurrentState();
+  }
+
   /**
    * Render the player
    *
@@ -65,7 +73,7 @@ public class PlayerGameObject extends EntityGameObject {
     shaderProgram.setUniform("projection", transform.getProjection(camera));
     shaderProgram.setUniform("colour", colour);
 
-    switch ((PlayerState) currentState) {
+    switch (currentState) {
       case IDLE:
         idleTextures.get(currentDirection).bind(0);
         break;

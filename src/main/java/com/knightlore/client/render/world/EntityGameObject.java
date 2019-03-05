@@ -6,7 +6,6 @@ import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.opengl.StaticTexture;
 import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.Entity;
-import com.knightlore.game.entity.EntityState;
 import java.util.EnumMap;
 import java.util.Map;
 import org.joml.Matrix4f;
@@ -16,7 +15,6 @@ public abstract class EntityGameObject extends GameObject {
   Transform transform;
 
   Direction currentDirection;
-  EntityState currentState;
 
   Map<Direction, StaticTexture> idleTextures;
   Map<Direction, AnimatedTexture> movingTextures;
@@ -51,7 +49,6 @@ public abstract class EntityGameObject extends GameObject {
   public void update(Entity entity) {
     setPosition(entity.getPosition());
     currentDirection = entity.getDirection();
-    currentState = entity.getCurrentState();
   }
 
   public void cleanup() {

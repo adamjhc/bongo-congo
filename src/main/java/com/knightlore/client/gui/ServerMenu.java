@@ -13,6 +13,7 @@ import org.joml.Vector4f;
 
 import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
+import com.knightlore.client.gui.engine.LobbyObject;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.gui.engine.Window;
 import com.knightlore.client.gui.engine.graphics.FontTexture;
@@ -45,7 +46,7 @@ public class ServerMenu implements IGui {
     
     private final TextObject exit;
     
-    private final ArrayList<TextObject> servers;
+    private final ArrayList<LobbyObject> servers;
     
     private int length;
     
@@ -105,10 +106,10 @@ public class ServerMenu implements IGui {
         this.create.setPosition(window.getWidth()/2-width, window.getHeight()/2+215, 0);
         this.exit.setPosition(window.getWidth()/2-30, window.getHeight()/2+255, 0);	
         
-        servers = new ArrayList<TextObject>();
+        servers = new ArrayList<LobbyObject>();
         
         for (int i = 0; i < 10; i++) {
-        	servers.add(new TextObject(i+"'s "+"Server", fontTexture));
+        	servers.add(new LobbyObject(i+"'s "+"Server", fontTexture));
         }
         
         for (int i = 0; i < servers.size(); i++) {
@@ -137,7 +138,7 @@ public class ServerMenu implements IGui {
 			e.printStackTrace();
 		}
 		
-    	TextObject newServer = new TextObject("New Server "+servers.size(), fontTexture);
+    	LobbyObject newServer = new LobbyObject("New Server "+servers.size(), fontTexture);
     	float width = (newServer.getText().length())*15/2;
     	newServer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
     	newServer.setPosition(window.getWidth()/2-width, window.getHeight()/2-yPos-(current*20), 0);

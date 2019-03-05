@@ -91,17 +91,9 @@ public class TextObject extends GuiObject {
         return text;
     }
     
-    public boolean getHighlighted() {
-    	return highlighted;
-    }
-    
     public void setText(String text) {
         this.text = text;
         this.getMesh().deleteBuffers();
         this.setMesh(buildMesh());
-    }
-    
-    public void setHighlighted() {
-    	highlighted = !highlighted;
     }
 }

@@ -1,6 +1,6 @@
 package com.knightlore.game.entity;
 
-public enum EnemyState implements EntityState {
+public enum EnemyState {
   IDLE,
   MOVING,
 }

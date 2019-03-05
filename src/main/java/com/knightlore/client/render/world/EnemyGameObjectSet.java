@@ -7,13 +7,15 @@ import java.util.List;
 
 public class EnemyGameObjectSet {
 
-  private final List<EnemyGameObject> enemySet;
+  private static final List<EnemyGameObject> enemySet;
 
-  public EnemyGameObjectSet() {
+  static {
     enemySet = new ArrayList<>();
   }
 
-  public List<EnemyGameObject> fromGameModel(Collection<Enemy> enemies) {
+  private EnemyGameObjectSet() {}
+
+  public static List<EnemyGameObject> fromGameModel(Collection<Enemy> enemies) {
     List<EnemyGameObject> enemyGameObjects = new ArrayList<>();
 
     enemies.forEach(

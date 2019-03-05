@@ -1,17 +1,5 @@
 package com.knightlore.client.render;
 
-import static org.lwjgl.opengl.GL.createCapabilities;
-import static org.lwjgl.opengl.GL11.GL_BLEND;
-import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
-import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.glBlendFunc;
-import static org.lwjgl.opengl.GL11.glClear;
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL13.GL_MULTISAMPLE;
-
 import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.Window;
@@ -33,12 +21,9 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
-public class GameRenderer {
+public class GameRenderer extends Renderer {
 
   private Transformation transformation;
-
-  /** Window reference */
-  private Window window;
 
   /** World object used in renderer */
   private World world;
@@ -53,9 +38,6 @@ public class GameRenderer {
 
   private ShaderProgram hudShaderProgram;
 
-  private TileGameObjectSet tileGameObjectSet;
-  private EnemyGameObjectSet enemyGameObjectSet;
-
   private ArrayList<TileGameObject> tileGameObjects;
   private ArrayList<PlayerGameObject> playerGameObjects;
   private ArrayList<EnemyGameObject> enemyGameObjects;
@@ -69,19 +51,10 @@ public class GameRenderer {
    * @param window Reference to the GLFW window class
    */
   public GameRenderer(Window window) {
-    this.window = window;
+    super(window);
 
-    setupOpenGL();
     setupWorld();
     setupHud();
-  }
-
-  private void setupOpenGL() {
-    createCapabilities();
-    glEnable(GL_TEXTURE_2D);
-    glEnable(GL_MULTISAMPLE);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   }
 
   private void setupWorld() {
@@ -89,10 +62,8 @@ public class GameRenderer {
     camera = new Camera(window.getWidth(), window.getHeight());
     worldShaderProgram = new ShaderProgram("world");
     playerShaderProgram = new ShaderProgram("player");
-    tileGameObjectSet = new TileGameObjectSet();
     tileGameObjects = new ArrayList<>();
     playerGameObjects = new ArrayList<>();
-    enemyGameObjectSet = new EnemyGameObjectSet();
     enemyGameObjects = new ArrayList<>();
     viewX = ((float) window.getWidth() / (World.SCALE * 2)) + 1;
     viewY = ((float) window.getHeight() / (World.SCALE * 2)) + 2;
@@ -131,9 +102,9 @@ public class GameRenderer {
 
     if (tileGameObjects.isEmpty()) {
       tileGameObjects.addAll(
-          tileGameObjectSet.fromGameModel(gameModel.getCurrentLevel().getMap().getTiles()));
+          TileGameObjectSet.fromGameModel(gameModel.getCurrentLevel().getMap().getTiles()));
       playerGameObjects.addAll(PlayerGameObject.fromGameModel(players));
-      enemyGameObjects.addAll(enemyGameObjectSet.fromGameModel(enemies));
+      enemyGameObjects.addAll(EnemyGameObjectSet.fromGameModel(enemies));
     }
 
     players.forEach(player -> playerGameObjects.get(player.getId()).update(player));
@@ -248,16 +219,7 @@ public class GameRenderer {
     }
   }
 
-  /** Clears the colour and depth buffers */
-  private void clearBuffers() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  }
-
-  /** Swaps the window's buffers */
-  private void swapBuffers() {
-    window.swapBuffers();
-  }
-
+  @Override
   public void cleanup() {
     hudShaderProgram.cleanup();
     playerShaderProgram.cleanup();

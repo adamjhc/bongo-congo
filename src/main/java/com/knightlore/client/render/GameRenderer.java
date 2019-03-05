@@ -33,7 +33,7 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
-public class Renderer {
+public class GameRenderer {
 
   private Transformation transformation;
 
@@ -68,7 +68,7 @@ public class Renderer {
    *
    * @param window Reference to the GLFW window class
    */
-  public Renderer(Window window) {
+  public GameRenderer(Window window) {
     this.window = window;
 
     setupOpenGL();

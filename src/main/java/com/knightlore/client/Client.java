@@ -19,7 +19,7 @@ import com.knightlore.client.gui.ServerMenu;
 import com.knightlore.client.gui.engine.MouseInput;
 import com.knightlore.client.gui.engine.Timer;
 import com.knightlore.client.gui.engine.Window;
-import com.knightlore.client.render.Renderer;
+import com.knightlore.client.render.GameRenderer;
 import com.knightlore.game.Game;
 import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.PlayerState;
@@ -36,7 +36,7 @@ public class Client extends Thread {
   
   private Window window;
   
-  private Renderer renderer;
+  private GameRenderer gameRenderer;
   
   private Game gameModel;
   
@@ -86,7 +86,7 @@ public class Client extends Thread {
     serverMenu = new ServerMenu(window);
     optionsMenu = new OptionsMenu(window);
 
-    renderer = new Renderer(window);
+    gameRenderer = new GameRenderer(window);
 
     if (model == null) {
       MapSet mapSet = new MapSet(new TileSet());
@@ -356,31 +356,31 @@ public class Client extends Thread {
     
     case MAINMENU:
     	
-        renderer.render(window, menu);
+        gameRenderer.render(window, menu);
         
         break;
         
     case SERVERMENU:
     	
-    	renderer.render(window, serverMenu);
+    	gameRenderer.render(window, serverMenu);
     	
     	break;
     	
     case OPTIONSMENU:
     	
-    	renderer.render(window, optionsMenu);
+    	gameRenderer.render(window, optionsMenu);
     	
     	break;
         
     case SINGLEPLAYER:
     	
-        renderer.render(gameModel, window, hud);
+        gameRenderer.render(gameModel, window, hud);
         
         break;
         
     case DEAD:
     	
-        renderer.render(gameModel, window, hud);
+        gameRenderer.render(gameModel, window, hud);
         
         break;    
     }
@@ -453,7 +453,7 @@ public class Client extends Thread {
 
   private void dispose() {
     hud.cleanup();
-    renderer.cleanup();
+    gameRenderer.cleanup();
 
     window.freeCallbacks();
     window.destroyWindow();

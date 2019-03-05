@@ -143,4 +143,12 @@ public class AudioHandler {
 			}
 		}
 	}
+	
+	public void incVolume() {
+		gameMusic.incVolume();
+	}
+	
+	public void decVolume() {
+		gameMusic.decVolume();
+	}
 }

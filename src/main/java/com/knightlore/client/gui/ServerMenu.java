@@ -13,6 +13,7 @@ import org.joml.Vector4f;
 
 import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
+import com.knightlore.client.gui.engine.LobbyObject;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.gui.engine.Window;
 import com.knightlore.client.gui.engine.graphics.FontTexture;
@@ -43,11 +44,15 @@ public class ServerMenu implements IGui {
     
     private final TextObject create;
     
-    private final ArrayList<TextObject> servers;
+    private final TextObject exit;
+    
+    private final ArrayList<LobbyObject> servers;
     
     private int length;
     
     private int current = 0;
+    
+    private int yPos = 165;
     
     public ServerMenu(Window window) throws Exception {
     	InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
@@ -86,24 +91,29 @@ public class ServerMenu implements IGui {
         this.create = new TextObject("Create game", fontTexture);
         this.create.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
+        this.exit = new TextObject("Exit", fontTexture);
+        this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        
         this.bongo.setPosition(window.getWidth()/2-360, window.getHeight()/2-300, 0);
         this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-300, 0);
         
         this.multiplayer.setPosition(window.getWidth()/2-120, window.getHeight()/2-200, 0);
         this.separatorTop.setPosition(window.getWidth()/2-225, window.getHeight()/2-185, 0);
         this.separatorBot.setPosition(window.getWidth()/2-225, window.getHeight()/2+200, 0);
-        this.join.setPosition(window.getWidth()/2-190, window.getHeight()/2+215, 0);
-        this.create.setPosition(window.getWidth()/2+55, window.getHeight()/2+215, 0);
+        float width = (join.getText().length())*15/2;
+        this.join.setPosition(window.getWidth()/2-width, window.getHeight()/2+235, 0);
+        width = (create.getText().length())*15/2;
+        this.create.setPosition(window.getWidth()/2-width, window.getHeight()/2+215, 0);
+        this.exit.setPosition(window.getWidth()/2-30, window.getHeight()/2+255, 0);	
         
-        servers = new ArrayList<TextObject>();
+        servers = new ArrayList<LobbyObject>();
         
-        for (int i = 0; i < 100; i++) {
-        	servers.add(new TextObject(i+"'s "+"Server", fontTexture));
+        for (int i = 0; i < 10; i++) {
+        	servers.add(new LobbyObject(i+"'s "+"Server", fontTexture));
         }
         
-        int yPos = 165;
         for (int i = 0; i < servers.size(); i++) {
-        	int width = (servers.get(i).getText().length())*15/2;
+        	width = (servers.get(i).getText().length())*15/2;
         	servers.get(i).getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         	servers.get(i).setPosition(window.getWidth()/2-width, window.getHeight()/2-yPos, 0);
         	yPos -= 20;
@@ -114,10 +124,52 @@ public class ServerMenu implements IGui {
         // JOIN LOBBY
         // PLAYER COUNT IN LOBBY
         
-        guiObjects = new GuiObject[]{bongo, congo, multiplayer, separatorTop, separatorBot, join, create};
+        guiObjects = new GuiObject[]{bongo, congo, multiplayer, separatorTop, separatorBot, join, create, exit};
         length = guiObjects.length;
         
         addServers();
+    }
+    
+    public void createServer(Window window) {
+    	FontTexture fontTexture = null;
+		try {
+			fontTexture = new FontTexture(FONT, CHARSET);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+    	LobbyObject newServer = new LobbyObject("New Server "+servers.size(), fontTexture);
+    	float width = (newServer.getText().length())*15/2;
+    	newServer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    	newServer.setPosition(window.getWidth()/2-width, window.getHeight()/2-yPos-(current*20), 0);
+    	yPos -= 20;
+    	
+    	servers.add(newServer);
+    	reAddServers();
+    	for (int i = 0; i < servers.size(); i++) moveDown();
+    }
+    
+    public void reAddServers() {
+    	if (servers.size() <= MAX_SERVERS) {
+        	GuiObject[] guiObjectsNew = new GuiObject[length + servers.size()];
+        	for (int i = 0; i < length; i++) {
+        		guiObjectsNew[i] = guiObjects[i];
+        	}
+        	for (int i = length; i < length + servers.size(); i++) {
+        		guiObjectsNew[i] = servers.get(i - length);
+        	}
+        	guiObjects = guiObjectsNew.clone();
+    	} 
+    	/* else {
+        	GuiObject[] guiObjectsNew = new GuiObject[length + MAX_SERVERS];
+        	for (int i = 0; i < length; i++) {
+        		guiObjectsNew[i] = guiObjects[i];
+        	}
+        	for (int i = length; i < length + MAX_SERVERS; i++) {
+        		guiObjectsNew[i] = servers.get(i - length);
+        	}
+        	guiObjects = guiObjectsNew.clone();
+    	} */
     }
     
     public void addServers() {
@@ -182,7 +234,7 @@ public class ServerMenu implements IGui {
     public void highlight(Window window, double yPos) {
     	double pos = (yPos-(window.getHeight()/2-145))/20;
     	int posInt = (int) Math.ceil(pos);
-    	if (posInt >= 0 && posInt < MAX_SERVERS) {
+    	if (posInt >= 0 && posInt < Math.min(MAX_SERVERS,servers.size())) {
     		setHighlight(window, posInt);
     	}
     }
@@ -192,7 +244,7 @@ public class ServerMenu implements IGui {
     		if (servers.get(i).getHighlighted() == true) {
     			servers.get(i).setHighlighted();
     			servers.get(i).setText(servers.get(i).getText().substring(4, servers.get(i).getText().length()-4));
-    			int width = servers.get(i).getText().length()*15/2;
+    			float width = servers.get(i).getText().length()*15/2;
     			servers.get(i).setPositionX(window.getWidth()/2-width);
     			servers.get(i).getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
     		}
@@ -203,8 +255,24 @@ public class ServerMenu implements IGui {
     	resetHighlight(window);
 		servers.get(listPos+current).setHighlighted();
 		servers.get(listPos+current).setText("=== "+servers.get(listPos+current).getText()+" ===");
-		int width = servers.get(listPos+current).getText().length()*15/2;
+		float width = servers.get(listPos+current).getText().length()*15/2;
 		servers.get(listPos+current).setPositionX(window.getWidth()/2-width);
+    }
+    
+    public void setExit() {
+    	this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
+    }
+    
+    public void setRestoreExit() {
+    	this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    }
+    
+    public void setCreate() {
+    	this.create.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
+    }
+    
+    public void setRestoreCreate() {
+    	this.create.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
     }
     
     @Override

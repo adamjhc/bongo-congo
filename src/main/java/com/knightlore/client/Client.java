@@ -150,7 +150,6 @@ public class Client extends Thread {
             audio.toggle(); // eventually change this so switches between menu and game music
 
             timer.setStartTime();
-            hud.resetP1Lives();
             gameState = State.SINGLEPLAYER;
           }
         } else menu.setRestoreSingleplayer();

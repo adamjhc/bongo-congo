@@ -44,6 +44,8 @@ public class MainMenu implements IGui {
     
     private final TextObject options;
     
+    private final TextObject levelEditor;
+    
     public MainMenu(Window window) throws Exception {
     	InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
     	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -78,6 +80,9 @@ public class MainMenu implements IGui {
         this.options = new TextObject("Options", fontTexture);
         this.options.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
+        this.levelEditor = new TextObject("Level Editor", fontTexture);
+        this.levelEditor.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        
         
         
         this.bongo.setPosition(window.getWidth()/2-360, window.getHeight()/2-300, 0);
@@ -85,17 +90,18 @@ public class MainMenu implements IGui {
         
         this.singleplayer.setPosition(window.getWidth()/2 - 90, window.getHeight()/2+100, 0);
         this.multiplayer.setPosition(window.getWidth()/2 - 82, window.getHeight()/2+120, 0);
+        this.levelEditor.setPosition(window.getWidth()/2 - 82.5f, window.getHeight()/2+140, 0);
         
-        this.options.setPosition(window.getWidth()/2-50, window.getHeight()/2+140, 0);
+        this.options.setPosition(window.getWidth()/2-50, window.getHeight()/2+160, 0);
         
         this.soundOn.setPosition(window.getWidth()-40, window.getHeight()-40, 0);
         this.soundOff.setPosition(window.getWidth()-30, window.getHeight()-30, 0);
         
-        this.quit.setPosition(window.getWidth()/2-30, window.getHeight()/2+160, 0);
+        this.quit.setPosition(window.getWidth()/2-30, window.getHeight()/2+180, 0);
         
         this.soundOff.setRender();
         
-        guiObjects = new GuiObject[]{bongo, congo, singleplayer, multiplayer, quit, options, soundOn, soundOff};
+        guiObjects = new GuiObject[]{bongo, congo, singleplayer, multiplayer, quit, options, soundOn, soundOff, levelEditor};
     }
     
     public void setSingleplayer() {
@@ -128,6 +134,14 @@ public class MainMenu implements IGui {
     
     public void setRestoreOptions() {
     	this.options.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    }
+    
+    public void setLevelEditor() {
+    	this.levelEditor.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
+    }
+    
+    public void setRestoreLevelEditor() {
+    	this.levelEditor.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
     }
     
     public void toggleSound() {

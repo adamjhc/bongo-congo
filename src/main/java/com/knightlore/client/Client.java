@@ -158,11 +158,22 @@ public class Client extends Thread {
         	}
         } else menu.setRestoreMultiplayer();
         
+        // LEVEL EDITOR BUTTON
+        if (mouseInput.getXPos() > window.getWidth() / 2 - 84
+        	&& mouseInput.getXPos() < window.getWidth() / 2 + 84
+    		&& mouseInput.getYPos() > window.getHeight() / 2 + 138
+    		&& mouseInput.getYPos() < window.getHeight() / 2 + 155) {
+    			menu.setLevelEditor();
+    			if (mouseInput.isLeftButtonPressed()) {
+    				gameState = State.LEVELEDITOR;
+    			}
+    	} else menu.setRestoreLevelEditor();
+        
         // OPTIONS BUTTON
         if (mouseInput.getXPos() > window.getWidth() / 2 - 52
         		&& mouseInput.getXPos() < window.getWidth() / 2 + 52
-        		&& mouseInput.getYPos() > window.getHeight() / 2 + 138
-        		&& mouseInput.getYPos() < window.getHeight() / 2 + 155) {
+        		&& mouseInput.getYPos() > window.getHeight() / 2 + 158
+        		&& mouseInput.getYPos() < window.getHeight() / 2 + 175) {
         	menu.setOptions();
         	if (mouseInput.isLeftButtonPressed()) {
         		gameState = State.OPTIONSMENU;
@@ -172,8 +183,8 @@ public class Client extends Thread {
         // QUIT BUTTON
         if (mouseInput.getXPos() > window.getWidth() / 2 - 30
         		&& mouseInput.getXPos() < window.getWidth() / 2 + 30
-        		&& mouseInput.getYPos() > window.getHeight() / 2 + 160
-        		&& mouseInput.getYPos() < window.getHeight() / 2 + 176) {
+        		&& mouseInput.getYPos() > window.getHeight() / 2 + 180
+        		&& mouseInput.getYPos() < window.getHeight() / 2 + 196) {
         	menu.setQuit();
             if (mouseInput.isLeftButtonPressed()) {
             	glfwSetWindowShouldClose(window.getWindowHandle(), true);
@@ -257,6 +268,9 @@ public class Client extends Thread {
         audio();
 
         break;
+        
+    case LEVELEDITOR:
+    	
     }
   }
 
@@ -416,6 +430,7 @@ public class Client extends Thread {
     LOBBY,
     SINGLEPLAYER,
     DEAD,
-    END
+    END,
+    LEVELEDITOR
   }
 }

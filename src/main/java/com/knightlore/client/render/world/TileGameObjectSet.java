@@ -10,7 +10,12 @@ public class TileGameObjectSet {
 
   static {
     tileSet = new ArrayList<>();
-    load();
+    tileSet.add(new TileGameObject());
+    tileSet.add(new TileGameObject(true, "floor", 4, 2));
+    tileSet.add(new TileGameObject(false, "slab"));
+    tileSet.add(new TileGameObject(false, "block"));
+    tileSet.add(new TileGameObject(true, "hazard"));
+    tileSet.add(new TileGameObject(true, "goal"));
   }
 
   private TileGameObjectSet() {}
@@ -32,15 +37,5 @@ public class TileGameObjectSet {
     }
 
     return tileGameObjects;
-  }
-
-  /** Loads the tile game objects into the tile set. Corresponds to the Game.TileSet class */
-  private void load() {
-    tileSet.add(new TileGameObject());
-    tileSet.add(new TileGameObject(true, "floor", 4, 2));
-    tileSet.add(new TileGameObject(false, "slab"));
-    tileSet.add(new TileGameObject(false, "block"));
-    tileSet.add(new TileGameObject(true, "hazard"));
-    tileSet.add(new TileGameObject(true, "goal"));
   }
 }

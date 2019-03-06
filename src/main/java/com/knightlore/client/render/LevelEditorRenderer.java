@@ -56,7 +56,7 @@ public class LevelEditorRenderer extends Renderer {
         for (int x = tiles[z][y].length - 1; x >= 0; x--) {
           Vector3f isoTilePos = CoordinateUtils.toIsometric(new Vector3f(x, y, z));
           if (isWithinView(cameraIsoPos, isoTilePos)) {
-            TileGameObject tileGameObject = TileGameObjectSet.getTile(tiles[z][y][x].getId());
+            TileGameObject tileGameObject = TileGameObjectSet.getTile(tiles[z][y][x].getIndex());
             tileGameObject.setIsometricPosition(isoTilePos);
             tileGameObject.render(shaderProgram, world.getProjection(), camera.getProjection());
           }

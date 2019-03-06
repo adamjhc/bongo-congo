@@ -4,7 +4,7 @@ import com.knightlore.client.gui.engine.Window;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.world.TileGameObject;
 import com.knightlore.client.render.world.TileGameObjectSet;
-import com.knightlore.game.map.Map;
+import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.Tile;
 import com.knightlore.game.util.CoordinateUtils;
 import org.joml.Vector3f;
@@ -36,20 +36,20 @@ public class LevelEditorRenderer extends Renderer {
 
   private void setupHud() {}
 
-  public void render(Map map, Vector3f cameraPosition) {
+  public void render(LevelMap levelMap, Vector3f cameraPosition) {
     clearBuffers();
 
-    renderMap(map, cameraPosition);
+    renderMap(levelMap, cameraPosition);
     renderHud();
 
     swapBuffers();
   }
 
-  private void renderMap(Map map, Vector3f cameraPosition) {
+  private void renderMap(LevelMap levelMap, Vector3f cameraPosition) {
     Vector3f cameraIsoPos = CoordinateUtils.toIsometric(cameraPosition);
     camera.setPosition(cameraIsoPos.mul(-World.SCALE, new Vector3f()));
 
-    Tile[][][] tiles = map.getTiles();
+    Tile[][][] tiles = levelMap.getTiles();
 
     for (int z = 0; z < tiles.length; z++) {
       for (int y = tiles[z].length - 1; y >= 0; y--) {

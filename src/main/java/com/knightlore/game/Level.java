@@ -3,29 +3,26 @@ package com.knightlore.game;
 import com.knightlore.client.networking.GameConnection;
 import com.knightlore.game.entity.Enemy;
 import com.knightlore.game.entity.Player;
-import com.knightlore.game.map.Map;
+import com.knightlore.game.map.LevelMap;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Level {
 
-    Map map;
+  private LevelMap levelMap;
+  private ArrayList<Enemy> enemies;
 
-  HashMap<String, Player> players;
-  ArrayList<Enemy> enemies;
+  Date startedAt;
+  int duration;
 
-    Date startedAt;
-    int duration;
+  public Level() {
+    this.enemies = new ArrayList<>();
+  }
 
-    public Level() {
-        this.enemies = new ArrayList<>();
-        this.players = new HashMap<>();
-    }
-
-  public Level(Map map, HashMap<String, Player> players) {
-    this.map = map;
-    this.players = players;
+  public Level(LevelMap levelMap) {
+    this.levelMap = levelMap;
 
     enemies = new ArrayList<>();
   }
@@ -34,26 +31,15 @@ public class Level {
     this.enemies.add(enemy);
   }
 
-    public Map getMap() {
-        return map;
-    }
+  public LevelMap getLevelMap() {
+    return levelMap;
+  }
 
-    public void setMap(Map map) {
-        this.map = map;
-    }
-
-    public HashMap<String, Player> getPlayers() {
-        return players;
-    }
+  public void setLevelMap(LevelMap levelMap) {
+    this.levelMap = levelMap;
+  }
 
   public ArrayList<Enemy> getEnemies() {
     return enemies;
   }
-
-    public Player myPlayer(){
-        if(GameConnection.instance == null){
-            return this.players.get("1");
-        }
-        return this.players.get(GameConnection.instance.sessionKey);
-    }
 }

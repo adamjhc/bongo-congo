@@ -1,7 +1,7 @@
 package com.knightlore.server.game;
 
 import com.knightlore.game.Game;
-import com.knightlore.game.map.MapSet;
+import com.knightlore.game.map.LevelMapSet;
 import com.knightlore.game.map.TileSet;
 import com.knightlore.game.server.GameServer;
 import org.apache.log4j.Logger;
@@ -31,7 +31,7 @@ public class GameRepository {
      * @param sessionOwner
      */
     public void newServer(UUID uuid, int port, String sessionOwner){
-        MapSet ms = new MapSet(new TileSet());
+        LevelMapSet ms = new LevelMapSet(new TileSet());
         Game game = new Game("1");
         game.createNewLevel(ms.getMap(0));
         this.newServer(uuid, port, sessionOwner, game);

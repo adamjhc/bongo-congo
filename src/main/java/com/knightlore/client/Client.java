@@ -147,6 +147,7 @@ public class Client extends Thread {
             audio.toggle(); // eventually change this so switches between menu and game music
 
             timer.setStartTime();
+            gameModel.myPlayer().nextLevel();
             gameState = State.SINGLEPLAYER;
           }
         } else menu.setRestoreSingleplayer();

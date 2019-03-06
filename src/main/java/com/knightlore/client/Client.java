@@ -137,10 +137,10 @@ public class Client extends Thread {
       case MAINMENU:
 
         // SINGEPLAYER BUTTON
-        if (mouseInput.getXPos() > window.getWidth() / 2 - 90
-            && mouseInput.getXPos() < window.getWidth() / 2 + 90
-            && mouseInput.getYPos() > window.getHeight() / 2 + 95
-            && mouseInput.getYPos() < window.getHeight() / 2 + 115) {
+        if (mouseInput.getXPos() > menu.getSingleplayer().getPositionX()
+            && mouseInput.getXPos() < menu.getSingleplayer().getPositionX()+menu.getSingleplayerSize()
+            && mouseInput.getYPos() > menu.getSingleplayer().getPositionY()
+            && mouseInput.getYPos() < menu.getSingleplayer().getPositionY()+menu.getSingleplayerHeight()) {
           menu.setSingleplayer();
           if (mouseInput.isLeftButtonPressed()) {
             audio.toggle();
@@ -153,10 +153,10 @@ public class Client extends Thread {
         } else menu.setRestoreSingleplayer();
 
         // MULTIPLAYER BUTTON
-        if (mouseInput.getXPos() > window.getWidth() / 2 - 84
-            && mouseInput.getXPos() < window.getWidth() / 2 + 84
-            && mouseInput.getYPos() > window.getHeight() / 2 + 117
-            && mouseInput.getYPos() < window.getHeight() / 2 + 135) {
+        if (mouseInput.getXPos() > menu.getMultiplayer().getPositionX()
+            && mouseInput.getXPos() < menu.getMultiplayer().getPositionX()+menu.getMultiplayerSize()
+            && mouseInput.getYPos() > menu.getMultiplayer().getPositionY()
+            && mouseInput.getYPos() < menu.getMultiplayer().getPositionY()+menu.getMultiplayerHeight()) {
           menu.setMultiplayer();
           if (mouseInput.isLeftButtonPressed()) {
             gameState = State.SERVERMENU;
@@ -164,10 +164,10 @@ public class Client extends Thread {
         } else menu.setRestoreMultiplayer();
 
         // OPTIONS BUTTON
-        if (mouseInput.getXPos() > window.getWidth() / 2 - 52
-            && mouseInput.getXPos() < window.getWidth() / 2 + 52
-            && mouseInput.getYPos() > window.getHeight() / 2 + 138
-            && mouseInput.getYPos() < window.getHeight() / 2 + 155) {
+        if (mouseInput.getXPos() > menu.getOptions().getPositionX()
+            && mouseInput.getXPos() < menu.getOptions().getPositionX()+menu.getOptionsSize()
+            && mouseInput.getYPos() > menu.getOptions().getPositionY()
+            && mouseInput.getYPos() < menu.getOptions().getPositionY()+menu.getOptionsHeight()) {
           menu.setOptions();
           if (mouseInput.isLeftButtonPressed()) {
             gameState = State.OPTIONSMENU;
@@ -175,10 +175,10 @@ public class Client extends Thread {
         } else menu.setRestoreOptions();
 
         // QUIT BUTTON
-        if (mouseInput.getXPos() > window.getWidth() / 2 - 30
-            && mouseInput.getXPos() < window.getWidth() / 2 + 30
-            && mouseInput.getYPos() > window.getHeight() / 2 + 160
-            && mouseInput.getYPos() < window.getHeight() / 2 + 176) {
+        if (mouseInput.getXPos() > menu.getQuit().getPositionX()
+            && mouseInput.getXPos() < menu.getQuit().getPositionX()+menu.getQuitSize()
+            && mouseInput.getYPos() > menu.getQuit().getPositionY()
+            && mouseInput.getYPos() < menu.getQuit().getPositionY()+menu.getQuitHeight()) {
           menu.setQuit();
           if (mouseInput.isLeftButtonPressed()) {
             glfwSetWindowShouldClose(window.getWindowHandle(), true);

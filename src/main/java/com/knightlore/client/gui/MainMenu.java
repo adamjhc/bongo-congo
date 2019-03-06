@@ -98,12 +98,36 @@ public class MainMenu implements IGui {
         guiObjects = new GuiObject[]{bongo, congo, singleplayer, multiplayer, quit, options, soundOn, soundOff};
     }
     
+    public TextObject getSingleplayer() {
+    	return singleplayer;
+    }
+    
+    public float getSingleplayerSize() {
+    	return singleplayer.getText().length()*singleplayer.getFontTexture().getHeight();
+    }
+    
+    public int getSingleplayerHeight() {
+    	return singleplayer.getFontTexture().getHeight();
+    }
+    
     public void setSingleplayer() {
     	this.singleplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
     }
     
     public void setRestoreSingleplayer() {
     	this.singleplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    }
+    
+    public TextObject getMultiplayer() {
+    	return multiplayer;
+    }
+    
+    public float getMultiplayerSize() {
+    	return multiplayer.getText().length()*multiplayer.getFontTexture().getHeight();
+    }
+    
+    public int getMultiplayerHeight() {
+    	return multiplayer.getFontTexture().getHeight();
     }
     
     public void setMultiplayer() {
@@ -114,12 +138,36 @@ public class MainMenu implements IGui {
     	this.multiplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
     }
     
+    public TextObject getQuit() {
+    	return quit;
+    }
+    
+    public float getQuitSize() {
+    	return quit.getText().length()*quit.getFontTexture().getHeight();
+    }
+    
+    public int getQuitHeight() {
+    	return quit.getFontTexture().getHeight();
+    }
+    
     public void setQuit() {
     	this.quit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
     }
     
     public void setRestoreQuit() {
     	this.quit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    }
+    
+    public TextObject getOptions() {
+    	return options;
+    }
+    
+    public float getOptionsSize() {
+    	return options.getText().length()*options.getFontTexture().getHeight();
+    }
+    
+    public int getOptionsHeight() {
+    	return options.getFontTexture().getHeight();
     }
     
     public void setOptions() {

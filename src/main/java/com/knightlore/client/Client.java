@@ -142,19 +142,9 @@ public class Client extends Thread {
 
             timer.setStartTime();
             hud.resetP1Lives();
-            gameState = State.PLAY;
+            gameState = State.SINGLEPLAYER;
           }
         } else menu.setRestoreSingleplayer();
-        
-        // AUDIO BUTTON
-        if (mouseInput.getXPos() > window.getWidth() - 35
-                && mouseInput.getYPos() > window.getHeight()-35) {
-        	if (mouseInput.isLeftButtonPressed()) {
-        		menu.toggleSound();
-                hud.toggleSound();
-                audio.toggle();
-            }
-        }
         
         // MULTIPLAYER BUTTON
         if (mouseInput.getXPos() > window.getWidth() / 2 - 84
@@ -190,6 +180,8 @@ public class Client extends Thread {
             }
         } else menu.setRestoreQuit();
         
+        audio();
+        
         // ESC TO EXIT
         if (window.isKeyReleased(GLFW_KEY_ESCAPE)) {
         	glfwSetWindowShouldClose(window.getWindowHandle(), true);
@@ -199,60 +191,87 @@ public class Client extends Thread {
     
     case SERVERMENU:
     	
-        // ESC TO EXIT TO MAIN MENU
-        if (window.isKeyReleased(GLFW_KEY_ESCAPE)) {
-        	gameState = State.MAINMENU;
-        }
+    	if (mouseInput.getXPos() > window.getWidth()/2 - 225
+    			&& mouseInput.getXPos() < window.getWidth()/2 + 255
+    			&& mouseInput.getYPos() > window.getHeight()/2-185
+    			&& mouseInput.getYPos() < window.getHeight()/2+200) {
+        	if (mouseInput.scrolledDown()) {
+        		serverMenu.moveDown();
+        	}
+        	if (mouseInput.scrolledUp()) {
+        		serverMenu.moveUp();
+        	}
+        	if (mouseInput.isLeftButtonPressed()) {
+        		serverMenu.highlight(window, mouseInput.getYPos());
+        	}
+    	}
+    	
+    	if (mouseInput.getXPos() > window.getWidth()/2 - 82.5f
+    			&& mouseInput.getXPos() < window.getWidth()/2 + 82.5f
+    			&& mouseInput.getYPos() > window.getHeight()/2 + 215
+    			&& mouseInput.getYPos() < window.getHeight()/2 + 230) {
+    		serverMenu.setCreate();
+    		if (mouseInput.isLeftButtonPressed()) {
+    			serverMenu.createServer(window);
+    		}
+    	} else serverMenu.setRestoreCreate();
+    	
+        if (mouseInput.getXPos() > window.getWidth()/2 - 30
+        		&& mouseInput.getXPos() < window.getWidth()/2 + 30
+        		&& mouseInput.getYPos() < window.getHeight()/2 + 270
+        		&& mouseInput.getYPos() > window.getHeight()/2 + 255) {
+        	serverMenu.setExit();
+        	if (mouseInput.isLeftButtonPressed()) {
+        		gameState = State.MAINMENU;
+        	} 
+        } else serverMenu.setRestoreExit();
+
+    	leaveMenu();
     	
     	break;
     	
     case OPTIONSMENU:
     	
-        // ESC TO EXIT TO MAIN MENU
-        if (window.isKeyReleased(GLFW_KEY_ESCAPE)) {
-        	gameState = State.MAINMENU;
-        }
+    	if (mouseInput.getXPos() > window.getWidth()/2 + 85
+    			&& mouseInput.getXPos() < window.getWidth()/2 + 115
+    			&& mouseInput.getYPos() > window.getHeight()/2 - 145
+    			&& mouseInput.getYPos() < window.getHeight()/2 - 115) {
+    		optionsMenu.setIncVol();
+    		if (mouseInput.isLeftButtonHeld()) {
+    			optionsMenu.incVolume();
+    			audio.incVolume();
+    		}
+    	} else optionsMenu.setRestoreIncVol();
+    	
+    	if (mouseInput.getXPos() > window.getWidth()/2 - 115
+    			&& mouseInput.getXPos() < window.getWidth()/2 - 85
+    			&& mouseInput.getYPos() > window.getHeight()/2 - 145
+    			&& mouseInput.getYPos() < window.getHeight()/2 - 115) {
+    		optionsMenu.setDecVol();
+    		if (mouseInput.isLeftButtonHeld()) {
+    			optionsMenu.decVolume();
+    			audio.decVolume();
+    		}
+    	} else optionsMenu.setRestoreDecVol();
+    	
+        if (mouseInput.getXPos() > window.getWidth()/2 - 30
+        		&& mouseInput.getXPos() < window.getWidth()/2 + 30
+        		&& mouseInput.getYPos() < window.getHeight()/2 + 270
+        		&& mouseInput.getYPos() > window.getHeight()/2 + 255) {
+        	optionsMenu.setExit();
+        	if (mouseInput.isLeftButtonPressed()) {
+        		gameState = State.MAINMENU;
+        	} 
+        } else optionsMenu.setRestoreExit();
+    	
+    	leaveMenu();
     	
     	break;
     	
     	
-    case PLAY:
+    case SINGLEPLAYER:
     	
-        if (window.isKeyPressed(GLFW_KEY_W) // Player presses W
-            && !window.isKeyPressed(GLFW_KEY_A)
-            && !window.isKeyPressed(GLFW_KEY_S)
-            && !window.isKeyPressed(GLFW_KEY_D)) {
-          gameModel.movePlayerInDirection(Direction.NORTH_WEST, delta);
-        } else if (window.isKeyPressed(GLFW_KEY_W) // Player presses W and D
-            && window.isKeyPressed(GLFW_KEY_D)) {
-          gameModel.movePlayerInDirection(Direction.NORTH, delta);
-        } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses D
-            && !window.isKeyPressed(GLFW_KEY_A)
-            && !window.isKeyPressed(GLFW_KEY_S)
-            && window.isKeyPressed(GLFW_KEY_D)) {
-          gameModel.movePlayerInDirection(Direction.NORTH_EAST, delta);
-        } else if (window.isKeyPressed(GLFW_KEY_S) // Player presses S and D
-            && window.isKeyPressed(GLFW_KEY_D)) {
-          gameModel.movePlayerInDirection(Direction.EAST, delta);
-        } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses S
-            && !window.isKeyPressed(GLFW_KEY_A)
-            && window.isKeyPressed(GLFW_KEY_S)
-            && !window.isKeyPressed(GLFW_KEY_D)) {
-          gameModel.movePlayerInDirection(Direction.SOUTH_EAST, delta);
-        } else if (window.isKeyPressed(GLFW_KEY_S) // Player presses S and A
-            && window.isKeyPressed(GLFW_KEY_A)) {
-          gameModel.movePlayerInDirection(Direction.SOUTH, delta);
-        } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses A
-            && window.isKeyPressed(GLFW_KEY_A)
-            && !window.isKeyPressed(GLFW_KEY_S)
-            && !window.isKeyPressed(GLFW_KEY_D)) {
-          gameModel.movePlayerInDirection(Direction.SOUTH_WEST, delta);
-        } else if (window.isKeyPressed(GLFW_KEY_W) // Player presses W and A
-            && window.isKeyPressed(GLFW_KEY_A)) {
-          gameModel.movePlayerInDirection(Direction.WEST, delta);
-        } else {
-          gameModel.updatePlayerState(PlayerState.IDLE);
-        }
+    	movement(delta);
 
         // LIVES
         if (window.isKeyReleased(GLFW_KEY_L)) {
@@ -270,78 +289,24 @@ public class Client extends Thread {
           hud.setP1Score();
         }
         
-        // ESC TO EXIT TO MAIN MENU
-        if (window.isKeyReleased(GLFW_KEY_ESCAPE)) {
-    		audio.toggle();
-    		audio.toggle();
-    		
-        	gameModel.resetPlayer();
-        	gameState = State.MAINMENU;
-        }
+        leaveGame();
 
-//        if (mouseInput.getXPos() < 65 && mouseInput.getYPos() > window.getHeight() - 25) {
-//        	hud.setExit();
-//            if (mouseInput.isLeftButtonPressed()) {
-//        		audio.toggle();
-//        		audio.toggle();
-//        		
-//            	gameModel.resetPlayer();
-//            	gameState = State.MAINMENU;
-//            }
-//        } else hud.setRestoreExit();
-
-        // AUDIO BUTTON
-        if (mouseInput.getXPos() > window.getWidth() - 35
-                && mouseInput.getYPos() > window.getHeight()-35) {
-        	if (mouseInput.isLeftButtonPressed()) {
-        		menu.toggleSound();
-                hud.toggleSound();
-                audio.toggle();
-            }
-        }
+        audio();
         
         // CONTROL TO SHOW OTHER PLAYERS SCORES
         if (window.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
         	hud.moveScore(20, 5);
-        	//hud.toggleScore(true);
         } else {
         	hud.moveScore(-10, -230);
-        	//hud.toggleScore(false);
         }
         
     	break;
     	
     case DEAD:
     	
-    	// ESC TO EXIT TO MAIN MENU
-        if (window.isKeyReleased(GLFW_KEY_ESCAPE)) {
-    		audio.toggle();
-    		audio.toggle();
-    		
-        	gameModel.resetPlayer();
-        	gameState = State.MAINMENU;
-        }
-    	
-//        if (mouseInput.getXPos() < 65 && mouseInput.getYPos() > window.getHeight() - 25) {
-//        	hud.setExit();
-//            if (mouseInput.isLeftButtonPressed()) {
-//        		audio.toggle();
-//        		audio.toggle();
-//        		
-//            	gameModel.resetPlayer();
-//            	gameState = State.MAINMENU;
-//            }
-//        } else hud.setRestoreExit();
+    	leaveGame();
 
-        // AUDIO BUTTON
-        if (mouseInput.getXPos() > window.getWidth() - 35
-                && mouseInput.getYPos() > window.getHeight()-35) {
-        	if (mouseInput.isLeftButtonPressed()) {
-        		menu.toggleSound();
-                hud.toggleSound();
-                audio.toggle();
-            }
-        }
+        audio();
 
         break;
     }
@@ -363,7 +328,7 @@ public class Client extends Thread {
 		  
 		  break;
 		  
-	  case PLAY:
+	  case SINGLEPLAYER:
 		  
 		  float gameTime = timer.getGameTime();
 
@@ -407,7 +372,7 @@ public class Client extends Thread {
     	
     	break;
         
-    case PLAY:
+    case SINGLEPLAYER:
     	
         renderer.render(gameModel, window, hud);
         
@@ -419,6 +384,71 @@ public class Client extends Thread {
         
         break;    
     }
+  }
+  
+  private void movement(float delta) {
+      if (window.isKeyPressed(GLFW_KEY_W) // Player presses W
+              && !window.isKeyPressed(GLFW_KEY_A)
+              && !window.isKeyPressed(GLFW_KEY_S)
+              && !window.isKeyPressed(GLFW_KEY_D)) {
+            gameModel.movePlayerInDirection(Direction.NORTH_WEST, delta);
+          } else if (window.isKeyPressed(GLFW_KEY_W) // Player presses W and D
+              && window.isKeyPressed(GLFW_KEY_D)) {
+            gameModel.movePlayerInDirection(Direction.NORTH, delta);
+          } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses D
+              && !window.isKeyPressed(GLFW_KEY_A)
+              && !window.isKeyPressed(GLFW_KEY_S)
+              && window.isKeyPressed(GLFW_KEY_D)) {
+            gameModel.movePlayerInDirection(Direction.NORTH_EAST, delta);
+          } else if (window.isKeyPressed(GLFW_KEY_S) // Player presses S and D
+              && window.isKeyPressed(GLFW_KEY_D)) {
+            gameModel.movePlayerInDirection(Direction.EAST, delta);
+          } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses S
+              && !window.isKeyPressed(GLFW_KEY_A)
+              && window.isKeyPressed(GLFW_KEY_S)
+              && !window.isKeyPressed(GLFW_KEY_D)) {
+            gameModel.movePlayerInDirection(Direction.SOUTH_EAST, delta);
+          } else if (window.isKeyPressed(GLFW_KEY_S) // Player presses S and A
+              && window.isKeyPressed(GLFW_KEY_A)) {
+            gameModel.movePlayerInDirection(Direction.SOUTH, delta);
+          } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses A
+              && window.isKeyPressed(GLFW_KEY_A)
+              && !window.isKeyPressed(GLFW_KEY_S)
+              && !window.isKeyPressed(GLFW_KEY_D)) {
+            gameModel.movePlayerInDirection(Direction.SOUTH_WEST, delta);
+          } else if (window.isKeyPressed(GLFW_KEY_W) // Player presses W and A
+              && window.isKeyPressed(GLFW_KEY_A)) {
+            gameModel.movePlayerInDirection(Direction.WEST, delta);
+          } else {
+            gameModel.updatePlayerState(PlayerState.IDLE);
+          }
+  }
+  
+  private void audio() {
+      if (mouseInput.getXPos() > window.getWidth() - 35
+              && mouseInput.getYPos() > window.getHeight()-35) {
+      	if (mouseInput.isLeftButtonPressed()) {
+      		menu.toggleSound();
+            hud.toggleSound();
+            audio.toggle();
+          }
+      }
+  }
+  
+  private void leaveGame() {
+      if (window.isKeyReleased(GLFW_KEY_ESCAPE)) {
+  		audio.toggle();
+  		audio.toggle();
+  		
+      	gameModel.resetPlayer();
+      	gameState = State.MAINMENU;
+      }
+  }
+  
+  private void leaveMenu() {
+      if (window.isKeyReleased(GLFW_KEY_ESCAPE)) {
+      	gameState = State.MAINMENU;
+      }
   }
 
   private void dispose() {
@@ -436,7 +466,7 @@ public class Client extends Thread {
     SERVERMENU,
     OPTIONSMENU,
     LOBBY,
-    PLAY,
+    SINGLEPLAYER,
     DEAD,
     END
   }

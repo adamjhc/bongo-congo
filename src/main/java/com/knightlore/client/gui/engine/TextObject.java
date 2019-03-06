@@ -16,6 +16,8 @@ public class TextObject extends GuiObject {
     private final FontTexture fontTexture;
     
     private String text;
+    
+    private boolean highlighted = false;
 
     public TextObject(String text, FontTexture fontTexture) {
         super();

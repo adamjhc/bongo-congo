@@ -15,21 +15,21 @@ public abstract class Entity {
 
     abstract void update();
 
-    public Vector3f getPosition() {
-        return position;
-    }
+  public int getId() {
+    return id;
+  }
+
+  public Vector3f getPosition() {
+    return position;
+  }
 
   public void setPosition(Vector3f position) {
     this.position = position;
   }
 
-    public int getId() {
-        return id;
-    }
-
-    public Direction getDirection() {
-        return direction;
-    }
+  public Direction getDirection() {
+    return direction;
+  }
 
     public void setDirection(Direction direction) {
         this.direction = direction;

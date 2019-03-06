@@ -56,6 +56,8 @@ public class Game {
 
     public void movePlayerInDirection(Direction direction, float delta) {
         Player player = getCurrentLevel().myPlayer();
+    player.setDirection(direction);
+    player.setCurrentState(PlayerState.MOVING);
 
         player.setDirection(direction);
         player.setPlayerState(PlayerState.MOVING);
@@ -78,9 +80,9 @@ public class Game {
         }
     }
 
-    public void updatePlayerState(PlayerState state) {
-        getCurrentLevel().myPlayer().setPlayerState(state);
-    }
+  public void updatePlayerState(PlayerState state) {
+    getCurrentLevel().myPlayer().setCurrentState(state);
+  }
 
     public int addPlayer(String uuid) {
         // Generate player

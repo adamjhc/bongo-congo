@@ -4,7 +4,8 @@ import com.knightlore.client.networking.GameConnection;
 import com.knightlore.game.map.Map;
 import com.knightlore.game.map.Tile;
 import com.knightlore.game.util.CoordinateUtils;
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.Random;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
@@ -16,6 +17,25 @@ public class Player extends Entity {
     private boolean fallFlag = false;
     private PlayerState playerState;
     private String associatedSession;
+  private static ArrayList<Vector3f> availableColours;
+  private static int inc = 0;
+
+  static {
+    availableColours = new ArrayList<>();
+    availableColours.add(new Vector3f(0, 0, 1));
+    availableColours.add(new Vector3f(0, 1, 0));
+    availableColours.add(new Vector3f(0, 1, 1));
+    availableColours.add(new Vector3f(1, 0, 0));
+    availableColours.add(new Vector3f(1, 0, 1));
+    availableColours.add(new Vector3f(1, 1, 0));
+    availableColours.add(new Vector3f(1, 1, 1));
+  }
+
+  private int lives;
+  private int score;
+  private String associatedSession;
+  private PlayerState currentState;
+  private Vector3f colour;
 
     /**
      * Constructor for a new Player object
@@ -24,23 +44,38 @@ public class Player extends Entity {
         id = inc;
         inc++;
 
-        direction = Direction.SOUTH;
-        position = new Vector3f(1, 1, 0);
-        playerState = PlayerState.IDLE;
+    direction = Direction.SOUTH;
+    position = new Vector3f(1, 1, 0);
+    currentState = PlayerState.IDLE;
 
-        lives = 3;
-        score = 0;
-    }
+    lives = 3;
+    score = 0;
+
+    colour = availableColours.get(new Random().nextInt(availableColours.size()));
+    availableColours.remove(colour);
+  }
 
   public Player(String sessionID) {
     this();
     this.associatedSession = sessionID;
   }
 
-    @Override
-    public Vector3f getPosition() {
-        return position;
-    }
+  public PlayerState getCurrentState() {
+    return currentState;
+  }
+
+  public void setCurrentState(PlayerState currentState) {
+    this.currentState = currentState;
+  }
+
+  public Vector3f getColour() {
+    return colour;
+  }
+
+  @Override
+  public Vector3f getPosition() {
+    return position;
+  }
 
     @Override
     void update() {}

@@ -17,7 +17,7 @@ public class Camera {
    * @param width Width of the window
    * @param height Height of the window
    */
-  public Camera(int width, int height) {
+  Camera(int width, int height) {
     position = new Vector3f(0, 0, 0);
     projection =
         new Matrix4f()
@@ -42,7 +42,7 @@ public class Camera {
    *
    * @return Projection of the camera
    */
-  public Matrix4f getProjection() {
+  Matrix4f getProjection() {
     return projection.translate(position, new Matrix4f());
   }
 }

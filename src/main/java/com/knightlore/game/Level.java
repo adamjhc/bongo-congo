@@ -1,8 +1,7 @@
 package com.knightlore.game;
 
 import com.knightlore.client.networking.GameConnection;
-import com.knightlore.client.networking.backend.Client;
-import com.knightlore.game.entity.Enemies;
+import com.knightlore.game.entity.Enemy;
 import com.knightlore.game.entity.Player;
 import com.knightlore.game.map.Map;
 import java.util.ArrayList;
@@ -13,8 +12,8 @@ public class Level {
 
     Map map;
 
-    HashMap<String, Player> players;
-    ArrayList<Enemies> enemies;
+  HashMap<String, Player> players;
+  ArrayList<Enemy> enemies;
 
     Date startedAt;
     int duration;
@@ -24,14 +23,16 @@ public class Level {
         this.players = new HashMap<>();
     }
 
-    public Level(Map map, HashMap<String, Player> players) {
-        this.map = map;
-        this.players = players;
-    }
+  public Level(Map map, HashMap<String, Player> players) {
+    this.map = map;
+    this.players = players;
 
-    public void addEnemy(Enemies enemy) {
-        this.enemies.add(enemy);
-    }
+    enemies = new ArrayList<>();
+  }
+
+  public void addEnemy(Enemy enemy) {
+    this.enemies.add(enemy);
+  }
 
     public Map getMap() {
         return map;
@@ -45,9 +46,9 @@ public class Level {
         return players;
     }
 
-    public ArrayList<Enemies> getEnemies() {
-        return enemies;
-    }
+  public ArrayList<Enemy> getEnemies() {
+    return enemies;
+  }
 
     public Player myPlayer(){
         if(GameConnection.instance == null){

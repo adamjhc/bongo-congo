@@ -291,7 +291,7 @@ public class Client extends Thread {
         break;
 
       case DEAD:
-    	gameModel.updatePlayerState(PlayerState.IDLE);
+    	//gameModel.updatePlayerState(PlayerState.IDLE);
     	
         if (window.isKeyReleased(GLFW_KEY_J)) {
           gameState = State.SINGLEPLAYER;

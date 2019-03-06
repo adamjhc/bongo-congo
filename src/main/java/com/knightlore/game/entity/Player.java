@@ -65,6 +65,14 @@ public class Player extends Entity {
   public Vector3f getColour() {
     return colour;
   }
+  
+  public int getLives() {
+	  return lives;
+  }
+  
+  public int getScore() {
+	  return score;
+  }
 
   @Override
   public Vector3f getPosition() {

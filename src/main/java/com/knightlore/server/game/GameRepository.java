@@ -3,15 +3,12 @@ package com.knightlore.server.game;
 import com.knightlore.game.Game;
 import com.knightlore.game.Level;
 import com.knightlore.game.map.LevelMapSet;
-import com.knightlore.game.map.MapSet;
 import com.knightlore.game.map.TileSet;
 import com.knightlore.game.server.GameServer;
+import com.knightlore.server.database.model.Model;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
-import java.util.Random;
+import java.util.*;
 
 public class GameRepository {
 
@@ -37,7 +34,7 @@ public class GameRepository {
         LevelMapSet ms = new LevelMapSet(new TileSet());
         Game game = new Game("1");
 
-
+        game.createNewLevel(ms.getMap(0));
         // Default to provided levels
         if(levels.size() > 0){
             for(com.knightlore.game.Level currentLevel : levels){
@@ -45,14 +42,14 @@ public class GameRepository {
             }
         }else{
             // No levels provided, fallback on first from database
-            Optional<Model> optLevel = Level.instance.first();
+            Optional<Model> optLevel = com.knightlore.server.database.model.Level.instance.first();
 
             if(!optLevel.isPresent()){
                 // No db found, fallback on server generated
                 logger.warn("No levels could be found! Defaulting");
                 game.createNewLevel(ms.getMap(0));
             }else{
-                Level level = (Level) optLevel.get();
+                com.knightlore.server.database.model.Level level = (com.knightlore.server.database.model.Level) optLevel.get();
                 game.addLevel(level.getModelLevel());
             }
         }

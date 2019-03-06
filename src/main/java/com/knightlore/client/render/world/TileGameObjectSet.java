@@ -10,10 +10,7 @@ public class TileGameObjectSet {
 
   public TileGameObjectSet() {
     tileSet = new ArrayList<>();
-    tileSet.add(new TileGameObject());
-    tileSet.add(new TileGameObject(true, "floor", 4, 2));
-    tileSet.add(new TileGameObject(false, "slab"));
-    tileSet.add(new TileGameObject(false, "block"));
+    load();
   }
 
   public List<TileGameObject> fromGameModel(Tile[][][] tiles) {
@@ -21,7 +18,7 @@ public class TileGameObjectSet {
     for (Tile[][] layer : tiles) {
       for (Tile[] columns : layer) {
         for (Tile tile : columns) {
-          TileGameObject tileGameObject = new TileGameObject(tileSet.get(tile.getId()));
+          TileGameObject tileGameObject = new TileGameObject(tileSet.get(tile.getIndex()));
           tileGameObject.setPosition(tile.getPosition());
           tileGameObjects.add(tileGameObject);
         }
@@ -29,5 +26,15 @@ public class TileGameObjectSet {
     }
 
     return tileGameObjects;
+  }
+
+  /** Loads the tile game objects into the tile set. Corresponds to the Game.TileSet class */
+  private void load() {
+    tileSet.add(new TileGameObject());
+    tileSet.add(new TileGameObject(true, "floor", 4, 2));
+    tileSet.add(new TileGameObject(false, "slab"));
+    tileSet.add(new TileGameObject(false, "block"));
+    tileSet.add(new TileGameObject(true, "hazard"));
+    tileSet.add(new TileGameObject(true, "goal"));
   }
 }

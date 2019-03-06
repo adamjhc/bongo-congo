@@ -10,18 +10,18 @@ import java.util.HashMap;
 
 public class Level {
 
-  Map map;
+    Map map;
 
   HashMap<String, Player> players;
   ArrayList<Enemy> enemies;
 
-  Date startedAt;
-  int duration;
+    Date startedAt;
+    int duration;
 
-  public Level() {
-    this.enemies = new ArrayList<>();
-    this.players = new HashMap<>();
-  }
+    public Level() {
+        this.enemies = new ArrayList<>();
+        this.players = new HashMap<>();
+    }
 
   public Level(Map map, HashMap<String, Player> players) {
     this.map = map;
@@ -34,26 +34,26 @@ public class Level {
     this.enemies.add(enemy);
   }
 
-  public Map getMap() {
-    return map;
-  }
+    public Map getMap() {
+        return map;
+    }
 
-  public void setMap(Map map) {
-    this.map = map;
-  }
+    public void setMap(Map map) {
+        this.map = map;
+    }
 
-  public HashMap<String, Player> getPlayers() {
-    return players;
-  }
+    public HashMap<String, Player> getPlayers() {
+        return players;
+    }
 
   public ArrayList<Enemy> getEnemies() {
     return enemies;
   }
 
-  public Player myPlayer(){
-    if(GameConnection.instance == null){
-      return this.players.get("1");
+    public Player myPlayer(){
+        if(GameConnection.instance == null){
+            return this.players.get("1");
+        }
+        return this.players.get(GameConnection.instance.sessionKey);
     }
-    return this.players.get(GameConnection.instance.sessionKey);
-  }
 }

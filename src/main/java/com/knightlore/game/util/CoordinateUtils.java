@@ -28,7 +28,7 @@ public class CoordinateUtils {
         && position.z <= map.z;
   }
 
-  public static Vector3i getTileCoord(Vector3f coord) {
-    return new Vector3i(((int) Math.floor(coord.x)), ((int) Math.floor(coord.y)), ((int) coord.z));
-  }
+    public static Vector3i getTileCoord(Vector3f coord) {
+        return new Vector3i(((int) Math.floor(coord.x)), ((int) Math.floor(coord.y)), ((int) coord.z));
+    }
 }

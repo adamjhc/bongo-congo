@@ -14,7 +14,6 @@ public class PositionUpdate implements GenericHandler {
 
     // Set state
     com.knightlore.client.Client.model
-        .getCurrentLevel()
         .getPlayers()
         .get(location.sessionId)
         .setPosition(location.coordinates);

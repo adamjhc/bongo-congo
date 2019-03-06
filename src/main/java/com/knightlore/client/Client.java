@@ -281,22 +281,6 @@ public class Client extends Thread {
 
     	movement(delta);
 
-        // LIVES
-//        if (window.isKeyReleased(GLFW_KEY_L)) {
-//          hud.setP1Lives();
-//          gameModel.resetPlayer();
-//
-//          if (hud.isP1Dead()) {
-//            gameModel.updatePlayerState(PlayerState.IDLE);
-//            gameState = State.DEAD;
-//          }
-//        }
-
-        // SCORE
-//        if (window.isKeyReleased(GLFW_KEY_P)) {
-//          hud.setP1Score();
-//        }
-
         leaveGame();
 
         audio();
@@ -347,14 +331,16 @@ public class Client extends Thread {
 		  String text = String.format("%02d", timeLeft);
 
 		  hud.setCounter(text);
-		  
-		  Vector3f colour = gameModel.getCurrentLevel().myPlayer().getColour();
-		  hud.setP1ScoreColour(colour);
-		  
 		  gameModel.update(delta);
 		  
 		  int lives = gameModel.getCurrentLevel().myPlayer().getLives();
 		  hud.setP1Lives(lives);
+		  
+		  int score = gameModel.getCurrentLevel().myPlayer().getScore();
+		  hud.setP1Score(score);
+		  
+		  Vector3f colour = gameModel.getCurrentLevel().myPlayer().getColour();
+		  hud.setP1ScoreColour(colour);
 
 		  break;
 

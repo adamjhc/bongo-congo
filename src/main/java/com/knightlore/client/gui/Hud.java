@@ -238,30 +238,9 @@ public class Hud implements IGui {
     		this.player1Lives.setText(livesText);
     	}
     	this.player1Lives.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
-    	
-//    	String text = player1Lives.getText();
-//    	if (text.length() > 0 && text != "Dead") {
-//    		if (text.length() == 1) {
-//    			this.player1Lives.setText("Dead");
-//    		} else {
-//    			text = text.substring(0, text.length()-1);
-//    			this.player1Lives.setText(text);
-//    		}
-//    		this.player1Lives.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
-//    	}
     }
     
-    public boolean isP1Dead() {
-    	if (player1Lives.getText() == "Dead") {
-    		return true;
-    	}
-    	else return false;
-    }
-    
-    public void setP1Score() {
-    	int score = Integer.parseInt(player1Score.getText().substring(3, player1Score.getText().length()));
-    	int increment = ThreadLocalRandom.current().nextInt(100, 10000 + 1);
-    	score += increment;
+    public void setP1Score(int score) {
     	if (score > MAX_SCORE) {
     		score = MAX_SCORE;
     	}

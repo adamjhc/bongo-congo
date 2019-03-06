@@ -17,8 +17,8 @@ public class Player extends Entity {
     private boolean fallFlag = false;
     private PlayerState playerState;
     private String associatedSession;
-  private static ArrayList<Vector3f> availableColours;
-  private static int inc = 0;
+    private static ArrayList<Vector3f> availableColours;
+    private Vector3f colour;
 
   static {
     availableColours = new ArrayList<>();
@@ -31,12 +31,6 @@ public class Player extends Entity {
     availableColours.add(new Vector3f(1, 1, 1));
   }
 
-  private int lives;
-  private int score;
-  private String associatedSession;
-  private PlayerState currentState;
-  private Vector3f colour;
-
     /**
      * Constructor for a new Player object
      */
@@ -46,7 +40,7 @@ public class Player extends Entity {
 
     direction = Direction.SOUTH;
     position = new Vector3f(1, 1, 0);
-    currentState = PlayerState.IDLE;
+    playerState = PlayerState.IDLE;
 
     lives = 3;
     score = 0;
@@ -61,11 +55,11 @@ public class Player extends Entity {
   }
 
   public PlayerState getCurrentState() {
-    return currentState;
+    return playerState;
   }
 
   public void setCurrentState(PlayerState currentState) {
-    this.currentState = currentState;
+    this.playerState = currentState;
   }
 
   public Vector3f getColour() {

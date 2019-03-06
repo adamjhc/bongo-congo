@@ -10,10 +10,7 @@ public class TileGameObjectSet {
 
   public TileGameObjectSet() {
     tileSet = new ArrayList<>();
-    tileSet.add(new TileGameObject());
-    tileSet.add(new TileGameObject(true, "floor", 4, 2));
-    tileSet.add(new TileGameObject(false, "slab"));
-    tileSet.add(new TileGameObject(false, "block"));
+    load();
   }
 
   public List<TileGameObject> fromGameModel(Tile[][][] tiles) {

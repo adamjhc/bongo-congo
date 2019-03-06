@@ -332,9 +332,6 @@ public class Client extends Thread {
 		Vector3f colour = gameModel.myPlayer().getColour();
 		hud.setP1ScoreColour(colour);
 
-        hud.setCounter(text);
-        gameModel.update(delta);
-
         break;
 
       case DEAD:

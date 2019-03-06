@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import com.knightlore.client.Client;
 import com.knightlore.client.networking.backend.responsehandlers.GenericHandler;
 import com.knightlore.game.Game;
-import com.knightlore.game.map.MapSet;
-import com.knightlore.game.map.TileSet;
 import com.knightlore.networking.Sendable;
 
 public class GameRegister implements GenericHandler {

@@ -4,12 +4,12 @@ import com.knightlore.game.util.CoordinateUtils;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
-public class Map {
+public class LevelMap {
   private Tile[][][] tiles;
 
   private Vector3i size;
 
-  public Map(int[][][] tiles, TileSet tileSet) {
+  public LevelMap(int[][][] tiles, TileSet tileSet) {
     this.tiles = new Tile[tiles.length][tiles[0].length][tiles[0][0].length];
 
     for (int z = 0; z < tiles.length; z++) {

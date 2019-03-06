@@ -1,7 +1,7 @@
 package com.knightlore.leveleditor;
 
 import com.knightlore.game.Level;
-import com.knightlore.game.map.Map;
+import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.TileSet;
 
 public class LevelEditor {
@@ -26,7 +26,7 @@ public class LevelEditor {
 		this.state = state;
 	}
 	
-	private Map initialiseMap(int width, int length, int height) {
+	private LevelMap initialiseMap(int width, int length, int height) {
 		int[][][] emptyMap = new int[width][length][height];
 		for (int i = 0; i < emptyMap.length; i++) {
 			for (int j = 0; j < emptyMap[i].length; j++) {
@@ -39,7 +39,7 @@ public class LevelEditor {
 				}
 			}
 		}
-		return (new Map(emptyMap, (new TileSet())));
+		return (new LevelMap(emptyMap, (new TileSet())));
 	}
 
 }

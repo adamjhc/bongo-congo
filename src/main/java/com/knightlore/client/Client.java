@@ -8,10 +8,10 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_UP;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_DOWN;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_1;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_3;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_9;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_7;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_8;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_2;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
@@ -496,19 +496,19 @@ public class Client extends Thread {
   }
   
   private void levelEditorInput() {
-	  if (window.isKeyReleased(GLFW_KEY_UP)) {
+	  if (window.isKeyReleased(GLFW_KEY_KP_9)) {
 		  if (currentTileX != editorMap.getTiles()[currentTileZ][currentTileY].length - 1) {
 			  currentTileX += 1;
 		  }
-	  } else if (window.isKeyReleased(GLFW_KEY_DOWN)) {
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_1)) {
 		  if (currentTileX != 0) {
 			  currentTileX -= 1;
 		  }
-	  } else if (window.isKeyReleased(GLFW_KEY_LEFT)) {
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_7)) {
 		  if (currentTileY != editorMap.getTiles()[currentTileZ].length - 1) {
 			  currentTileY += 1;
 		  }
-	  } else if (window.isKeyReleased(GLFW_KEY_RIGHT)) {
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_3)) {
 		  if (currentTileY != 0) {
 			  currentTileY -= 1;
 		  }
@@ -587,6 +587,7 @@ public class Client extends Thread {
     MAINMENU,
     SERVERMENU,
     LEVEL_EDITOR,
+    TESTING_LEVEL,
     OPTIONSMENU,
     LOBBY,
     SINGLEPLAYER,

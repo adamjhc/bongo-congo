@@ -32,7 +32,7 @@ public class GameRepository {
      */
     public void newServer(UUID uuid, int port, String sessionOwner, ArrayList<Level> levels){
         LevelMapSet ms = new LevelMapSet(new TileSet());
-        Game game = new Game("1");
+        Game game = new Game(uuid.toString());
 
         game.createNewLevel(ms.getMap(0));
         // Default to provided levels

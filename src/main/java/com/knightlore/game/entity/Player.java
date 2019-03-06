@@ -56,10 +56,6 @@ public class Player extends Entity {
     this.associatedSession = sessionID;
   }
 
-  public int getScore() {
-    return score;
-  }
-
   public void addToScore(int amount) {
     score += amount;
   }
@@ -74,6 +70,14 @@ public class Player extends Entity {
 
   public Vector3f getColour() {
     return colour;
+  }
+  
+  public int getLives() {
+	  return lives;
+  }
+  
+  public int getScore() {
+	  return score;
   }
 
   @Override
@@ -193,6 +197,7 @@ public class Player extends Entity {
     lives -= 1;
     if (lives <= 0) {
       lives = 0;
+      playerState = PlayerState.DEAD;
       System.out.println("Lost all lives");
     }
     setPosition(START_POSITION);

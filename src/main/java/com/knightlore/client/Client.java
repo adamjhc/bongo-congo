@@ -151,10 +151,7 @@ public class Client extends Thread {
         } else menu.getSingleplayer().getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
 
         // MULTIPLAYER BUTTON
-        if (mouseInput.getXPos() > menu.getMultiplayer().getPositionX()
-            && mouseInput.getXPos() < menu.getMultiplayer().getPositionX()+menu.getMultiplayer().getSize()
-            && mouseInput.getYPos() > menu.getMultiplayer().getPositionY()
-            && mouseInput.getYPos() < menu.getMultiplayer().getPositionY()+menu.getMultiplayer().getHeight()) {
+        if (checkPosition("Multiplayer")) {
           menu.getMultiplayer().getMesh().getMaterial().setColour();
           if (mouseInput.isLeftButtonPressed()) {
             gameState = State.SERVERMENU;
@@ -162,10 +159,7 @@ public class Client extends Thread {
         } else menu.getMultiplayer().getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
 
         // OPTIONS BUTTON
-        if (mouseInput.getXPos() > menu.getOptions().getPositionX()
-            && mouseInput.getXPos() < menu.getOptions().getPositionX()+menu.getOptions().getSize()
-            && mouseInput.getYPos() > menu.getOptions().getPositionY()
-            && mouseInput.getYPos() < menu.getOptions().getPositionY()+menu.getOptions().getHeight()) {
+        if (checkPosition("Options")) {
           menu.getOptions().getMesh().getMaterial().setColour();
           if (mouseInput.isLeftButtonPressed()) {
             gameState = State.OPTIONSMENU;
@@ -173,10 +167,7 @@ public class Client extends Thread {
         } else menu.getOptions().getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
 
         // QUIT BUTTON
-        if (mouseInput.getXPos() > menu.getQuit().getPositionX()
-            && mouseInput.getXPos() < menu.getQuit().getPositionX()+menu.getQuit().getSize()
-            && mouseInput.getYPos() > menu.getQuit().getPositionY()
-            && mouseInput.getYPos() < menu.getQuit().getPositionY()+menu.getQuit().getHeight()) {
+        if (checkPosition("Quit")) {
           menu.getQuit().getMesh().getMaterial().setColour();
           if (mouseInput.isLeftButtonPressed()) {
             glfwSetWindowShouldClose(window.getWindowHandle(), true);
@@ -434,9 +425,9 @@ public class Client extends Thread {
 	  if (objectIndex == -1) return false;
 	  
 	  if (mouseInput.getXPos() > menu.getTextObjects()[objectIndex].getPositionX()
-      && mouseInput.getXPos() < menu.getTextObjects()[objectIndex].getPositionX()+menu.getSingleplayer().getSize()
+      && mouseInput.getXPos() < menu.getTextObjects()[objectIndex].getPositionX()+menu.getTextObjects()[objectIndex].getSize()
       && mouseInput.getYPos() > menu.getTextObjects()[objectIndex].getPositionY()
-      && mouseInput.getYPos() < menu.getTextObjects()[objectIndex].getPositionY()+menu.getSingleplayer().getHeight()) {
+      && mouseInput.getYPos() < menu.getTextObjects()[objectIndex].getPositionY()+menu.getTextObjects()[objectIndex].getHeight()) {
 		return true;  
 	  } return false;  
   }

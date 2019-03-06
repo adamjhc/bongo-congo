@@ -62,6 +62,10 @@ public class Game {
       currentLevelIndex = 0;
     }
   }
+  
+  public void overwriteCurrentLevel(LevelMap levelMap) {
+	  levels.set(0, new Level(levelMap));
+  }
 
   public void nextLevel() {
     if (currentLevelIndex == noOfLevels - 1) {
@@ -93,5 +97,13 @@ public class Game {
 
   public void addPlayer(String uuid) {
     players.put(uuid, new Player(uuid));
+  }
+  
+  public void addPlayer(String uuid, int id) {
+	  players.put(uuid, new Player(uuid, id));
+  }
+  
+  public void removePlayer(String uuid) {
+	  players.remove(uuid, players.get(uuid));
   }
 }

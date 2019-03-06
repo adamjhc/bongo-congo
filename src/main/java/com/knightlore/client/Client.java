@@ -25,6 +25,7 @@ import com.knightlore.client.audio.AudioHandler;
 import com.knightlore.client.gui.Hud;
 import com.knightlore.client.gui.MainMenu;
 import com.knightlore.client.gui.OptionsMenu;
+import com.knightlore.client.gui.PreLevelEditor;
 import com.knightlore.client.gui.ServerMenu;
 import com.knightlore.client.gui.engine.MouseInput;
 import com.knightlore.client.gui.engine.Timer;
@@ -71,6 +72,8 @@ public class Client extends Thread {
 
   private OptionsMenu optionsMenu;
   
+  private PreLevelEditor preLevelEditor;
+  
   private Vector3f cameraPosition;
   
   private LevelMap editorMap;
@@ -108,6 +111,7 @@ public class Client extends Thread {
     menu = new MainMenu(window);
     serverMenu = new ServerMenu(window);
     optionsMenu = new OptionsMenu(window);
+    preLevelEditor = new PreLevelEditor(window);
 
     menuRenderer = new GuiRenderer(window);
     gameRenderer = new GameRenderer(window);
@@ -198,8 +202,7 @@ public class Client extends Thread {
     		&& mouseInput.getYPos() < window.getHeight() / 2 + 155) {
     			menu.setLevelEditor();
     			if (mouseInput.isLeftButtonPressed()) {
-    				editorMap = initialiseMap(10, 10, 3);
-    				gameState = State.LEVEL_EDITOR;
+    				gameState = State.PRE_EDITOR;
     			}
     	} else menu.setRestoreLevelEditor();
 
@@ -273,6 +276,81 @@ public class Client extends Thread {
         leaveMenu();
 
         break;
+        
+      case PRE_EDITOR:
+    	  if (mouseInput.getXPos() > window.getWidth()/2 - 52
+    		  && mouseInput.getXPos() < window.getWidth()/2 - 37
+    		  && mouseInput.getYPos() > window.getHeight()/2 - 90
+    		  && mouseInput.getYPos() < window.getHeight()/2 - 75) {
+    		  preLevelEditor.setWLeft();
+    		  if (mouseInput.isLeftButtonPressed()) {
+    			  preLevelEditor.decWidth();
+    		  }
+    	  } else preLevelEditor.setRestoreWLeft();
+    	  
+    	  if (mouseInput.getXPos() > window.getWidth()/2 + 22
+    		  && mouseInput.getXPos() < window.getWidth()/2 + 37
+    		  && mouseInput.getYPos() > window.getHeight()/2 - 90
+    		  && mouseInput.getYPos() < window.getHeight()/2 - 75) {
+    		  preLevelEditor.setWRight();
+    		  if (mouseInput.isLeftButtonPressed()) {
+    			  preLevelEditor.incWidth();
+    		  }
+    	  } else preLevelEditor.setRestoreWRight();
+    	  
+    	  if (mouseInput.getXPos() > window.getWidth()/2 - 52
+        		  && mouseInput.getXPos() < window.getWidth()/2 - 37
+        		  && mouseInput.getYPos() > window.getHeight()/2 + 20
+        		  && mouseInput.getYPos() < window.getHeight()/2 + 35) {
+        		  preLevelEditor.setLLeft();
+        		  if (mouseInput.isLeftButtonPressed()) {
+        			  preLevelEditor.decLength();
+        		  }
+        	  } else preLevelEditor.setRestoreLLeft();
+        	  
+          if (mouseInput.getXPos() > window.getWidth()/2 + 22
+        	  && mouseInput.getXPos() < window.getWidth()/2 + 37
+        	  && mouseInput.getYPos() > window.getHeight()/2 + 20
+        	  && mouseInput.getYPos() < window.getHeight()/2 + 35) {
+        	  preLevelEditor.setLRight();
+        	  if (mouseInput.isLeftButtonPressed()) {
+        		  preLevelEditor.incLength();
+        	  }
+          } else preLevelEditor.setRestoreLRight();
+        	  
+          if (mouseInput.getXPos() > window.getWidth()/2 - 52
+        	  && mouseInput.getXPos() < window.getWidth()/2 - 37
+        	  && mouseInput.getYPos() > window.getHeight()/2 + 130
+        	  && mouseInput.getYPos() < window.getHeight()/2 + 145) {
+              preLevelEditor.setHLeft();
+              if (mouseInput.isLeftButtonPressed()) {
+            	  preLevelEditor.decHeight();
+              }
+          } else preLevelEditor.setRestoreHLeft();
+            	  
+          if (mouseInput.getXPos() > window.getWidth()/2 + 22
+              && mouseInput.getXPos() < window.getWidth()/2 + 37
+              && mouseInput.getYPos() > window.getHeight()/2 + 130
+              && mouseInput.getYPos() < window.getHeight()/2 + 145) {
+              preLevelEditor.setHRight();
+              if (mouseInput.isLeftButtonPressed()) {
+            	  preLevelEditor.incHeight();
+              }
+          } else preLevelEditor.setRestoreHRight();
+          
+          if (mouseInput.getXPos() > window.getWidth()/2 - 175
+        	  && mouseInput.getXPos() < window.getWidth()/2 + 150
+        	  && mouseInput.getYPos() > window.getHeight()/2 + 210
+        	  && mouseInput.getYPos() < window.getHeight()/2 + 240) {
+        	  preLevelEditor.setCreateLevel();
+        	  if (mouseInput.isLeftButtonPressed()) {
+        		  LevelMapSet mapSet = new LevelMapSet(new TileSet());
+        		  editorMap = initialiseMap(preLevelEditor.getWidth(), preLevelEditor.getLength(), preLevelEditor.getHeight());
+        		  gameState = State.LEVEL_EDITOR;
+        	  }
+          } else preLevelEditor.setRestoreCreateLevel();
+    	
+    	break;
 
       case OPTIONSMENU:
         if (mouseInput.getXPos() > window.getWidth() / 2 + 85
@@ -354,7 +432,9 @@ public class Client extends Thread {
     	leaveGame();
     	audio();
     	break;
+    	
     }
+    
   }
 
   private void update(float delta) {
@@ -408,7 +488,10 @@ public class Client extends Thread {
 		  leaveGame();
 		  break;
 		  
+	  case PRE_EDITOR:
+		  break;
 	  }
+    
   }
 
   private void render(Game gameModel) {
@@ -422,6 +505,10 @@ public class Client extends Thread {
 
     	menuRenderer.render(serverMenu);
 
+    	break;
+    	
+    case PRE_EDITOR:
+    	menuRenderer.render(preLevelEditor);
     	break;
 
     case LEVEL_EDITOR:
@@ -534,9 +621,15 @@ public class Client extends Thread {
 			  editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(TileType.values()[id + 1]);
 		  }
 	  } else if (window.isKeyReleased(GLFW_KEY_ENTER)) {
-      	  gameModel.createNewLevel(editorMap);
-          gameModel.addPlayer("1");
-          gameState = State.TESTING_LEVEL;
+		  	  try {
+		  		gameModel.overwriteCurrentLevel(editorMap);
+		  	  } catch (Exception e) {
+		  		gameModel.createNewLevel(editorMap);
+		  	  } finally {
+		  		gameModel.addPlayer("1", 0);
+		  		gameState = State.TESTING_LEVEL;
+		  	  }
+
 	  }
   }
 
@@ -558,6 +651,7 @@ public class Client extends Thread {
       if (gameState == State.SINGLEPLAYER || gameState == State.LEVEL_EDITOR) {
     	  gameState = State.MAINMENU;
       } else if (gameState == State.TESTING_LEVEL) {
+    	  gameModel.removePlayer("1");
     	  gameState = State.LEVEL_EDITOR;
       }
     }
@@ -598,6 +692,7 @@ public class Client extends Thread {
   private enum State {
     MAINMENU,
     SERVERMENU,
+    PRE_EDITOR,
     LEVEL_EDITOR,
     TESTING_LEVEL,
     OPTIONSMENU,

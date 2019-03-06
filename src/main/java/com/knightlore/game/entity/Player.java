@@ -55,6 +55,22 @@ public class Player extends Entity {
     this();
     this.associatedSession = sessionID;
   }
+  
+  public Player(String sessionID, int i) {
+	  id = i;
+
+	    speed = 7;
+	    direction = Direction.SOUTH;
+	    position = new Vector3f(1, 1, 0);
+	    playerState = PlayerState.IDLE;
+
+	    lives = 3;
+	    score = 0;
+
+	    colour = availableColours.get(new Random().nextInt(availableColours.size()));
+	    availableColours.remove(colour);
+	    this.associatedSession = sessionID;
+  }
 
   public int getScore() {
     return score;

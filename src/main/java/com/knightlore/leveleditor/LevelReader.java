@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import com.knightlore.game.map.Map;
+import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.TileSet;
 
 public class LevelReader {
@@ -23,7 +23,7 @@ public class LevelReader {
 		this.tileset = new TileSet();
 	}
 	
-	public Map getLevel() throws IncorrectMapFormatException {
+	public LevelMap getLevel() throws IncorrectMapFormatException {
 		String mapString = "";
 		try {
 			mapString = this.readLevel();
@@ -57,7 +57,7 @@ public class LevelReader {
 			}
 			map[i] = rows;
 		}
-		return new Map(map, this.tileset);
+		return new LevelMap(map, this.tileset);
 	}
 	
 	private String readLevel() throws IOException {

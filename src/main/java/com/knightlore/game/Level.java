@@ -26,10 +26,6 @@ public class Level {
 
     enemies = new ArrayList<>();
   }
-  
-  public Level (Map map) {
-	  this.levelMap = map;
-  }
 
   public void addEnemy(Enemy enemy) {
     this.enemies.add(enemy);

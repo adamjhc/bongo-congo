@@ -90,7 +90,7 @@ public class MainMenu implements IGui {
         
         this.singleplayer.setPosition(window.getWidth()/2 - 90, window.getHeight()/2+100, 0);
         this.multiplayer.setPosition(window.getWidth()/2 - 82, window.getHeight()/2+120, 0);
-        this.levelEditor.setPosition(window.getWidth()/2 - 82.5f, window.getHeight()/2+140, 0);
+        this.levelEditor.setPosition(window.getWidth()/2 - 86, window.getHeight()/2+140, 0);
         
         this.options.setPosition(window.getWidth()/2-50, window.getHeight()/2+160, 0);
         

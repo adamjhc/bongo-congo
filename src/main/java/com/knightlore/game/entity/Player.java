@@ -197,6 +197,7 @@ public class Player extends Entity {
     lives -= 1;
     if (lives <= 0) {
       lives = 0;
+      playerState = PlayerState.DEAD;
       System.out.println("Lost all lives");
     }
     setPosition(START_POSITION);

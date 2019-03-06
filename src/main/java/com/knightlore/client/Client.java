@@ -291,6 +291,13 @@ public class Client extends Thread {
         break;
 
       case DEAD:
+    	gameModel.updatePlayerState(PlayerState.IDLE);
+    	
+        if (window.isKeyReleased(GLFW_KEY_J)) {
+          gameState = State.SINGLEPLAYER;
+          gameModel.nextLevel();
+        }
+        
         leaveGame();
 
         audio();
@@ -331,6 +338,10 @@ public class Client extends Thread {
 		  
 		Vector3f colour = gameModel.myPlayer().getColour();
 		hud.setP1ScoreColour(colour);
+		
+		if (gameModel.myPlayer().getPlayerState() == PlayerState.DEAD) {
+			gameState = State.DEAD;
+		}
 
         break;
 

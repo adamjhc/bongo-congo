@@ -20,6 +20,7 @@ import com.knightlore.client.gui.engine.MouseInput;
 import com.knightlore.client.gui.engine.Timer;
 import com.knightlore.client.gui.engine.Window;
 import com.knightlore.client.render.GameRenderer;
+import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.game.Game;
 import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.PlayerState;
@@ -37,6 +38,8 @@ public class Client extends Thread {
   private Window window;
   
   private GameRenderer gameRenderer;
+
+  private GuiRenderer menuRenderer;
   
   private Game gameModel;
   
@@ -86,6 +89,7 @@ public class Client extends Thread {
     serverMenu = new ServerMenu(window);
     optionsMenu = new OptionsMenu(window);
 
+    menuRenderer = new GuiRenderer(window);
     gameRenderer = new GameRenderer(window);
 
     if (model == null) {
@@ -356,31 +360,31 @@ public class Client extends Thread {
     
     case MAINMENU:
     	
-        gameRenderer.render(window, menu);
+        menuRenderer.render(menu);
         
         break;
         
     case SERVERMENU:
     	
-    	gameRenderer.render(window, serverMenu);
+    	menuRenderer.render(serverMenu);
     	
     	break;
     	
     case OPTIONSMENU:
     	
-    	gameRenderer.render(window, optionsMenu);
+    	menuRenderer.render(optionsMenu);
     	
     	break;
         
     case SINGLEPLAYER:
     	
-        gameRenderer.render(gameModel, window, hud);
+        gameRenderer.render(gameModel, hud);
         
         break;
         
     case DEAD:
     	
-        gameRenderer.render(gameModel, window, hud);
+        gameRenderer.render(gameModel, hud);
         
         break;    
     }

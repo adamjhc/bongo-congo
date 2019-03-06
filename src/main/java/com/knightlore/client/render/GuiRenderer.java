@@ -8,12 +8,12 @@ import com.knightlore.client.gui.engine.graphics.Transformation;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import org.joml.Matrix4f;
 
-public class MenuRenderer extends Renderer {
+public class GuiRenderer extends Renderer {
 
   private ShaderProgram shaderProgram;
   private Transformation transformation;
 
-  MenuRenderer(Window window) {
+  public GuiRenderer(Window window) {
     super(window);
 
     shaderProgram = new ShaderProgram("hud");
@@ -23,6 +23,12 @@ public class MenuRenderer extends Renderer {
   public void render(IGui gui) {
     clearBuffers();
 
+    renderGui(gui);
+
+    swapBuffers();
+  }
+
+  public void renderGui(IGui gui) {
     shaderProgram.bind();
 
     Matrix4f ortho =
@@ -40,8 +46,6 @@ public class MenuRenderer extends Renderer {
         mesh.render();
       }
     }
-
-    swapBuffers();
   }
 
   @Override

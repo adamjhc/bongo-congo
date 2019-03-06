@@ -1,10 +1,7 @@
 package com.knightlore.client.render;
 
-import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.Window;
-import com.knightlore.client.gui.engine.graphics.Mesh;
-import com.knightlore.client.gui.engine.graphics.Transformation;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.world.EnemyGameObject;
 import com.knightlore.client.render.world.EnemyGameObjectSet;
@@ -17,13 +14,12 @@ import com.knightlore.game.entity.Enemy;
 import com.knightlore.game.entity.Player;
 import java.util.ArrayList;
 import java.util.Collection;
-import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
 public class GameRenderer extends Renderer {
 
-  private Transformation transformation;
+  private GuiRenderer hudRenderer;
 
   /** World object used in renderer */
   private World world;
@@ -35,8 +31,6 @@ public class GameRenderer extends Renderer {
   private ShaderProgram worldShaderProgram;
 
   private ShaderProgram playerShaderProgram;
-
-  private ShaderProgram hudShaderProgram;
 
   private ArrayList<TileGameObject> tileGameObjects;
   private ArrayList<PlayerGameObject> playerGameObjects;
@@ -70,8 +64,7 @@ public class GameRenderer extends Renderer {
   }
 
   private void setupHud() {
-    transformation = new Transformation();
-    hudShaderProgram = new ShaderProgram("hud");
+    hudRenderer = new GuiRenderer(window);
   }
 
   /**
@@ -79,19 +72,11 @@ public class GameRenderer extends Renderer {
    *
    * @param gameModel Game model to render
    */
-  public void render(Game gameModel, Window window, IGui gui) {
+  public void render(Game gameModel, IGui hud) {
     clearBuffers();
 
     renderGame(gameModel);
-    renderGui(window, gui);
-
-    swapBuffers();
-  }
-
-  public void render(Window window, IGui gui) {
-    clearBuffers();
-
-    renderGui(window, gui);
+    hudRenderer.renderGui(hud);
 
     swapBuffers();
   }
@@ -199,29 +184,8 @@ public class GameRenderer extends Renderer {
     return (int) z * (mapSize.x + mapSize.y);
   }
 
-  private void renderGui(Window window, IGui gui) {
-    hudShaderProgram.bind();
-
-    Matrix4f ortho =
-        transformation.getOrthoProjectionMatrix(0, window.getWidth(), window.getHeight(), 0);
-    for (GuiObject guiObject : gui.getGuiObjects()) {
-      if (guiObject.getRender()) {
-        Mesh mesh = guiObject.getMesh();
-
-        Matrix4f projModelMatrix = transformation.getOrtoProjModelMatrix(guiObject, ortho);
-        hudShaderProgram.setUniform("projModelMatrix", projModelMatrix);
-        hudShaderProgram.setUniform("colour", guiObject.getMesh().getMaterial().getColour());
-        hudShaderProgram.setUniform(
-            "hasTexture", guiObject.getMesh().getMaterial().isTextured() ? 1 : 0);
-
-        mesh.render();
-      }
-    }
-  }
-
   @Override
   public void cleanup() {
-    hudShaderProgram.cleanup();
     playerShaderProgram.cleanup();
     worldShaderProgram.cleanup();
     tileGameObjects.forEach(TileGameObject::cleanup);

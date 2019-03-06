@@ -3,77 +3,28 @@ package com.knightlore.game.map;
 import org.joml.Vector3f;
 
 public class Tile {
+    private TileType type;
+    private Vector3f position;
 
-  private static int inc = 0;
-  private int id;
+    public Tile(TileType type){
+        this.type = type;
+    }
 
-  private boolean walkable;
-  private boolean climbable;
-  private boolean hazard;
-  private boolean goal;
+    public Tile(Tile copy) {
+        type = copy.type;
+        position = copy.position;
+    }
 
-  private Vector3f position;
+    public TileType getType() { return type; }
 
-  public Tile(boolean walkable, boolean climbable, boolean hazard, boolean goal) {
-    id = inc;
-    inc++;
+    public void setType(TileType type) { this.type = type; }
 
-    this.walkable = walkable;
-    this.climbable = climbable;
-    this.hazard = hazard;
-    this.goal = goal;
-  }
+    public Vector3f getPosition() { return position; }
 
-  public Tile(Tile copy) {
-    id = copy.id;
-    walkable = copy.walkable;
-    climbable = copy.climbable;
-    hazard = copy.hazard;
-    goal = copy.goal;
-    position = copy.position;
-  }
+    public void setPosition(Vector3f position) {this.position = position; }
 
-  public int getId() {
-    return id;
-  }
+    public int getIndex() {
+        return type.ordinal();
+    }
 
-  public boolean isWalkable() {
-    return walkable;
-  }
-
-  public void setWalkable(boolean walkable) {
-    this.walkable = walkable;
-  }
-
-  public boolean isClimbable() {
-    return climbable;
-  }
-
-  public void setClimbable(boolean climbable) {
-    this.climbable = climbable;
-  }
-
-  public boolean isHazard() {
-    return hazard;
-  }
-
-  public void setHazard(boolean hazard) {
-    this.hazard = hazard;
-  }
-
-  public boolean isGoal() {
-    return goal;
-  }
-
-  public void setGoal(boolean goal) {
-    this.goal = goal;
-  }
-
-  public Vector3f getPosition() {
-    return position;
-  }
-
-  public void setPosition(Vector3f position) {
-    this.position = position;
-  }
 }

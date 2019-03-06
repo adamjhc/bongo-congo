@@ -1,15 +1,17 @@
 package com.knightlore.server.game;
 
-import com.google.gson.Gson;
 import com.knightlore.game.Game;
+import com.knightlore.game.Level;
+import com.knightlore.game.map.LevelMapSet;
 import com.knightlore.game.map.MapSet;
 import com.knightlore.game.map.TileSet;
 import com.knightlore.game.server.GameServer;
-import com.knightlore.server.database.model.Level;
-import com.knightlore.server.database.model.Model;
 import org.apache.log4j.Logger;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
+import java.util.Random;
 
 public class GameRepository {
 
@@ -31,8 +33,8 @@ public class GameRepository {
      * @param port
      * @param sessionOwner
      */
-    public void newServer(UUID uuid, int port, String sessionOwner, ArrayList<com.knightlore.game.Level> levels){
-        MapSet ms = new MapSet(new TileSet());
+    public void newServer(UUID uuid, int port, String sessionOwner, ArrayList<Level> levels){
+        LevelMapSet ms = new LevelMapSet(new TileSet());
         Game game = new Game("1");
 
 

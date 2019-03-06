@@ -7,24 +7,10 @@ import com.knightlore.game.entity.PlayerState;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Random;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 public class PlayerGameObject extends EntityGameObject {
-
-  private static ArrayList<Vector3f> availableColours;
-
-  static {
-    availableColours = new ArrayList<>();
-    availableColours.add(new Vector3f(0, 0, 1));
-    availableColours.add(new Vector3f(0, 1, 0));
-    availableColours.add(new Vector3f(0, 1, 1));
-    availableColours.add(new Vector3f(1, 0, 0));
-    availableColours.add(new Vector3f(1, 0, 1));
-    availableColours.add(new Vector3f(1, 1, 0));
-    availableColours.add(new Vector3f(1, 1, 1));
-  }
 
   private PlayerState currentState;
   private Vector3f colour;
@@ -36,9 +22,6 @@ public class PlayerGameObject extends EntityGameObject {
    */
   private PlayerGameObject(String textureFileName) {
     super(textureFileName);
-
-    colour = availableColours.get(new Random().nextInt(availableColours.size()));
-    availableColours.remove(colour);
   }
 
   public static List<PlayerGameObject> fromGameModel(Collection<Player> players) {
@@ -48,6 +31,7 @@ public class PlayerGameObject extends EntityGameObject {
         player -> {
           PlayerGameObject playerGameObject = new PlayerGameObject("player");
           playerGameObject.setPosition(player.getPosition());
+          playerGameObject.setColour(player.getColour());
           playerGameObjects.add(playerGameObject);
         });
 
@@ -57,7 +41,7 @@ public class PlayerGameObject extends EntityGameObject {
   @Override
   public void update(Entity entity) {
     super.update(entity);
-    currentState = ((Player) entity).getCurrentState();
+    currentState = ((Player) entity).getPlayerState();
   }
 
   /**
@@ -87,5 +71,9 @@ public class PlayerGameObject extends EntityGameObject {
     }
 
     model.render();
+  }
+
+  private void setColour(Vector3f colour) {
+    this.colour = colour;
   }
 }

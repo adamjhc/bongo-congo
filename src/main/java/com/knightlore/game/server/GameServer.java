@@ -3,8 +3,6 @@ package com.knightlore.game.server;
 import com.google.gson.Gson;
 import com.knightlore.game.Game;
 import com.knightlore.game.GameState;
-import com.knightlore.game.map.MapSet;
-import com.knightlore.game.map.TileSet;
 import com.knightlore.networking.GameStart;
 import com.knightlore.networking.Sendable;
 

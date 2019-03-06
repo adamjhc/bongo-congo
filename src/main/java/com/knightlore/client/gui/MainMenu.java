@@ -101,15 +101,7 @@ public class MainMenu implements IGui {
     public TextObject getSingleplayer() {
     	return singleplayer;
     }
-    
-    public float getSingleplayerSize() {
-    	return singleplayer.getText().length()*singleplayer.getFontTexture().getHeight();
-    }
-    
-    public int getSingleplayerHeight() {
-    	return singleplayer.getFontTexture().getHeight();
-    }
-    
+
     public void setSingleplayer() {
     	this.singleplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
     }
@@ -120,14 +112,6 @@ public class MainMenu implements IGui {
     
     public TextObject getMultiplayer() {
     	return multiplayer;
-    }
-    
-    public float getMultiplayerSize() {
-    	return multiplayer.getText().length()*multiplayer.getFontTexture().getHeight();
-    }
-    
-    public int getMultiplayerHeight() {
-    	return multiplayer.getFontTexture().getHeight();
     }
     
     public void setMultiplayer() {
@@ -142,14 +126,6 @@ public class MainMenu implements IGui {
     	return quit;
     }
     
-    public float getQuitSize() {
-    	return quit.getText().length()*quit.getFontTexture().getHeight();
-    }
-    
-    public int getQuitHeight() {
-    	return quit.getFontTexture().getHeight();
-    }
-    
     public void setQuit() {
     	this.quit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
     }
@@ -160,14 +136,6 @@ public class MainMenu implements IGui {
     
     public TextObject getOptions() {
     	return options;
-    }
-    
-    public float getOptionsSize() {
-    	return options.getText().length()*options.getFontTexture().getHeight();
-    }
-    
-    public int getOptionsHeight() {
-    	return options.getFontTexture().getHeight();
     }
     
     public void setOptions() {

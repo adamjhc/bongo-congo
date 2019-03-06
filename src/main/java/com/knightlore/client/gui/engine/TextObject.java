@@ -96,8 +96,12 @@ public class TextObject extends GuiObject {
         this.getMesh().deleteBuffers();
         this.setMesh(buildMesh());
     }
+
+    public float getSize() {
+    	return text.length()*fontTexture.getHeight();
+    }
     
-    public FontTexture getFontTexture() {
-    	return fontTexture;
+    public int getHeight() {
+    	return fontTexture.getHeight();
     }
 }

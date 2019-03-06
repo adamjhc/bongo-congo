@@ -64,13 +64,15 @@ public class Player extends Entity {
             if (newTile.getIndex() == 0) { // Checks if tile is an air tile
 
                 if (fallFlag) {
-                    newPos.z -= 1;
-                    setPosition(newPos);
-                    System.out.println("Fall"); //debug statement
-                    loseLife();                    //TODO: needs some sort of pause/animation here too
-                 } else {
+                  while (!(newTile.getIndex() == 0)) {
+                      newTile.getPosition().z -= 1;
+                  }
+                  setPosition(newPos);
+                  System.out.println("Fall"); // debug statement
+                  loseLife();
+                } else {
                     Tile below = map.getTile(new Vector3i(coords.x,coords.y,coords.z-1));
-                    if (!(newTile.getIndex() == 0 || newTile.getIndex() == 1)) { // Check if the tile you are falling onto is walkable
+                    if (!(below.getIndex() == 0 || below.getIndex() == 1)) { // Check if the tile you are falling onto is walkable
                         setPosition(oldPos);
                     } else {
                         fallFlag = true;

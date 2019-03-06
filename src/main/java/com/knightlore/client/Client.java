@@ -281,12 +281,12 @@ public class Client extends Thread {
 
         audio();
 
-        // CONTROL TO SHOW OTHER PLAYERS SCORES
-        if (window.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
-          hud.moveScore(20, 5);
-        } else {
-          hud.moveScore(-10, -230);
-        }
+//        // CONTROL TO SHOW OTHER PLAYERS SCORES
+//        if (window.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
+//          hud.moveScore(20, 5);
+//        } else {
+//          hud.moveScore(-10, -230);
+//        }
 
         break;
 

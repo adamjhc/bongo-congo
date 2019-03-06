@@ -8,6 +8,13 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_UP;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_DOWN;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_8;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_2;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 
@@ -25,8 +32,11 @@ import com.knightlore.client.render.LevelEditorRenderer;
 import com.knightlore.game.Game;
 import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.PlayerState;
+import com.knightlore.game.map.Map;
 import com.knightlore.game.map.MapSet;
 import com.knightlore.game.map.TileSet;
+import com.knightlore.game.map.TileType;
+
 import org.joml.Vector3f;
 
 public class Client extends Thread {
@@ -60,6 +70,12 @@ public class Client extends Thread {
   private ServerMenu serverMenu;
 
   private OptionsMenu optionsMenu;
+  
+  private Vector3f cameraPosition;
+  
+  private Map editorMap;
+  
+  private int currentTileX, currentTileY, currentTileZ;
 
   public static void main(String[] args) {
     new Client().run();
@@ -108,6 +124,10 @@ public class Client extends Thread {
     }
 
     audio.toggle();
+    cameraPosition = new Vector3f(0, 0, 0);
+    currentTileX = 0;
+    currentTileY = 0;
+    currentTileZ = 0;
   }
 
   private void loop() {
@@ -174,7 +194,8 @@ public class Client extends Thread {
     		&& mouseInput.getYPos() < window.getHeight() / 2 + 155) {
     			menu.setLevelEditor();
     			if (mouseInput.isLeftButtonPressed()) {
-    				gameState = State.LEVELEDITOR;
+    				editorMap = initialiseMap(10, 10, 3);
+    				gameState = State.LEVEL_EDITOR;
     			}
     	} else menu.setRestoreLevelEditor();
 
@@ -330,8 +351,11 @@ public class Client extends Thread {
 
         break;
         
-    case LEVELEDITOR:
+    case LEVEL_EDITOR:
     	
+    	cameraControl();
+    	levelEditorInput();
+    	break;
     }
   }
 
@@ -371,6 +395,12 @@ public class Client extends Thread {
 		  gameModel.update(delta);
 
 		  break;
+	  
+	  case LEVEL_EDITOR:
+		  
+		  gameModel.update(delta);;
+		  break;
+		  
 	  }
   }
 
@@ -390,8 +420,7 @@ public class Client extends Thread {
     	break;
 
     case LEVEL_EDITOR:
-      levelEditorRenderer.render(new MapSet(new TileSet()).getMap(0), new Vector3f(0, 0, 0));
-
+      levelEditorRenderer.render(editorMap, cameraPosition);
       break;
 
     case OPTIONSMENU:
@@ -451,6 +480,55 @@ public class Client extends Thread {
             gameModel.updatePlayerState(PlayerState.IDLE);
           }
   }
+  
+  private void cameraControl() {
+	  if (mouseInput.getXPos() <= 5) {
+		  cameraPosition.add(-0.1f,0.1f, 0);
+	  } else if (mouseInput.getXPos() >= window.getWidth() - 5) {
+		  cameraPosition.add(0.1f, -0.1f, 0);
+	  }
+	  
+	  if (mouseInput.getYPos() <= 5) {
+		  cameraPosition.add(0.1f, 0.1f, 0);
+	  } else if (mouseInput.getYPos() >= window.getHeight() - 5) {
+		  cameraPosition.add(-0.1f, -0.1f, 0);
+	  }
+  }
+  
+  private void levelEditorInput() {
+	  if (window.isKeyReleased(GLFW_KEY_UP)) {
+		  if (currentTileX != editorMap.getTiles()[currentTileZ][currentTileY].length - 1) {
+			  currentTileX += 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_DOWN)) {
+		  if (currentTileX != 0) {
+			  currentTileX -= 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_LEFT)) {
+		  if (currentTileY != editorMap.getTiles()[currentTileZ].length - 1) {
+			  currentTileY += 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_RIGHT)) {
+		  if (currentTileY != 0) {
+			  currentTileY -= 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_8)) {
+		  if (currentTileZ != editorMap.getTiles().length - 1) {
+			  currentTileZ += 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_2)) {
+		  if (currentTileZ != 0) {
+			  currentTileZ -= 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_SPACE)) {
+		  int id = editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].getType().ordinal();
+		  if (id == 5) {
+			  editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(TileType.values()[0]);
+		  } else {
+			  editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(TileType.values()[id + 1]);
+		  }
+	  }
+  }
 
   private void audio() {
       if (mouseInput.getXPos() > window.getWidth() - 35
@@ -488,6 +566,22 @@ public class Client extends Thread {
 
     glfwTerminate();
   }
+  
+  private Map initialiseMap(int width, int length, int height) {
+		int[][][] emptyMap = new int[height][length][width];
+		for (int i = 0; i < emptyMap.length; i++) {
+			for (int j = 0; j < emptyMap[i].length; j++) {
+				for (int k = 0; k < emptyMap[i][j].length; k++) {
+					if (i == 0) {
+						emptyMap[i][j][k] = 1;
+					} else {
+						emptyMap[i][j][k] = 0;
+					}
+				}
+			}
+		}
+		return (new Map(emptyMap, (new TileSet())));
+  }
 
   private enum State {
     MAINMENU,
@@ -498,6 +592,5 @@ public class Client extends Thread {
     SINGLEPLAYER,
     DEAD,
     END,
-    LEVELEDITOR
   }
 }

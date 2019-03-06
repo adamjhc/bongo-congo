@@ -37,6 +37,9 @@ public class GameRenderer extends Renderer {
   private List<PlayerGameObject> playerGameObjects;
   private List<EnemyGameObject> enemyGameObjects;
 
+  /** Game Model Reference **/
+  Game gameModel;
+
   private float viewX;
   private float viewY;
 
@@ -47,8 +50,10 @@ public class GameRenderer extends Renderer {
    *
    * @param window Reference to the GLFW window class
    */
-  public GameRenderer(Window window) {
+  public GameRenderer(Window window, Game model) {
     super(window);
+
+    this.gameModel = model;
 
     setupWorld();
     setupHud();
@@ -75,28 +80,21 @@ public class GameRenderer extends Renderer {
    *
    * @param gameModel Game model to render
    */
-  public void render(Game gameModel, IGui hud) {
+  public void render(IGui hud) {
     clearBuffers();
 
-    renderGame(gameModel);
+    renderGame();
     hudRenderer.renderGui(hud);
 
     swapBuffers();
   }
 
-  private void renderGame(Game gameModel) {
+  private void renderGame() {
     Collection<Player> players = gameModel.getPlayers().values();
     Collection<Enemy> enemies = gameModel.getCurrentLevel().getEnemies();
 
     if (playerGameObjects.isEmpty()) {
       playerGameObjects = PlayerGameObject.fromGameModel(players);
-    }
-
-    if (!gameModel.getCurrentLevelIndex().equals(currentLevelIndex)) {
-      tileGameObjects =
-          TileGameObjectSet.fromGameModel(gameModel.getCurrentLevel().getLevelMap().getTiles());
-      enemyGameObjects = EnemyGameObjectSet.fromGameModel(enemies);
-      currentLevelIndex = gameModel.getCurrentLevelIndex();
     }
 
     players.forEach(player -> playerGameObjects.get(player.getId()).update(player));
@@ -195,5 +193,12 @@ public class GameRenderer extends Renderer {
     worldShaderProgram.cleanup();
     tileGameObjects.forEach(TileGameObject::cleanup);
     playerGameObjects.forEach(PlayerGameObject::cleanup);
+  }
+
+  public void levelUpdated(){
+    tileGameObjects =
+            TileGameObjectSet.fromGameModel(gameModel.getCurrentLevel().getLevelMap().getTiles());
+    enemyGameObjects =
+            EnemyGameObjectSet.fromGameModel(gameModel.getCurrentLevel().getEnemies());
   }
 }

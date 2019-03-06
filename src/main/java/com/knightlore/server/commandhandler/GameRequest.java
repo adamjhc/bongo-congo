@@ -48,7 +48,7 @@ public class GameRequest extends Command{
             UUID uuid = UUID.randomUUID();
 
             // Convert to level objects
-            ArrayList<com.knightlore.game.Level> levels = new ArrayList<>();
+            HashMap<UUID, com.knightlore.game.Level> levels = new HashMap<>();
 
             for(UUID levelID :  data.getLevels()){
                 // Retrieve level from database
@@ -58,7 +58,7 @@ public class GameRequest extends Command{
 
                 if(level.isPresent()){
                     Level levelCast = (Level) level.get();
-                    levels.add(levelCast.getModelLevel());
+                    levels.put(levelID, levelCast.getModelLevel());
                 }else{
                     logger.warn("User sent incorrect level id: " + levelID.toString());
                 }

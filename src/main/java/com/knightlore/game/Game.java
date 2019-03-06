@@ -8,6 +8,8 @@ import com.knightlore.game.map.LevelMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+
 import org.joml.Vector3f;
 
 public class Game {
@@ -15,18 +17,17 @@ public class Game {
   private final int noOfLevels = 3;
 
   private String uuid;
-  private ArrayList<Level> levels;
+  private HashMap<UUID, Level> levels;
   private Map<String, Player> players;
-  private Integer currentLevelIndex;
+  private UUID currentLevelUUID;
   private GameState currentState;
+  private ArrayList<UUID> levelOrder;
 
   public Game(String uuid) {
     this.uuid = uuid;
-    levels = new ArrayList<>();
     currentState = GameState.LOBBY;
-    levels = new ArrayList<>();
+    levels = new HashMap<>();
     players = new HashMap<>();
-    currentLevelIndex = 0;
   }
 
   public GameState getState() {
@@ -38,11 +39,7 @@ public class Game {
   }
 
   public Level getCurrentLevel() {
-    return levels.get(currentLevelIndex);
-  }
-
-  public Integer getCurrentLevelIndex() {
-    return currentLevelIndex;
+    return levels.get(currentLevelUUID);
   }
 
   public Map<String, Player> getPlayers() {
@@ -56,26 +53,31 @@ public class Game {
     return this.players.get(GameConnection.instance.sessionKey);
   }
 
-  public void createNewLevel(LevelMap levelMap) {
-    levels.add(new Level(levelMap));
+  public void createNewLevel(UUID uuid, LevelMap levelMap) {
+    levels.put(uuid, new Level(levelMap));
 
-    if (currentLevelIndex == null) {
-      currentLevelIndex = 0;
+    if (currentLevelUUID == null) {
+      currentLevelUUID = uuid;
     }
   }
 
-  public void addLevel(Level level){
-    this.levels.add(level);
+  public void createNewLevel(LevelMap levelMap){
+    createNewLevel(UUID.randomUUID(), levelMap);
   }
 
+  public void addLevel(UUID uuid, Level level){
+    this.levels.put(uuid, level);
+  }
+
+  @Deprecated
   public void nextLevel() {
-    if (currentLevelIndex == noOfLevels - 1) {
-      currentState = GameState.SCORE;
-      return;
-    }
-
-    players.forEach((playerUUID, player) -> player.nextLevel());
-    currentLevelIndex++;
+//    if (currentLevelIndex == noOfLevels - 1) {
+//      currentState = GameState.SCORE;
+//      return;
+//    }
+//
+//    players.forEach((playerUUID, player) -> player.nextLevel());
+//    currentLevelIndex++;
   }
 
   public void update(float delta) {}

@@ -91,7 +91,6 @@ public class Client extends Thread {
     optionsMenu = new OptionsMenu(window);
 
     menuRenderer = new GuiRenderer(window);
-    gameRenderer = new GameRenderer(window);
     levelEditorRenderer = new LevelEditorRenderer(window);
 
     if (model == null) {
@@ -104,6 +103,10 @@ public class Client extends Thread {
     } else {
       gameModel = model;
     }
+
+
+    gameRenderer = new GameRenderer(window, gameModel);
+    gameRenderer.levelUpdated();
 
     audio.toggle();
   }
@@ -375,12 +378,12 @@ public class Client extends Thread {
         break;
 
       case SINGLEPLAYER:
-        gameRenderer.render(gameModel, hud);
+        gameRenderer.render(hud);
 
         break;
 
       case DEAD:
-        gameRenderer.render(gameModel, hud);
+        gameRenderer.render(hud);
 
         break;
     }

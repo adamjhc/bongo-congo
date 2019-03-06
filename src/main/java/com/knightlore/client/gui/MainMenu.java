@@ -16,7 +16,7 @@ import com.knightlore.client.gui.engine.graphics.FontTexture;
 
 public class MainMenu implements IGui {
 	
-	private static final Font FONT = new Font("Press Start 2P", Font.PLAIN, 15);
+	private static final Font FONT_SMALL = new Font("Press Start 2P", Font.PLAIN, 15);
 	
     private static final Font FONT_MEDIUM = new Font("Press Start 2P", Font.PLAIN, 30);
     
@@ -49,35 +49,34 @@ public class MainMenu implements IGui {
     	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
     	ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, myStream));
     	
-    	FontTexture fontTexture = new FontTexture(FONT, CHARSET);
-        FontTexture fontTextureLarge = new FontTexture(FONT_LARGE, CHARSET);
-        FontTexture fontTextureMedium = new FontTexture(FONT_MEDIUM, CHARSET);
-    	FontTexture fontTextureTitle = new FontTexture(FONT_TITLE, CHARSET);
+    	FontTexture fontSmall = new FontTexture(FONT_SMALL, CHARSET);
+        FontTexture fontMedium = new FontTexture(FONT_MEDIUM, CHARSET);
+        FontTexture fontLarge = new FontTexture(FONT_LARGE, CHARSET);
+    	FontTexture fontTitle = new FontTexture(FONT_TITLE, CHARSET);
     	
-    	this.bongo = new TextObject("Bongo", fontTextureTitle);
+    	this.bongo = new TextObject("Bongo", fontTitle);
         this.bongo.getMesh().getMaterial().setColour(new Vector4f(0.29f, 0.92f, 0.95f, 1));
         
-        this.congo = new TextObject("Congo", fontTextureTitle);
+        this.congo = new TextObject("Congo", fontTitle);
         this.congo.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         
-        this.singleplayer = new TextObject("Singleplayer", fontTexture);
+        this.singleplayer = new TextObject("Singleplayer", fontSmall);
         this.singleplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
-        this.multiplayer = new TextObject("Multiplayer", fontTexture);
+        this.multiplayer = new TextObject("Multiplayer", fontSmall);
         this.multiplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
-        this.soundOn = new TextObject("(", fontTextureLarge);
+        this.soundOn = new TextObject("(", fontLarge);
         this.soundOn.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
         
-        this.soundOff = new TextObject("/", fontTextureMedium);
+        this.soundOff = new TextObject("/", fontMedium);
         this.soundOff.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         
-        this.quit = new TextObject("Quit", fontTexture);
+        this.quit = new TextObject("Quit", fontSmall);
         this.quit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
-        this.options = new TextObject("Options", fontTexture);
+        this.options = new TextObject("Options", fontSmall);
         this.options.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
-        
         
         
         this.bongo.setPosition(window.getWidth()/2-360, window.getHeight()/2-300, 0);
@@ -102,48 +101,16 @@ public class MainMenu implements IGui {
     	return singleplayer;
     }
 
-    public void setSingleplayer() {
-    	this.singleplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
-    }
-    
-    public void setRestoreSingleplayer() {
-    	this.singleplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
-    }
-    
     public TextObject getMultiplayer() {
     	return multiplayer;
-    }
-    
-    public void setMultiplayer() {
-    	this.multiplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
-    }
-    
-    public void setRestoreMultiplayer() {
-    	this.multiplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
     }
     
     public TextObject getQuit() {
     	return quit;
     }
     
-    public void setQuit() {
-    	this.quit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
-    }
-    
-    public void setRestoreQuit() {
-    	this.quit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
-    }
-    
     public TextObject getOptions() {
     	return options;
-    }
-    
-    public void setOptions() {
-    	this.options.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
-    }
-    
-    public void setRestoreOptions() {
-    	this.options.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
     }
     
     public void toggleSound() {

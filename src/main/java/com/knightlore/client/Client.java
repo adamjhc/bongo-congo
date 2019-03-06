@@ -28,6 +28,7 @@ import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.LevelMapSet;
 import com.knightlore.game.map.TileSet;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 public class Client extends Thread {
 
@@ -141,49 +142,49 @@ public class Client extends Thread {
             && mouseInput.getXPos() < menu.getSingleplayer().getPositionX()+menu.getSingleplayer().getSize()
             && mouseInput.getYPos() > menu.getSingleplayer().getPositionY()
             && mouseInput.getYPos() < menu.getSingleplayer().getPositionY()+menu.getSingleplayer().getHeight()) {
-          menu.setSingleplayer();
+          menu.getSingleplayer().getMesh().getMaterial().setColour();;
           if (mouseInput.isLeftButtonPressed()) {
             audio.toggle();
-            audio.toggle(); // eventually change this so switches between menu and game music
+            audio.toggle();
 
             timer.setStartTime();
             gameModel.myPlayer().nextLevel();
             gameState = State.SINGLEPLAYER;
           }
-        } else menu.setRestoreSingleplayer();
+        } else menu.getSingleplayer().getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
 
         // MULTIPLAYER BUTTON
         if (mouseInput.getXPos() > menu.getMultiplayer().getPositionX()
             && mouseInput.getXPos() < menu.getMultiplayer().getPositionX()+menu.getMultiplayer().getSize()
             && mouseInput.getYPos() > menu.getMultiplayer().getPositionY()
             && mouseInput.getYPos() < menu.getMultiplayer().getPositionY()+menu.getMultiplayer().getHeight()) {
-          menu.setMultiplayer();
+          menu.getMultiplayer().getMesh().getMaterial().getColour();
           if (mouseInput.isLeftButtonPressed()) {
             gameState = State.SERVERMENU;
           }
-        } else menu.setRestoreMultiplayer();
+        } else menu.getMultiplayer().getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
 
         // OPTIONS BUTTON
         if (mouseInput.getXPos() > menu.getOptions().getPositionX()
             && mouseInput.getXPos() < menu.getOptions().getPositionX()+menu.getOptions().getSize()
             && mouseInput.getYPos() > menu.getOptions().getPositionY()
             && mouseInput.getYPos() < menu.getOptions().getPositionY()+menu.getOptions().getHeight()) {
-          menu.setOptions();
+        	menu.getOptions().getMesh().getMaterial().getColour();
           if (mouseInput.isLeftButtonPressed()) {
             gameState = State.OPTIONSMENU;
           }
-        } else menu.setRestoreOptions();
+        } else menu.getOptions().getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
 
         // QUIT BUTTON
         if (mouseInput.getXPos() > menu.getQuit().getPositionX()
             && mouseInput.getXPos() < menu.getQuit().getPositionX()+menu.getQuit().getSize()
             && mouseInput.getYPos() > menu.getQuit().getPositionY()
             && mouseInput.getYPos() < menu.getQuit().getPositionY()+menu.getQuit().getHeight()) {
-          menu.setQuit();
+        	menu.getQuit().getMesh().getMaterial().getColour();
           if (mouseInput.isLeftButtonPressed()) {
             glfwSetWindowShouldClose(window.getWindowHandle(), true);
           }
-        } else menu.setRestoreQuit();
+        } else menu.getQuit().getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
 
         audio();
 

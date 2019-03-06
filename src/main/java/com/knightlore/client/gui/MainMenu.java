@@ -28,6 +28,8 @@ public class MainMenu implements IGui {
 	
     private GuiObject[] guiObjects;
     
+    private TextObject[] textObjects;
+    
     private final TextObject singleplayer;
     
     private final TextObject multiplayer;
@@ -95,6 +97,7 @@ public class MainMenu implements IGui {
         this.soundOff.setRender();
         
         guiObjects = new GuiObject[]{bongo, congo, singleplayer, multiplayer, quit, options, soundOn, soundOff};
+        textObjects = new TextObject[]{singleplayer, multiplayer, options, quit};
     }
     
     public TextObject getSingleplayer() {
@@ -115,6 +118,10 @@ public class MainMenu implements IGui {
     
     public void toggleSound() {
     	this.soundOff.setRender();
+    }
+    
+    public TextObject[] getTextObjects() {
+    	return textObjects;
     }
     
     @Override

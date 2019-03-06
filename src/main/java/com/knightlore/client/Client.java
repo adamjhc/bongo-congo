@@ -138,10 +138,7 @@ public class Client extends Thread {
       case MAINMENU:
 
         // SINGEPLAYER BUTTON
-        if (mouseInput.getXPos() > menu.getSingleplayer().getPositionX()
-            && mouseInput.getXPos() < menu.getSingleplayer().getPositionX()+menu.getSingleplayer().getSize()
-            && mouseInput.getYPos() > menu.getSingleplayer().getPositionY()
-            && mouseInput.getYPos() < menu.getSingleplayer().getPositionY()+menu.getSingleplayer().getHeight()) {
+        if (checkPosition("Singleplayer")) {
           menu.getSingleplayer().getMesh().getMaterial().setColour();;
           if (mouseInput.isLeftButtonPressed()) {
             audio.toggle();
@@ -424,6 +421,24 @@ public class Client extends Thread {
     } else {
       gameModel.updatePlayerState(PlayerState.IDLE);
     }
+  }
+  
+  private boolean checkPosition(String textObject) {
+	  int objectIndex = -1;
+	  for (int i = 0; i < menu.getTextObjects().length; i++) {
+		  if (menu.getTextObjects()[i].getText() == textObject) {
+			  objectIndex = i;
+		  }
+	  }
+	  
+	  if (objectIndex == -1) return false;
+	  
+	  if (mouseInput.getXPos() > menu.getTextObjects()[objectIndex].getPositionX()
+      && mouseInput.getXPos() < menu.getTextObjects()[objectIndex].getPositionX()+menu.getSingleplayer().getSize()
+      && mouseInput.getYPos() > menu.getTextObjects()[objectIndex].getPositionY()
+      && mouseInput.getYPos() < menu.getTextObjects()[objectIndex].getPositionY()+menu.getSingleplayer().getHeight()) {
+		return true;  
+	  } return false;  
   }
 
   private void audio() {

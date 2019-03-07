@@ -88,7 +88,6 @@ public class ServerMenu implements IGui {
         
         this.bongo.setPosition(window.getWidth()/2-360, window.getHeight()/2-300, 0);
         this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-300, 0);
-        
         this.multiplayer.setPosition(window.getWidth()/2-120, window.getHeight()/2-200, 0);
         this.separatorTop.setPosition(window.getWidth()/2-225, window.getHeight()/2-185, 0);
         this.separatorBot.setPosition(window.getWidth()/2-225, window.getHeight()/2+200, 0);
@@ -114,7 +113,7 @@ public class ServerMenu implements IGui {
         guiObjects = new GuiObject[]{bongo, congo, multiplayer, separatorTop, separatorBot, join, create, exit};
         length = guiObjects.length;
         
-        textObjects = new TextObject[]{join, create, exit};
+        textObjects = new TextObject[]{join, create, exit, separatorTop, separatorBot};
         
         addServers();
     }

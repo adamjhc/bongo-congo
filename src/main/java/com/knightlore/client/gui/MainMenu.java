@@ -83,21 +83,17 @@ public class MainMenu implements IGui {
         
         this.bongo.setPosition(window.getWidth()/2-360, window.getHeight()/2-300, 0);
         this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-300, 0);
-        
         this.singleplayer.setPosition(window.getWidth()/2 - 90, window.getHeight()/2+100, 0);
         this.multiplayer.setPosition(window.getWidth()/2 - 82, window.getHeight()/2+120, 0);
-        
         this.options.setPosition(window.getWidth()/2-50, window.getHeight()/2+140, 0);
-        
         this.soundOn.setPosition(window.getWidth()-40, window.getHeight()-40, 0);
         this.soundOff.setPosition(window.getWidth()-30, window.getHeight()-30, 0);
-        
         this.quit.setPosition(window.getWidth()/2-30, window.getHeight()/2+160, 0);
         
         this.soundOff.setRender();
         
         guiObjects = new GuiObject[]{bongo, congo, singleplayer, multiplayer, quit, options, soundOn, soundOff};
-        textObjects = new TextObject[]{singleplayer, multiplayer, options, quit};
+        textObjects = new TextObject[]{singleplayer, multiplayer, options, quit, soundOn};
     }
     
     public TextObject getSingleplayer() {
@@ -108,6 +104,14 @@ public class MainMenu implements IGui {
     	return multiplayer;
     }
     
+    public TextObject getSound() {
+    	return soundOn;
+    }
+    
+    public TextObject getSoundMute() {
+    	return soundOff;
+    }
+    
     public TextObject getQuit() {
     	return quit;
     }
@@ -115,11 +119,7 @@ public class MainMenu implements IGui {
     public TextObject getOptions() {
     	return options;
     }
-    
-    public void toggleSound() {
-    	this.soundOff.setRender();
-    }
-    
+
     @Override
     public TextObject[] getTextObjects() {
     	return textObjects;

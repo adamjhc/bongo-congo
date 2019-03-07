@@ -144,7 +144,7 @@ public class Client extends Thread {
       case MAINMENU:
 
         // SINGEPLAYER BUTTON
-        if (checkPosition(0, "Singleplayer")) {
+        if (checkPosition(0, "Singleplayer", "")) {
           menu.getSingleplayer().setColour();
           if (mouseInput.isLeftButtonPressed()) {
             audio.toggle();
@@ -157,7 +157,7 @@ public class Client extends Thread {
         } else menu.getSingleplayer().setColour(new Vector4f(1, 1, 0, 1));
 
         // MULTIPLAYER BUTTON
-        if (checkPosition(0, "Multiplayer")) {
+        if (checkPosition(0, "Multiplayer", "")) {
           menu.getMultiplayer().setColour();
           if (mouseInput.isLeftButtonPressed()) {
             gameState = State.SERVERMENU;
@@ -165,7 +165,7 @@ public class Client extends Thread {
         } else menu.getMultiplayer().setColour(new Vector4f(1, 1, 0, 1));
 
         // OPTIONS BUTTON
-        if (checkPosition(0, "Options")) {
+        if (checkPosition(0, "Options", "")) {
           menu.getOptions().setColour();
           if (mouseInput.isLeftButtonPressed()) {
             gameState = State.OPTIONSMENU;
@@ -173,7 +173,7 @@ public class Client extends Thread {
         } else menu.getOptions().setColour(new Vector4f(1, 1, 0, 1));
 
         // QUIT BUTTON
-        if (checkPosition(0, "Quit")) {
+        if (checkPosition(0, "Quit", "")) {
           menu.getQuit().setColour();
           if (mouseInput.isLeftButtonPressed()) {
             glfwSetWindowShouldClose(window.getWindowHandle(), true);
@@ -190,10 +190,8 @@ public class Client extends Thread {
         break;
 
       case SERVERMENU:
-        if (mouseInput.getXPos() > serverMenu.getSeparatorTop().getPositionX()
-            && mouseInput.getXPos() < serverMenu.getSeparatorTop().getPositionX()+serverMenu.getSeparatorTop().getSize()
-            && mouseInput.getYPos() > serverMenu.getSeparatorTop().getPositionY()
-            && mouseInput.getYPos() < serverMenu.getSeparatorBot().getPositionY()) {
+        if (checkPosition(1, "------------------------------",
+        "------------------------------")) {
           if (mouseInput.scrolledDown()) {
             serverMenu.moveDown();
           }
@@ -205,14 +203,14 @@ public class Client extends Thread {
           }
         }
 
-        if (checkPosition(1, "Create game")) {
+        if (checkPosition(1, "Create game", "")) {
           serverMenu.getCreate().setColour();
           if (mouseInput.isLeftButtonPressed()) {
             serverMenu.createServer(window);
           }
         } else serverMenu.getCreate().setColour(new Vector4f(1, 1, 0, 1));
 
-        if (checkPosition(1, "Exit")) {
+        if (checkPosition(1, "Exit", "")) {
           serverMenu.getExit().setColour();
           if (mouseInput.isLeftButtonPressed()) {
             gameState = State.MAINMENU;
@@ -224,37 +222,28 @@ public class Client extends Thread {
         break;
 
       case OPTIONSMENU:
-        if (mouseInput.getXPos() > window.getWidth() / 2 + 85
-            && mouseInput.getXPos() < window.getWidth() / 2 + 115
-            && mouseInput.getYPos() > window.getHeight() / 2 - 145
-            && mouseInput.getYPos() < window.getHeight() / 2 - 115) {
-          optionsMenu.setIncVol();
+        if (checkPosition(2, ">", "")) {
+          optionsMenu.getIncVolume().setColour();
           if (mouseInput.isLeftButtonHeld()) {
             optionsMenu.incVolume();
             audio.incVolume();
           }
-        } else optionsMenu.setRestoreIncVol();
+        } else optionsMenu.getIncVolume().setColour(new Vector4f(1, 1, 0, 1));
 
-        if (mouseInput.getXPos() > window.getWidth() / 2 - 115
-            && mouseInput.getXPos() < window.getWidth() / 2 - 85
-            && mouseInput.getYPos() > window.getHeight() / 2 - 145
-            && mouseInput.getYPos() < window.getHeight() / 2 - 115) {
-          optionsMenu.setDecVol();
+        if (checkPosition(2, "<", "")) {
+          optionsMenu.getDecVolume().setColour();
           if (mouseInput.isLeftButtonHeld()) {
             optionsMenu.decVolume();
             audio.decVolume();
           }
-        } else optionsMenu.setRestoreDecVol();
-
-        if (mouseInput.getXPos() > window.getWidth() / 2 - 30
-            && mouseInput.getXPos() < window.getWidth() / 2 + 30
-            && mouseInput.getYPos() < window.getHeight() / 2 + 270
-            && mouseInput.getYPos() > window.getHeight() / 2 + 255) {
-          optionsMenu.setExit();
+        } else optionsMenu.getDecVolume().setColour(new Vector4f(1, 1, 0, 1));
+        
+        if (checkPosition(2, "Exit", "")) {
+          optionsMenu.getExit().setColour();
           if (mouseInput.isLeftButtonPressed()) {
             gameState = State.MAINMENU;
           }
-        } else optionsMenu.setRestoreExit();
+        } else optionsMenu.getExit().setColour(new Vector4f(1, 1, 0, 1));
 
         leaveMenu();
 
@@ -281,8 +270,6 @@ public class Client extends Thread {
         break;
 
       case DEAD:
-    	//gameModel.updatePlayerState(PlayerState.IDLE);
-    	
         if (window.isKeyReleased(GLFW_KEY_J)) {
           gameState = State.SINGLEPLAYER;
           gameModel.nextLevel();
@@ -315,10 +302,9 @@ public class Client extends Thread {
         if (timeLeft < 0) {
           timeLeft = 0;
         }
+        
         String text = String.format("%02d", timeLeft);
-
 		hud.setCounter(text);
-		gameModel.update(delta);
 		  
 		int lives = gameModel.myPlayer().getLives();
 		hud.setP1Lives(lives);
@@ -327,7 +313,9 @@ public class Client extends Thread {
 		hud.setP1Score(score);
 		  
 		Vector3f colour = gameModel.myPlayer().getColour();
-		hud.setP1ScoreColour(colour);
+		hud.getP1Score().setColour(new Vector4f(colour.x, colour.y, colour.z, 1));
+		
+		gameModel.update(delta);
 		
 		if (gameModel.myPlayer().getPlayerState() == PlayerState.DEAD) {
 			gameState = State.DEAD;
@@ -414,30 +402,44 @@ public class Client extends Thread {
     }
   }
   
-  private boolean checkPosition(int gui, String textObject) {
+  private boolean checkPosition(int gui, String textObject, String textObjectLower) {
 	  int objectIndex = -1;
+	  int objectIndexLower = -1;
 	  for (int i = 0; i < guis[gui].getTextObjects().length; i++) {
 		  if (guis[gui].getTextObjects()[i].getText() == textObject) {
 			  objectIndex = i;
+			  break;
 		  }
 	  }
 	  
 	  if (objectIndex == -1) return false;
 	  
+	  if (textObjectLower != "") {
+		  for (int i = 0; i < guis[gui].getTextObjects().length; i++) {
+			  if (guis[gui].getTextObjects()[i].getText() == textObjectLower && i != objectIndex) {
+				  objectIndexLower = i;
+			  }
+		  }
+		  
+		  if (objectIndexLower == -1) return false; 
+	  } else objectIndexLower = objectIndex;
+	  
 	  if (mouseInput.getXPos() > guis[gui].getTextObjects()[objectIndex].getPositionX()
-      && mouseInput.getXPos() < guis[gui].getTextObjects()[objectIndex].getPositionX()+guis[gui].getTextObjects()[objectIndex].getSize()
+      && mouseInput.getXPos() < guis[gui].getTextObjects()[objectIndex].getPositionX()
+      +guis[gui].getTextObjects()[objectIndex].getSize()
       && mouseInput.getYPos() > guis[gui].getTextObjects()[objectIndex].getPositionY()
-      && mouseInput.getYPos() < guis[gui].getTextObjects()[objectIndex].getPositionY()+guis[gui].getTextObjects()[objectIndex].getHeight()) {
+      && mouseInput.getYPos() < guis[gui].getTextObjects()[objectIndexLower].getPositionY()
+      +guis[gui].getTextObjects()[objectIndexLower].getHeight()) {
 		return true;  
 	  } return false;  
   }
 
   private void audio() {
-    if (mouseInput.getXPos() > window.getWidth() - 35
-        && mouseInput.getYPos() > window.getHeight() - 35) {
+    if (mouseInput.getXPos() > menu.getSound().getPositionX()
+        && mouseInput.getYPos() > menu.getSound().getPositionY()) {
       if (mouseInput.isLeftButtonPressed()) {
-        menu.toggleSound();
-        hud.toggleSound();
+        menu.getSoundMute().setRender();
+        hud.getSoundMute().setRender();
         audio.toggle();
       }
     }

@@ -16,11 +16,11 @@ import com.knightlore.client.gui.engine.graphics.FontTexture;
 
 public class OptionsMenu implements IGui {
 	
-	private static final Font FONT = new Font("Press Start 2P", Font.PLAIN, 15);
-	
-	private static final Font FONT_TITLE = new Font("Press Start 2P", Font.PLAIN, 72);
+	private static final Font FONT_SMALL = new Font("Press Start 2P", Font.PLAIN, 15);
 	
 	private static final Font FONT_LARGE = new Font("Press Start 2P", Font.PLAIN, 30);
+	
+	private static final Font FONT_TITLE = new Font("Press Start 2P", Font.PLAIN, 72);
 	
 	private static final String CHARSET = "ISO-8859-1";
 	
@@ -55,42 +55,40 @@ public class OptionsMenu implements IGui {
     	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
     	ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, myStream));
     	
-    	FontTexture fontTexture = new FontTexture(FONT, CHARSET);
-    	FontTexture fontTextureLarge = new FontTexture(FONT_LARGE, CHARSET);
-    	FontTexture fontTextureTitle = new FontTexture(FONT_TITLE, CHARSET);
+    	FontTexture fontSmall = new FontTexture(FONT_SMALL, CHARSET);
+    	FontTexture fontLarge = new FontTexture(FONT_LARGE, CHARSET);
+    	FontTexture fontTitle = new FontTexture(FONT_TITLE, CHARSET);
     	
-    	this.bongo = new TextObject("Bongo", fontTextureTitle);
+    	this.bongo = new TextObject("Bongo", fontTitle);
         this.bongo.getMesh().getMaterial().setColour(new Vector4f(0.29f, 0.92f, 0.95f, 1));
         
-        this.congo = new TextObject("Congo", fontTextureTitle);
+        this.congo = new TextObject("Congo", fontTitle);
         this.congo.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         
-        this.incVolume = new TextObject(">", fontTextureLarge);
+        this.incVolume = new TextObject(">", fontLarge);
         this.incVolume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
-        this.decVolume = new TextObject("<", fontTextureLarge);
+        this.decVolume = new TextObject("<", fontLarge);
         this.decVolume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
-        this.volume = new TextObject("000", fontTextureLarge);
+        this.volume = new TextObject("000", fontLarge);
         this.volume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
-        this.exit = new TextObject("Exit", fontTexture);
+        this.exit = new TextObject("Exit", fontSmall);
         this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
-        this.options = new TextObject("Game Options", fontTexture);
+        this.options = new TextObject("Game Options", fontSmall);
         this.options.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
-        this.separatorTop = new TextObject("------------------------------", fontTexture);
+        this.separatorTop = new TextObject("------------------------------", fontSmall);
         this.separatorTop.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0 , 1));
         
-        this.separatorBot = new TextObject("------------------------------", fontTexture);
+        this.separatorBot = new TextObject("------------------------------", fontSmall);
         this.separatorBot.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0 , 1));
         
-        this.musicVolume = new TextObject("Game music volume", fontTexture);
+        this.musicVolume = new TextObject("Game music volume", fontSmall);
         this.musicVolume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
-        //ADD VOLUME CONTROL FOR MUSIC AND IN-GAME SOUNDS SEPARATELY
-        //GAME CONTROLS?
         float width = (volume.getText().length())*30/2;
         this.bongo.setPosition(window.getWidth()/2-360, window.getHeight()/2-300, 0);
         this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-300, 0);
@@ -125,29 +123,17 @@ public class OptionsMenu implements IGui {
     	this.volume.setText((String.format("%03d", volume)));
     	this.volume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
     }
-    
-    public void setIncVol() {
-    	this.incVolume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
+
+    public TextObject getIncVolume() {
+    	return incVolume;
     }
     
-    public void setRestoreIncVol() {
-    	this.incVolume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    public TextObject getDecVolume() {
+    	return decVolume;
     }
     
-    public void setDecVol() {
-    	this.decVolume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
-    }
-    
-    public void setRestoreDecVol() {
-    	this.decVolume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
-    }
-    
-    public void setExit() {
-    	this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
-    }
-    
-    public void setRestoreExit() {
-    	this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    public TextObject getExit() {
+    	return exit;
     }
     
     @Override

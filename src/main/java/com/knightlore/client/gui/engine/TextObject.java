@@ -16,8 +16,6 @@ public class TextObject extends GuiObject {
     private final FontTexture fontTexture;
     
     private String text;
-    
-    private boolean highlighted = false;
 
     public TextObject(String text, FontTexture fontTexture) {
         super();
@@ -95,5 +93,13 @@ public class TextObject extends GuiObject {
         this.text = text;
         this.getMesh().deleteBuffers();
         this.setMesh(buildMesh());
+    }
+
+    public float getSize() {
+    	return text.length()*fontTexture.getHeight();
+    }
+    
+    public int getHeight() {
+    	return fontTexture.getHeight();
     }
 }

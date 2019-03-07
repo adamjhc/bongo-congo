@@ -1,6 +1,7 @@
 package com.knightlore.client.gui.engine;
 
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import com.knightlore.client.gui.engine.graphics.Mesh;
 
@@ -60,10 +61,10 @@ public class GuiObject {
     	this.position.y = y;
     }
 
-    public void setPosition(float x, float y, float z) {
+    public void setPosition(float x, float y) {
         this.position.x = x;
         this.position.y = y;
-        this.position.z = z;
+        this.position.z = 0f;
     }
 
     public float getScale() {
@@ -90,5 +91,17 @@ public class GuiObject {
     
     public void setMesh(Mesh mesh) {
         this.mesh = mesh;
+    }
+    
+    public Vector4f getColour() {
+    	return mesh.getMaterial().getColour();
+    }
+    
+    public void setColour(Vector4f colour) {
+    	mesh.getMaterial().setColour(colour);
+    }
+    
+    public void setColour() {
+    	mesh.getMaterial().setColour();
     }
 }

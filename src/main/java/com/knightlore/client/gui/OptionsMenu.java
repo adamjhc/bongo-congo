@@ -24,6 +24,12 @@ public class OptionsMenu implements IGui {
 	
 	private static final String CHARSET = "ISO-8859-1";
 	
+	private static final Vector4f YELLOW = new Vector4f(1, 1, 0, 1);
+	
+	private static final Vector4f RED = new Vector4f(1, 0, 0, 1);
+	
+	private static final Vector4f LIGHT_BLUE = new Vector4f(0.29f, 0.92f, 0.95f, 1);
+	
 	private static final int TITLE_POS = 300;
 	
 	private static final int SEPARATORTOP_POS = 185;
@@ -72,34 +78,34 @@ public class OptionsMenu implements IGui {
     	FontTexture fontTitle = new FontTexture(FONT_TITLE, CHARSET);
     	
     	this.bongo = new TextObject("Bongo", fontTitle);
-        this.bongo.setColour(new Vector4f(0.29f, 0.92f, 0.95f, 1));
+        this.bongo.setColour(LIGHT_BLUE);
         
         this.congo = new TextObject("Congo", fontTitle);
-        this.congo.setColour(new Vector4f(1, 0, 0, 1));
+        this.congo.setColour(RED);
         
         this.incVolume = new TextObject(">", fontLarge);
-        this.incVolume.setColour(new Vector4f(1, 1, 0, 1));
+        this.incVolume.setColour(YELLOW);
         
         this.decVolume = new TextObject("<", fontLarge);
-        this.decVolume.setColour(new Vector4f(1, 1, 0, 1));
+        this.decVolume.setColour(YELLOW);
         
         this.volume = new TextObject("000", fontLarge);
-        this.volume.setColour(new Vector4f(1, 1, 0, 1));
+        this.volume.setColour(YELLOW);
         
         this.exit = new TextObject("Exit", fontSmall);
-        this.exit.setColour(new Vector4f(1, 1, 0, 1));
+        this.exit.setColour(YELLOW);
         
         this.options = new TextObject("Game Options", fontSmall);
-        this.options.setColour(new Vector4f(1, 1, 0, 1));
+        this.options.setColour(YELLOW);
         
         this.separatorTop = new TextObject("------------------------------", fontSmall);
-        this.separatorTop.setColour(new Vector4f(1, 1, 0 , 1));
+        this.separatorTop.setColour(YELLOW);
         
         this.separatorBot = new TextObject("------------------------------", fontSmall);
-        this.separatorBot.setColour(new Vector4f(1, 1, 0 , 1));
+        this.separatorBot.setColour(YELLOW);
         
         this.musicVolume = new TextObject("Game music volume", fontSmall);
-        this.musicVolume.setColour(new Vector4f(1, 1, 0, 1));
+        this.musicVolume.setColour(YELLOW);
         
         this.bongo.setPosition(window.getWidth()/2-bongo.getSize(), window.getHeight()/2-TITLE_POS);
         this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-TITLE_POS);
@@ -121,14 +127,14 @@ public class OptionsMenu implements IGui {
     	int volume = Integer.parseInt(this.volume.getText());
     	if (volume < MAX_VOLUME) volume ++;
     	this.volume.setText((String.format("%03d", volume)));
-    	this.volume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    	this.volume.getMesh().getMaterial().setColour(YELLOW);
     }
     
     public void decVolume() {
     	int volume = Integer.parseInt(this.volume.getText());
     	if (volume > 0) volume --;
     	this.volume.setText((String.format("%03d", volume)));
-    	this.volume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    	this.volume.getMesh().getMaterial().setColour(YELLOW);
     }
 
     public TextObject getIncVolume() {

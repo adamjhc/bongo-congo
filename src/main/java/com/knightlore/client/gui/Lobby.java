@@ -22,6 +22,12 @@ public class Lobby implements IGui {
 	
 	private static final String CHARSET = "ISO-8859-1";
 	
+	private static final Vector4f YELLOW = new Vector4f(1, 1, 0, 1);
+	
+	private static final Vector4f RED = new Vector4f(1, 0, 0, 1);
+	
+	private static final Vector4f LIGHT_BLUE = new Vector4f(0.29f, 0.92f, 0.95f, 1);
+	
 	private static final int TITLE_POS = 300;
 	
     private final TextObject bongo;
@@ -41,10 +47,10 @@ public class Lobby implements IGui {
     	FontTexture fontTitle = new FontTexture(FONT_TITLE, CHARSET);
     	
     	this.bongo = new TextObject("Bongo", fontTitle);
-        this.bongo.setColour(new Vector4f(0.29f, 0.92f, 0.95f, 1));
+        this.bongo.setColour(LIGHT_BLUE);
         
         this.congo = new TextObject("Congo", fontTitle);
-        this.congo.setColour(new Vector4f(1, 0, 0, 1));
+        this.congo.setColour(RED);
         
         this.bongo.setPosition(window.getWidth()/2-bongo.getSize(), window.getHeight()/2-TITLE_POS);
         this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-TITLE_POS);

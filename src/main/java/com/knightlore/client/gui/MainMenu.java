@@ -26,6 +26,12 @@ public class MainMenu implements IGui {
 	
 	private static final String CHARSET = "ISO-8859-1";
 	
+	private static final Vector4f YELLOW = new Vector4f(1, 1, 0, 1);
+	
+	private static final Vector4f RED = new Vector4f(1, 0, 0, 1);
+	
+	private static final Vector4f LIGHT_BLUE = new Vector4f(0.29f, 0.92f, 0.95f, 1);
+	
 	private static final int TITLE_POS = 300;
 	
 	private static final int MENU_POS = 100;
@@ -63,28 +69,28 @@ public class MainMenu implements IGui {
     	FontTexture fontTitle = new FontTexture(FONT_TITLE, CHARSET);
     	
     	this.bongo = new TextObject("Bongo", fontTitle);
-        this.bongo.setColour(new Vector4f(0.29f, 0.92f, 0.95f, 1));
+        this.bongo.setColour(LIGHT_BLUE);
         
         this.congo = new TextObject("Congo", fontTitle);
-        this.congo.setColour(new Vector4f(1, 0, 0, 1));
+        this.congo.setColour(RED);
         
         this.singleplayer = new TextObject("Singleplayer", fontSmall);
-        this.singleplayer.setColour(new Vector4f(1, 1, 0, 1));
+        this.singleplayer.setColour(YELLOW);
         
         this.multiplayer = new TextObject("Multiplayer", fontSmall);
-        this.multiplayer.setColour(new Vector4f(1, 1, 0, 1));
+        this.multiplayer.setColour(YELLOW);
         
         this.soundOn = new TextObject("(", fontLarge);
-        this.soundOn.setColour(new Vector4f(1, 1, 1, 1));
+        this.soundOn.setColour();
         
         this.soundOff = new TextObject("/", fontMedium);
-        this.soundOff.setColour(new Vector4f(1, 0, 0, 1));
+        this.soundOff.setColour(RED);
         
         this.quit = new TextObject("Quit", fontSmall);
-        this.quit.setColour(new Vector4f(1, 1, 0, 1));
+        this.quit.setColour(YELLOW);
         
         this.options = new TextObject("Options", fontSmall);
-        this.options.setColour(new Vector4f(1, 1, 0, 1));
+        this.options.setColour(YELLOW);
         
         
         this.bongo.setPosition(window.getWidth()/2-bongo.getSize(), window.getHeight()/2-TITLE_POS);

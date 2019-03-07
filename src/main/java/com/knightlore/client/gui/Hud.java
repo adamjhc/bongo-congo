@@ -26,6 +26,10 @@ public class Hud implements IGui {
     
     private static final String CHARSET = "ISO-8859-1";
     
+	private static final Vector4f YELLOW = new Vector4f(1, 1, 0, 1);
+	
+	private static final Vector4f RED = new Vector4f(1, 0, 0, 1);
+    
     private static final int MAX_SCORE = 99999999;
     
     private static final int SCORE_HIDE = -230;
@@ -85,13 +89,13 @@ public class Hud implements IGui {
         FontTexture fontLives = new FontTexture(FONT_LIVES, CHARSET);
         
         this.player1Score = new TextObject("P1:00000000", fontSmall);
-        this.player1Score.setColour(new Vector4f(1, 1, 1, 1));
+        this.player1Score.setColour();
         
         this.player2Score = new TextObject("P2:00000000", fontSmall);
-        this.player2Score.setColour(new Vector4f(1, 1, 0, 1));
+        this.player2Score.setColour(YELLOW);
         
         this.player3Score = new TextObject("P3:00000000", fontSmall);
-        this.player3Score.setColour(new Vector4f(1, 0, 0, 1));
+        this.player3Score.setColour(RED);
         
         this.player4Score = new TextObject("P4:00000000", fontSmall);
         this.player4Score.setColour(new Vector4f(0, 1, 1, 1));
@@ -103,31 +107,31 @@ public class Hud implements IGui {
         this.player6Score.setColour(new Vector4f(0, 0, 1, 1));
         
         this.player1Lives = new TextObject("***", fontLives);
-        this.player1Lives.setColour(new Vector4f(1, 0, 0, 1));
+        this.player1Lives.setColour(RED);
         
         this.player2Lives = new TextObject("***", fontLives);
-        this.player2Lives.setColour(new Vector4f(1, 0, 0, 1));
+        this.player2Lives.setColour(RED);
         
         this.player3Lives = new TextObject("***", fontLives);
-        this.player3Lives.setColour(new Vector4f(1, 0, 0, 1));
+        this.player3Lives.setColour(RED);
 
         this.player4Lives = new TextObject("***", fontLives);
-        this.player4Lives.setColour(new Vector4f(1, 0, 0, 1));
+        this.player4Lives.setColour(RED);
 
         this.player5Lives = new TextObject("***", fontLives);
-        this.player5Lives.setColour(new Vector4f(1, 0, 0, 1));
+        this.player5Lives.setColour(RED);
         
         this.player6Lives = new TextObject("***", fontLives);
-        this.player6Lives.setColour(new Vector4f(1, 0, 0, 1));
+        this.player6Lives.setColour(RED);
         
         this.counter = new TextObject("90", fontMedium);
-        this.counter.setColour(new Vector4f(1, 1, 0, 1));
+        this.counter.setColour(YELLOW);
         
         this.soundOn = new TextObject("(", fontLarge);
-        this.soundOn.setColour(new Vector4f(1, 1, 1, 1));
+        this.soundOn.setColour();
         
         this.soundOff = new TextObject("/", fontMedium);
-        this.soundOff.setColour(new Vector4f(1, 0, 0, 1));
+        this.soundOff.setColour(RED);
         
         this.player1Score.setPosition(SIDE_GAP, SIDE_GAP);
         this.player2Score.setPosition(SCORE_HIDE, SCORE_POS);
@@ -184,7 +188,7 @@ public class Hud implements IGui {
     
     public void setCounter(String statusText) {
     	this.counter.setText(statusText);
-    	this.counter.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    	this.counter.getMesh().getMaterial().setColour(YELLOW);
     }
     
     public void setP1Lives(int lives) {
@@ -198,7 +202,7 @@ public class Hud implements IGui {
     		}
     		this.player1Lives.setText(livesText);
     	}
-    	this.player1Lives.setColour(new Vector4f(1, 0, 0, 1));
+    	this.player1Lives.setColour(RED);
     }
     
     public void setP1Score(int score) {

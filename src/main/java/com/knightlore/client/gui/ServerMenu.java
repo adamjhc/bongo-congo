@@ -24,6 +24,12 @@ public class ServerMenu implements IGui {
 	
 	private static final String CHARSET = "ISO-8859-1";
 	
+	private static final Vector4f YELLOW = new Vector4f(1, 1, 0, 1);
+	
+	private static final Vector4f RED = new Vector4f(1, 0, 0, 1);
+	
+	private static final Vector4f LIGHT_BLUE = new Vector4f(0.29f, 0.92f, 0.95f, 1);
+	
 	private static final int MAX_SERVERS = 18;
 	
 	private static final int TITLE_POS = 300;
@@ -73,28 +79,28 @@ public class ServerMenu implements IGui {
     	FontTexture fontTitle = new FontTexture(FONT_TITLE, CHARSET);
     	
     	this.bongo = new TextObject("Bongo", fontTitle);
-        this.bongo.setColour(new Vector4f(0.29f, 0.92f, 0.95f, 1));
+        this.bongo.setColour(LIGHT_BLUE);
         
         this.congo = new TextObject("Congo", fontTitle);
-        this.congo.setColour(new Vector4f(1, 0, 0, 1));
+        this.congo.setColour(RED);
         
         this.multiplayer = new TextObject("Play Multiplayer", fontSmall);
-        this.multiplayer.setColour(new Vector4f(1, 1, 0, 1));
+        this.multiplayer.setColour(YELLOW);
         
         this.separatorTop = new TextObject("------------------------------", fontSmall);
-        this.separatorTop.setColour(new Vector4f(1, 1, 0 , 1));
+        this.separatorTop.setColour(YELLOW);
         
         this.separatorBot = new TextObject("------------------------------", fontSmall);
-        this.separatorBot.setColour(new Vector4f(1, 1, 0 , 1));
+        this.separatorBot.setColour(YELLOW);
         
         this.join = new TextObject("Join game", fontSmall);
-        this.join.setColour(new Vector4f(1, 1, 0, 1));
+        this.join.setColour(YELLOW);
         
         this.create = new TextObject("Create game", fontSmall);
-        this.create.setColour(new Vector4f(1, 1, 0, 1));
+        this.create.setColour(YELLOW);
         
         this.exit = new TextObject("Exit", fontSmall);
-        this.exit.setColour(new Vector4f(1, 1, 0, 1));
+        this.exit.setColour(YELLOW);
         
         this.bongo.setPosition(window.getWidth()/2-bongo.getSize(), window.getHeight()/2-TITLE_POS);
         this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-TITLE_POS);
@@ -112,7 +118,7 @@ public class ServerMenu implements IGui {
         }
         
         for (int i = 0; i < servers.size(); i++) {
-        	servers.get(i).setColour(new Vector4f(1, 1, 0, 1));
+        	servers.get(i).setColour(YELLOW);
         	servers.get(i).setPosition(window.getWidth()/2-servers.get(i).getSize()/2, window.getHeight()/2-yPos);
         	yPos -= SERVER_GAP;
         }
@@ -134,7 +140,7 @@ public class ServerMenu implements IGui {
 		}
 		
     	LobbyObject newServer = new LobbyObject("New Server "+servers.size(), fontTexture);
-    	newServer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    	newServer.setColour(YELLOW);
     	newServer.setPosition(window.getWidth()/2-newServer.getSize()/2, window.getHeight()/2-yPos-(current*SERVER_GAP));
     	yPos -= SERVER_GAP;
     	
@@ -229,7 +235,7 @@ public class ServerMenu implements IGui {
     			servers.get(i).setHighlighted();
     			servers.get(i).setText(servers.get(i).getText().substring(4, servers.get(i).getText().length()-4));
     			servers.get(i).setPositionX(window.getWidth()/2-servers.get(i).getSize()/2);
-    			servers.get(i).setColour(new Vector4f(1, 1, 0, 1));
+    			servers.get(i).setColour(YELLOW);
     		}
     	}
     }

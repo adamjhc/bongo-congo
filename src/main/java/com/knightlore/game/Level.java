@@ -15,7 +15,7 @@ public class Level {
   private ArrayList<Enemy> enemies;
 
   Date startedAt;
-  int duration;
+  public int duration;
 
   public Level() {
     this.enemies = new ArrayList<>();

@@ -183,7 +183,6 @@ public class Client extends Thread {
             audio.toggle(); // eventually change this so switches between menu and game music
 
             timer.setStartTime();
-            hud.resetP1Lives();
             gameState = State.SINGLEPLAYER;
           }
         } else menu.setRestoreSingleplayer();
@@ -406,11 +405,6 @@ public class Client extends Thread {
       case SINGLEPLAYER:
         movement(delta);
 
-        // SCORE
-        if (window.isKeyReleased(GLFW_KEY_P)) {
-          hud.setP1Score();
-        }
-
         if (window.isKeyReleased(GLFW_KEY_J)) {
           gameModel.nextLevel();
         }
@@ -429,6 +423,13 @@ public class Client extends Thread {
         break;
 
       case DEAD:
+    	gameModel.updatePlayerState(PlayerState.IDLE);
+    	
+        if (window.isKeyReleased(GLFW_KEY_J)) {
+          gameState = State.SINGLEPLAYER;
+          gameModel.nextLevel();
+        }
+        
         leaveGame();
 
         audio();
@@ -465,15 +466,28 @@ public class Client extends Thread {
 
       case SINGLEPLAYER:
         float gameTime = timer.getGameTime();
-
+        
         int timeLeft = 90 - Math.round(gameTime);
         if (timeLeft < 0) {
           timeLeft = 0;
         }
         String text = String.format("%02d", timeLeft);
 
-        hud.setCounter(text);
-        gameModel.update(delta);
+		hud.setCounter(text);
+		gameModel.update(delta);
+		  
+		int lives = gameModel.myPlayer().getLives();
+		hud.setP1Lives(lives);
+		  
+		int score = gameModel.myPlayer().getScore();
+		hud.setP1Score(score);
+		  
+		Vector3f colour = gameModel.myPlayer().getColour();
+		hud.setP1ScoreColour(colour);
+		
+		if (gameModel.myPlayer().getPlayerState() == PlayerState.DEAD) {
+			gameState = State.DEAD;
+		}
 
         break;
         

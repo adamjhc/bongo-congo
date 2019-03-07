@@ -26,6 +26,7 @@ public class Game {
     currentState = GameState.LOBBY;
     levels = new ArrayList<>();
     players = new HashMap<>();
+    currentLevelIndex = 0;
   }
 
   public GameState getState() {
@@ -65,6 +66,10 @@ public class Game {
   
   public void overwriteCurrentLevel(LevelMap levelMap) {
 	  levels.set(0, new Level(levelMap));
+  }
+
+  public void addLevel(Level level){
+    this.levels.add(level);
   }
 
   public void nextLevel() {

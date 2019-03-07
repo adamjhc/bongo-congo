@@ -16,7 +16,7 @@ public class GuiRenderer extends Renderer {
   public GuiRenderer(Window window) {
     super(window);
 
-    shaderProgram = new ShaderProgram("hud");
+    shaderProgram = new ShaderProgram("gui");
     transformation = new Transformation();
   }
 

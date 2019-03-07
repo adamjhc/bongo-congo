@@ -13,6 +13,7 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Optional;
+import java.util.UUID;
 
 // Client handler class
 public class ClientHandler extends Thread
@@ -29,11 +30,17 @@ public class ClientHandler extends Thread
     // Socket
     final Socket s;
 
-    public ClientHandler(Socket s, ObjectInputStream dis, ObjectOutputStream dos)
+    // Server
+    private Server server;
+    private UUID serverClientReference;
+
+    public ClientHandler(Socket s, ObjectInputStream dis, ObjectOutputStream dos, Server server, UUID serverClientReference)
     {
         this.s = s;
         this.dis = dis;
         this.dos = dos;
+        this.server = server;
+        this.serverClientReference = serverClientReference;
     }
 
     @Override
@@ -60,33 +67,33 @@ public class ClientHandler extends Thread
                 Factory.create(this, sendable);
 
             } catch (IOException e) {
-                e.printStackTrace();
+                break;
             }  catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
 
+        // Close resources
+
         try
         {
-            // closing resources
             this.dis.close();
             this.dos.close();
+
+            logger.info("Client connection to game closed session key: " + this.sessionKey.get());
 
         }catch(IOException e){
             e.printStackTrace();
         }
+
+        // Parent callback
+        this.server.removeConnection(this.serverClientReference);
+
     }
 
     public InetAddress getSocketIP(){
         return this.s.getInetAddress();
     }
 
-    public SessionKey getSessionKey(){
-        if(this.sessionKey.isPresent()){
-            // Return session key with that value
 
-        }
-
-        return null;
-    }
 }

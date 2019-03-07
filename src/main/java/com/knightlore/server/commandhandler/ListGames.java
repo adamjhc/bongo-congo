@@ -34,11 +34,14 @@ public class ListGames extends Command{
 
         HashMap<UUID, GameServer> servers = GameRepository.instance.getServers();
 
-        System.out.println("length " + servers.size());
-
         for(GameServer server : servers.values()){
             try{
-                sessionKeyResponse.addGame(server.getUUID(), InetAddress.getByName(Config.authServerIp().get()), server.getPort());
+                sessionKeyResponse.addGame(server.getUUID(),
+                        InetAddress.getByName(Config.authServerIp().get()),
+                        server.getPort());
+
+                // TODO add connected players
+                
             }catch(UnknownHostException e){
 
             }

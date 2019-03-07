@@ -26,6 +26,7 @@ public class Game {
     currentState = GameState.LOBBY;
     levels = new ArrayList<>();
     players = new HashMap<>();
+    currentLevelIndex = 0;
   }
 
   public GameState getState() {
@@ -61,6 +62,10 @@ public class Game {
     if (currentLevelIndex == null) {
       currentLevelIndex = 0;
     }
+  }
+
+  public void addLevel(Level level){
+    this.levels.add(level);
   }
 
   public void nextLevel() {

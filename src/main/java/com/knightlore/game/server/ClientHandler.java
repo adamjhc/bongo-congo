@@ -60,7 +60,7 @@ public class ClientHandler extends Thread{
                 Factory.create(this, sendable);
 
             } catch (IOException e) {
-                e.printStackTrace();
+                break;
             }  catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }

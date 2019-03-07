@@ -7,6 +7,7 @@ import com.knightlore.client.networking.backend.Client;
 import com.knightlore.client.networking.backend.ResponseHandler;
 import com.knightlore.client.networking.backend.responsehandlers.server.GameList;
 import com.knightlore.client.networking.backend.responsehandlers.server.GameRequest;
+import com.knightlore.client.networking.backend.responsehandlers.server.ListLevels;
 import com.knightlore.client.networking.backend.responsehandlers.server.SessionKey;
 import com.knightlore.networking.ApiKey;
 import com.knightlore.networking.Sendable;
@@ -14,6 +15,7 @@ import com.knightlore.util.Config;
 
 import java.io.IOException;
 import java.util.Optional;
+import java.util.UUID;
 
 public class ServerConnection {
 
@@ -108,6 +110,8 @@ public class ServerConnection {
             Gson gson = new Gson();
 
             com.knightlore.networking.GameRequest request = new com.knightlore.networking.GameRequest();
+            // TODO make dynamic
+            request.addLevel(UUID.fromString("47eb096a-a88c-4933-afc2-ed961ce2158e"));
             sendable.setData(gson.toJson(request));
 
             // Specify handler
@@ -134,6 +138,25 @@ public class ServerConnection {
             // Specify handler
             ResponseHandler.waiting.put(sendable.getUuid(), new GameList());
 
+
+            try{
+                client.dos.writeObject(sendable);
+            }catch(IOException e){
+                System.out.println(e);
+            }
+        }
+    }
+
+    public void listLevels(){
+        if(this.authenticated){
+            // Build up get session string
+            Sendable sendable = new Sendable();
+            sendable.setUuid();
+            sendable.setFunction("list_levels");
+
+
+            // Specify handler
+            ResponseHandler.waiting.put(sendable.getUuid(), new ListLevels());
 
             try{
                 client.dos.writeObject(sendable);

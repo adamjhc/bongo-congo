@@ -1,6 +1,8 @@
 package com.knightlore.client.gui.engine;
 
 public interface IGui {
+	
+	TextObject[] getTextObjects();
 
     GuiObject[] getGuiObjects();
 

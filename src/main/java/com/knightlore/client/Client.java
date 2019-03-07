@@ -16,6 +16,8 @@ import com.knightlore.client.gui.Hud;
 import com.knightlore.client.gui.MainMenu;
 import com.knightlore.client.gui.OptionsMenu;
 import com.knightlore.client.gui.ServerMenu;
+import com.knightlore.client.gui.engine.GuiObject;
+import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.MouseInput;
 import com.knightlore.client.gui.engine.Timer;
 import com.knightlore.client.gui.engine.Window;
@@ -58,6 +60,8 @@ public class Client extends Thread {
   private ServerMenu serverMenu;
 
   private OptionsMenu optionsMenu;
+  
+  private IGui[] guis;
 
   public static void main(String[] args) {
     new Client().run();
@@ -90,6 +94,8 @@ public class Client extends Thread {
     menu = new MainMenu(window);
     serverMenu = new ServerMenu(window);
     optionsMenu = new OptionsMenu(window);
+    
+    guis = new IGui[] {menu, serverMenu, optionsMenu, hud};
 
     menuRenderer = new GuiRenderer(window);
     gameRenderer = new GameRenderer(window);
@@ -138,8 +144,8 @@ public class Client extends Thread {
       case MAINMENU:
 
         // SINGEPLAYER BUTTON
-        if (checkPosition("Singleplayer")) {
-          menu.getSingleplayer().getMesh().getMaterial().setColour();;
+        if (checkPosition(0, "Singleplayer")) {
+          menu.getSingleplayer().setColour();
           if (mouseInput.isLeftButtonPressed()) {
             audio.toggle();
             audio.toggle();
@@ -148,31 +154,31 @@ public class Client extends Thread {
             gameModel.myPlayer().nextLevel();
             gameState = State.SINGLEPLAYER;
           }
-        } else menu.getSingleplayer().getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        } else menu.getSingleplayer().setColour(new Vector4f(1, 1, 0, 1));
 
         // MULTIPLAYER BUTTON
-        if (checkPosition("Multiplayer")) {
-          menu.getMultiplayer().getMesh().getMaterial().setColour();
+        if (checkPosition(0, "Multiplayer")) {
+          menu.getMultiplayer().setColour();
           if (mouseInput.isLeftButtonPressed()) {
             gameState = State.SERVERMENU;
           }
-        } else menu.getMultiplayer().getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        } else menu.getMultiplayer().setColour(new Vector4f(1, 1, 0, 1));
 
         // OPTIONS BUTTON
-        if (checkPosition("Options")) {
-          menu.getOptions().getMesh().getMaterial().setColour();
+        if (checkPosition(0, "Options")) {
+          menu.getOptions().setColour();
           if (mouseInput.isLeftButtonPressed()) {
             gameState = State.OPTIONSMENU;
           }
-        } else menu.getOptions().getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        } else menu.getOptions().setColour(new Vector4f(1, 1, 0, 1));
 
         // QUIT BUTTON
-        if (checkPosition("Quit")) {
-          menu.getQuit().getMesh().getMaterial().setColour();
+        if (checkPosition(0, "Quit")) {
+          menu.getQuit().setColour();
           if (mouseInput.isLeftButtonPressed()) {
             glfwSetWindowShouldClose(window.getWindowHandle(), true);
           }
-        } else menu.getQuit().getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        } else menu.getQuit().setColour(new Vector4f(1, 1, 0, 1));
 
         audio();
 
@@ -184,10 +190,10 @@ public class Client extends Thread {
         break;
 
       case SERVERMENU:
-        if (mouseInput.getXPos() > window.getWidth() / 2 - 225
-            && mouseInput.getXPos() < window.getWidth() / 2 + 255
-            && mouseInput.getYPos() > window.getHeight() / 2 - 185
-            && mouseInput.getYPos() < window.getHeight() / 2 + 200) {
+        if (mouseInput.getXPos() > serverMenu.getSeparatorTop().getPositionX()
+            && mouseInput.getXPos() < serverMenu.getSeparatorTop().getPositionX()+serverMenu.getSeparatorTop().getSize()
+            && mouseInput.getYPos() > serverMenu.getSeparatorTop().getPositionY()
+            && mouseInput.getYPos() < serverMenu.getSeparatorBot().getPositionY()) {
           if (mouseInput.scrolledDown()) {
             serverMenu.moveDown();
           }
@@ -199,25 +205,19 @@ public class Client extends Thread {
           }
         }
 
-        if (mouseInput.getXPos() > window.getWidth() / 2 - 82.5f
-            && mouseInput.getXPos() < window.getWidth() / 2 + 82.5f
-            && mouseInput.getYPos() > window.getHeight() / 2 + 215
-            && mouseInput.getYPos() < window.getHeight() / 2 + 230) {
-          serverMenu.setCreate();
+        if (checkPosition(1, "Create game")) {
+          serverMenu.getCreate().setColour();
           if (mouseInput.isLeftButtonPressed()) {
             serverMenu.createServer(window);
           }
-        } else serverMenu.setRestoreCreate();
+        } else serverMenu.getCreate().setColour(new Vector4f(1, 1, 0, 1));
 
-        if (mouseInput.getXPos() > window.getWidth() / 2 - 30
-            && mouseInput.getXPos() < window.getWidth() / 2 + 30
-            && mouseInput.getYPos() < window.getHeight() / 2 + 270
-            && mouseInput.getYPos() > window.getHeight() / 2 + 255) {
-          serverMenu.setExit();
+        if (checkPosition(1, "Exit")) {
+          serverMenu.getExit().setColour();
           if (mouseInput.isLeftButtonPressed()) {
             gameState = State.MAINMENU;
           }
-        } else serverMenu.setRestoreExit();
+        } else serverMenu.getExit().setColour(new Vector4f(1, 1, 0, 1));
 
         leaveMenu();
 
@@ -414,20 +414,20 @@ public class Client extends Thread {
     }
   }
   
-  private boolean checkPosition(String textObject) {
+  private boolean checkPosition(int gui, String textObject) {
 	  int objectIndex = -1;
-	  for (int i = 0; i < menu.getTextObjects().length; i++) {
-		  if (menu.getTextObjects()[i].getText() == textObject) {
+	  for (int i = 0; i < guis[gui].getTextObjects().length; i++) {
+		  if (guis[gui].getTextObjects()[i].getText() == textObject) {
 			  objectIndex = i;
 		  }
 	  }
 	  
 	  if (objectIndex == -1) return false;
 	  
-	  if (mouseInput.getXPos() > menu.getTextObjects()[objectIndex].getPositionX()
-      && mouseInput.getXPos() < menu.getTextObjects()[objectIndex].getPositionX()+menu.getTextObjects()[objectIndex].getSize()
-      && mouseInput.getYPos() > menu.getTextObjects()[objectIndex].getPositionY()
-      && mouseInput.getYPos() < menu.getTextObjects()[objectIndex].getPositionY()+menu.getTextObjects()[objectIndex].getHeight()) {
+	  if (mouseInput.getXPos() > guis[gui].getTextObjects()[objectIndex].getPositionX()
+      && mouseInput.getXPos() < guis[gui].getTextObjects()[objectIndex].getPositionX()+guis[gui].getTextObjects()[objectIndex].getSize()
+      && mouseInput.getYPos() > guis[gui].getTextObjects()[objectIndex].getPositionY()
+      && mouseInput.getYPos() < guis[gui].getTextObjects()[objectIndex].getPositionY()+guis[gui].getTextObjects()[objectIndex].getHeight()) {
 		return true;  
 	  } return false;  
   }

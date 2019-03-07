@@ -1,6 +1,7 @@
 package com.knightlore.client.gui.engine;
 
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import com.knightlore.client.gui.engine.graphics.Mesh;
 
@@ -90,5 +91,17 @@ public class GuiObject {
     
     public void setMesh(Mesh mesh) {
         this.mesh = mesh;
+    }
+    
+    public Vector4f getColour() {
+    	return mesh.getMaterial().getColour();
+    }
+    
+    public void setColour(Vector4f colour) {
+    	mesh.getMaterial().setColour(colour);
+    }
+    
+    public void setColour() {
+    	mesh.getMaterial().setColour();
     }
 }

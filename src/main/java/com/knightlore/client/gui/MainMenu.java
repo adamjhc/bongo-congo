@@ -120,6 +120,7 @@ public class MainMenu implements IGui {
     	this.soundOff.setRender();
     }
     
+    @Override
     public TextObject[] getTextObjects() {
     	return textObjects;
     }

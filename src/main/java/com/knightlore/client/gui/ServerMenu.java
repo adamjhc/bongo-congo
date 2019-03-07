@@ -1,9 +1,7 @@
 package com.knightlore.client.gui;
 
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.GraphicsEnvironment;
-import java.awt.Toolkit;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -20,7 +18,7 @@ import com.knightlore.client.gui.engine.graphics.FontTexture;
 
 public class ServerMenu implements IGui {
 	
-	private static final Font FONT = new Font("Press Start 2P", Font.PLAIN, 15);
+	private static final Font FONT_SMALL = new Font("Press Start 2P", Font.PLAIN, 15);
 	
 	private static final Font FONT_TITLE = new Font("Press Start 2P", Font.PLAIN, 72);
 	
@@ -29,6 +27,8 @@ public class ServerMenu implements IGui {
 	private static final int MAX_SERVERS = 18;
 	
     private GuiObject[] guiObjects;
+    
+    private TextObject[] textObjects;
     
     private final TextObject bongo;
     
@@ -59,39 +59,31 @@ public class ServerMenu implements IGui {
     	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
     	ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, myStream));
     	
-    	FontTexture fontTexture = new FontTexture(FONT, CHARSET);
-    	FontTexture fontTextureTitle = new FontTexture(FONT_TITLE, CHARSET);
+    	FontTexture fontSmall = new FontTexture(FONT_SMALL, CHARSET);
+    	FontTexture fontTitle = new FontTexture(FONT_TITLE, CHARSET);
     	
-//    	Toolkit toolkit =  Toolkit.getDefaultToolkit();
-//    	FontMetrics fontMetrics = toolkit.getFontMetrics(FONT_TITLE);
-//    	
-//    	String s = "Bongo";
-//    	char[] chars = s.toCharArray();
-//    	
-//    	System.out.println(fontMetrics.charsWidth(chars, 0, 5));
-    	
-    	this.bongo = new TextObject("Bongo", fontTextureTitle);
+    	this.bongo = new TextObject("Bongo", fontTitle);
         this.bongo.getMesh().getMaterial().setColour(new Vector4f(0.29f, 0.92f, 0.95f, 1));
         
-        this.congo = new TextObject("Congo", fontTextureTitle);
+        this.congo = new TextObject("Congo", fontTitle);
         this.congo.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         
-        this.multiplayer = new TextObject("Play Multiplayer", fontTexture);
+        this.multiplayer = new TextObject("Play Multiplayer", fontSmall);
         this.multiplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
-        this.separatorTop = new TextObject("------------------------------", fontTexture);
+        this.separatorTop = new TextObject("------------------------------", fontSmall);
         this.separatorTop.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0 , 1));
         
-        this.separatorBot = new TextObject("------------------------------", fontTexture);
+        this.separatorBot = new TextObject("------------------------------", fontSmall);
         this.separatorBot.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0 , 1));
         
-        this.join = new TextObject("Join game", fontTexture);
+        this.join = new TextObject("Join game", fontSmall);
         this.join.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
-        this.create = new TextObject("Create game", fontTexture);
+        this.create = new TextObject("Create game", fontSmall);
         this.create.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
-        this.exit = new TextObject("Exit", fontTexture);
+        this.exit = new TextObject("Exit", fontSmall);
         this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
         
         this.bongo.setPosition(window.getWidth()/2-360, window.getHeight()/2-300, 0);
@@ -109,7 +101,7 @@ public class ServerMenu implements IGui {
         servers = new ArrayList<LobbyObject>();
         
         for (int i = 0; i < 10; i++) {
-        	servers.add(new LobbyObject(i+"'s "+"Server", fontTexture));
+        	servers.add(new LobbyObject(i+"'s "+"Server", fontSmall));
         }
         
         for (int i = 0; i < servers.size(); i++) {
@@ -119,13 +111,10 @@ public class ServerMenu implements IGui {
         	yPos -= 20;
         }
         
-        // RECEIVE LIST OF CLIENT NAMES
-        // CREATE LOBBY
-        // JOIN LOBBY
-        // PLAYER COUNT IN LOBBY
-        
         guiObjects = new GuiObject[]{bongo, congo, multiplayer, separatorTop, separatorBot, join, create, exit};
         length = guiObjects.length;
+        
+        textObjects = new TextObject[]{join, create, exit};
         
         addServers();
     }
@@ -133,7 +122,7 @@ public class ServerMenu implements IGui {
     public void createServer(Window window) {
     	FontTexture fontTexture = null;
 		try {
-			fontTexture = new FontTexture(FONT, CHARSET);
+			fontTexture = new FontTexture(FONT_SMALL, CHARSET);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -160,16 +149,6 @@ public class ServerMenu implements IGui {
         	}
         	guiObjects = guiObjectsNew.clone();
     	} 
-    	/* else {
-        	GuiObject[] guiObjectsNew = new GuiObject[length + MAX_SERVERS];
-        	for (int i = 0; i < length; i++) {
-        		guiObjectsNew[i] = guiObjects[i];
-        	}
-        	for (int i = length; i < length + MAX_SERVERS; i++) {
-        		guiObjectsNew[i] = servers.get(i - length);
-        	}
-        	guiObjects = guiObjectsNew.clone();
-    	} */
     }
     
     public void addServers() {
@@ -259,20 +238,25 @@ public class ServerMenu implements IGui {
 		servers.get(listPos+current).setPositionX(window.getWidth()/2-width);
     }
     
-    public void setExit() {
-    	this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
+    public TextObject getCreate() {
+    	return create;
     }
     
-    public void setRestoreExit() {
-    	this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    public TextObject getSeparatorTop() {
+    	return separatorTop;
     }
     
-    public void setCreate() {
-    	this.create.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
+    public TextObject getSeparatorBot() {
+    	return separatorBot;
     }
     
-    public void setRestoreCreate() {
-    	this.create.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    public TextObject getExit() {
+    	return exit;
+    }
+    
+    @Override
+    public TextObject[] getTextObjects() {
+    	return textObjects;
     }
     
     @Override

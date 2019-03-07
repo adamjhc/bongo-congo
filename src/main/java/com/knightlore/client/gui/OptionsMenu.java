@@ -28,6 +28,8 @@ public class OptionsMenu implements IGui {
 	
     private GuiObject[] guiObjects;
     
+    private TextObject[] textObjects;
+    
     private final TextObject bongo;
     
     private final TextObject congo;
@@ -107,6 +109,7 @@ public class OptionsMenu implements IGui {
         
         
         guiObjects = new GuiObject[]{bongo, congo, incVolume, decVolume, volume, exit, options, separatorTop, separatorBot, musicVolume};
+        textObjects = new TextObject[]{incVolume, decVolume, exit};
     }
     
     public void incVolume() {
@@ -145,6 +148,11 @@ public class OptionsMenu implements IGui {
     
     public void setRestoreExit() {
     	this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    }
+    
+    @Override
+    public TextObject[] getTextObjects() {
+    	return textObjects;
     }
 
     @Override

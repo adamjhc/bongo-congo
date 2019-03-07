@@ -28,6 +28,8 @@ public class Lobby implements IGui {
 	
     private GuiObject[] guiObjects;
     
+    private TextObject[] textObjects;
+    
     public Lobby(Window window) throws Exception {
     	InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
     	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -46,6 +48,11 @@ public class Lobby implements IGui {
         this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-300, 0);
     	
         guiObjects = new GuiObject[]{bongo, congo};
+    }
+    
+    @Override
+    public TextObject[] getTextObjects() {
+    	return textObjects;
     }
 
     @Override

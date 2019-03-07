@@ -87,6 +87,8 @@ public class Client extends Thread {
   private LevelMap editorMap;
   
   private int currentTileX, currentTileY, currentTileZ;
+  
+  private IGui[] guis;
 
   public static void main(String[] args) {
     new Client().run();
@@ -121,6 +123,8 @@ public class Client extends Thread {
     serverMenu = new ServerMenu(window);
     optionsMenu = new OptionsMenu(window);
     preLevelEditor = new PreLevelEditor(window);
+    
+    guis = new IGui[] {menu, serverMenu, optionsMenu, hud, preLevelEditor};
 
 
     menuRenderer = new GuiRenderer(window);
@@ -201,21 +205,15 @@ public class Client extends Thread {
         } else menu.getMultiplayer().setColour(new Vector4f(1, 1, 0, 1));
         
         // LEVEL EDITOR BUTTON
-        if (mouseInput.getXPos() > window.getWidth() / 2 - 84
-        	&& mouseInput.getXPos() < window.getWidth() / 2 + 84
-    		&& mouseInput.getYPos() > window.getHeight() / 2 + 138
-    		&& mouseInput.getYPos() < window.getHeight() / 2 + 155) {
-    			menu.setLevelEditor();
+        if (checkPosition(0, "Level Editor", "")) {
+    			menu.getLevelEditor().setColour();
     			if (mouseInput.isLeftButtonPressed()) {
     				gameState = State.PRE_EDITOR;
     			}
-    	} else menu.setRestoreLevelEditor();
+    	} else menu.getLevelEditor().setColour(new Vector4f(1, 1, 0, 1));
 
         // OPTIONS BUTTON
-        if (mouseInput.getXPos() > window.getWidth() / 2 - 52
-            && mouseInput.getXPos() < window.getWidth() / 2 + 52
-            && mouseInput.getYPos() > window.getHeight() / 2 + 158
-            && mouseInput.getYPos() < window.getHeight() / 2 + 175) {
+        if (checkPosition(0, "Options", "")) {
           menu.getOptions().setColour();
           if (mouseInput.isLeftButtonPressed()) {
             gameState = State.OPTIONSMENU;
@@ -273,86 +271,62 @@ public class Client extends Thread {
         break;
         
       case PRE_EDITOR:
-    	  if (mouseInput.getXPos() > window.getWidth()/2 - 52
-    		  && mouseInput.getXPos() < window.getWidth()/2 - 37
-    		  && mouseInput.getYPos() > window.getHeight()/2 - 90
-    		  && mouseInput.getYPos() < window.getHeight()/2 - 75) {
-    		  preLevelEditor.setWLeft();
+    	  if (checkPosition(4, "<", "")) {
+    		  preLevelEditor.getWLeft().setColour();
     		  if (mouseInput.isLeftButtonPressed()) {
     			  preLevelEditor.decWidth();
     		  }
-    	  } else preLevelEditor.setRestoreWLeft();
+    	  } else preLevelEditor.getWLeft().setColour(new Vector4f(1, 1, 0, 1));
     	  
-    	  if (mouseInput.getXPos() > window.getWidth()/2 + 22
-    		  && mouseInput.getXPos() < window.getWidth()/2 + 37
-    		  && mouseInput.getYPos() > window.getHeight()/2 - 90
-    		  && mouseInput.getYPos() < window.getHeight()/2 - 75) {
-    		  preLevelEditor.setWRight();
+    	  if (checkPosition(4, ">", "")) {
+    		  preLevelEditor.getWRight().setColour();
     		  if (mouseInput.isLeftButtonPressed()) {
     			  preLevelEditor.incWidth();
     		  }
-    	  } else preLevelEditor.setRestoreWRight();
+    	  } else preLevelEditor.getWRight().setColour();
     	  
-    	  if (mouseInput.getXPos() > window.getWidth()/2 - 52
-        		  && mouseInput.getXPos() < window.getWidth()/2 - 37
-        		  && mouseInput.getYPos() > window.getHeight()/2 + 20
-        		  && mouseInput.getYPos() < window.getHeight()/2 + 35) {
-        		  preLevelEditor.setLLeft();
-        		  if (mouseInput.isLeftButtonPressed()) {
-        			  preLevelEditor.decLength();
-        		  }
-        	  } else preLevelEditor.setRestoreLLeft();
+    	  if (checkPosition(4, "<", "")) {
+    		  preLevelEditor.getLLeft().setColour();
+    		  if (mouseInput.isLeftButtonPressed()) {
+    			  preLevelEditor.decLength();
+    		  }
+    	  } else preLevelEditor.getLLeft().setColour();
         	  
-          if (mouseInput.getXPos() > window.getWidth()/2 + 22
-        	  && mouseInput.getXPos() < window.getWidth()/2 + 37
-        	  && mouseInput.getYPos() > window.getHeight()/2 + 20
-        	  && mouseInput.getYPos() < window.getHeight()/2 + 35) {
-        	  preLevelEditor.setLRight();
+          if (checkPosition(4, ">", "")) {
+        	  preLevelEditor.getLRight().setColour();
         	  if (mouseInput.isLeftButtonPressed()) {
         		  preLevelEditor.incLength();
         	  }
-          } else preLevelEditor.setRestoreLRight();
+          } else preLevelEditor.getLRight().setColour();
         	  
-          if (mouseInput.getXPos() > window.getWidth()/2 - 52
-        	  && mouseInput.getXPos() < window.getWidth()/2 - 37
-        	  && mouseInput.getYPos() > window.getHeight()/2 + 130
-        	  && mouseInput.getYPos() < window.getHeight()/2 + 145) {
-              preLevelEditor.setHLeft();
+          if (checkPosition(4, "<", "")) {
+              preLevelEditor.getHLeft().setColour();
               if (mouseInput.isLeftButtonPressed()) {
             	  preLevelEditor.decHeight();
               }
-          } else preLevelEditor.setRestoreHLeft();
+          } else preLevelEditor.getHLeft().setColour();
             	  
-          if (mouseInput.getXPos() > window.getWidth()/2 + 22
-              && mouseInput.getXPos() < window.getWidth()/2 + 37
-              && mouseInput.getYPos() > window.getHeight()/2 + 130
-              && mouseInput.getYPos() < window.getHeight()/2 + 145) {
-              preLevelEditor.setHRight();
+          if (checkPosition(4, ">", "")) {
+              preLevelEditor.getHRight().setColour();
               if (mouseInput.isLeftButtonPressed()) {
             	  preLevelEditor.incHeight();
               }
-          } else preLevelEditor.setRestoreHRight();
+          } else preLevelEditor.getHRight().setColour(new Vector4f(1, 1, 0, 1));
           
-          if (mouseInput.getXPos() > window.getWidth()/2 - 175
-        	  && mouseInput.getXPos() < window.getWidth()/2 + 180
-        	  && mouseInput.getYPos() > window.getHeight()/2 + 210
-        	  && mouseInput.getYPos() < window.getHeight()/2 + 240) {
-        	  preLevelEditor.setCreateLevel();
+          if (checkPosition(4, "Create Level", "")) {
+        	  preLevelEditor.getCreateLevel().setColour();
         	  if (mouseInput.isLeftButtonPressed()) {
-        		  editorMap = initialiseMap(preLevelEditor.getWidth(), preLevelEditor.getLength(), preLevelEditor.getHeight());
+        		  editorMap = initialiseMap(preLevelEditor.getWidthNum(), preLevelEditor.getLengthNum(), preLevelEditor.getHeightNum());
         		  gameState = State.LEVEL_EDITOR;
         	  }
-          } else preLevelEditor.setRestoreCreateLevel();
+          } else preLevelEditor.getCreateLevel().setColour(new Vector4f(1, 1, 0, 1));
           
-          if (mouseInput.getXPos() > window.getWidth()/2 - 30
-        	  && mouseInput.getXPos() < window.getWidth()/2 + 30
-        	  && mouseInput.getYPos() > window.getHeight()/2 + 260
-        	  && mouseInput.getYPos() < window.getHeight()/2 + 275) {
-        	  preLevelEditor.setBack();
+          if (checkPosition(4, "Back", "")) {
+        	  preLevelEditor.getBack().setColour();
         	  if (mouseInput.isLeftButtonPressed()) {
         		  gameState = State.MAINMENU;
         	  }
-          } else preLevelEditor.setRestoreBack();
+          } else preLevelEditor.getBack().setColour(new Vector4f(1, 1, 0, 1));
     	
     	break;
 
@@ -583,6 +557,89 @@ public class Client extends Thread {
     } else {
       gameModel.updatePlayerState(PlayerState.IDLE);
     }
+  }
+  
+  private void cameraControl() {
+	  if (mouseInput.getXPos() <= 5) {
+		  cameraPosition.add(-0.1f,0.1f, 0);
+	  } else if (mouseInput.getXPos() >= window.getWidth() - 5) {
+		  cameraPosition.add(0.1f, -0.1f, 0);
+	  }
+	  
+	  if (mouseInput.getYPos() <= 5) {
+		  cameraPosition.add(0.1f, 0.1f, 0);
+	  } else if (mouseInput.getYPos() >= window.getHeight() - 5) {
+		  cameraPosition.add(-0.1f, -0.1f, 0);
+	  }
+  }
+  
+  private void levelEditorInput() {
+	  if (window.isKeyReleased(GLFW_KEY_KP_9)) {
+		  if (currentTileX != editorMap.getTiles()[currentTileZ][currentTileY].length - 1) {
+			  currentTileX += 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_1)) {
+		  if (currentTileX != 0) {
+			  currentTileX -= 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_7)) {
+		  if (currentTileY != editorMap.getTiles()[currentTileZ].length - 1) {
+			  currentTileY += 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_3)) {
+		  if (currentTileY != 0) {
+			  currentTileY -= 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_5)) {
+		  if (currentTileZ != editorMap.getTiles().length - 1) {
+			  currentTileZ += 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_0)) {
+		  if (currentTileZ != 0) {
+			  currentTileZ -= 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_8)) {
+		  if (currentTileX != editorMap.getTiles()[currentTileZ][currentTileY].length - 1 
+		   && currentTileY != editorMap.getTiles()[currentTileZ].length - 1) {
+			  currentTileX += 1;
+			  currentTileY += 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_2)) {
+		  if (currentTileX != 0
+		   && currentTileY != 0) {
+			  currentTileX -= 1;
+			  currentTileY -= 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_4)) {
+		  if (currentTileX != 0
+		   && currentTileY != editorMap.getTiles()[currentTileZ].length - 1) {
+			  currentTileX -= 1;
+			  currentTileY += 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_6)) {
+		  if (currentTileX != editorMap.getTiles()[currentTileZ][currentTileY].length - 1
+		   && currentTileY != 0) {
+			  currentTileX += 1;
+			  currentTileY -= 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_SPACE)) {
+		  int id = editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].getType().ordinal();
+		  if (id == 5) {
+			  editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(TileType.values()[0]);
+		  } else {
+			  editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(TileType.values()[id + 1]);
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_ENTER)) {
+		  	  try {
+		  		gameModel.overwriteCurrentLevel(editorMap);
+		  	  } catch (Exception e) {
+		  		gameModel.createNewLevel(editorMap);
+		  	  } finally {
+		  		gameModel.addPlayer("1", 0);
+		  		gameState = State.TESTING_LEVEL;
+		  	  }
+	  }
+
   }
 
   private boolean checkPosition(int gui, String textObject, String textObjectLower) {

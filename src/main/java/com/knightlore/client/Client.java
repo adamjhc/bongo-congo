@@ -188,8 +188,7 @@ public class Client extends Thread {
         break;
 
       case SERVERMENU:
-        if (checkPosition(1, "------------------------------",
-        "------------------------------")) {
+        if (checkPosition(1, "Separator Top", "Separator Bot")) {
           if (mouseInput.scrolledDown()) {
             serverMenu.moveDown();
           }
@@ -406,7 +405,7 @@ public class Client extends Thread {
 	  int objectIndex = -1;
 	  int objectIndexLower = -1;
 	  for (int i = 0; i < guis[gui].getTextObjects().length; i++) {
-		  if (guis[gui].getTextObjects()[i].getText() == textObject) {
+		  if (guis[gui].getTextObjects()[i].getId() == textObject) {
 			  objectIndex = i;
 			  break;
 		  }
@@ -416,7 +415,7 @@ public class Client extends Thread {
 	  
 	  if (textObjectLower != "") {
 		  for (int i = 0; i < guis[gui].getTextObjects().length; i++) {
-			  if (guis[gui].getTextObjects()[i].getText() == textObjectLower && i != objectIndex) {
+			  if (guis[gui].getTextObjects()[i].getId() == textObjectLower && i != objectIndex) {
 				  objectIndexLower = i;
 			  }
 		  }

@@ -339,7 +339,7 @@ public class Client extends Thread {
           } else preLevelEditor.setRestoreHRight();
           
           if (mouseInput.getXPos() > window.getWidth()/2 - 175
-        	  && mouseInput.getXPos() < window.getWidth()/2 + 150
+        	  && mouseInput.getXPos() < window.getWidth()/2 + 180
         	  && mouseInput.getYPos() > window.getHeight()/2 + 210
         	  && mouseInput.getYPos() < window.getHeight()/2 + 240) {
         	  preLevelEditor.setCreateLevel();
@@ -349,6 +349,16 @@ public class Client extends Thread {
         		  gameState = State.LEVEL_EDITOR;
         	  }
           } else preLevelEditor.setRestoreCreateLevel();
+          
+          if (mouseInput.getXPos() > window.getWidth()/2 - 30
+        	  && mouseInput.getXPos() < window.getWidth()/2 + 30
+        	  && mouseInput.getYPos() > window.getHeight()/2 + 260
+        	  && mouseInput.getYPos() < window.getHeight()/2 + 275) {
+        	  preLevelEditor.setBack();
+        	  if (mouseInput.isLeftButtonPressed()) {
+        		  gameState = State.MAINMENU;
+        	  }
+          } else preLevelEditor.setRestoreBack();
     	
     	break;
 

@@ -49,6 +49,7 @@ public class PreLevelEditor implements IGui {
 	private final TextObject separatorBottom;
 	
 	private final TextObject createLevel;
+	private final TextObject back;
 	
 	public PreLevelEditor(Window window) throws Exception {
 		InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
@@ -109,6 +110,9 @@ public class PreLevelEditor implements IGui {
         
         this.createLevel = new TextObject("Create Level", fontTextureMedium);
         this.createLevel.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        
+        this.back = new TextObject("Back", fontTexture);
+        this.back.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
 
 
         this.bongo.setPosition(window.getWidth()/2-360, window.getHeight()/2-300, 0);
@@ -117,8 +121,8 @@ public class PreLevelEditor implements IGui {
         this.separatorBottom.setPosition(window.getWidth()/2-225, window.getHeight()/2+240, 0);
         
         this.width.setPosition(window.getWidth()/2-80, window.getHeight()/2-145, 0);
-        this.length.setPosition(window.getWidth()/2-88, window.getHeight()/2-35, 0);
-        this.height.setPosition(window.getWidth()/2-88, window.getHeight()/2+75, 0);
+        this.length.setPosition(window.getWidth()/2-94, window.getHeight()/2-35, 0);
+        this.height.setPosition(window.getWidth()/2-94, window.getHeight()/2+75, 0);
         
         this.wNum.setPosition(window.getWidth()/2-22, window.getHeight()/2-90, 0);
         this.lNum.setPosition(window.getWidth()/2-22, window.getHeight()/2+20, 0);
@@ -135,7 +139,9 @@ public class PreLevelEditor implements IGui {
         
         this.createLevel.setPosition(window.getWidth()/2-175, window.getHeight()/2+210, 0);
         
-        guiObjects = new GuiObject[] {bongo, congo, width, length, height, wNum, lNum, hNum, wLeft, wRight, lLeft, lRight, hLeft, hRight, separatorTop, separatorBottom, createLevel};
+        this.back.setPosition(window.getWidth()/2-30, window.getHeight()/2+260, 0);
+        
+        guiObjects = new GuiObject[] {bongo, congo, width, length, height, wNum, lNum, hNum, wLeft, wRight, lLeft, lRight, hLeft, hRight, separatorTop, separatorBottom, createLevel, back};
         
 	}
 	
@@ -148,7 +154,7 @@ public class PreLevelEditor implements IGui {
 	
 	public void decWidth() {
     	int newWidth = Integer.parseInt(this.wNum.getText());
-    	if (newWidth > 0) newWidth --;
+    	if (newWidth > 1) newWidth --;
     	this.wNum.setText((String.format("%02d", newWidth)));
     	this.wNum.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
     }
@@ -162,7 +168,7 @@ public class PreLevelEditor implements IGui {
 	
 	public void decLength() {
     	int newLength = Integer.parseInt(this.lNum.getText());
-    	if (newLength > 0) newLength --;
+    	if (newLength > 1) newLength --;
     	this.lNum.setText((String.format("%02d", newLength)));
     	this.lNum.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
     }
@@ -176,7 +182,7 @@ public class PreLevelEditor implements IGui {
 	
 	public void decHeight() {
     	int newHeight = Integer.parseInt(this.hNum.getText());
-    	if (newHeight > 0) newHeight --;
+    	if (newHeight > 1) newHeight --;
     	this.hNum.setText((String.format("%02d", newHeight)));
     	this.hNum.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
     }
@@ -235,6 +241,14 @@ public class PreLevelEditor implements IGui {
 	
 	public void setRestoreCreateLevel() {
 		this.createLevel.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+	}
+	
+	public void setBack() {
+		this.back.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
+	}
+	
+	public void setRestoreBack() {
+		this.back.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
 	}
 	
 	public int getWidth() {

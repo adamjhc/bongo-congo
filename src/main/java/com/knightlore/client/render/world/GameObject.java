@@ -26,6 +26,10 @@ public abstract class GameObject {
     return isometricPosition;
   }
 
+  public void setIsometricPosition(Vector3f isometricPosition) {
+    this.isometricPosition = isometricPosition;
+  }
+
   public Vector3f getModelPosition() {
     return modelPosition;
   }

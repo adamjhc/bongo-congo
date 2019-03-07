@@ -19,39 +19,46 @@ import com.knightlore.client.gui.ServerMenu;
 import com.knightlore.client.gui.engine.MouseInput;
 import com.knightlore.client.gui.engine.Timer;
 import com.knightlore.client.gui.engine.Window;
-import com.knightlore.client.render.Renderer;
+import com.knightlore.client.render.GameRenderer;
+import com.knightlore.client.render.GuiRenderer;
+import com.knightlore.client.render.LevelEditorRenderer;
 import com.knightlore.game.Game;
 import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.MapSet;
 import com.knightlore.game.map.TileSet;
+import org.joml.Vector3f;
 
 public class Client extends Thread {
-	
+
   private static State gameState = State.MAINMENU;
 
   private static final int TARGET_UPS = 60;
-  
+
   public static Game model;
-  
+
   private Window window;
-  
-  private Renderer renderer;
-  
+
+  private GameRenderer gameRenderer;
+
+  private GuiRenderer menuRenderer;
+
+  private LevelEditorRenderer levelEditorRenderer;
+
   private Game gameModel;
-  
+
   private AudioHandler audio;
-  
+
   private MouseInput mouseInput;
-  
+
   private Timer timer;
-  
+
   private Hud hud;
-  
+
   private MainMenu menu;
-  
+
   private ServerMenu serverMenu;
-  
+
   private OptionsMenu optionsMenu;
 
   public static void main(String[] args) {
@@ -86,7 +93,9 @@ public class Client extends Thread {
     serverMenu = new ServerMenu(window);
     optionsMenu = new OptionsMenu(window);
 
-    renderer = new Renderer(window);
+    menuRenderer = new GuiRenderer(window);
+    gameRenderer = new GameRenderer(window);
+    levelEditorRenderer = new LevelEditorRenderer(window);
 
     if (model == null) {
       MapSet mapSet = new MapSet(new TileSet());
@@ -125,11 +134,11 @@ public class Client extends Thread {
 
   private void input(float delta) {
     window.update();
-    
+
     switch(gameState) {
-    
+
     case MAINMENU:
-    	
+
     	// SINGEPLAYER BUTTON
         if (mouseInput.getXPos() > window.getWidth() / 2 - 90
             && mouseInput.getXPos() < window.getWidth() / 2 + 90
@@ -145,7 +154,7 @@ public class Client extends Thread {
             gameState = State.SINGLEPLAYER;
           }
         } else menu.setRestoreSingleplayer();
-        
+
         // MULTIPLAYER BUTTON
         if (mouseInput.getXPos() > window.getWidth() / 2 - 84
         		&& mouseInput.getXPos() < window.getWidth() / 2 + 84
@@ -154,10 +163,10 @@ public class Client extends Thread {
         	menu.setMultiplayer();
         	if (mouseInput.isLeftButtonPressed()) {
         		gameState = State.SERVERMENU;
-        		
+
         	}
         } else menu.setRestoreMultiplayer();
-        
+
         // OPTIONS BUTTON
         if (mouseInput.getXPos() > window.getWidth() / 2 - 52
         		&& mouseInput.getXPos() < window.getWidth() / 2 + 52
@@ -166,9 +175,9 @@ public class Client extends Thread {
         	menu.setOptions();
         	if (mouseInput.isLeftButtonPressed()) {
         		gameState = State.OPTIONSMENU;
-        	} 
+        	}
         } else menu.setRestoreOptions();
-        
+
         // QUIT BUTTON
         if (mouseInput.getXPos() > window.getWidth() / 2 - 30
         		&& mouseInput.getXPos() < window.getWidth() / 2 + 30
@@ -179,18 +188,18 @@ public class Client extends Thread {
             	glfwSetWindowShouldClose(window.getWindowHandle(), true);
             }
         } else menu.setRestoreQuit();
-        
+
         audio();
-        
+
         // ESC TO EXIT
         if (window.isKeyReleased(GLFW_KEY_ESCAPE)) {
         	glfwSetWindowShouldClose(window.getWindowHandle(), true);
         }
-        
+
     	break;
-    
+
     case SERVERMENU:
-    	
+
     	if (mouseInput.getXPos() > window.getWidth()/2 - 225
     			&& mouseInput.getXPos() < window.getWidth()/2 + 255
     			&& mouseInput.getYPos() > window.getHeight()/2-185
@@ -205,7 +214,7 @@ public class Client extends Thread {
         		serverMenu.highlight(window, mouseInput.getYPos());
         	}
     	}
-    	
+
     	if (mouseInput.getXPos() > window.getWidth()/2 - 82.5f
     			&& mouseInput.getXPos() < window.getWidth()/2 + 82.5f
     			&& mouseInput.getYPos() > window.getHeight()/2 + 215
@@ -215,7 +224,7 @@ public class Client extends Thread {
     			serverMenu.createServer(window);
     		}
     	} else serverMenu.setRestoreCreate();
-    	
+
         if (mouseInput.getXPos() > window.getWidth()/2 - 30
         		&& mouseInput.getXPos() < window.getWidth()/2 + 30
         		&& mouseInput.getYPos() < window.getHeight()/2 + 270
@@ -223,15 +232,15 @@ public class Client extends Thread {
         	serverMenu.setExit();
         	if (mouseInput.isLeftButtonPressed()) {
         		gameState = State.MAINMENU;
-        	} 
+        	}
         } else serverMenu.setRestoreExit();
 
     	leaveMenu();
-    	
+
     	break;
-    	
+
     case OPTIONSMENU:
-    	
+
     	if (mouseInput.getXPos() > window.getWidth()/2 + 85
     			&& mouseInput.getXPos() < window.getWidth()/2 + 115
     			&& mouseInput.getYPos() > window.getHeight()/2 - 145
@@ -242,7 +251,7 @@ public class Client extends Thread {
     			audio.incVolume();
     		}
     	} else optionsMenu.setRestoreIncVol();
-    	
+
     	if (mouseInput.getXPos() > window.getWidth()/2 - 115
     			&& mouseInput.getXPos() < window.getWidth()/2 - 85
     			&& mouseInput.getYPos() > window.getHeight()/2 - 145
@@ -253,7 +262,7 @@ public class Client extends Thread {
     			audio.decVolume();
     		}
     	} else optionsMenu.setRestoreDecVol();
-    	
+
         if (mouseInput.getXPos() > window.getWidth()/2 - 30
         		&& mouseInput.getXPos() < window.getWidth()/2 + 30
         		&& mouseInput.getYPos() < window.getHeight()/2 + 270
@@ -261,16 +270,16 @@ public class Client extends Thread {
         	optionsMenu.setExit();
         	if (mouseInput.isLeftButtonPressed()) {
         		gameState = State.MAINMENU;
-        	} 
+        	}
         } else optionsMenu.setRestoreExit();
-    	
+
     	leaveMenu();
-    	
+
     	break;
-    	
-    	
+
+
     case SINGLEPLAYER:
-    	
+
     	movement(delta);
 
         // LIVES
@@ -284,26 +293,26 @@ public class Client extends Thread {
           }
         }
 
-        // SCORE 
+        // SCORE
         if (window.isKeyReleased(GLFW_KEY_P)) {
           hud.setP1Score();
         }
-        
+
         leaveGame();
 
         audio();
-        
+
         // CONTROL TO SHOW OTHER PLAYERS SCORES
         if (window.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
         	hud.moveScore(20, 5);
         } else {
         	hud.moveScore(-10, -230);
         }
-        
+
     	break;
-    	
+
     case DEAD:
-    	
+
     	leaveGame();
 
         audio();
@@ -313,23 +322,23 @@ public class Client extends Thread {
   }
 
   private void update(float delta) {
-	  
+
 	  switch(gameState) {
-	  
+
 	  case MAINMENU:
-		  
-		  break;	
-		  
+
+		  break;
+
 	  case SERVERMENU:
-		  
+
 		  break;
-		  
+
 	  case OPTIONSMENU:
-		  
+
 		  break;
-		  
+
 	  case SINGLEPLAYER:
-		  
+
 		  float gameTime = timer.getGameTime();
 
 		  int timeLeft = 90 - Math.round(gameTime);
@@ -337,55 +346,60 @@ public class Client extends Thread {
 			  timeLeft = 0;
 		  }
 		  String text = String.format("%02d", timeLeft);
-		  
+
 		  hud.setCounter(text);
-		  gameModel.update(delta); 
-		  
-		  break;	  
-		  
+		  gameModel.update(delta);
+
+		  break;
+
 	  case DEAD:
-		  
-		  gameModel.update(delta); 
-		  
+
+		  gameModel.update(delta);
+
 		  break;
 	  }
   }
 
   private void render(Game gameModel) {
     switch (gameState) {
-    
+
     case MAINMENU:
-    	
-        renderer.render(window, menu);
-        
+
+        menuRenderer.render(menu);
+
         break;
-        
+
     case SERVERMENU:
-    	
-    	renderer.render(window, serverMenu);
-    	
+
+    	menuRenderer.render(serverMenu);
+
     	break;
-    	
+
+    case LEVEL_EDITOR:
+      levelEditorRenderer.render(new MapSet(new TileSet()).getMap(0), new Vector3f(0, 0, 0));
+
+      break;
+
     case OPTIONSMENU:
-    	
-    	renderer.render(window, optionsMenu);
-    	
+
+    	menuRenderer.render(optionsMenu);
+
     	break;
-        
+
     case SINGLEPLAYER:
-    	
-        renderer.render(gameModel, window, hud);
-        
+
+        gameRenderer.render(gameModel, hud);
+
         break;
-        
+
     case DEAD:
-    	
-        renderer.render(gameModel, window, hud);
-        
-        break;    
+
+        gameRenderer.render(gameModel, hud);
+
+        break;
     }
   }
-  
+
   private void movement(float delta) {
       if (window.isKeyPressed(GLFW_KEY_W) // Player presses W
               && !window.isKeyPressed(GLFW_KEY_A)
@@ -423,7 +437,7 @@ public class Client extends Thread {
             gameModel.updatePlayerState(PlayerState.IDLE);
           }
   }
-  
+
   private void audio() {
       if (mouseInput.getXPos() > window.getWidth() - 35
               && mouseInput.getYPos() > window.getHeight()-35) {
@@ -434,17 +448,17 @@ public class Client extends Thread {
           }
       }
   }
-  
+
   private void leaveGame() {
       if (window.isKeyReleased(GLFW_KEY_ESCAPE)) {
   		audio.toggle();
   		audio.toggle();
-  		
+
       	gameModel.resetPlayer();
       	gameState = State.MAINMENU;
       }
   }
-  
+
   private void leaveMenu() {
       if (window.isKeyReleased(GLFW_KEY_ESCAPE)) {
       	gameState = State.MAINMENU;
@@ -453,7 +467,7 @@ public class Client extends Thread {
 
   private void dispose() {
     hud.cleanup();
-    renderer.cleanup();
+    gameRenderer.cleanup();
 
     window.freeCallbacks();
     window.destroyWindow();
@@ -464,6 +478,7 @@ public class Client extends Thread {
   private enum State {
     MAINMENU,
     SERVERMENU,
+    LEVEL_EDITOR,
     OPTIONSMENU,
     LOBBY,
     SINGLEPLAYER,

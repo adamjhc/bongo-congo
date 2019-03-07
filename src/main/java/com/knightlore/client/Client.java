@@ -270,42 +270,42 @@ public class Client extends Thread {
         break;
         
       case PRE_EDITOR:
-    	  if (checkPosition(4, "<", "")) {
+    	  if (checkPosition(4, "wLeft", "")) {
     		  preLevelEditor.getWLeft().setColour();
     		  if (mouseInput.isLeftButtonPressed()) {
     			  preLevelEditor.decWidth();
     		  }
     	  } else preLevelEditor.getWLeft().setColour(new Vector4f(1, 1, 0, 1));
     	  
-    	  if (checkPosition(4, ">", "")) {
+    	  if (checkPosition(4, "wRight", "")) {
     		  preLevelEditor.getWRight().setColour();
     		  if (mouseInput.isLeftButtonPressed()) {
     			  preLevelEditor.incWidth();
     		  }
-    	  } else preLevelEditor.getWRight().setColour();
+    	  } else preLevelEditor.getWRight().setColour(new Vector4f(1, 1, 0, 1));
     	  
-    	  if (checkPosition(4, "<", "")) {
+    	  if (checkPosition(4, "lLeft", "")) {
     		  preLevelEditor.getLLeft().setColour();
     		  if (mouseInput.isLeftButtonPressed()) {
     			  preLevelEditor.decLength();
     		  }
-    	  } else preLevelEditor.getLLeft().setColour();
+    	  } else preLevelEditor.getLLeft().setColour(new Vector4f(1, 1, 0, 1));
         	  
-          if (checkPosition(4, ">", "")) {
+          if (checkPosition(4, "lRight", "")) {
         	  preLevelEditor.getLRight().setColour();
         	  if (mouseInput.isLeftButtonPressed()) {
         		  preLevelEditor.incLength();
         	  }
-          } else preLevelEditor.getLRight().setColour();
+          } else preLevelEditor.getLRight().setColour(new Vector4f(1, 1, 0, 1));
         	  
-          if (checkPosition(4, "<", "")) {
+          if (checkPosition(4, "hLeft", "")) {
               preLevelEditor.getHLeft().setColour();
               if (mouseInput.isLeftButtonPressed()) {
             	  preLevelEditor.decHeight();
               }
-          } else preLevelEditor.getHLeft().setColour();
+          } else preLevelEditor.getHLeft().setColour(new Vector4f(1, 1, 0, 1));
             	  
-          if (checkPosition(4, ">", "")) {
+          if (checkPosition(4, "hRight", "")) {
               preLevelEditor.getHRight().setColour();
               if (mouseInput.isLeftButtonPressed()) {
             	  preLevelEditor.incHeight();

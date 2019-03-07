@@ -88,21 +88,27 @@ public class PreLevelEditor implements IGui {
         
         this.wLeft = new TextObject("<", fontTexture);
         this.wLeft.getMesh().getMaterial().setColour(YELLOW);
+        this.wLeft.setId("wLeft");
         
         this.wRight = new TextObject(">", fontTexture);
         this.wRight.getMesh().getMaterial().setColour(YELLOW);
+        this.wRight.setId("wRight");
         
         this.lLeft = new TextObject("<", fontTexture);
         this.lLeft.getMesh().getMaterial().setColour(YELLOW);
+        this.lLeft.setId("lLeft");
         
         this.lRight = new TextObject(">", fontTexture);
         this.lRight.getMesh().getMaterial().setColour(YELLOW);
+        this.lRight.setId("lRight");
         
         this.hLeft = new TextObject("<", fontTexture);
         this.hLeft.getMesh().getMaterial().setColour(YELLOW);
+        this.hLeft.setId("hLeft");
         
         this.hRight = new TextObject(">", fontTexture);
         this.hRight.getMesh().getMaterial().setColour(YELLOW);
+        this.hRight.setId("hRight");
         
         this.separatorTop = new TextObject("------------------------------", fontTexture);
         this.separatorTop.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0 , 1));

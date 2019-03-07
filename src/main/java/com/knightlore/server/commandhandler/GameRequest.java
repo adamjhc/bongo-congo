@@ -27,7 +27,7 @@ public class GameRequest extends Command{
 
         // Create json data
         String json = sendable.getData();
-        ApiKey apikey = gson.fromJson(json, ApiKey.class);
+        com.knightlore.networking.GameRequest data = gson.fromJson(json, com.knightlore.networking.GameRequest.class);
 
         Sendable response = sendable.makeResponse();
         GameRequestResponse gameRequestResponse;
@@ -47,8 +47,24 @@ public class GameRequest extends Command{
             int port = GameRepository.instance.getNewPort();
             UUID uuid = UUID.randomUUID();
 
+            // Convert to level objects
+            ArrayList<com.knightlore.game.Level> levels = new ArrayList<>();
+
+            for(UUID levelID :  data.getLevels()){
+                // Retrieve level from database
+                Level model = new Level();
+                model.where(new Condition("uuid", "=", levelID.toString()));
+                Optional<Model> level = model.first();
+
+                if(level.isPresent()){
+                    Level levelCast = (Level) level.get();
+                    levels.add(levelCast.getModelLevel());
+                }else{
+                    logger.warn("User sent incorrect level id: " + levelID.toString());
+                }
+            }
             // Create new game server
-            GameRepository.instance.newServer(uuid, port, handler.sessionKey.get());
+            GameRepository.instance.newServer(uuid, port, handler.sessionKey.get(), levels);
 
             // Start server
             GameRepository.instance.startServer(uuid);

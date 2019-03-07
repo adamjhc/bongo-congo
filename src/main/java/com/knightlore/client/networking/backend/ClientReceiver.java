@@ -40,10 +40,12 @@ public class ClientReceiver extends Thread{
 
                 System.out.println("CLIENT RECEIVED: " + received);
             }catch (IOException e){
-                e.printStackTrace();
+                break;
             }catch (ClassNotFoundException e){
                 e.printStackTrace();
             }
         }
+
+        System.out.println("Connection lost");
     }
 }

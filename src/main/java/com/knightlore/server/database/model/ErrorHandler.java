@@ -8,6 +8,6 @@ public class ErrorHandler {
 
 
     public static void logSQL(String e){
-
+        System.out.println(e);
     }
 }

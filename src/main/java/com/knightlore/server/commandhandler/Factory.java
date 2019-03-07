@@ -7,17 +7,22 @@ public class Factory {
 
 
     public static void create(ClientHandler clientHandler, Sendable sendable){
+        Command handler;
 
         if(sendable.getFunction().equals("get_session_token")){
-            GetSessionToken handler = new GetSessionToken();
+            handler = new GetSessionToken();
             handler.run(clientHandler, sendable);
         }
         if(sendable.getFunction().equals("request_game")){
-            GameRequest handler = new GameRequest();
+            handler = new GameRequest();
             handler.run(clientHandler, sendable);
         }
         if(sendable.getFunction().equals("list_games")){
-            ListGames handler = new ListGames();
+            handler = new ListGames();
+            handler.run(clientHandler, sendable);
+        }
+        if(sendable.getFunction().equals("list_levels")){
+            handler = new ListLevels();
             handler.run(clientHandler, sendable);
         }
     }

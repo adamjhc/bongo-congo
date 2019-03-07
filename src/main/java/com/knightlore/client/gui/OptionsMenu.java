@@ -6,8 +6,6 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import org.joml.Vector4f;
-
 import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
@@ -16,17 +14,17 @@ import com.knightlore.client.gui.engine.graphics.FontTexture;
 
 public class OptionsMenu implements IGui {
 	
-	private static final Font FONT = new Font("Press Start 2P", Font.PLAIN, 15);
+	private static final int SEPARATORTOP_POS = 185;
 	
-	private static final Font FONT_TITLE = new Font("Press Start 2P", Font.PLAIN, 72);
+	private static final int SEPARATORBOT_POS = 200;
 	
-	private static final Font FONT_LARGE = new Font("Press Start 2P", Font.PLAIN, 30);
-	
-	private static final String CHARSET = "ISO-8859-1";
+	private static final int SEPARATOR_GAP = 16;
 	
 	private static final int MAX_VOLUME = 100;
 	
     private GuiObject[] guiObjects;
+    
+    private TextObject[] textObjects;
     
     private final TextObject bongo;
     
@@ -53,98 +51,85 @@ public class OptionsMenu implements IGui {
     	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
     	ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, myStream));
     	
-    	FontTexture fontTexture = new FontTexture(FONT, CHARSET);
-    	FontTexture fontTextureLarge = new FontTexture(FONT_LARGE, CHARSET);
-    	FontTexture fontTextureTitle = new FontTexture(FONT_TITLE, CHARSET);
+    	FontTexture fontSmall = new FontTexture(FONT_SMALL, CHARSET);
+    	FontTexture fontLarge = new FontTexture(FONT_LARGE, CHARSET);
+    	FontTexture fontTitle = new FontTexture(FONT_TITLE, CHARSET);
     	
-    	this.bongo = new TextObject("Bongo", fontTextureTitle);
-        this.bongo.getMesh().getMaterial().setColour(new Vector4f(0.29f, 0.92f, 0.95f, 1));
+    	this.bongo = new TextObject("Bongo", fontTitle);
+        this.bongo.setColour(LIGHT_BLUE);
         
-        this.congo = new TextObject("Congo", fontTextureTitle);
-        this.congo.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
+        this.congo = new TextObject("Congo", fontTitle);
+        this.congo.setColour(RED);
         
-        this.incVolume = new TextObject(">", fontTextureLarge);
-        this.incVolume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        this.incVolume = new TextObject(">", fontLarge);
+        this.incVolume.setColour(YELLOW);
         
-        this.decVolume = new TextObject("<", fontTextureLarge);
-        this.decVolume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        this.decVolume = new TextObject("<", fontLarge);
+        this.decVolume.setColour(YELLOW);
         
-        this.volume = new TextObject("000", fontTextureLarge);
-        this.volume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        this.volume = new TextObject("000", fontLarge);
+        this.volume.setColour(YELLOW);
         
-        this.exit = new TextObject("Exit", fontTexture);
-        this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        this.exit = new TextObject("Exit", fontSmall);
+        this.exit.setColour(YELLOW);
         
-        this.options = new TextObject("Game Options", fontTexture);
-        this.options.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        this.options = new TextObject("Game Options", fontSmall);
+        this.options.setColour(YELLOW);
         
-        this.separatorTop = new TextObject("------------------------------", fontTexture);
-        this.separatorTop.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0 , 1));
+        this.separatorTop = new TextObject("------------------------------", fontSmall);
+        this.separatorTop.setColour(YELLOW);
         
-        this.separatorBot = new TextObject("------------------------------", fontTexture);
-        this.separatorBot.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0 , 1));
+        this.separatorBot = new TextObject("------------------------------", fontSmall);
+        this.separatorBot.setColour(YELLOW);
         
-        this.musicVolume = new TextObject("Game music volume", fontTexture);
-        this.musicVolume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        this.musicVolume = new TextObject("Game music volume", fontSmall);
+        this.musicVolume.setColour(YELLOW);
         
-        //ADD VOLUME CONTROL FOR MUSIC AND IN-GAME SOUNDS SEPARATELY
-        //GAME CONTROLS?
-        float width = (volume.getText().length())*30/2;
-        this.bongo.setPosition(window.getWidth()/2-360, window.getHeight()/2-300, 0);
-        this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-300, 0);
-        this.volume.setPosition(window.getWidth()/2-width, window.getHeight()/2-145, 0);
-        width = (incVolume.getText().length())*30/2;
-        this.incVolume.setPosition(window.getWidth()/2-width+100, window.getHeight()/2-145, 0);
-        width = (decVolume.getText().length())*30/2;
-        this.decVolume.setPosition(window.getWidth()/2-width-100, window.getHeight()/2-145, 0);
-        width = (exit.getText().length())*15/2;
-        this.exit.setPosition(window.getWidth()/2-width, window.getHeight()/2+255, 0);	
-        this.options.setPosition(window.getWidth()/2-90, window.getHeight()/2-200, 0);
-        this.separatorTop.setPosition(window.getWidth()/2-225, window.getHeight()/2-185, 0);
-        this.separatorBot.setPosition(window.getWidth()/2-225, window.getHeight()/2+240, 0);
-        width = (musicVolume.getText().length())*15/2;
-        this.musicVolume.setPosition(window.getWidth()/2-width, window.getHeight()/2-165, 0);
+        this.bongo.setPosition(window.getWidth()/2-bongo.getSize(), window.getHeight()/2-TITLE_POS);
+        this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-TITLE_POS);
+        this.volume.setPosition(window.getWidth()/2-volume.getSize()/2, window.getHeight()/2-SEPARATORTOP_POS+GAP*2);
+        this.incVolume.setPosition(window.getWidth()/2-incVolume.getSize()/2+100, window.getHeight()/2-SEPARATORTOP_POS+GAP*2);
+        this.decVolume.setPosition(window.getWidth()/2-decVolume.getSize()/2-100, window.getHeight()/2-SEPARATORTOP_POS+GAP*2);
+        this.exit.setPosition(window.getWidth()/2-exit.getSize()/2, window.getHeight()/2+SEPARATORBOT_POS+SEPARATOR_GAP);	
+        this.options.setPosition(window.getWidth()/2-options.getSize()/2, window.getHeight()/2-SEPARATORTOP_POS-SEPARATOR_GAP);
+        this.separatorTop.setPosition(window.getWidth()/2-separatorTop.getSize()/2, window.getHeight()/2-SEPARATORTOP_POS);
+        this.separatorBot.setPosition(window.getWidth()/2-separatorBot.getSize()/2, window.getHeight()/2+SEPARATORBOT_POS);
+        this.musicVolume.setPosition(window.getWidth()/2-musicVolume.getSize()/2, window.getHeight()/2-SEPARATORTOP_POS+GAP);
         
         
         guiObjects = new GuiObject[]{bongo, congo, incVolume, decVolume, volume, exit, options, separatorTop, separatorBot, musicVolume};
+        textObjects = new TextObject[]{incVolume, decVolume, exit};
     }
     
     public void incVolume() {
     	int volume = Integer.parseInt(this.volume.getText());
     	if (volume < MAX_VOLUME) volume ++;
     	this.volume.setText((String.format("%03d", volume)));
-    	this.volume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    	this.volume.getMesh().getMaterial().setColour(YELLOW);
     }
     
     public void decVolume() {
     	int volume = Integer.parseInt(this.volume.getText());
     	if (volume > 0) volume --;
     	this.volume.setText((String.format("%03d", volume)));
-    	this.volume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    	this.volume.getMesh().getMaterial().setColour(YELLOW);
+    }
+
+    public TextObject getIncVolume() {
+    	return incVolume;
     }
     
-    public void setIncVol() {
-    	this.incVolume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
+    public TextObject getDecVolume() {
+    	return decVolume;
     }
     
-    public void setRestoreIncVol() {
-    	this.incVolume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    public TextObject getExit() {
+    	return exit;
     }
     
-    public void setDecVol() {
-    	this.decVolume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
-    }
-    
-    public void setRestoreDecVol() {
-    	this.decVolume.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
-    }
-    
-    public void setExit() {
-    	this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
-    }
-    
-    public void setRestoreExit() {
-    	this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    @Override
+    public TextObject[] getTextObjects() {
+    	return textObjects;
     }
 
     @Override

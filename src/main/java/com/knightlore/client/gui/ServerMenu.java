@@ -1,15 +1,11 @@
 package com.knightlore.client.gui;
 
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.GraphicsEnvironment;
-import java.awt.Toolkit;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
-
-import org.joml.Vector4f;
 
 import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
@@ -20,15 +16,17 @@ import com.knightlore.client.gui.engine.graphics.FontTexture;
 
 public class ServerMenu implements IGui {
 	
-	private static final Font FONT = new Font("Press Start 2P", Font.PLAIN, 15);
+	private static final int SEPARATORTOP_POS = 185;
 	
-	private static final Font FONT_TITLE = new Font("Press Start 2P", Font.PLAIN, 72);
+	private static final int SEPARATORBOT_POS = 200;
 	
-	private static final String CHARSET = "ISO-8859-1";
+	private static final int SEPARATOR_GAP = 16;
 	
 	private static final int MAX_SERVERS = 18;
 	
     private GuiObject[] guiObjects;
+    
+    private TextObject[] textObjects;
     
     private final TextObject bongo;
     
@@ -52,80 +50,65 @@ public class ServerMenu implements IGui {
     
     private int current = 0;
     
-    private int yPos = 165;
+    private int yPos = SEPARATORTOP_POS-GAP;
     
     public ServerMenu(Window window) throws Exception {
     	InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
     	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
     	ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, myStream));
     	
-    	FontTexture fontTexture = new FontTexture(FONT, CHARSET);
-    	FontTexture fontTextureTitle = new FontTexture(FONT_TITLE, CHARSET);
+    	FontTexture fontSmall = new FontTexture(FONT_SMALL, CHARSET);
+    	FontTexture fontTitle = new FontTexture(FONT_TITLE, CHARSET);
     	
-//    	Toolkit toolkit =  Toolkit.getDefaultToolkit();
-//    	FontMetrics fontMetrics = toolkit.getFontMetrics(FONT_TITLE);
-//    	
-//    	String s = "Bongo";
-//    	char[] chars = s.toCharArray();
-//    	
-//    	System.out.println(fontMetrics.charsWidth(chars, 0, 5));
-    	
-    	this.bongo = new TextObject("Bongo", fontTextureTitle);
-        this.bongo.getMesh().getMaterial().setColour(new Vector4f(0.29f, 0.92f, 0.95f, 1));
+    	this.bongo = new TextObject("Bongo", fontTitle);
+        this.bongo.setColour(LIGHT_BLUE);
         
-        this.congo = new TextObject("Congo", fontTextureTitle);
-        this.congo.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
+        this.congo = new TextObject("Congo", fontTitle);
+        this.congo.setColour(RED);
         
-        this.multiplayer = new TextObject("Play Multiplayer", fontTexture);
-        this.multiplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        this.multiplayer = new TextObject("Play Multiplayer", fontSmall);
+        this.multiplayer.setColour(YELLOW);
         
-        this.separatorTop = new TextObject("------------------------------", fontTexture);
-        this.separatorTop.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0 , 1));
+        this.separatorTop = new TextObject("------------------------------", fontSmall);
+        this.separatorTop.setColour(YELLOW);
         
-        this.separatorBot = new TextObject("------------------------------", fontTexture);
-        this.separatorBot.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0 , 1));
+        this.separatorBot = new TextObject("------------------------------", fontSmall);
+        this.separatorBot.setColour(YELLOW);
         
-        this.join = new TextObject("Join game", fontTexture);
-        this.join.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        this.join = new TextObject("Join game", fontSmall);
+        this.join.setColour(YELLOW);
         
-        this.create = new TextObject("Create game", fontTexture);
-        this.create.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        this.create = new TextObject("Create game", fontSmall);
+        this.create.setColour(YELLOW);
         
-        this.exit = new TextObject("Exit", fontTexture);
-        this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        this.exit = new TextObject("Exit", fontSmall);
+        this.exit.setColour(YELLOW);
         
-        this.bongo.setPosition(window.getWidth()/2-360, window.getHeight()/2-300, 0);
-        this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-300, 0);
-        
-        this.multiplayer.setPosition(window.getWidth()/2-120, window.getHeight()/2-200, 0);
-        this.separatorTop.setPosition(window.getWidth()/2-225, window.getHeight()/2-185, 0);
-        this.separatorBot.setPosition(window.getWidth()/2-225, window.getHeight()/2+200, 0);
-        float width = (join.getText().length())*15/2;
-        this.join.setPosition(window.getWidth()/2-width, window.getHeight()/2+235, 0);
-        width = (create.getText().length())*15/2;
-        this.create.setPosition(window.getWidth()/2-width, window.getHeight()/2+215, 0);
-        this.exit.setPosition(window.getWidth()/2-30, window.getHeight()/2+255, 0);	
+        this.bongo.setPosition(window.getWidth()/2-bongo.getSize(), window.getHeight()/2-TITLE_POS);
+        this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-TITLE_POS);
+        this.multiplayer.setPosition(window.getWidth()/2-multiplayer.getSize()/2, window.getHeight()/2-SEPARATORTOP_POS-SEPARATOR_GAP);
+        this.separatorTop.setPosition(window.getWidth()/2-separatorTop.getSize()/2, window.getHeight()/2-SEPARATORTOP_POS);
+        this.separatorBot.setPosition(window.getWidth()/2-separatorTop.getSize()/2, window.getHeight()/2+SEPARATORBOT_POS);
+        this.create.setPosition(window.getWidth()/2-create.getSize()/2, window.getHeight()/2+SEPARATORBOT_POS+GAP);
+        this.join.setPosition(window.getWidth()/2-join.getSize()/2, window.getHeight()/2+SEPARATORBOT_POS+GAP*2);
+        this.exit.setPosition(window.getWidth()/2-exit.getSize()/2, window.getHeight()/2+SEPARATORBOT_POS+GAP*3);	
         
         servers = new ArrayList<LobbyObject>();
         
         for (int i = 0; i < 10; i++) {
-        	servers.add(new LobbyObject(i+"'s "+"Server", fontTexture));
+        	servers.add(new LobbyObject(i+"'s "+"Server", fontSmall));
         }
         
         for (int i = 0; i < servers.size(); i++) {
-        	width = (servers.get(i).getText().length())*15/2;
-        	servers.get(i).getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
-        	servers.get(i).setPosition(window.getWidth()/2-width, window.getHeight()/2-yPos, 0);
-        	yPos -= 20;
+        	servers.get(i).setColour(YELLOW);
+        	servers.get(i).setPosition(window.getWidth()/2-servers.get(i).getSize()/2, window.getHeight()/2-yPos);
+        	yPos -= GAP;
         }
-        
-        // RECEIVE LIST OF CLIENT NAMES
-        // CREATE LOBBY
-        // JOIN LOBBY
-        // PLAYER COUNT IN LOBBY
         
         guiObjects = new GuiObject[]{bongo, congo, multiplayer, separatorTop, separatorBot, join, create, exit};
         length = guiObjects.length;
+        
+        textObjects = new TextObject[]{join, create, exit, separatorTop, separatorBot};
         
         addServers();
     }
@@ -133,16 +116,15 @@ public class ServerMenu implements IGui {
     public void createServer(Window window) {
     	FontTexture fontTexture = null;
 		try {
-			fontTexture = new FontTexture(FONT, CHARSET);
+			fontTexture = new FontTexture(FONT_SMALL, CHARSET);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
     	LobbyObject newServer = new LobbyObject("New Server "+servers.size(), fontTexture);
-    	float width = (newServer.getText().length())*15/2;
-    	newServer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
-    	newServer.setPosition(window.getWidth()/2-width, window.getHeight()/2-yPos-(current*20), 0);
-    	yPos -= 20;
+    	newServer.setColour(YELLOW);
+    	newServer.setPosition(window.getWidth()/2-newServer.getSize()/2, window.getHeight()/2-yPos-(current*GAP));
+    	yPos -= GAP;
     	
     	servers.add(newServer);
     	reAddServers();
@@ -160,16 +142,6 @@ public class ServerMenu implements IGui {
         	}
         	guiObjects = guiObjectsNew.clone();
     	} 
-    	/* else {
-        	GuiObject[] guiObjectsNew = new GuiObject[length + MAX_SERVERS];
-        	for (int i = 0; i < length; i++) {
-        		guiObjectsNew[i] = guiObjects[i];
-        	}
-        	for (int i = length; i < length + MAX_SERVERS; i++) {
-        		guiObjectsNew[i] = servers.get(i - length);
-        	}
-        	guiObjects = guiObjectsNew.clone();
-    	} */
     }
     
     public void addServers() {
@@ -207,7 +179,7 @@ public class ServerMenu implements IGui {
         	guiObjects = guiObjectsNew.clone();
         	
         	for (int i = 0; i < servers.size(); i++) {
-        		servers.get(i).setPositionY(servers.get(i).getPositionY()-20);
+        		servers.get(i).setPositionY(servers.get(i).getPositionY()-GAP);
         	}
     	}	
     }
@@ -226,13 +198,13 @@ public class ServerMenu implements IGui {
         	guiObjects = guiObjectsNew.clone();
         	
         	for (int i = 0; i < servers.size(); i++) {
-        		servers.get(i).setPositionY(servers.get(i).getPositionY()+20);
+        		servers.get(i).setPositionY(servers.get(i).getPositionY()+GAP);
         	}	
     	}	
     }
     
     public void highlight(Window window, double yPos) {
-    	double pos = (yPos-(window.getHeight()/2-145))/20;
+    	double pos = (yPos-(window.getHeight()/2-(SEPARATORTOP_POS-GAP*2)))/GAP;
     	int posInt = (int) Math.ceil(pos);
     	if (posInt >= 0 && posInt < Math.min(MAX_SERVERS,servers.size())) {
     		setHighlight(window, posInt);
@@ -244,9 +216,8 @@ public class ServerMenu implements IGui {
     		if (servers.get(i).getHighlighted() == true) {
     			servers.get(i).setHighlighted();
     			servers.get(i).setText(servers.get(i).getText().substring(4, servers.get(i).getText().length()-4));
-    			float width = servers.get(i).getText().length()*15/2;
-    			servers.get(i).setPositionX(window.getWidth()/2-width);
-    			servers.get(i).getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    			servers.get(i).setPositionX(window.getWidth()/2-servers.get(i).getSize()/2);
+    			servers.get(i).setColour(YELLOW);
     		}
     	}
     }
@@ -255,24 +226,28 @@ public class ServerMenu implements IGui {
     	resetHighlight(window);
 		servers.get(listPos+current).setHighlighted();
 		servers.get(listPos+current).setText("=== "+servers.get(listPos+current).getText()+" ===");
-		float width = servers.get(listPos+current).getText().length()*15/2;
-		servers.get(listPos+current).setPositionX(window.getWidth()/2-width);
+		servers.get(listPos+current).setPositionX(window.getWidth()/2-servers.get(listPos+current).getSize()/2);
     }
     
-    public void setExit() {
-    	this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
+    public TextObject getCreate() {
+    	return create;
     }
     
-    public void setRestoreExit() {
-    	this.exit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    public TextObject getSeparatorTop() {
+    	return separatorTop;
     }
     
-    public void setCreate() {
-    	this.create.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
+    public TextObject getSeparatorBot() {
+    	return separatorBot;
     }
     
-    public void setRestoreCreate() {
-    	this.create.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    public TextObject getExit() {
+    	return exit;
+    }
+    
+    @Override
+    public TextObject[] getTextObjects() {
+    	return textObjects;
     }
     
     @Override

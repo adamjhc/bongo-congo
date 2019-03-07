@@ -22,6 +22,8 @@ public class LevelEditorHud implements IGui {
 	
 	private final TextObject save;
 	
+	private TextObject[] textObjects;
+	
 	private GuiObject[] guiObjects;
 
 	public LevelEditorHud(Window window) throws Exception {
@@ -34,14 +36,20 @@ public class LevelEditorHud implements IGui {
     	this.save = new TextObject("Save", fontTextureLarge);
     	this.save.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
     	
-    	this.save.setPosition(window.getWidth()/2+460, window.getHeight()/2-350, 0);
+    	//this.save.setPosition(window.getWidth()/2+460, window.getHeight()/2-350, 0);
     	
     	guiObjects = new GuiObject[] {save};
+    	textObjects = new TextObject[] {save};
 	}
 	
 	@Override
 	public GuiObject[] getGuiObjects() {
 		return guiObjects;
+	}
+
+	@Override
+	public TextObject[] getTextObjects() {
+		return textObjects;
 	}
 
 }

@@ -5,7 +5,6 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_J;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_P;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
@@ -31,6 +30,7 @@ import com.knightlore.client.gui.MainMenu;
 import com.knightlore.client.gui.OptionsMenu;
 import com.knightlore.client.gui.PreLevelEditor;
 import com.knightlore.client.gui.ServerMenu;
+import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.MouseInput;
 import com.knightlore.client.gui.engine.Timer;
 import com.knightlore.client.gui.engine.Window;
@@ -47,6 +47,7 @@ import com.knightlore.game.map.TileType;
 import com.knightlore.leveleditor.LevelEditorHud;
 
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 public class Client extends Thread {
 
@@ -121,6 +122,7 @@ public class Client extends Thread {
     optionsMenu = new OptionsMenu(window);
     preLevelEditor = new PreLevelEditor(window);
 
+
     menuRenderer = new GuiRenderer(window);
     gameRenderer = new GameRenderer(window);
     levelEditorRenderer = new LevelEditorRenderer(window);
@@ -172,11 +174,8 @@ public class Client extends Thread {
       case MAINMENU:
 
         // SINGEPLAYER BUTTON
-        if (mouseInput.getXPos() > window.getWidth() / 2 - 90
-            && mouseInput.getXPos() < window.getWidth() / 2 + 90
-            && mouseInput.getYPos() > window.getHeight() / 2 + 95
-            && mouseInput.getYPos() < window.getHeight() / 2 + 115) {
-          menu.setSingleplayer();
+        if (checkPosition(0, "Singleplayer", "")) {
+          menu.getSingleplayer().setColour();
           if (mouseInput.isLeftButtonPressed()) {
         	LevelMapSet mapSet = new LevelMapSet(new TileSet());
         	gameModel.createNewLevel(mapSet.getMap(0));
@@ -185,23 +184,21 @@ public class Client extends Thread {
             System.out.println(gameModel.getPlayers().get("1").getId());
         	  
             audio.toggle();
-            audio.toggle(); // eventually change this so switches between menu and game music
+            audio.toggle();
 
             timer.setStartTime();
+            gameModel.myPlayer().nextLevel();
             gameState = State.SINGLEPLAYER;
           }
-        } else menu.setRestoreSingleplayer();
+        } else menu.getSingleplayer().setColour(new Vector4f(1, 1, 0, 1));
 
         // MULTIPLAYER BUTTON
-        if (mouseInput.getXPos() > window.getWidth() / 2 - 84
-            && mouseInput.getXPos() < window.getWidth() / 2 + 84
-            && mouseInput.getYPos() > window.getHeight() / 2 + 117
-            && mouseInput.getYPos() < window.getHeight() / 2 + 135) {
-          menu.setMultiplayer();
+        if (checkPosition(0, "Multiplayer", "")) {
+          menu.getMultiplayer().setColour();
           if (mouseInput.isLeftButtonPressed()) {
             gameState = State.SERVERMENU;
           }
-        } else menu.setRestoreMultiplayer();
+        } else menu.getMultiplayer().setColour(new Vector4f(1, 1, 0, 1));
         
         // LEVEL EDITOR BUTTON
         if (mouseInput.getXPos() > window.getWidth() / 2 - 84
@@ -219,22 +216,20 @@ public class Client extends Thread {
             && mouseInput.getXPos() < window.getWidth() / 2 + 52
             && mouseInput.getYPos() > window.getHeight() / 2 + 158
             && mouseInput.getYPos() < window.getHeight() / 2 + 175) {
-          menu.setOptions();
+          menu.getOptions().setColour();
           if (mouseInput.isLeftButtonPressed()) {
             gameState = State.OPTIONSMENU;
           }
-        } else menu.setRestoreOptions();
+        } else menu.getOptions().setColour(new Vector4f(1, 1, 0, 1));
 
         // QUIT BUTTON
-        if (mouseInput.getXPos() > window.getWidth() / 2 - 30
-            && mouseInput.getXPos() < window.getWidth() / 2 + 30
-            && mouseInput.getYPos() > window.getHeight() / 2 + 180
-            && mouseInput.getYPos() < window.getHeight() / 2 + 196) {
-          menu.setQuit();
+
+        if (checkPosition(0, "Quit", "")) {
+          menu.getQuit().setColour();
           if (mouseInput.isLeftButtonPressed()) {
             glfwSetWindowShouldClose(window.getWindowHandle(), true);
           }
-        } else menu.setRestoreQuit();
+        } else menu.getQuit().setColour(new Vector4f(1, 1, 0, 1));
 
         audio();
 
@@ -246,10 +241,8 @@ public class Client extends Thread {
         break;
 
       case SERVERMENU:
-        if (mouseInput.getXPos() > window.getWidth() / 2 - 225
-            && mouseInput.getXPos() < window.getWidth() / 2 + 255
-            && mouseInput.getYPos() > window.getHeight() / 2 - 185
-            && mouseInput.getYPos() < window.getHeight() / 2 + 200) {
+        if (checkPosition(1, "------------------------------",
+        "------------------------------")) {
           if (mouseInput.scrolledDown()) {
             serverMenu.moveDown();
           }
@@ -261,25 +254,19 @@ public class Client extends Thread {
           }
         }
 
-        if (mouseInput.getXPos() > window.getWidth() / 2 - 82.5f
-            && mouseInput.getXPos() < window.getWidth() / 2 + 82.5f
-            && mouseInput.getYPos() > window.getHeight() / 2 + 215
-            && mouseInput.getYPos() < window.getHeight() / 2 + 230) {
-          serverMenu.setCreate();
+        if (checkPosition(1, "Create game", "")) {
+          serverMenu.getCreate().setColour();
           if (mouseInput.isLeftButtonPressed()) {
             serverMenu.createServer(window);
           }
-        } else serverMenu.setRestoreCreate();
+        } else serverMenu.getCreate().setColour(new Vector4f(1, 1, 0, 1));
 
-        if (mouseInput.getXPos() > window.getWidth() / 2 - 30
-            && mouseInput.getXPos() < window.getWidth() / 2 + 30
-            && mouseInput.getYPos() < window.getHeight() / 2 + 270
-            && mouseInput.getYPos() > window.getHeight() / 2 + 255) {
-          serverMenu.setExit();
+        if (checkPosition(1, "Exit", "")) {
+          serverMenu.getExit().setColour();
           if (mouseInput.isLeftButtonPressed()) {
             gameState = State.MAINMENU;
           }
-        } else serverMenu.setRestoreExit();
+        } else serverMenu.getExit().setColour(new Vector4f(1, 1, 0, 1));
 
         leaveMenu();
 
@@ -370,37 +357,28 @@ public class Client extends Thread {
     	break;
 
       case OPTIONSMENU:
-        if (mouseInput.getXPos() > window.getWidth() / 2 + 85
-            && mouseInput.getXPos() < window.getWidth() / 2 + 115
-            && mouseInput.getYPos() > window.getHeight() / 2 - 145
-            && mouseInput.getYPos() < window.getHeight() / 2 - 115) {
-          optionsMenu.setIncVol();
+        if (checkPosition(2, ">", "")) {
+          optionsMenu.getIncVolume().setColour();
           if (mouseInput.isLeftButtonHeld()) {
             optionsMenu.incVolume();
             audio.incVolume();
           }
-        } else optionsMenu.setRestoreIncVol();
+        } else optionsMenu.getIncVolume().setColour(new Vector4f(1, 1, 0, 1));
 
-        if (mouseInput.getXPos() > window.getWidth() / 2 - 115
-            && mouseInput.getXPos() < window.getWidth() / 2 - 85
-            && mouseInput.getYPos() > window.getHeight() / 2 - 145
-            && mouseInput.getYPos() < window.getHeight() / 2 - 115) {
-          optionsMenu.setDecVol();
+        if (checkPosition(2, "<", "")) {
+          optionsMenu.getDecVolume().setColour();
           if (mouseInput.isLeftButtonHeld()) {
             optionsMenu.decVolume();
             audio.decVolume();
           }
-        } else optionsMenu.setRestoreDecVol();
-
-        if (mouseInput.getXPos() > window.getWidth() / 2 - 30
-            && mouseInput.getXPos() < window.getWidth() / 2 + 30
-            && mouseInput.getYPos() < window.getHeight() / 2 + 270
-            && mouseInput.getYPos() > window.getHeight() / 2 + 255) {
-          optionsMenu.setExit();
+        } else optionsMenu.getDecVolume().setColour(new Vector4f(1, 1, 0, 1));
+        
+        if (checkPosition(2, "Exit", "")) {
+          optionsMenu.getExit().setColour();
           if (mouseInput.isLeftButtonPressed()) {
             gameState = State.MAINMENU;
           }
-        } else optionsMenu.setRestoreExit();
+        } else optionsMenu.getExit().setColour(new Vector4f(1, 1, 0, 1));
 
         leaveMenu();
 
@@ -410,6 +388,7 @@ public class Client extends Thread {
         movement(delta);
 
         if (window.isKeyReleased(GLFW_KEY_J)) {
+          timer.setStartTime();
           gameModel.nextLevel();
         }
 
@@ -417,20 +396,19 @@ public class Client extends Thread {
 
         audio();
 
-        // CONTROL TO SHOW OTHER PLAYERS SCORES
-        if (window.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
-          hud.moveScore(20, 5);
-        } else {
-          hud.moveScore(-10, -230);
-        }
+//        // CONTROL TO SHOW OTHER PLAYERS SCORES
+//        if (window.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
+//          hud.moveScore(20, 5);
+//        } else {
+//          hud.moveScore(-10, -230);
+//        }
 
         break;
 
       case DEAD:
-    	gameModel.updatePlayerState(PlayerState.IDLE);
-    	
         if (window.isKeyReleased(GLFW_KEY_J)) {
           gameState = State.SINGLEPLAYER;
+          timer.setStartTime();
           gameModel.nextLevel();
         }
         
@@ -475,10 +453,9 @@ public class Client extends Thread {
         if (timeLeft < 0) {
           timeLeft = 0;
         }
+        
         String text = String.format("%02d", timeLeft);
-
 		hud.setCounter(text);
-		gameModel.update(delta);
 		  
 		int lives = gameModel.myPlayer().getLives();
 		hud.setP1Lives(lives);
@@ -487,7 +464,9 @@ public class Client extends Thread {
 		hud.setP1Score(score);
 		  
 		Vector3f colour = gameModel.myPlayer().getColour();
-		hud.setP1ScoreColour(colour);
+		hud.getP1Score().setColour(new Vector4f(colour.x, colour.y, colour.z, 1));
+		
+		gameModel.update(delta);
 		
 		if (gameModel.myPlayer().getPlayerState() == PlayerState.DEAD) {
 			gameState = State.DEAD;
@@ -605,96 +584,45 @@ public class Client extends Thread {
       gameModel.updatePlayerState(PlayerState.IDLE);
     }
   }
-  
-  private void cameraControl() {
-	  if (mouseInput.getXPos() <= 5) {
-		  cameraPosition.add(-0.1f,0.1f, 0);
-	  } else if (mouseInput.getXPos() >= window.getWidth() - 5) {
-		  cameraPosition.add(0.1f, -0.1f, 0);
+
+  private boolean checkPosition(int gui, String textObject, String textObjectLower) {
+	  int objectIndex = -1;
+	  int objectIndexLower = -1;
+	  for (int i = 0; i < guis[gui].getTextObjects().length; i++) {
+		  if (guis[gui].getTextObjects()[i].getText() == textObject) {
+			  objectIndex = i;
+			  break;
+		  }
 	  }
 	  
-	  if (mouseInput.getYPos() <= 5) {
-		  cameraPosition.add(0.1f, 0.1f, 0);
-	  } else if (mouseInput.getYPos() >= window.getHeight() - 5) {
-		  cameraPosition.add(-0.1f, -0.1f, 0);
-	  }
-  }
-  
-  private void levelEditorInput() {
-	  if (window.isKeyReleased(GLFW_KEY_KP_9)) {
-		  if (currentTileX != editorMap.getTiles()[currentTileZ][currentTileY].length - 1) {
-			  currentTileX += 1;
+	  if (objectIndex == -1) return false;
+	  
+	  if (textObjectLower != "") {
+		  for (int i = 0; i < guis[gui].getTextObjects().length; i++) {
+			  if (guis[gui].getTextObjects()[i].getText() == textObjectLower && i != objectIndex) {
+				  objectIndexLower = i;
+			  }
 		  }
-	  } else if (window.isKeyReleased(GLFW_KEY_KP_1)) {
-		  if (currentTileX != 0) {
-			  currentTileX -= 1;
-		  }
-	  } else if (window.isKeyReleased(GLFW_KEY_KP_7)) {
-		  if (currentTileY != editorMap.getTiles()[currentTileZ].length - 1) {
-			  currentTileY += 1;
-		  }
-	  } else if (window.isKeyReleased(GLFW_KEY_KP_3)) {
-		  if (currentTileY != 0) {
-			  currentTileY -= 1;
-		  }
-	  } else if (window.isKeyReleased(GLFW_KEY_KP_5)) {
-		  if (currentTileZ != editorMap.getTiles().length - 1) {
-			  currentTileZ += 1;
-		  }
-	  } else if (window.isKeyReleased(GLFW_KEY_KP_0)) {
-		  if (currentTileZ != 0) {
-			  currentTileZ -= 1;
-		  }
-	  } else if (window.isKeyReleased(GLFW_KEY_KP_8)) {
-		  if (currentTileX != editorMap.getTiles()[currentTileZ][currentTileY].length - 1 
-		   && currentTileY != editorMap.getTiles()[currentTileZ].length - 1) {
-			  currentTileX += 1;
-			  currentTileY += 1;
-		  }
-	  } else if (window.isKeyReleased(GLFW_KEY_KP_2)) {
-		  if (currentTileX != 0
-		   && currentTileY != 0) {
-			  currentTileX -= 1;
-			  currentTileY -= 1;
-		  }
-	  } else if (window.isKeyReleased(GLFW_KEY_KP_4)) {
-		  if (currentTileX != 0
-		   && currentTileY != editorMap.getTiles()[currentTileZ].length - 1) {
-			  currentTileX -= 1;
-			  currentTileY += 1;
-		  }
-	  } else if (window.isKeyReleased(GLFW_KEY_KP_6)) {
-		  if (currentTileX != editorMap.getTiles()[currentTileZ][currentTileY].length - 1
-		   && currentTileY != 0) {
-			  currentTileX += 1;
-			  currentTileY -= 1;
-		  }
-	  } else if (window.isKeyReleased(GLFW_KEY_SPACE)) {
-		  int id = editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].getType().ordinal();
-		  if (id == 5) {
-			  editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(TileType.values()[0]);
-		  } else {
-			  editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(TileType.values()[id + 1]);
-		  }
-	  } else if (window.isKeyReleased(GLFW_KEY_ENTER)) {
-		  	  try {
-		  		gameModel.overwriteCurrentLevel(editorMap);
-		  	  } catch (Exception e) {
-		  		gameModel.createNewLevel(editorMap);
-		  	  } finally {
-		  		gameModel.addPlayer("1", 0);
-		  		gameState = State.TESTING_LEVEL;
-		  	  }
-
-	  }
+		  
+		  if (objectIndexLower == -1) return false; 
+	  } else objectIndexLower = objectIndex;
+	  
+	  if (mouseInput.getXPos() > guis[gui].getTextObjects()[objectIndex].getPositionX()
+      && mouseInput.getXPos() < guis[gui].getTextObjects()[objectIndex].getPositionX()
+      +guis[gui].getTextObjects()[objectIndex].getSize()
+      && mouseInput.getYPos() > guis[gui].getTextObjects()[objectIndex].getPositionY()
+      && mouseInput.getYPos() < guis[gui].getTextObjects()[objectIndexLower].getPositionY()
+      +guis[gui].getTextObjects()[objectIndexLower].getHeight()) {
+		return true;  
+	  } return false;  
   }
 
   private void audio() {
-    if (mouseInput.getXPos() > window.getWidth() - 35
-        && mouseInput.getYPos() > window.getHeight() - 35) {
+    if (mouseInput.getXPos() > menu.getSound().getPositionX()
+        && mouseInput.getYPos() > menu.getSound().getPositionY()) {
       if (mouseInput.isLeftButtonPressed()) {
-        menu.toggleSound();
-        hud.toggleSound();
+        menu.getSoundMute().setRender();
+        hud.getSoundMute().setRender();
         audio.toggle();
       }
     }

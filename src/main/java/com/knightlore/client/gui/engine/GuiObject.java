@@ -61,10 +61,10 @@ public class GuiObject {
     	this.position.y = y;
     }
 
-    public void setPosition(float x, float y, float z) {
+    public void setPosition(float x, float y) {
         this.position.x = x;
         this.position.y = y;
-        this.position.z = z;
+        this.position.z = 0;
     }
 
     public float getScale() {

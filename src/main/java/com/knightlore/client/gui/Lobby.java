@@ -44,8 +44,8 @@ public class Lobby implements IGui {
         this.congo = new TextObject("Congo", fontTextureTitle);
         this.congo.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
         
-        this.bongo.setPosition(window.getWidth()/2-360, window.getHeight()/2-300, 0);
-        this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-300, 0);
+        this.bongo.setPosition(window.getWidth()/2-360, window.getHeight()/2-300);
+        this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-300);
     	
         guiObjects = new GuiObject[]{bongo, congo};
     }

@@ -6,7 +6,6 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 import com.knightlore.client.gui.engine.GuiObject;
@@ -28,6 +27,18 @@ public class Hud implements IGui {
     private static final String CHARSET = "ISO-8859-1";
     
     private static final int MAX_SCORE = 99999999;
+    
+    private static final int SCORE_HIDE = -230;
+    
+    private static final int LIVES_HIDE = -60;
+    
+    private static final int SIDE_GAP = 5;
+    
+    private static final int SCORE_POS = 25;
+    
+    private static final int LIVES_POS = 21;
+    
+    private static final int HUD_GAP = 20;
 
     private GuiObject[] guiObjects;
     
@@ -74,67 +85,67 @@ public class Hud implements IGui {
         FontTexture fontLives = new FontTexture(FONT_LIVES, CHARSET);
         
         this.player1Score = new TextObject("P1:00000000", fontSmall);
-        this.player1Score.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
+        this.player1Score.setColour(new Vector4f(1, 1, 1, 1));
         
         this.player2Score = new TextObject("P2:00000000", fontSmall);
-        this.player2Score.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        this.player2Score.setColour(new Vector4f(1, 1, 0, 1));
         
         this.player3Score = new TextObject("P3:00000000", fontSmall);
-        this.player3Score.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
+        this.player3Score.setColour(new Vector4f(1, 0, 0, 1));
         
         this.player4Score = new TextObject("P4:00000000", fontSmall);
-        this.player4Score.getMesh().getMaterial().setColour(new Vector4f(0, 1, 1, 1));
+        this.player4Score.setColour(new Vector4f(0, 1, 1, 1));
         
         this.player5Score = new TextObject("P5:00000000", fontSmall);
-        this.player5Score.getMesh().getMaterial().setColour(new Vector4f(1, 0, 1, 1));
+        this.player5Score.setColour(new Vector4f(1, 0, 1, 1));
         
         this.player6Score = new TextObject("P6:00000000", fontSmall);
-        this.player6Score.getMesh().getMaterial().setColour(new Vector4f(0, 0, 1, 1));
+        this.player6Score.setColour(new Vector4f(0, 0, 1, 1));
         
         this.player1Lives = new TextObject("***", fontLives);
-        this.player1Lives.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
+        this.player1Lives.setColour(new Vector4f(1, 0, 0, 1));
         
         this.player2Lives = new TextObject("***", fontLives);
-        this.player2Lives.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
+        this.player2Lives.setColour(new Vector4f(1, 0, 0, 1));
         
         this.player3Lives = new TextObject("***", fontLives);
-        this.player3Lives.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
+        this.player3Lives.setColour(new Vector4f(1, 0, 0, 1));
 
         this.player4Lives = new TextObject("***", fontLives);
-        this.player4Lives.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
+        this.player4Lives.setColour(new Vector4f(1, 0, 0, 1));
 
         this.player5Lives = new TextObject("***", fontLives);
-        this.player5Lives.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
+        this.player5Lives.setColour(new Vector4f(1, 0, 0, 1));
         
         this.player6Lives = new TextObject("***", fontLives);
-        this.player6Lives.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
+        this.player6Lives.setColour(new Vector4f(1, 0, 0, 1));
         
         this.counter = new TextObject("90", fontMedium);
-        this.counter.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        this.counter.setColour(new Vector4f(1, 1, 0, 1));
         
         this.soundOn = new TextObject("(", fontLarge);
-        this.soundOn.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
+        this.soundOn.setColour(new Vector4f(1, 1, 1, 1));
         
         this.soundOff = new TextObject("/", fontMedium);
-        this.soundOff.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
+        this.soundOff.setColour(new Vector4f(1, 0, 0, 1));
         
-        this.player1Score.setPosition(5, 5, 0);
-        this.player2Score.setPosition(-230, 25, 0);
-        this.player3Score.setPosition(-230, 45, 0);
-        this.player4Score.setPosition(-230, 65, 0);
-        this.player5Score.setPosition(-230, 85, 0);
-        this.player6Score.setPosition(-230, 105, 0);
+        this.player1Score.setPosition(SIDE_GAP, SIDE_GAP);
+        this.player2Score.setPosition(SCORE_HIDE, SCORE_POS);
+        this.player3Score.setPosition(SCORE_HIDE, SCORE_POS+HUD_GAP);
+        this.player4Score.setPosition(SCORE_HIDE, SCORE_POS+HUD_GAP*2);
+        this.player5Score.setPosition(SCORE_HIDE, SCORE_POS+HUD_GAP*3);
+        this.player6Score.setPosition(SCORE_HIDE, SCORE_POS+HUD_GAP*4);
         
-        this.player1Lives.setPosition(175, 1, 0);
-        this.player2Lives.setPosition(-60, 21, 0);
-        this.player3Lives.setPosition(-60, 41, 0);
-        this.player4Lives.setPosition(-60, 61, 0);
-        this.player5Lives.setPosition(-60, 81, 0);
-        this.player6Lives.setPosition(-60, 101, 0);
+        this.player1Lives.setPosition(player1Score.getSize()+SIDE_GAP*2, 1);
+        this.player2Lives.setPosition(LIVES_HIDE, LIVES_POS);
+        this.player3Lives.setPosition(LIVES_HIDE, LIVES_POS+HUD_GAP);
+        this.player4Lives.setPosition(LIVES_HIDE, LIVES_POS+HUD_GAP*2);
+        this.player5Lives.setPosition(LIVES_HIDE, LIVES_POS+HUD_GAP*3);
+        this.player6Lives.setPosition(LIVES_HIDE, LIVES_POS+HUD_GAP*4);
         
-        this.counter.setPosition(1175, window.getHeight()-30, 0);
-        this.soundOn.setPosition(window.getWidth()-40, window.getHeight()-40, 0);
-        this.soundOff.setPosition(window.getWidth()-30, window.getHeight()-30, 0);
+        this.counter.setPosition(1175, window.getHeight()-counter.getHeight());
+        this.soundOn.setPosition(window.getWidth()-soundOn.getSize(), window.getHeight()-soundOn.getHeight());
+        this.soundOff.setPosition(window.getWidth()-soundOff.getSize(), window.getHeight()-soundOff.getHeight());
         
         this.soundOff.setRender();
         

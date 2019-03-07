@@ -26,6 +26,12 @@ public class MainMenu implements IGui {
 	
 	private static final String CHARSET = "ISO-8859-1";
 	
+	private static final int TITLE_POS = 300;
+	
+	private static final int MENU_POS = 100;
+	
+	private static final int MENU_GAP = 20;
+	
     private GuiObject[] guiObjects;
     
     private TextObject[] textObjects;
@@ -57,38 +63,38 @@ public class MainMenu implements IGui {
     	FontTexture fontTitle = new FontTexture(FONT_TITLE, CHARSET);
     	
     	this.bongo = new TextObject("Bongo", fontTitle);
-        this.bongo.getMesh().getMaterial().setColour(new Vector4f(0.29f, 0.92f, 0.95f, 1));
+        this.bongo.setColour(new Vector4f(0.29f, 0.92f, 0.95f, 1));
         
         this.congo = new TextObject("Congo", fontTitle);
-        this.congo.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
+        this.congo.setColour(new Vector4f(1, 0, 0, 1));
         
         this.singleplayer = new TextObject("Singleplayer", fontSmall);
-        this.singleplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        this.singleplayer.setColour(new Vector4f(1, 1, 0, 1));
         
         this.multiplayer = new TextObject("Multiplayer", fontSmall);
-        this.multiplayer.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        this.multiplayer.setColour(new Vector4f(1, 1, 0, 1));
         
         this.soundOn = new TextObject("(", fontLarge);
-        this.soundOn.getMesh().getMaterial().setColour(new Vector4f(1, 1, 1, 1));
+        this.soundOn.setColour(new Vector4f(1, 1, 1, 1));
         
         this.soundOff = new TextObject("/", fontMedium);
-        this.soundOff.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
+        this.soundOff.setColour(new Vector4f(1, 0, 0, 1));
         
         this.quit = new TextObject("Quit", fontSmall);
-        this.quit.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        this.quit.setColour(new Vector4f(1, 1, 0, 1));
         
         this.options = new TextObject("Options", fontSmall);
-        this.options.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+        this.options.setColour(new Vector4f(1, 1, 0, 1));
         
         
-        this.bongo.setPosition(window.getWidth()/2-360, window.getHeight()/2-300, 0);
-        this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-300, 0);
-        this.singleplayer.setPosition(window.getWidth()/2 - 90, window.getHeight()/2+100, 0);
-        this.multiplayer.setPosition(window.getWidth()/2 - 82, window.getHeight()/2+120, 0);
-        this.options.setPosition(window.getWidth()/2-50, window.getHeight()/2+140, 0);
-        this.soundOn.setPosition(window.getWidth()-40, window.getHeight()-40, 0);
-        this.soundOff.setPosition(window.getWidth()-30, window.getHeight()-30, 0);
-        this.quit.setPosition(window.getWidth()/2-30, window.getHeight()/2+160, 0);
+        this.bongo.setPosition(window.getWidth()/2-bongo.getSize(), window.getHeight()/2-TITLE_POS);
+        this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-TITLE_POS);
+        this.singleplayer.setPosition(window.getWidth()/2 - singleplayer.getSize()/2, window.getHeight()/2+MENU_POS);
+        this.multiplayer.setPosition(window.getWidth()/2 - multiplayer.getSize()/2, window.getHeight()/2+MENU_POS+MENU_GAP);
+        this.options.setPosition(window.getWidth()/2- options.getSize()/2, window.getHeight()/2+MENU_POS+MENU_GAP*2);
+        this.soundOn.setPosition(window.getWidth()- soundOn.getSize(), window.getHeight()- soundOn.getHeight());
+        this.soundOff.setPosition(window.getWidth()- soundOff.getSize(), window.getHeight()- soundOff.getHeight());
+        this.quit.setPosition(window.getWidth()/2- quit.getSize()/2, window.getHeight()/2+MENU_POS+MENU_GAP*3);
         
         this.soundOff.setRender();
         

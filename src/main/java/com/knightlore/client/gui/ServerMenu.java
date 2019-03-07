@@ -71,9 +71,11 @@ public class ServerMenu implements IGui {
         
         this.separatorTop = new TextObject("------------------------------", fontSmall);
         this.separatorTop.setColour(YELLOW);
+        this.separatorTop.setId("Separator Top");
         
         this.separatorBot = new TextObject("------------------------------", fontSmall);
         this.separatorBot.setColour(YELLOW);
+        this.separatorBot.setId("Separator Bot");
         
         this.join = new TextObject("Join game", fontSmall);
         this.join.setColour(YELLOW);

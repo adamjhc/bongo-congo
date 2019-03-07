@@ -6,7 +6,6 @@ import com.knightlore.client.gui.engine.IGui;
 public class LevelEditorHud implements IGui {
 	
 	
-	
 	private GuiObject[] guiObjects;
 
 	@Override

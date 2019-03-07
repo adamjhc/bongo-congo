@@ -10,12 +10,16 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_0;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_1;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_2;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_3;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_9;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_4;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_5;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_6;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_7;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_8;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_2;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_9;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
@@ -615,13 +619,37 @@ public class Client extends Thread {
 		  if (currentTileY != 0) {
 			  currentTileY -= 1;
 		  }
-	  } else if (window.isKeyReleased(GLFW_KEY_KP_8)) {
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_5)) {
 		  if (currentTileZ != editorMap.getTiles().length - 1) {
 			  currentTileZ += 1;
 		  }
-	  } else if (window.isKeyReleased(GLFW_KEY_KP_2)) {
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_0)) {
 		  if (currentTileZ != 0) {
 			  currentTileZ -= 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_8)) {
+		  if (currentTileX != editorMap.getTiles()[currentTileZ][currentTileY].length - 1 
+		   && currentTileY != editorMap.getTiles()[currentTileZ].length - 1) {
+			  currentTileX += 1;
+			  currentTileY += 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_2)) {
+		  if (currentTileX != 0
+		   && currentTileY != 0) {
+			  currentTileX -= 1;
+			  currentTileY -= 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_4)) {
+		  if (currentTileX != 0
+		   && currentTileY != editorMap.getTiles()[currentTileZ].length - 1) {
+			  currentTileX -= 1;
+			  currentTileY += 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_6)) {
+		  if (currentTileX != editorMap.getTiles()[currentTileZ][currentTileY].length - 1
+		   && currentTileY != 0) {
+			  currentTileX += 1;
+			  currentTileY -= 1;
 		  }
 	  } else if (window.isKeyReleased(GLFW_KEY_SPACE)) {
 		  int id = editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].getType().ordinal();

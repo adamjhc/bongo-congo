@@ -7,6 +7,8 @@ import com.knightlore.client.render.world.TileGameObjectSet;
 import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.Tile;
 import com.knightlore.game.util.CoordinateUtils;
+import com.knightlore.leveleditor.LevelEditorHud;
+
 import org.joml.Vector3f;
 
 public class LevelEditorRenderer extends Renderer {
@@ -17,6 +19,8 @@ public class LevelEditorRenderer extends Renderer {
 
   private float viewX;
   private float viewY;
+  
+  private GuiRenderer hudRenderer;
 
   public LevelEditorRenderer(Window window) {
     super(window);
@@ -34,13 +38,15 @@ public class LevelEditorRenderer extends Renderer {
     viewY = ((float) window.getHeight() / (World.SCALE * 2)) + 2;
   }
 
-  private void setupHud() {}
+  private void setupHud() {
+	  hudRenderer = new GuiRenderer(window);
+  }
 
-  public void render(LevelMap levelMap, Vector3f cameraPosition) {
+  public void render(LevelMap levelMap, Vector3f cameraPosition, LevelEditorHud hud) {
     clearBuffers();
 
     renderMap(levelMap, cameraPosition);
-    renderHud();
+    hudRenderer.renderGui(hud);
 
     swapBuffers();
   }
@@ -71,8 +77,6 @@ public class LevelEditorRenderer extends Renderer {
         && isometricPosition.x - viewX <= gameObjectPosition.x - gameObjectPosition.z
         && isometricPosition.y - viewY <= gameObjectPosition.y - gameObjectPosition.z;
   }
-
-  private void renderHud() {}
 
   @Override
   protected void cleanup() {

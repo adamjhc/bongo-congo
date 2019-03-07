@@ -67,6 +67,10 @@ public class Game {
   public void overwriteCurrentLevel(LevelMap levelMap) {
 	  levels.set(0, new Level(levelMap));
   }
+  
+  public void clearLevels() {
+	  this.levels.clear();
+  }
 
   public void addLevel(Level level){
     this.levels.add(level);

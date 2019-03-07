@@ -44,6 +44,7 @@ import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.LevelMapSet;
 import com.knightlore.game.map.TileSet;
 import com.knightlore.game.map.TileType;
+import com.knightlore.leveleditor.LevelEditorHud;
 
 import org.joml.Vector3f;
 
@@ -69,6 +70,8 @@ public class Client extends Thread {
   private Timer timer;
 
   private Hud hud;
+  
+  private LevelEditorHud leHud;
 
   private MainMenu menu;
 
@@ -112,6 +115,7 @@ public class Client extends Thread {
     mouseInput.init(window);
 
     hud = new Hud(window);
+    leHud = new LevelEditorHud(window);
     menu = new MainMenu(window);
     serverMenu = new ServerMenu(window);
     optionsMenu = new OptionsMenu(window);
@@ -178,6 +182,7 @@ public class Client extends Thread {
         	gameModel.createNewLevel(mapSet.getMap(0));
             gameModel.createNewLevel(mapSet.getMap(1));
             gameModel.addPlayer("1");
+            System.out.println(gameModel.getPlayers().get("1").getId());
         	  
             audio.toggle();
             audio.toggle(); // eventually change this so switches between menu and game music
@@ -347,7 +352,6 @@ public class Client extends Thread {
         	  && mouseInput.getYPos() < window.getHeight()/2 + 240) {
         	  preLevelEditor.setCreateLevel();
         	  if (mouseInput.isLeftButtonPressed()) {
-        		  LevelMapSet mapSet = new LevelMapSet(new TileSet());
         		  editorMap = initialiseMap(preLevelEditor.getWidth(), preLevelEditor.getLength(), preLevelEditor.getHeight());
         		  gameState = State.LEVEL_EDITOR;
         	  }
@@ -540,7 +544,7 @@ public class Client extends Thread {
     	break;
 
     case LEVEL_EDITOR:
-      levelEditorRenderer.render(editorMap, cameraPosition);
+      levelEditorRenderer.render(editorMap, cameraPosition, leHud);
       break;
       
     case TESTING_LEVEL:
@@ -701,6 +705,7 @@ public class Client extends Thread {
       audio.toggle();
       audio.toggle();
       if (gameState == State.SINGLEPLAYER || gameState == State.LEVEL_EDITOR) {
+    	  gameModel.clearLevels();
     	  gameState = State.MAINMENU;
       } else if (gameState == State.TESTING_LEVEL) {
     	  gameModel.removePlayer("1");

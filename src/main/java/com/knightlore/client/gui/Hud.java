@@ -16,7 +16,7 @@ import com.knightlore.client.gui.engine.graphics.FontTexture;
 
 public class Hud implements IGui {
 
-    private static final Font FONT_SMALL = new Font("Press Start 2P", Font.PLAIN, 15);
+    private static final Font FONT_SMALL = new Font("Press Start 2P", Font.PLAIN, 16);
     
     private static final Font FONT_MEDIUM = new Font("Press Start 2P", Font.PLAIN, 30);
     

@@ -251,6 +251,7 @@ public class Client extends Thread {
         movement(delta);
 
         if (window.isKeyReleased(GLFW_KEY_J)) {
+          timer.setStartTime();
           gameModel.nextLevel();
         }
 
@@ -270,6 +271,7 @@ public class Client extends Thread {
       case DEAD:
         if (window.isKeyReleased(GLFW_KEY_J)) {
           gameState = State.SINGLEPLAYER;
+          timer.setStartTime();
           gameModel.nextLevel();
         }
         

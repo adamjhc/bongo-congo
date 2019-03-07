@@ -16,11 +16,13 @@ import com.knightlore.client.gui.engine.graphics.FontTexture;
 
 public class Lobby implements IGui {
 	
-	private static final Font FONT = new Font("Press Start 2P", Font.PLAIN, 15);
+	private static final Font FONT_SMALL = new Font("Press Start 2P", Font.PLAIN, 15);
 	
 	private static final Font FONT_TITLE = new Font("Press Start 2P", Font.PLAIN, 72);
 	
 	private static final String CHARSET = "ISO-8859-1";
+	
+	private static final int TITLE_POS = 300;
 	
     private final TextObject bongo;
     
@@ -35,17 +37,17 @@ public class Lobby implements IGui {
     	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
     	ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, myStream));
     	
-    	FontTexture fontTexture = new FontTexture(FONT, CHARSET);
-    	FontTexture fontTextureTitle = new FontTexture(FONT_TITLE, CHARSET);
+    	FontTexture fontSmall = new FontTexture(FONT_SMALL, CHARSET);
+    	FontTexture fontTitle = new FontTexture(FONT_TITLE, CHARSET);
     	
-    	this.bongo = new TextObject("Bongo", fontTextureTitle);
-        this.bongo.getMesh().getMaterial().setColour(new Vector4f(0.29f, 0.92f, 0.95f, 1));
+    	this.bongo = new TextObject("Bongo", fontTitle);
+        this.bongo.setColour(new Vector4f(0.29f, 0.92f, 0.95f, 1));
         
-        this.congo = new TextObject("Congo", fontTextureTitle);
-        this.congo.getMesh().getMaterial().setColour(new Vector4f(1, 0, 0, 1));
+        this.congo = new TextObject("Congo", fontTitle);
+        this.congo.setColour(new Vector4f(1, 0, 0, 1));
         
-        this.bongo.setPosition(window.getWidth()/2-360, window.getHeight()/2-300);
-        this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-300);
+        this.bongo.setPosition(window.getWidth()/2-bongo.getSize(), window.getHeight()/2-TITLE_POS);
+        this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-TITLE_POS);
     	
         guiObjects = new GuiObject[]{bongo, congo};
     }

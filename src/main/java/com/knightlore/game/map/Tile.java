@@ -6,7 +6,7 @@ public class Tile {
     private TileType type;
     private Vector3f position;
 
-    public Tile(TileType type){
+    public Tile(TileType type) {
         this.type = type;
     }
 

@@ -36,6 +36,8 @@ public class MainMenu implements IGui {
     
     private final TextObject options;
     
+    private final TextObject levelEditor;
+    
     public MainMenu(Window window) throws Exception {
     	InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
     	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -57,7 +59,7 @@ public class MainMenu implements IGui {
         
         this.multiplayer = new TextObject("Multiplayer", fontSmall);
         this.multiplayer.setColour(YELLOW);
-        
+ 
         this.soundOn = new TextObject("(", fontLarge);
         this.soundOn.setColour();
         
@@ -70,20 +72,24 @@ public class MainMenu implements IGui {
         this.options = new TextObject("Options", fontSmall);
         this.options.setColour(YELLOW);
         
+        this.levelEditor = new TextObject("Level Editor", fontSmall);
+        this.levelEditor.getMesh().getMaterial().setColour(YELLOW);
+        
         
         this.bongo.setPosition(window.getWidth()/2-bongo.getSize(), window.getHeight()/2-TITLE_POS);
         this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-TITLE_POS);
         this.singleplayer.setPosition(window.getWidth()/2 - singleplayer.getSize()/2, window.getHeight()/2+MENU_POS);
         this.multiplayer.setPosition(window.getWidth()/2 - multiplayer.getSize()/2, window.getHeight()/2+MENU_POS+GAP);
-        this.options.setPosition(window.getWidth()/2- options.getSize()/2, window.getHeight()/2+MENU_POS+GAP*2);
+        this.levelEditor.setPosition(window.getWidth()/2-levelEditor.getSize()/2, window.getHeight()/2 + MENU_POS+GAP*2);
+        this.options.setPosition(window.getWidth()/2- options.getSize()/2, window.getHeight()/2+MENU_POS+GAP*3);
         this.soundOn.setPosition(window.getWidth()- soundOn.getSize(), window.getHeight()- soundOn.getHeight());
         this.soundOff.setPosition(window.getWidth()- soundOff.getSize(), window.getHeight()- soundOff.getHeight());
-        this.quit.setPosition(window.getWidth()/2- quit.getSize()/2, window.getHeight()/2+MENU_POS+GAP*3);
+        this.quit.setPosition(window.getWidth()/2- quit.getSize()/2, window.getHeight()/2+MENU_POS+GAP*4);
         
         this.soundOff.setRender();
         
-        guiObjects = new GuiObject[]{bongo, congo, singleplayer, multiplayer, quit, options, soundOn, soundOff};
-        textObjects = new TextObject[]{singleplayer, multiplayer, options, quit, soundOn};
+        guiObjects = new GuiObject[]{bongo, congo, singleplayer, multiplayer, quit, options, soundOn, soundOff, levelEditor};
+        textObjects = new TextObject[]{singleplayer, multiplayer, options, quit, soundOn, levelEditor};
     }
     
     public TextObject getSingleplayer() {
@@ -109,6 +115,11 @@ public class MainMenu implements IGui {
     public TextObject getOptions() {
     	return options;
     }
+    
+    public TextObject getLevelEditor() {
+    	return levelEditor;
+    }
+
 
     @Override
     public TextObject[] getTextObjects() {

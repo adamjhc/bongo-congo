@@ -92,12 +92,12 @@ public class GameRenderer extends Renderer {
       playerGameObjects = PlayerGameObject.fromGameModel(players);
     }
 
-    if (!gameModel.getCurrentLevelIndex().equals(currentLevelIndex)) {
+    //if (!gameModel.getCurrentLevelIndex().equals(currentLevelIndex)) {
       tileGameObjects =
           TileGameObjectSet.fromGameModel(gameModel.getCurrentLevel().getLevelMap().getTiles());
       enemyGameObjects = EnemyGameObjectSet.fromGameModel(enemies);
       currentLevelIndex = gameModel.getCurrentLevelIndex();
-    }
+    //}
 
     players.forEach(player -> playerGameObjects.get(player.getId()).update(player));
     enemies.forEach(enemy -> enemyGameObjects.get(enemy.getId()).update(enemy));

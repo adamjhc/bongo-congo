@@ -7,6 +7,20 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_J;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_0;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_1;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_2;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_3;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_4;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_5;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_6;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_7;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_8;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_9;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 
@@ -14,6 +28,7 @@ import com.knightlore.client.audio.AudioHandler;
 import com.knightlore.client.gui.Hud;
 import com.knightlore.client.gui.MainMenu;
 import com.knightlore.client.gui.OptionsMenu;
+import com.knightlore.client.gui.PreLevelEditor;
 import com.knightlore.client.gui.ServerMenu;
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.MouseInput;
@@ -25,8 +40,12 @@ import com.knightlore.client.render.LevelEditorRenderer;
 import com.knightlore.game.Game;
 import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.PlayerState;
+import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.LevelMapSet;
 import com.knightlore.game.map.TileSet;
+import com.knightlore.game.map.TileType;
+import com.knightlore.leveleditor.LevelEditorHud;
+
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
@@ -52,12 +71,22 @@ public class Client extends Thread {
   private Timer timer;
 
   private Hud hud;
+  
+  private LevelEditorHud leHud;
 
   private MainMenu menu;
 
   private ServerMenu serverMenu;
 
   private OptionsMenu optionsMenu;
+  
+  private PreLevelEditor preLevelEditor;
+  
+  private Vector3f cameraPosition;
+  
+  private LevelMap editorMap;
+  
+  private int currentTileX, currentTileY, currentTileZ;
   
   private IGui[] guis;
 
@@ -89,28 +118,35 @@ public class Client extends Thread {
     mouseInput.init(window);
 
     hud = new Hud(window);
+    leHud = new LevelEditorHud(window);
     menu = new MainMenu(window);
     serverMenu = new ServerMenu(window);
     optionsMenu = new OptionsMenu(window);
+    preLevelEditor = new PreLevelEditor(window);
     
-    guis = new IGui[] {menu, serverMenu, optionsMenu, hud};
+    guis = new IGui[] {menu, serverMenu, optionsMenu, hud, preLevelEditor};
+
 
     menuRenderer = new GuiRenderer(window);
     gameRenderer = new GameRenderer(window);
     levelEditorRenderer = new LevelEditorRenderer(window);
 
     if (model == null) {
-      LevelMapSet mapSet = new LevelMapSet(new TileSet());
+      //LevelMapSet mapSet = new LevelMapSet(new TileSet());
       gameModel = new Game("");
 
-      gameModel.createNewLevel(mapSet.getMap(0));
-      gameModel.createNewLevel(mapSet.getMap(1));
-      gameModel.addPlayer("1");
+      //gameModel.createNewLevel(mapSet.getMap(0));
+      //gameModel.createNewLevel(mapSet.getMap(1));
+      //gameModel.addPlayer("1");
     } else {
       gameModel = model;
     }
 
     audio.toggle();
+    cameraPosition = new Vector3f(0, 0, 0);
+    currentTileX = 0;
+    currentTileY = 0;
+    currentTileZ = 0;
   }
 
   private void loop() {
@@ -145,6 +181,12 @@ public class Client extends Thread {
         if (checkPosition(0, "Singleplayer", "")) {
           menu.getSingleplayer().setColour();
           if (mouseInput.isLeftButtonPressed()) {
+        	LevelMapSet mapSet = new LevelMapSet(new TileSet());
+        	gameModel.createNewLevel(mapSet.getMap(0));
+            gameModel.createNewLevel(mapSet.getMap(1));
+            gameModel.addPlayer("1");
+            System.out.println(gameModel.getPlayers().get("1").getId());
+        	  
             audio.toggle();
             audio.toggle();
 
@@ -161,6 +203,14 @@ public class Client extends Thread {
             gameState = State.SERVERMENU;
           }
         } else menu.getMultiplayer().setColour(new Vector4f(1, 1, 0, 1));
+        
+        // LEVEL EDITOR BUTTON
+        if (checkPosition(0, "Level Editor", "")) {
+    			menu.getLevelEditor().setColour();
+    			if (mouseInput.isLeftButtonPressed()) {
+    				gameState = State.PRE_EDITOR;
+    			}
+    	} else menu.getLevelEditor().setColour(new Vector4f(1, 1, 0, 1));
 
         // OPTIONS BUTTON
         if (checkPosition(0, "Options", "")) {
@@ -171,6 +221,7 @@ public class Client extends Thread {
         } else menu.getOptions().setColour(new Vector4f(1, 1, 0, 1));
 
         // QUIT BUTTON
+
         if (checkPosition(0, "Quit", "")) {
           menu.getQuit().setColour();
           if (mouseInput.isLeftButtonPressed()) {
@@ -217,6 +268,66 @@ public class Client extends Thread {
         leaveMenu();
 
         break;
+        
+      case PRE_EDITOR:
+    	  if (checkPosition(4, "wLeft", "")) {
+    		  preLevelEditor.getWLeft().setColour();
+    		  if (mouseInput.isLeftButtonPressed()) {
+    			  preLevelEditor.decWidth();
+    		  }
+    	  } else preLevelEditor.getWLeft().setColour(new Vector4f(1, 1, 0, 1));
+    	  
+    	  if (checkPosition(4, "wRight", "")) {
+    		  preLevelEditor.getWRight().setColour();
+    		  if (mouseInput.isLeftButtonPressed()) {
+    			  preLevelEditor.incWidth();
+    		  }
+    	  } else preLevelEditor.getWRight().setColour(new Vector4f(1, 1, 0, 1));
+    	  
+    	  if (checkPosition(4, "lLeft", "")) {
+    		  preLevelEditor.getLLeft().setColour();
+    		  if (mouseInput.isLeftButtonPressed()) {
+    			  preLevelEditor.decLength();
+    		  }
+    	  } else preLevelEditor.getLLeft().setColour(new Vector4f(1, 1, 0, 1));
+        	  
+          if (checkPosition(4, "lRight", "")) {
+        	  preLevelEditor.getLRight().setColour();
+        	  if (mouseInput.isLeftButtonPressed()) {
+        		  preLevelEditor.incLength();
+        	  }
+          } else preLevelEditor.getLRight().setColour(new Vector4f(1, 1, 0, 1));
+        	  
+          if (checkPosition(4, "hLeft", "")) {
+              preLevelEditor.getHLeft().setColour();
+              if (mouseInput.isLeftButtonPressed()) {
+            	  preLevelEditor.decHeight();
+              }
+          } else preLevelEditor.getHLeft().setColour(new Vector4f(1, 1, 0, 1));
+            	  
+          if (checkPosition(4, "hRight", "")) {
+              preLevelEditor.getHRight().setColour();
+              if (mouseInput.isLeftButtonPressed()) {
+            	  preLevelEditor.incHeight();
+              }
+          } else preLevelEditor.getHRight().setColour(new Vector4f(1, 1, 0, 1));
+          
+          if (checkPosition(4, "Create Level", "")) {
+        	  preLevelEditor.getCreateLevel().setColour();
+        	  if (mouseInput.isLeftButtonPressed()) {
+        		  editorMap = initialiseMap(preLevelEditor.getWidthNum(), preLevelEditor.getLengthNum(), preLevelEditor.getHeightNum());
+        		  gameState = State.LEVEL_EDITOR;
+        	  }
+          } else preLevelEditor.getCreateLevel().setColour(new Vector4f(1, 1, 0, 1));
+          
+          if (checkPosition(4, "Back", "")) {
+        	  preLevelEditor.getBack().setColour();
+        	  if (mouseInput.isLeftButtonPressed()) {
+        		  gameState = State.MAINMENU;
+        	  }
+          } else preLevelEditor.getBack().setColour(new Vector4f(1, 1, 0, 1));
+    	
+    	break;
 
       case OPTIONSMENU:
         if (checkPosition(2, ">", "")) {
@@ -279,7 +390,21 @@ public class Client extends Thread {
         audio();
 
         break;
+        
+      case LEVEL_EDITOR:
+    	
+    	cameraControl();
+    	levelEditorInput();
+    	break;
+    	
+      case TESTING_LEVEL:
+    	movement(delta);
+    	leaveGame();
+    	audio();
+    	break;
+    	
     }
+    
   }
 
   private void update(float delta) {
@@ -321,12 +446,36 @@ public class Client extends Thread {
 		}
 
         break;
+        
+      case TESTING_LEVEL:
+    	float testTime = timer.getGameTime();
+
+        int testTimeLeft = 90 - Math.round(testTime);
+        if (testTimeLeft < 0) {
+          testTimeLeft = 0;
+        }
+        String testText = String.format("%02d", testTimeLeft);
+
+        hud.setCounter(testText);
+        gameModel.update(delta);
+
+        break;
 
       case DEAD:
         gameModel.update(delta);
 
-        break;
-    }
+		  break;
+	  
+	  case LEVEL_EDITOR:
+		  
+		  gameModel.update(delta);
+		  leaveGame();
+		  break;
+		  
+	  case PRE_EDITOR:
+		  break;
+	  }
+    
   }
 
   private void render(Game gameModel) {
@@ -336,15 +485,23 @@ public class Client extends Thread {
 
         break;
 
-      case SERVERMENU:
-        menuRenderer.render(serverMenu);
+    case SERVERMENU:
 
-        break;
+    	menuRenderer.render(serverMenu);
 
-      case LEVEL_EDITOR:
-        levelEditorRenderer.render(new LevelMapSet(new TileSet()).getMap(0), new Vector3f(0, 0, 0));
+    	break;
+    	
+    case PRE_EDITOR:
+    	menuRenderer.render(preLevelEditor);
+    	break;
 
-        break;
+    case LEVEL_EDITOR:
+      levelEditorRenderer.render(editorMap, cameraPosition, leHud);
+      break;
+      
+    case TESTING_LEVEL:
+    	gameRenderer.render(gameModel, hud);
+    	break;
 
       case OPTIONSMENU:
         menuRenderer.render(optionsMenu);
@@ -401,6 +558,89 @@ public class Client extends Thread {
     }
   }
   
+  private void cameraControl() {
+	  if (mouseInput.getXPos() <= 5) {
+		  cameraPosition.add(-0.1f,0.1f, 0);
+	  } else if (mouseInput.getXPos() >= window.getWidth() - 5) {
+		  cameraPosition.add(0.1f, -0.1f, 0);
+	  }
+	  
+	  if (mouseInput.getYPos() <= 5) {
+		  cameraPosition.add(0.1f, 0.1f, 0);
+	  } else if (mouseInput.getYPos() >= window.getHeight() - 5) {
+		  cameraPosition.add(-0.1f, -0.1f, 0);
+	  }
+  }
+  
+  private void levelEditorInput() {
+	  if (window.isKeyReleased(GLFW_KEY_KP_9)) {
+		  if (currentTileX != editorMap.getTiles()[currentTileZ][currentTileY].length - 1) {
+			  currentTileX += 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_1)) {
+		  if (currentTileX != 0) {
+			  currentTileX -= 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_7)) {
+		  if (currentTileY != editorMap.getTiles()[currentTileZ].length - 1) {
+			  currentTileY += 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_3)) {
+		  if (currentTileY != 0) {
+			  currentTileY -= 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_5)) {
+		  if (currentTileZ != editorMap.getTiles().length - 1) {
+			  currentTileZ += 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_0)) {
+		  if (currentTileZ != 0) {
+			  currentTileZ -= 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_8)) {
+		  if (currentTileX != editorMap.getTiles()[currentTileZ][currentTileY].length - 1 
+		   && currentTileY != editorMap.getTiles()[currentTileZ].length - 1) {
+			  currentTileX += 1;
+			  currentTileY += 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_2)) {
+		  if (currentTileX != 0
+		   && currentTileY != 0) {
+			  currentTileX -= 1;
+			  currentTileY -= 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_4)) {
+		  if (currentTileX != 0
+		   && currentTileY != editorMap.getTiles()[currentTileZ].length - 1) {
+			  currentTileX -= 1;
+			  currentTileY += 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_KP_6)) {
+		  if (currentTileX != editorMap.getTiles()[currentTileZ][currentTileY].length - 1
+		   && currentTileY != 0) {
+			  currentTileX += 1;
+			  currentTileY -= 1;
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_SPACE)) {
+		  int id = editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].getType().ordinal();
+		  if (id == 5) {
+			  editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(TileType.values()[0]);
+		  } else {
+			  editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(TileType.values()[id + 1]);
+		  }
+	  } else if (window.isKeyReleased(GLFW_KEY_ENTER)) {
+		  	  try {
+		  		gameModel.overwriteCurrentLevel(editorMap);
+		  	  } catch (Exception e) {
+		  		gameModel.createNewLevel(editorMap);
+		  	  } finally {
+		  		gameModel.addPlayer("1", 0);
+		  		gameState = State.TESTING_LEVEL;
+		  	  }
+	  }
+
+  }
+
   private boolean checkPosition(int gui, String textObject, String textObjectLower) {
 	  int objectIndex = -1;
 	  int objectIndexLower = -1;
@@ -448,7 +688,13 @@ public class Client extends Thread {
     if (window.isKeyReleased(GLFW_KEY_ESCAPE)) {
       audio.toggle();
       audio.toggle();
-      gameState = State.MAINMENU;
+      if (gameState == State.SINGLEPLAYER || gameState == State.LEVEL_EDITOR) {
+    	  gameModel.clearLevels();
+    	  gameState = State.MAINMENU;
+      } else if (gameState == State.TESTING_LEVEL) {
+    	  gameModel.removePlayer("1");
+    	  gameState = State.LEVEL_EDITOR;
+      }
     }
   }
 
@@ -467,15 +713,33 @@ public class Client extends Thread {
 
     glfwTerminate();
   }
+  
+  private LevelMap initialiseMap(int width, int length, int height) {
+		int[][][] emptyMap = new int[height][length][width];
+		for (int i = 0; i < emptyMap.length; i++) {
+			for (int j = 0; j < emptyMap[i].length; j++) {
+				for (int k = 0; k < emptyMap[i][j].length; k++) {
+					if (i == 0) {
+						emptyMap[i][j][k] = 1;
+					} else {
+						emptyMap[i][j][k] = 0;
+					}
+				}
+			}
+		}
+		return (new LevelMap(emptyMap, (new TileSet())));
+  }
 
   private enum State {
     MAINMENU,
     SERVERMENU,
+    PRE_EDITOR,
     LEVEL_EDITOR,
+    TESTING_LEVEL,
     OPTIONSMENU,
     LOBBY,
     SINGLEPLAYER,
     DEAD,
-    END
+    END,
   }
 }

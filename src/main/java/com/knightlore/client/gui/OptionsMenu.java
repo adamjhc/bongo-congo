@@ -6,8 +6,6 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import org.joml.Vector4f;
-
 import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
@@ -16,31 +14,11 @@ import com.knightlore.client.gui.engine.graphics.FontTexture;
 
 public class OptionsMenu implements IGui {
 	
-	private static final Font FONT_SMALL = new Font("Press Start 2P", Font.PLAIN, 16);
-	
-	private static final Font FONT_LARGE = new Font("Press Start 2P", Font.PLAIN, 30);
-	
-	private static final Font FONT_TITLE = new Font("Press Start 2P", Font.PLAIN, 72);
-	
-	private static final String CHARSET = "ISO-8859-1";
-	
-	private static final Vector4f YELLOW = new Vector4f(1, 1, 0, 1);
-	
-	private static final Vector4f RED = new Vector4f(1, 0, 0, 1);
-	
-	private static final Vector4f LIGHT_BLUE = new Vector4f(0.29f, 0.92f, 0.95f, 1);
-	
-	private static final int TITLE_POS = 300;
-	
 	private static final int SEPARATORTOP_POS = 185;
 	
 	private static final int SEPARATORBOT_POS = 200;
 	
-	private static final int SEPARATOR_GAP = 15;
-	
-	private static final int OPTIONS_GAP = 20;
-	
-	private static final int VOLUME_POS = 145;
+	private static final int SEPARATOR_GAP = 16;
 	
 	private static final int MAX_VOLUME = 100;
 	
@@ -109,14 +87,14 @@ public class OptionsMenu implements IGui {
         
         this.bongo.setPosition(window.getWidth()/2-bongo.getSize(), window.getHeight()/2-TITLE_POS);
         this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-TITLE_POS);
-        this.volume.setPosition(window.getWidth()/2-volume.getSize()/2, window.getHeight()/2-VOLUME_POS);
-        this.incVolume.setPosition(window.getWidth()/2-incVolume.getSize()/2+100, window.getHeight()/2-VOLUME_POS);
-        this.decVolume.setPosition(window.getWidth()/2-decVolume.getSize()/2-100, window.getHeight()/2-VOLUME_POS);
+        this.volume.setPosition(window.getWidth()/2-volume.getSize()/2, window.getHeight()/2-SEPARATORTOP_POS+GAP*2);
+        this.incVolume.setPosition(window.getWidth()/2-incVolume.getSize()/2+100, window.getHeight()/2-SEPARATORTOP_POS+GAP*2);
+        this.decVolume.setPosition(window.getWidth()/2-decVolume.getSize()/2-100, window.getHeight()/2-SEPARATORTOP_POS+GAP*2);
         this.exit.setPosition(window.getWidth()/2-exit.getSize()/2, window.getHeight()/2+SEPARATORBOT_POS+SEPARATOR_GAP);	
         this.options.setPosition(window.getWidth()/2-options.getSize()/2, window.getHeight()/2-SEPARATORTOP_POS-SEPARATOR_GAP);
         this.separatorTop.setPosition(window.getWidth()/2-separatorTop.getSize()/2, window.getHeight()/2-SEPARATORTOP_POS);
         this.separatorBot.setPosition(window.getWidth()/2-separatorBot.getSize()/2, window.getHeight()/2+SEPARATORBOT_POS);
-        this.musicVolume.setPosition(window.getWidth()/2-musicVolume.getSize()/2, window.getHeight()/2-VOLUME_POS-OPTIONS_GAP);
+        this.musicVolume.setPosition(window.getWidth()/2-musicVolume.getSize()/2, window.getHeight()/2-SEPARATORTOP_POS+GAP);
         
         
         guiObjects = new GuiObject[]{bongo, congo, incVolume, decVolume, volume, exit, options, separatorTop, separatorBot, musicVolume};

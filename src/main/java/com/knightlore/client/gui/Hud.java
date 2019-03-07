@@ -16,20 +16,6 @@ import com.knightlore.client.gui.engine.graphics.FontTexture;
 
 public class Hud implements IGui {
 
-    private static final Font FONT_SMALL = new Font("Press Start 2P", Font.PLAIN, 16);
-    
-    private static final Font FONT_MEDIUM = new Font("Press Start 2P", Font.PLAIN, 30);
-    
-    private static final Font FONT_LARGE = new Font("Press Start 2P", Font.PLAIN, 40);
-    
-    private static final Font FONT_LIVES = new Font("Press Start 2P", Font.PLAIN, 20);
-    
-    private static final String CHARSET = "ISO-8859-1";
-    
-	private static final Vector4f YELLOW = new Vector4f(1, 1, 0, 1);
-	
-	private static final Vector4f RED = new Vector4f(1, 0, 0, 1);
-    
     private static final int MAX_SCORE = 99999999;
     
     private static final int SCORE_HIDE = -230;
@@ -42,8 +28,6 @@ public class Hud implements IGui {
     
     private static final int LIVES_POS = 21;
     
-    private static final int HUD_GAP = 20;
-
     private GuiObject[] guiObjects;
     
     private TextObject[] textObjects;
@@ -135,17 +119,17 @@ public class Hud implements IGui {
         
         this.player1Score.setPosition(SIDE_GAP, SIDE_GAP);
         this.player2Score.setPosition(SCORE_HIDE, SCORE_POS);
-        this.player3Score.setPosition(SCORE_HIDE, SCORE_POS+HUD_GAP);
-        this.player4Score.setPosition(SCORE_HIDE, SCORE_POS+HUD_GAP*2);
-        this.player5Score.setPosition(SCORE_HIDE, SCORE_POS+HUD_GAP*3);
-        this.player6Score.setPosition(SCORE_HIDE, SCORE_POS+HUD_GAP*4);
+        this.player3Score.setPosition(SCORE_HIDE, SCORE_POS+GAP);
+        this.player4Score.setPosition(SCORE_HIDE, SCORE_POS+GAP*2);
+        this.player5Score.setPosition(SCORE_HIDE, SCORE_POS+GAP*3);
+        this.player6Score.setPosition(SCORE_HIDE, SCORE_POS+GAP*4);
         
         this.player1Lives.setPosition(player1Score.getSize()+SIDE_GAP*2, 1);
         this.player2Lives.setPosition(LIVES_HIDE, LIVES_POS);
-        this.player3Lives.setPosition(LIVES_HIDE, LIVES_POS+HUD_GAP);
-        this.player4Lives.setPosition(LIVES_HIDE, LIVES_POS+HUD_GAP*2);
-        this.player5Lives.setPosition(LIVES_HIDE, LIVES_POS+HUD_GAP*3);
-        this.player6Lives.setPosition(LIVES_HIDE, LIVES_POS+HUD_GAP*4);
+        this.player3Lives.setPosition(LIVES_HIDE, LIVES_POS+GAP);
+        this.player4Lives.setPosition(LIVES_HIDE, LIVES_POS+GAP*2);
+        this.player5Lives.setPosition(LIVES_HIDE, LIVES_POS+GAP*3);
+        this.player6Lives.setPosition(LIVES_HIDE, LIVES_POS+GAP*4);
         
         this.counter.setPosition(1175, window.getHeight()-counter.getHeight());
         this.soundOn.setPosition(window.getWidth()-soundOn.getSize(), window.getHeight()-soundOn.getHeight());

@@ -6,8 +6,6 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import org.joml.Vector4f;
-
 import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
@@ -16,27 +14,7 @@ import com.knightlore.client.gui.engine.graphics.FontTexture;
 
 public class MainMenu implements IGui {
 	
-	private static final Font FONT_SMALL = new Font("Press Start 2P", Font.PLAIN, 16);
-	
-    private static final Font FONT_MEDIUM = new Font("Press Start 2P", Font.PLAIN, 30);
-    
-    private static final Font FONT_LARGE = new Font("Press Start 2P", Font.PLAIN, 40);
-	
-	private static final Font FONT_TITLE = new Font("Press Start 2P", Font.PLAIN, 72);
-	
-	private static final String CHARSET = "ISO-8859-1";
-	
-	private static final Vector4f YELLOW = new Vector4f(1, 1, 0, 1);
-	
-	private static final Vector4f RED = new Vector4f(1, 0, 0, 1);
-	
-	private static final Vector4f LIGHT_BLUE = new Vector4f(0.29f, 0.92f, 0.95f, 1);
-	
-	private static final int TITLE_POS = 300;
-	
 	private static final int MENU_POS = 100;
-	
-	private static final int MENU_GAP = 20;
 	
     private GuiObject[] guiObjects;
     
@@ -96,11 +74,11 @@ public class MainMenu implements IGui {
         this.bongo.setPosition(window.getWidth()/2-bongo.getSize(), window.getHeight()/2-TITLE_POS);
         this.congo.setPosition(window.getWidth()/2, window.getHeight()/2-TITLE_POS);
         this.singleplayer.setPosition(window.getWidth()/2 - singleplayer.getSize()/2, window.getHeight()/2+MENU_POS);
-        this.multiplayer.setPosition(window.getWidth()/2 - multiplayer.getSize()/2, window.getHeight()/2+MENU_POS+MENU_GAP);
-        this.options.setPosition(window.getWidth()/2- options.getSize()/2, window.getHeight()/2+MENU_POS+MENU_GAP*2);
+        this.multiplayer.setPosition(window.getWidth()/2 - multiplayer.getSize()/2, window.getHeight()/2+MENU_POS+GAP);
+        this.options.setPosition(window.getWidth()/2- options.getSize()/2, window.getHeight()/2+MENU_POS+GAP*2);
         this.soundOn.setPosition(window.getWidth()- soundOn.getSize(), window.getHeight()- soundOn.getHeight());
         this.soundOff.setPosition(window.getWidth()- soundOff.getSize(), window.getHeight()- soundOff.getHeight());
-        this.quit.setPosition(window.getWidth()/2- quit.getSize()/2, window.getHeight()/2+MENU_POS+MENU_GAP*3);
+        this.quit.setPosition(window.getWidth()/2- quit.getSize()/2, window.getHeight()/2+MENU_POS+GAP*3);
         
         this.soundOff.setRender();
         

@@ -7,8 +7,6 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import org.joml.Vector4f;
-
 import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.LobbyObject;
@@ -18,29 +16,13 @@ import com.knightlore.client.gui.engine.graphics.FontTexture;
 
 public class ServerMenu implements IGui {
 	
-	private static final Font FONT_SMALL = new Font("Press Start 2P", Font.PLAIN, 16);
-	
-	private static final Font FONT_TITLE = new Font("Press Start 2P", Font.PLAIN, 72);
-	
-	private static final String CHARSET = "ISO-8859-1";
-	
-	private static final Vector4f YELLOW = new Vector4f(1, 1, 0, 1);
-	
-	private static final Vector4f RED = new Vector4f(1, 0, 0, 1);
-	
-	private static final Vector4f LIGHT_BLUE = new Vector4f(0.29f, 0.92f, 0.95f, 1);
-	
-	private static final int MAX_SERVERS = 18;
-	
-	private static final int TITLE_POS = 300;
-	
 	private static final int SEPARATORTOP_POS = 185;
 	
 	private static final int SEPARATORBOT_POS = 200;
 	
 	private static final int SEPARATOR_GAP = 16;
 	
-	private static final int SERVER_GAP = 20;
+	private static final int MAX_SERVERS = 18;
 	
     private GuiObject[] guiObjects;
     
@@ -68,7 +50,7 @@ public class ServerMenu implements IGui {
     
     private int current = 0;
     
-    private int yPos = SEPARATORTOP_POS-SERVER_GAP;
+    private int yPos = SEPARATORTOP_POS-GAP;
     
     public ServerMenu(Window window) throws Exception {
     	InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
@@ -107,9 +89,9 @@ public class ServerMenu implements IGui {
         this.multiplayer.setPosition(window.getWidth()/2-multiplayer.getSize()/2, window.getHeight()/2-SEPARATORTOP_POS-SEPARATOR_GAP);
         this.separatorTop.setPosition(window.getWidth()/2-separatorTop.getSize()/2, window.getHeight()/2-SEPARATORTOP_POS);
         this.separatorBot.setPosition(window.getWidth()/2-separatorTop.getSize()/2, window.getHeight()/2+SEPARATORBOT_POS);
-        this.create.setPosition(window.getWidth()/2-create.getSize()/2, window.getHeight()/2+SEPARATORBOT_POS+SERVER_GAP);
-        this.join.setPosition(window.getWidth()/2-join.getSize()/2, window.getHeight()/2+SEPARATORBOT_POS+SERVER_GAP*2);
-        this.exit.setPosition(window.getWidth()/2-exit.getSize()/2, window.getHeight()/2+SEPARATORBOT_POS+SERVER_GAP*3);	
+        this.create.setPosition(window.getWidth()/2-create.getSize()/2, window.getHeight()/2+SEPARATORBOT_POS+GAP);
+        this.join.setPosition(window.getWidth()/2-join.getSize()/2, window.getHeight()/2+SEPARATORBOT_POS+GAP*2);
+        this.exit.setPosition(window.getWidth()/2-exit.getSize()/2, window.getHeight()/2+SEPARATORBOT_POS+GAP*3);	
         
         servers = new ArrayList<LobbyObject>();
         
@@ -120,7 +102,7 @@ public class ServerMenu implements IGui {
         for (int i = 0; i < servers.size(); i++) {
         	servers.get(i).setColour(YELLOW);
         	servers.get(i).setPosition(window.getWidth()/2-servers.get(i).getSize()/2, window.getHeight()/2-yPos);
-        	yPos -= SERVER_GAP;
+        	yPos -= GAP;
         }
         
         guiObjects = new GuiObject[]{bongo, congo, multiplayer, separatorTop, separatorBot, join, create, exit};
@@ -141,8 +123,8 @@ public class ServerMenu implements IGui {
 		
     	LobbyObject newServer = new LobbyObject("New Server "+servers.size(), fontTexture);
     	newServer.setColour(YELLOW);
-    	newServer.setPosition(window.getWidth()/2-newServer.getSize()/2, window.getHeight()/2-yPos-(current*SERVER_GAP));
-    	yPos -= SERVER_GAP;
+    	newServer.setPosition(window.getWidth()/2-newServer.getSize()/2, window.getHeight()/2-yPos-(current*GAP));
+    	yPos -= GAP;
     	
     	servers.add(newServer);
     	reAddServers();
@@ -197,7 +179,7 @@ public class ServerMenu implements IGui {
         	guiObjects = guiObjectsNew.clone();
         	
         	for (int i = 0; i < servers.size(); i++) {
-        		servers.get(i).setPositionY(servers.get(i).getPositionY()-SERVER_GAP);
+        		servers.get(i).setPositionY(servers.get(i).getPositionY()-GAP);
         	}
     	}	
     }
@@ -216,13 +198,13 @@ public class ServerMenu implements IGui {
         	guiObjects = guiObjectsNew.clone();
         	
         	for (int i = 0; i < servers.size(); i++) {
-        		servers.get(i).setPositionY(servers.get(i).getPositionY()+SERVER_GAP);
+        		servers.get(i).setPositionY(servers.get(i).getPositionY()+GAP);
         	}	
     	}	
     }
     
     public void highlight(Window window, double yPos) {
-    	double pos = (yPos-(window.getHeight()/2-(SEPARATORTOP_POS-SERVER_GAP*2)))/SERVER_GAP;
+    	double pos = (yPos-(window.getHeight()/2-(SEPARATORTOP_POS-GAP*2)))/GAP;
     	int posInt = (int) Math.ceil(pos);
     	if (posInt >= 0 && posInt < Math.min(MAX_SERVERS,servers.size())) {
     		setHighlight(window, posInt);

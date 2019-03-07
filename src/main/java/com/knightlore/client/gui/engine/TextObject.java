@@ -16,10 +16,13 @@ public class TextObject extends GuiObject {
     private final FontTexture fontTexture;
     
     private String text;
+    
+    private String id;
 
     public TextObject(String text, FontTexture fontTexture) {
         super();
         this.text = text;
+        this.id = text;
         this.fontTexture = fontTexture;
         setMesh(buildMesh());
     }
@@ -101,5 +104,13 @@ public class TextObject extends GuiObject {
     
     public int getHeight() {
     	return fontTexture.getHeight();
+    }
+    
+    public void setId(String id) {
+    	this.id = id;
+    }
+    
+    public String getId() {
+    	return id;
     }
 }

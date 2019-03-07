@@ -55,14 +55,6 @@ public class ClientHandler extends Thread
                 // Retrieve new incoming sendable object
                 sendable = (Sendable) dis.readObject();
 
-                // First check for connection close
-                if(sendable.getFunction().equals("close_connection")){
-                    logger.info("Closing this connection.");
-                    this.s.close();
-                    logger.info("Connection closed");
-                    break;
-                }
-
                 // If not, pass to factory
                 Factory.create(this, sendable);
 

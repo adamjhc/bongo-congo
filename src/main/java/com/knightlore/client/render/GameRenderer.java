@@ -15,6 +15,8 @@ import com.knightlore.game.entity.Player;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import com.knightlore.game.map.Tile;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
@@ -196,6 +198,7 @@ public class GameRenderer extends Renderer {
   }
 
   public void levelUpdated(){
+    System.out.println("YE");
     tileGameObjects =
             TileGameObjectSet.fromGameModel(gameModel.getCurrentLevel().getLevelMap().getTiles());
     enemyGameObjects =

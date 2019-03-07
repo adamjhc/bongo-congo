@@ -17,6 +17,7 @@ public class InputHandler extends Thread {
 
                 case "test":
                     System.out.println("Test");
+
                     return;
 
                 default:

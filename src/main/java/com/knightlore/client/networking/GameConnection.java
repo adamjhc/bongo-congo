@@ -6,6 +6,7 @@ import com.knightlore.client.networking.backend.ResponseHandler;
 import com.knightlore.client.networking.backend.responsehandlers.game.GameRegister;
 import com.knightlore.client.networking.backend.responsehandlers.server.GameRequest;
 import com.knightlore.networking.ApiKey;
+import com.knightlore.networking.GameStart;
 import com.knightlore.networking.PositionUpdate;
 import com.knightlore.networking.Sendable;
 import org.joml.Vector3f;
@@ -45,7 +46,7 @@ public class GameConnection {
 
         Gson gson = new Gson();
 
-        com.knightlore.networking.GameRequest request = new com.knightlore.networking.GameRequest();
+        GameStart request = new GameStart();
         sendable.setData(gson.toJson(request));
 
         // Specify handler

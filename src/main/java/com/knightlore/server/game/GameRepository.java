@@ -34,6 +34,9 @@ public class GameRepository {
         LevelMapSet ms = new LevelMapSet(new TileSet());
         Game game = new Game(uuid.toString());
 
+
+        System.out.println("YE");
+
         // Default to provided levels
         if(levels.size() > 0){
             for(Map.Entry<UUID, Level> currentLevel : levels.entrySet()){

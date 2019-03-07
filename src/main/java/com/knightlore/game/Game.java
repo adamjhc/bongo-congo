@@ -1,5 +1,7 @@
 package com.knightlore.game;
 
+import com.google.gson.Gson;
+import com.knightlore.client.Client;
 import com.knightlore.client.networking.GameConnection;
 import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.Player;
@@ -28,6 +30,7 @@ public class Game {
     currentState = GameState.LOBBY;
     levels = new HashMap<>();
     players = new HashMap<>();
+    levelOrder = new ArrayList<>();
   }
 
   public GameState getState() {
@@ -55,10 +58,15 @@ public class Game {
 
   public void createNewLevel(UUID uuid, LevelMap levelMap) {
     levels.put(uuid, new Level(levelMap));
+    Gson gson = new Gson();
+
+    System.out.println(gson.toJson(new Level(levelMap)));
 
     if (currentLevelUUID == null) {
       currentLevelUUID = uuid;
     }
+
+    this.levelOrder.add(uuid);
   }
 
   public void createNewLevel(LevelMap levelMap){
@@ -67,10 +75,16 @@ public class Game {
 
   public void addLevel(UUID uuid, Level level){
     this.levels.put(uuid, level);
+
+    if (currentLevelUUID == null) {
+      currentLevelUUID = uuid;
+    }
+
+    this.levelOrder.add(uuid);
   }
 
-  @Deprecated
-  public void nextLevel() {
+//  @Deprecated
+//  public void nextLevel() {
 //    if (currentLevelIndex == noOfLevels - 1) {
 //      currentState = GameState.SCORE;
 //      return;
@@ -78,6 +92,11 @@ public class Game {
 //
 //    players.forEach((playerUUID, player) -> player.nextLevel());
 //    currentLevelIndex++;
+//  }
+
+  public void setLevel(UUID level){
+    this.currentLevelUUID = level;
+    players.forEach((playerUUID, player) -> player.nextLevel());
   }
 
   public void update(float delta) {}

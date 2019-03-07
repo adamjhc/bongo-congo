@@ -31,9 +31,12 @@ import org.joml.Vector3f;
 
 public class Client extends Thread {
 
+  public static Client instance;
+
   private static final int TARGET_UPS = 60;
   public static Game model;
-  private static State gameState = State.MAINMENU;
+  private static State gameState = State.SINGLEPLAYER;
+
   private Window window;
 
   private GameRenderer gameRenderer;
@@ -59,7 +62,8 @@ public class Client extends Thread {
   private OptionsMenu optionsMenu;
 
   public static void main(String[] args) {
-    new Client().run();
+    instance = new Client();
+    instance.run();
   }
 
   public void run() {
@@ -103,7 +107,6 @@ public class Client extends Thread {
     } else {
       gameModel = model;
     }
-
 
     gameRenderer = new GameRenderer(window, gameModel);
     gameRenderer.levelUpdated();
@@ -276,9 +279,9 @@ public class Client extends Thread {
       case SINGLEPLAYER:
         movement(delta);
 
-        if (window.isKeyReleased(GLFW_KEY_J)) {
-          gameModel.nextLevel();
-        }
+//        if (window.isKeyReleased(GLFW_KEY_J)) {
+//          gameModel.nextLevel();
+//        }
 
         leaveGame();
 
@@ -295,10 +298,9 @@ public class Client extends Thread {
 
       case DEAD:
     	gameModel.updatePlayerState(PlayerState.IDLE);
-    	
+
         if (window.isKeyReleased(GLFW_KEY_J)) {
           gameState = State.SINGLEPLAYER;
-          gameModel.nextLevel();
         }
         
         leaveGame();

@@ -63,6 +63,7 @@ public class GameRequest extends Command{
                     logger.warn("User sent incorrect level id: " + levelID.toString());
                 }
             }
+
             // Create new game server
             GameRepository.instance.newServer(uuid, port, handler.sessionKey.get(), levels);
 

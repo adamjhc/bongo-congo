@@ -103,7 +103,30 @@ public class Player extends Entity {
     try {
       Tile newTile = levelMap.getTile(coords);
 
+<<<<<<<
       if (newTile.getIndex() == 0) { // Checks if tile is an air tile
+=======
+                if (fallFlag) {
+                  while (!(newTile.getIndex() == 0)) {
+                      newPos.z -= 0.1;
+                      setPosition(newPos);
+                      newTile.getPosition().z -= 1;
+                      delay(250);
+                  }
+                  System.out.println("Fall"); // debug statement
+                  loseLife();
+                } else {
+                    Tile below = map.getTile(new Vector3i(coords.x,coords.y,coords.z-1));
+                    if (!(below.getIndex() == 0 || below.getIndex() == 1)) { // Check if the tile you are falling onto is walkable
+                        setPosition(setPadding(oldPos));
+                    } else {
+                        fallFlag = true;
+                        newPos.z -= 1;
+                        setPosition(setPadding(newPos));
+                        delay(250);
+                    }
+                }
+>>>>>>>
 
         if (fallFlag) {
           while (newTile.getIndex() != 0) {
@@ -198,4 +221,21 @@ public class Player extends Entity {
 
     fallFlag = false;
   }
+    private void delay(long target) { // target delay in milliseconds
+        long start = System.nanoTime() / 1000000;
+        long difference = 0;
+        while (difference < target) {
+            long check = System.nanoTime() / 1000000;
+            difference = check - start;
+        }
+    }
+
+
+    public PlayerState getPlayerState() {
+        return playerState;
+    }
+
+    public void setPlayerState(PlayerState playerState) {
+        this.playerState = playerState;
+    }
 }

@@ -43,10 +43,10 @@ public class PreLevelEditor implements IGui {
 
   public PreLevelEditor() {
     TextObject bongo = new TextObject("Bongo", TITLE);
-    bongo.getMesh().getMaterial().setColour(LIGHT_BLUE);
+    bongo.setColour(LIGHT_BLUE);
 
     TextObject congo = new TextObject("Congo", TITLE);
-    congo.getMesh().getMaterial().setColour(RED);
+    congo.setColour(RED);
     
     TextObject editor = new TextObject("Level Editor", SMALL);
     editor.setColour(YELLOW);
@@ -163,7 +163,8 @@ public class PreLevelEditor implements IGui {
         Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP);
 
     this.exit.setPosition(
-        Window.getHalfWidth() - exit.getSize() / 2, Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
+        Window.getHalfWidth() - exit.getSize() / 2,
+        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
 
     guiObjects =
         new GuiObject[] {

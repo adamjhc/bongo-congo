@@ -108,7 +108,6 @@ public class ServerMenu implements IGui {
   }
 
   public void createServer() {
-  	System.out.println(MAX_SERVERS);
     FontTexture fontTexture = new FontTexture(FONT_SMALL, CHARSET);
 
     LobbyObject newServer = new LobbyObject("New Server " + servers.size(), fontTexture);

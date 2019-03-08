@@ -24,7 +24,7 @@ public class OptionsScreen implements IScreen {
 
   @Override
   public void input() {
-    if (checkPosition(optionsMenu, optionsMenu.getIncVolume().getId(), "")) {
+    if (checkPosition(optionsMenu, optionsMenu.getIncVolume().getId())) {
       optionsMenu.getIncVolume().setColour();
       if (Mouse.isLeftButtonHeld()) {
         optionsMenu.incVolume();
@@ -32,7 +32,7 @@ public class OptionsScreen implements IScreen {
       }
     } else optionsMenu.getIncVolume().setColour(YELLOW);
 
-    if (checkPosition(optionsMenu, optionsMenu.getDecVolume().getId(), "")) {
+    if (checkPosition(optionsMenu, optionsMenu.getDecVolume().getId())) {
       optionsMenu.getDecVolume().setColour();
       if (Mouse.isLeftButtonHeld()) {
         optionsMenu.decVolume();
@@ -40,7 +40,7 @@ public class OptionsScreen implements IScreen {
       }
     } else optionsMenu.getDecVolume().setColour(YELLOW);
 
-    if (checkPosition(optionsMenu, optionsMenu.getExit().getId(), "")) {
+    if (checkPosition(optionsMenu, optionsMenu.getExit().getId())) {
       optionsMenu.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Client.changeScreen(ClientState.MAIN_MENU);

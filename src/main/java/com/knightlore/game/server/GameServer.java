@@ -1,7 +1,7 @@
 package com.knightlore.game.server;
 
 import com.google.gson.Gson;
-import com.knightlore.game.Game;
+import com.knightlore.game.GameModel;
 import com.knightlore.game.GameState;
 import com.knightlore.networking.GameStart;
 import com.knightlore.networking.Sendable;
@@ -20,9 +20,9 @@ public class GameServer extends Thread {
     String sessionOwner;
     ArrayList<ClientHandler> clients;
 
-    Game model;
+    GameModel model;
 
-    public GameServer(UUID id, int socket, String sessionOwner, Game model){
+    public GameServer(UUID id, int socket, String sessionOwner, GameModel model){
         this.id = id;
         this.socket = socket;
         this.sessionOwner = sessionOwner;
@@ -93,7 +93,7 @@ public class GameServer extends Thread {
         return this.sessionOwner;
     }
 
-    public Game getModel(){
+    public GameModel getModel(){
         return this.model;
     }
 

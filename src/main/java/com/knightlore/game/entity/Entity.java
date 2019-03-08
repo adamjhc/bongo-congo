@@ -20,6 +20,10 @@ public abstract class Entity {
     return id;
   }
 
+  public void setId(int id) {
+    this.id = id;
+  }
+
   public int getSpeed() {
     return speed;
   }

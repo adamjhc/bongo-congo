@@ -1,7 +1,7 @@
 package com.knightlore.client.render;
 
 import com.knightlore.client.gui.engine.IGui;
-import com.knightlore.client.gui.engine.Window;
+import com.knightlore.client.io.Window;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.world.EnemyGameObject;
 import com.knightlore.client.render.world.EnemyGameObjectSet;
@@ -9,7 +9,7 @@ import com.knightlore.client.render.world.GameObject;
 import com.knightlore.client.render.world.PlayerGameObject;
 import com.knightlore.client.render.world.TileGameObject;
 import com.knightlore.client.render.world.TileGameObjectSet;
-import com.knightlore.game.Game;
+import com.knightlore.game.GameModel;
 import com.knightlore.game.entity.Enemy;
 import com.knightlore.game.entity.Player;
 import java.util.ArrayList;
@@ -42,13 +42,9 @@ public class GameRenderer extends Renderer {
 
   private Integer currentLevelIndex;
 
-  /**
-   * Initialise the renderer
-   *
-   * @param window Reference to the GLFW window class
-   */
-  public GameRenderer(Window window) {
-    super(window);
+  /** Initialise the renderer */
+  public GameRenderer() {
+    super();
 
     setupWorld();
     setupHud();
@@ -56,26 +52,26 @@ public class GameRenderer extends Renderer {
 
   private void setupWorld() {
     world = new World();
-    camera = new Camera(window.getWidth(), window.getHeight());
+    camera = new Camera(Window.getWidth(), Window.getHeight());
     worldShaderProgram = new ShaderProgram("world");
     playerShaderProgram = new ShaderProgram("player");
     tileGameObjects = new ArrayList<>();
     playerGameObjects = new ArrayList<>();
     enemyGameObjects = new ArrayList<>();
-    viewX = ((float) window.getWidth() / (World.SCALE * 2)) + 1;
-    viewY = ((float) window.getHeight() / (World.SCALE * 2)) + 2;
+    viewX = ((float) Window.getWidth() / (World.SCALE * 2)) + 1;
+    viewY = ((float) Window.getHeight() / (World.SCALE * 2)) + 2;
   }
 
   private void setupHud() {
-    hudRenderer = new GuiRenderer(window);
+    hudRenderer = new GuiRenderer();
   }
 
   /**
    * Render the game model
    *
-   * @param gameModel Game model to render
+   * @param gameModel GameModel model to render
    */
-  public void render(Game gameModel, IGui hud) {
+  public void render(GameModel gameModel, IGui hud) {
     clearBuffers();
 
     renderGame(gameModel);
@@ -84,7 +80,7 @@ public class GameRenderer extends Renderer {
     swapBuffers();
   }
 
-  private void renderGame(Game gameModel) {
+  private void renderGame(GameModel gameModel) {
     Collection<Player> players = gameModel.getPlayers().values();
     Collection<Enemy> enemies = gameModel.getCurrentLevel().getEnemies();
 
@@ -92,12 +88,12 @@ public class GameRenderer extends Renderer {
       playerGameObjects = PlayerGameObject.fromGameModel(players);
     }
 
-    //if (!gameModel.getCurrentLevelIndex().equals(currentLevelIndex)) {
-      tileGameObjects =
-          TileGameObjectSet.fromGameModel(gameModel.getCurrentLevel().getLevelMap().getTiles());
-      enemyGameObjects = EnemyGameObjectSet.fromGameModel(enemies);
-      currentLevelIndex = gameModel.getCurrentLevelIndex();
-    //}
+    // if (!gameModel.getCurrentLevelIndex().equals(currentLevelIndex)) {
+    tileGameObjects =
+        TileGameObjectSet.fromGameModel(gameModel.getCurrentLevel().getLevelMap().getTiles());
+    enemyGameObjects = EnemyGameObjectSet.fromGameModel(enemies);
+    currentLevelIndex = gameModel.getCurrentLevelIndex();
+    // }
 
     players.forEach(player -> playerGameObjects.get(player.getId()).update(player));
     enemies.forEach(enemy -> enemyGameObjects.get(enemy.getId()).update(enemy));

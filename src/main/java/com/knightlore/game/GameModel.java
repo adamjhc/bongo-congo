@@ -10,22 +10,24 @@ import java.util.HashMap;
 import java.util.Map;
 import org.joml.Vector3f;
 
-public class Game {
+public class GameModel {
 
   private final int noOfLevels = 3;
 
   private String uuid;
   private ArrayList<Level> levels;
   private Map<String, Player> players;
+  private int playerIdInc;
   private Integer currentLevelIndex;
   private GameState currentState;
 
-  public Game(String uuid) {
+  public GameModel(String uuid) {
     this.uuid = uuid;
     levels = new ArrayList<>();
     currentState = GameState.LOBBY;
     levels = new ArrayList<>();
     players = new HashMap<>();
+    playerIdInc = 0;
     currentLevelIndex = 0;
   }
 
@@ -63,16 +65,16 @@ public class Game {
       currentLevelIndex = 0;
     }
   }
-  
+
   public void overwriteCurrentLevel(LevelMap levelMap) {
-	  levels.set(0, new Level(levelMap));
-  }
-  
-  public void clearLevels() {
-	  this.levels.clear();
+    levels.set(0, new Level(levelMap));
   }
 
-  public void addLevel(Level level){
+  public void clearLevels() {
+    this.levels.clear();
+  }
+
+  public void addLevel(Level level) {
     this.levels.add(level);
   }
 
@@ -82,13 +84,42 @@ public class Game {
       return;
     }
 
-    players.forEach((playerUUID, player) -> player.nextLevel());
+    players.forEach((playerUUID, player) -> player.reset());
     currentLevelIndex++;
   }
 
-  public void update(float delta) {}
+  public void update(float delta, Direction playerInputDirection) {
+    if (playerInputDirection == null) {
+      updatePlayerState(PlayerState.IDLE);
+    } else {
+      movePlayerInDirection(playerInputDirection, delta);
+    }
+  }
 
-  public void movePlayerInDirection(Direction direction, float delta) {
+  public void addPlayer(String uuid) {
+    players.put(uuid, new Player(uuid, playerIdInc));
+    playerIdInc++;
+  }
+
+  public void addPlayer(String uuid, int id) {
+    players.put(uuid, new Player(uuid, id));
+  }
+
+  public void removePlayer(String uuid) {
+    Player removedPlayer = players.get(uuid);
+    players.remove(uuid, removedPlayer);
+
+    // decrement other player ids
+    for (Player player : players.values()) {
+      int playerId = player.getId();
+      if (playerId > removedPlayer.getId()) {
+        player.setId(playerId - 1);
+      }
+    }
+    playerIdInc--;
+  }
+
+  private void movePlayerInDirection(Direction direction, float delta) {
     Player player = myPlayer();
     player.setDirection(direction);
     player.setPlayerState(PlayerState.MOVING);
@@ -100,19 +131,7 @@ public class Game {
     player.update(origPos, newPos, getCurrentLevel().getLevelMap());
   }
 
-  public void updatePlayerState(PlayerState state) {
+  private void updatePlayerState(PlayerState state) {
     myPlayer().setPlayerState(state);
-  }
-
-  public void addPlayer(String uuid) {
-    players.put(uuid, new Player(uuid));
-  }
-  
-  public void addPlayer(String uuid, int id) {
-	  players.put(uuid, new Player(uuid, id));
-  }
-  
-  public void removePlayer(String uuid) {
-	  players.remove(uuid, players.get(uuid));
   }
 }

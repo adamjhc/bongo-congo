@@ -22,7 +22,7 @@ public class ServerMenu implements IGui {
   private static final int SEPARATOR_BOT_POS = 200;
   private static final int SEPARATOR_GAP = FONT_SIZE;
 
-  private static final int MAX_SERVERS = 18;
+  private static final int MAX_SERVERS = (SEPARATOR_TOP_POS + SEPARATOR_BOT_POS - GAP) / GAP;
 
   private final TextObject separatorTop;
   private final TextObject separatorBot;
@@ -108,6 +108,7 @@ public class ServerMenu implements IGui {
   }
 
   public void createServer() {
+  	System.out.println(MAX_SERVERS);
     FontTexture fontTexture = new FontTexture(FONT_SMALL, CHARSET);
 
     LobbyObject newServer = new LobbyObject("New Server " + servers.size(), fontTexture);

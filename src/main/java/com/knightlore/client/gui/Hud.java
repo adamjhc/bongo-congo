@@ -16,12 +16,12 @@ import org.joml.Vector4f;
 
 public class Hud implements IGui {
 
+  private static final int SCORE_SIDE_GAP = 5;
+  private static final int LIVES_SIDE_GAP = 1;
+  private static final int SCORE_HIDE = -SCORE_SIDE_GAP - FONT_SIZE * 11 - SCORE_SIDE_GAP * 2 - FONT_SIZE_LIVES * 3;
+  private static final int LIVES_HIDE = SCORE_HIDE + FONT_SIZE * 11 + SCORE_SIDE_GAP * 2;
+  
   private static final int MAX_SCORE = 99999999;
-  private static final int SCORE_HIDE = -230;
-  private static final int LIVES_HIDE = -60;
-  private static final int SIDE_GAP = 5;
-  private static final int SCORE_POS = 25;
-  private static final int LIVES_POS = 21;
 
   private final TextObject player1Score;
   private final TextObject player1Lives;
@@ -87,19 +87,19 @@ public class Hud implements IGui {
     this.soundOff = new TextObject("/", MEDIUM);
     this.soundOff.setColour(RED);
 
-    this.player1Score.setPosition(SIDE_GAP, SIDE_GAP);
-    this.player2Score.setPosition(SCORE_HIDE, SCORE_POS);
-    this.player3Score.setPosition(SCORE_HIDE, SCORE_POS + GAP);
-    this.player4Score.setPosition(SCORE_HIDE, SCORE_POS + GAP * 2);
-    this.player5Score.setPosition(SCORE_HIDE, SCORE_POS + GAP * 3);
-    this.player6Score.setPosition(SCORE_HIDE, SCORE_POS + GAP * 4);
+    this.player1Score.setPosition(SCORE_SIDE_GAP, SCORE_SIDE_GAP);
+    this.player2Score.setPosition(SCORE_HIDE, SCORE_SIDE_GAP + GAP);
+    this.player3Score.setPosition(SCORE_HIDE, SCORE_SIDE_GAP + GAP * 2);
+    this.player4Score.setPosition(SCORE_HIDE, SCORE_SIDE_GAP + GAP * 3);
+    this.player5Score.setPosition(SCORE_HIDE, SCORE_SIDE_GAP + GAP * 4);
+    this.player6Score.setPosition(SCORE_HIDE, SCORE_SIDE_GAP + GAP * 5);
 
-    this.player1Lives.setPosition(player1Score.getSize() + SIDE_GAP * 2, 1);
-    this.player2Lives.setPosition(LIVES_HIDE, LIVES_POS);
-    this.player3Lives.setPosition(LIVES_HIDE, LIVES_POS + GAP);
-    this.player4Lives.setPosition(LIVES_HIDE, LIVES_POS + GAP * 2);
-    this.player5Lives.setPosition(LIVES_HIDE, LIVES_POS + GAP * 3);
-    this.player6Lives.setPosition(LIVES_HIDE, LIVES_POS + GAP * 4);
+    this.player1Lives.setPosition(SCORE_SIDE_GAP + player1Score.getSize() + SCORE_SIDE_GAP * 2, LIVES_SIDE_GAP);
+    this.player2Lives.setPosition(LIVES_HIDE, LIVES_SIDE_GAP + GAP);
+    this.player3Lives.setPosition(LIVES_HIDE, LIVES_SIDE_GAP + GAP * 2);
+    this.player4Lives.setPosition(LIVES_HIDE, LIVES_SIDE_GAP + GAP * 3);
+    this.player5Lives.setPosition(LIVES_HIDE, LIVES_SIDE_GAP + GAP * 4);
+    this.player6Lives.setPosition(LIVES_HIDE, LIVES_SIDE_GAP + GAP * 5);
 
     this.counter.setPosition(1175, Window.getHeight() - counter.getHeight());
     this.soundOn.setPosition(
@@ -137,7 +137,7 @@ public class Hud implements IGui {
     if (xPosScore < targetXPos && move > 0) {
       setPosition(move, xPosScore, xPosLives);
       if (player2Score.getPositionX() > targetXPos) {
-        setPosition(0, targetXPos, targetXPos + 170);
+        setPosition(0, targetXPos, targetXPos + player1Score.getSize() + SCORE_SIDE_GAP * 2);
       }
     } else if (xPosScore > targetXPos && move < 0) {
       setPosition(move, xPosScore, xPosLives);
@@ -197,6 +197,14 @@ public class Hud implements IGui {
 
   public TextObject getSoundMute() {
     return soundOff;
+  }
+  
+  public int getScoreHide() {
+  	return SCORE_HIDE;
+  }
+  
+  public int getScoreSideGap() {
+  	return SCORE_SIDE_GAP;
   }
 
   @Override

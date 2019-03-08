@@ -28,8 +28,8 @@ public class Lobby implements IGui {
     this.congo.setColour(RED);
 
     this.bongo.setPosition(
-        Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() / 2 - TITLE_POS);
-    this.congo.setPosition(Window.getHalfWidth() / 2, Window.getHalfHeight() / 2 - TITLE_POS);
+        Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
+    this.congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
 
     guiObjects = new GuiObject[] {bongo, congo};
   }

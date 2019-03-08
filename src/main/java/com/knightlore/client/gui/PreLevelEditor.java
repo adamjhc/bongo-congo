@@ -18,7 +18,7 @@ public class PreLevelEditor implements IGui {
 
   private static final int SEPARATOR_TOP_POS = 185;
   private static final int SEPARATOR_BOT_POS = 200;
-  private static final int SEPARATOR_GAP = 16;
+  private static final int SEPARATOR_GAP = FONT_SIZE;
 
   private static final int MAX_WIDTH = 50;
   private static final int MAX_LENGTH = 50;

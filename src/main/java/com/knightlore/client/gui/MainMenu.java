@@ -15,7 +15,7 @@ import java.io.InputStream;
 
 public class MainMenu implements IGui {
 
-  private static final int MENU_POS = 100;
+  private static final int MENU_POS = 0;
 
   private final TextObject singleplayer;
   private final TextObject multiplayer;

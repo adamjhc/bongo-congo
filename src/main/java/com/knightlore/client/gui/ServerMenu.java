@@ -20,7 +20,7 @@ public class ServerMenu implements IGui {
 
   private static final int SEPARATOR_TOP_POS = 185;
   private static final int SEPARATOR_BOT_POS = 200;
-  private static final int SEPARATOR_GAP = 16;
+  private static final int SEPARATOR_GAP = FONT_SIZE;
 
   private static final int MAX_SERVERS = 18;
 

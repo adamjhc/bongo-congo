@@ -6,6 +6,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_J;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
 
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
@@ -74,12 +75,12 @@ public class GameScreen implements IScreen {
       }
     }
 
-    //        // CONTROL TO SHOW OTHER PLAYERS SCORES
-    //        if (window.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
-    //          hud.moveScore(20, 5);
-    //        } else {
-    //          hud.moveScore(-10, -230);
-    //        }
+    // CONTROL TO SHOW OTHER PLAYERS SCORES
+    if (Keyboard.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
+    	hud.moveScore(35, hud.getScoreSideGap());
+    } else {
+    	hud.moveScore(-10, hud.getScoreHide());
+    }
   }
 
   @Override

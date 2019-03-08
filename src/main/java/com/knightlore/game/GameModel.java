@@ -89,10 +89,27 @@ public class GameModel {
   }
 
   public void update(float delta, Direction playerInputDirection) {
-    if (playerInputDirection == null) {
-      updatePlayerState(PlayerState.IDLE);
-    } else {
-      movePlayerInDirection(playerInputDirection, delta);
+
+    // Player updates
+    switch (myPlayer().getPlayerState()) {
+      case IDLE:
+        if (playerInputDirection != null) {
+          updatePlayerState(PlayerState.MOVING);
+          movePlayerInDirection(playerInputDirection, delta);
+        }
+        break;
+      case MOVING:
+        if (playerInputDirection == null) {
+          updatePlayerState(PlayerState.IDLE);
+        } else {
+          movePlayerInDirection(playerInputDirection, delta);
+        }
+        break;
+      case CLIMBING:
+      case ROLLING:
+      case FALLING:
+      case DEAD:
+        break;
     }
   }
 

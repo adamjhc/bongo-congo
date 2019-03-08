@@ -7,7 +7,9 @@ import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.LevelMap;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import org.joml.Vector3f;
 
 public class GameModel {
@@ -15,20 +17,32 @@ public class GameModel {
   private final int noOfLevels = 3;
 
   private String uuid;
+  private GameState currentState;
+
   private ArrayList<Level> levels;
+  private Integer currentLevelIndex;
+
   private Map<String, Player> players;
   private int playerIdInc;
-  private Integer currentLevelIndex;
-  private GameState currentState;
+  private List<Vector3f> playerColours;
 
   public GameModel(String uuid) {
     this.uuid = uuid;
-    levels = new ArrayList<>();
     currentState = GameState.LOBBY;
+
     levels = new ArrayList<>();
+    currentLevelIndex = 0;
+
     players = new HashMap<>();
     playerIdInc = 0;
-    currentLevelIndex = 0;
+    playerColours = new ArrayList<>();
+    playerColours.add(new Vector3f(0, 0, 1));
+    playerColours.add(new Vector3f(0, 1, 0));
+    playerColours.add(new Vector3f(0, 1, 1));
+    playerColours.add(new Vector3f(1, 0, 0));
+    playerColours.add(new Vector3f(1, 0, 1));
+    playerColours.add(new Vector3f(1, 1, 0));
+    playerColours.add(new Vector3f(1, 1, 1));
   }
 
   public GameState getState() {
@@ -84,11 +98,15 @@ public class GameModel {
       return;
     }
 
+    currentState = GameState.NEXT_LEVEL;
     players.forEach((playerUUID, player) -> player.reset());
     currentLevelIndex++;
   }
 
   public void update(float delta, Direction playerInputDirection) {
+    if (currentState == GameState.NEXT_LEVEL) {
+      currentState = GameState.PLAYING;
+    }
 
     // Player updates
     switch (myPlayer().getPlayerState()) {
@@ -114,12 +132,10 @@ public class GameModel {
   }
 
   public void addPlayer(String uuid) {
-    players.put(uuid, new Player(uuid, playerIdInc));
+    Vector3f playerColour = playerColours.get(new Random().nextInt(playerColours.size()));
+    players.put(uuid, new Player(uuid, playerIdInc, playerColour));
     playerIdInc++;
-  }
-
-  public void addPlayer(String uuid, int id) {
-    players.put(uuid, new Player(uuid, id));
+    playerColours.remove(playerColour);
   }
 
   public void removePlayer(String uuid) {
@@ -133,7 +149,9 @@ public class GameModel {
         player.setId(playerId - 1);
       }
     }
+
     playerIdInc--;
+    playerColours.add(removedPlayer.getColour());
   }
 
   private void movePlayerInDirection(Direction direction, float delta) {

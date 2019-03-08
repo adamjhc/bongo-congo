@@ -40,8 +40,6 @@ public class GameRenderer extends Renderer {
   private float viewX;
   private float viewY;
 
-  private Integer currentLevelIndex;
-
   /** Initialise the renderer */
   public GameRenderer() {
     super();
@@ -66,6 +64,13 @@ public class GameRenderer extends Renderer {
     hudRenderer = new GuiRenderer();
   }
 
+  public void init(GameModel gameModel) {
+    playerGameObjects = PlayerGameObject.fromGameModel(gameModel.getPlayers().values());
+    tileGameObjects =
+        TileGameObjectSet.fromGameModel(gameModel.getCurrentLevel().getLevelMap().getTiles());
+    enemyGameObjects = EnemyGameObjectSet.fromGameModel(gameModel.getCurrentLevel().getEnemies());
+  }
+
   /**
    * Render the game model
    *
@@ -83,17 +88,6 @@ public class GameRenderer extends Renderer {
   private void renderGame(GameModel gameModel) {
     Collection<Player> players = gameModel.getPlayers().values();
     Collection<Enemy> enemies = gameModel.getCurrentLevel().getEnemies();
-
-    if (playerGameObjects.isEmpty()) {
-      playerGameObjects = PlayerGameObject.fromGameModel(players);
-    }
-
-    // if (!gameModel.getCurrentLevelIndex().equals(currentLevelIndex)) {
-    tileGameObjects =
-        TileGameObjectSet.fromGameModel(gameModel.getCurrentLevel().getLevelMap().getTiles());
-    enemyGameObjects = EnemyGameObjectSet.fromGameModel(enemies);
-    currentLevelIndex = gameModel.getCurrentLevelIndex();
-    // }
 
     players.forEach(player -> playerGameObjects.get(player.getId()).update(player));
     enemies.forEach(enemy -> enemyGameObjects.get(enemy.getId()).update(enemy));

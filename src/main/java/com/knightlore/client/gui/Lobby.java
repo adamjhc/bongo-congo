@@ -16,11 +16,8 @@ import java.io.InputStream;
 public class Lobby implements IGui {
 
   private final TextObject bongo;
-
   private final TextObject congo;
-
   private GuiObject[] guiObjects;
-
   private TextObject[] textObjects;
 
   public Lobby() {

@@ -92,6 +92,10 @@ public class Audio {
         };
   }
 
+  public static boolean isOn() {
+    return isOn;
+  }
+
   // param1: the audio file to be played
   public static void play(AudioName file) {
     if (isOn) {
@@ -122,8 +126,12 @@ public class Audio {
   }
 
   public static void restart() {
-    toggle();
-    toggle();
+    if (isOn) {
+      toggle();
+      toggle();
+    } else {
+      toggle();
+    }
   }
 
   public static void incVolume() {

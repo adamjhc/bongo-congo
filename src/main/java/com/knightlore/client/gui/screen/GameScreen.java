@@ -49,6 +49,8 @@ public class GameScreen implements IScreen {
       gameModel = (GameModel) args[0];
       gameModel.myPlayer().reset();
     }
+
+    Audio.restart();
   }
 
   @Override
@@ -67,8 +69,6 @@ public class GameScreen implements IScreen {
     if (Mouse.getXPos() > hud.getSound().getPositionX()
         && Mouse.getYPos() > hud.getSound().getPositionY()) {
       if (Mouse.isLeftButtonPressed()) {
-        hud.getSoundMute().setRender();
-        hud.getSoundMute().setRender();
         Audio.toggle();
       }
     }
@@ -107,7 +107,14 @@ public class GameScreen implements IScreen {
 
   @Override
   public void render() {
+    hud.getSoundMute().setRender(!Audio.isOn());
+
     gameRenderer.render(gameModel, hud);
+  }
+
+  @Override
+  public void shutdown(ClientState nextScreen) {
+    Audio.restart();
   }
 
   @Override

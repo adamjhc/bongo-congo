@@ -21,12 +21,12 @@ public class MainScreen implements IScreen {
   public MainScreen(GuiRenderer renderer) {
     menu = new MainMenu();
     this.renderer = renderer;
+
+    Audio.restart();
   }
 
   @Override
-  public void startup(Object... args) {
-    Audio.toggle();
-  }
+  public void startup(Object... args) {}
 
   @Override
   public void input() {
@@ -34,7 +34,6 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, "Singleplayer", "")) {
       menu.getSingleplayer().setColour();
       if (Mouse.isLeftButtonPressed()) {
-        Audio.toggle();
         Client.changeScreen(ClientState.GAME);
       }
     } else menu.getSingleplayer().setColour(new Vector4f(1, 1, 0, 1));
@@ -74,7 +73,6 @@ public class MainScreen implements IScreen {
     if (Mouse.getXPos() > menu.getSound().getPositionX()
         && Mouse.getYPos() > menu.getSound().getPositionY()) {
       if (Mouse.isLeftButtonPressed()) {
-        menu.getSoundMute().setRender();
         Audio.toggle();
       }
     }
@@ -86,6 +84,8 @@ public class MainScreen implements IScreen {
 
   @Override
   public void render() {
+    menu.getSoundMute().setRender(!Audio.isOn());
+
     renderer.render(menu);
   }
 

@@ -54,7 +54,7 @@ public class OptionsMenu implements IGui {
     this.decVolume = new TextObject("<", fontLarge);
     this.decVolume.setColour(YELLOW);
 
-    this.volume = new TextObject("000", fontLarge);
+    this.volume = new TextObject("070", fontLarge);
     this.volume.setColour(YELLOW);
 
     this.exit = new TextObject("Exit", fontSmall);

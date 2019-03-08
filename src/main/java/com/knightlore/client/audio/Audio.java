@@ -129,8 +129,6 @@ public class Audio {
     if (isOn) {
       toggle();
       toggle();
-    } else {
-      toggle();
     }
   }
 

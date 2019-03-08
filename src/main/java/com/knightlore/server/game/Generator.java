@@ -1,6 +1,6 @@
 //package com.knightlore.server.game;
 //
-//import com.knightlore.game.Game;
+//import com.knightlore.game.GameModel;
 //import com.knightlore.game.Level;
 //import com.knightlore.game.entity.Enemy;
 //import com.knightlore.game.map.LevelMap;
@@ -14,9 +14,9 @@
 //     * Build default game model
 //     * @return
 //     */
-//    public static Game makeDefault(UUID gameUUID){
+//    public static GameModel makeDefault(UUID gameUUID){
 //        // Base game
-//        Game game = new Game(gameUUID.toString());
+//        GameModel game = new GameModel(gameUUID.toString());
 //
 //        // Build levels
 //        Level levelOne = new Level();

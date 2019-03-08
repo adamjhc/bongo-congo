@@ -1,14 +1,13 @@
 package com.knightlore.client.render;
 
-import com.knightlore.client.gui.engine.Window;
+import com.knightlore.client.io.Window;
+import com.knightlore.client.leveleditor.LevelEditorHud;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.world.TileGameObject;
 import com.knightlore.client.render.world.TileGameObjectSet;
 import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.Tile;
 import com.knightlore.game.util.CoordinateUtils;
-import com.knightlore.leveleditor.LevelEditorHud;
-
 import org.joml.Vector3f;
 
 public class LevelEditorRenderer extends Renderer {
@@ -19,11 +18,11 @@ public class LevelEditorRenderer extends Renderer {
 
   private float viewX;
   private float viewY;
-  
+
   private GuiRenderer hudRenderer;
 
-  public LevelEditorRenderer(Window window) {
-    super(window);
+  public LevelEditorRenderer() {
+    super();
 
     setupWorld();
     setupHud();
@@ -31,15 +30,15 @@ public class LevelEditorRenderer extends Renderer {
 
   private void setupWorld() {
     world = new World();
-    camera = new Camera(window.getWidth(), window.getHeight());
+    camera = new Camera(Window.getWidth(), Window.getHeight());
     shaderProgram = new ShaderProgram("world");
 
-    viewX = ((float) window.getWidth() / (World.SCALE * 2)) + 1;
-    viewY = ((float) window.getHeight() / (World.SCALE * 2)) + 2;
+    viewX = ((float) Window.getWidth() / (World.SCALE * 2)) + 1;
+    viewY = ((float) Window.getHeight() / (World.SCALE * 2)) + 2;
   }
 
   private void setupHud() {
-	  hudRenderer = new GuiRenderer(window);
+    hudRenderer = new GuiRenderer();
   }
 
   public void render(LevelMap levelMap, Vector3f cameraPosition, LevelEditorHud hud) {

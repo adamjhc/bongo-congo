@@ -1,6 +1,6 @@
 package com.knightlore.server.game;
 
-import com.knightlore.game.Game;
+import com.knightlore.game.GameModel;
 import com.knightlore.game.Level;
 import com.knightlore.game.map.LevelMapSet;
 import com.knightlore.game.map.TileSet;
@@ -32,13 +32,13 @@ public class GameRepository {
      */
     public void newServer(UUID uuid, int port, String sessionOwner, ArrayList<Level> levels){
         LevelMapSet ms = new LevelMapSet(new TileSet());
-        Game game = new Game(uuid.toString());
+        GameModel gameModel = new GameModel(uuid.toString());
 
-        game.createNewLevel(ms.getMap(0));
+        gameModel.createNewLevel(ms.getMap(0));
         // Default to provided levels
         if(levels.size() > 0){
             for(com.knightlore.game.Level currentLevel : levels){
-                game.addLevel(currentLevel);
+                gameModel.addLevel(currentLevel);
             }
         }else{
             // No levels provided, fallback on first from database
@@ -47,16 +47,16 @@ public class GameRepository {
             if(!optLevel.isPresent()){
                 // No db found, fallback on server generated
                 logger.warn("No levels could be found! Defaulting");
-                game.createNewLevel(ms.getMap(0));
+                gameModel.createNewLevel(ms.getMap(0));
             }else{
                 com.knightlore.server.database.model.Level level = (com.knightlore.server.database.model.Level) optLevel.get();
-                game.addLevel(level.getModelLevel());
+                gameModel.addLevel(level.getModelLevel());
             }
         }
 
 
 
-        this.newServer(uuid, port, sessionOwner, game);
+        this.newServer(uuid, port, sessionOwner, gameModel);
     }
 
     /**
@@ -65,10 +65,10 @@ public class GameRepository {
      * @param uuid
      * @param port
      * @param sessionOwner
-     * @param game
+     * @param gameModel
      */
-    public void newServer(UUID uuid, int port, String sessionOwner, Game game){
-        GameServer server = new GameServer(uuid, port, sessionOwner, game);
+    public void newServer(UUID uuid, int port, String sessionOwner, GameModel gameModel){
+        GameServer server = new GameServer(uuid, port, sessionOwner, gameModel);
         servers.put(uuid, server);
     }
 

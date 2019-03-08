@@ -1,6 +1,7 @@
 package com.knightlore.client.networking.backend.commandhandler;
 
 import com.google.gson.Gson;
+import com.knightlore.client.gui.screen.GameScreen;
 import com.knightlore.client.networking.backend.Client;
 import com.knightlore.networking.Sendable;
 
@@ -14,6 +15,6 @@ public class PlayerJoined implements GenericHandler {
         gson.fromJson(sendable.getData(), com.knightlore.networking.PlayerJoined.class);
 
     // Update model
-    com.knightlore.client.Client.model.addPlayer(playerJoined.session);
+    GameScreen.gameModel.addPlayer(playerJoined.session);
   }
 }

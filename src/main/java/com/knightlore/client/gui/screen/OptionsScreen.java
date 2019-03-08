@@ -56,4 +56,9 @@ public class OptionsScreen implements IScreen {
   public void render() {
     guiRenderer.render(optionsMenu);
   }
+
+  @Override
+  public void cleanUp() {
+    optionsMenu.cleanup();
+  }
 }

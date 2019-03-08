@@ -58,4 +58,9 @@ public class ServerScreen implements IScreen {
   public void render() {
     guiRenderer.render(menu);
   }
+
+  @Override
+  public void cleanUp() {
+    menu.cleanup();
+  }
 }

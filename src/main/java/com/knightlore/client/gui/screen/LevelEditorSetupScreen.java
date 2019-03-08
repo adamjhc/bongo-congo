@@ -91,6 +91,11 @@ public class LevelEditorSetupScreen implements IScreen {
     guiRenderer.render(preLevelEditor);
   }
 
+  @Override
+  public void cleanUp() {
+    preLevelEditor.cleanup();
+  }
+
   private LevelMap initialiseMap(int width, int length, int height) {
     int[][][] emptyMap = new int[height][length][width];
     for (int i = 0; i < emptyMap.length; i++) {

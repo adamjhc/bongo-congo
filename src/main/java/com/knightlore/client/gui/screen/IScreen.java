@@ -9,4 +9,6 @@ public interface IScreen {
   default void update(float delta) {}
 
   default void render() {}
+
+  void cleanUp();
 }

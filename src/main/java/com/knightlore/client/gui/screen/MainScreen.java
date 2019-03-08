@@ -83,4 +83,9 @@ public class MainScreen implements IScreen {
   public void render() {
     renderer.render(menu);
   }
+
+  @Override
+  public void cleanUp() {
+    menu.cleanup();
+  }
 }

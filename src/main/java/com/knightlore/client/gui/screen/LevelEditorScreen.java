@@ -62,6 +62,11 @@ public class LevelEditorScreen implements IScreen {
     levelEditorRenderer.render(editorMap, cameraPosition, levelEditorHud);
   }
 
+  @Override
+  public void cleanUp() {
+    levelEditorHud.cleanup();
+  }
+
   private void cameraControl() {
     if (Mouse.getXPos() <= 5) {
       cameraPosition.add(-0.1f, 0.1f, 0);

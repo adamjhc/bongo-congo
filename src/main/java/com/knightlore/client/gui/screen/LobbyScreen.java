@@ -20,4 +20,9 @@ public class LobbyScreen implements IScreen {
   public void render() {
     guiRenderer.render(lobby);
   }
+
+  @Override
+  public void cleanUp() {
+    lobby.cleanup();
+  }
 }

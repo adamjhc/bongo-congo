@@ -110,6 +110,11 @@ public class GameScreen implements IScreen {
     gameRenderer.render(gameModel, hud);
   }
 
+  @Override
+  public void cleanUp() {
+    hud.cleanup();
+  }
+
   Direction getPlayerInputDirection() {
     if (Keyboard.isKeyPressed(GLFW_KEY_W) // Player presses W
         && !Keyboard.isKeyPressed(GLFW_KEY_A)

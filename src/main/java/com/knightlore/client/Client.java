@@ -100,6 +100,7 @@ public class Client extends Thread {
 
   private void dispose() {
     gameRenderer.cleanup();
+    screens.forEach((state, screen) -> screen.cleanUp());
 
     Window.freeCallbacks();
     Window.destroyWindow();

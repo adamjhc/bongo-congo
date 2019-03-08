@@ -15,4 +15,7 @@ public class LevelSelectScreen implements IScreen {
 
   @Override
   public void render() {}
+
+  @Override
+  public void cleanUp() {}
 }

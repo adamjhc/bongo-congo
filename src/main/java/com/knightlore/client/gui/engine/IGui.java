@@ -1,7 +1,16 @@
 package com.knightlore.client.gui.engine;
 
 import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import org.joml.Vector4f;
+
+import com.knightlore.client.gui.engine.graphics.FontTexture;
 
 public interface IGui {
 
@@ -12,6 +21,12 @@ public interface IGui {
   Font FONT_LIVES = new Font("Press Start 2P", Font.PLAIN, 20);
 
   String CHARSET = "ISO-8859-1";
+  
+  FontTexture SMALL = new FontTexture(FONT_SMALL, CHARSET);
+  FontTexture MEDIUM = new FontTexture(FONT_MEDIUM, CHARSET);
+  FontTexture LARGE = new FontTexture(FONT_LARGE, CHARSET);
+  FontTexture TITLE = new FontTexture(FONT_TITLE, CHARSET);
+  FontTexture LIVES = new FontTexture(FONT_LIVES, CHARSET);
 
   Vector4f YELLOW = new Vector4f(1, 1, 0, 1);
   Vector4f RED = new Vector4f(1, 0, 0, 1);
@@ -20,7 +35,7 @@ public interface IGui {
   int TITLE_POS = 300;
 
   int GAP = 20;
-
+  
   TextObject[] getTextObjects();
 
   GuiObject[] getGuiObjects();

@@ -30,7 +30,7 @@ public class OptionsScreen implements IScreen {
         optionsMenu.incVolume();
         Audio.incVolume();
       }
-    } else optionsMenu.getIncVolume().setColour(new Vector4f(1, 1, 0, 1));
+    } else optionsMenu.getIncVolume().setColour(YELLOW);
 
     if (checkPosition(optionsMenu, "<", "")) {
       optionsMenu.getDecVolume().setColour();
@@ -38,14 +38,14 @@ public class OptionsScreen implements IScreen {
         optionsMenu.decVolume();
         Audio.decVolume();
       }
-    } else optionsMenu.getDecVolume().setColour(new Vector4f(1, 1, 0, 1));
+    } else optionsMenu.getDecVolume().setColour(YELLOW);
 
     if (checkPosition(optionsMenu, "Exit", "")) {
       optionsMenu.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Client.changeScreen(ClientState.MAIN_MENU);
       }
-    } else optionsMenu.getExit().setColour(new Vector4f(1, 1, 0, 1));
+    } else optionsMenu.getExit().setColour(YELLOW);
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU);

@@ -42,63 +42,49 @@ public class Hud implements IGui {
   private TextObject[] textObjects;
 
   public Hud() {
-    try (InputStream myStream =
-        new BufferedInputStream(
-            new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"))) {
-      GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-      ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, myStream));
-    } catch (IOException | FontFormatException e) {
-      e.printStackTrace();
-    }
-
-    FontTexture fontSmall = new FontTexture(FONT_SMALL, CHARSET);
-    FontTexture fontMedium = new FontTexture(FONT_MEDIUM, CHARSET);
-    FontTexture fontLarge = new FontTexture(FONT_LARGE, CHARSET);
-    FontTexture fontLives = new FontTexture(FONT_LIVES, CHARSET);
-
-    this.player1Score = new TextObject("P1:00000000", fontSmall);
+    this.player1Score = new TextObject("P1:00000000", SMALL);
     this.player1Score.setColour();
 
-    this.player2Score = new TextObject("P2:00000000", fontSmall);
+    this.player2Score = new TextObject("P2:00000000", SMALL);
     this.player2Score.setColour(YELLOW);
 
-    this.player3Score = new TextObject("P3:00000000", fontSmall);
+    this.player3Score = new TextObject("P3:00000000", SMALL);
     this.player3Score.setColour(RED);
 
-    this.player4Score = new TextObject("P4:00000000", fontSmall);
+    this.player4Score = new TextObject("P4:00000000", SMALL);
     this.player4Score.setColour(new Vector4f(0, 1, 1, 1));
 
-    this.player5Score = new TextObject("P5:00000000", fontSmall);
+    this.player5Score = new TextObject("P5:00000000", SMALL);
     this.player5Score.setColour(new Vector4f(1, 0, 1, 1));
 
-    this.player6Score = new TextObject("P6:00000000", fontSmall);
+    this.player6Score = new TextObject("P6:00000000", SMALL);
     this.player6Score.setColour(new Vector4f(0, 0, 1, 1));
 
-    this.player1Lives = new TextObject("***", fontLives);
+    this.player1Lives = new TextObject("***", LIVES);
     this.player1Lives.setColour(RED);
 
-    this.player2Lives = new TextObject("***", fontLives);
+    this.player2Lives = new TextObject("***", LIVES);
     this.player2Lives.setColour(RED);
 
-    this.player3Lives = new TextObject("***", fontLives);
+    this.player3Lives = new TextObject("***", LIVES);
     this.player3Lives.setColour(RED);
 
-    this.player4Lives = new TextObject("***", fontLives);
+    this.player4Lives = new TextObject("***", LIVES);
     this.player4Lives.setColour(RED);
 
-    this.player5Lives = new TextObject("***", fontLives);
+    this.player5Lives = new TextObject("***", LIVES);
     this.player5Lives.setColour(RED);
 
-    this.player6Lives = new TextObject("***", fontLives);
+    this.player6Lives = new TextObject("***", LIVES);
     this.player6Lives.setColour(RED);
 
-    this.counter = new TextObject("90", fontMedium);
+    this.counter = new TextObject("90", MEDIUM);
     this.counter.setColour(YELLOW);
 
-    this.soundOn = new TextObject("(", fontLarge);
+    this.soundOn = new TextObject("(", LARGE);
     this.soundOn.setColour();
 
-    this.soundOff = new TextObject("/", fontMedium);
+    this.soundOff = new TextObject("/", MEDIUM);
     this.soundOff.setColour(RED);
 
     this.player1Score.setPosition(SIDE_GAP, SIDE_GAP);
@@ -190,7 +176,7 @@ public class Hud implements IGui {
 
   public void setCounter(String statusText) {
     this.counter.setText(statusText);
-    this.counter.getMesh().getMaterial().setColour(YELLOW);
+    this.counter.setColour(YELLOW);
   }
 
   public TextObject getP1Score() {

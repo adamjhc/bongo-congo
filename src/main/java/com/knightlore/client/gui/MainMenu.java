@@ -28,45 +28,31 @@ public class MainMenu implements IGui {
   private TextObject[] textObjects;
 
   public MainMenu() {
-    try (InputStream myStream =
-        new BufferedInputStream(
-            new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"))) {
-      GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-      ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, myStream));
-    } catch (IOException | FontFormatException e) {
-      e.printStackTrace();
-    }
-
-    FontTexture fontSmall = new FontTexture(FONT_SMALL, CHARSET);
-    FontTexture fontMedium = new FontTexture(FONT_MEDIUM, CHARSET);
-    FontTexture fontLarge = new FontTexture(FONT_LARGE, CHARSET);
-    FontTexture fontTitle = new FontTexture(FONT_TITLE, CHARSET);
-
-    TextObject bongo = new TextObject("Bongo", fontTitle);
+    TextObject bongo = new TextObject("Bongo", TITLE);
     bongo.setColour(LIGHT_BLUE);
 
-    TextObject congo = new TextObject("Congo", fontTitle);
+    TextObject congo = new TextObject("Congo", TITLE);
     congo.setColour(RED);
 
-    this.singleplayer = new TextObject("Singleplayer", fontSmall);
+    this.singleplayer = new TextObject("Singleplayer", SMALL);
     this.singleplayer.setColour(YELLOW);
 
-    this.multiplayer = new TextObject("Multiplayer", fontSmall);
+    this.multiplayer = new TextObject("Multiplayer", SMALL);
     this.multiplayer.setColour(YELLOW);
 
-    this.soundOn = new TextObject("(", fontLarge);
+    this.soundOn = new TextObject("(", LARGE);
     this.soundOn.setColour();
 
-    this.soundOff = new TextObject("/", fontMedium);
+    this.soundOff = new TextObject("/", MEDIUM);
     this.soundOff.setColour(RED);
 
-    this.quit = new TextObject("Quit", fontSmall);
+    this.quit = new TextObject("Quit", SMALL);
     this.quit.setColour(YELLOW);
 
-    this.options = new TextObject("Options", fontSmall);
+    this.options = new TextObject("Options", SMALL);
     this.options.setColour(YELLOW);
 
-    this.levelEditor = new TextObject("Level Editor", fontSmall);
+    this.levelEditor = new TextObject("Level Editor", SMALL);
     this.levelEditor.getMesh().getMaterial().setColour(YELLOW);
 
     bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);

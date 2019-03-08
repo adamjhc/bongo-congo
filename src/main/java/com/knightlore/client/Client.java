@@ -1,6 +1,7 @@
 package com.knightlore.client;
 
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
+import static com.knightlore.client.util.GuiUtils.registerFont;
 
 import com.knightlore.client.audio.Audio;
 import com.knightlore.client.gui.engine.Timer;
@@ -59,6 +60,8 @@ public class Client extends Thread {
     Keyboard.init();
 
     timer = new Timer();
+    
+    registerFont();
 
     gameRenderer = new GameRenderer();
     GuiRenderer guiRenderer = new GuiRenderer();

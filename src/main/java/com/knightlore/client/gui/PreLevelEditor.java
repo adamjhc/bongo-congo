@@ -42,77 +42,64 @@ public class PreLevelEditor implements IGui {
   private TextObject[] textObjects;
 
   public PreLevelEditor() {
-    try (InputStream myStream =
-        new BufferedInputStream(
-            new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"))) {
-      GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-      ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, myStream));
-    } catch (IOException | FontFormatException e) {
-      e.printStackTrace();
-    }
-
-    FontTexture fontTexture = new FontTexture(FONT_SMALL, CHARSET);
-    FontTexture fontTextureMedium = new FontTexture(FONT_MEDIUM, CHARSET);
-    FontTexture fontTextureTitle = new FontTexture(FONT_TITLE, CHARSET);
-
-    TextObject bongo = new TextObject("Bongo", fontTextureTitle);
+    TextObject bongo = new TextObject("Bongo", TITLE);
     bongo.getMesh().getMaterial().setColour(LIGHT_BLUE);
 
-    TextObject congo = new TextObject("Congo", fontTextureTitle);
+    TextObject congo = new TextObject("Congo", TITLE);
     congo.getMesh().getMaterial().setColour(RED);
 
-    this.width = new TextObject("Width", fontTextureMedium);
+    this.width = new TextObject("Width", MEDIUM);
     this.width.getMesh().getMaterial().setColour(YELLOW);
 
-    this.length = new TextObject("Length", fontTextureMedium);
+    this.length = new TextObject("Length", MEDIUM);
     this.length.getMesh().getMaterial().setColour(YELLOW);
 
-    this.height = new TextObject("Height", fontTextureMedium);
+    this.height = new TextObject("Height", MEDIUM);
     this.height.getMesh().getMaterial().setColour(YELLOW);
 
-    this.wNum = new TextObject("10", fontTexture);
+    this.wNum = new TextObject("10", SMALL);
     this.wNum.getMesh().getMaterial().setColour(YELLOW);
 
-    this.lNum = new TextObject("10", fontTexture);
+    this.lNum = new TextObject("10", SMALL);
     this.lNum.getMesh().getMaterial().setColour(YELLOW);
 
-    this.hNum = new TextObject("10", fontTexture);
+    this.hNum = new TextObject("10", SMALL);
     this.hNum.getMesh().getMaterial().setColour(YELLOW);
 
-    this.wLeft = new TextObject("<", fontTexture);
+    this.wLeft = new TextObject("<", SMALL);
     this.wLeft.getMesh().getMaterial().setColour(YELLOW);
     this.wLeft.setId("wLeft");
 
-    this.wRight = new TextObject(">", fontTexture);
+    this.wRight = new TextObject(">", SMALL);
     this.wRight.getMesh().getMaterial().setColour(YELLOW);
     this.wRight.setId("wRight");
 
-    this.lLeft = new TextObject("<", fontTexture);
+    this.lLeft = new TextObject("<", SMALL);
     this.lLeft.getMesh().getMaterial().setColour(YELLOW);
     this.lLeft.setId("lLeft");
 
-    this.lRight = new TextObject(">", fontTexture);
+    this.lRight = new TextObject(">", SMALL);
     this.lRight.getMesh().getMaterial().setColour(YELLOW);
     this.lRight.setId("lRight");
 
-    this.hLeft = new TextObject("<", fontTexture);
+    this.hLeft = new TextObject("<", SMALL);
     this.hLeft.getMesh().getMaterial().setColour(YELLOW);
     this.hLeft.setId("hLeft");
 
-    this.hRight = new TextObject(">", fontTexture);
+    this.hRight = new TextObject(">", SMALL);
     this.hRight.getMesh().getMaterial().setColour(YELLOW);
     this.hRight.setId("hRight");
 
-    TextObject separatorTop = new TextObject("------------------------------", fontTexture);
+    TextObject separatorTop = new TextObject("------------------------------", SMALL);
     separatorTop.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
 
-    TextObject separatorBottom = new TextObject("------------------------------", fontTexture);
+    TextObject separatorBottom = new TextObject("------------------------------", SMALL);
     separatorBottom.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
 
-    this.createLevel = new TextObject("Create Level", fontTextureMedium);
+    this.createLevel = new TextObject("Create Level", MEDIUM);
     this.createLevel.getMesh().getMaterial().setColour(YELLOW);
 
-    this.back = new TextObject("Back", fontTexture);
+    this.back = new TextObject("Back", SMALL);
     this.back.getMesh().getMaterial().setColour(YELLOW);
 
     bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);

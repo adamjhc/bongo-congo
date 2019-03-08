@@ -38,42 +38,30 @@ public class ServerMenu implements IGui {
   private int yPos = SEPARATOR_TOP_POS - GAP;
 
   public ServerMenu() {
-    try (InputStream myStream =
-        new BufferedInputStream(
-            new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"))) {
-      GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-      ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, myStream));
-    } catch (IOException | FontFormatException e) {
-      e.printStackTrace();
-    }
-
-    FontTexture fontSmall = new FontTexture(FONT_SMALL, CHARSET);
-    FontTexture fontTitle = new FontTexture(FONT_TITLE, CHARSET);
-
-    TextObject bongo = new TextObject("Bongo", fontTitle);
+    TextObject bongo = new TextObject("Bongo", TITLE);
     bongo.setColour(LIGHT_BLUE);
 
-    TextObject congo = new TextObject("Congo", fontTitle);
+    TextObject congo = new TextObject("Congo", TITLE);
     congo.setColour(RED);
 
-    TextObject multiplayer = new TextObject("Play Multiplayer", fontSmall);
+    TextObject multiplayer = new TextObject("Play Multiplayer", SMALL);
     multiplayer.setColour(YELLOW);
 
-    this.separatorTop = new TextObject("------------------------------", fontSmall);
+    this.separatorTop = new TextObject("------------------------------", SMALL);
     this.separatorTop.setColour(YELLOW);
     this.separatorTop.setId("Separator Top");
 
-    this.separatorBot = new TextObject("------------------------------", fontSmall);
+    this.separatorBot = new TextObject("------------------------------", SMALL);
     this.separatorBot.setColour(YELLOW);
     this.separatorBot.setId("Separator Bot");
 
-    TextObject join = new TextObject("Join game", fontSmall);
+    TextObject join = new TextObject("Join game", SMALL);
     join.setColour(YELLOW);
 
-    this.create = new TextObject("Create game", fontSmall);
+    this.create = new TextObject("Create game", SMALL);
     this.create.setColour(YELLOW);
 
-    this.exit = new TextObject("Exit", fontSmall);
+    this.exit = new TextObject("Exit", SMALL);
     this.exit.setColour(YELLOW);
 
     bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
@@ -100,7 +88,7 @@ public class ServerMenu implements IGui {
     servers = new ArrayList<>();
 
     for (int i = 0; i < 10; i++) {
-      servers.add(new LobbyObject(i + "'s " + "Server", fontSmall));
+      servers.add(new LobbyObject(i + "'s " + "Server", SMALL));
     }
 
     for (LobbyObject server : servers) {

@@ -16,7 +16,7 @@ class MusicPlayer {
   private String filePath;
   private boolean loops;
   private FloatControl gainControl;
-  private float previousVolume = -80.0f;
+  private float previousVolume = -19.8f;
 
   /* param1: path to audio file
    * param2: whether or not the audio file loops
@@ -67,7 +67,7 @@ class MusicPlayer {
   }
 
   // Gets whether the sound is currently being played or not
-	boolean isPlaying() {
+  boolean isPlaying() {
     return this.clip.isActive();
   }
 

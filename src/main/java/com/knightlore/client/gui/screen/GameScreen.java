@@ -16,6 +16,7 @@ import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.render.GameRenderer;
 import com.knightlore.game.GameModel;
+import com.knightlore.game.GameState;
 import com.knightlore.game.entity.Direction;
 import com.knightlore.game.map.LevelMapSet;
 import com.knightlore.game.map.TileSet;
@@ -24,11 +25,12 @@ import org.joml.Vector4f;
 
 public class GameScreen implements IScreen {
 
-  public static GameModel gameModel;
+  GameModel gameModel;
 
   Timer timer;
   Hud hud;
   Direction playerInputDirection;
+
   private GameRenderer gameRenderer;
 
   public GameScreen(GameRenderer gameRenderer, Timer timer) {
@@ -47,11 +49,11 @@ public class GameScreen implements IScreen {
       gameModel.addPlayer("1");
     } else {
       gameModel = (GameModel) args[0];
-      gameModel.myPlayer().reset();
     }
 
     Audio.restart();
     timer.setStartTime();
+    gameRenderer.init(gameModel);
   }
 
   @Override
@@ -102,6 +104,10 @@ public class GameScreen implements IScreen {
 
     Vector3f colour = gameModel.myPlayer().getColour();
     hud.getP1Score().setColour(new Vector4f(colour.x, colour.y, colour.z, 1));
+
+    if (gameModel.getState() == GameState.NEXT_LEVEL) {
+      gameRenderer.init(gameModel);
+    }
 
     gameModel.update(delta, playerInputDirection);
   }

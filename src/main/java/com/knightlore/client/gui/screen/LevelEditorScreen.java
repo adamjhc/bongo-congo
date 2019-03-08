@@ -143,7 +143,7 @@ public class LevelEditorScreen implements IScreen {
       } catch (Exception e) {
         gameModel.createNewLevel(editorMap);
       } finally {
-        gameModel.addPlayer("1", 0);
+        gameModel.addPlayer("1");
         Client.changeScreen(ClientState.TESTING_LEVEL, gameModel);
       }
     }

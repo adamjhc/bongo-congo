@@ -191,9 +191,11 @@ public class Player extends Entity {
       lives = 0;
       playerState = PlayerState.DEAD;
       System.out.println("Lost all lives");
+    } else {
+      setPosition(START_POSITION);
+      setDirection(Direction.SOUTH);
     }
-    setPosition(START_POSITION);
-    setDirection(Direction.SOUTH);
+
     fallFlag = false;
   }
 }

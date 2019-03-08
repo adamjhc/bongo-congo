@@ -11,7 +11,7 @@ import org.joml.Vector3i;
 
 public class Player extends Entity {
 
-  private static int inc = 0;
+  private static final Vector3f START_POSITION = new Vector3f(0.5f, 0.5f, 0);
   private static ArrayList<Vector3f> availableColours;
 
   static {
@@ -25,8 +25,6 @@ public class Player extends Entity {
     availableColours.add(new Vector3f(1, 1, 1));
   }
 
-  private final Vector3f START_POSITION = new Vector3f(0.5f, 0.5f, 0);
-
   private int lives;
   private int score;
   private boolean fallFlag = false;
@@ -34,14 +32,12 @@ public class Player extends Entity {
   private String associatedSession;
   private Vector3f colour;
 
-  /** Constructor for a new Player object */
-  public Player() {
-    id = inc;
-    inc++;
+  public Player(String sessionID, int id) {
+    this.id = id;
 
     speed = 7;
     direction = Direction.SOUTH;
-    position = new Vector3f(1, 1, 0);
+    position = START_POSITION;
     playerState = PlayerState.IDLE;
 
     lives = 3;
@@ -49,27 +45,7 @@ public class Player extends Entity {
 
     colour = availableColours.get(new Random().nextInt(availableColours.size()));
     availableColours.remove(colour);
-  }
-
-  public Player(String sessionID) {
-    this();
     this.associatedSession = sessionID;
-  }
-  
-  public Player(String sessionID, int i) {
-	  id = i;
-
-	    speed = 7;
-	    direction = Direction.SOUTH;
-	    position = new Vector3f(1, 1, 0);
-	    playerState = PlayerState.IDLE;
-
-	    lives = 3;
-	    score = 0;
-
-	    colour = availableColours.get(new Random().nextInt(availableColours.size()));
-	    availableColours.remove(colour);
-	    this.associatedSession = sessionID;
   }
 
   public void addToScore(int amount) {
@@ -87,13 +63,13 @@ public class Player extends Entity {
   public Vector3f getColour() {
     return colour;
   }
-  
+
   public int getLives() {
-	  return lives;
+    return lives;
   }
-  
+
   public int getScore() {
-	  return score;
+    return score;
   }
 
   @Override
@@ -101,7 +77,7 @@ public class Player extends Entity {
     return position;
   }
 
-  public void nextLevel() {
+  public void reset() {
     playerState = PlayerState.IDLE;
     position = START_POSITION;
     direction = Direction.SOUTH_EAST;
@@ -215,9 +191,11 @@ public class Player extends Entity {
       lives = 0;
       playerState = PlayerState.DEAD;
       System.out.println("Lost all lives");
+    } else {
+      setPosition(START_POSITION);
+      setDirection(Direction.SOUTH);
     }
-    setPosition(START_POSITION);
-    setDirection(Direction.SOUTH);
+
     fallFlag = false;
   }
 }

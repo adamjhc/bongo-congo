@@ -1,7 +1,7 @@
 package com.knightlore.game.server.commandhandler;
 
 import com.google.gson.Gson;
-import com.knightlore.game.Game;
+import com.knightlore.game.GameModel;
 import com.knightlore.game.server.ClientHandler;
 import com.knightlore.networking.ApiKey;
 import com.knightlore.networking.PlayerJoined;
@@ -26,7 +26,7 @@ public class Register extends Command {
 
         // Send game model to client registered
         Gson gson = new Gson();
-        Game model = handler.server().getModel();
+        GameModel model = handler.server().getModel();
         Sendable response = sendable.makeResponse();
         response.setData(gson.toJson(model));
         handler.send(response);

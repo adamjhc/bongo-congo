@@ -5,7 +5,7 @@ import com.knightlore.client.exceptions.ClientAlreadyAuthenticatedException;
 import com.knightlore.client.exceptions.ConfigItemNotFoundException;
 import com.knightlore.client.networking.ServerConnection;
 import com.knightlore.client.networking.backend.Client;
-import com.knightlore.game.Game;
+import com.knightlore.game.GameModel;
 import com.knightlore.util.Config;
 
 import java.io.IOException;
@@ -15,7 +15,7 @@ import java.util.Optional;
 
 public class Main {
 
-    public static Game model;
+    public static GameModel model;
 
     public static void main(String[] args) throws ConfigItemNotFoundException {
         System.out.println(Config.authServerIp());

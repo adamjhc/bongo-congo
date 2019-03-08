@@ -52,6 +52,7 @@ public class PreLevelEditor implements IGui {
 	
 	private final TextObject createLevel;
 	private final TextObject back;
+	private final TextObject levelEditor;
 	
 	public PreLevelEditor(Window window) throws Exception {
 		InputStream myStream = new BufferedInputStream(new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"));
@@ -121,6 +122,9 @@ public class PreLevelEditor implements IGui {
         
         this.back = new TextObject("Back", fontTexture);
         this.back.getMesh().getMaterial().setColour(YELLOW);
+        
+        this.levelEditor = new TextObject("Level Editor", fontTexture);
+        this.levelEditor.getMesh().getMaterial().setColour(YELLOW);
 
 
         this.bongo.setPosition(window.getWidth()/2-bongo.getSize(), window.getHeight()/2-TITLE_POS);
@@ -145,11 +149,13 @@ public class PreLevelEditor implements IGui {
         this.hLeft.setPosition(window.getWidth()/2-hLeft.getSize()/2-50, window.getHeight()/2-SEPARATORTOP_POS+GAP*14);
         this.hRight.setPosition(window.getWidth()/2-hRight.getSize()/2+50, window.getHeight()/2-SEPARATORTOP_POS+GAP*14);
         
-        this.createLevel.setPosition(window.getWidth()/2-createLevel.getSize()/2, window.getHeight()/2+SEPARATORBOT_POS+GAP);
+        this.createLevel.setPosition(window.getWidth()/2-createLevel.getSize()/2, window.getHeight()/2+SEPARATORTOP_POS-GAP);
         
-        this.back.setPosition(window.getWidth()/2-back.getSize()/2, window.getHeight()/2+SEPARATORTOP_POS);
+        this.back.setPosition(window.getWidth()/2-back.getSize()/2, window.getHeight()/2+SEPARATORBOT_POS+SEPARATOR_GAP);
         
-        guiObjects = new GuiObject[] {bongo, congo, width, length, height, wNum, lNum, hNum, wLeft, wRight, lLeft, lRight, hLeft, hRight, separatorTop, separatorBottom, createLevel, back};
+        this.levelEditor.setPosition(window.getWidth()/2-levelEditor.getSize()/2, window.getHeight()/2-SEPARATORTOP_POS-SEPARATOR_GAP);
+        
+        guiObjects = new GuiObject[] {bongo, congo, width, length, height, wNum, lNum, hNum, wLeft, wRight, lLeft, lRight, hLeft, hRight, separatorTop, separatorBottom, createLevel, back, levelEditor};
         textObjects = new TextObject[] {wLeft, wRight, lLeft, lRight, hLeft, hRight, createLevel, back};
         
 	}

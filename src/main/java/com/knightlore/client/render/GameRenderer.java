@@ -1,7 +1,7 @@
 package com.knightlore.client.render;
 
 import com.knightlore.client.gui.engine.IGui;
-import com.knightlore.client.gui.engine.Window;
+import com.knightlore.client.io.Window;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.world.EnemyGameObject;
 import com.knightlore.client.render.world.EnemyGameObjectSet;
@@ -9,11 +9,12 @@ import com.knightlore.client.render.world.GameObject;
 import com.knightlore.client.render.world.PlayerGameObject;
 import com.knightlore.client.render.world.TileGameObject;
 import com.knightlore.client.render.world.TileGameObjectSet;
-import com.knightlore.game.Game;
+import com.knightlore.game.GameModel;
 import com.knightlore.game.entity.Enemy;
 import com.knightlore.game.entity.Player;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
@@ -32,20 +33,18 @@ public class GameRenderer extends Renderer {
 
   private ShaderProgram playerShaderProgram;
 
-  private ArrayList<TileGameObject> tileGameObjects;
-  private ArrayList<PlayerGameObject> playerGameObjects;
-  private ArrayList<EnemyGameObject> enemyGameObjects;
+  private List<TileGameObject> tileGameObjects;
+  private List<PlayerGameObject> playerGameObjects;
+  private List<EnemyGameObject> enemyGameObjects;
 
   private float viewX;
   private float viewY;
 
-  /**
-   * Initialise the renderer
-   *
-   * @param window Reference to the GLFW window class
-   */
-  public GameRenderer(Window window) {
-    super(window);
+  private Integer currentLevelIndex;
+
+  /** Initialise the renderer */
+  public GameRenderer() {
+    super();
 
     setupWorld();
     setupHud();
@@ -53,26 +52,26 @@ public class GameRenderer extends Renderer {
 
   private void setupWorld() {
     world = new World();
-    camera = new Camera(window.getWidth(), window.getHeight());
+    camera = new Camera(Window.getWidth(), Window.getHeight());
     worldShaderProgram = new ShaderProgram("world");
     playerShaderProgram = new ShaderProgram("player");
     tileGameObjects = new ArrayList<>();
     playerGameObjects = new ArrayList<>();
     enemyGameObjects = new ArrayList<>();
-    viewX = ((float) window.getWidth() / (World.SCALE * 2)) + 1;
-    viewY = ((float) window.getHeight() / (World.SCALE * 2)) + 2;
+    viewX = ((float) Window.getWidth() / (World.SCALE * 2)) + 1;
+    viewY = ((float) Window.getHeight() / (World.SCALE * 2)) + 2;
   }
 
   private void setupHud() {
-    hudRenderer = new GuiRenderer(window);
+    hudRenderer = new GuiRenderer();
   }
 
   /**
    * Render the game model
    *
-   * @param gameModel Game model to render
+   * @param gameModel GameModel model to render
    */
-  public void render(Game gameModel, IGui hud) {
+  public void render(GameModel gameModel, IGui hud) {
     clearBuffers();
 
     renderGame(gameModel);
@@ -81,24 +80,26 @@ public class GameRenderer extends Renderer {
     swapBuffers();
   }
 
-  private void renderGame(Game gameModel) {
-    Collection<Player> players = gameModel.getCurrentLevel().getPlayers().values();
+  private void renderGame(GameModel gameModel) {
+    Collection<Player> players = gameModel.getPlayers().values();
     Collection<Enemy> enemies = gameModel.getCurrentLevel().getEnemies();
 
-    if (tileGameObjects.isEmpty()) {
-      tileGameObjects.addAll(
-          TileGameObjectSet.fromGameModel(gameModel.getCurrentLevel().getMap().getTiles()));
-      playerGameObjects.addAll(PlayerGameObject.fromGameModel(players));
-      enemyGameObjects.addAll(EnemyGameObjectSet.fromGameModel(enemies));
+    if (playerGameObjects.isEmpty()) {
+      playerGameObjects = PlayerGameObject.fromGameModel(players);
     }
+
+    // if (!gameModel.getCurrentLevelIndex().equals(currentLevelIndex)) {
+    tileGameObjects =
+        TileGameObjectSet.fromGameModel(gameModel.getCurrentLevel().getLevelMap().getTiles());
+    enemyGameObjects = EnemyGameObjectSet.fromGameModel(enemies);
+    currentLevelIndex = gameModel.getCurrentLevelIndex();
+    // }
 
     players.forEach(player -> playerGameObjects.get(player.getId()).update(player));
     enemies.forEach(enemy -> enemyGameObjects.get(enemy.getId()).update(enemy));
 
     Vector3f isometricPosition =
-        playerGameObjects
-            .get(gameModel.getCurrentLevel().myPlayer().getId())
-            .getIsometricPosition();
+        playerGameObjects.get(gameModel.myPlayer().getId()).getIsometricPosition();
 
     camera.setPosition(isometricPosition.mul(-World.SCALE, new Vector3f()));
 
@@ -114,7 +115,7 @@ public class GameRenderer extends Renderer {
             ifWithinViewAddTo(gameObjectsToDepthSort, isometricPosition, enemyGameObject));
 
     ArrayList<GameObject> depthSortedGameObjects =
-        depthSort(gameModel.getCurrentLevel().getMap().getSize(), gameObjectsToDepthSort);
+        depthSort(gameModel.getCurrentLevel().getLevelMap().getSize(), gameObjectsToDepthSort);
 
     depthSortedGameObjects.forEach(
         gameObject -> {

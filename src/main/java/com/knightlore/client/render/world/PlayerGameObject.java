@@ -41,7 +41,7 @@ public class PlayerGameObject extends EntityGameObject {
   @Override
   public void update(Entity entity) {
     super.update(entity);
-    currentState = ((Player) entity).getCurrentState();
+    currentState = ((Player) entity).getPlayerState();
   }
 
   /**

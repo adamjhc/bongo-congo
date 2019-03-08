@@ -1,6 +1,6 @@
 package com.knightlore.game.server;
 
-import com.knightlore.game.Game;
+import com.knightlore.game.GameModel;
 import com.knightlore.networking.Sendable;
 import com.knightlore.game.server.commandhandler.Factory;
 
@@ -60,7 +60,7 @@ public class ClientHandler extends Thread{
                 Factory.create(this, sendable);
 
             } catch (IOException e) {
-                e.printStackTrace();
+                break;
             }  catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -92,7 +92,7 @@ public class ClientHandler extends Thread{
         return this.gameServer;
     }
 
-    public Game model(){
+    public GameModel model(){
         return this.gameServer.getModel();
     }
 

@@ -12,17 +12,13 @@ import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL13.GL_MULTISAMPLE;
 
-import com.knightlore.client.gui.engine.Window;
+import com.knightlore.client.io.Window;
 
 public abstract class Renderer {
 
   private static boolean hasSetupOpenGL = false;
 
-  protected Window window;
-
-  Renderer(Window window) {
-    this.window = window;
-
+  Renderer() {
     if (!hasSetupOpenGL) {
       setupOpenGL();
       hasSetupOpenGL = true;
@@ -42,7 +38,7 @@ public abstract class Renderer {
   }
 
   void swapBuffers() {
-    window.swapBuffers();
+    Window.swapBuffers();
   }
 
   protected abstract void cleanup();

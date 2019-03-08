@@ -1,12 +1,8 @@
 package com.knightlore.client.io;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
-import static org.lwjgl.glfw.GLFW.GLFW_FALSE;
 import static org.lwjgl.glfw.GLFW.GLFW_RESIZABLE;
 import static org.lwjgl.glfw.GLFW.GLFW_SAMPLES;
-import static org.lwjgl.glfw.GLFW.GLFW_STICKY_KEYS;
-import static org.lwjgl.glfw.GLFW.GLFW_STICKY_MOUSE_BUTTONS;
-import static org.lwjgl.glfw.GLFW.GLFW_TRUE;
 import static org.lwjgl.glfw.GLFW.GLFW_VISIBLE;
 import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
 import static org.lwjgl.glfw.GLFW.glfwDefaultWindowHints;
@@ -17,163 +13,137 @@ import static org.lwjgl.glfw.GLFW.glfwInit;
 import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSetErrorCallback;
-import static org.lwjgl.glfw.GLFW.glfwSetInputMode;
-import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
-import static org.lwjgl.glfw.GLFW.glfwSetMouseButtonCallback;
+import static org.lwjgl.glfw.GLFW.glfwSetWindowIcon;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowPos;
+import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 import static org.lwjgl.glfw.GLFW.glfwShowWindow;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 import static org.lwjgl.glfw.GLFW.glfwSwapInterval;
 import static org.lwjgl.glfw.GLFW.glfwWindowHint;
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
+import static org.lwjgl.opengl.GL11.GL_FALSE;
+import static org.lwjgl.stb.STBImage.stbi_load;
+import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.glfw.GLFWImage;
 import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.opengl.GL;
+import org.lwjgl.system.MemoryStack;
 
 public class Window {
-  private long window;
-  private int width, height;
-  private boolean fullscreen;
 
-  /** Initialises the GLFW window */
-  public Window() {
+  private static final String TITLE = "Bongo Congo";
+
+  private static final int WIDTH = 1280;
+  private static final int HEIGHT = 720;
+
+  private static final float WIDTH_HALF = WIDTH / (float) 2;
+  private static final float HEIGHT_HALF = HEIGHT / (float) 2;
+
+  private static long windowHandle;
+
+  private Window() {}
+
+  public static void init() {
+    // Setup an error callback. The default implementation
+    // will print the error message in System.err.
+    glfwSetErrorCallback(GLFWErrorCallback.createPrint(System.err));
+
     if (!glfwInit()) {
-      throw new IllegalStateException("Unable to initialise GLFW");
+      throw new IllegalStateException("Unable to initialize GLFW");
     }
 
     glfwDefaultWindowHints();
-    glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+    glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
+    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
     glfwWindowHint(GLFW_SAMPLES, 4);
 
-    setSize(1280, 720);
-    setFullscreen(false);
-  }
+    // Create the window, use (WIDTH, HEIGHT, title, glfwGetPrimaryMonitor(), 0) for full-screen
+    windowHandle = glfwCreateWindow(WIDTH, HEIGHT, TITLE, NULL, NULL);
+    if (windowHandle == NULL) {
+      throw new IllegalStateException("Failed to create the GLFW window");
+    }
 
-  /**
-   * Gets the window handle
-   *
-   * @return Window handle
-   */
-  public long getWindow() {
-    return window;
-  }
+    // Get the resolution of the primary monitor
+    GLFWVidMode vidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
-  /**
-   * Gets the window width
-   *
-   * @return The window width
-   */
-  public int getWidth() {
-    return width;
-  }
+    // Centre window
+    glfwSetWindowPos(windowHandle, (vidMode.width() - WIDTH) / 2, (vidMode.height() - HEIGHT) / 2);
 
-  /**
-   * Gets the window height
-   *
-   * @return The window height
-   */
-  public int getHeight() {
-    return height;
-  }
+    // Set window icon
+    try (MemoryStack stack = stackPush()) {
+      IntBuffer w = stack.mallocInt(1);
+      IntBuffer h = stack.mallocInt(1);
+      IntBuffer comp = stack.mallocInt(1);
 
-  /**
-   * Returns whether the window is fullscreen
-   *
-   * @return Whether the window is fullscreen
-   */
-  public boolean isFullscreen() {
-    return fullscreen;
-  }
+      ByteBuffer image = stbi_load("./src/main/resources/textures/icon.png", w, h, comp, 4);
 
-  /**
-   * Sets whether the window is fullscreen
-   *
-   * @param fullscreen Whether the window is fullscreen
-   */
-  public void setFullscreen(boolean fullscreen) {
-    this.fullscreen = fullscreen;
-  }
+      GLFWImage icon = GLFWImage.malloc();
+      GLFWImage.Buffer imageBuffer = GLFWImage.malloc(1);
+      icon.set(w.get(), h.get(), image);
+      imageBuffer.put(0, icon);
 
-  /**
-   * Sets the size of the screen
-   *
-   * @param width Width of the screen
-   * @param height Height of the screen
-   */
-  public void setSize(int width, int height) {
-    this.width = width;
-    this.height = height;
-  }
-
-  /**
-   * Creates and shows the window
-   *
-   * @param title Title of the window
-   */
-  public void createWindow(String title) {
-    window = glfwCreateWindow(width, height, title, fullscreen ? glfwGetPrimaryMonitor() : 0, 0);
-
-    if (window == NULL) throw new RuntimeException("Failed to create the GLFW window");
-
-    if (!fullscreen) {
-      // Get the resolution of the primary monitor
-      GLFWVidMode vidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-      assert vidMode != null; // TODO not sure about this
-
-      // Center the window
-      glfwSetWindowPos(window, (vidMode.width() - width) / 2, (vidMode.height() - height) / 2);
+      glfwSetWindowIcon(windowHandle, imageBuffer);
     }
 
     // Make the OpenGL context current
-    glfwMakeContextCurrent(window);
+    glfwMakeContextCurrent(windowHandle);
 
     // Enable v-sync
     glfwSwapInterval(1);
 
     // Make the window visible
-    glfwShowWindow(window);
+    glfwShowWindow(windowHandle);
+
+    GL.createCapabilities();
   }
 
-  /** Sets the callbacks of the window */
-  public void setCallbacks() {
-    glfwSetErrorCallback(GLFWErrorCallback.createThrow());
-
-    glfwSetInputMode(window, GLFW_STICKY_KEYS, GLFW_TRUE);
-    glfwSetKeyCallback(window, new Keyboard());
-
-    glfwSetInputMode(window, GLFW_STICKY_MOUSE_BUTTONS, GLFW_TRUE);
-    glfwSetMouseButtonCallback(window, new Mouse());
+  public static long getWindowHandle() {
+    return windowHandle;
   }
 
-  /**
-   * Returns whether the window should close
-   *
-   * @return Whether the window should close
-   */
-  public boolean shouldClose() {
-    return glfwWindowShouldClose(window);
+  public static int getWidth() {
+    return WIDTH;
   }
 
-  /** Updates the callbacks */
-  public void update() {
+  public static float getHalfWidth() {
+    return WIDTH_HALF;
+  }
+
+  public static int getHeight() {
+    return HEIGHT;
+  }
+
+  public static float getHalfHeight() {
+    return HEIGHT_HALF;
+  }
+
+  public static boolean shouldClose() {
+    return glfwWindowShouldClose(windowHandle);
+  }
+
+  public static void setShouldClose() {
+    glfwSetWindowShouldClose(windowHandle, true);
+  }
+
+  public static void swapBuffers() {
+    glfwSwapBuffers(windowHandle);
+  }
+
+  public static void update() {
     glfwPollEvents();
   }
 
-  /** Swaps the buffers */
-  public void swapBuffers() {
-    glfwSwapBuffers(window);
-  }
-
-  /** Frees the callbacks */
-  public void freeCallbacks() {
-    glfwFreeCallbacks(window);
+  public static void freeCallbacks() {
+    glfwFreeCallbacks(windowHandle);
     glfwSetErrorCallback(null).free();
   }
 
-  /** Destroys the window */
-  public void destroyWindow() {
-    glfwDestroyWindow(window);
+  public static void destroyWindow() {
+    glfwDestroyWindow(windowHandle);
   }
 }

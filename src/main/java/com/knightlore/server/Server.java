@@ -11,7 +11,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Optional;
+import java.util.UUID;
 
 
 // Main registration/game server handler
@@ -20,8 +23,26 @@ public class Server
 
     final static Logger logger = Logger.getLogger(Server.class);
 
-    public static void main(String[] args) throws IOException
+    public static Server instance;
+
+    public HashMap<UUID, ClientHandler> connectedClients;
+
+    public static void main(String[] args)
     {
+        instance  = new Server();
+
+        try{
+            instance.start();
+        }catch (IOException e){
+            logger.warn(e);
+        }
+    }
+
+    public Server(){
+        this.connectedClients = new HashMap<>();
+    }
+
+    public void start() throws IOException{
         BasicConfigurator.configure();
 
         // Perform database connection
@@ -42,6 +63,10 @@ public class Server
         // Spin up server
         ServerSocket ss = new ServerSocket(authServerPort.get());
 
+        // Input
+        InputHandler inputHandler = new InputHandler();
+        inputHandler.start();
+
         // Capture new clients
         while (true)
         {
@@ -57,8 +82,14 @@ public class Server
                 ObjectInputStream dis = new ObjectInputStream(s.getInputStream());
                 ObjectOutputStream dos = new ObjectOutputStream(s.getOutputStream());
 
+                // Select id
+                UUID serverClientReference = UUID.randomUUID();
+
                 // Make thread
-                Thread t = new ClientHandler(s, dis, dos);
+                ClientHandler t = new ClientHandler(s, dis, dos, this, serverClientReference);
+
+                // Store uuid
+                this.connectedClients.put(serverClientReference, t);
 
                 // Start thread
                 t.start();
@@ -70,5 +101,12 @@ public class Server
             }
         }
     }
+
+    public void removeConnection(UUID serverClientReference){
+        if(this.connectedClients.containsKey(serverClientReference)){
+            this.connectedClients.remove(serverClientReference);
+        }
+    }
+
 }
 

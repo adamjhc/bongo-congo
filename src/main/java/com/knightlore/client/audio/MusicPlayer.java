@@ -33,6 +33,9 @@ class MusicPlayer {
     if (this.loops) {
       this.clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
+
+    resetStream();
+    stop();
   }
 
   // Resets audio stream if necessary and then starts playing the audio file

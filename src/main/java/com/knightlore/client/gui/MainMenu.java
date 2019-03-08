@@ -52,7 +52,7 @@ public class MainMenu implements IGui {
     this.options = new TextObject("Options", SMALL);
     this.options.setColour(YELLOW);
 
-    this.levelEditor = new TextObject("Level Editor", SMALL);
+    this.levelEditor = new TextObject("Editor", SMALL);
     this.levelEditor.getMesh().getMaterial().setColour(YELLOW);
 
     bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
@@ -63,9 +63,9 @@ public class MainMenu implements IGui {
         Window.getHalfWidth() - multiplayer.getSize() / 2, Window.getHalfHeight() + MENU_POS + GAP);
     this.levelEditor.setPosition(
         Window.getHalfWidth() - levelEditor.getSize() / 2,
-        Window.getHalfHeight() + MENU_POS + GAP * 2);
+        Window.getHalfHeight() + MENU_POS + GAP * 3);
     this.options.setPosition(
-        Window.getHalfWidth() - options.getSize() / 2, Window.getHalfHeight() + MENU_POS + GAP * 3);
+        Window.getHalfWidth() - options.getSize() / 2, Window.getHalfHeight() + MENU_POS + GAP * 2);
     this.soundOn.setPosition(
         Window.getWidth() - soundOn.getSize(), Window.getHeight() - soundOn.getHeight());
     this.soundOff.setPosition(

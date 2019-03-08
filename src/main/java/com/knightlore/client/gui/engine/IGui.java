@@ -15,11 +15,12 @@ import com.knightlore.client.gui.engine.graphics.FontTexture;
 public interface IGui {
 	
 	int FONT_SIZE = 16;
+	int FONT_SIZE_LARGE = 40;
 	int FONT_SIZE_LIVES = FONT_SIZE+5;
 
   Font FONT_SMALL = new Font("Press Start 2P", Font.PLAIN, FONT_SIZE);
   Font FONT_MEDIUM = new Font("Press Start 2P", Font.PLAIN, 30);
-  Font FONT_LARGE = new Font("Press Start 2P", Font.PLAIN, 40);
+  Font FONT_LARGE = new Font("Press Start 2P", Font.PLAIN, FONT_SIZE_LARGE);
   Font FONT_TITLE = new Font("Press Start 2P", Font.PLAIN, 72);
   Font FONT_LIVES = new Font("Press Start 2P", Font.PLAIN, FONT_SIZE_LIVES);
 
@@ -38,6 +39,7 @@ public interface IGui {
   int TITLE_POS = 300;
 
   int GAP = FONT_SIZE+5;
+  int GAP_LARGE = FONT_SIZE_LARGE+5;
   
   TextObject[] getTextObjects();
 

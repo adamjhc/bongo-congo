@@ -148,7 +148,7 @@ public class LevelEditorScreen implements IScreen {
       }
     }
 
-    if (Keyboard.isKeyPressed(GLFW_KEY_ESCAPE)) {
+    if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU);
     }
   }

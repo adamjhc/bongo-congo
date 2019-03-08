@@ -72,7 +72,7 @@ public class OptionsMenu implements IGui {
         Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 2);
     this.exit.setPosition(
         Window.getHalfWidth() - exit.getSize() / 2,
-        Window.getHalfHeight() + SEPARATOR_BOT_POS + SEPARATOR_GAP);
+        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP);
     options.setPosition(
         Window.getHalfWidth() - options.getSize() / 2,
         Window.getHalfHeight() - SEPARATOR_TOP_POS - SEPARATOR_GAP);

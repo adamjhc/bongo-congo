@@ -69,45 +69,45 @@ public class PreLevelEditor implements IGui {
         this.congo = new TextObject("Congo", fontTextureTitle);
         this.congo.getMesh().getMaterial().setColour(RED);
         
-        this.width = new TextObject("Width", fontTextureMedium);
+        this.width = new TextObject("Width", fontTexture);
         this.width.getMesh().getMaterial().setColour(YELLOW);
         
-        this.length = new TextObject("Length", fontTextureMedium);
+        this.length = new TextObject("Length", fontTexture);
         this.length.getMesh().getMaterial().setColour(YELLOW);
         
-        this.height = new TextObject("Height", fontTextureMedium);
+        this.height = new TextObject("Height", fontTexture);
         this.height.getMesh().getMaterial().setColour(YELLOW);
         
-        this.wNum = new TextObject("10", fontTexture);
+        this.wNum = new TextObject("10", fontTextureMedium);
         this.wNum.getMesh().getMaterial().setColour(YELLOW);
         
-        this.lNum = new TextObject("10", fontTexture);
+        this.lNum = new TextObject("10", fontTextureMedium);
         this.lNum.getMesh().getMaterial().setColour(YELLOW);
         
-        this.hNum = new TextObject("10", fontTexture);
+        this.hNum = new TextObject("10", fontTextureMedium);
         this.hNum.getMesh().getMaterial().setColour(YELLOW);
         
-        this.wLeft = new TextObject("<", fontTexture);
+        this.wLeft = new TextObject("<", fontTextureMedium);
         this.wLeft.getMesh().getMaterial().setColour(YELLOW);
         this.wLeft.setId("wLeft");
         
-        this.wRight = new TextObject(">", fontTexture);
+        this.wRight = new TextObject(">", fontTextureMedium);
         this.wRight.getMesh().getMaterial().setColour(YELLOW);
         this.wRight.setId("wRight");
         
-        this.lLeft = new TextObject("<", fontTexture);
+        this.lLeft = new TextObject("<", fontTextureMedium);
         this.lLeft.getMesh().getMaterial().setColour(YELLOW);
         this.lLeft.setId("lLeft");
         
-        this.lRight = new TextObject(">", fontTexture);
+        this.lRight = new TextObject(">", fontTextureMedium);
         this.lRight.getMesh().getMaterial().setColour(YELLOW);
         this.lRight.setId("lRight");
         
-        this.hLeft = new TextObject("<", fontTexture);
+        this.hLeft = new TextObject("<", fontTextureMedium);
         this.hLeft.getMesh().getMaterial().setColour(YELLOW);
         this.hLeft.setId("hLeft");
         
-        this.hRight = new TextObject(">", fontTexture);
+        this.hRight = new TextObject(">", fontTextureMedium);
         this.hRight.getMesh().getMaterial().setColour(YELLOW);
         this.hRight.setId("hRight");
         
@@ -117,7 +117,7 @@ public class PreLevelEditor implements IGui {
         this.separatorBottom = new TextObject("------------------------------", fontTexture);
         this.separatorBottom.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0 , 1));
         
-        this.createLevel = new TextObject("Create Level", fontTextureMedium);
+        this.createLevel = new TextObject("Create Level", fontTexture);
         this.createLevel.getMesh().getMaterial().setColour(YELLOW);
         
         this.back = new TextObject("Back", fontTexture);
@@ -133,23 +133,23 @@ public class PreLevelEditor implements IGui {
         this.separatorBottom.setPosition(window.getWidth()/2-separatorBottom.getSize()/2, window.getHeight()/2+SEPARATORBOT_POS);
         
         this.width.setPosition(window.getWidth()/2-width.getSize()/2, window.getHeight()/2-SEPARATORTOP_POS+GAP);
-        this.length.setPosition(window.getWidth()/2-length.getSize()/2, window.getHeight()/2-SEPARATORTOP_POS+GAP*6);
-        this.height.setPosition(window.getWidth()/2-height.getSize()/2, window.getHeight()/2-SEPARATORTOP_POS+GAP*11);
+        this.length.setPosition(window.getWidth()/2-length.getSize()/2, window.getHeight()/2-SEPARATORTOP_POS+GAP*7);
+        this.height.setPosition(window.getWidth()/2-height.getSize()/2, window.getHeight()/2-SEPARATORTOP_POS+GAP*13.5f);
         
-        this.wNum.setPosition(window.getWidth()/2-wNum.getSize()/2, window.getHeight()/2-SEPARATORTOP_POS+GAP*4);
-        this.lNum.setPosition(window.getWidth()/2-lNum.getSize()/2, window.getHeight()/2-SEPARATORTOP_POS+GAP*9);
-        this.hNum.setPosition(window.getWidth()/2-hNum.getSize()/2, window.getHeight()/2-SEPARATORTOP_POS+GAP*14);
+        this.wNum.setPosition(window.getWidth()/2-wNum.getSize()/2-2, window.getHeight()/2-SEPARATORTOP_POS+GAP*2.5f);
+        this.lNum.setPosition(window.getWidth()/2-lNum.getSize()/2-2, window.getHeight()/2-SEPARATORTOP_POS+GAP*8.5f);
+        this.hNum.setPosition(window.getWidth()/2-hNum.getSize()/2-2, window.getHeight()/2-SEPARATORTOP_POS+GAP*15);
         
-        this.wLeft.setPosition(window.getWidth()/2-wLeft.getSize()/2-50, window.getHeight()/2-SEPARATORTOP_POS+GAP*4);
-        this.wRight.setPosition(window.getWidth()/2-wRight.getSize()/2+50, window.getHeight()/2-SEPARATORTOP_POS+GAP*4);
+        this.wLeft.setPosition(window.getWidth()/2-wLeft.getSize()/2-50, window.getHeight()/2-SEPARATORTOP_POS+GAP*2.5f);
+        this.wRight.setPosition(window.getWidth()/2-wRight.getSize()/2+50, window.getHeight()/2-SEPARATORTOP_POS+GAP*2.5f);
         
-        this.lLeft.setPosition(window.getWidth()/2-lLeft.getSize()/2-50, window.getHeight()/2-SEPARATORTOP_POS+GAP*9);
-        this.lRight.setPosition(window.getWidth()/2-lRight.getSize()/2+50, window.getHeight()/2-SEPARATORTOP_POS+GAP*9);
+        this.lLeft.setPosition(window.getWidth()/2-lLeft.getSize()/2-50, window.getHeight()/2-SEPARATORTOP_POS+GAP*8.5f);
+        this.lRight.setPosition(window.getWidth()/2-lRight.getSize()/2+50, window.getHeight()/2-SEPARATORTOP_POS+GAP*8.5f);
         
-        this.hLeft.setPosition(window.getWidth()/2-hLeft.getSize()/2-50, window.getHeight()/2-SEPARATORTOP_POS+GAP*14);
-        this.hRight.setPosition(window.getWidth()/2-hRight.getSize()/2+50, window.getHeight()/2-SEPARATORTOP_POS+GAP*14);
+        this.hLeft.setPosition(window.getWidth()/2-hLeft.getSize()/2-50, window.getHeight()/2-SEPARATORTOP_POS+GAP*15);
+        this.hRight.setPosition(window.getWidth()/2-hRight.getSize()/2+50, window.getHeight()/2-SEPARATORTOP_POS+GAP*15);
         
-        this.createLevel.setPosition(window.getWidth()/2-createLevel.getSize()/2, window.getHeight()/2+SEPARATORTOP_POS-GAP);
+        this.createLevel.setPosition(window.getWidth()/2-createLevel.getSize()/2, window.getHeight()/2+SEPARATORTOP_POS-GAP*0.25f);
         
         this.back.setPosition(window.getWidth()/2-back.getSize()/2, window.getHeight()/2+SEPARATORBOT_POS+SEPARATOR_GAP);
         

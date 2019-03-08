@@ -42,7 +42,7 @@ public class LevelEditorScreen implements IScreen {
   }
 
   @Override
-  public void init(Object... args) {
+  public void startup(Object... args) {
     editorMap = (LevelMap) args[0];
     gameModel = new GameModel("");
     cameraPosition = new Vector3f(0, 0, 0);

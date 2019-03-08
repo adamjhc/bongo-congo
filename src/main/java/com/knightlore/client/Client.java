@@ -36,9 +36,10 @@ public class Client extends Thread {
     new Client().run();
   }
 
-  public static void changeScreen(ClientState screen, Object... args) {
-    currentScreen = screens.get(screen);
-    currentScreen.init(args);
+  public static void changeScreen(ClientState newScreen, Object... args) {
+    currentScreen.shutdown(newScreen);
+    currentScreen = screens.get(newScreen);
+    currentScreen.startup(args);
   }
 
   @Override
@@ -73,6 +74,7 @@ public class Client extends Thread {
     screens.put(ClientState.GAME, new GameScreen(gameRenderer, timer));
 
     currentScreen = screens.get(ClientState.MAIN_MENU);
+    currentScreen.startup();
   }
 
   private void loop() {

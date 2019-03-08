@@ -24,6 +24,11 @@ public class MainScreen implements IScreen {
   }
 
   @Override
+  public void startup(Object... args) {
+    Audio.toggle();
+  }
+
+  @Override
   public void input() {
     // SINGEPLAYER BUTTON
     if (checkPosition(menu, "Singleplayer", "")) {

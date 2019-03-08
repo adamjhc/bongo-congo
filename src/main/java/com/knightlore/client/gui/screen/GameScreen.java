@@ -38,7 +38,7 @@ public class GameScreen implements IScreen {
   }
 
   @Override
-  public void init(Object... args) {
+  public void startup(Object... args) {
     if (args.length == 0) {
       LevelMapSet mapSet = new LevelMapSet(new TileSet());
       gameModel = new GameModel("");

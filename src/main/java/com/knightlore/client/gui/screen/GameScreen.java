@@ -51,6 +51,7 @@ public class GameScreen implements IScreen {
     }
 
     Audio.restart();
+    timer.setStartTime();
   }
 
   @Override

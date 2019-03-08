@@ -17,7 +17,7 @@ public class OptionsMenu implements IGui {
 
   private static final int SEPARATOR_TOP_POS = 185;
   private static final int SEPARATOR_BOT_POS = 200;
-  private static final int SEPARATOR_GAP = 16;
+  private static final int SEPARATOR_GAP = FONT_SIZE;
 
   private static final int MAX_VOLUME = 100;
 
@@ -29,47 +29,34 @@ public class OptionsMenu implements IGui {
   private TextObject[] textObjects;
 
   public OptionsMenu() {
-    try (InputStream myStream =
-        new BufferedInputStream(
-            new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"))) {
-      GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-      ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, myStream));
-    } catch (IOException | FontFormatException e) {
-      e.printStackTrace();
-    }
-
-    FontTexture fontSmall = new FontTexture(FONT_SMALL, CHARSET);
-    FontTexture fontLarge = new FontTexture(FONT_LARGE, CHARSET);
-    FontTexture fontTitle = new FontTexture(FONT_TITLE, CHARSET);
-
-    TextObject bongo = new TextObject("Bongo", fontTitle);
+    TextObject bongo = new TextObject("Bongo", TITLE);
     bongo.setColour(LIGHT_BLUE);
 
-    TextObject congo = new TextObject("Congo", fontTitle);
+    TextObject congo = new TextObject("Congo", TITLE);
     congo.setColour(RED);
 
-    this.incVolume = new TextObject(">", fontLarge);
+    this.incVolume = new TextObject(">", LARGE);
     this.incVolume.setColour(YELLOW);
 
-    this.decVolume = new TextObject("<", fontLarge);
+    this.decVolume = new TextObject("<", LARGE);
     this.decVolume.setColour(YELLOW);
 
-    this.volume = new TextObject("070", fontLarge);
+    this.volume = new TextObject("070", LARGE);
     this.volume.setColour(YELLOW);
 
-    this.exit = new TextObject("Exit", fontSmall);
+    this.exit = new TextObject("Exit", SMALL);
     this.exit.setColour(YELLOW);
 
-    TextObject options = new TextObject("GameModel Options", fontSmall);
+    TextObject options = new TextObject("Options", SMALL);
     options.setColour(YELLOW);
 
-    TextObject separatorTop = new TextObject("------------------------------", fontSmall);
+    TextObject separatorTop = new TextObject("------------------------------", SMALL);
     separatorTop.setColour(YELLOW);
 
-    TextObject separatorBot = new TextObject("------------------------------", fontSmall);
+    TextObject separatorBot = new TextObject("------------------------------", SMALL);
     separatorBot.setColour(YELLOW);
 
-    TextObject musicVolume = new TextObject("GameModel music volume", fontSmall);
+    TextObject musicVolume = new TextObject("Game music volume", SMALL);
     musicVolume.setColour(YELLOW);
 
     bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
@@ -85,7 +72,7 @@ public class OptionsMenu implements IGui {
         Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 2);
     this.exit.setPosition(
         Window.getHalfWidth() - exit.getSize() / 2,
-        Window.getHalfHeight() + SEPARATOR_BOT_POS + SEPARATOR_GAP);
+        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP);
     options.setPosition(
         Window.getHalfWidth() - options.getSize() / 2,
         Window.getHalfHeight() - SEPARATOR_TOP_POS - SEPARATOR_GAP);

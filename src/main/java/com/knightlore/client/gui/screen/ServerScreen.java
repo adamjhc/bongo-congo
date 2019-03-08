@@ -23,7 +23,7 @@ public class ServerScreen implements IScreen {
 
   @Override
   public void input() {
-    if (checkPosition(menu, "Separator Top", "Separator Bot")) {
+    if (checkPosition(menu, menu.getSeparatorTop().getId(), menu.getSeparatorBot().getId())) {
       if (Mouse.scrolledDown()) {
         menu.moveDown();
       }
@@ -35,14 +35,14 @@ public class ServerScreen implements IScreen {
       }
     }
 
-    if (checkPosition(menu, "Create game", "")) {
+    if (checkPosition(menu, menu.getCreate().getId(), "")) {
       menu.getCreate().setColour();
       if (Mouse.isLeftButtonPressed()) {
         menu.createServer();
       }
     } else menu.getCreate().setColour(new Vector4f(1, 1, 0, 1));
 
-    if (checkPosition(menu, "Exit", "")) {
+    if (checkPosition(menu, menu.getExit().getId(), "")) {
       menu.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Client.changeScreen(ClientState.MAIN_MENU);

@@ -31,7 +31,7 @@ public class MainScreen implements IScreen {
   @Override
   public void input() {
     // SINGEPLAYER BUTTON
-    if (checkPosition(menu, "Singleplayer", "")) {
+    if (checkPosition(menu, menu.getSingleplayer().getId(), "")) {
       menu.getSingleplayer().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Client.changeScreen(ClientState.GAME);
@@ -39,7 +39,7 @@ public class MainScreen implements IScreen {
     } else menu.getSingleplayer().setColour(new Vector4f(1, 1, 0, 1));
 
     // MULTIPLAYER BUTTON
-    if (checkPosition(menu, "Multiplayer", "")) {
+    if (checkPosition(menu, menu.getMultiplayer().getId(), "")) {
       menu.getMultiplayer().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Client.changeScreen(ClientState.SERVER_MENU);
@@ -47,7 +47,7 @@ public class MainScreen implements IScreen {
     } else menu.getMultiplayer().setColour(new Vector4f(1, 1, 0, 1));
 
     // LEVEL EDITOR BUTTON
-    if (checkPosition(menu, "Level Editor", "")) {
+    if (checkPosition(menu, menu.getLevelEditor().getId(), "")) {
       menu.getLevelEditor().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Client.changeScreen(ClientState.PRE_EDITOR);
@@ -55,7 +55,7 @@ public class MainScreen implements IScreen {
     } else menu.getLevelEditor().setColour(new Vector4f(1, 1, 0, 1));
 
     // OPTIONS BUTTON
-    if (checkPosition(menu, "Options", "")) {
+    if (checkPosition(menu, menu.getOptions().getId(), "")) {
       menu.getOptions().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Client.changeScreen(ClientState.OPTIONS_MENU);
@@ -63,7 +63,7 @@ public class MainScreen implements IScreen {
     } else menu.getOptions().setColour(new Vector4f(1, 1, 0, 1));
 
     // QUIT BUTTON
-    if (checkPosition(menu, "Quit", "")) {
+    if (checkPosition(menu, menu.getQuit().getId(), "")) {
       menu.getQuit().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Window.setShouldClose();

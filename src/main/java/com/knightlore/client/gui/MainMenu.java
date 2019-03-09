@@ -44,6 +44,7 @@ public class MainMenu implements IGui {
 
     this.soundOn = new TextObject("(", LARGE);
     this.soundOn.setColour();
+    this.soundOn.setScale(1.25f);
 
     this.soundOff = new TextObject("/", MEDIUM);
     this.soundOff.setColour(RED);
@@ -107,7 +108,7 @@ public class MainMenu implements IGui {
     this.options.setPosition(
         Window.getHalfWidth() - options.getSize() / 2, Window.getHalfHeight() + MENU_POS + GAP * 2);
     this.soundOn.setPosition(
-        Window.getWidth() - soundOn.getSize(), Window.getHeight() - soundOn.getHeight());
+        Window.getWidth() - soundOn.getSize()*soundOn.getScale(), Window.getHeight() - soundOn.getHeight()*soundOn.getScale());
     this.soundOff.setPosition(
         Window.getWidth() - soundOff.getSize(), Window.getHeight() - soundOff.getHeight());
     this.quit.setPosition(

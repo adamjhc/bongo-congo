@@ -17,7 +17,7 @@ import org.joml.Vector4f;
 public class Hud implements IGui {
 
   private static final int SCORE_SIDE_GAP = 4;
-  private static final int LIVES_SIDE_GAP = -2;
+  private static final int LIVES_SIDE_GAP = 6;
   private static final int SCORE_HIDE = -SCORE_SIDE_GAP - FONT_SIZE_SMALL * 11 - SCORE_SIDE_GAP - FONT_SIZE_LIVES * 3;
   private static final int LIVES_HIDE = SCORE_HIDE + FONT_SIZE_SMALL * 11 + SCORE_SIDE_GAP;
   
@@ -62,21 +62,27 @@ public class Hud implements IGui {
 
     this.player1Lives = new TextObject("***", LIVES);
     this.player1Lives.setColour(RED);
+    this.player1Lives.setScale((float)FONT_SIZE_SMALL / (float)FONT_SIZE_LIVES);
 
     this.player2Lives = new TextObject("***", LIVES);
     this.player2Lives.setColour(RED);
+    this.player2Lives.setScale((float)FONT_SIZE_SMALL / (float)FONT_SIZE_LIVES);
     
     this.player3Lives = new TextObject("***", LIVES);
     this.player3Lives.setColour(RED);
+    this.player3Lives.setScale((float)FONT_SIZE_SMALL / (float)FONT_SIZE_LIVES);
     
     this.player4Lives = new TextObject("***", LIVES);
     this.player4Lives.setColour(RED);
+    this.player4Lives.setScale((float)FONT_SIZE_SMALL / (float)FONT_SIZE_LIVES);
     
     this.player5Lives = new TextObject("***", LIVES);
     this.player5Lives.setColour(RED);
+    this.player5Lives.setScale((float)FONT_SIZE_SMALL / (float)FONT_SIZE_LIVES);
     
     this.player6Lives = new TextObject("***", LIVES);
     this.player6Lives.setColour(RED);
+    this.player6Lives.setScale((float)FONT_SIZE_SMALL / (float)FONT_SIZE_LIVES);
     
     this.counter = new TextObject("90", MEDIUM);
     this.counter.setColour(YELLOW);

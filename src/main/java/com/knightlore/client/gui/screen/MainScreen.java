@@ -3,6 +3,7 @@ package com.knightlore.client.gui.screen;
 import static com.knightlore.client.util.GuiUtils.checkPosition;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_EQUAL;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_MINUS;
 
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
@@ -79,7 +80,11 @@ public class MainScreen implements IScreen {
     }
     
     if (Keyboard.isKeyReleased(GLFW_KEY_EQUAL)) {
-    	menu.updateFont();
+    	menu.incFont();
+    }
+    
+    if (Keyboard.isKeyReleased(GLFW_KEY_MINUS)) {
+    	menu.decFont();
     }
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {

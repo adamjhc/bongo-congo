@@ -117,12 +117,20 @@ public class MainMenu implements IGui {
         Window.getHalfWidth() - quit.getSize() / 2, Window.getHalfHeight() + MENU_POS + gap * 4);
   }
   
-  public void updateFont() {
+  public void incFont() {
   	singleplayer.setFontTexture(MEDIUM);
   	multiplayer.setFontTexture(MEDIUM);
   	levelEditor.setFontTexture(MEDIUM);
   	options.setFontTexture(MEDIUM);
   	quit.setFontTexture(MEDIUM);
+  }
+  
+  public void decFont() {
+  	singleplayer.setFontTexture(SMALL);
+  	multiplayer.setFontTexture(SMALL);
+  	levelEditor.setFontTexture(SMALL);
+  	options.setFontTexture(SMALL);
+  	quit.setFontTexture(SMALL);
   }
 
   @Override

@@ -5,6 +5,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_RESIZABLE;
 import static org.lwjgl.glfw.GLFW.GLFW_SAMPLES;
 import static org.lwjgl.glfw.GLFW.GLFW_VISIBLE;
 import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
+import static org.lwjgl.glfw.GLFW.glfwSetWindowSize;
 import static org.lwjgl.glfw.GLFW.glfwDefaultWindowHints;
 import static org.lwjgl.glfw.GLFW.glfwDestroyWindow;
 import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
@@ -38,14 +39,24 @@ public class Window {
 
   private static final String TITLE = "Bongo Congo";
 
-  private static final int WIDTH = 2560;
-  private static final int HEIGHT = 1440;
+  private static int width = 1280;
+  private static int height = 720;
+  
+  private static int oldWidth;
+  private static int oldHeight;
 
-  private static final float WIDTH_HALF = WIDTH / (float) 2;
-  private static final float HEIGHT_HALF = HEIGHT / (float) 2;
+  private static float widthHalf = width / (float) 2;
+  private static float heightHalf = height / (float) 2;
+  
+  private static float oldWidthHalf;
+  private static float oldHeightHalf;
 
   private static long windowHandle;
-
+  
+  private static boolean fullScreen = false;
+  
+  private static boolean fullScreenChanged = false;
+  
   private Window() {}
 
   public static void init() {
@@ -63,16 +74,16 @@ public class Window {
     glfwWindowHint(GLFW_SAMPLES, 4);
 
     // Create the window, use (WIDTH, HEIGHT, title, glfwGetPrimaryMonitor(), 0) for full-screen
-    windowHandle = glfwCreateWindow(WIDTH, HEIGHT, TITLE, glfwGetPrimaryMonitor(), 0);
+    windowHandle = glfwCreateWindow(width, height, TITLE, NULL, NULL);
     if (windowHandle == NULL) {
       throw new IllegalStateException("Failed to create the GLFW window");
     }
 
     // Get the resolution of the primary monitor
     GLFWVidMode vidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-
+    
     // Centre window
-    glfwSetWindowPos(windowHandle, (vidMode.width() - WIDTH) / 2, (vidMode.height() - HEIGHT) / 2);
+    glfwSetWindowPos(windowHandle, (vidMode.width() - width) / 2, (vidMode.height() - height) / 2);
 
     // Set window icon
     try (MemoryStack stack = stackPush()) {
@@ -101,25 +112,60 @@ public class Window {
 
     GL.createCapabilities();
   }
+  
+//  public static void fullScreen() {
+//	  fullScreen = !fullScreen;
+//	  
+//	  if (fullScreen) {
+//		  GLFWVidMode vidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+//		  
+//		  oldWidth = width;
+//		  oldHeight = height;
+//		  oldWidthHalf = widthHalf;
+//		  oldHeightHalf = heightHalf;
+//		  
+//		  width = vidMode.width();
+//	    height = vidMode.height();
+//	    widthHalf = width / (float) 2;
+//	    heightHalf = height / (float) 2;
+//	  } else {
+//		  width = oldWidth;
+//		  height = oldHeight;
+//		  widthHalf = oldWidthHalf;
+//		  heightHalf = oldHeightHalf;
+//	  }
+//	  
+//	  long newWindowHandle = glfwCreateWindow(width, height, TITLE, fullScreen ? glfwGetPrimaryMonitor() : NULL, windowHandle);
+//	  glfwDestroyWindow(windowHandle);
+//	  windowHandle = newWindowHandle;
+//	  
+//	  glfwMakeContextCurrent(windowHandle);
+//	  glfwSwapInterval(1);
+//	  glfwShowWindow(windowHandle);
+//	  GL.createCapabilities();
+//  }
+//  
+  public static void setFullscreen() {
+  }
 
   public static long getWindowHandle() {
     return windowHandle;
   }
 
   public static int getWidth() {
-    return WIDTH;
+    return width;
   }
 
   public static float getHalfWidth() {
-    return WIDTH_HALF;
+    return widthHalf;
   }
 
   public static int getHeight() {
-    return HEIGHT;
+    return height;
   }
 
   public static float getHalfHeight() {
-    return HEIGHT_HALF;
+    return heightHalf;
   }
 
   public static boolean shouldClose() {

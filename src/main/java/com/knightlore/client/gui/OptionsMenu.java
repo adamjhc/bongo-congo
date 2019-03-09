@@ -25,6 +25,7 @@ public class OptionsMenu implements IGui {
   private final TextObject decVolume;
   private final TextObject volume;
   private final TextObject exit;
+  private final TextObject isFullscreen;
   private GuiObject[] guiObjects;
   private TextObject[] textObjects;
 
@@ -46,6 +47,9 @@ public class OptionsMenu implements IGui {
 
     this.exit = new TextObject("Exit", SMALL);
     this.exit.setColour(YELLOW);
+    
+    this.isFullscreen = new TextObject("Off", LARGE);
+    this.isFullscreen.setColour(YELLOW);
 
     TextObject options = new TextObject("Options", SMALL);
     options.setColour(YELLOW);
@@ -58,6 +62,9 @@ public class OptionsMenu implements IGui {
 
     TextObject musicVolume = new TextObject("Game music volume", SMALL);
     musicVolume.setColour(YELLOW);
+    
+    TextObject fullScreen = new TextObject("Fullscreen", SMALL);
+    fullScreen.setColour(YELLOW);
 
     bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
     congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
@@ -73,6 +80,9 @@ public class OptionsMenu implements IGui {
     this.exit.setPosition(
         Window.getHalfWidth() - exit.getSize() / 2,
         Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP);
+    this.isFullscreen.setPosition(
+    		Window.getHalfWidth() - isFullscreen.getSize() / 2,
+    		Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 4 + GAP_LARGE);
     options.setPosition(
         Window.getHalfWidth() - options.getSize() / 2,
         Window.getHalfHeight() - SEPARATOR_TOP_POS - SEPARATOR_GAP);
@@ -85,6 +95,9 @@ public class OptionsMenu implements IGui {
     musicVolume.setPosition(
         Window.getHalfWidth() - musicVolume.getSize() / 2,
         Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP);
+    fullScreen.setPosition(
+    		Window.getHalfWidth() - fullScreen.getSize() / 2,
+    		Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 3 + GAP_LARGE);
 
     guiObjects =
         new GuiObject[] {
@@ -94,28 +107,39 @@ public class OptionsMenu implements IGui {
           decVolume,
           volume,
           exit,
+          isFullscreen,
           options,
           separatorTop,
           separatorBot,
-          musicVolume
+          musicVolume,
+          fullScreen
         };
-    textObjects = new TextObject[] {incVolume, decVolume, exit};
+    textObjects = new TextObject[] {incVolume, decVolume, exit, isFullscreen};
   }
 
   public void incVolume() {
     int volumeAmount = Integer.parseInt(this.volume.getText());
     if (volumeAmount < MAX_VOLUME) volumeAmount++;
     this.volume.setText((String.format("%03d", volumeAmount)));
-    this.volume.getMesh().getMaterial().setColour(YELLOW);
+    this.volume.setColour(YELLOW);
   }
 
   public void decVolume() {
     int volumeAmount = Integer.parseInt(this.volume.getText());
     if (volumeAmount > 0) volumeAmount--;
     this.volume.setText((String.format("%03d", volumeAmount)));
-    this.volume.getMesh().getMaterial().setColour(YELLOW);
+    this.volume.setColour(YELLOW);
   }
-
+  
+  public void setFullscreen() {
+  	if (this.isFullscreen.getText() == "Off") this.isFullscreen.setText("On");
+  	else this.isFullscreen.setText("Off");
+  	this.isFullscreen.setPositionX(Window.getHalfWidth() - isFullscreen.getSize() / 2);
+  	this.isFullscreen.setColour(YELLOW);
+  	
+  	Window.setFullscreen();
+  }
+  
   public TextObject getIncVolume() {
     return incVolume;
   }
@@ -128,6 +152,10 @@ public class OptionsMenu implements IGui {
     return exit;
   }
 
+  public TextObject getIsFullscreen() {
+  	return isFullscreen;
+  }
+  
   @Override
   public TextObject[] getTextObjects() {
     return textObjects;

@@ -38,8 +38,8 @@ public class Window {
 
   private static final String TITLE = "Bongo Congo";
 
-  private static final int WIDTH = 1280;
-  private static final int HEIGHT = 720;
+  private static final int WIDTH = 2560;
+  private static final int HEIGHT = 1440;
 
   private static final float WIDTH_HALF = WIDTH / (float) 2;
   private static final float HEIGHT_HALF = HEIGHT / (float) 2;
@@ -63,7 +63,7 @@ public class Window {
     glfwWindowHint(GLFW_SAMPLES, 4);
 
     // Create the window, use (WIDTH, HEIGHT, title, glfwGetPrimaryMonitor(), 0) for full-screen
-    windowHandle = glfwCreateWindow(WIDTH, HEIGHT, TITLE, NULL, NULL);
+    windowHandle = glfwCreateWindow(WIDTH, HEIGHT, TITLE, glfwGetPrimaryMonitor(), 0);
     if (windowHandle == NULL) {
       throw new IllegalStateException("Failed to create the GLFW window");
     }

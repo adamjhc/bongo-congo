@@ -101,7 +101,7 @@ public class Hud implements IGui {
     this.player5Lives.setPosition(LIVES_HIDE, LIVES_SIDE_GAP + GAP * 4);
     this.player6Lives.setPosition(LIVES_HIDE, LIVES_SIDE_GAP + GAP * 5);
 
-    this.counter.setPosition(1175, Window.getHeight() - counter.getHeight());
+    this.counter.setPosition(Window.getWidth() - 100, Window.getHeight() - counter.getHeight());
     this.soundOn.setPosition(
         Window.getWidth() - soundOn.getSize(), Window.getHeight() - soundOn.getHeight());
     this.soundOff.setPosition(

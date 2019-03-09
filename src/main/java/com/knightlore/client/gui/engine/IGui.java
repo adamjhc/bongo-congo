@@ -14,7 +14,7 @@ import com.knightlore.client.gui.engine.graphics.FontTexture;
 
 public interface IGui {
 	
-	int FONT_SIZE = 16;
+	int FONT_SIZE = 32;
 	int FONT_SIZE_LARGE = 40;
 	int FONT_SIZE_LIVES = FONT_SIZE+5;
 

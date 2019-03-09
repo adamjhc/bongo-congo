@@ -57,8 +57,6 @@ public class Window {
   
   private static boolean fullScreen = false;
   private static boolean resized = false;
-  private static boolean updateLobbies = false;
-
   
   private Window() {}
 
@@ -86,7 +84,6 @@ public class Window {
       width = newWidth;
       height = newHeight;
       setResized(true);
-      setUpdateLobbies(true);
     });
 
     // Get the resolution of the primary monitor
@@ -153,14 +150,6 @@ public class Window {
 	  glfwSwapInterval(1);
     glfwShowWindow(windowHandle);
     GL.createCapabilities();
-  }
-  
-  public static boolean getUpdateLobbies() {
-    return updateLobbies;
-  }
-
-  public static void setUpdateLobbies(boolean update) {
-    updateLobbies = update;
   }
   
   public static boolean isResized() {

@@ -57,14 +57,6 @@ public class ServerScreen implements IScreen {
   }
   
   @Override
-  public void update(float delta) {
-  	if (Window.getUpdateLobbies()) {
-  		menu.updateLobbies();
-  		Window.setUpdateLobbies(false);
-  	}
-  }
-
-  @Override
   public void render() {
   	menu.updateSize();
   	

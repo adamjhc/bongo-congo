@@ -240,9 +240,7 @@ public class ServerMenu implements IGui {
     this.exit.setPosition(
         Window.getHalfWidth() - exit.getSize() / 2,
         Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 3);
-  }
-  
-  public void updateLobbies() {
+    
     int yPos = SEPARATOR_TOP_POS - GAP;
     for (LobbyObject server : servers) {	
     	server.setPosition(Window.getHalfWidth() - server.getSize() / 2,  Window.getHalfHeight() - yPos - current*GAP);

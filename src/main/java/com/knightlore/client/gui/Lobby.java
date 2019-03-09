@@ -27,11 +27,13 @@ public class Lobby implements IGui {
     this.congo = new TextObject("Congo", TITLE);
     this.congo.setColour(RED);
 
+    guiObjects = new GuiObject[] {bongo, congo};
+  }
+  
+  public void updateSize() {
     this.bongo.setPosition(
         Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
     this.congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
-
-    guiObjects = new GuiObject[] {bongo, congo};
   }
 
   @Override

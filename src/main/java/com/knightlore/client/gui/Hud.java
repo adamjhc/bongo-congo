@@ -160,7 +160,7 @@ public class Hud implements IGui {
 
   public void setP1Lives(int lives) {
     if (lives <= 0) {
-      this.player1Lives.setText("Dead");
+      this.player1Lives.setText("");
     } else {
       String livesText = "";
       for (int i = 0; i < lives; i++) {

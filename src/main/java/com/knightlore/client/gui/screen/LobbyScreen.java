@@ -15,7 +15,7 @@ public class LobbyScreen implements IScreen {
     this.guiRenderer = guiRenderer;
     lobby = new Lobby();
   }
-
+  
   @Override
   public void input() {}
 

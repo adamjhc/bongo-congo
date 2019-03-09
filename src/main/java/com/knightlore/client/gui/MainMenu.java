@@ -96,23 +96,33 @@ public class MainMenu implements IGui {
   }
   
   public void updateSize() {
+  	int gap = singleplayer.getHeight() + 5;
+  	
     this.bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
     this.congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
     this.singleplayer.setPosition(
         Window.getHalfWidth() - singleplayer.getSize() / 2, Window.getHalfHeight() + MENU_POS);
     this.multiplayer.setPosition(
-        Window.getHalfWidth() - multiplayer.getSize() / 2, Window.getHalfHeight() + MENU_POS + GAP);
+        Window.getHalfWidth() - multiplayer.getSize() / 2, Window.getHalfHeight() + MENU_POS + gap);
     this.levelEditor.setPosition(
         Window.getHalfWidth() - levelEditor.getSize() / 2,
-        Window.getHalfHeight() + MENU_POS + GAP * 3);
+        Window.getHalfHeight() + MENU_POS + gap * 3);
     this.options.setPosition(
-        Window.getHalfWidth() - options.getSize() / 2, Window.getHalfHeight() + MENU_POS + GAP * 2);
+        Window.getHalfWidth() - options.getSize() / 2, Window.getHalfHeight() + MENU_POS + gap * 2);
     this.soundOn.setPosition(
         Window.getWidth() - soundOn.getSize()*soundOn.getScale(), Window.getHeight() - soundOn.getHeight()*soundOn.getScale());
     this.soundOff.setPosition(
         Window.getWidth() - soundOff.getSize(), Window.getHeight() - soundOff.getHeight());
     this.quit.setPosition(
-        Window.getHalfWidth() - quit.getSize() / 2, Window.getHalfHeight() + MENU_POS + GAP * 4);
+        Window.getHalfWidth() - quit.getSize() / 2, Window.getHalfHeight() + MENU_POS + gap * 4);
+  }
+  
+  public void updateFont() {
+  	singleplayer.setFontTexture(MEDIUM);
+  	multiplayer.setFontTexture(MEDIUM);
+  	levelEditor.setFontTexture(MEDIUM);
+  	options.setFontTexture(MEDIUM);
+  	quit.setFontTexture(MEDIUM);
   }
 
   @Override

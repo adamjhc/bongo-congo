@@ -18,7 +18,7 @@ public interface IGui {
 	int FONT_SIZE_MEDIUM = 32;
 	int FONT_SIZE_LARGE = 32;
 	int FONT_SIZE_TITLE = 72;
-	int FONT_SIZE_LIVES = 124;
+	int FONT_SIZE_LIVES = 72;
 
   Font FONT_SMALL = new Font("Press Start 2P", Font.PLAIN, FONT_SIZE_SMALL);
   Font FONT_MEDIUM = new Font("Press Start 2P", Font.PLAIN, FONT_SIZE_MEDIUM);

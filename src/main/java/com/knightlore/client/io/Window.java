@@ -4,16 +4,18 @@ import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.GLFW_RESIZABLE;
 import static org.lwjgl.glfw.GLFW.GLFW_SAMPLES;
 import static org.lwjgl.glfw.GLFW.GLFW_VISIBLE;
+import static org.lwjgl.glfw.GLFW.GLFW_DONT_CARE;
 import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
-import static org.lwjgl.glfw.GLFW.glfwSetWindowSize;
 import static org.lwjgl.glfw.GLFW.glfwDefaultWindowHints;
 import static org.lwjgl.glfw.GLFW.glfwDestroyWindow;
 import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
+import static org.lwjgl.glfw.GLFW.glfwSetWindowMonitor;
 import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
 import static org.lwjgl.glfw.GLFW.glfwInit;
 import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSetErrorCallback;
+import static org.lwjgl.glfw.GLFW.glfwSetFramebufferSizeCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowIcon;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowPos;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
@@ -42,20 +44,21 @@ public class Window {
   private static int width = 1280;
   private static int height = 720;
   
-  private static int oldWidth;
-  private static int oldHeight;
+  private static int oldWidth = width;
+  private static int oldHeight = height;
 
   private static float widthHalf = width / (float) 2;
   private static float heightHalf = height / (float) 2;
   
-  private static float oldWidthHalf;
-  private static float oldHeightHalf;
+  private static float oldWidthHalf = widthHalf;
+  private static float oldHeightHalf = heightHalf;
 
   private static long windowHandle;
   
   private static boolean fullScreen = false;
-  
-  private static boolean fullScreenChanged = false;
+  private static boolean resized = false;
+  private static boolean updateLobbies = false;
+
   
   private Window() {}
 
@@ -78,6 +81,13 @@ public class Window {
     if (windowHandle == NULL) {
       throw new IllegalStateException("Failed to create the GLFW window");
     }
+    
+    glfwSetFramebufferSizeCallback(windowHandle, (window, newWidth, newHeight) -> {
+      width = newWidth;
+      height = newHeight;
+      setResized(true);
+      setUpdateLobbies(true);
+    });
 
     // Get the resolution of the primary monitor
     GLFWVidMode vidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
@@ -113,41 +123,54 @@ public class Window {
     GL.createCapabilities();
   }
   
-//  public static void fullScreen() {
-//	  fullScreen = !fullScreen;
-//	  
-//	  if (fullScreen) {
-//		  GLFWVidMode vidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-//		  
-//		  oldWidth = width;
-//		  oldHeight = height;
-//		  oldWidthHalf = widthHalf;
-//		  oldHeightHalf = heightHalf;
-//		  
-//		  width = vidMode.width();
-//	    height = vidMode.height();
-//	    widthHalf = width / (float) 2;
-//	    heightHalf = height / (float) 2;
-//	  } else {
-//		  width = oldWidth;
-//		  height = oldHeight;
-//		  widthHalf = oldWidthHalf;
-//		  heightHalf = oldHeightHalf;
-//	  }
-//	  
-//	  long newWindowHandle = glfwCreateWindow(width, height, TITLE, fullScreen ? glfwGetPrimaryMonitor() : NULL, windowHandle);
-//	  glfwDestroyWindow(windowHandle);
-//	  windowHandle = newWindowHandle;
-//	  
-//	  glfwMakeContextCurrent(windowHandle);
-//	  glfwSwapInterval(1);
-//	  glfwShowWindow(windowHandle);
-//	  GL.createCapabilities();
-//  }
-//  
+  public static boolean isFullscreen() {
+  	return fullScreen;
+  }
+  
   public static void setFullscreen() {
+  	fullScreen = !fullScreen;
+  	GLFWVidMode vidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+  	
+	  if (fullScreen) {
+		  oldWidth = width;
+		  oldHeight = height;
+		  oldWidthHalf = widthHalf;
+		  oldHeightHalf = heightHalf;
+		  
+		  width = vidMode.width();
+	    height = vidMode.height();
+	    widthHalf = width / (float) 2;
+	    heightHalf = height / (float) 2;
+	  } else {
+		  width = oldWidth;
+		  height = oldHeight;
+		  widthHalf = oldWidthHalf;
+		  heightHalf = oldHeightHalf;
+	  }
+	  glfwSetWindowMonitor(windowHandle, fullScreen ? glfwGetPrimaryMonitor() : NULL,
+	  		(vidMode.width() - width) / 2, (vidMode.height() - height) / 2, width, height, GLFW_DONT_CARE);
+	  glfwMakeContextCurrent(windowHandle);
+	  glfwSwapInterval(1);
+    glfwShowWindow(windowHandle);
+    GL.createCapabilities();
+  }
+  
+  public static boolean getUpdateLobbies() {
+    return updateLobbies;
   }
 
+  public static void setUpdateLobbies(boolean update) {
+    updateLobbies = update;
+  }
+  
+  public static boolean isResized() {
+    return resized;
+  }
+
+  public static void setResized(boolean resize) {
+    resized = resize;
+  }
+  
   public static long getWindowHandle() {
     return windowHandle;
   }
@@ -159,7 +182,7 @@ public class Window {
   public static float getHalfWidth() {
     return widthHalf;
   }
-
+  
   public static int getHeight() {
     return height;
   }

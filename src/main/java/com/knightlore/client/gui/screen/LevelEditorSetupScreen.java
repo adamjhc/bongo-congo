@@ -96,6 +96,8 @@ public class LevelEditorSetupScreen implements IScreen {
 
   @Override
   public void render() {
+  	preLevelEditor.updateSize();
+  	
     guiRenderer.render(preLevelEditor);
   }
 

@@ -38,18 +38,23 @@ public class PreLevelEditor implements IGui {
   private final TextObject hRight;
   private final TextObject createLevel;
   private final TextObject exit;
+  private final TextObject bongo;
+  private final TextObject congo;
+  private final TextObject editor;
+  private final TextObject separatorTop;
+  private final TextObject separatorBottom;
   private GuiObject[] guiObjects;
   private TextObject[] textObjects;
 
   public PreLevelEditor() {
-    TextObject bongo = new TextObject("Bongo", TITLE);
-    bongo.setColour(LIGHT_BLUE);
+    this.bongo = new TextObject("Bongo", TITLE);
+    this.bongo.setColour(LIGHT_BLUE);
 
-    TextObject congo = new TextObject("Congo", TITLE);
-    congo.setColour(RED);
+    this.congo = new TextObject("Congo", TITLE);
+    this.congo.setColour(RED);
     
-    TextObject editor = new TextObject("Level Editor", SMALL);
-    editor.setColour(YELLOW);
+    this.editor = new TextObject("Level Editor", SMALL);
+    this.editor.setColour(YELLOW);
 
     this.width = new TextObject("Width", SMALL);
     this.width.setColour(YELLOW);
@@ -93,78 +98,17 @@ public class PreLevelEditor implements IGui {
     this.hRight.setColour(YELLOW);
     this.hRight.setId("hRight");
 
-    TextObject separatorTop = new TextObject("------------------------------", SMALL);
-    separatorTop.setColour(YELLOW);
+    this.separatorTop = new TextObject("------------------------------", SMALL);
+    this.separatorTop.setColour(YELLOW);
 
-    TextObject separatorBottom = new TextObject("------------------------------", SMALL);
-    separatorBottom.setColour(YELLOW);
+    this.separatorBottom = new TextObject("------------------------------", SMALL);
+    this.separatorBottom.setColour(YELLOW);
 
     this.createLevel = new TextObject("Create Level", SMALL);
     this.createLevel.setColour(YELLOW);
 
     this.exit = new TextObject("Exit", SMALL);
     this.exit.setColour(YELLOW);
-
-    bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
-    congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
-    separatorTop.setPosition(
-        Window.getHalfWidth() - separatorTop.getSize() / 2,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS);
-    separatorBottom.setPosition(
-        Window.getHalfWidth() - separatorBottom.getSize() / 2,
-        Window.getHalfHeight() + SEPARATOR_BOT_POS);
-    editor.setPosition(
-    		Window.getHalfWidth() - editor.getSize() / 2,
-    		Window.getHalfHeight() - SEPARATOR_TOP_POS - SEPARATOR_GAP);
-
-    this.width.setPosition(
-        Window.getHalfWidth() - width.getSize() / 2,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP);
-    this.length.setPosition(
-        Window.getHalfWidth() - length.getSize() / 2,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 3 + GAP_LARGE);
-    this.height.setPosition(
-        Window.getHalfWidth() - height.getSize() / 2,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 5 + GAP_LARGE * 2);
-
-    this.wNum.setPosition(
-        Window.getHalfWidth() - wNum.getSize() / 2,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 2);
-    this.lNum.setPosition(
-        Window.getHalfWidth() - lNum.getSize() / 2,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 4 + GAP_LARGE);
-    this.hNum.setPosition(
-        Window.getHalfWidth() - hNum.getSize() / 2,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 6 + GAP_LARGE * 2);
-
-    this.wLeft.setPosition(
-        Window.getHalfWidth() - wLeft.getSize() / 2 - 100,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 2);
-    this.wRight.setPosition(
-        Window.getHalfWidth() - wRight.getSize() / 2 + 100,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 2);
-
-    this.lLeft.setPosition(
-        Window.getHalfWidth() - lLeft.getSize() / 2 - 100,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 4 + GAP_LARGE);
-    this.lRight.setPosition(
-        Window.getHalfWidth() - lRight.getSize() / 2 + 100,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 4 + GAP_LARGE);
-
-    this.hLeft.setPosition(
-        Window.getHalfWidth() - hLeft.getSize() / 2 - 100,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 6 + GAP_LARGE * 2);
-    this.hRight.setPosition(
-        Window.getHalfWidth() - hRight.getSize() / 2 + 100,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 6 + GAP_LARGE * 2);
-
-    this.createLevel.setPosition(
-        Window.getHalfWidth() - createLevel.getSize() / 2,
-        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP);
-
-    this.exit.setPosition(
-        Window.getHalfWidth() - exit.getSize() / 2,
-        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
 
     guiObjects =
         new GuiObject[] {
@@ -287,6 +231,69 @@ public class PreLevelEditor implements IGui {
 
   public TextObject getCreateLevel() {
     return createLevel;
+  }
+  
+  public void updateSize() {
+    this.bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
+    this.congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
+    this.separatorTop.setPosition(
+        Window.getHalfWidth() - separatorTop.getSize() / 2,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS);
+    this.separatorBottom.setPosition(
+        Window.getHalfWidth() - separatorBottom.getSize() / 2,
+        Window.getHalfHeight() + SEPARATOR_BOT_POS);
+    this.editor.setPosition(
+    		Window.getHalfWidth() - editor.getSize() / 2,
+    		Window.getHalfHeight() - SEPARATOR_TOP_POS - SEPARATOR_GAP);
+
+    this.width.setPosition(
+        Window.getHalfWidth() - width.getSize() / 2,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP);
+    this.length.setPosition(
+        Window.getHalfWidth() - length.getSize() / 2,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 3 + GAP_LARGE);
+    this.height.setPosition(
+        Window.getHalfWidth() - height.getSize() / 2,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 5 + GAP_LARGE * 2);
+
+    this.wNum.setPosition(
+        Window.getHalfWidth() - wNum.getSize() / 2,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 2);
+    this.lNum.setPosition(
+        Window.getHalfWidth() - lNum.getSize() / 2,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 4 + GAP_LARGE);
+    this.hNum.setPosition(
+        Window.getHalfWidth() - hNum.getSize() / 2,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 6 + GAP_LARGE * 2);
+
+    this.wLeft.setPosition(
+        Window.getHalfWidth() - wLeft.getSize() / 2 - 100,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 2);
+    this.wRight.setPosition(
+        Window.getHalfWidth() - wRight.getSize() / 2 + 100,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 2);
+
+    this.lLeft.setPosition(
+        Window.getHalfWidth() - lLeft.getSize() / 2 - 100,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 4 + GAP_LARGE);
+    this.lRight.setPosition(
+        Window.getHalfWidth() - lRight.getSize() / 2 + 100,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 4 + GAP_LARGE);
+
+    this.hLeft.setPosition(
+        Window.getHalfWidth() - hLeft.getSize() / 2 - 100,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 6 + GAP_LARGE * 2);
+    this.hRight.setPosition(
+        Window.getHalfWidth() - hRight.getSize() / 2 + 100,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 6 + GAP_LARGE * 2);
+
+    this.createLevel.setPosition(
+        Window.getHalfWidth() - createLevel.getSize() / 2,
+        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP);
+
+    this.exit.setPosition(
+        Window.getHalfWidth() - exit.getSize() / 2,
+        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
   }
 
   @Override

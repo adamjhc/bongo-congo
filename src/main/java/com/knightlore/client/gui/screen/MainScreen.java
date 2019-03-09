@@ -85,6 +85,7 @@ public class MainScreen implements IScreen {
   @Override
   public void render() {
     menu.getSoundMute().setRender(!Audio.isOn());
+    menu.updateSize();
 
     renderer.render(menu);
   }

@@ -116,6 +116,7 @@ public class GameScreen implements IScreen {
   @Override
   public void render() {
     hud.getSoundMute().setRender(!Audio.isOn());
+    hud.updateSize();
 
     gameRenderer.render(gameModel, hud);
   }

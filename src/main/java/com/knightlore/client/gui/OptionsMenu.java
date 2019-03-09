@@ -26,15 +26,23 @@ public class OptionsMenu implements IGui {
   private final TextObject volume;
   private final TextObject exit;
   private final TextObject isFullscreen;
+  private final TextObject bongo;
+  private final TextObject congo;
+  private final TextObject options;
+  private final TextObject separatorTop;
+  private final TextObject separatorBot;
+  private final TextObject musicVolume;
+  private final TextObject fullScreen;
+  
   private GuiObject[] guiObjects;
   private TextObject[] textObjects;
 
   public OptionsMenu() {
-    TextObject bongo = new TextObject("Bongo", TITLE);
-    bongo.setColour(LIGHT_BLUE);
+    this.bongo = new TextObject("Bongo", TITLE);
+    this.bongo.setColour(LIGHT_BLUE);
 
-    TextObject congo = new TextObject("Congo", TITLE);
-    congo.setColour(RED);
+    this.congo = new TextObject("Congo", TITLE);
+    this.congo.setColour(RED);
 
     this.incVolume = new TextObject(">", LARGE);
     this.incVolume.setColour(YELLOW);
@@ -51,53 +59,20 @@ public class OptionsMenu implements IGui {
     this.isFullscreen = new TextObject("Off", LARGE);
     this.isFullscreen.setColour(YELLOW);
 
-    TextObject options = new TextObject("Options", SMALL);
-    options.setColour(YELLOW);
+    this.options = new TextObject("Options", SMALL);
+    this.options.setColour(YELLOW);
 
-    TextObject separatorTop = new TextObject("------------------------------", SMALL);
-    separatorTop.setColour(YELLOW);
+    this.separatorTop = new TextObject("------------------------------", SMALL);
+    this.separatorTop.setColour(YELLOW);
 
-    TextObject separatorBot = new TextObject("------------------------------", SMALL);
-    separatorBot.setColour(YELLOW);
+    this.separatorBot = new TextObject("------------------------------", SMALL);
+    this.separatorBot.setColour(YELLOW);
 
-    TextObject musicVolume = new TextObject("Game music volume", SMALL);
-    musicVolume.setColour(YELLOW);
+    this.musicVolume = new TextObject("Game music volume", SMALL);
+    this.musicVolume.setColour(YELLOW);
     
-    TextObject fullScreen = new TextObject("Fullscreen", SMALL);
-    fullScreen.setColour(YELLOW);
-
-    bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
-    congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
-    this.volume.setPosition(
-        Window.getHalfWidth() - volume.getSize() / 2,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 2);
-    this.incVolume.setPosition(
-        Window.getHalfWidth() - incVolume.getSize() / 2 + 100,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 2);
-    this.decVolume.setPosition(
-        Window.getHalfWidth() - decVolume.getSize() / 2 - 100,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 2);
-    this.exit.setPosition(
-        Window.getHalfWidth() - exit.getSize() / 2,
-        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP);
-    this.isFullscreen.setPosition(
-    		Window.getHalfWidth() - isFullscreen.getSize() / 2,
-    		Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 4 + GAP_LARGE);
-    options.setPosition(
-        Window.getHalfWidth() - options.getSize() / 2,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS - SEPARATOR_GAP);
-    separatorTop.setPosition(
-        Window.getHalfWidth() - separatorTop.getSize() / 2,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS);
-    separatorBot.setPosition(
-        Window.getHalfWidth() - separatorBot.getSize() / 2,
-        Window.getHalfHeight() + SEPARATOR_BOT_POS);
-    musicVolume.setPosition(
-        Window.getHalfWidth() - musicVolume.getSize() / 2,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP);
-    fullScreen.setPosition(
-    		Window.getHalfWidth() - fullScreen.getSize() / 2,
-    		Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 3 + GAP_LARGE);
+    this.fullScreen = new TextObject("Fullscreen", SMALL);
+    this.fullScreen.setColour(YELLOW);
 
     guiObjects =
         new GuiObject[] {
@@ -154,6 +129,41 @@ public class OptionsMenu implements IGui {
 
   public TextObject getIsFullscreen() {
   	return isFullscreen;
+  }
+  
+  public void updateSize() {
+    this.bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
+    this.congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
+    this.volume.setPosition(
+        Window.getHalfWidth() - volume.getSize() / 2,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 2);
+    this.incVolume.setPosition(
+        Window.getHalfWidth() - incVolume.getSize() / 2 + 100,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 2);
+    this.decVolume.setPosition(
+        Window.getHalfWidth() - decVolume.getSize() / 2 - 100,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 2);
+    this.exit.setPosition(
+        Window.getHalfWidth() - exit.getSize() / 2,
+        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP);
+    this.isFullscreen.setPosition(
+    		Window.getHalfWidth() - isFullscreen.getSize() / 2,
+    		Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 4 + GAP_LARGE);
+    this.options.setPosition(
+        Window.getHalfWidth() - options.getSize() / 2,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS - SEPARATOR_GAP);
+    this.separatorTop.setPosition(
+        Window.getHalfWidth() - separatorTop.getSize() / 2,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS);
+    this.separatorBot.setPosition(
+        Window.getHalfWidth() - separatorBot.getSize() / 2,
+        Window.getHalfHeight() + SEPARATOR_BOT_POS);
+    this.musicVolume.setPosition(
+        Window.getHalfWidth() - musicVolume.getSize() / 2,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP);
+    this.fullScreen.setPosition(
+    		Window.getHalfWidth() - fullScreen.getSize() / 2,
+    		Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 3 + GAP_LARGE);
   }
   
   @Override

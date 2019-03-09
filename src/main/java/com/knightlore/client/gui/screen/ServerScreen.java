@@ -8,6 +8,7 @@ import com.knightlore.client.ClientState;
 import com.knightlore.client.gui.ServerMenu;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
+import com.knightlore.client.io.Window;
 import com.knightlore.client.render.GuiRenderer;
 import org.joml.Vector4f;
 
@@ -54,9 +55,19 @@ public class ServerScreen implements IScreen {
       Client.changeScreen(ClientState.MAIN_MENU);
     }
   }
+  
+  @Override
+  public void update(float delta) {
+  	if (Window.getUpdateLobbies()) {
+  		menu.updateLobbies();
+  		Window.setUpdateLobbies(false);
+  	}
+  }
 
   @Override
   public void render() {
+  	menu.updateSize();
+  	
     guiRenderer.render(menu);
   }
 

@@ -61,6 +61,8 @@ public class OptionsScreen implements IScreen {
 
   @Override
   public void render() {
+  	optionsMenu.updateSize();
+  	
     guiRenderer.render(optionsMenu);
   }
 

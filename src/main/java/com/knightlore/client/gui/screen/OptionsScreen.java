@@ -10,7 +10,6 @@ import com.knightlore.client.gui.OptionsMenu;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.render.GuiRenderer;
-import org.joml.Vector4f;
 
 public class OptionsScreen implements IScreen {
 

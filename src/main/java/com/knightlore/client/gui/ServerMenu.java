@@ -8,19 +8,7 @@ import com.knightlore.client.gui.engine.graphics.FontTexture;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;
 
-import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
-import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
-
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.GraphicsEnvironment;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-
-import org.lwjgl.glfw.GLFWVidMode;
 
 public class ServerMenu implements IGui {
 
@@ -38,6 +26,7 @@ public class ServerMenu implements IGui {
   private final TextObject congo;
   private final TextObject multiplayer;
   private final TextObject join;
+  private final TextObject refresh;
   private final ArrayList<LobbyObject> servers;
   private GuiObject[] guiObjects;
   private TextObject[] textObjects;
@@ -70,6 +59,9 @@ public class ServerMenu implements IGui {
 
     this.create = new TextObject("Create game", SMALL);
     this.create.setColour(YELLOW);
+    
+    this.refresh = new TextObject("Refresh", SMALL);
+    this.refresh.setColour(YELLOW);
 
     this.exit = new TextObject("Exit", SMALL);
     this.exit.setColour(YELLOW);
@@ -88,10 +80,10 @@ public class ServerMenu implements IGui {
     }
 
     guiObjects =
-        new GuiObject[] {bongo, congo, multiplayer, separatorTop, separatorBot, join, create, exit};
+        new GuiObject[] {bongo, congo, multiplayer, separatorTop, separatorBot, join, create, exit, refresh};
     length = guiObjects.length;
 
-    textObjects = new TextObject[] {join, create, exit, separatorTop, separatorBot};
+    textObjects = new TextObject[] {join, create, exit, separatorTop, separatorBot, refresh};
 
     addServers();
   }
@@ -233,13 +225,16 @@ public class ServerMenu implements IGui {
         Window.getHalfHeight() + SEPARATOR_BOT_POS);
     this.create.setPosition(
         Window.getHalfWidth() - create.getSize() / 2,
-        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP);
+        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 1);
     this.join.setPosition(
         Window.getHalfWidth() - join.getSize() / 2,
         Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
+    this.refresh.setPosition(
+    		Window.getHalfWidth() - refresh.getSize() / 2,
+    		Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 3);
     this.exit.setPosition(
         Window.getHalfWidth() - exit.getSize() / 2,
-        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 3);
+        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 4);
     
     int yPos = SEPARATOR_TOP_POS - GAP;
     for (LobbyObject server : servers) {	

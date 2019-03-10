@@ -10,13 +10,18 @@ public class CoordinateUtils {
 
   private static Vector3f toIsometric(float x, float y) {
     return new Vector3f(
-        (x * TileGameObject.TILE_WIDTH / 2) - (y * TileGameObject.TILE_WIDTH / 2),
-        (y * TileGameObject.TILE_HEIGHT / 2) + (x * TileGameObject.TILE_HEIGHT / 2),
-        0);
+        (x - y) * TileGameObject.TILE_WIDTH / 2, (y + x) * TileGameObject.TILE_HEIGHT / 2, 0);
   }
 
   public static Vector3f toIsometric(Vector3f pos) {
     return toIsometric(pos.x + pos.z, pos.y + pos.z);
+  }
+
+  public static Vector3f toCartesian(float x, float y) {
+    return new Vector3f(
+        x / TileGameObject.TILE_WIDTH + y / TileGameObject.TILE_HEIGHT,
+        y / TileGameObject.TILE_HEIGHT - x / TileGameObject.TILE_WIDTH,
+        0);
   }
 
   public static boolean mapHasPosition(Vector3i map, Vector3i position) {
@@ -28,7 +33,7 @@ public class CoordinateUtils {
         && position.z <= map.z;
   }
 
-    public static Vector3i getTileCoord(Vector3f coord) {
-        return new Vector3i(((int) Math.floor(coord.x)), ((int) Math.floor(coord.y)), ((int) coord.z));
-    }
+  public static Vector3i getTileCoord(Vector3f coord) {
+    return new Vector3i(((int) Math.floor(coord.x)), ((int) Math.floor(coord.y)), ((int) coord.z));
+  }
 }

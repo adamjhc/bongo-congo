@@ -24,28 +24,28 @@ public class OptionsScreen implements IScreen {
 
   @Override
   public void input() {
-    if (checkPosition(optionsMenu, ">", "")) {
+    if (checkPosition(optionsMenu, optionsMenu.getIncVolume().getId(), "")) {
       optionsMenu.getIncVolume().setColour();
       if (Mouse.isLeftButtonHeld()) {
         optionsMenu.incVolume();
         Audio.incVolume();
       }
-    } else optionsMenu.getIncVolume().setColour(new Vector4f(1, 1, 0, 1));
+    } else optionsMenu.getIncVolume().setColour(YELLOW);
 
-    if (checkPosition(optionsMenu, "<", "")) {
+    if (checkPosition(optionsMenu, optionsMenu.getDecVolume().getId(), "")) {
       optionsMenu.getDecVolume().setColour();
       if (Mouse.isLeftButtonHeld()) {
         optionsMenu.decVolume();
         Audio.decVolume();
       }
-    } else optionsMenu.getDecVolume().setColour(new Vector4f(1, 1, 0, 1));
+    } else optionsMenu.getDecVolume().setColour(YELLOW);
 
-    if (checkPosition(optionsMenu, "Exit", "")) {
+    if (checkPosition(optionsMenu, optionsMenu.getExit().getId(), "")) {
       optionsMenu.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Client.changeScreen(ClientState.MAIN_MENU);
       }
-    } else optionsMenu.getExit().setColour(new Vector4f(1, 1, 0, 1));
+    } else optionsMenu.getExit().setColour(YELLOW);
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU);

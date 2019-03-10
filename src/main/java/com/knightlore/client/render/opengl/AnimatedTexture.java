@@ -22,6 +22,12 @@ public class AnimatedTexture implements Texture {
   /** The target amount of time between each frame update */
   private double interval;
 
+  private boolean loop;
+
+  public AnimatedTexture(String textureFileName, int noOfFrames, int fps) {
+    this(textureFileName, noOfFrames, fps, true);
+  }
+
   /**
    * Initialise the Animated texture
    *
@@ -29,7 +35,7 @@ public class AnimatedTexture implements Texture {
    * @param noOfFrames Number of frames in the animation
    * @param fps Number of frames to render every second
    */
-  public AnimatedTexture(String textureFileName, int noOfFrames, int fps) {
+  public AnimatedTexture(String textureFileName, int noOfFrames, int fps, boolean loop) {
     frames = new ArrayList<>(noOfFrames);
     for (int i = 0; i < noOfFrames; i++) {
       frames.add(i, new StaticTexture(textureFileName + "_" + i));
@@ -39,6 +45,8 @@ public class AnimatedTexture implements Texture {
     delta = 0;
     previousTime = glfwGetTime();
     interval = 1.0 / fps;
+
+    this.loop = loop;
   }
 
   /**
@@ -68,20 +76,26 @@ public class AnimatedTexture implements Texture {
    */
   @Override
   public void bind(int sampler) {
-    double currentTime = glfwGetTime();
-    delta += currentTime - previousTime;
-    previousTime = currentTime;
+    if (currentTextureIndex < frames.size() - 1) {
+      double currentTime = glfwGetTime();
+      delta += currentTime - previousTime;
+      previousTime = currentTime;
 
-    if (delta >= interval) {
-      delta = 0;
-      currentTextureIndex++;
-    }
+      if (delta >= interval) {
+        delta = 0;
+        currentTextureIndex++;
+      }
 
-    if (currentTextureIndex == frames.size()) {
-      currentTextureIndex = 0;
+      if (currentTextureIndex == frames.size() - 1 && loop) {
+        currentTextureIndex = 0;
+      }
     }
 
     frames.get(currentTextureIndex).bind(sampler);
+  }
+
+  public void reset() {
+    currentTextureIndex = 0;
   }
 
   public void cleanup() {

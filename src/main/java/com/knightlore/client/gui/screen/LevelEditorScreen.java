@@ -14,6 +14,12 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_8;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_9;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.io.Keyboard;
@@ -25,6 +31,9 @@ import com.knightlore.game.GameModel;
 import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.TileType;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
+
+import static com.knightlore.client.util.GuiUtils.checkPosition;
 
 public class LevelEditorScreen implements IScreen {
 
@@ -146,10 +155,38 @@ public class LevelEditorScreen implements IScreen {
         gameModel.addPlayer("1");
         Client.changeScreen(ClientState.TESTING_LEVEL, gameModel);
       }
+
     }
+    
+    if (checkPosition(levelEditorHud, levelEditorHud.getSave().getId(), "")) {
+  	  levelEditorHud.getSave().setColour();
+  	  if (Mouse.isLeftButtonPressed()) {
+  		  try {
+  			  save(false);
+  		  } catch (Exception e) {
+  			  e.printStackTrace();
+  		  }
+  	  }
+    } else levelEditorHud.getSave().setColour(new Vector4f(1, 1, 0, 1));
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU);
     }
+  }
+  
+  private void save(boolean levelIsComplete) throws IOException {
+	  String filePath = "customMaps/";
+	  if (levelIsComplete) {
+		  filePath = filePath + "playable/";
+	  } else {
+		  filePath = filePath + "unplayable/";
+	  }
+	  
+	  GsonBuilder builder = new GsonBuilder();
+	  Gson gson = builder.create();
+	  
+	  String jsonString = gson.toJson(editorMap);
+	  
+	  (new BufferedWriter(new FileWriter(filePath + "customMap.umap"))).write(jsonString);;
   }
 }

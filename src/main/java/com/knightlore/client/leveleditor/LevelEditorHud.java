@@ -4,6 +4,8 @@ import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.gui.engine.graphics.FontTexture;
+import com.knightlore.client.io.Window;
+
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
@@ -18,6 +20,8 @@ public class LevelEditorHud implements IGui {
   private static final Font FONT_LARGE = new Font("Press Start 2P", Font.PLAIN, 40);
 
   private static final String CHARSET = "ISO-8859-1";
+  
+  private final TextObject save;
 
   private TextObject[] textObjects;
   private GuiObject[] guiObjects;
@@ -34,13 +38,17 @@ public class LevelEditorHud implements IGui {
 
     FontTexture fontTextureLarge = new FontTexture(FONT_LARGE, CHARSET);
 
-    TextObject save = new TextObject("Save", fontTextureLarge);
-    save.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    this.save = new TextObject("Save", fontTextureLarge);
+    this.save.getMesh().getMaterial().setColour(YELLOW);
 
-    // this.save.setPosition(window.getWidth()/2+460, window.getHeight()/2-350, 0);
+    this.save.setPosition(Window.getWidth()-save.getSize()*1.1f, 10);
 
     guiObjects = new GuiObject[] {save};
     textObjects = new TextObject[] {save};
+  }
+  
+  public TextObject getSave() {
+	  return save;
   }
 
   @Override

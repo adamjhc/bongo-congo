@@ -80,6 +80,10 @@ public class TileGameObject extends GameObject {
    * @param camera Camera projection
    */
   public void render(ShaderProgram shaderProgram, Matrix4f world, Matrix4f camera) {
+    render(shaderProgram, world, camera, 0);
+  }
+
+  public void render(ShaderProgram shaderProgram, Matrix4f world, Matrix4f camera, int highlight) {
     if (texture != null) {
       shaderProgram.bind();
 
@@ -89,6 +93,7 @@ public class TileGameObject extends GameObject {
 
       shaderProgram.setUniform("sampler", 0);
       shaderProgram.setUniform("projection", position);
+      shaderProgram.setUniform("highlight", highlight);
 
       model.render();
     }

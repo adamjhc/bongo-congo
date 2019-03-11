@@ -49,28 +49,28 @@ public class LevelEditorHud implements IGui {
     FontTexture fontTextureSmall = new FontTexture(FONT_SMALL, CHARSET);
 
     this.save = new TextObject("Save", fontTextureLarge);
-    this.save.setColour(YELLOW);
+    this.save.setColour(Colour.YELLOW);
 
     this.tiles = new TextObject("Tiles", fontTextureMedium);
-    this.tiles.setColour(YELLOW);
+    this.tiles.setColour(Colour.YELLOW);
     
     this.empty = new TextObject("Empty", fontTextureSmall);
-    this.empty.setColour(YELLOW);
+    this.empty.setColour(Colour.YELLOW);
     
     this.floor = new TextObject("Floor", fontTextureSmall);
-    this.floor.setColour(YELLOW);
+    this.floor.setColour(Colour.YELLOW);
     
     this.slab = new TextObject("Slab", fontTextureSmall);
-    this.slab.setColour(YELLOW);
+    this.slab.setColour(Colour.YELLOW);
     
     this.block = new TextObject("Block", fontTextureSmall);
-    this.block.setColour(YELLOW);
+    this.block.setColour(Colour.YELLOW);
     
     this.hazard = new TextObject("Hazard", fontTextureSmall);
-    this.hazard.setColour(YELLOW);
+    this.hazard.setColour(Colour.YELLOW);
     
     this.finish = new TextObject("Finish", fontTextureSmall);
-    this.finish.setColour(YELLOW);
+    this.finish.setColour(Colour.YELLOW);
     
     
     this.save.setPosition(Window.getWidth()-save.getSize()*1.1f, 10);

@@ -100,11 +100,10 @@ public class PreLevelEditor implements IGui {
     this.createLevel.setColour(Colour.YELLOW);
 
     this.exit = new TextObject("Exit", SMALL);
-<<<<<<< HEAD
-    this.exit.setColour(YELLOW);
+    this.exit.setColour(Colour.YELLOW);
     
     this.loadLevel = new TextObject("Load Level", SMALL);
-    this.loadLevel.setColour(YELLOW);
+    this.loadLevel.setColour(Colour.YELLOW);
 
     bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
     congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
@@ -294,6 +293,10 @@ public class PreLevelEditor implements IGui {
     return createLevel;
   }
   
+  public TextObject getLoadLevel() {
+	  return loadLevel;
+  }
+  
   public void updateSize() {
     this.bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
     this.congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
@@ -354,7 +357,11 @@ public class PreLevelEditor implements IGui {
 
     this.exit.setPosition(
         Window.getHalfWidth() - exit.getSize() / 2,
-        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
+        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 3);
+    
+    this.loadLevel.setPosition(
+    		Window.getHalfWidth() - loadLevel.getSize() / 2,
+    		Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
   }
 
   @Override

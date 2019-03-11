@@ -7,13 +7,6 @@ import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.gui.engine.graphics.FontTexture;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.GraphicsEnvironment;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 public class ServerMenu implements IGui {
@@ -39,30 +32,30 @@ public class ServerMenu implements IGui {
 
   public ServerMenu() {
     TextObject bongo = new TextObject("Bongo", TITLE);
-    bongo.setColour(LIGHT_BLUE);
+    bongo.setColour(Colour.LIGHT_BLUE);
 
     TextObject congo = new TextObject("Congo", TITLE);
-    congo.setColour(RED);
+    congo.setColour(Colour.RED);
 
     TextObject multiplayer = new TextObject("Play Multiplayer", SMALL);
-    multiplayer.setColour(YELLOW);
+    multiplayer.setColour(Colour.YELLOW);
 
     this.separatorTop = new TextObject("------------------------------", SMALL);
-    this.separatorTop.setColour(YELLOW);
+    this.separatorTop.setColour(Colour.YELLOW);
     this.separatorTop.setId("Separator Top");
 
     this.separatorBot = new TextObject("------------------------------", SMALL);
-    this.separatorBot.setColour(YELLOW);
+    this.separatorBot.setColour(Colour.YELLOW);
     this.separatorBot.setId("Separator Bot");
 
     TextObject join = new TextObject("Join game", SMALL);
-    join.setColour(YELLOW);
+    join.setColour(Colour.YELLOW);
 
     this.create = new TextObject("Create game", SMALL);
-    this.create.setColour(YELLOW);
+    this.create.setColour(Colour.YELLOW);
 
     this.exit = new TextObject("Exit", SMALL);
-    this.exit.setColour(YELLOW);
+    this.exit.setColour(Colour.YELLOW);
 
     bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
     congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
@@ -92,7 +85,7 @@ public class ServerMenu implements IGui {
     }
 
     for (LobbyObject server : servers) {
-      server.setColour(YELLOW);
+      server.setColour(Colour.YELLOW);
       server.setPosition(
           Window.getHalfWidth() - server.getSize() / 2, Window.getHalfHeight() - yPos);
       yPos -= GAP;
@@ -108,11 +101,11 @@ public class ServerMenu implements IGui {
   }
 
   public void createServer() {
-  	System.out.println(MAX_SERVERS);
+    System.out.println(MAX_SERVERS);
     FontTexture fontTexture = new FontTexture(FONT_SMALL, CHARSET);
 
     LobbyObject newServer = new LobbyObject("New Server " + servers.size(), fontTexture);
-    newServer.setColour(YELLOW);
+    newServer.setColour(Colour.YELLOW);
     newServer.setPosition(
         Window.getHalfWidth() - newServer.getSize() / 2,
         Window.getHalfHeight() - yPos - (current * GAP));
@@ -199,7 +192,7 @@ public class ServerMenu implements IGui {
         server.setHighlighted();
         server.setText(server.getText().substring(4, server.getText().length() - 4));
         server.setPositionX(Window.getHalfWidth() - server.getSize() / 2);
-        server.setColour(YELLOW);
+        server.setColour(Colour.YELLOW);
       }
     }
   }

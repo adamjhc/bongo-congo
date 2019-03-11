@@ -6,11 +6,11 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.audio.Audio;
+import com.knightlore.client.gui.Colour;
 import com.knightlore.client.gui.OptionsMenu;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.render.GuiRenderer;
-import org.joml.Vector4f;
 
 public class OptionsScreen implements IScreen {
 
@@ -30,7 +30,7 @@ public class OptionsScreen implements IScreen {
         optionsMenu.incVolume();
         Audio.incVolume();
       }
-    } else optionsMenu.getIncVolume().setColour(YELLOW);
+    } else optionsMenu.getIncVolume().setColour(Colour.YELLOW);
 
     if (checkPosition(optionsMenu, optionsMenu.getDecVolume().getId(), "")) {
       optionsMenu.getDecVolume().setColour();
@@ -38,14 +38,14 @@ public class OptionsScreen implements IScreen {
         optionsMenu.decVolume();
         Audio.decVolume();
       }
-    } else optionsMenu.getDecVolume().setColour(YELLOW);
+    } else optionsMenu.getDecVolume().setColour(Colour.YELLOW);
 
     if (checkPosition(optionsMenu, optionsMenu.getExit().getId(), "")) {
       optionsMenu.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Client.changeScreen(ClientState.MAIN_MENU);
       }
-    } else optionsMenu.getExit().setColour(YELLOW);
+    } else optionsMenu.getExit().setColour(Colour.YELLOW);
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU);

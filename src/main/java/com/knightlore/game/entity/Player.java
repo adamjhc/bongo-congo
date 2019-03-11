@@ -6,6 +6,7 @@ import com.knightlore.game.map.Tile;
 import com.knightlore.game.util.CoordinateUtils;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
+import org.joml.Vector4f;
 
 public class Player extends Entity {
 
@@ -16,9 +17,9 @@ public class Player extends Entity {
   private boolean fallFlag = false;
   private PlayerState playerState;
   private String associatedSession;
-  private Vector3f colour;
+  private Vector4f colour;
 
-  public Player(String sessionID, int id, Vector3f colour) {
+  public Player(String sessionID, int id, Vector4f colour) {
     this.associatedSession = sessionID;
     this.id = id;
     this.colour = colour;
@@ -44,7 +45,7 @@ public class Player extends Entity {
     this.playerState = playerState;
   }
 
-  public Vector3f getColour() {
+  public Vector4f getColour() {
     return colour;
   }
 

@@ -48,7 +48,7 @@ public class MainMenu implements IGui {
     this.options.setColour(Colour.YELLOW);
 
     this.levelEditor = new TextObject("Editor", SMALL);
-    this.levelEditor.getMesh().getMaterial().setColour(Colour.YELLOW);
+    this.levelEditor.setColour(Colour.YELLOW);
 
     this.soundOff.setRender();
 

@@ -50,6 +50,7 @@ public class GameScreen implements IScreen {
       gameModel = (GameModel) args[0];
     }
 
+    hud.renderScores(gameModel);
     Audio.restart();
     Mouse.hideCursor();
     timer.setStartTime();

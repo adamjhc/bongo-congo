@@ -4,6 +4,10 @@ import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Window;
+import com.knightlore.game.GameModel;
+import com.knightlore.game.entity.Player;
+
+import java.util.Map;
 
 import org.joml.Vector4f;
 
@@ -12,7 +16,7 @@ public class Hud implements IGui {
   private static final int SCORE_SIDE_GAP = 4;
   private static final int LIVES_SIDE_GAP = 6;
   private static final int SCORE_HIDE =
-      -SCORE_SIDE_GAP - FONT_SIZE_SMALL * 11 - SCORE_SIDE_GAP - FONT_SIZE_LIVES * 3;
+      - SCORE_SIDE_GAP - FONT_SIZE_SMALL * 11 - SCORE_SIDE_GAP - FONT_SIZE_LIVES * 3;
   private static final int LIVES_HIDE = SCORE_HIDE + FONT_SIZE_SMALL * 11 + SCORE_SIDE_GAP;
 
   private static final int MAX_SCORE = 99999999;
@@ -112,6 +116,7 @@ public class Hud implements IGui {
           counter
         };
     textObjects = new TextObject[] {};
+   
   }
 
   public void moveScore(float move, float targetXPos) {
@@ -186,6 +191,24 @@ public class Hud implements IGui {
   public void updateSize() {
     this.counter.setPosition(Window.getWidth() - counter.getSize()*counter.getScale(),
     		Window.getHeight() - counter.getHeight()*counter.getScale());
+  }
+  
+  public void renderScores(GameModel gameModel) {
+  	Map<String, Player> players = gameModel.getPlayers();
+  	int numPlayers = players.size();
+  	
+  	if (numPlayers == 1) {
+  		player2Score.setRender(false);
+  		player2Lives.setRender(false);
+  		player3Score.setRender(false);
+  		player3Lives.setRender(false);
+  		player4Score.setRender(false);
+  		player4Lives.setRender(false);
+  		player5Score.setRender(false);
+  		player5Lives.setRender(false);
+  		player6Score.setRender(false);
+  		player6Lives.setRender(false);
+  	}
   }
 
   @Override

@@ -144,15 +144,6 @@ public class LevelEditorScreen implements IScreen {
         currentTileX += 1;
         currentTileY -= 1;
       }
-    } else if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)) {
-      int id = editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].getType().ordinal();
-      if (id == 5) {
-        editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
-            TileType.values()[0]);
-      } else {
-        editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
-            TileType.values()[id + 1]);
-      }
     } else if (Keyboard.isKeyReleased(GLFW_KEY_ENTER)) {
       try {
         gameModel.overwriteCurrentLevel(editorMap);
@@ -175,6 +166,54 @@ public class LevelEditorScreen implements IScreen {
   		  }
   	  }
     } else levelEditorHud.getSave().setColour(new Vector4f(1, 1, 0, 1));
+    
+    if (checkPosition(levelEditorHud, levelEditorHud.getEmpty().getId(), "")) {
+    	levelEditorHud.getEmpty().setColour();
+    	if (Mouse.isLeftButtonPressed()) {
+    	editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
+                TileType.values()[0]);
+    	}
+    } else levelEditorHud.getEmpty().setColour(new Vector4f(1, 1, 0, 1));
+    
+    if (checkPosition(levelEditorHud, levelEditorHud.getFloor().getId(), "")) {
+    	levelEditorHud.getFloor().setColour();
+    	if (Mouse.isLeftButtonPressed()) {
+    		editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
+    	            TileType.values()[1]);
+    	}
+    } else levelEditorHud.getFloor().setColour(new Vector4f(1, 1, 0, 1));
+    
+    if (checkPosition(levelEditorHud, levelEditorHud.getSlab().getId(), "")) {
+    	levelEditorHud.getSlab().setColour();
+    	if (Mouse.isLeftButtonPressed()) {
+    		editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
+    	            TileType.values()[2]);
+    	}
+    } else levelEditorHud.getSlab().setColour(new Vector4f(1, 1, 0, 1));
+    
+    if (checkPosition(levelEditorHud, levelEditorHud.getBlock().getId(), "")) {
+    	levelEditorHud.getBlock().setColour();
+    	if (Mouse.isLeftButtonPressed()) {
+    		editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
+    	            TileType.values()[3]);
+    	}
+    } else levelEditorHud.getBlock().setColour(new Vector4f(1, 1, 0, 1));
+    
+    if (checkPosition(levelEditorHud, levelEditorHud.getHazard().getId(), "")) {
+    	levelEditorHud.getHazard().setColour();
+    	if (Mouse.isLeftButtonPressed()) {
+    		editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
+    	            TileType.values()[4]);
+    	}
+    } else levelEditorHud.getHazard().setColour(new Vector4f(1, 1, 0, 1));
+    
+    if (checkPosition(levelEditorHud, levelEditorHud.getFinish().getId(), "")) {
+    	levelEditorHud.getFinish().setColour();
+    	if (Mouse.isLeftButtonPressed()) {
+    		editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
+    	            TileType.values()[5]);
+    	}
+    } else levelEditorHud.getFinish().setColour(new Vector4f(1, 1, 0, 1));
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU);

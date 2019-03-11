@@ -22,6 +22,13 @@ public class LevelEditorHud implements IGui {
   private static final String CHARSET = "ISO-8859-1";
   
   private final TextObject save;
+  private final TextObject tiles;
+  private final TextObject empty;
+  private final TextObject floor;
+  private final TextObject slab;
+  private final TextObject block;
+  private final TextObject hazard;
+  private final TextObject finish;
 
   private TextObject[] textObjects;
   private GuiObject[] guiObjects;
@@ -37,18 +44,79 @@ public class LevelEditorHud implements IGui {
     }
 
     FontTexture fontTextureLarge = new FontTexture(FONT_LARGE, CHARSET);
+    FontTexture fontTextureMedium = new FontTexture(FONT_MEDIUM, CHARSET);
+    FontTexture fontTextureSmall = new FontTexture(FONT_SMALL, CHARSET);
 
     this.save = new TextObject("Save", fontTextureLarge);
     this.save.setColour(YELLOW);
 
+    this.tiles = new TextObject("Tiles", fontTextureMedium);
+    this.tiles.setColour(YELLOW);
+    
+    this.empty = new TextObject("Empty", fontTextureSmall);
+    this.empty.setColour(YELLOW);
+    
+    this.floor = new TextObject("Floor", fontTextureSmall);
+    this.floor.setColour(YELLOW);
+    
+    this.slab = new TextObject("Slab", fontTextureSmall);
+    this.slab.setColour(YELLOW);
+    
+    this.block = new TextObject("Block", fontTextureSmall);
+    this.block.setColour(YELLOW);
+    
+    this.hazard = new TextObject("Hazard", fontTextureSmall);
+    this.hazard.setColour(YELLOW);
+    
+    this.finish = new TextObject("Finish", fontTextureSmall);
+    this.finish.setColour(YELLOW);
+    
+    
     this.save.setPosition(Window.getWidth()-save.getSize()*1.1f, 10);
+    
+    this.tiles.setPosition(Window.getWidth()/2-tiles.getSize()/2, Window.getHeight()-tiles.getHeight()-GAP*4);
+    
+    this.empty.setPosition(Window.getWidth()/2-empty.getSize()-GAP*18, Window.getHeight()-empty.getHeight()-GAP);
+    this.floor.setPosition(Window.getWidth()/2-floor.getSize()-GAP*10, Window.getHeight()-floor.getHeight()-GAP);
+    this.slab.setPosition(Window.getWidth()/2-slab.getSize()-GAP*2, Window.getHeight()-slab.getHeight()-GAP);
+    this.block.setPosition(Window.getWidth()/2-block.getSize()+GAP*6, Window.getHeight()-block.getHeight()-GAP);
+    this.hazard.setPosition(Window.getWidth()/2-hazard.getSize()+GAP*14, Window.getHeight()-hazard.getHeight()-GAP);
+    this.finish.setPosition(Window.getWidth()/2-finish.getSize()+GAP*22, Window.getHeight()-finish.getHeight()-GAP);
 
-    guiObjects = new GuiObject[] {save};
-    textObjects = new TextObject[] {save};
+    guiObjects = new GuiObject[] {save, tiles, empty, floor, slab, block, hazard, finish};
+    textObjects = new TextObject[] {save, empty, floor, slab, block, hazard, finish};
   }
   
   public TextObject getSave() {
 	  return save;
+  }
+  
+  public TextObject getTiles() {
+	  return tiles;
+  }
+  
+  public TextObject getEmpty() {
+	  return empty;
+  }
+  
+  public TextObject getFloor() {
+	  return floor;
+  }
+  
+  public TextObject getSlab() {
+	  return slab;
+  }
+  
+  public TextObject getBlock() {
+	  return block;
+  }
+  
+  public TextObject getHazard() {
+	  return hazard;
+  }
+  
+  public TextObject getFinish() {
+	  return finish;
   }
 
   @Override

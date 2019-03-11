@@ -37,6 +37,10 @@ import static com.knightlore.client.util.GuiUtils.checkPosition;
 
 public class LevelEditorScreen implements IScreen {
 
+  private int WIDTH;
+  private int HEIGHT;
+  private int LENGTH;
+
   private LevelEditorRenderer levelEditorRenderer;
   private LevelEditorHud levelEditorHud;
 
@@ -53,10 +57,13 @@ public class LevelEditorScreen implements IScreen {
   @Override
   public void startup(Object... args) {
     editorMap = (LevelMap) args[0];
+    WIDTH = editorMap.getTiles()[0][0].length;
+    LENGTH = editorMap.getTiles()[0].length;
+    HEIGHT = editorMap.getTiles().length;
     gameModel = new GameModel("");
     cameraPosition = new Vector3f(0, 0, 0);
-    currentTileX = 0;
-    currentTileY = 0;
+    currentTileX = 14;
+    currentTileY = 1;
     currentTileZ = 0;
   }
 
@@ -138,12 +145,12 @@ public class LevelEditorScreen implements IScreen {
         currentTileY -= 1;
       }
     } else if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)) {
-      int id = editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].getType().ordinal();
+      int id = editorMap.getTiles()[currentTileZ][currentTileY-1][currentTileX-14].getType().ordinal();
       if (id == 5) {
-        editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
+        editorMap.getTiles()[currentTileZ][currentTileY-1][currentTileX-14].setType(
             TileType.values()[0]);
       } else {
-        editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
+        editorMap.getTiles()[currentTileZ][currentTileY-1][currentTileX-14].setType(
             TileType.values()[id + 1]);
       }
     } else if (Keyboard.isKeyReleased(GLFW_KEY_ENTER)) {
@@ -155,6 +162,22 @@ public class LevelEditorScreen implements IScreen {
         gameModel.addPlayer("1");
         Client.changeScreen(ClientState.TESTING_LEVEL, gameModel);
       }
+
+    }
+    
+    if (Mouse.isLeftButtonPressed()) {
+    	int mouseTileX = levelEditorRenderer.getMouseTilePos().x;
+    	int mouseTileY = levelEditorRenderer.getMouseTilePos().y;
+    	int mouseTileZ = levelEditorRenderer.getMouseTilePos().z;
+    	
+    	if (mouseTileX-14 >= 0 && mouseTileX-14 < WIDTH)
+    		currentTileX = mouseTileX;
+    	if (mouseTileY-1 >= 0 && mouseTileY-1 < LENGTH)
+    		currentTileY = mouseTileY;
+    	if (mouseTileZ >= 0 && mouseTileZ < HEIGHT)
+    		currentTileZ = mouseTileZ;
+    	
+    	levelEditorRenderer.setCurrentTiles(currentTileX, currentTileY, currentTileZ);
 
     }
     

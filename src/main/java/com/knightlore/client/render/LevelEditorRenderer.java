@@ -31,9 +31,19 @@ public class LevelEditorRenderer extends Renderer {
   private float viewY;
 
   private GuiRenderer hudRenderer;
+  
+  private int currentTileX ;
+  private int currentTileY;
+  private int currentTileZ;
+  
+  private Vector3i mouseTilePos;
 
   public LevelEditorRenderer() {
     super();
+    
+    currentTileX = 0;
+    currentTileY = 0;
+    currentTileZ = 0;
 
     setupWorld();
     setupHud();
@@ -94,7 +104,7 @@ public class LevelEditorRenderer extends Renderer {
                 new Vector2f()),
             0);
 
-    Vector3i mouseTilePos =
+    mouseTilePos =
         CoordinateUtils.getTileCoord(CoordinateUtils.toCartesian(mouseWorldPos.x, mouseWorldPos.y));
 
     Tile[][][] tiles = levelMap.getTiles();
@@ -109,7 +119,8 @@ public class LevelEditorRenderer extends Renderer {
             tileGameObject.setIsometricPosition(isoTilePos);
             tileGameObject.setModelPosition(modelPosition);
 
-            int highlight = mouseTilePos.equals(x + 14, y + 1, z) ? 1 : 0;
+            //int highlight = mouseTilePos.equals(currentTileX + 14, currentTileY + 1, currentTileZ) ? 1 : 0;
+            int highlight = (x == currentTileX-14 && y == currentTileY-1 && z == currentTileZ) ? 1 : 0;
             tileGameObject.render(
                 shaderProgram, world.getProjection(), camera.getProjection(), highlight);
           }
@@ -123,6 +134,16 @@ public class LevelEditorRenderer extends Renderer {
         && isometricPosition.y + viewY >= gameObjectPosition.y
         && isometricPosition.x - viewX <= gameObjectPosition.x - gameObjectPosition.z
         && isometricPosition.y - viewY <= gameObjectPosition.y - gameObjectPosition.z;
+  }
+  
+  public void setCurrentTiles(int x, int y, int z) {
+	  currentTileX = x;
+	  currentTileY = y;
+	  currentTileZ = z;
+  }
+  
+  public Vector3i getMouseTilePos() {
+	  return mouseTilePos;
   }
 
   @Override

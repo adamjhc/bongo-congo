@@ -25,6 +25,7 @@ import com.knightlore.game.GameModel;
 import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.TileType;
 import org.joml.Vector3f;
+import org.joml.Vector3i;
 
 public class LevelEditorScreen implements IScreen {
 
@@ -33,7 +34,7 @@ public class LevelEditorScreen implements IScreen {
 
   private GameModel gameModel;
   private Vector3f cameraPosition;
-  private int currentTileX, currentTileY, currentTileZ;
+  private Vector3i selectedTilePosition;
   private LevelMap editorMap;
 
   public LevelEditorScreen(LevelEditorRenderer levelEditorRenderer) {
@@ -45,10 +46,8 @@ public class LevelEditorScreen implements IScreen {
   public void startup(Object... args) {
     editorMap = (LevelMap) args[0];
     gameModel = new GameModel("");
-    cameraPosition = new Vector3f(0, 0, 0);
-    currentTileX = 0;
-    currentTileY = 0;
-    currentTileZ = 0;
+    cameraPosition = new Vector3f();
+    selectedTilePosition = new Vector3i();
   }
 
   @Override
@@ -59,7 +58,7 @@ public class LevelEditorScreen implements IScreen {
 
   @Override
   public void render() {
-    levelEditorRenderer.render(editorMap, cameraPosition, levelEditorHud);
+    levelEditorRenderer.render(editorMap, levelEditorHud, cameraPosition, selectedTilePosition);
   }
 
   @Override
@@ -83,58 +82,58 @@ public class LevelEditorScreen implements IScreen {
 
   private void levelEditorInput() {
     if (Keyboard.isKeyReleased(GLFW_KEY_KP_9)) {
-      if (currentTileX != editorMap.getTiles()[currentTileZ][currentTileY].length - 1) {
-        currentTileX += 1;
+      if (selectedTilePosition.x != editorMap.getTiles()[selectedTilePosition.z][selectedTilePosition.y].length - 1) {
+        selectedTilePosition.x += 1;
       }
     } else if (Keyboard.isKeyReleased(GLFW_KEY_KP_1)) {
-      if (currentTileX != 0) {
-        currentTileX -= 1;
+      if (selectedTilePosition.x != 0) {
+        selectedTilePosition.x -= 1;
       }
     } else if (Keyboard.isKeyReleased(GLFW_KEY_KP_7)) {
-      if (currentTileY != editorMap.getTiles()[currentTileZ].length - 1) {
-        currentTileY += 1;
+      if (selectedTilePosition.y != editorMap.getTiles()[selectedTilePosition.z].length - 1) {
+        selectedTilePosition.y += 1;
       }
     } else if (Keyboard.isKeyReleased(GLFW_KEY_KP_3)) {
-      if (currentTileY != 0) {
-        currentTileY -= 1;
+      if (selectedTilePosition.y != 0) {
+        selectedTilePosition.y -= 1;
       }
     } else if (Keyboard.isKeyReleased(GLFW_KEY_KP_5)) {
-      if (currentTileZ != editorMap.getTiles().length - 1) {
-        currentTileZ += 1;
+      if (selectedTilePosition.z != editorMap.getTiles().length - 1) {
+        selectedTilePosition.z += 1;
       }
     } else if (Keyboard.isKeyReleased(GLFW_KEY_KP_0)) {
-      if (currentTileZ != 0) {
-        currentTileZ -= 1;
+      if (selectedTilePosition.z != 0) {
+        selectedTilePosition.z -= 1;
       }
     } else if (Keyboard.isKeyReleased(GLFW_KEY_KP_8)) {
-      if (currentTileX != editorMap.getTiles()[currentTileZ][currentTileY].length - 1
-          && currentTileY != editorMap.getTiles()[currentTileZ].length - 1) {
-        currentTileX += 1;
-        currentTileY += 1;
+      if (selectedTilePosition.x != editorMap.getTiles()[selectedTilePosition.z][selectedTilePosition.y].length - 1
+          && selectedTilePosition.y != editorMap.getTiles()[selectedTilePosition.z].length - 1) {
+        selectedTilePosition.x += 1;
+        selectedTilePosition.y += 1;
       }
     } else if (Keyboard.isKeyReleased(GLFW_KEY_KP_2)) {
-      if (currentTileX != 0 && currentTileY != 0) {
-        currentTileX -= 1;
-        currentTileY -= 1;
+      if (selectedTilePosition.x != 0 && selectedTilePosition.y != 0) {
+        selectedTilePosition.x -= 1;
+        selectedTilePosition.y -= 1;
       }
     } else if (Keyboard.isKeyReleased(GLFW_KEY_KP_4)) {
-      if (currentTileX != 0 && currentTileY != editorMap.getTiles()[currentTileZ].length - 1) {
-        currentTileX -= 1;
-        currentTileY += 1;
+      if (selectedTilePosition.x != 0 && selectedTilePosition.y != editorMap.getTiles()[selectedTilePosition.z].length - 1) {
+        selectedTilePosition.x -= 1;
+        selectedTilePosition.y += 1;
       }
     } else if (Keyboard.isKeyReleased(GLFW_KEY_KP_6)) {
-      if (currentTileX != editorMap.getTiles()[currentTileZ][currentTileY].length - 1
-          && currentTileY != 0) {
-        currentTileX += 1;
-        currentTileY -= 1;
+      if (selectedTilePosition.x != editorMap.getTiles()[selectedTilePosition.z][selectedTilePosition.y].length - 1
+          && selectedTilePosition.y != 0) {
+        selectedTilePosition.x += 1;
+        selectedTilePosition.y -= 1;
       }
     } else if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)) {
-      int id = editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].getType().ordinal();
+      int id = editorMap.getTiles()[selectedTilePosition.z][selectedTilePosition.y][selectedTilePosition.x].getType().ordinal();
       if (id == 5) {
-        editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
+        editorMap.getTiles()[selectedTilePosition.z][selectedTilePosition.y][selectedTilePosition.x].setType(
             TileType.values()[0]);
       } else {
-        editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
+        editorMap.getTiles()[selectedTilePosition.z][selectedTilePosition.y][selectedTilePosition.x].setType(
             TileType.values()[id + 1]);
       }
     } else if (Keyboard.isKeyReleased(GLFW_KEY_ENTER)) {

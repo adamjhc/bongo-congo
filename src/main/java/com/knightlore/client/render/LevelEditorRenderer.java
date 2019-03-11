@@ -1,12 +1,5 @@
 package com.knightlore.client.render;
 
-import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
-import static org.lwjgl.opengl.GL11.GL_PROJECTION;
-import static org.lwjgl.opengl.GL11.glLoadIdentity;
-import static org.lwjgl.opengl.GL11.glLoadMatrixf;
-import static org.lwjgl.opengl.GL11.glMatrixMode;
-
-import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;
 import com.knightlore.client.leveleditor.LevelEditorHud;
 import com.knightlore.client.render.opengl.ShaderProgram;
@@ -15,11 +8,8 @@ import com.knightlore.client.render.world.TileGameObjectSet;
 import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.Tile;
 import com.knightlore.game.util.CoordinateUtils;
-import org.joml.Matrix3x2f;
-import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
-import org.lwjgl.system.MemoryStack;
 
 public class LevelEditorRenderer extends Renderer {
 
@@ -52,64 +42,35 @@ public class LevelEditorRenderer extends Renderer {
     hudRenderer = new GuiRenderer();
   }
 
-  public void render(LevelMap levelMap, Vector3f cameraPosition, LevelEditorHud hud) {
+  public void render(
+      LevelMap levelMap,
+      LevelEditorHud hud,
+      Vector3f cameraPosition,
+      Vector3i selectedTilePosition) {
     clearBuffers();
 
-    renderMap(levelMap, cameraPosition);
+    renderMap(levelMap, cameraPosition, selectedTilePosition);
     hudRenderer.renderGui(hud);
 
     swapBuffers();
   }
 
-  private void renderMap(LevelMap levelMap, Vector3f cameraPosition) {
+  private void renderMap(
+      LevelMap levelMap, Vector3f cameraPosition, Vector3i selectedTilePosition) {
     Vector3f cameraIsoPos = CoordinateUtils.toIsometric(cameraPosition);
     camera.setPosition(cameraIsoPos.mul(-World.SCALE, new Vector3f()));
-
-    // Create a camera matrix:
-    Matrix3x2f m =
-        new Matrix3x2f()
-            .view(0, Window.getWidth(), 0, Window.getHeight())
-            .scale(World.SCALE)
-            .translate(-cameraIsoPos.x, -cameraIsoPos.y);
-
-    // Load matrix into OpenGL's matrix stack.
-    // We just use the GL_PROJECTION stack here:
-    glMatrixMode(GL_PROJECTION);
-    try (MemoryStack frame = MemoryStack.stackPush()) {
-      // Call glLoadMatrixf with a column-major buffer holding the 4x4 matrix
-      glLoadMatrixf(m.get4x4(frame.mallocFloat(16)));
-    }
-
-    // GL_MODELVIEW not used here, so set to identity:
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-
-    // Unproject a position in window coordinates to world coordinates:
-    Vector3f mouseWorldPos =
-        new Vector3f(
-            m.unproject(
-                (float) Mouse.getXPos(),
-                Window.getHeight() - (float) Mouse.getYPos(),
-                new int[] {0, 0, Window.getWidth(), Window.getHeight()},
-                new Vector2f()),
-            0);
-
-    Vector3i mouseTilePos =
-        CoordinateUtils.getTileCoord(CoordinateUtils.toCartesian(mouseWorldPos.x, mouseWorldPos.y));
 
     Tile[][][] tiles = levelMap.getTiles();
 
     for (int z = 0; z < tiles.length; z++) {
       for (int y = tiles[z].length - 1; y >= 0; y--) {
         for (int x = tiles[z][y].length - 1; x >= 0; x--) {
-          Vector3f modelPosition = new Vector3f(x, y, z);
-          Vector3f isoTilePos = CoordinateUtils.toIsometric(modelPosition);
+          Vector3f isoTilePos = CoordinateUtils.toIsometric(x, y, z);
           if (isWithinView(cameraIsoPos, isoTilePos)) {
             TileGameObject tileGameObject = TileGameObjectSet.getTile(tiles[z][y][x].getIndex());
             tileGameObject.setIsometricPosition(isoTilePos);
-            tileGameObject.setModelPosition(modelPosition);
 
-            int highlight = mouseTilePos.equals(x + 14, y + 1, z) ? 1 : 0;
+            int highlight = selectedTilePosition.equals(x, y, z) ? 1 : 0;
             tileGameObject.render(
                 shaderProgram, world.getProjection(), camera.getProjection(), highlight);
           }

@@ -62,8 +62,8 @@ public class LevelEditorScreen implements IScreen {
     HEIGHT = editorMap.getTiles().length;
     gameModel = new GameModel("");
     cameraPosition = new Vector3f(0, 0, 0);
-    currentTileX = 14;
-    currentTileY = 1;
+    currentTileX = 0;
+    currentTileY = 0;
     currentTileZ = 0;
   }
 
@@ -145,12 +145,12 @@ public class LevelEditorScreen implements IScreen {
         currentTileY -= 1;
       }
     } else if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)) {
-      int id = editorMap.getTiles()[currentTileZ][currentTileY-1][currentTileX-14].getType().ordinal();
+      int id = editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].getType().ordinal();
       if (id == 5) {
-        editorMap.getTiles()[currentTileZ][currentTileY-1][currentTileX-14].setType(
+        editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
             TileType.values()[0]);
       } else {
-        editorMap.getTiles()[currentTileZ][currentTileY-1][currentTileX-14].setType(
+        editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
             TileType.values()[id + 1]);
       }
     } else if (Keyboard.isKeyReleased(GLFW_KEY_ENTER)) {
@@ -162,22 +162,6 @@ public class LevelEditorScreen implements IScreen {
         gameModel.addPlayer("1");
         Client.changeScreen(ClientState.TESTING_LEVEL, gameModel);
       }
-
-    }
-    
-    if (Mouse.isLeftButtonPressed()) {
-    	int mouseTileX = levelEditorRenderer.getMouseTilePos().x;
-    	int mouseTileY = levelEditorRenderer.getMouseTilePos().y;
-    	int mouseTileZ = levelEditorRenderer.getMouseTilePos().z;
-    	
-    	if (mouseTileX-14 >= 0 && mouseTileX-14 < WIDTH)
-    		currentTileX = mouseTileX;
-    	if (mouseTileY-1 >= 0 && mouseTileY-1 < LENGTH)
-    		currentTileY = mouseTileY;
-    	if (mouseTileZ >= 0 && mouseTileZ < HEIGHT)
-    		currentTileZ = mouseTileZ;
-    	
-    	levelEditorRenderer.setCurrentTiles(currentTileX, currentTileY, currentTileZ);
 
     }
     
@@ -195,6 +179,8 @@ public class LevelEditorScreen implements IScreen {
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU);
     }
+    
+    levelEditorRenderer.setCurrentTiles(currentTileX+14, currentTileY+1, currentTileZ);
   }
   
   private void save(boolean levelIsComplete) throws IOException {

@@ -35,8 +35,6 @@ public class LevelEditorRenderer extends Renderer {
   private int currentTileX ;
   private int currentTileY;
   private int currentTileZ;
-  
-  private Vector3i mouseTilePos;
 
   public LevelEditorRenderer() {
     super();
@@ -94,19 +92,6 @@ public class LevelEditorRenderer extends Renderer {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    // Unproject a position in window coordinates to world coordinates:
-    Vector3f mouseWorldPos =
-        new Vector3f(
-            m.unproject(
-                (float) Mouse.getXPos(),
-                Window.getHeight() - (float) Mouse.getYPos(),
-                new int[] {0, 0, Window.getWidth(), Window.getHeight()},
-                new Vector2f()),
-            0);
-
-    mouseTilePos =
-        CoordinateUtils.getTileCoord(CoordinateUtils.toCartesian(mouseWorldPos.x, mouseWorldPos.y));
-
     Tile[][][] tiles = levelMap.getTiles();
 
     for (int z = 0; z < tiles.length; z++) {
@@ -140,10 +125,6 @@ public class LevelEditorRenderer extends Renderer {
 	  currentTileX = x;
 	  currentTileY = y;
 	  currentTileZ = z;
-  }
-  
-  public Vector3i getMouseTilePos() {
-	  return mouseTilePos;
   }
 
   @Override

@@ -29,8 +29,6 @@ public class Hud implements IGui {
   private final TextObject player6Score;
   private final TextObject player6Lives;
   private final TextObject counter;
-  private final TextObject soundOn;
-  private final TextObject soundOff;
   private GuiObject[] guiObjects;
   private TextObject[] textObjects;
 
@@ -77,16 +75,10 @@ public class Hud implements IGui {
     this.player6Lives.setColour(RED);
     this.player6Lives.setScale((float)FONT_SIZE_SMALL / (float)FONT_SIZE_LIVES);
     
-    this.counter = new TextObject("90", MEDIUM);
+    this.counter = new TextObject("90", LARGE);
     this.counter.setColour(YELLOW);
+    this.counter.setScale(1.5f);
     
-    this.soundOn = new TextObject("(", LARGE);
-    this.soundOn.setColour();
-    this.soundOn.setScale(1.25f);
-
-    this.soundOff = new TextObject("/", MEDIUM);
-    this.soundOff.setColour(RED);
-
     this.player1Score.setPosition(SCORE_SIDE_GAP, SCORE_SIDE_GAP);
     this.player2Score.setPosition(SCORE_HIDE, SCORE_SIDE_GAP + GAP);
     this.player3Score.setPosition(SCORE_HIDE, SCORE_SIDE_GAP + GAP * 2);
@@ -100,8 +92,6 @@ public class Hud implements IGui {
     this.player4Lives.setPosition(LIVES_HIDE, LIVES_SIDE_GAP + GAP * 3);
     this.player5Lives.setPosition(LIVES_HIDE, LIVES_SIDE_GAP + GAP * 4);
     this.player6Lives.setPosition(LIVES_HIDE, LIVES_SIDE_GAP + GAP * 5);
-
-    this.soundOff.setRender();
 
     guiObjects =
         new GuiObject[] {
@@ -117,9 +107,7 @@ public class Hud implements IGui {
           player4Lives,
           player5Lives,
           player6Lives,
-          counter,
-          soundOn,
-          soundOff
+          counter
         };
     textObjects = new TextObject[] {};
   }
@@ -184,14 +172,6 @@ public class Hud implements IGui {
     String text = String.format("%08d", score);
     this.player1Score.setText("P1:" + text);
   }
-
-  public TextObject getSound() {
-    return soundOn;
-  }
-
-  public TextObject getSoundMute() {
-    return soundOff;
-  }
   
   public int getScoreHide() {
   	return SCORE_HIDE;
@@ -202,11 +182,8 @@ public class Hud implements IGui {
   }
   
   public void updateSize() {
-    this.counter.setPosition(Window.getWidth() - 100, Window.getHeight() - counter.getHeight());
-    this.soundOn.setPosition(
-        Window.getWidth() - soundOn.getSize()*soundOn.getScale(), Window.getHeight() - soundOn.getHeight()*soundOn.getScale());
-    this.soundOff.setPosition(
-        Window.getWidth() - soundOff.getSize(), Window.getHeight() - soundOff.getHeight());
+    this.counter.setPosition(Window.getWidth() - counter.getSize()*counter.getScale(),
+    		Window.getHeight() - counter.getHeight()*counter.getScale());
   }
 
   @Override

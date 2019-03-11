@@ -38,6 +38,7 @@ public class PreLevelEditor implements IGui {
   private final TextObject hRight;
   private final TextObject createLevel;
   private final TextObject exit;
+  private final TextObject loadLevel;
   private GuiObject[] guiObjects;
   private TextObject[] textObjects;
 
@@ -104,6 +105,9 @@ public class PreLevelEditor implements IGui {
 
     this.exit = new TextObject("Exit", SMALL);
     this.exit.setColour(YELLOW);
+    
+    this.loadLevel = new TextObject("Load Level", SMALL);
+    this.loadLevel.setColour(YELLOW);
 
     bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
     congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
@@ -161,9 +165,12 @@ public class PreLevelEditor implements IGui {
     this.createLevel.setPosition(
         Window.getHalfWidth() - createLevel.getSize() / 2,
         Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP);
+    
+    this.loadLevel.setPosition(
+        	Window.getHalfWidth() - loadLevel.getSize() / 2, Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
 
     this.exit.setPosition(
-        Window.getHalfWidth() - exit.getSize() / 2, Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
+        Window.getHalfWidth() - exit.getSize() / 2, Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 3);
 
     guiObjects =
         new GuiObject[] {
@@ -185,9 +192,10 @@ public class PreLevelEditor implements IGui {
           separatorTop,
           separatorBottom,
           createLevel,
-          exit
+          exit,
+          loadLevel
         };
-    textObjects = new TextObject[] {wLeft, wRight, lLeft, lRight, hLeft, hRight, createLevel, exit};
+    textObjects = new TextObject[] {wLeft, wRight, lLeft, lRight, hLeft, hRight, createLevel, exit, loadLevel};
   }
 
   public void incWidth() {
@@ -286,6 +294,10 @@ public class PreLevelEditor implements IGui {
 
   public TextObject getCreateLevel() {
     return createLevel;
+  }
+  
+  public TextObject getLoadLevel() {
+	  return loadLevel;
   }
 
   @Override

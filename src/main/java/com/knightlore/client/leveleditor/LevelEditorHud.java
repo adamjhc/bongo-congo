@@ -39,7 +39,7 @@ public class LevelEditorHud implements IGui {
     FontTexture fontTextureLarge = new FontTexture(FONT_LARGE, CHARSET);
 
     this.save = new TextObject("Save", fontTextureLarge);
-    this.save.getMesh().getMaterial().setColour(YELLOW);
+    this.save.setColour(YELLOW);
 
     this.save.setPosition(Window.getWidth()-save.getSize()*1.1f, 10);
 

@@ -89,6 +89,10 @@ public class LevelEditorSetupScreen implements IScreen {
       }
     } else preLevelEditor.getBack().setColour(new Vector4f(1, 1, 0, 1));
     
+    if (checkPosition(preLevelEditor, preLevelEditor.getLoadLevel().getId(), "")) {
+    	preLevelEditor.getLoadLevel().setColour();
+    } else preLevelEditor.getLoadLevel().setColour(new Vector4f(1, 1, 0, 1));
+    
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU);
     }

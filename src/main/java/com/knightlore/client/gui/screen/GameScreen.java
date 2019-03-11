@@ -103,8 +103,7 @@ public class GameScreen implements IScreen {
     int score = gameModel.myPlayer().getScore();
     hud.setP1Score(score);
 
-    Vector3f colour = gameModel.myPlayer().getColour();
-    hud.getP1Score().setColour(new Vector4f(colour.x, colour.y, colour.z, 1));
+    hud.getP1Score().setColour(gameModel.myPlayer().getColour());
 
     if (gameModel.getState() == GameState.NEXT_LEVEL) {
       gameRenderer.init(gameModel);

@@ -3,15 +3,7 @@ package com.knightlore.client.gui;
 import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
-import com.knightlore.client.gui.engine.graphics.FontTexture;
 import com.knightlore.client.io.Window;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.GraphicsEnvironment;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 public class OptionsMenu implements IGui {
 
@@ -30,34 +22,34 @@ public class OptionsMenu implements IGui {
 
   public OptionsMenu() {
     TextObject bongo = new TextObject("Bongo", TITLE);
-    bongo.setColour(LIGHT_BLUE);
+    bongo.setColour(Colour.LIGHT_BLUE);
 
     TextObject congo = new TextObject("Congo", TITLE);
-    congo.setColour(RED);
+    congo.setColour(Colour.RED);
 
     this.incVolume = new TextObject(">", LARGE);
-    this.incVolume.setColour(YELLOW);
+    this.incVolume.setColour(Colour.YELLOW);
 
     this.decVolume = new TextObject("<", LARGE);
-    this.decVolume.setColour(YELLOW);
+    this.decVolume.setColour(Colour.YELLOW);
 
     this.volume = new TextObject("070", LARGE);
-    this.volume.setColour(YELLOW);
+    this.volume.setColour(Colour.YELLOW);
 
     this.exit = new TextObject("Exit", SMALL);
-    this.exit.setColour(YELLOW);
+    this.exit.setColour(Colour.YELLOW);
 
     TextObject options = new TextObject("Options", SMALL);
-    options.setColour(YELLOW);
+    options.setColour(Colour.YELLOW);
 
     TextObject separatorTop = new TextObject("------------------------------", SMALL);
-    separatorTop.setColour(YELLOW);
+    separatorTop.setColour(Colour.YELLOW);
 
     TextObject separatorBot = new TextObject("------------------------------", SMALL);
-    separatorBot.setColour(YELLOW);
+    separatorBot.setColour(Colour.YELLOW);
 
     TextObject musicVolume = new TextObject("Game music volume", SMALL);
-    musicVolume.setColour(YELLOW);
+    musicVolume.setColour(Colour.YELLOW);
 
     bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
     congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
@@ -106,14 +98,14 @@ public class OptionsMenu implements IGui {
     int volumeAmount = Integer.parseInt(this.volume.getText());
     if (volumeAmount < MAX_VOLUME) volumeAmount++;
     this.volume.setText((String.format("%03d", volumeAmount)));
-    this.volume.getMesh().getMaterial().setColour(YELLOW);
+    this.volume.getMesh().getMaterial().setColour(Colour.YELLOW);
   }
 
   public void decVolume() {
     int volumeAmount = Integer.parseInt(this.volume.getText());
     if (volumeAmount > 0) volumeAmount--;
     this.volume.setText((String.format("%03d", volumeAmount)));
-    this.volume.getMesh().getMaterial().setColour(YELLOW);
+    this.volume.getMesh().getMaterial().setColour(Colour.YELLOW);
   }
 
   public TextObject getIncVolume() {

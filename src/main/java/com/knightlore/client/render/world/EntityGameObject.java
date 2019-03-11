@@ -9,6 +9,8 @@ import com.knightlore.game.entity.Entity;
 import java.util.EnumMap;
 import java.util.Map;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 public abstract class EntityGameObject extends GameObject {
 
@@ -18,10 +20,13 @@ public abstract class EntityGameObject extends GameObject {
 
   Map<Direction, StaticTexture> idleTextures;
   Map<Direction, AnimatedTexture> movingTextures;
+  Vector4f colour;
 
   EntityGameObject() {}
 
-  EntityGameObject(String textureFileName) {
+  public EntityGameObject(String textureFileName, Vector4f colour) {
+    this.colour = colour;
+
     idleTextures = new EnumMap<>(Direction.class);
     movingTextures = new EnumMap<>(Direction.class);
     for (Direction direction : Direction.values()) {

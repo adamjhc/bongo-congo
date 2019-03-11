@@ -18,8 +18,8 @@ import org.joml.Vector3f;
 public class PlayerGameObject extends EntityGameObject {
 
   private Map<Direction, AnimatedTexture> climbingTextures;
-  private Map<Direction, AnimatedTexture> fallingTextures;
   private Map<Direction, AnimatedTexture> rollingTextures;
+  private AnimatedTexture fallingTexture;
   private StaticTexture deadTexture;
   private PlayerState currentState;
   private Vector3f colour;
@@ -33,17 +33,15 @@ public class PlayerGameObject extends EntityGameObject {
     super(textureFileName);
 
     climbingTextures = new EnumMap<>(Direction.class);
-    fallingTextures = new EnumMap<>(Direction.class);
     rollingTextures = new EnumMap<>(Direction.class);
 
     for (Direction direction : Direction.values()) {
       String directionPath = textureFileName + "_" + direction.getAbbreviation();
       climbingTextures.put(direction, new AnimatedTexture(directionPath + "_run", 10, 20));
-      //      fallingTextures.put(direction, new AnimatedTexture(directionPath + "_fall", 2, 1,
-      // false));
       rollingTextures.put(direction, new AnimatedTexture(directionPath + "_roll", 10, 2, false));
     }
-    deadTexture = new StaticTexture("player_dead");
+    fallingTexture = new AnimatedTexture(textureFileName + "_fall", 10, 20);
+    deadTexture = new StaticTexture(textureFileName + "_dead");
   }
 
   public static List<PlayerGameObject> fromGameModel(Collection<Player> players) {
@@ -92,7 +90,7 @@ public class PlayerGameObject extends EntityGameObject {
         climbingTextures.get(currentDirection).bind(0);
         break;
       case FALLING:
-        fallingTextures.get(currentDirection).bind(0);
+        fallingTexture.bind(0);
         break;
       case ROLLING:
         rollingTextures.get(currentDirection).bind(0);
@@ -107,7 +105,6 @@ public class PlayerGameObject extends EntityGameObject {
 
   private void resetUnloopedAnimatedTextures() {
     rollingTextures.forEach((direction, animatedTexture) -> animatedTexture.reset());
-    fallingTextures.forEach((direction, animatedTexture) -> animatedTexture.reset());
   }
 
   private void setColour(Vector3f colour) {

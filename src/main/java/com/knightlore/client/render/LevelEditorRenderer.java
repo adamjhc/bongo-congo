@@ -105,7 +105,7 @@ public class LevelEditorRenderer extends Renderer {
             tileGameObject.setModelPosition(modelPosition);
 
             //int highlight = mouseTilePos.equals(currentTileX + 14, currentTileY + 1, currentTileZ) ? 1 : 0;
-            int highlight = (x == currentTileX-14 && y == currentTileY-1 && z == currentTileZ) ? 1 : 0;
+            int highlight = (x == currentTileX && y == currentTileY && z == currentTileZ) ? 1 : 0;
             tileGameObject.render(
                 shaderProgram, world.getProjection(), camera.getProjection(), highlight);
           }

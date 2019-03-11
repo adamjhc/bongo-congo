@@ -219,7 +219,7 @@ public class LevelEditorScreen implements IScreen {
       Client.changeScreen(ClientState.MAIN_MENU);
     }
     
-    levelEditorRenderer.setCurrentTiles(currentTileX+14, currentTileY+1, currentTileZ);
+    levelEditorRenderer.setCurrentTiles(currentTileX, currentTileY, currentTileZ);
   }
   
   private void save(boolean levelIsComplete) throws IOException {

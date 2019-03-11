@@ -12,6 +12,10 @@ import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.io.Mouse;
 
 public class GuiUtils {
+	
+	public static boolean checkPosition(IGui gui, String textObject) {
+		return checkPosition(gui, textObject, "");
+	}
 
   public static boolean checkPosition(IGui gui, String textObject, String textObjectLower) {
     int objectIndex = -1;

@@ -9,6 +9,7 @@ import com.knightlore.client.gui.Colour;
 import com.knightlore.client.gui.ServerMenu;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
+import com.knightlore.client.io.Window;
 import com.knightlore.client.render.GuiRenderer;
 import org.joml.Vector4f;
 
@@ -24,7 +25,8 @@ public class ServerScreen implements IScreen {
 
   @Override
   public void input() {
-    if (checkPosition(menu, menu.getSeparatorTop().getId(), menu.getSeparatorBot().getId())) {
+    if (checkPosition(menu, menu.getSeparatorTop().getId(), 
+    		menu.getSeparatorBot().getId())) {
       if (Mouse.scrolledDown()) {
         menu.moveDown();
       }
@@ -36,14 +38,14 @@ public class ServerScreen implements IScreen {
       }
     }
 
-    if (checkPosition(menu, menu.getCreate().getId(), "")) {
+    if (checkPosition(menu, menu.getCreate().getId())) {
       menu.getCreate().setColour();
       if (Mouse.isLeftButtonPressed()) {
         menu.createServer();
       }
     } else menu.getCreate().setColour(Colour.YELLOW);
 
-    if (checkPosition(menu, menu.getExit().getId(), "")) {
+    if (checkPosition(menu, menu.getExit().getId())) {
       menu.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Client.changeScreen(ClientState.MAIN_MENU);
@@ -54,9 +56,11 @@ public class ServerScreen implements IScreen {
       Client.changeScreen(ClientState.MAIN_MENU);
     }
   }
-
+  
   @Override
   public void render() {
+  	menu.updateSize();
+  	
     guiRenderer.render(menu);
   }
 

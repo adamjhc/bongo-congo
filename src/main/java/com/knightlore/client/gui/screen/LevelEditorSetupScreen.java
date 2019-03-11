@@ -25,49 +25,49 @@ public class LevelEditorSetupScreen implements IScreen {
 
   @Override
   public void input() {
-    if (checkPosition(preLevelEditor, preLevelEditor.getWLeft().getId(), "")) {
+    if (checkPosition(preLevelEditor, preLevelEditor.getWLeft().getId())) {
       preLevelEditor.getWLeft().setColour();
       if (Mouse.isLeftButtonPressed()) {
         preLevelEditor.decWidth();
       }
     } else preLevelEditor.getWLeft().setColour(Colour.YELLOW);
 
-    if (checkPosition(preLevelEditor, preLevelEditor.getWRight().getId(), "")) {
+    if (checkPosition(preLevelEditor, preLevelEditor.getWRight().getId())) {
       preLevelEditor.getWRight().setColour();
       if (Mouse.isLeftButtonPressed()) {
         preLevelEditor.incWidth();
       }
     } else preLevelEditor.getWRight().setColour(Colour.YELLOW);
 
-    if (checkPosition(preLevelEditor, preLevelEditor.getLLeft().getId(), "")) {
+    if (checkPosition(preLevelEditor, preLevelEditor.getLLeft().getId())) {
       preLevelEditor.getLLeft().setColour();
       if (Mouse.isLeftButtonPressed()) {
         preLevelEditor.decLength();
       }
     } else preLevelEditor.getLLeft().setColour(Colour.YELLOW);
 
-    if (checkPosition(preLevelEditor, preLevelEditor.getLRight().getId(), "")) {
+    if (checkPosition(preLevelEditor, preLevelEditor.getLRight().getId())) {
       preLevelEditor.getLRight().setColour();
       if (Mouse.isLeftButtonPressed()) {
         preLevelEditor.incLength();
       }
     } else preLevelEditor.getLRight().setColour(Colour.YELLOW);
 
-    if (checkPosition(preLevelEditor, preLevelEditor.getHLeft().getId(), "")) {
+    if (checkPosition(preLevelEditor, preLevelEditor.getHLeft().getId())) {
       preLevelEditor.getHLeft().setColour();
       if (Mouse.isLeftButtonPressed()) {
         preLevelEditor.decHeight();
       }
     } else preLevelEditor.getHLeft().setColour(Colour.YELLOW);
 
-    if (checkPosition(preLevelEditor, preLevelEditor.getHRight().getId(), "")) {
+    if (checkPosition(preLevelEditor, preLevelEditor.getHRight().getId())) {
       preLevelEditor.getHRight().setColour();
       if (Mouse.isLeftButtonPressed()) {
         preLevelEditor.incHeight();
       }
     } else preLevelEditor.getHRight().setColour(Colour.YELLOW);
 
-    if (checkPosition(preLevelEditor, preLevelEditor.getCreateLevel().getId(), "")) {
+    if (checkPosition(preLevelEditor, preLevelEditor.getCreateLevel().getId())) {
       preLevelEditor.getCreateLevel().setColour();
       if (Mouse.isLeftButtonPressed()) {
         LevelMap editorMap =
@@ -79,7 +79,7 @@ public class LevelEditorSetupScreen implements IScreen {
       }
     } else preLevelEditor.getCreateLevel().setColour(Colour.YELLOW);
 
-    if (checkPosition(preLevelEditor, preLevelEditor.getBack().getId(), "")) {
+    if (checkPosition(preLevelEditor, preLevelEditor.getBack().getId())) {
       preLevelEditor.getBack().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Client.changeScreen(ClientState.MAIN_MENU);
@@ -93,6 +93,8 @@ public class LevelEditorSetupScreen implements IScreen {
 
   @Override
   public void render() {
+  	preLevelEditor.updateSize();
+  	
     guiRenderer.render(preLevelEditor);
   }
 

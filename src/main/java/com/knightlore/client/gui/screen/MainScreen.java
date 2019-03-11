@@ -2,6 +2,8 @@ package com.knightlore.client.gui.screen;
 
 import static com.knightlore.client.util.GuiUtils.checkPosition;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_EQUAL;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_MINUS;
 
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
@@ -30,8 +32,9 @@ public class MainScreen implements IScreen {
 
   @Override
   public void input() {
-    // SINGLEPLAYER BUTTON
-    if (checkPosition(menu, menu.getSingleplayer().getId(), "")) {
+
+    // SINGEPLAYER BUTTON
+    if (checkPosition(menu, menu.getSingleplayer().getId())) {
       menu.getSingleplayer().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Client.changeScreen(ClientState.GAME);
@@ -39,7 +42,7 @@ public class MainScreen implements IScreen {
     } else menu.getSingleplayer().setColour(Colour.YELLOW);
 
     // MULTIPLAYER BUTTON
-    if (checkPosition(menu, menu.getMultiplayer().getId(), "")) {
+    if (checkPosition(menu, menu.getMultiplayer().getId())) {
       menu.getMultiplayer().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Client.changeScreen(ClientState.SERVER_MENU);
@@ -47,7 +50,7 @@ public class MainScreen implements IScreen {
     } else menu.getMultiplayer().setColour(Colour.YELLOW);
 
     // LEVEL EDITOR BUTTON
-    if (checkPosition(menu, menu.getLevelEditor().getId(), "")) {
+    if (checkPosition(menu, menu.getLevelEditor().getId())) {
       menu.getLevelEditor().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Client.changeScreen(ClientState.PRE_EDITOR);
@@ -55,7 +58,7 @@ public class MainScreen implements IScreen {
     } else menu.getLevelEditor().setColour(Colour.YELLOW);
 
     // OPTIONS BUTTON
-    if (checkPosition(menu, menu.getOptions().getId(), "")) {
+    if (checkPosition(menu, menu.getOptions().getId())) {
       menu.getOptions().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Client.changeScreen(ClientState.OPTIONS_MENU);
@@ -63,7 +66,7 @@ public class MainScreen implements IScreen {
     } else menu.getOptions().setColour(Colour.YELLOW);
 
     // QUIT BUTTON
-    if (checkPosition(menu, menu.getQuit().getId(), "")) {
+    if (checkPosition(menu, menu.getQuit().getId())) {
       menu.getQuit().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Window.setShouldClose();
@@ -76,6 +79,14 @@ public class MainScreen implements IScreen {
         Audio.toggle();
       }
     }
+    
+    if (Keyboard.isKeyReleased(GLFW_KEY_EQUAL)) {
+    	menu.incFont();
+    }
+    
+    if (Keyboard.isKeyReleased(GLFW_KEY_MINUS)) {
+    	menu.decFont();
+    }
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Window.setShouldClose();
@@ -85,6 +96,7 @@ public class MainScreen implements IScreen {
   @Override
   public void render() {
     menu.getSoundMute().setRender(!Audio.isOn());
+    menu.updateSize();
 
     renderer.render(menu);
   }

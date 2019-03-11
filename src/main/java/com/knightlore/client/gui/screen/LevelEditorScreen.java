@@ -234,7 +234,10 @@ public class LevelEditorScreen implements IScreen {
 	  Gson gson = builder.create();
 	  
 	  String jsonString = gson.toJson(editorMap);
+	  System.out.println(jsonString);
 	  
-	  (new BufferedWriter(new FileWriter(filePath + "customMap.umap"))).write(jsonString);;
+	  BufferedWriter writer = new BufferedWriter(new FileWriter(filePath + "customMap.umap"));
+	  writer.write(jsonString);
+	  writer.close();
   }
 }

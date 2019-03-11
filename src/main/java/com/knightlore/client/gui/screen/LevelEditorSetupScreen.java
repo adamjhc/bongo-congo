@@ -2,6 +2,8 @@ package com.knightlore.client.gui.screen;
 
 import static com.knightlore.client.util.GuiUtils.checkPosition;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.gui.PreLevelEditor;
@@ -12,6 +14,10 @@ import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.TileSet;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 
 import org.joml.Vector4f;
 
@@ -91,6 +97,9 @@ public class LevelEditorSetupScreen implements IScreen {
     
     if (checkPosition(preLevelEditor, preLevelEditor.getLoadLevel().getId(), "")) {
     	preLevelEditor.getLoadLevel().setColour();
+    	if (Mouse.isLeftButtonPressed()) {
+    		Client.changeScreen(ClientState.LEVEL_EDITOR, getMap("customMaps/unplayable/customMap.umap"));
+    	}
     } else preLevelEditor.getLoadLevel().setColour(new Vector4f(1, 1, 0, 1));
     
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
@@ -122,5 +131,25 @@ public class LevelEditorSetupScreen implements IScreen {
       }
     }
     return (new LevelMap(emptyMap, (new TileSet())));
+  }
+  
+  private LevelMap getMap(String filePath) {
+	File levelFile = new File(filePath);
+	GsonBuilder builder = new GsonBuilder();
+	Gson gson = builder.create();
+	String jsonString = "";
+	try {
+	  FileReader fileReader = new FileReader(levelFile);
+	  BufferedReader levelReader = new BufferedReader(fileReader);
+	  String line = levelReader.readLine();
+	  jsonString = jsonString + line;
+	  while ((line = levelReader.readLine()) != null) {
+		jsonString = jsonString + line;
+	  }
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+
+	return gson.fromJson(jsonString, LevelMap.class);
   }
 }

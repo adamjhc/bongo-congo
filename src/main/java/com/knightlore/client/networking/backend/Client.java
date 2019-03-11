@@ -45,6 +45,7 @@ public class Client
             this.ready = true;
         }catch(Exception e){
             System.out.println("There wan an error establishing the socket connection");
+            e.printStackTrace();
         }
     }
 

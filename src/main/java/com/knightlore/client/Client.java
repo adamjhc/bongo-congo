@@ -19,6 +19,7 @@ import com.knightlore.client.gui.ServerMenu;
 import com.knightlore.client.gui.engine.MouseInput;
 import com.knightlore.client.gui.engine.Timer;
 import com.knightlore.client.gui.engine.Window;
+import com.knightlore.client.networking.backend.PeriodicUpdaterThread;
 import com.knightlore.client.render.GameRenderer;
 import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.client.render.LevelEditorRenderer;
@@ -106,6 +107,8 @@ public class Client extends Thread {
       gameModel.addPlayer("1");
     } else {
       gameModel = model;
+      PeriodicUpdaterThread test = new PeriodicUpdaterThread(this.gameModel.myPlayer());
+      test.start();
     }
 
     gameRenderer = new GameRenderer(window, gameModel);

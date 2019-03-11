@@ -136,9 +136,9 @@ public class Player extends Entity {
         setPosition(oldPos);
 
       } else { // Sets new position
-        if (GameConnection.instance != null) {
-          GameConnection.instance.updatePosition(position);
-        }
+//        if (GameConnection.instance != null) {
+//          GameConnection.instance.updatePosition(position);
+//        }
         fallFlag = false;
         setPosition(newPos);
       }

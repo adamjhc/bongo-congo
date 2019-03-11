@@ -3,6 +3,8 @@ package com.knightlore.client.gui.engine;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joml.Vector4f;
+
 import com.knightlore.client.gui.engine.graphics.FontTexture;
 import com.knightlore.client.gui.engine.graphics.Material;
 import com.knightlore.client.gui.engine.graphics.Mesh;
@@ -13,7 +15,7 @@ public class TextObject extends GuiObject {
 
     private static final int VERTICES_PER_QUAD = 4;
 
-    private final FontTexture fontTexture;
+    private FontTexture fontTexture;
     
     private String text;
     
@@ -104,6 +106,16 @@ public class TextObject extends GuiObject {
     
     public int getHeight() {
     	return fontTexture.getHeight();
+    }
+    
+    public void setFontTexture(FontTexture fontTexture) {
+    	this.fontTexture = fontTexture;
+    	Vector4f colour = getColour();
+    	
+      this.getMesh().deleteBuffers();
+      this.setMesh(buildMesh());
+      
+      this.setColour(colour);
     }
     
     public void setId(String id) {

@@ -1,11 +1,13 @@
 package com.knightlore.client.gui.screen;
 
 import static com.knightlore.client.util.GuiUtils.checkPosition;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
+import com.knightlore.client.gui.Colour;
 import com.knightlore.client.gui.PreLevelEditor;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
@@ -26,7 +28,6 @@ public class LevelEditorSetupScreen implements IScreen {
   private GuiRenderer guiRenderer;
   private PreLevelEditor preLevelEditor;
 
-
   public LevelEditorSetupScreen(GuiRenderer guiRenderer) {
     this.guiRenderer = guiRenderer;
     preLevelEditor = new PreLevelEditor();
@@ -34,49 +35,49 @@ public class LevelEditorSetupScreen implements IScreen {
 
   @Override
   public void input() {
-    if (checkPosition(preLevelEditor, preLevelEditor.getWLeft().getId(), "")) {
+    if (checkPosition(preLevelEditor, preLevelEditor.getWLeft().getId())) {
       preLevelEditor.getWLeft().setColour();
       if (Mouse.isLeftButtonPressed()) {
         preLevelEditor.decWidth();
       }
-    } else preLevelEditor.getWLeft().setColour(new Vector4f(1, 1, 0, 1));
+    } else preLevelEditor.getWLeft().setColour(Colour.YELLOW);
 
-    if (checkPosition(preLevelEditor, preLevelEditor.getWRight().getId(), "")) {
+    if (checkPosition(preLevelEditor, preLevelEditor.getWRight().getId())) {
       preLevelEditor.getWRight().setColour();
       if (Mouse.isLeftButtonPressed()) {
         preLevelEditor.incWidth();
       }
-    } else preLevelEditor.getWRight().setColour(new Vector4f(1, 1, 0, 1));
+    } else preLevelEditor.getWRight().setColour(Colour.YELLOW);
 
-    if (checkPosition(preLevelEditor, preLevelEditor.getLLeft().getId(), "")) {
+    if (checkPosition(preLevelEditor, preLevelEditor.getLLeft().getId())) {
       preLevelEditor.getLLeft().setColour();
       if (Mouse.isLeftButtonPressed()) {
         preLevelEditor.decLength();
       }
-    } else preLevelEditor.getLLeft().setColour(new Vector4f(1, 1, 0, 1));
+    } else preLevelEditor.getLLeft().setColour(Colour.YELLOW);
 
-    if (checkPosition(preLevelEditor, preLevelEditor.getLRight().getId(), "")) {
+    if (checkPosition(preLevelEditor, preLevelEditor.getLRight().getId())) {
       preLevelEditor.getLRight().setColour();
       if (Mouse.isLeftButtonPressed()) {
         preLevelEditor.incLength();
       }
-    } else preLevelEditor.getLRight().setColour(new Vector4f(1, 1, 0, 1));
+    } else preLevelEditor.getLRight().setColour(Colour.YELLOW);
 
-    if (checkPosition(preLevelEditor, preLevelEditor.getHLeft().getId(), "")) {
+    if (checkPosition(preLevelEditor, preLevelEditor.getHLeft().getId())) {
       preLevelEditor.getHLeft().setColour();
       if (Mouse.isLeftButtonPressed()) {
         preLevelEditor.decHeight();
       }
-    } else preLevelEditor.getHLeft().setColour(new Vector4f(1, 1, 0, 1));
+    } else preLevelEditor.getHLeft().setColour(Colour.YELLOW);
 
-    if (checkPosition(preLevelEditor, preLevelEditor.getHRight().getId(), "")) {
+    if (checkPosition(preLevelEditor, preLevelEditor.getHRight().getId())) {
       preLevelEditor.getHRight().setColour();
       if (Mouse.isLeftButtonPressed()) {
         preLevelEditor.incHeight();
       }
-    } else preLevelEditor.getHRight().setColour(new Vector4f(1, 1, 0, 1));
+    } else preLevelEditor.getHRight().setColour(Colour.YELLOW);
 
-    if (checkPosition(preLevelEditor, preLevelEditor.getCreateLevel().getId(), "")) {
+    if (checkPosition(preLevelEditor, preLevelEditor.getCreateLevel().getId())) {
       preLevelEditor.getCreateLevel().setColour();
       if (Mouse.isLeftButtonPressed()) {
         LevelMap editorMap =
@@ -86,9 +87,9 @@ public class LevelEditorSetupScreen implements IScreen {
                 preLevelEditor.getHeightNum());
         Client.changeScreen(ClientState.LEVEL_EDITOR, editorMap);
       }
-    } else preLevelEditor.getCreateLevel().setColour(new Vector4f(1, 1, 0, 1));
+    } else preLevelEditor.getCreateLevel().setColour(Colour.YELLOW);
 
-    if (checkPosition(preLevelEditor, preLevelEditor.getBack().getId(), "")) {
+    if (checkPosition(preLevelEditor, preLevelEditor.getBack().getId())) {
       preLevelEditor.getBack().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Client.changeScreen(ClientState.MAIN_MENU);
@@ -102,6 +103,7 @@ public class LevelEditorSetupScreen implements IScreen {
     	}
     } else preLevelEditor.getLoadLevel().setColour(new Vector4f(1, 1, 0, 1));
     
+    
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU);
     }
@@ -109,6 +111,8 @@ public class LevelEditorSetupScreen implements IScreen {
 
   @Override
   public void render() {
+  	preLevelEditor.updateSize();
+  	
     guiRenderer.render(preLevelEditor);
   }
 

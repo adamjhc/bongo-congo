@@ -9,7 +9,7 @@ public class LevelSelectScreen implements IScreen {
   public LevelSelectScreen(GuiRenderer guiRenderer) {
     this.guiRenderer = guiRenderer;
   }
-
+  
   @Override
   public void input() {}
 

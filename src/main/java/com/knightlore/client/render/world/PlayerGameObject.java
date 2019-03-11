@@ -14,36 +14,36 @@ import java.util.List;
 import java.util.Map;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 public class PlayerGameObject extends EntityGameObject {
 
   private Map<Direction, AnimatedTexture> climbingTextures;
-  private Map<Direction, AnimatedTexture> fallingTextures;
   private Map<Direction, AnimatedTexture> rollingTextures;
+  private AnimatedTexture fallingTexture;
   private StaticTexture deadTexture;
   private PlayerState currentState;
-  private Vector3f colour;
 
   /**
    * Initialise the player game object
    *
    * @param textureFileName File name of the player texture
    */
-  private PlayerGameObject(String textureFileName) {
-    super(textureFileName);
+  private PlayerGameObject(String textureFileName, Vector3f position, Vector4f colour) {
+    super(textureFileName, colour);
 
     climbingTextures = new EnumMap<>(Direction.class);
-    fallingTextures = new EnumMap<>(Direction.class);
     rollingTextures = new EnumMap<>(Direction.class);
 
     for (Direction direction : Direction.values()) {
       String directionPath = textureFileName + "_" + direction.getAbbreviation();
       climbingTextures.put(direction, new AnimatedTexture(directionPath + "_run", 10, 20));
-      //      fallingTextures.put(direction, new AnimatedTexture(directionPath + "_fall", 2, 1,
-      // false));
       rollingTextures.put(direction, new AnimatedTexture(directionPath + "_roll", 10, 2, false));
     }
-    deadTexture = new StaticTexture("player_dead");
+    fallingTexture = new AnimatedTexture(textureFileName + "_fall", 10, 20);
+    deadTexture = new StaticTexture(textureFileName + "_dead");
+
+    setPosition(position);
   }
 
   public static List<PlayerGameObject> fromGameModel(Collection<Player> players) {
@@ -51,9 +51,7 @@ public class PlayerGameObject extends EntityGameObject {
 
     players.forEach(
         player -> {
-          PlayerGameObject playerGameObject = new PlayerGameObject("player");
-          playerGameObject.setPosition(player.getPosition());
-          playerGameObject.setColour(player.getColour());
+          PlayerGameObject playerGameObject = new PlayerGameObject("player", player.getPosition(), player.getColour());
           playerGameObjects.add(playerGameObject);
         });
 
@@ -92,7 +90,7 @@ public class PlayerGameObject extends EntityGameObject {
         climbingTextures.get(currentDirection).bind(0);
         break;
       case FALLING:
-        fallingTextures.get(currentDirection).bind(0);
+        fallingTexture.bind(0);
         break;
       case ROLLING:
         rollingTextures.get(currentDirection).bind(0);
@@ -107,10 +105,5 @@ public class PlayerGameObject extends EntityGameObject {
 
   private void resetUnloopedAnimatedTextures() {
     rollingTextures.forEach((direction, animatedTexture) -> animatedTexture.reset());
-    fallingTextures.forEach((direction, animatedTexture) -> animatedTexture.reset());
-  }
-
-  private void setColour(Vector3f colour) {
-    this.colour = colour;
   }
 }

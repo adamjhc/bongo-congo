@@ -31,40 +31,40 @@ public class OptionsMenu implements IGui {
 
   public OptionsMenu() {
     this.bongo = new TextObject("Bongo", TITLE);
-    this.bongo.setColour(LIGHT_BLUE);
+    this.bongo.setColour(Colour.LIGHT_BLUE);
 
     this.congo = new TextObject("Congo", TITLE);
-    this.congo.setColour(RED);
+    this.congo.setColour(Colour.RED);
 
     this.incVolume = new TextObject(">", LARGE);
-    this.incVolume.setColour(YELLOW);
+    this.incVolume.setColour(Colour.YELLOW);
 
     this.decVolume = new TextObject("<", LARGE);
-    this.decVolume.setColour(YELLOW);
+    this.decVolume.setColour(Colour.YELLOW);
 
     this.volume = new TextObject("070", LARGE);
-    this.volume.setColour(YELLOW);
+    this.volume.setColour(Colour.YELLOW);
 
     this.exit = new TextObject("Exit", SMALL);
-    this.exit.setColour(YELLOW);
+    this.exit.setColour(Colour.YELLOW);
     
     this.isFullscreen = new TextObject("Off", LARGE);
-    this.isFullscreen.setColour(YELLOW);
+    this.isFullscreen.setColour(Colour.YELLOW);
 
     this.options = new TextObject("Options", SMALL);
-    this.options.setColour(YELLOW);
+    this.options.setColour(Colour.YELLOW);
 
     this.separatorTop = new TextObject("------------------------------", SMALL);
-    this.separatorTop.setColour(YELLOW);
+    this.separatorTop.setColour(Colour.YELLOW);
 
     this.separatorBot = new TextObject("------------------------------", SMALL);
-    this.separatorBot.setColour(YELLOW);
+    this.separatorBot.setColour(Colour.YELLOW);
 
     this.musicVolume = new TextObject("Game music volume", SMALL);
-    this.musicVolume.setColour(YELLOW);
+    this.musicVolume.setColour(Colour.YELLOW);
     
     this.fullScreen = new TextObject("Fullscreen", SMALL);
-    this.fullScreen.setColour(YELLOW);
+    this.fullScreen.setColour(Colour.YELLOW);
 
     guiObjects =
         new GuiObject[] {
@@ -88,21 +88,21 @@ public class OptionsMenu implements IGui {
     int volumeAmount = Integer.parseInt(this.volume.getText());
     if (volumeAmount < MAX_VOLUME) volumeAmount++;
     this.volume.setText((String.format("%03d", volumeAmount)));
-    this.volume.setColour(YELLOW);
+    this.volume.setColour(Colour.YELLOW);
   }
 
   public void decVolume() {
     int volumeAmount = Integer.parseInt(this.volume.getText());
     if (volumeAmount > 0) volumeAmount--;
     this.volume.setText((String.format("%03d", volumeAmount)));
-    this.volume.setColour(YELLOW);
+    this.volume.setColour(Colour.YELLOW);
   }
   
   public void setFullscreen() {
   	if (this.isFullscreen.getText() == "Off") this.isFullscreen.setText("On");
   	else this.isFullscreen.setText("Off");
   	this.isFullscreen.setPositionX(Window.getHalfWidth() - isFullscreen.getSize() / 2);
-  	this.isFullscreen.setColour(YELLOW);
+  	this.isFullscreen.setColour(Colour.YELLOW);
   	
   	Window.setFullscreen();
   }

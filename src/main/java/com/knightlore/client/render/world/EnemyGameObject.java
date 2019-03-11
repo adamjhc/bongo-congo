@@ -5,10 +5,15 @@ import com.knightlore.game.entity.Enemy;
 import com.knightlore.game.entity.EnemyState;
 import com.knightlore.game.entity.Entity;
 import org.joml.Matrix4f;
+import org.joml.Vector4f;
 
 public class EnemyGameObject extends EntityGameObject {
 
   private EnemyState currentState;
+
+  EnemyGameObject(String textureFileName, Vector4f colour) {
+    super(textureFileName, colour);
+  }
 
   EnemyGameObject(EnemyGameObject copy) {
     model = copy.model;
@@ -17,6 +22,7 @@ public class EnemyGameObject extends EntityGameObject {
     currentDirection = copy.currentDirection;
     currentState = copy.currentState;
     transform = copy.transform;
+    colour = copy.colour;
   }
 
   @Override
@@ -32,6 +38,7 @@ public class EnemyGameObject extends EntityGameObject {
     shaderProgram.bind();
     shaderProgram.setUniform("sampler", 0);
     shaderProgram.setUniform("projection", transform.getProjection(camera));
+    shaderProgram.setUniform("colour", colour);
 
     switch (currentState) {
       case IDLE:

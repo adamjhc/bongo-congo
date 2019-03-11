@@ -38,33 +38,33 @@ public class ServerMenu implements IGui {
 
   public ServerMenu() {
     this.bongo = new TextObject("Bongo", TITLE);
-    this.bongo.setColour(LIGHT_BLUE);
+    this.bongo.setColour(Colour.LIGHT_BLUE);
 
     this.congo = new TextObject("Congo", TITLE);
-    this.congo.setColour(RED);
+    this.congo.setColour(Colour.RED);
 
     this.multiplayer = new TextObject("Play Multiplayer", SMALL);
-    this.multiplayer.setColour(YELLOW);
+    this.multiplayer.setColour(Colour.YELLOW);
 
     this.separatorTop = new TextObject("------------------------------", SMALL);
-    this.separatorTop.setColour(YELLOW);
+    this.separatorTop.setColour(Colour.YELLOW);
     this.separatorTop.setId("Separator Top");
 
     this.separatorBot = new TextObject("------------------------------", SMALL);
-    this.separatorBot.setColour(YELLOW);
+    this.separatorBot.setColour(Colour.YELLOW);
     this.separatorBot.setId("Separator Bot");
 
     this.join = new TextObject("Join game", SMALL);
-    this.join.setColour(YELLOW);
+    this.join.setColour(Colour.YELLOW);
 
     this.create = new TextObject("Create game", SMALL);
-    this.create.setColour(YELLOW);
+    this.create.setColour(Colour.YELLOW);
     
     this.refresh = new TextObject("Refresh", SMALL);
-    this.refresh.setColour(YELLOW);
+    this.refresh.setColour(Colour.YELLOW);
 
     this.exit = new TextObject("Exit", SMALL);
-    this.exit.setColour(YELLOW);
+    this.exit.setColour(Colour.YELLOW);
 
     servers = new ArrayList<>();
 
@@ -73,7 +73,7 @@ public class ServerMenu implements IGui {
     }
 
     for (LobbyObject server : servers) {
-      server.setColour(YELLOW);
+      server.setColour(Colour.YELLOW);
       server.setPosition(
           Window.getHalfWidth() - server.getSize() / 2, Window.getHalfHeight() - yPos);
       yPos -= GAP;
@@ -92,7 +92,7 @@ public class ServerMenu implements IGui {
     FontTexture fontTexture = new FontTexture(FONT_SMALL, CHARSET);
 
     LobbyObject newServer = new LobbyObject("New Server " + servers.size(), fontTexture);
-    newServer.setColour(YELLOW);
+    newServer.setColour(Colour.YELLOW);
     newServer.setPosition(
         Window.getHalfWidth() - newServer.getSize() / 2,
         Window.getHalfHeight() - yPos - (current * GAP));
@@ -179,7 +179,7 @@ public class ServerMenu implements IGui {
         server.setHighlighted();
         server.setText(server.getText().substring(4, server.getText().length() - 4));
         server.setPositionX(Window.getHalfWidth() - server.getSize() / 2);
-        server.setColour(YELLOW);
+        server.setColour(Colour.YELLOW);
       }
     }
   }

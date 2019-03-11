@@ -39,67 +39,67 @@ public class PreLevelEditor implements IGui {
 
   public PreLevelEditor() {
     this.bongo = new TextObject("Bongo", TITLE);
-    this.bongo.setColour(LIGHT_BLUE);
+    this.bongo.setColour(Colour.LIGHT_BLUE);
 
     this.congo = new TextObject("Congo", TITLE);
-    this.congo.setColour(RED);
+    this.congo.setColour(Colour.RED);
     
     this.editor = new TextObject("Level Editor", SMALL);
-    this.editor.setColour(YELLOW);
+    this.editor.setColour(Colour.YELLOW);
 
     this.width = new TextObject("Width", SMALL);
-    this.width.setColour(YELLOW);
+    this.width.setColour(Colour.YELLOW);
 
     this.length = new TextObject("Length", SMALL);
-    this.length.setColour(YELLOW);
+    this.length.setColour(Colour.YELLOW);
 
     this.height = new TextObject("Height", SMALL);
-    this.height.setColour(YELLOW);
+    this.height.setColour(Colour.YELLOW);
 
     this.wNum = new TextObject("10", LARGE);
-    this.wNum.setColour(YELLOW);
+    this.wNum.setColour(Colour.YELLOW);
 
     this.lNum = new TextObject("10", LARGE);
-    this.lNum.setColour(YELLOW);
+    this.lNum.setColour(Colour.YELLOW);
 
     this.hNum = new TextObject("10", LARGE);
-    this.hNum.setColour(YELLOW);
+    this.hNum.setColour(Colour.YELLOW);
 
     this.wLeft = new TextObject("<", LARGE);
-    this.wLeft.setColour(YELLOW);
+    this.wLeft.setColour(Colour.YELLOW);
     this.wLeft.setId("wLeft");
 
     this.wRight = new TextObject(">", LARGE);
-    this.wRight.setColour(YELLOW);
+    this.wRight.setColour(Colour.YELLOW);
     this.wRight.setId("wRight");
 
     this.lLeft = new TextObject("<", LARGE);
-    this.lLeft.setColour(YELLOW);
+    this.lLeft.setColour(Colour.YELLOW);
     this.lLeft.setId("lLeft");
 
     this.lRight = new TextObject(">", LARGE);
-    this.lRight.setColour(YELLOW);
+    this.lRight.setColour(Colour.YELLOW);
     this.lRight.setId("lRight");
 
     this.hLeft = new TextObject("<", LARGE);
-    this.hLeft.setColour(YELLOW);
+    this.hLeft.setColour(Colour.YELLOW);
     this.hLeft.setId("hLeft");
 
     this.hRight = new TextObject(">", LARGE);
-    this.hRight.setColour(YELLOW);
+    this.hRight.setColour(Colour.YELLOW);
     this.hRight.setId("hRight");
 
     this.separatorTop = new TextObject("------------------------------", SMALL);
-    this.separatorTop.setColour(YELLOW);
+    this.separatorTop.setColour(Colour.YELLOW);
 
     this.separatorBottom = new TextObject("------------------------------", SMALL);
-    this.separatorBottom.setColour(YELLOW);
+    this.separatorBottom.setColour(Colour.YELLOW);
 
     this.createLevel = new TextObject("Create Level", SMALL);
-    this.createLevel.setColour(YELLOW);
+    this.createLevel.setColour(Colour.YELLOW);
 
     this.exit = new TextObject("Exit", SMALL);
-    this.exit.setColour(YELLOW);
+    this.exit.setColour(Colour.YELLOW);
 
     guiObjects =
         new GuiObject[] {
@@ -130,42 +130,42 @@ public class PreLevelEditor implements IGui {
     int newWidth = Integer.parseInt(this.wNum.getText());
     if (newWidth < MAX_WIDTH) newWidth++;
     this.wNum.setText((String.format("%02d", newWidth)));
-    this.wNum.getMesh().getMaterial().setColour(YELLOW);
+    this.wNum.setColour(Colour.YELLOW);
   }
 
   public void decWidth() {
     int newWidth = Integer.parseInt(this.wNum.getText());
     if (newWidth > 1) newWidth--;
     this.wNum.setText((String.format("%02d", newWidth)));
-    this.wNum.getMesh().getMaterial().setColour(YELLOW);
+    this.wNum.setColour(Colour.YELLOW);
   }
 
   public void incLength() {
     int newLength = Integer.parseInt(this.lNum.getText());
     if (newLength < MAX_LENGTH) newLength++;
     this.lNum.setText((String.format("%02d", newLength)));
-    this.lNum.getMesh().getMaterial().setColour(YELLOW);
+    this.lNum.setColour(Colour.YELLOW);
   }
 
   public void decLength() {
     int newLength = Integer.parseInt(this.lNum.getText());
     if (newLength > 1) newLength--;
     this.lNum.setText((String.format("%02d", newLength)));
-    this.lNum.getMesh().getMaterial().setColour(YELLOW);
+    this.lNum.setColour(Colour.YELLOW);
   }
 
   public void incHeight() {
     int newHeight = Integer.parseInt(this.hNum.getText());
     if (newHeight < MAX_HEIGHT) newHeight++;
     this.hNum.setText((String.format("%02d", newHeight)));
-    this.hNum.getMesh().getMaterial().setColour(YELLOW);
+    this.hNum.setColour(Colour.YELLOW);
   }
 
   public void decHeight() {
     int newHeight = Integer.parseInt(this.hNum.getText());
     if (newHeight > 1) newHeight--;
     this.hNum.setText((String.format("%02d", newHeight)));
-    this.hNum.getMesh().getMaterial().setColour(YELLOW);
+    this.hNum.setColour(Colour.YELLOW);
   }
 
   public int getWidthNum() {

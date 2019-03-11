@@ -8,12 +8,12 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_MINUS;
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.audio.Audio;
+import com.knightlore.client.gui.Colour;
 import com.knightlore.client.gui.MainMenu;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;
 import com.knightlore.client.render.GuiRenderer;
-import org.joml.Vector4f;
 
 public class MainScreen implements IScreen {
 
@@ -32,13 +32,14 @@ public class MainScreen implements IScreen {
 
   @Override
   public void input() {
+
     // SINGEPLAYER BUTTON
     if (checkPosition(menu, menu.getSingleplayer().getId())) {
       menu.getSingleplayer().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Client.changeScreen(ClientState.GAME);
       }
-    } else menu.getSingleplayer().setColour(new Vector4f(1, 1, 0, 1));
+    } else menu.getSingleplayer().setColour(Colour.YELLOW);
 
     // MULTIPLAYER BUTTON
     if (checkPosition(menu, menu.getMultiplayer().getId())) {
@@ -46,7 +47,7 @@ public class MainScreen implements IScreen {
       if (Mouse.isLeftButtonPressed()) {
         Client.changeScreen(ClientState.SERVER_MENU);
       }
-    } else menu.getMultiplayer().setColour(new Vector4f(1, 1, 0, 1));
+    } else menu.getMultiplayer().setColour(Colour.YELLOW);
 
     // LEVEL EDITOR BUTTON
     if (checkPosition(menu, menu.getLevelEditor().getId())) {
@@ -54,7 +55,7 @@ public class MainScreen implements IScreen {
       if (Mouse.isLeftButtonPressed()) {
         Client.changeScreen(ClientState.PRE_EDITOR);
       }
-    } else menu.getLevelEditor().setColour(new Vector4f(1, 1, 0, 1));
+    } else menu.getLevelEditor().setColour(Colour.YELLOW);
 
     // OPTIONS BUTTON
     if (checkPosition(menu, menu.getOptions().getId())) {
@@ -62,7 +63,7 @@ public class MainScreen implements IScreen {
       if (Mouse.isLeftButtonPressed()) {
         Client.changeScreen(ClientState.OPTIONS_MENU);
       }
-    } else menu.getOptions().setColour(new Vector4f(1, 1, 0, 1));
+    } else menu.getOptions().setColour(Colour.YELLOW);
 
     // QUIT BUTTON
     if (checkPosition(menu, menu.getQuit().getId())) {
@@ -70,7 +71,7 @@ public class MainScreen implements IScreen {
       if (Mouse.isLeftButtonPressed()) {
         Window.setShouldClose();
       }
-    } else menu.getQuit().setColour(new Vector4f(1, 1, 0, 1));
+    } else menu.getQuit().setColour(Colour.YELLOW);
 
     if (Mouse.getXPos() > menu.getSound().getPositionX()
         && Mouse.getYPos() > menu.getSound().getPositionY()) {

@@ -1,7 +1,7 @@
 #version 120
 
 uniform sampler2D sampler;
-uniform vec3 colour;
+uniform vec4 colour;
 
 varying vec2 tex_coords;
 
@@ -27,7 +27,7 @@ void main()
   else
   {
     vec4 grayscale = toGrayscale(texture);
-    vec4 colourised = colourise(grayscale, vec4(colour, 1));
+    vec4 colourised = colourise(grayscale, colour);
 
     gl_FragColor = colourised;
   }

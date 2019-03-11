@@ -1,5 +1,6 @@
 package com.knightlore.game;
 
+import com.knightlore.client.gui.Colour;
 import com.knightlore.client.networking.GameConnection;
 import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.Player;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 public class GameModel {
 
@@ -24,7 +26,7 @@ public class GameModel {
 
   private Map<String, Player> players;
   private int playerIdInc;
-  private List<Vector3f> playerColours;
+  private List<Vector4f> playerColours;
 
   public GameModel(String uuid) {
     this.uuid = uuid;
@@ -36,13 +38,12 @@ public class GameModel {
     players = new HashMap<>();
     playerIdInc = 0;
     playerColours = new ArrayList<>();
-    playerColours.add(new Vector3f(0, 0, 1));
-    playerColours.add(new Vector3f(0, 1, 0));
-    playerColours.add(new Vector3f(0, 1, 1));
-    playerColours.add(new Vector3f(1, 0, 0));
-    playerColours.add(new Vector3f(1, 0, 1));
-    playerColours.add(new Vector3f(1, 1, 0));
-    playerColours.add(new Vector3f(1, 1, 1));
+    playerColours.add(Colour.BLUE);
+    playerColours.add(Colour.GREEN);
+    playerColours.add(Colour.CYAN);
+    playerColours.add(Colour.RED);
+    playerColours.add(Colour.PINK);
+    playerColours.add(Colour.YELLOW);
   }
 
   public GameState getState() {
@@ -132,7 +133,7 @@ public class GameModel {
   }
 
   public void addPlayer(String uuid) {
-    Vector3f playerColour = playerColours.get(new Random().nextInt(playerColours.size()));
+    Vector4f playerColour = playerColours.get(new Random().nextInt(playerColours.size()));
     players.put(uuid, new Player(uuid, playerIdInc, playerColour));
     playerIdInc++;
     playerColours.remove(playerColour);

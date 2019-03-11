@@ -5,6 +5,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
+import com.knightlore.client.gui.Colour;
 import com.knightlore.client.gui.ServerMenu;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
@@ -42,14 +43,14 @@ public class ServerScreen implements IScreen {
       if (Mouse.isLeftButtonPressed()) {
         menu.createServer();
       }
-    } else menu.getCreate().setColour(new Vector4f(1, 1, 0, 1));
+    } else menu.getCreate().setColour(Colour.YELLOW);
 
     if (checkPosition(menu, menu.getExit().getId())) {
       menu.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Client.changeScreen(ClientState.MAIN_MENU);
       }
-    } else menu.getExit().setColour(new Vector4f(1, 1, 0, 1));
+    } else menu.getExit().setColour(Colour.YELLOW);
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU);

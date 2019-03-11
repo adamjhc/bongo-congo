@@ -23,32 +23,32 @@ public class MainMenu implements IGui {
 
   public MainMenu() {
     this.bongo = new TextObject("Bongo", TITLE);
-    this.bongo.setColour(LIGHT_BLUE);
+    this.bongo.setColour(Colour.LIGHT_BLUE);
 
     this.congo = new TextObject("Congo", TITLE);
-    this.congo.setColour(RED);
+    this.congo.setColour(Colour.RED);
 
     this.singleplayer = new TextObject("Singleplayer", SMALL);
-    this.singleplayer.setColour(YELLOW);
+    this.singleplayer.setColour(Colour.YELLOW);
 
     this.multiplayer = new TextObject("Multiplayer", SMALL);
-    this.multiplayer.setColour(YELLOW);
+    this.multiplayer.setColour(Colour.YELLOW);
 
     this.soundOn = new TextObject("(", LARGE);
     this.soundOn.setColour();
     this.soundOn.setScale(1.25f);
 
     this.soundOff = new TextObject("/", MEDIUM);
-    this.soundOff.setColour(RED);
+    this.soundOff.setColour(Colour.RED);
 
     this.quit = new TextObject("Quit", SMALL);
-    this.quit.setColour(YELLOW);
+    this.quit.setColour(Colour.YELLOW);
 
     this.options = new TextObject("Options", SMALL);
-    this.options.setColour(YELLOW);
+    this.options.setColour(Colour.YELLOW);
 
     this.levelEditor = new TextObject("Editor", SMALL);
-    this.levelEditor.getMesh().getMaterial().setColour(YELLOW);
+    this.levelEditor.getMesh().getMaterial().setColour(Colour.YELLOW);
 
     this.soundOff.setRender();
 

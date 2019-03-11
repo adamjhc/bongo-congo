@@ -14,10 +14,10 @@ public class Lobby implements IGui {
 
   public Lobby() {
     this.bongo = new TextObject("Bongo", TITLE);
-    this.bongo.setColour(LIGHT_BLUE);
+    this.bongo.setColour(Colour.LIGHT_BLUE);
 
     this.congo = new TextObject("Congo", TITLE);
-    this.congo.setColour(RED);
+    this.congo.setColour(Colour.RED);
 
     guiObjects = new GuiObject[] {bongo, congo};
   }

@@ -11,9 +11,10 @@ public class Hud implements IGui {
 
   private static final int SCORE_SIDE_GAP = 4;
   private static final int LIVES_SIDE_GAP = 6;
-  private static final int SCORE_HIDE = -SCORE_SIDE_GAP - FONT_SIZE_SMALL * 11 - SCORE_SIDE_GAP - FONT_SIZE_LIVES * 3;
+  private static final int SCORE_HIDE =
+      -SCORE_SIDE_GAP - FONT_SIZE_SMALL * 11 - SCORE_SIDE_GAP - FONT_SIZE_LIVES * 3;
   private static final int LIVES_HIDE = SCORE_HIDE + FONT_SIZE_SMALL * 11 + SCORE_SIDE_GAP;
-  
+
   private static final int MAX_SCORE = 99999999;
 
   private final TextObject player1Score;
@@ -37,10 +38,10 @@ public class Hud implements IGui {
     this.player1Score.setColour();
 
     this.player2Score = new TextObject("P2:00000000", SMALL);
-    this.player2Score.setColour(YELLOW);
+    this.player2Score.setColour(Colour.YELLOW);
 
     this.player3Score = new TextObject("P3:00000000", SMALL);
-    this.player3Score.setColour(RED);
+    this.player3Score.setColour(Colour.RED);
 
     this.player4Score = new TextObject("P4:00000000", SMALL);
     this.player4Score.setColour(new Vector4f(0, 1, 1, 1));
@@ -52,31 +53,31 @@ public class Hud implements IGui {
     this.player6Score.setColour(new Vector4f(0, 0, 1, 1));
 
     this.player1Lives = new TextObject("***", LIVES);
-    this.player1Lives.setColour(RED);
+    this.player1Lives.setColour(Colour.RED);
     this.player1Lives.setScale((float)FONT_SIZE_SMALL / (float)FONT_SIZE_LIVES);
 
     this.player2Lives = new TextObject("***", LIVES);
-    this.player2Lives.setColour(RED);
+    this.player2Lives.setColour(Colour.RED);
     this.player2Lives.setScale((float)FONT_SIZE_SMALL / (float)FONT_SIZE_LIVES);
     
     this.player3Lives = new TextObject("***", LIVES);
-    this.player3Lives.setColour(RED);
+    this.player3Lives.setColour(Colour.RED);
     this.player3Lives.setScale((float)FONT_SIZE_SMALL / (float)FONT_SIZE_LIVES);
     
     this.player4Lives = new TextObject("***", LIVES);
-    this.player4Lives.setColour(RED);
+    this.player4Lives.setColour(Colour.RED);
     this.player4Lives.setScale((float)FONT_SIZE_SMALL / (float)FONT_SIZE_LIVES);
     
     this.player5Lives = new TextObject("***", LIVES);
-    this.player5Lives.setColour(RED);
+    this.player5Lives.setColour(Colour.RED);
     this.player5Lives.setScale((float)FONT_SIZE_SMALL / (float)FONT_SIZE_LIVES);
     
     this.player6Lives = new TextObject("***", LIVES);
-    this.player6Lives.setColour(RED);
+    this.player6Lives.setColour(Colour.RED);
     this.player6Lives.setScale((float)FONT_SIZE_SMALL / (float)FONT_SIZE_LIVES);
     
     this.counter = new TextObject("90", LARGE);
-    this.counter.setColour(YELLOW);
+    this.counter.setColour(Colour.YELLOW);
     this.counter.setScale(1.5f);
     
     this.player1Score.setPosition(SCORE_SIDE_GAP, SCORE_SIDE_GAP);
@@ -86,7 +87,8 @@ public class Hud implements IGui {
     this.player5Score.setPosition(SCORE_HIDE, SCORE_SIDE_GAP + GAP * 4);
     this.player6Score.setPosition(SCORE_HIDE, SCORE_SIDE_GAP + GAP * 5);
 
-    this.player1Lives.setPosition(SCORE_SIDE_GAP + player1Score.getSize() + SCORE_SIDE_GAP, LIVES_SIDE_GAP);
+    this.player1Lives.setPosition(
+        SCORE_SIDE_GAP + player1Score.getSize() + SCORE_SIDE_GAP, LIVES_SIDE_GAP);
     this.player2Lives.setPosition(LIVES_HIDE, LIVES_SIDE_GAP + GAP);
     this.player3Lives.setPosition(LIVES_HIDE, LIVES_SIDE_GAP + GAP * 2);
     this.player4Lives.setPosition(LIVES_HIDE, LIVES_SIDE_GAP + GAP * 3);
@@ -149,7 +151,7 @@ public class Hud implements IGui {
       }
       this.player1Lives.setText(livesText);
     }
-    this.player1Lives.setColour(RED);
+    this.player1Lives.setColour(Colour.RED);
   }
 
   public TextObject getCounter() {
@@ -158,7 +160,7 @@ public class Hud implements IGui {
 
   public void setCounter(String statusText) {
     this.counter.setText(statusText);
-    this.counter.setColour(YELLOW);
+    this.counter.setColour(Colour.YELLOW);
   }
 
   public TextObject getP1Score() {
@@ -172,13 +174,13 @@ public class Hud implements IGui {
     String text = String.format("%08d", score);
     this.player1Score.setText("P1:" + text);
   }
-  
+
   public int getScoreHide() {
-  	return SCORE_HIDE;
+    return SCORE_HIDE;
   }
-  
+
   public int getScoreSideGap() {
-  	return SCORE_SIDE_GAP;
+    return SCORE_SIDE_GAP;
   }
   
   public void updateSize() {

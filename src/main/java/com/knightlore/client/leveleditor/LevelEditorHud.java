@@ -1,5 +1,6 @@
 package com.knightlore.client.leveleditor;
 
+import com.knightlore.client.gui.Colour;
 import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
@@ -35,7 +36,7 @@ public class LevelEditorHud implements IGui {
     FontTexture fontTextureLarge = new FontTexture(FONT_LARGE, CHARSET);
 
     TextObject save = new TextObject("Save", fontTextureLarge);
-    save.getMesh().getMaterial().setColour(new Vector4f(1, 1, 0, 1));
+    save.getMesh().getMaterial().setColour(Colour.YELLOW);
 
     // this.save.setPosition(window.getWidth()/2+460, window.getHeight()/2-350, 0);
 

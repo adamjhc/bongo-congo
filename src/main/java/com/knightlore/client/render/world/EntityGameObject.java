@@ -49,7 +49,7 @@ public abstract class EntityGameObject extends GameObject {
     transform = new Transform();
   }
 
-  public abstract void render(ShaderProgram shaderProgram, Matrix4f camera);
+  public abstract void render(ShaderProgram shaderProgram, Matrix4f camera, int worldScale);
 
   public void update(Entity entity) {
     setPosition(entity.getPosition());

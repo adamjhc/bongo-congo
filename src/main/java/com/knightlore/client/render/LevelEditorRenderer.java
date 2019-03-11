@@ -34,8 +34,8 @@ public class LevelEditorRenderer extends Renderer {
     camera = new Camera(Window.getWidth(), Window.getHeight());
     shaderProgram = new ShaderProgram("world");
 
-    viewX = ((float) Window.getWidth() / (World.SCALE * 2)) + 1;
-    viewY = ((float) Window.getHeight() / (World.SCALE * 2)) + 2;
+    viewX = ((float) Window.getWidth() / (world.getScale() * 2)) + 1;
+    viewY = ((float) Window.getHeight() / (world.getScale() * 2)) + 2;
   }
 
   private void setupHud() {
@@ -58,7 +58,7 @@ public class LevelEditorRenderer extends Renderer {
   private void renderMap(
       LevelMap levelMap, Vector3f cameraPosition, Vector3i selectedTilePosition) {
     Vector3f cameraIsoPos = CoordinateUtils.toIsometric(cameraPosition);
-    camera.setPosition(cameraIsoPos.mul(-World.SCALE, new Vector3f()));
+    camera.setPosition(cameraIsoPos.mul(-world.getScale(), new Vector3f()));
 
     Tile[][][] tiles = levelMap.getTiles();
 

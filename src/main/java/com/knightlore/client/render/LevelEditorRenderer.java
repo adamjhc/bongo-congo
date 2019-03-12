@@ -9,7 +9,6 @@ import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.Tile;
 import com.knightlore.game.util.CoordinateUtils;
 import org.joml.Vector3f;
-import org.joml.Vector3i;
 
 public class LevelEditorRenderer extends Renderer {
 
@@ -22,8 +21,16 @@ public class LevelEditorRenderer extends Renderer {
 
   private GuiRenderer hudRenderer;
 
+  private int currentTileX;
+  private int currentTileY;
+  private int currentTileZ;
+
   public LevelEditorRenderer() {
     super();
+
+    currentTileX = 0;
+    currentTileY = 0;
+    currentTileZ = 0;
 
     setupWorld();
     setupHud();
@@ -42,22 +49,19 @@ public class LevelEditorRenderer extends Renderer {
     hudRenderer = new GuiRenderer();
   }
 
-  public void render(
-      LevelMap levelMap,
-      LevelEditorHud hud,
-      Vector3f cameraPosition,
-      Vector3i selectedTilePosition) {
+  public void render(LevelMap levelMap, Vector3f cameraPosition, LevelEditorHud hud) {
     clearBuffers();
 
-    renderMap(levelMap, cameraPosition, selectedTilePosition);
+    renderMap(levelMap, cameraPosition);
     hudRenderer.renderGui(hud);
 
     swapBuffers();
   }
 
-  private void renderMap(
-      LevelMap levelMap, Vector3f cameraPosition, Vector3i selectedTilePosition) {
+  private void renderMap(LevelMap levelMap, Vector3f cameraPosition) {
     Vector3f cameraIsoPos = CoordinateUtils.toIsometric(cameraPosition);
+    camera.setPosition(cameraIsoPos.mul(-world.getScale(), new Vector3f()));
+
     camera.setPosition(cameraIsoPos.mul(-world.getScale(), new Vector3f()));
 
     Tile[][][] tiles = levelMap.getTiles();
@@ -70,7 +74,7 @@ public class LevelEditorRenderer extends Renderer {
             TileGameObject tileGameObject = TileGameObjectSet.getTile(tiles[z][y][x].getIndex());
             tileGameObject.setIsometricPosition(isoTilePos);
 
-            int highlight = selectedTilePosition.equals(x, y, z) ? 1 : 0;
+            int highlight = (x == currentTileX && y == currentTileY && z == currentTileZ) ? 1 : 0;
             tileGameObject.render(
                 shaderProgram, world.getProjection(), camera.getProjection(), highlight);
           }
@@ -84,6 +88,12 @@ public class LevelEditorRenderer extends Renderer {
         && isometricPosition.y + viewY >= gameObjectPosition.y
         && isometricPosition.x - viewX <= gameObjectPosition.x - gameObjectPosition.z
         && isometricPosition.y - viewY <= gameObjectPosition.y - gameObjectPosition.z;
+  }
+
+  public void setCurrentTiles(int x, int y, int z) {
+    currentTileX = x;
+    currentTileY = y;
+    currentTileZ = z;
   }
 
   @Override

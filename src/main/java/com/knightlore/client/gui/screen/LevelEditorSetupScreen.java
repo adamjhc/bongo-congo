@@ -3,6 +3,8 @@ package com.knightlore.client.gui.screen;
 import static com.knightlore.client.util.GuiUtils.checkPosition;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.gui.Colour;
@@ -12,6 +14,14 @@ import com.knightlore.client.io.Mouse;
 import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.TileSet;
+
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+
+import org.joml.Vector4f;
 
 public class LevelEditorSetupScreen implements IScreen {
 
@@ -25,49 +35,49 @@ public class LevelEditorSetupScreen implements IScreen {
 
   @Override
   public void input() {
-    if (checkPosition(preLevelEditor, preLevelEditor.getWLeft().getId(), "")) {
+    if (checkPosition(preLevelEditor, preLevelEditor.getWLeft().getId())) {
       preLevelEditor.getWLeft().setColour();
       if (Mouse.isLeftButtonPressed()) {
         preLevelEditor.decWidth();
       }
     } else preLevelEditor.getWLeft().setColour(Colour.YELLOW);
 
-    if (checkPosition(preLevelEditor, preLevelEditor.getWRight().getId(), "")) {
+    if (checkPosition(preLevelEditor, preLevelEditor.getWRight().getId())) {
       preLevelEditor.getWRight().setColour();
       if (Mouse.isLeftButtonPressed()) {
         preLevelEditor.incWidth();
       }
     } else preLevelEditor.getWRight().setColour(Colour.YELLOW);
 
-    if (checkPosition(preLevelEditor, preLevelEditor.getLLeft().getId(), "")) {
+    if (checkPosition(preLevelEditor, preLevelEditor.getLLeft().getId())) {
       preLevelEditor.getLLeft().setColour();
       if (Mouse.isLeftButtonPressed()) {
         preLevelEditor.decLength();
       }
     } else preLevelEditor.getLLeft().setColour(Colour.YELLOW);
 
-    if (checkPosition(preLevelEditor, preLevelEditor.getLRight().getId(), "")) {
+    if (checkPosition(preLevelEditor, preLevelEditor.getLRight().getId())) {
       preLevelEditor.getLRight().setColour();
       if (Mouse.isLeftButtonPressed()) {
         preLevelEditor.incLength();
       }
     } else preLevelEditor.getLRight().setColour(Colour.YELLOW);
 
-    if (checkPosition(preLevelEditor, preLevelEditor.getHLeft().getId(), "")) {
+    if (checkPosition(preLevelEditor, preLevelEditor.getHLeft().getId())) {
       preLevelEditor.getHLeft().setColour();
       if (Mouse.isLeftButtonPressed()) {
         preLevelEditor.decHeight();
       }
     } else preLevelEditor.getHLeft().setColour(Colour.YELLOW);
 
-    if (checkPosition(preLevelEditor, preLevelEditor.getHRight().getId(), "")) {
+    if (checkPosition(preLevelEditor, preLevelEditor.getHRight().getId())) {
       preLevelEditor.getHRight().setColour();
       if (Mouse.isLeftButtonPressed()) {
         preLevelEditor.incHeight();
       }
     } else preLevelEditor.getHRight().setColour(Colour.YELLOW);
 
-    if (checkPosition(preLevelEditor, preLevelEditor.getCreateLevel().getId(), "")) {
+    if (checkPosition(preLevelEditor, preLevelEditor.getCreateLevel().getId())) {
       preLevelEditor.getCreateLevel().setColour();
       if (Mouse.isLeftButtonPressed()) {
         LevelMap editorMap =
@@ -79,13 +89,21 @@ public class LevelEditorSetupScreen implements IScreen {
       }
     } else preLevelEditor.getCreateLevel().setColour(Colour.YELLOW);
 
-    if (checkPosition(preLevelEditor, preLevelEditor.getBack().getId(), "")) {
+    if (checkPosition(preLevelEditor, preLevelEditor.getBack().getId())) {
       preLevelEditor.getBack().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Client.changeScreen(ClientState.MAIN_MENU);
       }
-    } else preLevelEditor.getBack().setColour(Colour.YELLOW);
-
+    } else preLevelEditor.getBack().setColour(new Vector4f(1, 1, 0, 1));
+    
+    if (checkPosition(preLevelEditor, preLevelEditor.getLoadLevel().getId(), "")) {
+    	preLevelEditor.getLoadLevel().setColour();
+    	if (Mouse.isLeftButtonPressed()) {
+    		Client.changeScreen(ClientState.LEVEL_EDITOR, getMap("customMaps/unplayable/customMap.umap"));
+    	}
+    } else preLevelEditor.getLoadLevel().setColour(new Vector4f(1, 1, 0, 1));
+    
+    
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU);
     }
@@ -93,6 +111,8 @@ public class LevelEditorSetupScreen implements IScreen {
 
   @Override
   public void render() {
+  	preLevelEditor.updateSize();
+  	
     guiRenderer.render(preLevelEditor);
   }
 
@@ -115,5 +135,25 @@ public class LevelEditorSetupScreen implements IScreen {
       }
     }
     return (new LevelMap(emptyMap, (new TileSet())));
+  }
+  
+  private LevelMap getMap(String filePath) {
+	File levelFile = new File(filePath);
+	GsonBuilder builder = new GsonBuilder();
+	Gson gson = builder.create();
+	String jsonString = "";
+	try {
+	  FileReader fileReader = new FileReader(levelFile);
+	  BufferedReader levelReader = new BufferedReader(fileReader);
+	  String line = levelReader.readLine();
+	  jsonString = jsonString + line;
+	  while ((line = levelReader.readLine()) != null) {
+		jsonString = jsonString + line;
+	  }
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+
+	return gson.fromJson(jsonString, LevelMap.class);
   }
 }

@@ -8,6 +8,8 @@ import com.knightlore.client.io.Window;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import org.joml.Matrix4f;
 
+import static org.lwjgl.opengl.GL11.glViewport;
+
 public class GuiRenderer extends Renderer {
 
   private ShaderProgram shaderProgram;
@@ -22,6 +24,11 @@ public class GuiRenderer extends Renderer {
 
   public void render(IGui gui) {
     clearBuffers();
+    
+    if (Window.isResized()) {
+    	glViewport(0, 0, Window.getWidth(), Window.getHeight());
+    	Window.setResized(false);
+    }
 
     renderGui(gui);
 

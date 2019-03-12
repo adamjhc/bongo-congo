@@ -8,6 +8,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 
 import java.lang.Thread.State;
+import java.util.Map;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
 
@@ -22,6 +23,7 @@ import com.knightlore.client.render.GameRenderer;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.GameState;
 import com.knightlore.game.entity.Direction;
+import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.LevelMapSet;
 import com.knightlore.game.map.TileSet;
@@ -56,13 +58,14 @@ public class GameScreen implements IScreen {
     }
 
     hud.renderScores(gameModel);
-    hud.getCountDown().setRender(true);
     
     Audio.restart();
     Mouse.hideCursor();
-    timer.setStartTime(0);
-    gameRenderer.init(gameModel);
+
+    gameRenderer.init(gameModel); 
     
+    timer.setStartTime(0);
+    hud.getCountDown().setRender(true);
     countDown = new Timer();
     countDown.setStartTime();
   }
@@ -78,9 +81,8 @@ public class GameScreen implements IScreen {
     if (Keyboard.isKeyReleased(GLFW_KEY_J)) {
     	hud.getCountDown().setRender(true);
     	timer.setStartTime(0);
-    	countDown.setStartTime();
-    	
       gameModel.nextLevel();
+      countDown.setStartTime();
     }
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
@@ -120,14 +122,18 @@ public class GameScreen implements IScreen {
   	
     text = String.format("%02d", timeLeft);
     hud.setCounter(text);
+    
+    Map<String, Player> players = gameModel.getPlayers();
+    //GET ALL PLAYERS THAT AREN'T YOU?
+    //UPDATE THEIR SCORE, LIVES AND COLOUR
 
     int lives = gameModel.myPlayer().getLives();
-    hud.setP1Lives(lives);
+    hud.setLives(0, lives);
 
     int score = gameModel.myPlayer().getScore();
-    hud.setP1Score(score);
+    hud.setScore(0, score);
 
-    hud.getP1Score().setColour(gameModel.myPlayer().getColour());
+    hud.getScore(0).setColour(gameModel.myPlayer().getColour());
 
     if (gameModel.getState() == GameState.NEXT_LEVEL) {
       gameRenderer.init(gameModel);

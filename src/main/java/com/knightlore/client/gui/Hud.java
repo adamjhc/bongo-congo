@@ -37,6 +37,8 @@ public class Hud implements IGui {
   private final TextObject countDown;
   private GuiObject[] guiObjects;
   private TextObject[] textObjects;
+  private TextObject[] scores;
+  private TextObject[] lives;
 
   public Hud() {
     this.player1Score = new TextObject("P1:00000000", SMALL);
@@ -122,7 +124,25 @@ public class Hud implements IGui {
           countDown
         };
     textObjects = new TextObject[] {};
-   
+    
+    scores =
+    		new TextObject[] {
+            player1Score,
+            player2Score,
+            player3Score,
+            player4Score,
+            player5Score,
+            player6Score
+    		};
+    lives = 
+    		new TextObject[] {
+            player1Lives,
+            player2Lives,
+            player3Lives,
+            player4Lives,
+            player5Lives,
+            player6Lives
+    		};
   }
 
   public void moveScore(float move, float targetXPos) {
@@ -152,15 +172,15 @@ public class Hud implements IGui {
     player6Lives.setPositionX(xPosLives + move);
   }
 
-  public void setP1Lives(int lives) {
+  public void setLives(int index, int lives) {
     if (lives <= 0) {
-      this.player1Lives.setText("");
+      this.lives[index].setText("");
     } else {
       String livesText = "";
       for (int i = 0; i < lives; i++) {
         livesText += "*";
       }
-      this.player1Lives.setText(livesText);
+      this.lives[index].setText(livesText);
     }
   }
 
@@ -180,16 +200,16 @@ public class Hud implements IGui {
   	this.countDown.setText(statusText);
   }
 
-  public TextObject getP1Score() {
-    return player1Score;
+  public TextObject getScore(int index) {
+    return this.scores[index];
   }
 
-  public void setP1Score(int score) {
+  public void setScore(int index, int score) {
     if (score > MAX_SCORE) {
       score = MAX_SCORE;
     }
     String text = String.format("%08d", score);
-    this.player1Score.setText("P1:" + text);
+    this.scores[index].setText("P1:" + text);
   }
 
   public int getScoreHide() {

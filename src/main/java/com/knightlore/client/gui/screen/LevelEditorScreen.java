@@ -11,6 +11,8 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_E;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_PERIOD;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_COMMA;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_Z;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_X;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -135,8 +137,10 @@ public class LevelEditorScreen implements IScreen {
     	editorMap.rotate(true);
     } else if (Keyboard.isKeyReleased(GLFW_KEY_PERIOD)) {
     	editorMap.rotate(false);
-    } else if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)) {
-    	editorMap.resetRotation();
+    } else if (Keyboard.isKeyReleased(GLFW_KEY_Z)) {
+    	levelEditorRenderer.zoomIn();
+    } else if (Keyboard.isKeyReleased(GLFW_KEY_X)) {
+    	levelEditorRenderer.zoomOut();
     }
 
     if (checkPosition(levelEditorHud, levelEditorHud.getSave().getId(), "")) {

@@ -5,6 +5,7 @@ import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.LevelMap;
+import java.lang.Math.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +21,7 @@ public class GameModel {
   private int playerIdInc;
   private Integer currentLevelIndex;
   private GameState currentState;
+  private int accumulator = 0;
 
   public GameModel(String uuid) {
     this.uuid = uuid;
@@ -106,8 +108,35 @@ public class GameModel {
         }
         break;
       case CLIMBING:
+          Player player = myPlayer();
+          Vector3f bottom = player.getPosition();
+          if (!(accumulator > 10)) {
+              bottom.z += 0.1;
+              accumulator++;
+              System.out.println(accumulator);
+              player.setPosition(bottom);
+              delay(5);
+          } else {
+              accumulator = 0;
+              player.setPlayerState(PlayerState.IDLE);
+          }
+        break;
       case ROLLING:
       case FALLING:
+          player = myPlayer();
+          Vector3f top = player.getPosition();
+          if (!(accumulator > 10)) {
+              top.z -= 0.1;
+              if (top.z < 0) { top.z = 0;}
+              accumulator++;
+              System.out.println(accumulator);
+              player.setPosition(top);
+              delay(5);
+          } else {
+              accumulator = 0;
+              player.setPlayerState(PlayerState.IDLE);
+          }
+          break;
       case DEAD:
         break;
     }
@@ -151,4 +180,13 @@ public class GameModel {
   private void updatePlayerState(PlayerState state) {
     myPlayer().setPlayerState(state);
   }
+
+  private void delay(long target) { // target delay in milliseconds
+    long start = System.nanoTime() / 1000000;
+    long difference = 0;
+    while (difference < target) {
+      long check = System.nanoTime() / 1000000;
+      difference = check - start;
+    }
+        }
 }

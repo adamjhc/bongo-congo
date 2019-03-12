@@ -105,69 +105,6 @@ public class PreLevelEditor implements IGui {
     this.loadLevel = new TextObject("Load Level", SMALL);
     this.loadLevel.setColour(Colour.YELLOW);
 
-    bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
-    congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
-    separatorTop.setPosition(
-        Window.getHalfWidth() - separatorTop.getSize() / 2,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS);
-    separatorBottom.setPosition(
-        Window.getHalfWidth() - separatorBottom.getSize() / 2,
-        Window.getHalfHeight() + SEPARATOR_BOT_POS);
-    editor.setPosition(
-    		Window.getHalfWidth() - editor.getSize() / 2,
-    		Window.getHalfHeight() - SEPARATOR_TOP_POS - SEPARATOR_GAP);
-
-    this.width.setPosition(
-        Window.getHalfWidth() - width.getSize() / 2,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP);
-    this.length.setPosition(
-        Window.getHalfWidth() - length.getSize() / 2,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 3 + GAP_LARGE);
-    this.height.setPosition(
-        Window.getHalfWidth() - height.getSize() / 2,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 5 + GAP_LARGE * 2);
-
-    this.wNum.setPosition(
-        Window.getHalfWidth() - wNum.getSize() / 2,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 2);
-    this.lNum.setPosition(
-        Window.getHalfWidth() - lNum.getSize() / 2,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 4 + GAP_LARGE);
-    this.hNum.setPosition(
-        Window.getHalfWidth() - hNum.getSize() / 2,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 6 + GAP_LARGE * 2);
-
-    this.wLeft.setPosition(
-        Window.getHalfWidth() - wLeft.getSize() / 2 - 100,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 2);
-    this.wRight.setPosition(
-        Window.getHalfWidth() - wRight.getSize() / 2 + 100,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 2);
-
-    this.lLeft.setPosition(
-        Window.getHalfWidth() - lLeft.getSize() / 2 - 100,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 4 + GAP_LARGE);
-    this.lRight.setPosition(
-        Window.getHalfWidth() - lRight.getSize() / 2 + 100,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 4 + GAP_LARGE);
-
-    this.hLeft.setPosition(
-        Window.getHalfWidth() - hLeft.getSize() / 2 - 100,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 6 + GAP_LARGE * 2);
-    this.hRight.setPosition(
-        Window.getHalfWidth() - hRight.getSize() / 2 + 100,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 6 + GAP_LARGE * 2);
-
-    this.createLevel.setPosition(
-        Window.getHalfWidth() - createLevel.getSize() / 2,
-        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP);
-    
-    this.loadLevel.setPosition(
-        	Window.getHalfWidth() - loadLevel.getSize() / 2, Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
-
-    this.exit.setPosition(
-        Window.getHalfWidth() - exit.getSize() / 2, Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 3);
-
 
     guiObjects =
         new GuiObject[] {

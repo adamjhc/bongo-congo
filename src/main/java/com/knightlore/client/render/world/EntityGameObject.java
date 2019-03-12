@@ -9,7 +9,6 @@ import com.knightlore.game.entity.Entity;
 import java.util.EnumMap;
 import java.util.Map;
 import org.joml.Matrix4f;
-import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 public abstract class EntityGameObject extends GameObject {

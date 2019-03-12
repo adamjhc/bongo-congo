@@ -62,8 +62,6 @@ public class LevelEditorRenderer extends Renderer {
     Vector3f cameraIsoPos = CoordinateUtils.toIsometric(cameraPosition);
     camera.setPosition(cameraIsoPos.mul(-world.getScale(), new Vector3f()));
 
-    camera.setPosition(cameraIsoPos.mul(-world.getScale(), new Vector3f()));
-
     Tile[][][] tiles = levelMap.getTiles();
 
     for (int z = 0; z < tiles.length; z++) {

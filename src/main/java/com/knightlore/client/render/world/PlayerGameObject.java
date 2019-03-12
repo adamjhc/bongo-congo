@@ -51,7 +51,8 @@ public class PlayerGameObject extends EntityGameObject {
 
     players.forEach(
         player -> {
-          PlayerGameObject playerGameObject = new PlayerGameObject("player", player.getPosition(), player.getColour());
+          PlayerGameObject playerGameObject =
+              new PlayerGameObject("player", player.getPosition(), player.getColour());
           playerGameObjects.add(playerGameObject);
         });
 

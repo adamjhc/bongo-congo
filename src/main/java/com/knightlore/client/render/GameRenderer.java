@@ -114,9 +114,11 @@ public class GameRenderer extends Renderer {
     depthSortedGameObjects.forEach(
         gameObject -> {
           if (gameObject instanceof PlayerGameObject) {
-            ((PlayerGameObject) gameObject).render(playerShaderProgram, camera.getProjection(), world.getScale());
+            ((PlayerGameObject) gameObject)
+                .render(playerShaderProgram, camera.getProjection(), world.getScale());
           } else if (gameObject instanceof EnemyGameObject) {
-            ((EnemyGameObject) gameObject).render(worldShaderProgram, camera.getProjection(), world.getScale());
+            ((EnemyGameObject) gameObject)
+                .render(worldShaderProgram, camera.getProjection(), world.getScale());
           } else {
             ((TileGameObject) gameObject)
                 .render(worldShaderProgram, world.getProjection(), camera.getProjection());

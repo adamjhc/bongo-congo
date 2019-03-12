@@ -1,5 +1,7 @@
 package com.knightlore.client.render;
 
+import static org.lwjgl.opengl.GL11.glViewport;
+
 import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.graphics.Mesh;
@@ -7,8 +9,6 @@ import com.knightlore.client.gui.engine.graphics.Transformation;
 import com.knightlore.client.io.Window;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import org.joml.Matrix4f;
-
-import static org.lwjgl.opengl.GL11.glViewport;
 
 public class GuiRenderer extends Renderer {
 
@@ -24,10 +24,10 @@ public class GuiRenderer extends Renderer {
 
   public void render(IGui gui) {
     clearBuffers();
-    
+
     if (Window.isResized()) {
-    	glViewport(0, 0, Window.getWidth(), Window.getHeight());
-    	Window.setResized(false);
+      glViewport(0, 0, Window.getWidth(), Window.getHeight());
+      Window.setResized(false);
     }
 
     renderGui(gui);

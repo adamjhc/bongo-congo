@@ -5,14 +5,23 @@ import org.joml.Matrix4f;
 public class World {
 
   /** Scale of the world */
-  public static final int SCALE = 48;
+  private int scale = 48;
 
   /** Projection of the world */
   private Matrix4f projection;
 
   /** Initialise the render world */
   World() {
-    projection = new Matrix4f().scale(SCALE);
+    projection = new Matrix4f().scale(scale);
+  }
+
+  int getScale() {
+    return scale;
+  }
+
+  void setScale(int scale) {
+    this.scale = scale;
+    projection = new Matrix4f().scale(scale);
   }
 
   /**

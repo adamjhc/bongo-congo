@@ -32,12 +32,12 @@ public class EnemyGameObject extends EntityGameObject {
   }
 
   @Override
-  public void render(ShaderProgram shaderProgram, Matrix4f camera) {
+  public void render(ShaderProgram shaderProgram, Matrix4f camera, int worldScale) {
     transform.setPosition(isometricPosition);
 
     shaderProgram.bind();
     shaderProgram.setUniform("sampler", 0);
-    shaderProgram.setUniform("projection", transform.getProjection(camera));
+    shaderProgram.setUniform("projection", transform.getProjection(camera, worldScale));
     shaderProgram.setUniform("colour", colour);
 
     switch (currentState) {

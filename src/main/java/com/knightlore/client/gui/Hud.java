@@ -156,7 +156,6 @@ public class Hud implements IGui {
       }
       this.player1Lives.setText(livesText);
     }
-    this.player1Lives.setColour(Colour.RED);
   }
 
   public TextObject getCounter() {
@@ -165,7 +164,6 @@ public class Hud implements IGui {
 
   public void setCounter(String statusText) {
     this.counter.setText(statusText);
-    this.counter.setColour(Colour.YELLOW);
   }
 
   public TextObject getP1Score() {
@@ -197,18 +195,16 @@ public class Hud implements IGui {
   	Map<String, Player> players = gameModel.getPlayers();
   	int numPlayers = players.size();
   	
-  	if (numPlayers == 1) {
-  		player2Score.setRender(false);
-  		player2Lives.setRender(false);
-  		player3Score.setRender(false);
-  		player3Lives.setRender(false);
-  		player4Score.setRender(false);
-  		player4Lives.setRender(false);
-  		player5Score.setRender(false);
-  		player5Lives.setRender(false);
-  		player6Score.setRender(false);
-  		player6Lives.setRender(false);
-  	}
+  	player2Score.setRender(numPlayers > 1 ? true : false);
+  	player2Lives.setRender(numPlayers > 1 ? true : false);
+  	player3Score.setRender(numPlayers > 2 ? true : false);
+  	player3Lives.setRender(numPlayers > 2 ? true : false);
+  	player4Score.setRender(numPlayers > 3 ? true : false);
+  	player4Lives.setRender(numPlayers > 3 ? true : false);
+  	player5Score.setRender(numPlayers > 4 ? true : false);
+  	player5Lives.setRender(numPlayers > 4 ? true : false);
+  	player6Score.setRender(numPlayers > 5 ? true : false);
+  	player6Lives.setRender(numPlayers > 5 ? true : false);
   }
 
   @Override

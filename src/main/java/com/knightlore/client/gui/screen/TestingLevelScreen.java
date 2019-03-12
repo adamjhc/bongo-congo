@@ -29,14 +29,5 @@ public class TestingLevelScreen extends GameScreen {
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.LEVEL_EDITOR, gameModel.getCurrentLevel().getLevelMap());
     }
-
-    if (Mouse.getXPos() > hud.getSound().getPositionX()
-        && Mouse.getYPos() > hud.getSound().getPositionY()) {
-      if (Mouse.isLeftButtonPressed()) {
-        hud.getSoundMute().setRender();
-        hud.getSoundMute().setRender();
-        Audio.toggle();
-      }
-    }
   }
 }

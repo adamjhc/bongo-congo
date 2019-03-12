@@ -4,26 +4,13 @@ import com.knightlore.client.networking.GameConnection;
 import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.Tile;
 import com.knightlore.game.util.CoordinateUtils;
-import java.util.ArrayList;
-import java.util.Random;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
+import org.joml.Vector4f;
 
 public class Player extends Entity {
 
   private static final Vector3f START_POSITION = new Vector3f(0.5f, 0.5f, 0);
-  private static ArrayList<Vector3f> availableColours;
-
-  static {
-    availableColours = new ArrayList<>();
-    availableColours.add(new Vector3f(0, 0, 1));
-    availableColours.add(new Vector3f(0, 1, 0));
-    availableColours.add(new Vector3f(0, 1, 1));
-    availableColours.add(new Vector3f(1, 0, 0));
-    availableColours.add(new Vector3f(1, 0, 1));
-    availableColours.add(new Vector3f(1, 1, 0));
-    availableColours.add(new Vector3f(1, 1, 1));
-  }
 
   private int lives;
   private int score;
@@ -31,10 +18,12 @@ public class Player extends Entity {
   private boolean climbFlag = false;
   private PlayerState playerState;
   private String associatedSession;
-  private Vector3f colour;
+  private Vector4f colour;
 
-  public Player(String sessionID, int id) {
+  public Player(String sessionID, int id, Vector4f colour) {
+    this.associatedSession = sessionID;
     this.id = id;
+    this.colour = colour;
 
     speed = 7;
     direction = Direction.SOUTH;
@@ -43,10 +32,6 @@ public class Player extends Entity {
 
     lives = 3;
     score = 0;
-
-    colour = availableColours.get(new Random().nextInt(availableColours.size()));
-    availableColours.remove(colour);
-    this.associatedSession = sessionID;
   }
 
   public void addToScore(int amount) {
@@ -61,7 +46,7 @@ public class Player extends Entity {
     this.playerState = playerState;
   }
 
-  public Vector3f getColour() {
+  public Vector4f getColour() {
     return colour;
   }
 

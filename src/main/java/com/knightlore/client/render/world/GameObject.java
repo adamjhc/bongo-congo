@@ -34,6 +34,10 @@ public abstract class GameObject {
     return modelPosition;
   }
 
+  public void setModelPosition(Vector3f modelPosition) {
+    this.modelPosition = modelPosition;
+  }
+
   public void setPosition(Vector3f modelPosition) {
     this.modelPosition = modelPosition;
     isometricPosition = CoordinateUtils.toIsometric(modelPosition);

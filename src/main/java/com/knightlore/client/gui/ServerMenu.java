@@ -7,27 +7,26 @@ import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.gui.engine.graphics.FontTexture;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.GraphicsEnvironment;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+
 import java.util.ArrayList;
 
 public class ServerMenu implements IGui {
 
   private static final int SEPARATOR_TOP_POS = 185;
   private static final int SEPARATOR_BOT_POS = 200;
-  private static final int SEPARATOR_GAP = 16;
+  private static final int SEPARATOR_GAP = FONT_SIZE_SMALL;
 
-  private static final int MAX_SERVERS = 18;
+  private static final int MAX_SERVERS = (SEPARATOR_TOP_POS + SEPARATOR_BOT_POS - GAP) / GAP;
 
   private final TextObject separatorTop;
   private final TextObject separatorBot;
   private final TextObject create;
   private final TextObject exit;
+  private final TextObject bongo;
+  private final TextObject congo;
+  private final TextObject multiplayer;
+  private final TextObject join;
+  private final TextObject refresh;
   private final ArrayList<LobbyObject> servers;
   private GuiObject[] guiObjects;
   private TextObject[] textObjects;
@@ -38,83 +37,53 @@ public class ServerMenu implements IGui {
   private int yPos = SEPARATOR_TOP_POS - GAP;
 
   public ServerMenu() {
-    try (InputStream myStream =
-        new BufferedInputStream(
-            new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"))) {
-      GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-      ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, myStream));
-    } catch (IOException | FontFormatException e) {
-      e.printStackTrace();
-    }
+    this.bongo = new TextObject("Bongo", TITLE);
+    this.bongo.setColour(Colour.LIGHT_BLUE);
 
-    FontTexture fontSmall = new FontTexture(FONT_SMALL, CHARSET);
-    FontTexture fontTitle = new FontTexture(FONT_TITLE, CHARSET);
+    this.congo = new TextObject("Congo", TITLE);
+    this.congo.setColour(Colour.RED);
 
-    TextObject bongo = new TextObject("Bongo", fontTitle);
-    bongo.setColour(LIGHT_BLUE);
+    this.multiplayer = new TextObject("Play Multiplayer", SMALL);
+    this.multiplayer.setColour(Colour.YELLOW);
 
-    TextObject congo = new TextObject("Congo", fontTitle);
-    congo.setColour(RED);
-
-    TextObject multiplayer = new TextObject("Play Multiplayer", fontSmall);
-    multiplayer.setColour(YELLOW);
-
-    this.separatorTop = new TextObject("------------------------------", fontSmall);
-    this.separatorTop.setColour(YELLOW);
+    this.separatorTop = new TextObject("------------------------------", SMALL);
+    this.separatorTop.setColour(Colour.YELLOW);
     this.separatorTop.setId("Separator Top");
 
-    this.separatorBot = new TextObject("------------------------------", fontSmall);
-    this.separatorBot.setColour(YELLOW);
+    this.separatorBot = new TextObject("------------------------------", SMALL);
+    this.separatorBot.setColour(Colour.YELLOW);
     this.separatorBot.setId("Separator Bot");
 
-    TextObject join = new TextObject("Join game", fontSmall);
-    join.setColour(YELLOW);
+    this.join = new TextObject("Join game", SMALL);
+    this.join.setColour(Colour.YELLOW);
 
-    this.create = new TextObject("Create game", fontSmall);
-    this.create.setColour(YELLOW);
+    this.create = new TextObject("Create game", SMALL);
+    this.create.setColour(Colour.YELLOW);
+    
+    this.refresh = new TextObject("Refresh", SMALL);
+    this.refresh.setColour(Colour.YELLOW);
 
-    this.exit = new TextObject("Exit", fontSmall);
-    this.exit.setColour(YELLOW);
-
-    bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
-    congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
-    multiplayer.setPosition(
-        Window.getHalfWidth() - multiplayer.getSize() / 2,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS - SEPARATOR_GAP);
-    this.separatorTop.setPosition(
-        Window.getHalfWidth() - separatorTop.getSize() / 2,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS);
-    this.separatorBot.setPosition(
-        Window.getHalfWidth() - separatorTop.getSize() / 2,
-        Window.getHalfHeight() + SEPARATOR_BOT_POS);
-    this.create.setPosition(
-        Window.getHalfWidth() - create.getSize() / 2,
-        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP);
-    join.setPosition(
-        Window.getHalfWidth() - join.getSize() / 2,
-        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
-    this.exit.setPosition(
-        Window.getHalfWidth() - exit.getSize() / 2,
-        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 3);
+    this.exit = new TextObject("Exit", SMALL);
+    this.exit.setColour(Colour.YELLOW);
 
     servers = new ArrayList<>();
 
     for (int i = 0; i < 10; i++) {
-      servers.add(new LobbyObject(i + "'s " + "Server", fontSmall));
+      servers.add(new LobbyObject(i + "'s " + "Server", SMALL));
     }
 
     for (LobbyObject server : servers) {
-      server.setColour(YELLOW);
+      server.setColour(Colour.YELLOW);
       server.setPosition(
           Window.getHalfWidth() - server.getSize() / 2, Window.getHalfHeight() - yPos);
       yPos -= GAP;
     }
 
     guiObjects =
-        new GuiObject[] {bongo, congo, multiplayer, separatorTop, separatorBot, join, create, exit};
+        new GuiObject[] {bongo, congo, multiplayer, separatorTop, separatorBot, join, create, exit, refresh};
     length = guiObjects.length;
 
-    textObjects = new TextObject[] {join, create, exit, separatorTop, separatorBot};
+    textObjects = new TextObject[] {join, create, exit, separatorTop, separatorBot, refresh};
 
     addServers();
   }
@@ -123,7 +92,7 @@ public class ServerMenu implements IGui {
     FontTexture fontTexture = new FontTexture(FONT_SMALL, CHARSET);
 
     LobbyObject newServer = new LobbyObject("New Server " + servers.size(), fontTexture);
-    newServer.setColour(YELLOW);
+    newServer.setColour(Colour.YELLOW);
     newServer.setPosition(
         Window.getHalfWidth() - newServer.getSize() / 2,
         Window.getHalfHeight() - yPos - (current * GAP));
@@ -210,7 +179,7 @@ public class ServerMenu implements IGui {
         server.setHighlighted();
         server.setText(server.getText().substring(4, server.getText().length() - 4));
         server.setPositionX(Window.getHalfWidth() - server.getSize() / 2);
-        server.setColour(YELLOW);
+        server.setColour(Colour.YELLOW);
       }
     }
   }
@@ -240,6 +209,38 @@ public class ServerMenu implements IGui {
 
   public TextObject getExit() {
     return exit;
+  }
+  
+  public void updateSize() {
+    this.bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
+    this.congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
+    this.multiplayer.setPosition(
+        Window.getHalfWidth() - multiplayer.getSize() / 2,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS - SEPARATOR_GAP);
+    this.separatorTop.setPosition(
+        Window.getHalfWidth() - separatorTop.getSize() / 2,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS);
+    this.separatorBot.setPosition(
+        Window.getHalfWidth() - separatorTop.getSize() / 2,
+        Window.getHalfHeight() + SEPARATOR_BOT_POS);
+    this.create.setPosition(
+        Window.getHalfWidth() - create.getSize() / 2,
+        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 1);
+    this.join.setPosition(
+        Window.getHalfWidth() - join.getSize() / 2,
+        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
+    this.refresh.setPosition(
+    		Window.getHalfWidth() - refresh.getSize() / 2,
+    		Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 3);
+    this.exit.setPosition(
+        Window.getHalfWidth() - exit.getSize() / 2,
+        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 4);
+    
+    int yPos = SEPARATOR_TOP_POS - GAP;
+    for (LobbyObject server : servers) {	
+    	server.setPosition(Window.getHalfWidth() - server.getSize() / 2,  Window.getHalfHeight() - yPos - current*GAP);
+    	yPos -= GAP;
+    }
   }
 
   @Override

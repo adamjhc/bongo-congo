@@ -14,6 +14,12 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_8;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_9;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.io.Keyboard;
@@ -25,8 +31,15 @@ import com.knightlore.game.GameModel;
 import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.TileType;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
+
+import static com.knightlore.client.util.GuiUtils.checkPosition;
 
 public class LevelEditorScreen implements IScreen {
+
+  private int WIDTH;
+  private int HEIGHT;
+  private int LENGTH;
 
   private LevelEditorRenderer levelEditorRenderer;
   private LevelEditorHud levelEditorHud;
@@ -44,6 +57,9 @@ public class LevelEditorScreen implements IScreen {
   @Override
   public void startup(Object... args) {
     editorMap = (LevelMap) args[0];
+    WIDTH = editorMap.getTiles()[0][0].length;
+    LENGTH = editorMap.getTiles()[0].length;
+    HEIGHT = editorMap.getTiles().length;
     gameModel = new GameModel("");
     cameraPosition = new Vector3f(0, 0, 0);
     currentTileX = 0;
@@ -128,28 +144,100 @@ public class LevelEditorScreen implements IScreen {
         currentTileX += 1;
         currentTileY -= 1;
       }
-    } else if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)) {
-      int id = editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].getType().ordinal();
-      if (id == 5) {
-        editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
-            TileType.values()[0]);
-      } else {
-        editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
-            TileType.values()[id + 1]);
-      }
     } else if (Keyboard.isKeyReleased(GLFW_KEY_ENTER)) {
       try {
         gameModel.overwriteCurrentLevel(editorMap);
       } catch (Exception e) {
         gameModel.createNewLevel(editorMap);
       } finally {
-        gameModel.addPlayer("1", 0);
+        gameModel.addPlayer("1");
         Client.changeScreen(ClientState.TESTING_LEVEL, gameModel);
       }
-    }
 
-    if (Keyboard.isKeyPressed(GLFW_KEY_ESCAPE)) {
+    }
+    
+    if (checkPosition(levelEditorHud, levelEditorHud.getSave().getId(), "")) {
+  	  levelEditorHud.getSave().setColour();
+  	  if (Mouse.isLeftButtonPressed()) {
+  		  try {
+  			  save(false);
+  		  } catch (Exception e) {
+  			  e.printStackTrace();
+  		  }
+  	  }
+    } else levelEditorHud.getSave().setColour(new Vector4f(1, 1, 0, 1));
+    
+    if (checkPosition(levelEditorHud, levelEditorHud.getEmpty().getId(), "")) {
+    	levelEditorHud.getEmpty().setColour();
+    	if (Mouse.isLeftButtonPressed()) {
+    	editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
+                TileType.values()[0]);
+    	}
+    } else levelEditorHud.getEmpty().setColour(new Vector4f(1, 1, 0, 1));
+    
+    if (checkPosition(levelEditorHud, levelEditorHud.getFloor().getId(), "")) {
+    	levelEditorHud.getFloor().setColour();
+    	if (Mouse.isLeftButtonPressed()) {
+    		editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
+    	            TileType.values()[1]);
+    	}
+    } else levelEditorHud.getFloor().setColour(new Vector4f(1, 1, 0, 1));
+    
+    if (checkPosition(levelEditorHud, levelEditorHud.getSlab().getId(), "")) {
+    	levelEditorHud.getSlab().setColour();
+    	if (Mouse.isLeftButtonPressed()) {
+    		editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
+    	            TileType.values()[2]);
+    	}
+    } else levelEditorHud.getSlab().setColour(new Vector4f(1, 1, 0, 1));
+    
+    if (checkPosition(levelEditorHud, levelEditorHud.getBlock().getId(), "")) {
+    	levelEditorHud.getBlock().setColour();
+    	if (Mouse.isLeftButtonPressed()) {
+    		editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
+    	            TileType.values()[3]);
+    	}
+    } else levelEditorHud.getBlock().setColour(new Vector4f(1, 1, 0, 1));
+    
+    if (checkPosition(levelEditorHud, levelEditorHud.getHazard().getId(), "")) {
+    	levelEditorHud.getHazard().setColour();
+    	if (Mouse.isLeftButtonPressed()) {
+    		editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
+    	            TileType.values()[4]);
+    	}
+    } else levelEditorHud.getHazard().setColour(new Vector4f(1, 1, 0, 1));
+    
+    if (checkPosition(levelEditorHud, levelEditorHud.getFinish().getId(), "")) {
+    	levelEditorHud.getFinish().setColour();
+    	if (Mouse.isLeftButtonPressed()) {
+    		editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
+    	            TileType.values()[5]);
+    	}
+    } else levelEditorHud.getFinish().setColour(new Vector4f(1, 1, 0, 1));
+
+    if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU);
     }
+    
+    levelEditorRenderer.setCurrentTiles(currentTileX, currentTileY, currentTileZ);
+  }
+  
+  private void save(boolean levelIsComplete) throws IOException {
+	  String filePath = "customMaps/";
+	  if (levelIsComplete) {
+		  filePath = filePath + "playable/";
+	  } else {
+		  filePath = filePath + "unplayable/";
+	  }
+	  
+	  GsonBuilder builder = new GsonBuilder();
+	  Gson gson = builder.create();
+	  
+	  String jsonString = gson.toJson(editorMap);
+	  System.out.println(jsonString);
+	  
+	  BufferedWriter writer = new BufferedWriter(new FileWriter(filePath + "customMap.umap"));
+	  writer.write(jsonString);
+	  writer.close();
   }
 }

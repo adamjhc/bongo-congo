@@ -3,21 +3,13 @@ package com.knightlore.client.gui;
 import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
-import com.knightlore.client.gui.engine.graphics.FontTexture;
 import com.knightlore.client.io.Window;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.GraphicsEnvironment;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 public class OptionsMenu implements IGui {
 
   private static final int SEPARATOR_TOP_POS = 185;
   private static final int SEPARATOR_BOT_POS = 200;
-  private static final int SEPARATOR_GAP = 16;
+  private static final int SEPARATOR_GAP = FONT_SIZE_SMALL;
 
   private static final int MAX_VOLUME = 100;
 
@@ -25,79 +17,54 @@ public class OptionsMenu implements IGui {
   private final TextObject decVolume;
   private final TextObject volume;
   private final TextObject exit;
+  private final TextObject isFullscreen;
+  private final TextObject bongo;
+  private final TextObject congo;
+  private final TextObject options;
+  private final TextObject separatorTop;
+  private final TextObject separatorBot;
+  private final TextObject musicVolume;
+  private final TextObject fullScreen;
+  
   private GuiObject[] guiObjects;
   private TextObject[] textObjects;
 
   public OptionsMenu() {
-    try (InputStream myStream =
-        new BufferedInputStream(
-            new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"))) {
-      GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-      ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, myStream));
-    } catch (IOException | FontFormatException e) {
-      e.printStackTrace();
-    }
+    this.bongo = new TextObject("Bongo", TITLE);
+    this.bongo.setColour(Colour.LIGHT_BLUE);
 
-    FontTexture fontSmall = new FontTexture(FONT_SMALL, CHARSET);
-    FontTexture fontLarge = new FontTexture(FONT_LARGE, CHARSET);
-    FontTexture fontTitle = new FontTexture(FONT_TITLE, CHARSET);
+    this.congo = new TextObject("Congo", TITLE);
+    this.congo.setColour(Colour.RED);
 
-    TextObject bongo = new TextObject("Bongo", fontTitle);
-    bongo.setColour(LIGHT_BLUE);
+    this.incVolume = new TextObject(">", LARGE);
+    this.incVolume.setColour(Colour.YELLOW);
 
-    TextObject congo = new TextObject("Congo", fontTitle);
-    congo.setColour(RED);
+    this.decVolume = new TextObject("<", LARGE);
+    this.decVolume.setColour(Colour.YELLOW);
 
-    this.incVolume = new TextObject(">", fontLarge);
-    this.incVolume.setColour(YELLOW);
+    this.volume = new TextObject("070", LARGE);
+    this.volume.setColour(Colour.YELLOW);
 
-    this.decVolume = new TextObject("<", fontLarge);
-    this.decVolume.setColour(YELLOW);
+    this.exit = new TextObject("Exit", SMALL);
+    this.exit.setColour(Colour.YELLOW);
+    
+    this.isFullscreen = new TextObject("Off", LARGE);
+    this.isFullscreen.setColour(Colour.YELLOW);
 
-    this.volume = new TextObject("000", fontLarge);
-    this.volume.setColour(YELLOW);
+    this.options = new TextObject("Options", SMALL);
+    this.options.setColour(Colour.YELLOW);
 
-    this.exit = new TextObject("Exit", fontSmall);
-    this.exit.setColour(YELLOW);
+    this.separatorTop = new TextObject("------------------------------", SMALL);
+    this.separatorTop.setColour(Colour.YELLOW);
 
-    TextObject options = new TextObject("GameModel Options", fontSmall);
-    options.setColour(YELLOW);
+    this.separatorBot = new TextObject("------------------------------", SMALL);
+    this.separatorBot.setColour(Colour.YELLOW);
 
-    TextObject separatorTop = new TextObject("------------------------------", fontSmall);
-    separatorTop.setColour(YELLOW);
-
-    TextObject separatorBot = new TextObject("------------------------------", fontSmall);
-    separatorBot.setColour(YELLOW);
-
-    TextObject musicVolume = new TextObject("GameModel music volume", fontSmall);
-    musicVolume.setColour(YELLOW);
-
-    bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
-    congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
-    this.volume.setPosition(
-        Window.getHalfWidth() - volume.getSize() / 2,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 2);
-    this.incVolume.setPosition(
-        Window.getHalfWidth() - incVolume.getSize() / 2 + 100,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 2);
-    this.decVolume.setPosition(
-        Window.getHalfWidth() - decVolume.getSize() / 2 - 100,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 2);
-    this.exit.setPosition(
-        Window.getHalfWidth() - exit.getSize() / 2,
-        Window.getHalfHeight() + SEPARATOR_BOT_POS + SEPARATOR_GAP);
-    options.setPosition(
-        Window.getHalfWidth() - options.getSize() / 2,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS - SEPARATOR_GAP);
-    separatorTop.setPosition(
-        Window.getHalfWidth() - separatorTop.getSize() / 2,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS);
-    separatorBot.setPosition(
-        Window.getHalfWidth() - separatorBot.getSize() / 2,
-        Window.getHalfHeight() + SEPARATOR_BOT_POS);
-    musicVolume.setPosition(
-        Window.getHalfWidth() - musicVolume.getSize() / 2,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP);
+    this.musicVolume = new TextObject("Game music volume", SMALL);
+    this.musicVolume.setColour(Colour.YELLOW);
+    
+    this.fullScreen = new TextObject("Fullscreen", SMALL);
+    this.fullScreen.setColour(Colour.YELLOW);
 
     guiObjects =
         new GuiObject[] {
@@ -107,28 +74,39 @@ public class OptionsMenu implements IGui {
           decVolume,
           volume,
           exit,
+          isFullscreen,
           options,
           separatorTop,
           separatorBot,
-          musicVolume
+          musicVolume,
+          fullScreen
         };
-    textObjects = new TextObject[] {incVolume, decVolume, exit};
+    textObjects = new TextObject[] {incVolume, decVolume, exit, isFullscreen};
   }
 
   public void incVolume() {
     int volumeAmount = Integer.parseInt(this.volume.getText());
     if (volumeAmount < MAX_VOLUME) volumeAmount++;
     this.volume.setText((String.format("%03d", volumeAmount)));
-    this.volume.getMesh().getMaterial().setColour(YELLOW);
+    this.volume.setColour(Colour.YELLOW);
   }
 
   public void decVolume() {
     int volumeAmount = Integer.parseInt(this.volume.getText());
     if (volumeAmount > 0) volumeAmount--;
     this.volume.setText((String.format("%03d", volumeAmount)));
-    this.volume.getMesh().getMaterial().setColour(YELLOW);
+    this.volume.setColour(Colour.YELLOW);
   }
-
+  
+  public void setFullscreen() {
+  	if (this.isFullscreen.getText() == "Off") this.isFullscreen.setText("On");
+  	else this.isFullscreen.setText("Off");
+  	this.isFullscreen.setPositionX(Window.getHalfWidth() - isFullscreen.getSize() / 2);
+  	this.isFullscreen.setColour(Colour.YELLOW);
+  	
+  	Window.setFullscreen();
+  }
+  
   public TextObject getIncVolume() {
     return incVolume;
   }
@@ -141,6 +119,45 @@ public class OptionsMenu implements IGui {
     return exit;
   }
 
+  public TextObject getIsFullscreen() {
+  	return isFullscreen;
+  }
+  
+  public void updateSize() {
+    this.bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
+    this.congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
+    this.volume.setPosition(
+        Window.getHalfWidth() - volume.getSize() / 2,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 2);
+    this.incVolume.setPosition(
+        Window.getHalfWidth() - incVolume.getSize() / 2 + 100,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 2);
+    this.decVolume.setPosition(
+        Window.getHalfWidth() - decVolume.getSize() / 2 - 100,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 2);
+    this.exit.setPosition(
+        Window.getHalfWidth() - exit.getSize() / 2,
+        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP);
+    this.isFullscreen.setPosition(
+    		Window.getHalfWidth() - isFullscreen.getSize() / 2,
+    		Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 4 + GAP_LARGE);
+    this.options.setPosition(
+        Window.getHalfWidth() - options.getSize() / 2,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS - SEPARATOR_GAP);
+    this.separatorTop.setPosition(
+        Window.getHalfWidth() - separatorTop.getSize() / 2,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS);
+    this.separatorBot.setPosition(
+        Window.getHalfWidth() - separatorBot.getSize() / 2,
+        Window.getHalfHeight() + SEPARATOR_BOT_POS);
+    this.musicVolume.setPosition(
+        Window.getHalfWidth() - musicVolume.getSize() / 2,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP);
+    this.fullScreen.setPosition(
+    		Window.getHalfWidth() - fullScreen.getSize() / 2,
+    		Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 3 + GAP_LARGE);
+  }
+  
   @Override
   public TextObject[] getTextObjects() {
     return textObjects;

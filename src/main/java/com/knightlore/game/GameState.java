@@ -1,7 +1,8 @@
 package com.knightlore.game;
 
 public enum GameState {
-    LOBBY,
-    PLAYING,
-    SCORE
+  LOBBY,
+  PLAYING,
+  NEXT_LEVEL,
+  SCORE
 }

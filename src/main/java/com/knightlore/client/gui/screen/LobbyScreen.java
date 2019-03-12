@@ -2,8 +2,11 @@ package com.knightlore.client.gui.screen;
 
 import com.knightlore.client.gui.Lobby;
 import com.knightlore.client.render.GuiRenderer;
+import com.knightlore.game.GameModel;
 
 public class LobbyScreen implements IScreen {
+
+  public static GameModel gameModel;
 
   private GuiRenderer guiRenderer;
   private Lobby lobby;
@@ -12,7 +15,7 @@ public class LobbyScreen implements IScreen {
     this.guiRenderer = guiRenderer;
     lobby = new Lobby();
   }
-
+  
   @Override
   public void input() {}
 

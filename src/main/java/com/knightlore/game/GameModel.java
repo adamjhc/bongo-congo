@@ -1,5 +1,6 @@
 package com.knightlore.game;
 
+import com.knightlore.client.gui.Colour;
 import com.knightlore.client.networking.GameConnection;
 import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.Player;
@@ -8,29 +9,45 @@ import com.knightlore.game.map.LevelMap;
 import java.lang.Math.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 public class GameModel {
 
   private final int noOfLevels = 3;
 
   private String uuid;
+  private GameState currentState;
+
   private ArrayList<Level> levels;
+  private Integer currentLevelIndex;
+
   private Map<String, Player> players;
   private int playerIdInc;
+  private List<Vector4f> playerColours;
   private Integer currentLevelIndex;
   private GameState currentState;
   private int accumulator = 0;
 
   public GameModel(String uuid) {
     this.uuid = uuid;
-    levels = new ArrayList<>();
     currentState = GameState.LOBBY;
+
     levels = new ArrayList<>();
+    currentLevelIndex = 0;
+
     players = new HashMap<>();
     playerIdInc = 0;
-    currentLevelIndex = 0;
+    playerColours = new ArrayList<>();
+    playerColours.add(Colour.BLUE);
+    playerColours.add(Colour.GREEN);
+    playerColours.add(Colour.CYAN);
+    playerColours.add(Colour.RED);
+    playerColours.add(Colour.PINK);
+    playerColours.add(Colour.YELLOW);
   }
 
   public GameState getState() {
@@ -86,11 +103,15 @@ public class GameModel {
       return;
     }
 
+    currentState = GameState.NEXT_LEVEL;
     players.forEach((playerUUID, player) -> player.reset());
     currentLevelIndex++;
   }
 
   public void update(float delta, Direction playerInputDirection) {
+    if (currentState == GameState.NEXT_LEVEL) {
+      currentState = GameState.PLAYING;
+    }
 
     // Player updates
     switch (myPlayer().getPlayerState()) {
@@ -143,12 +164,10 @@ public class GameModel {
   }
 
   public void addPlayer(String uuid) {
-    players.put(uuid, new Player(uuid, playerIdInc));
+    Vector4f playerColour = playerColours.get(new Random().nextInt(playerColours.size()));
+    players.put(uuid, new Player(uuid, playerIdInc, playerColour));
     playerIdInc++;
-  }
-
-  public void addPlayer(String uuid, int id) {
-    players.put(uuid, new Player(uuid, id));
+    playerColours.remove(playerColour);
   }
 
   public void removePlayer(String uuid) {
@@ -162,7 +181,9 @@ public class GameModel {
         player.setId(playerId - 1);
       }
     }
+
     playerIdInc--;
+    playerColours.add(removedPlayer.getColour());
   }
 
   private void movePlayerInDirection(Direction direction, float delta) {

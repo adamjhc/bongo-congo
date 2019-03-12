@@ -1,25 +1,36 @@
 package com.knightlore.client.gui.engine;
 
+import com.knightlore.client.gui.engine.graphics.FontTexture;
+
 import java.awt.Font;
-import org.joml.Vector4f;
 
 public interface IGui {
+	
+	int FONT_SIZE_SMALL = 24;
+	int FONT_SIZE_MEDIUM = 32;
+	int FONT_SIZE_LARGE = 32;
+	int FONT_SIZE_TITLE = 72;
+	int FONT_SIZE_LIVES = 72;
 
-  Font FONT_SMALL = new Font("Press Start 2P", Font.PLAIN, 16);
-  Font FONT_MEDIUM = new Font("Press Start 2P", Font.PLAIN, 30);
-  Font FONT_LARGE = new Font("Press Start 2P", Font.PLAIN, 40);
-  Font FONT_TITLE = new Font("Press Start 2P", Font.PLAIN, 72);
-  Font FONT_LIVES = new Font("Press Start 2P", Font.PLAIN, 20);
+  Font FONT_SMALL = new Font("Press Start 2P", Font.PLAIN, FONT_SIZE_SMALL);
+  Font FONT_MEDIUM = new Font("Press Start 2P", Font.PLAIN, FONT_SIZE_MEDIUM);
+
+  Font FONT_LARGE = new Font("Press Start 2P", Font.PLAIN, FONT_SIZE_LARGE);
+  Font FONT_TITLE = new Font("Press Start 2P", Font.PLAIN, FONT_SIZE_TITLE);
+  Font FONT_LIVES = new Font("Press Start 2P", Font.PLAIN, FONT_SIZE_LIVES);
 
   String CHARSET = "ISO-8859-1";
 
-  Vector4f YELLOW = new Vector4f(1, 1, 0, 1);
-  Vector4f RED = new Vector4f(1, 0, 0, 1);
-  Vector4f LIGHT_BLUE = new Vector4f(0.29f, 0.92f, 0.95f, 1);
+  FontTexture SMALL = new FontTexture(FONT_SMALL, CHARSET);
+  FontTexture MEDIUM = new FontTexture(FONT_MEDIUM, CHARSET);
+  FontTexture LARGE = new FontTexture(FONT_LARGE, CHARSET);
+  FontTexture TITLE = new FontTexture(FONT_TITLE, CHARSET);
+  FontTexture LIVES = new FontTexture(FONT_LIVES, CHARSET);
 
   int TITLE_POS = 300;
 
-  int GAP = 20;
+  int GAP = FONT_SIZE_SMALL+5;
+  int GAP_LARGE = FONT_SIZE_LARGE+5;
 
   TextObject[] getTextObjects();
 

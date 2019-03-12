@@ -56,8 +56,8 @@ public class GameRenderer extends Renderer {
     tileGameObjects = new ArrayList<>();
     playerGameObjects = new ArrayList<>();
     enemyGameObjects = new ArrayList<>();
-    viewX = ((float) Window.getWidth() / (World.SCALE * 2)) + 1;
-    viewY = ((float) Window.getHeight() / (World.SCALE * 2)) + 2;
+    viewX = ((float) Window.getWidth() / (world.getScale() * 2)) + 1;
+    viewY = ((float) Window.getHeight() / (world.getScale() * 2)) + 2;
   }
 
   private void setupHud() {
@@ -95,7 +95,7 @@ public class GameRenderer extends Renderer {
     Vector3f isometricPosition =
         playerGameObjects.get(gameModel.myPlayer().getId()).getIsometricPosition();
 
-    camera.setPosition(isometricPosition.mul(-World.SCALE, new Vector3f()));
+    camera.setPosition(isometricPosition.mul(-world.getScale(), new Vector3f()));
 
     ArrayList<GameObject> gameObjectsToDepthSort = new ArrayList<>();
     tileGameObjects.forEach(
@@ -114,9 +114,11 @@ public class GameRenderer extends Renderer {
     depthSortedGameObjects.forEach(
         gameObject -> {
           if (gameObject instanceof PlayerGameObject) {
-            ((PlayerGameObject) gameObject).render(playerShaderProgram, camera.getProjection());
+            ((PlayerGameObject) gameObject)
+                .render(playerShaderProgram, camera.getProjection(), world.getScale());
           } else if (gameObject instanceof EnemyGameObject) {
-            ((EnemyGameObject) gameObject).render(worldShaderProgram, camera.getProjection());
+            ((EnemyGameObject) gameObject)
+                .render(worldShaderProgram, camera.getProjection(), world.getScale());
           } else {
             ((TileGameObject) gameObject)
                 .render(worldShaderProgram, world.getProjection(), camera.getProjection());

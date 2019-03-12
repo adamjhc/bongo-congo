@@ -138,7 +138,7 @@ public class LevelEditorScreen implements IScreen {
     } else if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)) {
     	editorMap.resetRotation();
     }
-    
+
     if (checkPosition(levelEditorHud, levelEditorHud.getSave().getId(), "")) {
   	  levelEditorHud.getSave().setColour();
   	  if (Mouse.isLeftButtonPressed()) {
@@ -150,7 +150,7 @@ public class LevelEditorScreen implements IScreen {
   		  }
   	  }
     } else levelEditorHud.getSave().setColour(new Vector4f(1, 1, 0, 1));
-    
+
     if (checkPosition(levelEditorHud, levelEditorHud.getEmpty().getId(), "")) {
     	levelEditorHud.getEmpty().setColour();
     	if (Mouse.isLeftButtonPressed()) {
@@ -158,7 +158,7 @@ public class LevelEditorScreen implements IScreen {
                 TileType.values()[0]);
     	}
     } else levelEditorHud.getEmpty().setColour(new Vector4f(1, 1, 0, 1));
-    
+
     if (checkPosition(levelEditorHud, levelEditorHud.getFloor().getId(), "")) {
     	levelEditorHud.getFloor().setColour();
     	if (Mouse.isLeftButtonPressed()) {
@@ -166,7 +166,7 @@ public class LevelEditorScreen implements IScreen {
     	            TileType.values()[1]);
     	}
     } else levelEditorHud.getFloor().setColour(new Vector4f(1, 1, 0, 1));
-    
+
     if (checkPosition(levelEditorHud, levelEditorHud.getSlab().getId(), "")) {
     	levelEditorHud.getSlab().setColour();
     	if (Mouse.isLeftButtonPressed()) {
@@ -174,7 +174,7 @@ public class LevelEditorScreen implements IScreen {
     	            TileType.values()[2]);
     	}
     } else levelEditorHud.getSlab().setColour(new Vector4f(1, 1, 0, 1));
-    
+
     if (checkPosition(levelEditorHud, levelEditorHud.getBlock().getId(), "")) {
     	levelEditorHud.getBlock().setColour();
     	if (Mouse.isLeftButtonPressed()) {
@@ -182,7 +182,7 @@ public class LevelEditorScreen implements IScreen {
     	            TileType.values()[3]);
     	}
     } else levelEditorHud.getBlock().setColour(new Vector4f(1, 1, 0, 1));
-    
+
     if (checkPosition(levelEditorHud, levelEditorHud.getHazard().getId(), "")) {
     	levelEditorHud.getHazard().setColour();
     	if (Mouse.isLeftButtonPressed()) {
@@ -190,7 +190,7 @@ public class LevelEditorScreen implements IScreen {
     	            TileType.values()[4]);
     	}
     } else levelEditorHud.getHazard().setColour(new Vector4f(1, 1, 0, 1));
-    
+
     if (checkPosition(levelEditorHud, levelEditorHud.getFinish().getId(), "")) {
     	levelEditorHud.getFinish().setColour();
     	if (Mouse.isLeftButtonPressed()) {
@@ -202,10 +202,10 @@ public class LevelEditorScreen implements IScreen {
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU);
     }
-    
+
     levelEditorRenderer.setCurrentTiles(currentTileX, currentTileY, currentTileZ);
   }
-  
+
   private void save(boolean levelIsComplete) throws IOException {
 	  String filePath = "customMaps/";
 	  if (levelIsComplete) {
@@ -213,13 +213,13 @@ public class LevelEditorScreen implements IScreen {
 	  } else {
 		  filePath = filePath + "unplayable/";
 	  }
-	  
+
 	  GsonBuilder builder = new GsonBuilder();
 	  Gson gson = builder.create();
-	  
+
 	  String jsonString = gson.toJson(editorMap);
 	  System.out.println(jsonString);
-	  
+
 	  BufferedWriter writer = new BufferedWriter(new FileWriter(filePath + "customMap.umap"));
 	  writer.write(jsonString);
 	  writer.close();

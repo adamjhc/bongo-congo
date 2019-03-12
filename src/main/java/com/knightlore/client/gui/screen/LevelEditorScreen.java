@@ -9,6 +9,8 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_Q;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_E;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_PERIOD;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_COMMA;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -120,6 +122,7 @@ public class LevelEditorScreen implements IScreen {
         currentTileZ -= 1;
       }
     } else if (Keyboard.isKeyReleased(GLFW_KEY_ENTER)) {
+    	editorMap.resetRotation();
       try {
         gameModel.overwriteCurrentLevel(editorMap);
       } catch (Exception e) {
@@ -128,13 +131,19 @@ public class LevelEditorScreen implements IScreen {
         gameModel.addPlayer("1");
         Client.changeScreen(ClientState.TESTING_LEVEL, gameModel);
       }
-
+    } else if (Keyboard.isKeyReleased(GLFW_KEY_COMMA)) {
+    	editorMap.rotate(true);
+    } else if (Keyboard.isKeyReleased(GLFW_KEY_PERIOD)) {
+    	editorMap.rotate(false);
+    } else if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)) {
+    	editorMap.resetRotation();
     }
     
     if (checkPosition(levelEditorHud, levelEditorHud.getSave().getId(), "")) {
   	  levelEditorHud.getSave().setColour();
   	  if (Mouse.isLeftButtonPressed()) {
   		  try {
+  			  editorMap.resetRotation();
   			  save(false);
   		  } catch (Exception e) {
   			  e.printStackTrace();

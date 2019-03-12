@@ -31,9 +31,17 @@ public class LevelEditorRenderer extends Renderer {
   private float viewY;
 
   private GuiRenderer hudRenderer;
+  
+  private int currentTileX ;
+  private int currentTileY;
+  private int currentTileZ;
 
   public LevelEditorRenderer() {
     super();
+    
+    currentTileX = 0;
+    currentTileY = 0;
+    currentTileZ = 0;
 
     setupWorld();
     setupHud();
@@ -84,19 +92,6 @@ public class LevelEditorRenderer extends Renderer {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    // Unproject a position in window coordinates to world coordinates:
-    Vector3f mouseWorldPos =
-        new Vector3f(
-            m.unproject(
-                (float) Mouse.getXPos(),
-                Window.getHeight() - (float) Mouse.getYPos(),
-                new int[] {0, 0, Window.getWidth(), Window.getHeight()},
-                new Vector2f()),
-            0);
-
-    Vector3i mouseTilePos =
-        CoordinateUtils.getTileCoord(CoordinateUtils.toCartesian(mouseWorldPos.x, mouseWorldPos.y));
-
     Tile[][][] tiles = levelMap.getTiles();
 
     for (int z = 0; z < tiles.length; z++) {
@@ -109,7 +104,8 @@ public class LevelEditorRenderer extends Renderer {
             tileGameObject.setIsometricPosition(isoTilePos);
             tileGameObject.setModelPosition(modelPosition);
 
-            int highlight = mouseTilePos.equals(x + 14, y + 1, z) ? 1 : 0;
+            //int highlight = mouseTilePos.equals(currentTileX + 14, currentTileY + 1, currentTileZ) ? 1 : 0;
+            int highlight = (x == currentTileX && y == currentTileY && z == currentTileZ) ? 1 : 0;
             tileGameObject.render(
                 shaderProgram, world.getProjection(), camera.getProjection(), highlight);
           }
@@ -123,6 +119,12 @@ public class LevelEditorRenderer extends Renderer {
         && isometricPosition.y + viewY >= gameObjectPosition.y
         && isometricPosition.x - viewX <= gameObjectPosition.x - gameObjectPosition.z
         && isometricPosition.y - viewY <= gameObjectPosition.y - gameObjectPosition.z;
+  }
+  
+  public void setCurrentTiles(int x, int y, int z) {
+	  currentTileX = x;
+	  currentTileY = y;
+	  currentTileZ = z;
   }
 
   @Override

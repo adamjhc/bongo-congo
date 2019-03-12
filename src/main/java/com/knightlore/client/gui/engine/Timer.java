@@ -3,7 +3,7 @@ package com.knightlore.client.gui.engine;
 public class Timer {
 
   private double lastLoopTime;
-  private double startTime;
+  private double startTime = 0;
 
   public Timer() {
     lastLoopTime = getTime();
@@ -11,6 +11,14 @@ public class Timer {
 
   public void setStartTime() {
     startTime = getTime();
+  }
+  
+  public void setStartTime(int zero) {
+  	startTime = zero;
+  }
+  
+  public double getStartTime() {
+  	return startTime;
   }
 
   public float getGameTime() {

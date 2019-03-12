@@ -6,6 +6,9 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_J;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
+
+import java.lang.Thread.State;
+
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
 
 import com.knightlore.client.Client;
@@ -19,6 +22,7 @@ import com.knightlore.client.render.GameRenderer;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.GameState;
 import com.knightlore.game.entity.Direction;
+import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.LevelMapSet;
 import com.knightlore.game.map.TileSet;
 
@@ -27,6 +31,7 @@ public class GameScreen implements IScreen {
   GameModel gameModel;
 
   Timer timer;
+  Timer countDown;
   Hud hud;
   Direction playerInputDirection;
 
@@ -51,18 +56,30 @@ public class GameScreen implements IScreen {
     }
 
     hud.renderScores(gameModel);
+    hud.getCountDown().setRender(true);
+    
     Audio.restart();
     Mouse.hideCursor();
-    timer.setStartTime();
+    timer.setStartTime(0);
     gameRenderer.init(gameModel);
+    
+    countDown = new Timer();
+    countDown.setStartTime();
   }
 
   @Override
   public void input() {
-    playerInputDirection = getPlayerInputDirection();
+  	if (Integer.parseInt(hud.getCountDown().getText()) == 0) {
+  		playerInputDirection = getPlayerInputDirection();
+  	} else {
+  		playerInputDirection = null;
+  	}
 
     if (Keyboard.isKeyReleased(GLFW_KEY_J)) {
-      timer.setStartTime();
+    	hud.getCountDown().setRender(true);
+    	timer.setStartTime(0);
+    	countDown.setStartTime();
+    	
       gameModel.nextLevel();
     }
 
@@ -70,7 +87,6 @@ public class GameScreen implements IScreen {
       Client.changeScreen(ClientState.MAIN_MENU);
     }
 
-    // CONTROL TO SHOW OTHER PLAYERS SCORES
     if (Keyboard.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
     	hud.moveScore(35, hud.getScoreSideGap());
     } else {
@@ -80,14 +96,29 @@ public class GameScreen implements IScreen {
 
   @Override
   public void update(float delta) {
-    float gameTime = timer.getGameTime();
-
-    int timeLeft = 90 - Math.round(gameTime);
-    if (timeLeft < 0) {
-      timeLeft = 0;
-    }
-
-    String text = String.format("%02d", timeLeft);
+  	float countDownTime = countDown.getGameTime();
+  	int countDownLeft = 5 - Math.round(countDownTime);
+  	if (countDownLeft <= 0) countDownLeft = 0;
+  	
+  	int timeLeft = 90;
+  	if (countDownLeft == 0) {
+  		hud.getCountDown().setRender(false);
+  		if (timer.getStartTime() == 0) {
+  			timer.setStartTime();
+  		}
+  		else {
+        float gameTime = timer.getGameTime();
+        timeLeft = 90 - Math.round(gameTime);
+        if (timeLeft < 0) {
+          timeLeft = 0;
+        }
+  		}
+  	} 
+  	
+  	String text = String.format("%01d", countDownLeft);
+  	hud.setCountDown(text);
+  	
+    text = String.format("%02d", timeLeft);
     hud.setCounter(text);
 
     int lives = gameModel.myPlayer().getLives();

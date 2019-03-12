@@ -34,6 +34,7 @@ public class Hud implements IGui {
   private final TextObject player6Score;
   private final TextObject player6Lives;
   private final TextObject counter;
+  private final TextObject countDown;
   private GuiObject[] guiObjects;
   private TextObject[] textObjects;
 
@@ -84,6 +85,10 @@ public class Hud implements IGui {
     this.counter.setColour(Colour.YELLOW);
     this.counter.setScale(1.5f);
     
+    this.countDown = new TextObject("5", LARGE);
+    this.countDown.setColour(Colour.LIGHT_BLUE);
+    this.countDown.setScale(2.0f);
+    
     this.player1Score.setPosition(SCORE_SIDE_GAP, SCORE_SIDE_GAP);
     this.player2Score.setPosition(SCORE_HIDE, SCORE_SIDE_GAP + GAP);
     this.player3Score.setPosition(SCORE_HIDE, SCORE_SIDE_GAP + GAP * 2);
@@ -113,7 +118,8 @@ public class Hud implements IGui {
           player4Lives,
           player5Lives,
           player6Lives,
-          counter
+          counter,
+          countDown
         };
     textObjects = new TextObject[] {};
    
@@ -165,6 +171,14 @@ public class Hud implements IGui {
   public void setCounter(String statusText) {
     this.counter.setText(statusText);
   }
+  
+  public TextObject getCountDown() {
+  	return countDown;
+  }
+  
+  public void setCountDown(String statusText) {
+  	this.countDown.setText(statusText);
+  }
 
   public TextObject getP1Score() {
     return player1Score;
@@ -189,6 +203,8 @@ public class Hud implements IGui {
   public void updateSize() {
     this.counter.setPosition(Window.getWidth() - counter.getSize()*counter.getScale(),
     		Window.getHeight() - counter.getHeight()*counter.getScale());
+    this.countDown.setPosition(Window.getHalfWidth() - countDown.getSize()*countDown.getScale()/2,
+    		Window.getHalfHeight() - countDown.getHeight()*countDown.getScale()/2);
   }
   
   public void renderScores(GameModel gameModel) {

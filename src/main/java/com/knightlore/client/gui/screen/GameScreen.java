@@ -8,6 +8,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 
 import java.lang.Thread.State;
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
@@ -19,6 +20,7 @@ import com.knightlore.client.gui.Hud;
 import com.knightlore.client.gui.engine.Timer;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
+import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.render.GameRenderer;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.GameState;
@@ -123,18 +125,33 @@ public class GameScreen implements IScreen {
     text = String.format("%02d", timeLeft);
     hud.setCounter(text);
     
-    Map<String, Player> players = gameModel.getPlayers();
-    //GET ALL PLAYERS THAT AREN'T YOU?
-    //UPDATE THEIR SCORE, LIVES AND COLOUR
-
+    int playerIndex = 0;
+    
     int lives = gameModel.myPlayer().getLives();
-    hud.setLives(0, lives);
+    hud.setLives(playerIndex, lives);
 
     int score = gameModel.myPlayer().getScore();
-    hud.setScore(0, score);
+    hud.setScore(playerIndex, score);
 
-    hud.getScore(0).setColour(gameModel.myPlayer().getColour());
-
+    hud.getScore(playerIndex).setColour(gameModel.myPlayer().getColour());
+    
+    Map<String, Player> players = new HashMap<>(gameModel.getPlayers());
+    if (GameConnection.instance == null) {
+    	players.remove("1");
+    } else {
+    	players.remove(GameConnection.instance.sessionKey);
+    }
+    for (Player player : players.values()) {
+    	playerIndex++;
+    	lives = player.getLives();
+    	hud.setLives(playerIndex, lives);
+    	
+    	score = player.getScore();
+    	hud.setScore(playerIndex, score);
+    	
+    	hud.getScore(playerIndex).setColour(player.getColour());
+    }
+    
     if (gameModel.getState() == GameState.NEXT_LEVEL) {
       gameRenderer.init(gameModel);
     }

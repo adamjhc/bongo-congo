@@ -89,7 +89,7 @@ public class Hud implements IGui {
     this.counter.setScale(1.5f);
     
     this.countDown = new TextObject("5", LARGE);
-    this.countDown.setColour(Colour.RED);
+    this.countDown.setColour(Colour.YELLOW);
     this.countDown.setScale(2.0f);
     
     this.player1Score.setPosition(SCORE_SIDE_GAP, SCORE_SIDE_GAP);
@@ -210,7 +210,7 @@ public class Hud implements IGui {
       score = MAX_SCORE;
     }
     String text = String.format("%08d", score);
-    this.scores[index].setText("P1:" + text);
+    this.scores[index].setText("P"+(index+1)+":" + text);
   }
 
   public int getScoreHide() {

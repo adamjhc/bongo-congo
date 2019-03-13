@@ -5,7 +5,6 @@ import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.LobbyObject;
 import com.knightlore.client.gui.engine.TextObject;
-import com.knightlore.client.gui.engine.graphics.FontTexture;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;
 
@@ -90,9 +89,7 @@ public class ServerMenu implements IGui {
   }
 
   public void createServer() {
-    FontTexture fontTexture = new FontTexture(FONT_SMALL, CHARSET);
-
-    LobbyObject newServer = new LobbyObject("New Server " + servers.size(), fontTexture);
+    LobbyObject newServer = new LobbyObject("New Server " + servers.size(), SMALL);
     newServer.setColour(Colour.YELLOW);
     newServer.setPosition(
         Window.getHalfWidth() - newServer.getSize() / 2,

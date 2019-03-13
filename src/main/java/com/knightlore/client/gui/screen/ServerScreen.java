@@ -41,7 +41,7 @@ public class ServerScreen implements IScreen {
     if (checkPosition(menu, menu.getCreate().getId())) {
       menu.getCreate().setColour();
       if (Mouse.isLeftButtonPressed()) {
-        menu.createServer();
+        menu.createLobby();
       }
     } else menu.getCreate().setColour(Colour.YELLOW);
 

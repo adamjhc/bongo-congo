@@ -96,8 +96,12 @@ public class TextObject extends GuiObject {
     
     public void setText(String text) {
         this.text = text;
+        Vector4f colour = getColour();
+        
         this.getMesh().deleteBuffers();
         this.setMesh(buildMesh());
+        
+        this.setColour(colour);
     }
 
     public float getSize() {

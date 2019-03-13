@@ -1,4 +1,4 @@
-package com.knightlore.client.gui;
+package com.knightlore.client.gui.engine;
 
 import org.joml.Vector4f;
 

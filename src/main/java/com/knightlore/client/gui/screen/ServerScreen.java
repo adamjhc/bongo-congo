@@ -5,8 +5,8 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
-import com.knightlore.client.gui.Colour;
 import com.knightlore.client.gui.ServerMenu;
+import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;

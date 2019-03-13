@@ -1,5 +1,6 @@
 package com.knightlore.client.gui;
 
+import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.LobbyObject;

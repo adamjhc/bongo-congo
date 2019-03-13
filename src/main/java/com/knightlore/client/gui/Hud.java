@@ -1,5 +1,6 @@
 package com.knightlore.client.gui;
 
+import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
@@ -88,7 +89,7 @@ public class Hud implements IGui {
     this.counter.setScale(1.5f);
     
     this.countDown = new TextObject("5", LARGE);
-    this.countDown.setColour(Colour.LIGHT_BLUE);
+    this.countDown.setColour(Colour.RED);
     this.countDown.setScale(2.0f);
     
     this.player1Score.setPosition(SCORE_SIDE_GAP, SCORE_SIDE_GAP);
@@ -224,7 +225,7 @@ public class Hud implements IGui {
     this.counter.setPosition(Window.getWidth() - counter.getSize()*counter.getScale(),
     		Window.getHeight() - counter.getHeight()*counter.getScale());
     this.countDown.setPosition(Window.getHalfWidth() - countDown.getSize()*countDown.getScale()/2,
-    		Window.getHalfHeight() - countDown.getHeight()*countDown.getScale()/2);
+    		Window.getHalfHeight() - countDown.getHeight()*countDown.getScale()/2+60);
   }
   
   public void renderScores(GameModel gameModel) {

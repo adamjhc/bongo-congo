@@ -71,18 +71,6 @@ public class LevelEditorHud implements IGui {
     
     this.finish = new TextObject("Finish", fontTextureSmall);
     this.finish.setColour(Colour.YELLOW);
-    
-    
-    this.save.setPosition(Window.getWidth()-save.getSize()*1.1f, 10);
-    
-    this.tiles.setPosition(Window.getWidth()/2-tiles.getSize()/2, Window.getHeight()-tiles.getHeight()-GAP*4);
-    
-    this.empty.setPosition(Window.getWidth()/2-empty.getSize()-GAP*18, Window.getHeight()-empty.getHeight()-GAP);
-    this.floor.setPosition(Window.getWidth()/2-floor.getSize()-GAP*10, Window.getHeight()-floor.getHeight()-GAP);
-    this.slab.setPosition(Window.getWidth()/2-slab.getSize()-GAP*2, Window.getHeight()-slab.getHeight()-GAP);
-    this.block.setPosition(Window.getWidth()/2-block.getSize()+GAP*6, Window.getHeight()-block.getHeight()-GAP);
-    this.hazard.setPosition(Window.getWidth()/2-hazard.getSize()+GAP*14, Window.getHeight()-hazard.getHeight()-GAP);
-    this.finish.setPosition(Window.getWidth()/2-finish.getSize()+GAP*22, Window.getHeight()-finish.getHeight()-GAP);
 
     guiObjects = new GuiObject[] {save, tiles, empty, floor, slab, block, hazard, finish};
     textObjects = new TextObject[] {save, empty, floor, slab, block, hazard, finish};
@@ -118,6 +106,17 @@ public class LevelEditorHud implements IGui {
   
   public TextObject getFinish() {
 	  return finish;
+  }
+  
+  public void updateSize() {
+	  this.save.setPosition(Window.getWidth()-save.getSize()*1.1f, 10);
+	  this.tiles.setPosition(Window.getWidth()/2-tiles.getSize()/2, Window.getHeight()-tiles.getHeight()-GAP*4);  
+	  this.empty.setPosition(Window.getWidth()/2-empty.getSize()-GAP*18, Window.getHeight()-empty.getHeight()-GAP);
+	  this.floor.setPosition(Window.getWidth()/2-floor.getSize()-GAP*10, Window.getHeight()-floor.getHeight()-GAP);
+	  this.slab.setPosition(Window.getWidth()/2-slab.getSize()-GAP*2, Window.getHeight()-slab.getHeight()-GAP);
+	  this.block.setPosition(Window.getWidth()/2-block.getSize()+GAP*6, Window.getHeight()-block.getHeight()-GAP);
+	  this.hazard.setPosition(Window.getWidth()/2-hazard.getSize()+GAP*14, Window.getHeight()-hazard.getHeight()-GAP);
+	  this.finish.setPosition(Window.getWidth()/2-finish.getSize()+GAP*22, Window.getHeight()-finish.getHeight()-GAP);
   }
 
   @Override

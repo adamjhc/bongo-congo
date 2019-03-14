@@ -93,6 +93,20 @@ public class LevelEditorRenderer extends Renderer {
     currentTileY = y;
     currentTileZ = z;
   }
+  
+  public void zoomIn() {
+	  int scale = world.getScale();
+	  if (scale != 96) {
+		  world.setScale(scale + 12);
+	  }
+  }
+  
+  public void zoomOut() {
+	  int scale = world.getScale();
+	  if (scale != 12) {
+		  world.setScale(scale - 12);
+	  }
+  }
 
   @Override
   protected void cleanup() {

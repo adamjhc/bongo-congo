@@ -178,14 +178,6 @@ public class Player extends Entity {
     }
     
   }
-
-//    private void delay(long target) { // target delay in milliseconds
-//        long start = System.nanoTime() / 1000000;
-//        long difference = 0;
-//        while (difference < target) {
-//            long check = System.nanoTime() / 1000000;
-//            difference = check - start;
-//        }
-//    }
+  
 
 }

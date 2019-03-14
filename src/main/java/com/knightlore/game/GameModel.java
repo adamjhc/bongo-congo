@@ -12,8 +12,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import com.knightlore.game.map.Tile;
+import com.knightlore.game.util.CoordinateUtils;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+
+import static com.knightlore.game.entity.PlayerState.DEAD;
 
 public class GameModel {
 
@@ -131,9 +136,8 @@ public class GameModel {
           Player player = myPlayer();
           Vector3f bottom = player.getPosition();
           if (!(accumulator > 10)) {
-              bottom.z += 0.1;
+              bottom.z += player.getClimbVal();
               accumulator ++;
-              System.out.println(accumulator);
               player.setPosition(bottom);
               delay(5);
           } else {
@@ -143,22 +147,22 @@ public class GameModel {
           }
         break;
       case ROLLING:
+          break;
       case FALLING:
           player = myPlayer();
           Vector3f top = player.getPosition();
+          Tile tile = getCurrentLevel().getLevelMap().getTile(CoordinateUtils.getTileCoord(top));
           // TODO: change the direction so that the falling looks better
-          if (!(accumulator > 10)) {
+           if (top.z != 0) {
               top.z -= 0.1;
               if (top.z < 0) { top.z = 0;}
-              accumulator ++;
-              System.out.println(accumulator);
               player.setPosition(top);
               delay(5);
-          } else {
-              accumulator = 0;
-              player.setPosition(player.setPadding(player.getPosition()));
-              player.setPlayerState(PlayerState.IDLE);
-          }
+           } else {
+               delay(500);
+               player.setPosition(player.setPadding(player.getPosition()));
+               player.loseLife();
+           }
           break;
       case DEAD:
         break;

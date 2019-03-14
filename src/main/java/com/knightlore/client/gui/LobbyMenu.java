@@ -80,7 +80,7 @@ public class LobbyMenu implements IGui {
   }
 
   public void createLobby() {
-    LobbyObject newServer = new LobbyObject("New Server " + lobbies.size(), SMALL);
+    LobbyObject newServer = new LobbyObject("New Lobby " + lobbies.size(), SMALL);
     newServer.setColour(Colour.YELLOW);
     newServer.setPosition(
         Window.getHalfWidth() - newServer.getSize() / 2,
@@ -105,7 +105,7 @@ public class LobbyMenu implements IGui {
     
     Collection<ListGameObject> games = LobbyCache.instance.getGames();
     for (ListGameObject game : games) {
-    	lobbies.add(new LobbyObject(game.getName() + "'s " + "Server", SMALL, game));
+    	lobbies.add(new LobbyObject(game.getName() + "'s " + "Lobby", SMALL, game));
     }
     
     for (LobbyObject lobby : lobbies) {
@@ -159,8 +159,8 @@ public class LobbyMenu implements IGui {
       }
       guiObjects = guiObjectsNew.clone();
 
-      for (LobbyObject server : lobbies) {
-        server.setPositionY(server.getPositionY() - GAP);
+      for (LobbyObject lobby : lobbies) {
+        lobby.setPositionY(lobby.getPositionY() - GAP);
       }
     }
   }
@@ -176,8 +176,8 @@ public class LobbyMenu implements IGui {
       }
       guiObjects = guiObjectsNew.clone();
 
-      for (LobbyObject server : lobbies) {
-        server.setPositionY(server.getPositionY() + GAP);
+      for (LobbyObject lobby : lobbies) {
+        lobby.setPositionY(lobby.getPositionY() + GAP);
       }
     }
   }
@@ -191,12 +191,12 @@ public class LobbyMenu implements IGui {
   }
 
   private void resetHighlight() {
-    for (LobbyObject server : lobbies) {
-      if (server.getHighlighted()) {
-        server.setHighlighted();
-        server.setText(server.getText().substring(4, server.getText().length() - 4));
-        server.setPositionX(Window.getHalfWidth() - server.getSize() / 2);
-        server.setColour(Colour.YELLOW);
+    for (LobbyObject lobby : lobbies) {
+      if (lobby.getHighlighted()) {
+        lobby.setHighlighted();
+        lobby.setText(lobby.getText().substring(4, lobby.getText().length() - 4));
+        lobby.setPositionX(Window.getHalfWidth() - lobby.getSize() / 2);
+        lobby.setColour(Colour.YELLOW);
       }
     }
   }
@@ -211,6 +211,15 @@ public class LobbyMenu implements IGui {
     lobbies
         .get(listPos + current)
         .setPositionX(Window.getHalfWidth() - lobbies.get(listPos + current).getSize() / 2);
+  }
+  
+  public LobbyObject getHighlighted() {
+  	for (LobbyObject lobby : lobbies) {
+  		if (lobby.getHighlighted()) {
+  			return lobby;
+  		}
+  	}
+  	return null;
   }
 
   public TextObject getCreate() {
@@ -231,6 +240,10 @@ public class LobbyMenu implements IGui {
   
   public TextObject getRefresh() {
   	return refresh;
+  }
+  
+  public TextObject getJoin() {
+  	return join;
   }
   
   public void updateSize() {

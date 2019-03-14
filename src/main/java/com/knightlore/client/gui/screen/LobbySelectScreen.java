@@ -58,6 +58,15 @@ public class LobbySelectScreen implements IScreen {
     		menu.refreshLobbies();
     	}
     } else menu.getRefresh().setColour(Colour.YELLOW);
+    
+    if (checkPosition(menu, menu.getJoin().getId())) {
+    	menu.getJoin().setColour();
+    	if (Mouse.isLeftButtonPressed()) {
+    		if (menu.getHighlighted() != null) {
+    			Client.changeScreen(ClientState.LOBBY, menu.getHighlighted());
+    		}
+    	} 
+    } else menu.getJoin().setColour(Colour.YELLOW);
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU);

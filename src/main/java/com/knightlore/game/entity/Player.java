@@ -112,7 +112,6 @@ public class Player extends Entity {
           if (GameConnection.instance != null) {
             GameConnection.instance.updatePosition(position);
           }
-          fallFlag = false;
           setPosition(newPos);
         }
 
@@ -120,7 +119,6 @@ public class Player extends Entity {
             coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z + 1));
             Tile above = levelMap.getTile(coords);
             if (above.getIndex() == 1) { // Checks if the tile above climbable tile is accessible
-                fallFlag = false;
                 climbVal = 0.1f;
                 setPlayerState(PlayerState.CLIMBING);
           } else {
@@ -130,12 +128,6 @@ public class Player extends Entity {
         if (newTile.getIndex() == 4) {
           System.out.println("Ow!"); // debug statement
           loseLife();
-        }
-
-        if (newTile.getIndex() == 5) { // Checks for goal
-          System.out.println("Win!"); // debug statement
-          setPosition(newPos);
-          // TODO: Switch game state here
         }
 
       if (newTile.getIndex() == 5) { // Checks for goal
@@ -184,8 +176,7 @@ public class Player extends Entity {
       setPosition(START_POSITION);
       setDirection(Direction.SOUTH);
     }
-
-    fallFlag = false;
+    
   }
 
 //    private void delay(long target) { // target delay in milliseconds

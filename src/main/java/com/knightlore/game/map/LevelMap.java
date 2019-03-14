@@ -8,9 +8,12 @@ public class LevelMap {
   private Tile[][][] tiles;
 
   private Vector3i size;
+  
+  private int rotation;
 
   public LevelMap(int[][][] tiles, TileSet tileSet) {
     this.tiles = new Tile[tiles.length][tiles[0].length][tiles[0][0].length];
+    this.rotation = 0;
 
     for (int z = 0; z < tiles.length; z++) {
       for (int y = 0; y < tiles[z].length; y++) {
@@ -48,4 +51,72 @@ public class LevelMap {
   public Vector3i getSize() {
     return size;
   }
+  
+  public void rotate(boolean right) {
+	  Tile[][][] newMap = new Tile[tiles.length][tiles[0].length][tiles[0][0].length];
+	  
+	  if (right) {
+		  for (int i = 0; i < tiles.length; i++) {
+			  newMap[i] = rotateLayerLeft(tiles[i]);
+		  }
+		  
+		  if (rotation == 0) {
+			  rotation = 3;
+		  } else {
+			  rotation -= 1;
+		  }
+	  } else {
+		  for (int i = 0; i < tiles.length; i++) {
+			  newMap[i] = rotateLayerRight(tiles[i]);
+		  }
+		  if (rotation == 3) {
+			  rotation = 0;
+		  } else {
+			  rotation += 1;
+		  }
+	  }
+	  
+	  System.out.println(rotation);
+	  tiles = newMap;
+  }
+  
+  public void resetRotation() {
+	  if (rotation != 0) {
+		  if (rotation == 1) {
+			  rotate(true);
+		  } else if (rotation == 3) {
+			  rotate(false);
+		  } else {
+			  rotate(true);
+			  rotate(true);
+		  }
+	  }
+  }
+  
+  private Tile[][] rotateLayerLeft(Tile[][] layer) {
+	  Tile[][] rotatedLayer = new Tile[size.x][size.y];
+	  
+	  for (int i = 0; i < size.x; i++) {
+		  for (int j = 0; j < size.y; j++) {
+			  rotatedLayer[i][j] = layer[size.x - j - 1][i];
+		  }
+	  }
+	  
+	  
+	  return rotatedLayer;
+  }
+  
+  private Tile[][] rotateLayerRight(Tile[][] layer) {
+	  Tile[][] rotatedLayer = new Tile[size.x][size.y];
+	  
+	  for (int i = 0; i < size.x; i++) {
+		  for (int j = 0; j < size.y; j++) {
+			  rotatedLayer[i][j] = layer[j][size.x - i - 1];
+		  }
+	  }
+	  
+	  
+	  return rotatedLayer;
+  }
+  
 }

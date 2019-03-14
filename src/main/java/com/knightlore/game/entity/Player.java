@@ -15,8 +15,6 @@ public class Player extends Entity {
     private int score;
     private int lives;
     private float climbVal = 0.1f;
-    private boolean fallFlag = false;
-    private boolean climbFlag = false;
     private PlayerState playerState;
     private String associatedSession;
     private Vector4f colour;

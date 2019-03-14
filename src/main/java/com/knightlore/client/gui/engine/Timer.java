@@ -13,8 +13,8 @@ public class Timer {
     startTime = getTime();
   }
   
-  public void setStartTime(int zero) {
-  	startTime = zero;
+  public void resetStartTime() {
+  	startTime = 0;
   }
   
   public double getStartTime() {

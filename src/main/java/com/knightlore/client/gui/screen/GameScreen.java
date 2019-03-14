@@ -67,12 +67,12 @@ public class GameScreen implements IScreen {
     
     Audio.restart();
     Mouse.hideCursor();
+    
+    countDown = new Timer();
 
     gameRenderer.init(gameModel); 
-    
-    timer.setStartTime(0);
-    hud.getCountDown().setRender(true);
-    countDown = new Timer();
+
+    timer.resetStartTime();
     countDown.setStartTime();
   }
 
@@ -85,12 +85,10 @@ public class GameScreen implements IScreen {
   	}
 
     if (Keyboard.isKeyReleased(GLFW_KEY_J)) {
-    	hud.getCountDown().setRender(true);
-    	timer.setStartTime(0);
-    	
-      gameModel.nextLevel();
+    	gameModel.nextLevel();
+
+    	timer.resetStartTime();
       countDown.setStartTime();
-      this.countDownTime = 6;
     }
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
@@ -107,8 +105,9 @@ public class GameScreen implements IScreen {
   @Override
   public void update(float delta) {
   	float countDown = this.countDown.getGameTime();
-  	int countDownLeft = this.countDownTime - Math.round(countDown);
+  	int countDownLeft = this.countDownTime+1 - Math.round(countDown);
   	if (countDownLeft <= 0) countDownLeft = 0;
+  	if (countDownLeft == this.countDownTime) hud.getCountDown().setRender(true);
   	
   	int timeLeft = levelTime;
   	if (countDownLeft == 0) {

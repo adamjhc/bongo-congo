@@ -20,10 +20,9 @@ public class GameModel {
   private final int noOfLevels = 3;
 
   private String uuid;
-  private GameState currentState;
+
 
   private ArrayList<Level> levels;
-  private Integer currentLevelIndex;
 
   private Map<String, Player> players;
   private int playerIdInc;
@@ -133,12 +132,13 @@ public class GameModel {
           Vector3f bottom = player.getPosition();
           if (!(accumulator > 10)) {
               bottom.z += 0.1;
-              accumulator++;
+              accumulator ++;
               System.out.println(accumulator);
               player.setPosition(bottom);
               delay(5);
           } else {
               accumulator = 0;
+              player.setPosition(player.setPadding(player.getPosition()));
               player.setPlayerState(PlayerState.IDLE);
           }
         break;
@@ -146,15 +146,17 @@ public class GameModel {
       case FALLING:
           player = myPlayer();
           Vector3f top = player.getPosition();
+          // TODO: change the direction so that the falling looks better
           if (!(accumulator > 10)) {
               top.z -= 0.1;
               if (top.z < 0) { top.z = 0;}
-              accumulator++;
+              accumulator ++;
               System.out.println(accumulator);
               player.setPosition(top);
               delay(5);
           } else {
               accumulator = 0;
+              player.setPosition(player.setPadding(player.getPosition()));
               player.setPlayerState(PlayerState.IDLE);
           }
           break;

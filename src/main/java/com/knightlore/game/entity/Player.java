@@ -89,6 +89,8 @@ public class Player extends Entity {
     try {
       Tile newTile = levelMap.getTile(coords);
 
+
+        //TODO: sort out when to just do downwards climbing and falling uuuurghhhhh
         if (newTile.getIndex() == 0) { // Checks if tile is an air tile
             if (fallFlag) {
           while (newTile.getIndex() != 0) {
@@ -99,16 +101,14 @@ public class Player extends Entity {
             System.out.println("Fall"); // debug statement
             loseLife();
           } else {
-                coords = CoordinateUtils.getTileCoord(setPadding(new Vector3f(coords.x, coords.y, coords.z - 1)));
+                coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z - 1));
                 Tile below = levelMap.getTile(coords);
-            if (!(below.getIndex() == 0
-                || below.getIndex() == 1)) { // Check if the tile you are falling onto is walkable
+            if (below.getIndex() == 2
+                || below.getIndex() == 3) { // Check if the tile you are falling onto is walkable
               setPosition(oldPos);
             } else {
                 setPlayerState(PlayerState.FALLING);
                 fallFlag = true;
-//              newPos.z -= 1;
-//              setPosition(below.getPosition());
             }
           }
 
@@ -123,11 +123,11 @@ public class Player extends Entity {
         }
 
         if (newTile.getIndex() == 3) { // Checks for climbable tile
-            coords = CoordinateUtils.getTileCoord(setPadding(new Vector3f(coords.x, coords.y, coords.z + 1)));
+            coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z + 1));
             Tile above = levelMap.getTile(coords);
             if (above.getIndex() == 1) { // Checks if the tile above climbable tile is accessible
-            fallFlag = false;
-            setPlayerState(PlayerState.CLIMBING);
+                fallFlag = false;
+                setPlayerState(PlayerState.CLIMBING);
           } else {
             setPosition(oldPos);
           }
@@ -160,7 +160,7 @@ public class Player extends Entity {
    * @return The padded coordinates of the player
    * @author Jacqueline Henes, Adam Cox
    */
-  private Vector3f setPadding(Vector3f pos) {
+  public Vector3f setPadding(Vector3f pos) {
     Vector3f padded = new Vector3f();
     direction.getNormalisedDirection().mul(0.4f, padded);
     pos.add(padded, padded);

@@ -5,8 +5,8 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
-import com.knightlore.client.gui.Colour;
 import com.knightlore.client.gui.ServerMenu;
+import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;
@@ -41,7 +41,7 @@ public class ServerScreen implements IScreen {
     if (checkPosition(menu, menu.getCreate().getId())) {
       menu.getCreate().setColour();
       if (Mouse.isLeftButtonPressed()) {
-        menu.createServer();
+        menu.createLobby();
       }
     } else menu.getCreate().setColour(Colour.YELLOW);
 

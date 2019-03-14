@@ -9,7 +9,6 @@ import com.knightlore.game.entity.Entity;
 import java.util.EnumMap;
 import java.util.Map;
 import org.joml.Matrix4f;
-import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 public abstract class EntityGameObject extends GameObject {
@@ -49,7 +48,7 @@ public abstract class EntityGameObject extends GameObject {
     transform = new Transform();
   }
 
-  public abstract void render(ShaderProgram shaderProgram, Matrix4f camera);
+  public abstract void render(ShaderProgram shaderProgram, Matrix4f camera, int worldScale);
 
   public void update(Entity entity) {
     setPosition(entity.getPosition());

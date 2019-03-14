@@ -1,6 +1,6 @@
 package com.knightlore.game;
 
-import com.knightlore.client.gui.Colour;
+import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.networking.GameConnection;
 import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.Player;

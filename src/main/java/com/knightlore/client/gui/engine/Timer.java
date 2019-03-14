@@ -12,6 +12,14 @@ public class Timer {
   public void setStartTime() {
     startTime = getTime();
   }
+  
+  public void resetStartTime() {
+  	startTime = 0;
+  }
+  
+  public double getStartTime() {
+  	return startTime;
+  }
 
   public float getGameTime() {
     double time = getTime();

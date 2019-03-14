@@ -2,17 +2,17 @@ package com.knightlore.client.gui.screen;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_0;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_1;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_2;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_3;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_4;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_5;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_6;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_7;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_8;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_9;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_Q;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_E;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_PERIOD;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_COMMA;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_Z;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_X;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -75,6 +75,7 @@ public class LevelEditorScreen implements IScreen {
 
   @Override
   public void render() {
+	levelEditorHud.updateSize();
     levelEditorRenderer.render(editorMap, cameraPosition, levelEditorHud);
   }
 
@@ -98,53 +99,32 @@ public class LevelEditorScreen implements IScreen {
   }
 
   private void levelEditorInput() {
-    if (Keyboard.isKeyReleased(GLFW_KEY_KP_9)) {
+    if (Keyboard.isKeyReleased(GLFW_KEY_W)) {
       if (currentTileX != editorMap.getTiles()[currentTileZ][currentTileY].length - 1) {
         currentTileX += 1;
       }
-    } else if (Keyboard.isKeyReleased(GLFW_KEY_KP_1)) {
+    } else if (Keyboard.isKeyReleased(GLFW_KEY_S)) {
       if (currentTileX != 0) {
         currentTileX -= 1;
       }
-    } else if (Keyboard.isKeyReleased(GLFW_KEY_KP_7)) {
+    } else if (Keyboard.isKeyReleased(GLFW_KEY_A)) {
       if (currentTileY != editorMap.getTiles()[currentTileZ].length - 1) {
         currentTileY += 1;
       }
-    } else if (Keyboard.isKeyReleased(GLFW_KEY_KP_3)) {
+    } else if (Keyboard.isKeyReleased(GLFW_KEY_D)) {
       if (currentTileY != 0) {
         currentTileY -= 1;
       }
-    } else if (Keyboard.isKeyReleased(GLFW_KEY_KP_5)) {
+    } else if (Keyboard.isKeyReleased(GLFW_KEY_E)) {
       if (currentTileZ != editorMap.getTiles().length - 1) {
         currentTileZ += 1;
       }
-    } else if (Keyboard.isKeyReleased(GLFW_KEY_KP_0)) {
+    } else if (Keyboard.isKeyReleased(GLFW_KEY_Q)) {
       if (currentTileZ != 0) {
         currentTileZ -= 1;
       }
-    } else if (Keyboard.isKeyReleased(GLFW_KEY_KP_8)) {
-      if (currentTileX != editorMap.getTiles()[currentTileZ][currentTileY].length - 1
-          && currentTileY != editorMap.getTiles()[currentTileZ].length - 1) {
-        currentTileX += 1;
-        currentTileY += 1;
-      }
-    } else if (Keyboard.isKeyReleased(GLFW_KEY_KP_2)) {
-      if (currentTileX != 0 && currentTileY != 0) {
-        currentTileX -= 1;
-        currentTileY -= 1;
-      }
-    } else if (Keyboard.isKeyReleased(GLFW_KEY_KP_4)) {
-      if (currentTileX != 0 && currentTileY != editorMap.getTiles()[currentTileZ].length - 1) {
-        currentTileX -= 1;
-        currentTileY += 1;
-      }
-    } else if (Keyboard.isKeyReleased(GLFW_KEY_KP_6)) {
-      if (currentTileX != editorMap.getTiles()[currentTileZ][currentTileY].length - 1
-          && currentTileY != 0) {
-        currentTileX += 1;
-        currentTileY -= 1;
-      }
     } else if (Keyboard.isKeyReleased(GLFW_KEY_ENTER)) {
+    	editorMap.resetRotation();
       try {
         gameModel.overwriteCurrentLevel(editorMap);
       } catch (Exception e) {
@@ -153,20 +133,28 @@ public class LevelEditorScreen implements IScreen {
         gameModel.addPlayer("1");
         Client.changeScreen(ClientState.TESTING_LEVEL, gameModel);
       }
-
+    } else if (Keyboard.isKeyReleased(GLFW_KEY_COMMA)) {
+    	editorMap.rotate(true);
+    } else if (Keyboard.isKeyReleased(GLFW_KEY_PERIOD)) {
+    	editorMap.rotate(false);
+    } else if (Keyboard.isKeyReleased(GLFW_KEY_Z)) {
+    	levelEditorRenderer.zoomIn();
+    } else if (Keyboard.isKeyReleased(GLFW_KEY_X)) {
+    	levelEditorRenderer.zoomOut();
     }
-    
+
     if (checkPosition(levelEditorHud, levelEditorHud.getSave().getId(), "")) {
   	  levelEditorHud.getSave().setColour();
   	  if (Mouse.isLeftButtonPressed()) {
   		  try {
+  			  editorMap.resetRotation();
   			  save(false);
   		  } catch (Exception e) {
   			  e.printStackTrace();
   		  }
   	  }
     } else levelEditorHud.getSave().setColour(new Vector4f(1, 1, 0, 1));
-    
+
     if (checkPosition(levelEditorHud, levelEditorHud.getEmpty().getId(), "")) {
     	levelEditorHud.getEmpty().setColour();
     	if (Mouse.isLeftButtonPressed()) {
@@ -174,7 +162,7 @@ public class LevelEditorScreen implements IScreen {
                 TileType.values()[0]);
     	}
     } else levelEditorHud.getEmpty().setColour(new Vector4f(1, 1, 0, 1));
-    
+
     if (checkPosition(levelEditorHud, levelEditorHud.getFloor().getId(), "")) {
     	levelEditorHud.getFloor().setColour();
     	if (Mouse.isLeftButtonPressed()) {
@@ -182,7 +170,7 @@ public class LevelEditorScreen implements IScreen {
     	            TileType.values()[1]);
     	}
     } else levelEditorHud.getFloor().setColour(new Vector4f(1, 1, 0, 1));
-    
+
     if (checkPosition(levelEditorHud, levelEditorHud.getSlab().getId(), "")) {
     	levelEditorHud.getSlab().setColour();
     	if (Mouse.isLeftButtonPressed()) {
@@ -190,7 +178,7 @@ public class LevelEditorScreen implements IScreen {
     	            TileType.values()[2]);
     	}
     } else levelEditorHud.getSlab().setColour(new Vector4f(1, 1, 0, 1));
-    
+
     if (checkPosition(levelEditorHud, levelEditorHud.getBlock().getId(), "")) {
     	levelEditorHud.getBlock().setColour();
     	if (Mouse.isLeftButtonPressed()) {
@@ -198,7 +186,7 @@ public class LevelEditorScreen implements IScreen {
     	            TileType.values()[3]);
     	}
     } else levelEditorHud.getBlock().setColour(new Vector4f(1, 1, 0, 1));
-    
+
     if (checkPosition(levelEditorHud, levelEditorHud.getHazard().getId(), "")) {
     	levelEditorHud.getHazard().setColour();
     	if (Mouse.isLeftButtonPressed()) {
@@ -206,7 +194,7 @@ public class LevelEditorScreen implements IScreen {
     	            TileType.values()[4]);
     	}
     } else levelEditorHud.getHazard().setColour(new Vector4f(1, 1, 0, 1));
-    
+
     if (checkPosition(levelEditorHud, levelEditorHud.getFinish().getId(), "")) {
     	levelEditorHud.getFinish().setColour();
     	if (Mouse.isLeftButtonPressed()) {
@@ -218,10 +206,10 @@ public class LevelEditorScreen implements IScreen {
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU);
     }
-    
+
     levelEditorRenderer.setCurrentTiles(currentTileX, currentTileY, currentTileZ);
   }
-  
+
   private void save(boolean levelIsComplete) throws IOException {
 	  String filePath = "customMaps/";
 	  if (levelIsComplete) {
@@ -229,13 +217,13 @@ public class LevelEditorScreen implements IScreen {
 	  } else {
 		  filePath = filePath + "unplayable/";
 	  }
-	  
+
 	  GsonBuilder builder = new GsonBuilder();
 	  Gson gson = builder.create();
-	  
+
 	  String jsonString = gson.toJson(editorMap);
 	  System.out.println(jsonString);
-	  
+
 	  BufferedWriter writer = new BufferedWriter(new FileWriter(filePath + "customMap.umap"));
 	  writer.write(jsonString);
 	  writer.close();

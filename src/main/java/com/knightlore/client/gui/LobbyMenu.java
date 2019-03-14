@@ -1,16 +1,19 @@
 package com.knightlore.client.gui;
 
+import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.LobbyObject;
 import com.knightlore.client.gui.engine.TextObject;
-import com.knightlore.client.gui.engine.graphics.FontTexture;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;
+import com.knightlore.client.networking.LobbyCache;
+import com.knightlore.networking.ListGameObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
-public class ServerMenu implements IGui {
+public class LobbyMenu implements IGui {
 
   private static final int SEPARATOR_TOP_POS = 185;
   private static final int SEPARATOR_BOT_POS = 200;
@@ -27,16 +30,16 @@ public class ServerMenu implements IGui {
   private final TextObject multiplayer;
   private final TextObject join;
   private final TextObject refresh;
-  private final ArrayList<LobbyObject> servers;
+  private ArrayList<LobbyObject> lobbies;
   private GuiObject[] guiObjects;
   private TextObject[] textObjects;
   private int length;
 
-  private int current = 0;
+  private int current;
 
   private int yPos = SEPARATOR_TOP_POS - GAP;
 
-  public ServerMenu() {
+  public LobbyMenu() {
     this.bongo = new TextObject("Bongo", TITLE);
     this.bongo.setColour(Colour.LIGHT_BLUE);
 
@@ -66,83 +69,97 @@ public class ServerMenu implements IGui {
     this.exit = new TextObject("Exit", SMALL);
     this.exit.setColour(Colour.YELLOW);
 
-    servers = new ArrayList<>();
-
-    for (int i = 0; i < 10; i++) {
-      servers.add(new LobbyObject(i + "'s " + "Server", SMALL));
-    }
-
-    for (LobbyObject server : servers) {
-      server.setColour(Colour.YELLOW);
-      server.setPosition(
-          Window.getHalfWidth() - server.getSize() / 2, Window.getHalfHeight() - yPos);
-      yPos -= GAP;
-    }
-
     guiObjects =
         new GuiObject[] {bongo, congo, multiplayer, separatorTop, separatorBot, join, create, exit, refresh};
     length = guiObjects.length;
 
     textObjects = new TextObject[] {join, create, exit, separatorTop, separatorBot, refresh};
-
-    addServers();
+    
+    refreshLobbies();
+    addLobbies();
   }
 
-  public void createServer() {
-    FontTexture fontTexture = new FontTexture(FONT_SMALL, CHARSET);
-
-    LobbyObject newServer = new LobbyObject("New Server " + servers.size(), fontTexture);
+  public void createLobby() {
+    LobbyObject newServer = new LobbyObject("New Server " + lobbies.size(), SMALL);
     newServer.setColour(Colour.YELLOW);
     newServer.setPosition(
         Window.getHalfWidth() - newServer.getSize() / 2,
         Window.getHalfHeight() - yPos - (current * GAP));
     yPos -= GAP;
 
-    servers.add(newServer);
-    reAddServers();
-    for (int i = 0; i < servers.size(); i++) moveDown();
+    lobbies.add(newServer);
+    addLobby();
+    for (int i = 0; i < lobbies.size(); i++) moveDown();
+  }
+  
+  public void refreshLobbies() {
+  	current = 0;
+  	
+  	if (lobbies != null) {
+    	for (LobbyObject lobby : lobbies) {
+    		lobby.setRender(false);
+    	}
+  	}
+
+    this.lobbies = new ArrayList<>();
+    
+    Collection<ListGameObject> games = LobbyCache.instance.getGames();
+    for (ListGameObject game : games) {
+    	lobbies.add(new LobbyObject(game.getName() + "'s " + "Server", SMALL, game));
+    }
+    
+    for (LobbyObject lobby : lobbies) {
+      lobby.setColour(Colour.YELLOW);
+      lobby.setPosition(
+          Window.getHalfWidth() - lobby.getSize() / 2, Window.getHalfHeight() - yPos);
+      yPos -= GAP;
+    }
+  }
+  
+  public void deleteLobby() {
+  	//TODO add delete method
   }
 
-  private void reAddServers() {
-    if (servers.size() <= MAX_SERVERS) {
-      GuiObject[] guiObjectsNew = new GuiObject[length + servers.size()];
+  private void addLobby() {
+    if (lobbies.size() <= MAX_SERVERS) {
+      GuiObject[] guiObjectsNew = new GuiObject[length + lobbies.size()];
       if (length >= 0) System.arraycopy(guiObjects, 0, guiObjectsNew, 0, length);
-      for (int i = length; i < length + servers.size(); i++) {
-        guiObjectsNew[i] = servers.get(i - length);
+      for (int i = length; i < length + lobbies.size(); i++) {
+        guiObjectsNew[i] = lobbies.get(i - length);
       }
       guiObjects = guiObjectsNew.clone();
     }
   }
 
-  private void addServers() {
-    if (servers.size() <= MAX_SERVERS) {
-      GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length + servers.size()];
+  private void addLobbies() {
+    if (lobbies.size() <= MAX_SERVERS) {
+      GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length + lobbies.size()];
       System.arraycopy(guiObjects, 0, guiObjectsNew, 0, guiObjects.length);
-      for (int i = guiObjects.length; i < guiObjects.length + servers.size(); i++) {
-        guiObjectsNew[i] = servers.get(i - guiObjects.length);
+      for (int i = guiObjects.length; i < guiObjects.length + lobbies.size(); i++) {
+        guiObjectsNew[i] = lobbies.get(i - guiObjects.length);
       }
       guiObjects = guiObjectsNew.clone();
     } else {
       GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length + MAX_SERVERS];
       System.arraycopy(guiObjects, 0, guiObjectsNew, 0, guiObjects.length);
       for (int i = guiObjects.length; i < guiObjects.length + MAX_SERVERS; i++) {
-        guiObjectsNew[i] = servers.get(i - guiObjects.length);
+        guiObjectsNew[i] = lobbies.get(i - guiObjects.length);
       }
       guiObjects = guiObjectsNew.clone();
     }
   }
 
   public void moveDown() {
-    if (servers.size() > MAX_SERVERS && current < servers.size() - MAX_SERVERS) {
+    if (lobbies.size() > MAX_SERVERS && current < lobbies.size() - MAX_SERVERS) {
       current++;
       GuiObject[] guiObjectsNew = new GuiObject[length + MAX_SERVERS];
       if (length >= 0) System.arraycopy(guiObjects, 0, guiObjectsNew, 0, length);
       for (int i = length; i < length + MAX_SERVERS; i++) {
-        guiObjectsNew[i] = servers.get((i - length) + current);
+        guiObjectsNew[i] = lobbies.get((i - length) + current);
       }
       guiObjects = guiObjectsNew.clone();
 
-      for (LobbyObject server : servers) {
+      for (LobbyObject server : lobbies) {
         server.setPositionY(server.getPositionY() - GAP);
       }
     }
@@ -155,11 +172,11 @@ public class ServerMenu implements IGui {
       GuiObject[] guiObjectsNew = new GuiObject[length + MAX_SERVERS];
       if (length >= 0) System.arraycopy(guiObjects, 0, guiObjectsNew, 0, length);
       for (int i = length; i < length + MAX_SERVERS; i++) {
-        guiObjectsNew[i] = servers.get((i - length) + current);
+        guiObjectsNew[i] = lobbies.get((i - length) + current);
       }
       guiObjects = guiObjectsNew.clone();
 
-      for (LobbyObject server : servers) {
+      for (LobbyObject server : lobbies) {
         server.setPositionY(server.getPositionY() + GAP);
       }
     }
@@ -168,13 +185,13 @@ public class ServerMenu implements IGui {
   public void highlight() {
     double pos = (Mouse.getYPos() - (Window.getHalfHeight() - (SEPARATOR_TOP_POS - GAP * 2))) / GAP;
     int posInt = (int) Math.ceil(pos);
-    if (posInt >= 0 && posInt < Math.min(MAX_SERVERS, servers.size())) {
+    if (posInt >= 0 && posInt < Math.min(MAX_SERVERS, lobbies.size())) {
       setHighlight(posInt);
     }
   }
 
   private void resetHighlight() {
-    for (LobbyObject server : servers) {
+    for (LobbyObject server : lobbies) {
       if (server.getHighlighted()) {
         server.setHighlighted();
         server.setText(server.getText().substring(4, server.getText().length() - 4));
@@ -186,13 +203,14 @@ public class ServerMenu implements IGui {
 
   private void setHighlight(int listPos) {
     resetHighlight();
-    servers.get(listPos + current).setHighlighted();
-    servers
+    lobbies.get(listPos + current).setHighlighted();
+    lobbies.get(listPos + current).setColour();
+    lobbies
         .get(listPos + current)
-        .setText("=== " + servers.get(listPos + current).getText() + " ===");
-    servers
+        .setText("=== " + lobbies.get(listPos + current).getText() + " ===");
+    lobbies
         .get(listPos + current)
-        .setPositionX(Window.getHalfWidth() - servers.get(listPos + current).getSize() / 2);
+        .setPositionX(Window.getHalfWidth() - lobbies.get(listPos + current).getSize() / 2);
   }
 
   public TextObject getCreate() {
@@ -209,6 +227,10 @@ public class ServerMenu implements IGui {
 
   public TextObject getExit() {
     return exit;
+  }
+  
+  public TextObject getRefresh() {
+  	return refresh;
   }
   
   public void updateSize() {
@@ -237,8 +259,8 @@ public class ServerMenu implements IGui {
         Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 4);
     
     int yPos = SEPARATOR_TOP_POS - GAP;
-    for (LobbyObject server : servers) {	
-    	server.setPosition(Window.getHalfWidth() - server.getSize() / 2,  Window.getHalfHeight() - yPos - current*GAP);
+    for (LobbyObject lobby : lobbies) {	
+    	lobby.setPosition(Window.getHalfWidth() - lobby.getSize() / 2,  Window.getHalfHeight() - yPos - current*GAP);
     	yPos -= GAP;
     }
   }

@@ -6,6 +6,11 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_J;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
+
+import java.lang.Thread.State;
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
 
 import com.knightlore.client.Client;
@@ -15,10 +20,13 @@ import com.knightlore.client.gui.Hud;
 import com.knightlore.client.gui.engine.Timer;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
+import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.render.GameRenderer;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.GameState;
 import com.knightlore.game.entity.Direction;
+import com.knightlore.game.entity.Player;
+import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.LevelMapSet;
 import com.knightlore.game.map.TileSet;
 
@@ -27,10 +35,15 @@ public class GameScreen implements IScreen {
   GameModel gameModel;
 
   Timer timer;
+  Timer countDown;
   Hud hud;
   Direction playerInputDirection;
 
   private GameRenderer gameRenderer;
+  
+  private int levelTime = 90;
+  private int countDownTime = 5;
+  
 
   public GameScreen(GameRenderer gameRenderer, Timer timer) {
     this.gameRenderer = gameRenderer;
@@ -51,26 +64,37 @@ public class GameScreen implements IScreen {
     }
 
     hud.renderScores(gameModel);
+    
     Audio.restart();
     Mouse.hideCursor();
-    timer.setStartTime();
-    gameRenderer.init(gameModel);
+    
+    countDown = new Timer();
+
+    gameRenderer.init(gameModel); 
+
+    timer.resetStartTime();
+    countDown.setStartTime();
   }
 
   @Override
   public void input() {
-    playerInputDirection = getPlayerInputDirection();
+  	if (Integer.parseInt(hud.getCountDown().getText()) == 0) {
+  		playerInputDirection = getPlayerInputDirection();
+  	} else {
+  		playerInputDirection = null;
+  	}
 
     if (Keyboard.isKeyReleased(GLFW_KEY_J)) {
-      timer.setStartTime();
-      gameModel.nextLevel();
+    	gameModel.nextLevel();
+
+    	timer.resetStartTime();
+      countDown.setStartTime();
     }
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU);
     }
 
-    // CONTROL TO SHOW OTHER PLAYERS SCORES
     if (Keyboard.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
     	hud.moveScore(35, hud.getScoreSideGap());
     } else {
@@ -80,24 +104,59 @@ public class GameScreen implements IScreen {
 
   @Override
   public void update(float delta) {
-    float gameTime = timer.getGameTime();
-
-    int timeLeft = 90 - Math.round(gameTime);
-    if (timeLeft < 0) {
-      timeLeft = 0;
-    }
-
-    String text = String.format("%02d", timeLeft);
+  	float countDown = this.countDown.getGameTime();
+  	int countDownLeft = this.countDownTime+1 - Math.round(countDown);
+  	if (countDownLeft <= 0) countDownLeft = 0;
+  	if (countDownLeft == this.countDownTime) hud.getCountDown().setRender(true);
+  	
+  	int timeLeft = levelTime;
+  	if (countDownLeft == 0) {
+  		hud.getCountDown().setRender(false);
+  		if (timer.getStartTime() == 0) {
+  			timer.setStartTime();
+  		}
+  		else {
+        float gameTime = timer.getGameTime();
+        timeLeft = levelTime - Math.round(gameTime);
+        if (timeLeft < 0) {
+          timeLeft = 0;
+        }
+  		}
+  	} 
+  	
+  	String text = String.format("%01d", countDownLeft);
+  	hud.setCountDown(text);
+  	
+    text = String.format("%02d", timeLeft);
     hud.setCounter(text);
-
+    
+    int playerIndex = 0;
+    
     int lives = gameModel.myPlayer().getLives();
-    hud.setP1Lives(lives);
+    hud.setLives(playerIndex, lives);
 
     int score = gameModel.myPlayer().getScore();
-    hud.setP1Score(score);
+    hud.setScore(playerIndex, score);
 
-    hud.getP1Score().setColour(gameModel.myPlayer().getColour());
-
+    hud.getScore(playerIndex).setColour(gameModel.myPlayer().getColour());
+    
+    Map<String, Player> players = new HashMap<>(gameModel.getPlayers());
+    if (GameConnection.instance == null) {
+    	players.remove("1");
+    } else {
+    	players.remove(GameConnection.instance.sessionKey);
+    }
+    for (Player player : players.values()) {
+    	playerIndex++;
+    	lives = player.getLives();
+    	hud.setLives(playerIndex, lives);
+    	
+    	score = player.getScore();
+    	hud.setScore(playerIndex, score);
+    	
+    	hud.getScore(playerIndex).setColour(player.getColour());
+    }
+    
     if (gameModel.getState() == GameState.NEXT_LEVEL) {
       gameRenderer.init(gameModel);
     }

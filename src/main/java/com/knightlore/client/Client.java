@@ -11,7 +11,7 @@ import com.knightlore.client.gui.screen.LevelEditorScreen;
 import com.knightlore.client.gui.screen.LevelEditorSetupScreen;
 import com.knightlore.client.gui.screen.MainScreen;
 import com.knightlore.client.gui.screen.OptionsScreen;
-import com.knightlore.client.gui.screen.ServerScreen;
+import com.knightlore.client.gui.screen.LobbySelectScreen;
 import com.knightlore.client.gui.screen.TestingLevelScreen;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
@@ -69,7 +69,7 @@ public class Client extends Thread {
 
     screens = new EnumMap<>(ClientState.class);
     screens.put(ClientState.MAIN_MENU, new MainScreen(guiRenderer));
-    screens.put(ClientState.SERVER_MENU, new ServerScreen(guiRenderer));
+    screens.put(ClientState.SERVER_MENU, new LobbySelectScreen(guiRenderer));
     screens.put(ClientState.PRE_EDITOR, new LevelEditorSetupScreen(guiRenderer));
     screens.put(ClientState.LEVEL_EDITOR, new LevelEditorScreen(levelEditorRenderer));
     screens.put(ClientState.TESTING_LEVEL, new TestingLevelScreen(gameRenderer, timer));

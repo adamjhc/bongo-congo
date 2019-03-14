@@ -138,6 +138,12 @@ public class Player extends Entity {
           // TODO: Switch game state here
         }
 
+      if (newTile.getIndex() == 5) { // Checks for goal
+        System.out.println("Win!"); // debug statement
+        addToScore(10000);
+        setPosition(newPos);
+        // TODO: Switch game state here
+      }
 
       // TODO: Enemy collisions
 

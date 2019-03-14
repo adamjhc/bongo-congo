@@ -17,6 +17,10 @@ public class CoordinateUtils {
     return toIsometric(pos.x + pos.z, pos.y + pos.z);
   }
 
+  public static Vector3f toIsometric(float x, float y, float z) {
+    return toIsometric(x + z, y + z);
+  }
+
   public static Vector3f toCartesian(float x, float y) {
     return new Vector3f(
         x / TileGameObject.TILE_WIDTH + y / TileGameObject.TILE_HEIGHT,

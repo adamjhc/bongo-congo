@@ -17,6 +17,7 @@ public class Lobby implements IGui {
   private final TextObject lobby;
   private final TextObject separatorTop;
   private final TextObject separatorBot;
+  private final TextObject exit;
   private GuiObject[] guiObjects;
   private TextObject[] textObjects;
 
@@ -38,9 +39,13 @@ public class Lobby implements IGui {
     this.separatorBot.setColour(Colour.YELLOW);
     this.separatorBot.setId("Separator Bot");
     
+    this.exit = new TextObject("Exit", SMALL);
+    this.exit.setColour(Colour.YELLOW);
     
 
-    guiObjects = new GuiObject[] {bongo, congo, lobby, separatorTop, separatorBot};
+    guiObjects = new GuiObject[] {bongo, congo, lobby, separatorTop, separatorBot, exit};
+    
+    textObjects = new TextObject[] {exit};
   }
   
   public void setLobbyName(String name) {
@@ -60,6 +65,13 @@ public class Lobby implements IGui {
     this.lobby.setPosition(
         Window.getHalfWidth() - lobby.getSize() / 2,
         Window.getHalfHeight() - SEPARATOR_TOP_POS - SEPARATOR_GAP);		
+    this.exit.setPosition(
+        Window.getHalfWidth() - exit.getSize() / 2,
+        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 1);
+  }
+  
+  public TextObject getExit() {
+  	return exit;
   }
 
   @Override

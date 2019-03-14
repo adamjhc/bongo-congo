@@ -76,7 +76,6 @@ public class LobbyMenu implements IGui {
     textObjects = new TextObject[] {join, create, exit, separatorTop, separatorBot, refresh};
     
     refreshLobbies();
-    addLobbies();
   }
 
   public void createLobby() {
@@ -114,6 +113,8 @@ public class LobbyMenu implements IGui {
           Window.getHalfWidth() - lobby.getSize() / 2, Window.getHalfHeight() - yPos);
       yPos -= GAP;
     }
+    
+    addLobbies();
   }
   
   public void deleteLobby() {

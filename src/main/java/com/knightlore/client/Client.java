@@ -70,7 +70,7 @@ public class Client extends Thread {
 
     screens = new EnumMap<>(ClientState.class);
     screens.put(ClientState.MAIN_MENU, new MainScreen(guiRenderer));
-    screens.put(ClientState.SERVER_MENU, new LobbySelectScreen(guiRenderer));
+    screens.put(ClientState.LOBBY_MENU, new LobbySelectScreen(guiRenderer));
     screens.put(ClientState.PRE_EDITOR, new LevelEditorSetupScreen(guiRenderer));
     screens.put(ClientState.LEVEL_EDITOR, new LevelEditorScreen(levelEditorRenderer));
     screens.put(ClientState.TESTING_LEVEL, new TestingLevelScreen(gameRenderer, timer));

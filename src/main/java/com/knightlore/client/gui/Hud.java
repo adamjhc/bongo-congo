@@ -225,7 +225,7 @@ public class Hud implements IGui {
     this.counter.setPosition(Window.getWidth() - counter.getSize()*counter.getScale(),
     		Window.getHeight() - counter.getHeight()*counter.getScale());
     this.countDown.setPosition(Window.getHalfWidth() - countDown.getSize()*countDown.getScale()/2,
-    		Window.getHalfHeight() - countDown.getHeight()*countDown.getScale()/2+60);
+    		Window.getHalfHeight() - countDown.getHeight()*countDown.getScale()/2+75);
   }
   
   public void renderScores(GameModel gameModel) {

@@ -117,8 +117,20 @@ public class LobbyMenu implements IGui {
     addLobbies();
   }
   
-  public void deleteLobby() {
-  	//TODO add delete method
+  public void deleteLobby(ListGameObject game) {
+  	int i = 0;
+  	int deleteIndex = -1;
+  	for (LobbyObject lobby : lobbies) {
+  		if (lobby.getGame().getUuid() == game.getUuid()) {
+  			deleteIndex = i;
+  			break;
+  		}
+  		i++;
+  	}
+  	if (deleteIndex != -1) {
+    	lobbies.remove(deleteIndex);
+    	refreshLobbies();
+  	}
   }
 
   private void addLobby() {
@@ -195,7 +207,7 @@ public class LobbyMenu implements IGui {
     for (LobbyObject lobby : lobbies) {
       if (lobby.getHighlighted()) {
         lobby.setHighlighted();
-        lobby.setText(lobby.getText().substring(4, lobby.getText().length() - 4));
+        lobby.setText(lobby.getText().substring(2, lobby.getText().length() - 2));
         lobby.setPositionX(Window.getHalfWidth() - lobby.getSize() / 2);
         lobby.setColour(Colour.YELLOW);
       }
@@ -208,7 +220,7 @@ public class LobbyMenu implements IGui {
     lobbies.get(listPos + current).setColour();
     lobbies
         .get(listPos + current)
-        .setText("=== " + lobbies.get(listPos + current).getText() + " ===");
+        .setText("- " + lobbies.get(listPos + current).getText() + " -");
     lobbies
         .get(listPos + current)
         .setPositionX(Window.getHalfWidth() - lobbies.get(listPos + current).getSize() / 2);

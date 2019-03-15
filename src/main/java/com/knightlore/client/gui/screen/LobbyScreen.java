@@ -45,7 +45,7 @@ public class LobbyScreen implements IScreen {
   	if (lobbyData.getGame() != null) {
   		lobby.setLobbyName(lobbyData.getGame().getName());
   	} else {
-  		lobby.setLobbyName(lobbyData.getText().substring(4, lobbyData.getText().length() - 4));
+  		lobby.setLobbyName(lobbyData.getText());
   	}
   }
 

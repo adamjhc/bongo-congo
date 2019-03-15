@@ -79,13 +79,16 @@ public class LobbyMenu implements IGui {
   }
 
   public void createLobby() {
-    LobbyObject newServer = new LobbyObject("New Lobby " + lobbies.size(), SMALL);
+    LobbyObject newServer = new LobbyObject("LOBBY PLACEHOLDER " + lobbies.size(), SMALL);
     newServer.setColour(Colour.YELLOW);
     newServer.setPosition(
         Window.getHalfWidth() - newServer.getSize() / 2,
         Window.getHalfHeight() - yPos - (current * GAP));
     yPos -= GAP;
-
+    
+    resetHighlight();
+    newServer.setHighlighted();
+    
     lobbies.add(newServer);
     addLobby();
     for (int i = 0; i < lobbies.size(); i++) moveDown();
@@ -229,6 +232,7 @@ public class LobbyMenu implements IGui {
   public LobbyObject getHighlighted() {
   	for (LobbyObject lobby : lobbies) {
   		if (lobby.getHighlighted()) {
+  			
   			return lobby;
   		}
   	}

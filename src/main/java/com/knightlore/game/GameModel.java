@@ -3,9 +3,11 @@ package com.knightlore.game;
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.networking.GameConnection;
 import com.knightlore.game.entity.Direction;
+import com.knightlore.game.entity.EnemySet;
 import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.LevelMap;
+import com.knightlore.game.map.TileSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +19,8 @@ import org.joml.Vector4f;
 public class GameModel {
 
   private final int noOfLevels = 3;
+
+  private EnemySet enemySet;
 
   private String uuid;
   private GameState currentState;
@@ -31,6 +35,8 @@ public class GameModel {
   public GameModel(String uuid) {
     this.uuid = uuid;
     currentState = GameState.LOBBY;
+
+    enemySet = new EnemySet();
 
     levels = new ArrayList<>();
     currentLevelIndex = 0;
@@ -74,7 +80,7 @@ public class GameModel {
   }
 
   public void createNewLevel(LevelMap levelMap) {
-    levels.add(new Level(levelMap));
+    levels.add(new Level(levelMap, enemySet));
 
     if (currentLevelIndex == null) {
       currentLevelIndex = 0;
@@ -82,7 +88,7 @@ public class GameModel {
   }
 
   public void overwriteCurrentLevel(LevelMap levelMap) {
-    levels.set(0, new Level(levelMap));
+    levels.set(0, new Level(levelMap, enemySet));
   }
 
   public void clearLevels() {

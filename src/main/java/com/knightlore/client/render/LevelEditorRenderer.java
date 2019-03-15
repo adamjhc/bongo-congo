@@ -64,7 +64,7 @@ public class LevelEditorRenderer extends Renderer {
 
   private void renderMap(LevelMap levelMap, Vector3f cameraPosition) {
     Vector3f cameraIsoPos = CoordinateUtils.toIsometric(cameraPosition);
-    camera.setPosition(cameraIsoPos.mul(-world.getScale(), new Vector3f()));
+    camera.setPosition(cameraIsoPos, -world.getScale());
 
     Tile[][][] tiles = levelMap.getTiles();
 
@@ -72,7 +72,7 @@ public class LevelEditorRenderer extends Renderer {
       for (int y = tiles[z].length - 1; y >= 0; y--) {
         for (int x = tiles[z][y].length - 1; x >= 0; x--) {
           Vector3f isoTilePos = CoordinateUtils.toIsometric(x, y, z);
-          if (isWithinView(cameraIsoPos, isoTilePos)) {
+          if (isWithinView(isoTilePos)) {
             TileGameObject tileGameObject = TileGameObjectSet.getTile(tiles[z][y][x].getIndex());
             tileGameObject.setIsometricPosition(isoTilePos);
 
@@ -85,11 +85,12 @@ public class LevelEditorRenderer extends Renderer {
     }
   }
 
-  private boolean isWithinView(Vector3f isometricPosition, Vector3f gameObjectPosition) {
-    return isometricPosition.x + viewX >= gameObjectPosition.x
-        && isometricPosition.y + viewY >= gameObjectPosition.y
-        && isometricPosition.x - viewX <= gameObjectPosition.x - gameObjectPosition.z
-        && isometricPosition.y - viewY <= gameObjectPosition.y - gameObjectPosition.z;
+  private boolean isWithinView(Vector3f gameObjectPosition) {
+    Vector3f cameraPosition = camera.getWorldPosition();
+    return cameraPosition.x + viewX >= gameObjectPosition.x
+        && cameraPosition.y + viewY >= gameObjectPosition.y
+        && cameraPosition.x - viewX <= gameObjectPosition.x - gameObjectPosition.z
+        && cameraPosition.y - viewY <= gameObjectPosition.y - gameObjectPosition.z;
   }
 
   public void setCurrentTiles(int x, int y, int z) {

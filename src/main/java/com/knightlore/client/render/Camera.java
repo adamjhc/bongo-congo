@@ -10,8 +10,11 @@ import org.joml.Vector3f;
  */
 public class Camera {
 
+  /** Scaled position in the the camera */
+  private Vector3f scaledPosition;
+
   /** Position in the world of the camera */
-  private Vector3f position;
+  private Vector3f worldPosition;
 
   /** Projection of the camera */
   private Matrix4f projection;
@@ -24,7 +27,7 @@ public class Camera {
    * @author Adam Cox
    */
   Camera(int width, int height) {
-    position = new Vector3f(0, 0, 0);
+    scaledPosition = new Vector3f(0, 0, 0);
     projection =
         new Matrix4f()
             .setOrtho2D(
@@ -35,13 +38,24 @@ public class Camera {
   }
 
   /**
-   * Sets the position of the camera in the world
+   * Get the world scaledPosition of the camera
    *
-   * @param position New position of the camera
+   * @return world scaledPosition of the camera
    * @author Adam Cox
    */
-  public void setPosition(Vector3f position) {
-    this.position = position;
+  Vector3f getWorldPosition() {
+    return worldPosition;
+  }
+
+  /**
+   * Sets the scaledPosition of the camera in the world
+   *
+   * @param worldPosition New worldPosition of the camera
+   * @author Adam Cox
+   */
+  public void setPosition(Vector3f worldPosition, int negativeWorldScale) {
+    this.scaledPosition = worldPosition.mul(negativeWorldScale, new Vector3f());
+    this.worldPosition = worldPosition;
   }
 
   /**
@@ -51,6 +65,6 @@ public class Camera {
    * @author Adam Cox
    */
   Matrix4f getProjection() {
-    return projection.translate(position, new Matrix4f());
+    return projection.translate(scaledPosition, new Matrix4f());
   }
 }

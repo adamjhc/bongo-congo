@@ -137,18 +137,18 @@ public class GameRenderer extends Renderer {
     Vector3f isometricPosition =
         playerGameObjects.get(gameModel.myPlayer().getId()).getIsometricPosition();
 
-    camera.setPosition(isometricPosition.mul(-world.getScale(), new Vector3f()));
+    camera.setPosition(isometricPosition, -world.getScale());
 
     List<GameObject> gameObjectsToDepthSort = new ArrayList<>();
     tileGameObjects.forEach(
         tileGameObject ->
-            ifWithinViewAddTo(gameObjectsToDepthSort, isometricPosition, tileGameObject));
+            ifWithinViewAddTo(gameObjectsToDepthSort, tileGameObject));
     playerGameObjects.forEach(
         playerGameObject ->
-            ifWithinViewAddTo(gameObjectsToDepthSort, isometricPosition, playerGameObject));
+            ifWithinViewAddTo(gameObjectsToDepthSort, playerGameObject));
     enemyGameObjects.forEach(
         enemyGameObject ->
-            ifWithinViewAddTo(gameObjectsToDepthSort, isometricPosition, enemyGameObject));
+            ifWithinViewAddTo(gameObjectsToDepthSort, enemyGameObject));
 
     List<GameObject> depthSortedGameObjects =
         depthSort(gameModel.getCurrentLevel().getLevelMap().getSize(), gameObjectsToDepthSort);
@@ -172,13 +172,12 @@ public class GameRenderer extends Renderer {
    * Adds GameObject to given list if it is within view
    *
    * @param gameObjectsToDepthSort List to add to
-   * @param isometricPosition Isometric position of camera
    * @param gameObject GameObject to test
    * @author Adam Cox
    */
   private void ifWithinViewAddTo(
-      List<GameObject> gameObjectsToDepthSort, Vector3f isometricPosition, GameObject gameObject) {
-    if (isWithinView(isometricPosition, gameObject.getIsometricPosition())) {
+      List<GameObject> gameObjectsToDepthSort, GameObject gameObject) {
+    if (isWithinView(gameObject.getIsometricPosition())) {
       gameObjectsToDepthSort.add(gameObject);
     }
   }
@@ -186,16 +185,16 @@ public class GameRenderer extends Renderer {
   /**
    * Returns whether a GameObject is within view of the camera
    *
-   * @param playerPosition Position of the camera
    * @param gameObjectPosition isometric position of the game object
    * @return whether a GameObject is within view of the camera
    * @author Adam Cox
    */
-  private boolean isWithinView(Vector3f playerPosition, Vector3f gameObjectPosition) {
-    return playerPosition.x + viewX >= gameObjectPosition.x
-        && playerPosition.y + viewY >= gameObjectPosition.y
-        && playerPosition.x - viewX <= gameObjectPosition.x - gameObjectPosition.z
-        && playerPosition.y - viewY <= gameObjectPosition.y - gameObjectPosition.z;
+  private boolean isWithinView(Vector3f gameObjectPosition) {
+    Vector3f cameraPosition = camera.getWorldPosition();
+    return cameraPosition.x + viewX >= gameObjectPosition.x
+        && cameraPosition.y + viewY >= gameObjectPosition.y
+        && cameraPosition.x - viewX <= gameObjectPosition.x - gameObjectPosition.z
+        && cameraPosition.y - viewY <= gameObjectPosition.y - gameObjectPosition.z;
   }
 
   /**

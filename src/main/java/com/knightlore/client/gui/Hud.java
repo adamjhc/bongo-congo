@@ -1,5 +1,6 @@
 package com.knightlore.client.gui;
 
+import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
@@ -34,8 +35,11 @@ public class Hud implements IGui {
   private final TextObject player6Score;
   private final TextObject player6Lives;
   private final TextObject counter;
+  private final TextObject countDown;
   private GuiObject[] guiObjects;
   private TextObject[] textObjects;
+  private TextObject[] scores;
+  private TextObject[] lives;
 
   public Hud() {
     this.player1Score = new TextObject("P1:00000000", SMALL);
@@ -84,6 +88,12 @@ public class Hud implements IGui {
     this.counter.setColour(Colour.YELLOW);
     this.counter.setScale(1.5f);
     
+    this.countDown = new TextObject("5", LARGE);
+    this.countDown.setColour(Colour.YELLOW);
+    this.countDown.setScale(4.0f);
+    
+    this.countDown.setRender(false);
+    
     this.player1Score.setPosition(SCORE_SIDE_GAP, SCORE_SIDE_GAP);
     this.player2Score.setPosition(SCORE_HIDE, SCORE_SIDE_GAP + GAP);
     this.player3Score.setPosition(SCORE_HIDE, SCORE_SIDE_GAP + GAP * 2);
@@ -113,10 +123,29 @@ public class Hud implements IGui {
           player4Lives,
           player5Lives,
           player6Lives,
-          counter
+          counter,
+          countDown
         };
     textObjects = new TextObject[] {};
-   
+    
+    scores =
+    		new TextObject[] {
+            player1Score,
+            player2Score,
+            player3Score,
+            player4Score,
+            player5Score,
+            player6Score
+    		};
+    lives = 
+    		new TextObject[] {
+            player1Lives,
+            player2Lives,
+            player3Lives,
+            player4Lives,
+            player5Lives,
+            player6Lives
+    		};
   }
 
   public void moveScore(float move, float targetXPos) {
@@ -146,17 +175,16 @@ public class Hud implements IGui {
     player6Lives.setPositionX(xPosLives + move);
   }
 
-  public void setP1Lives(int lives) {
+  public void setLives(int index, int lives) {
     if (lives <= 0) {
-      this.player1Lives.setText("");
+      this.lives[index].setText("");
     } else {
       String livesText = "";
       for (int i = 0; i < lives; i++) {
         livesText += "*";
       }
-      this.player1Lives.setText(livesText);
+      this.lives[index].setText(livesText);
     }
-    this.player1Lives.setColour(Colour.RED);
   }
 
   public TextObject getCounter() {
@@ -165,19 +193,26 @@ public class Hud implements IGui {
 
   public void setCounter(String statusText) {
     this.counter.setText(statusText);
-    this.counter.setColour(Colour.YELLOW);
+  }
+  
+  public TextObject getCountDown() {
+  	return countDown;
+  }
+  
+  public void setCountDown(String statusText) {
+  	this.countDown.setText(statusText);
   }
 
-  public TextObject getP1Score() {
-    return player1Score;
+  public TextObject getScore(int index) {
+    return this.scores[index];
   }
 
-  public void setP1Score(int score) {
+  public void setScore(int index, int score) {
     if (score > MAX_SCORE) {
       score = MAX_SCORE;
     }
     String text = String.format("%08d", score);
-    this.player1Score.setText("P1:" + text);
+    this.scores[index].setText("P"+(index+1)+":" + text);
   }
 
   public int getScoreHide() {
@@ -191,24 +226,24 @@ public class Hud implements IGui {
   public void updateSize() {
     this.counter.setPosition(Window.getWidth() - counter.getSize()*counter.getScale(),
     		Window.getHeight() - counter.getHeight()*counter.getScale());
+    this.countDown.setPosition(Window.getHalfWidth() - countDown.getSize()*countDown.getScale()/2,
+    		Window.getHeight() - countDown.getHeight()*countDown.getScale());
   }
   
   public void renderScores(GameModel gameModel) {
   	Map<String, Player> players = gameModel.getPlayers();
   	int numPlayers = players.size();
   	
-  	if (numPlayers == 1) {
-  		player2Score.setRender(false);
-  		player2Lives.setRender(false);
-  		player3Score.setRender(false);
-  		player3Lives.setRender(false);
-  		player4Score.setRender(false);
-  		player4Lives.setRender(false);
-  		player5Score.setRender(false);
-  		player5Lives.setRender(false);
-  		player6Score.setRender(false);
-  		player6Lives.setRender(false);
-  	}
+  	player2Score.setRender(numPlayers > 1 ? true : false);
+  	player2Lives.setRender(numPlayers > 1 ? true : false);
+  	player3Score.setRender(numPlayers > 2 ? true : false);
+  	player3Lives.setRender(numPlayers > 2 ? true : false);
+  	player4Score.setRender(numPlayers > 3 ? true : false);
+  	player4Lives.setRender(numPlayers > 3 ? true : false);
+  	player5Score.setRender(numPlayers > 4 ? true : false);
+  	player5Lives.setRender(numPlayers > 4 ? true : false);
+  	player6Score.setRender(numPlayers > 5 ? true : false);
+  	player6Lives.setRender(numPlayers > 5 ? true : false);
   }
 
   @Override

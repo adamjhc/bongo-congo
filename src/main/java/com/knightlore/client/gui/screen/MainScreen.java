@@ -8,8 +8,8 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_MINUS;
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.audio.Audio;
-import com.knightlore.client.gui.Colour;
 import com.knightlore.client.gui.MainMenu;
+import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;
@@ -45,7 +45,7 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getMultiplayer().getId())) {
       menu.getMultiplayer().setColour();
       if (Mouse.isLeftButtonPressed()) {
-        Client.changeScreen(ClientState.SERVER_MENU);
+        Client.changeScreen(ClientState.LOBBY_MENU);
       }
     } else menu.getMultiplayer().setColour(Colour.YELLOW);
 

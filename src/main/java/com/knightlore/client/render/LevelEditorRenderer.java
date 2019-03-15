@@ -10,6 +10,11 @@ import com.knightlore.game.map.Tile;
 import com.knightlore.game.util.CoordinateUtils;
 import org.joml.Vector3f;
 
+/**
+ * Renderer used for Level editor
+ *
+ * @author Adam Cox, Adam Worwood
+ */
 public class LevelEditorRenderer extends Renderer {
 
   private World world;
@@ -54,7 +59,7 @@ public class LevelEditorRenderer extends Renderer {
     renderMap(levelMap, cameraPosition);
     hudRenderer.renderGui(hud);
 
-    swapBuffers();
+    Window.swapBuffers();
   }
 
   private void renderMap(LevelMap levelMap, Vector3f cameraPosition) {
@@ -92,21 +97,21 @@ public class LevelEditorRenderer extends Renderer {
     currentTileY = y;
     currentTileZ = z;
   }
-  
+
   public void zoomIn() {
-	  int scale = world.getScale();
-	  if (scale != 96) {
-		  world.setScale(scale + 12);
-		  calculateView();
-	  }
+    int scale = world.getScale();
+    if (scale != 96) {
+      world.setScale(scale + 12);
+      calculateView();
+    }
   }
-  
+
   public void zoomOut() {
-	  int scale = world.getScale();
-	  if (scale != 12) {
-		  world.setScale(scale - 12);
-		  calculateView();
-	  }
+    int scale = world.getScale();
+    if (scale != 12) {
+      world.setScale(scale - 12);
+      calculateView();
+    }
   }
 
   private void calculateView() {

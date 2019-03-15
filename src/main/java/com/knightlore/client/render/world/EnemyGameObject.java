@@ -7,14 +7,33 @@ import com.knightlore.game.entity.Entity;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 
+/**
+ * GameObject for Enemy entities
+ *
+ * @author Adam Cox
+ */
 public class EnemyGameObject extends EntityGameObject {
 
+  /** Current state of the entity */
   private EnemyState currentState;
 
+  /**
+   * Initialise the EnemyGameObject
+   *
+   * @param textureFileName Prefix of the texture file name
+   * @param colour Colour used for the texture
+   * @author Adam Cox
+   */
   EnemyGameObject(String textureFileName, Vector4f colour) {
     super(textureFileName, colour);
   }
 
+  /**
+   * Copy constructor
+   *
+   * @param copy Object to copy fields from
+   * @author Adam Cox
+   */
   EnemyGameObject(EnemyGameObject copy) {
     model = copy.model;
     idleTextures = copy.idleTextures;
@@ -25,12 +44,26 @@ public class EnemyGameObject extends EntityGameObject {
     colour = copy.colour;
   }
 
+  /**
+   * Update the GameObject with the relevant entity
+   *
+   * @param entity Entity to update the GameObject with
+   * @author Adam Cox
+   */
   @Override
   public void update(Entity entity) {
     super.update(entity);
     currentState = ((Enemy) entity).getCurrentState();
   }
 
+  /**
+   * Render the EnemyGameObject to screen
+   *
+   * @param shaderProgram Shader program to use
+   * @param camera Current Camera projection
+   * @param worldScale scale of the world
+   * @author Adam Cox
+   */
   @Override
   public void render(ShaderProgram shaderProgram, Matrix4f camera, int worldScale) {
     transform.setPosition(isometricPosition);

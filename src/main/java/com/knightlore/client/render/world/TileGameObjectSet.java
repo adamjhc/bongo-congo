@@ -4,8 +4,14 @@ import com.knightlore.game.map.Tile;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Set for defined TileGameObjects
+ *
+ * @author Adam Cox
+ */
 public class TileGameObjectSet {
 
+  /** Set of TileGameObjects */
   private static final List<TileGameObject> tileSet;
 
   static {
@@ -18,12 +24,31 @@ public class TileGameObjectSet {
     tileSet.add(new TileGameObject(true, "goal"));
   }
 
+  /**
+   * Private empty constructor so no one can create an instance
+   *
+   * @author Adam Cox
+   */
   private TileGameObjectSet() {}
 
+  /**
+   * Get the tile at the given index
+   *
+   * @param index Index of the tile
+   * @return TileGameObject
+   * @author Adam Cox
+   */
   public static TileGameObject getTile(int index) {
     return tileSet.get(index);
   }
 
+  /**
+   * Generate list of TileGameObjects from tile map
+   *
+   * @param tiles map of tiles
+   * @return list of TileGameObjects
+   * @author Adam Cox
+   */
   public static List<TileGameObject> fromGameModel(Tile[][][] tiles) {
     List<TileGameObject> tileGameObjects = new ArrayList<>();
     for (Tile[][] layer : tiles) {

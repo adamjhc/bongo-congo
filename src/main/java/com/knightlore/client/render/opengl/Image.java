@@ -1,5 +1,10 @@
 package com.knightlore.client.render.opengl;
 
+/**
+ * Stores information about an image file
+ *
+ * @author Adam Cox
+ */
 public class Image {
 
   /** Width of the image */
@@ -17,6 +22,7 @@ public class Image {
    * @param width Width of the image
    * @param height Height of the image
    * @param pixels Raw pixel array
+   * @author Adam Cox
    */
   public Image(int width, int height, int[] pixels) {
     this.width = width;
@@ -28,6 +34,7 @@ public class Image {
    * Get the width of the image
    *
    * @return Width of the image
+   * @author Adam Cox
    */
   public int getWidth() {
     return width;
@@ -37,6 +44,7 @@ public class Image {
    * Get the height of the image
    *
    * @return height of the image
+   * @author Adam Cox
    */
   public int getHeight() {
     return height;
@@ -46,6 +54,7 @@ public class Image {
    * Get the raw pixel array
    *
    * @return Raw pixel array
+   * @author Adam Cox
    */
   public int[] getPixels() {
     return pixels;

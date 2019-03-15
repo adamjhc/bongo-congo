@@ -3,6 +3,11 @@ package com.knightlore.client.render;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
+/**
+ * Camera used in looking around the rendered world
+ *
+ * @author Adam Cox
+ */
 public class Camera {
 
   /** Position in the world of the camera */
@@ -16,6 +21,7 @@ public class Camera {
    *
    * @param width Width of the window
    * @param height Height of the window
+   * @author Adam Cox
    */
   Camera(int width, int height) {
     position = new Vector3f(0, 0, 0);
@@ -32,6 +38,7 @@ public class Camera {
    * Sets the position of the camera in the world
    *
    * @param position New position of the camera
+   * @author Adam Cox
    */
   public void setPosition(Vector3f position) {
     this.position = position;
@@ -41,6 +48,7 @@ public class Camera {
    * Get the projection of the camera
    *
    * @return Projection of the camera
+   * @author Adam Cox
    */
   Matrix4f getProjection() {
     return projection.translate(position, new Matrix4f());

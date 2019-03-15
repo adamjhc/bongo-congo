@@ -18,8 +18,14 @@ import java.util.List;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
+/**
+ * Renderer used in normal gameplay
+ *
+ * @author Adam Cox
+ */
 public class GameRenderer extends Renderer {
 
+  /** Used for rendering HUD */
   private GuiRenderer hudRenderer;
 
   /** World object used in renderer */
@@ -28,19 +34,32 @@ public class GameRenderer extends Renderer {
   /** Camera to view the world through */
   private Camera camera;
 
-  /** Shader program used in rendering */
+  /** Shader program used in rendering world */
   private ShaderProgram worldShaderProgram;
 
+  /** Shader program used in rendering players */
   private ShaderProgram playerShaderProgram;
 
+  /** TileGameObjects in world */
   private List<TileGameObject> tileGameObjects;
+
+  /** PlayerGameObjects in world */
   private List<PlayerGameObject> playerGameObjects;
+
+  /** EnemyGameObjects in world */
   private List<EnemyGameObject> enemyGameObjects;
 
+  /** Isometric x distance from camera to render */
   private float viewX;
+
+  /** Isometric y distance from camera to render */
   private float viewY;
 
-  /** Initialise the renderer */
+  /**
+   * Initialise the renderer
+   *
+   * @author Adam Cox
+   */
   public GameRenderer() {
     super();
 
@@ -48,6 +67,11 @@ public class GameRenderer extends Renderer {
     setupHud();
   }
 
+  /**
+   * Setup render world
+   *
+   * @author Adam Cox
+   */
   private void setupWorld() {
     world = new World();
     camera = new Camera(Window.getWidth(), Window.getHeight());
@@ -60,10 +84,21 @@ public class GameRenderer extends Renderer {
     viewY = ((float) Window.getHeight() / (world.getScale() * 2)) + 2;
   }
 
+  /**
+   * Setup hud for game
+   *
+   * @author Adam Cox
+   */
   private void setupHud() {
     hudRenderer = new GuiRenderer();
   }
 
+  /**
+   * Convert game model entities into GameObjects
+   *
+   * @param gameModel GameModel object to get entities from
+   * @author Adam Cox
+   */
   public void init(GameModel gameModel) {
     playerGameObjects = PlayerGameObject.fromGameModel(gameModel.getPlayers().values());
     tileGameObjects =
@@ -75,6 +110,7 @@ public class GameRenderer extends Renderer {
    * Render the game model
    *
    * @param gameModel GameModel model to render
+   * @author Adam Cox
    */
   public void render(GameModel gameModel, IGui hud) {
     clearBuffers();
@@ -82,9 +118,15 @@ public class GameRenderer extends Renderer {
     renderGame(gameModel);
     hudRenderer.renderGui(hud);
 
-    swapBuffers();
+    Window.swapBuffers();
   }
 
+  /**
+   * Render the game
+   *
+   * @param gameModel GameModel object to render
+   * @author Adam Cox
+   */
   private void renderGame(GameModel gameModel) {
     Collection<Player> players = gameModel.getPlayers().values();
     Collection<Enemy> enemies = gameModel.getCurrentLevel().getEnemies();
@@ -97,7 +139,7 @@ public class GameRenderer extends Renderer {
 
     camera.setPosition(isometricPosition.mul(-world.getScale(), new Vector3f()));
 
-    ArrayList<GameObject> gameObjectsToDepthSort = new ArrayList<>();
+    List<GameObject> gameObjectsToDepthSort = new ArrayList<>();
     tileGameObjects.forEach(
         tileGameObject ->
             ifWithinViewAddTo(gameObjectsToDepthSort, isometricPosition, tileGameObject));
@@ -108,7 +150,7 @@ public class GameRenderer extends Renderer {
         enemyGameObject ->
             ifWithinViewAddTo(gameObjectsToDepthSort, isometricPosition, enemyGameObject));
 
-    ArrayList<GameObject> depthSortedGameObjects =
+    List<GameObject> depthSortedGameObjects =
         depthSort(gameModel.getCurrentLevel().getLevelMap().getSize(), gameObjectsToDepthSort);
 
     depthSortedGameObjects.forEach(
@@ -126,15 +168,29 @@ public class GameRenderer extends Renderer {
         });
   }
 
+  /**
+   * Adds GameObject to given list if it is within view
+   *
+   * @param gameObjectsToDepthSort List to add to
+   * @param isometricPosition Isometric position of camera
+   * @param gameObject GameObject to test
+   * @author Adam Cox
+   */
   private void ifWithinViewAddTo(
-      ArrayList<GameObject> gameObjectsToDepthSort,
-      Vector3f isometricPosition,
-      GameObject playerGameObject) {
-    if (isWithinView(isometricPosition, playerGameObject.getIsometricPosition())) {
-      gameObjectsToDepthSort.add(playerGameObject);
+      List<GameObject> gameObjectsToDepthSort, Vector3f isometricPosition, GameObject gameObject) {
+    if (isWithinView(isometricPosition, gameObject.getIsometricPosition())) {
+      gameObjectsToDepthSort.add(gameObject);
     }
   }
 
+  /**
+   * Returns whether a GameObject is within view of the camera
+   *
+   * @param playerPosition Position of the camera
+   * @param gameObjectPosition isometric position of the game object
+   * @return whether a GameObject is within view of the camera
+   * @author Adam Cox
+   */
   private boolean isWithinView(Vector3f playerPosition, Vector3f gameObjectPosition) {
     return playerPosition.x + viewX >= gameObjectPosition.x
         && playerPosition.y + viewY >= gameObjectPosition.y
@@ -142,9 +198,16 @@ public class GameRenderer extends Renderer {
         && playerPosition.y - viewY <= gameObjectPosition.y - gameObjectPosition.z;
   }
 
-  private ArrayList<GameObject> depthSort(Vector3i mapSize, ArrayList<GameObject> gameObjects) {
-    // initalise the buckets
-    ArrayList<ArrayList<GameObject>> buckets = new ArrayList<>();
+  /**
+   * Depth sorts given game objects
+   *
+   * @param mapSize Size of the map
+   * @param gameObjects GameObjects to depth sort
+   * @return List of Depth-sorted GameObjects
+   */
+  private List<GameObject> depthSort(Vector3i mapSize, List<GameObject> gameObjects) {
+    // initialise the buckets
+    List<ArrayList<GameObject>> buckets = new ArrayList<>();
     for (int i = 0; i < getScreenDepth(mapSize, new Vector3f(0, 0, mapSize.z - 1)) + 1; i++) {
       buckets.add(new ArrayList<>());
     }
@@ -167,6 +230,14 @@ public class GameRenderer extends Renderer {
     return depthSortedGameObjects;
   }
 
+  /**
+   * Get screen depth of game object
+   *
+   * @param mapSize Size of the map
+   * @param position Model position of the game object
+   * @return Screen depth
+   * @author Adam Cox
+   */
   private int getScreenDepth(Vector3i mapSize, Vector3f position) {
     return (int)
         Math.ceil(
@@ -177,15 +248,29 @@ public class GameRenderer extends Renderer {
                 + getLevelScreenDepth(mapSize, position.z));
   }
 
+  /**
+   * Get screen depth of floor level
+   *
+   * @param mapSize Size of map
+   * @param z Level of floor
+   * @return Screen depth of floor level
+   * @author Adam Cox
+   */
   private int getLevelScreenDepth(Vector3i mapSize, float z) {
     return (int) z * (mapSize.x + mapSize.y);
   }
 
+  /**
+   * Memory cleanup of shader program and game objects
+   *
+   * @author Adam Cox
+   */
   @Override
   public void cleanup() {
     playerShaderProgram.cleanup();
     worldShaderProgram.cleanup();
     tileGameObjects.forEach(TileGameObject::cleanup);
     playerGameObjects.forEach(PlayerGameObject::cleanup);
+    enemyGameObjects.forEach(EnemyGameObject::cleanup);
   }
 }

@@ -10,6 +10,11 @@ import static org.lwjgl.system.MemoryStack.stackPush;
 import com.knightlore.client.util.BufferUtils;
 import org.lwjgl.system.MemoryStack;
 
+/**
+ * OpenGL render model, all renderable objects must have an instance of this
+ *
+ * @author Adam Cox
+ */
 public class RenderModel {
 
   /** Number of indices to draw */
@@ -30,6 +35,7 @@ public class RenderModel {
    * @param vertices Four vertices to draw the quad with
    * @param textureCoords The points of the quad to map the texture onto
    * @param indices The indices of the vertices to draw the two triangles to make up the quad with
+   * @author Adam Cox
    */
   public RenderModel(float[] vertices, float[] textureCoords, int[] indices) {
     drawCount = indices.length;
@@ -51,7 +57,11 @@ public class RenderModel {
     unbind();
   }
 
-  /** Render the object using the initialised buffer objects */
+  /**
+   * Render the object using the initialised buffer objects
+   *
+   * @author Adam Cox
+   */
   public void render() {
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
@@ -71,13 +81,21 @@ public class RenderModel {
     glDisableVertexAttribArray(1);
   }
 
-  /** Unbind the OpenGL bindings */
+  /**
+   * Unbind the OpenGL bindings
+   *
+   * @author Adam Cox
+   */
   private void unbind() {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
   }
 
-  /** Clean up memory */
+  /**
+   * Clean up memory
+   *
+   * @author Adam Cox
+   */
   public void cleanup() {
     vertexBufferObject.delete();
     textureBufferObject.delete();

@@ -16,6 +16,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Wrapper for OpenGL shaders
+ *
+ * @author Adam Cox
+ */
 class Shader {
 
   /** Path to the shaders directory */
@@ -40,6 +45,7 @@ class Shader {
    * @param type Type of the shader, either <code>GL_VERTEX_SHADER</code> or <code>
    *     GL_FRAGMENT_SHADER</code>
    * @param shaderFileName File name of the shader
+   * @author Adam Cox
    */
   Shader(int type, String shaderFileName) {
     id = glCreateShader(type);
@@ -53,12 +59,17 @@ class Shader {
    * Get the OpenGL id of the shader
    *
    * @return OpenGL id
+   * @author Adam Cox
    */
   int getId() {
     return id;
   }
 
-  /** Delete the shader */
+  /**
+   * Delete the shader
+   *
+   * @author Adam Cox
+   */
   void delete() {
     glDeleteShader(id);
   }
@@ -67,12 +78,17 @@ class Shader {
    * Set the source of the shader
    *
    * @param shader Shader file read as a string
+   * @author Adam Cox
    */
   private void source(String shader) {
     glShaderSource(id, shader);
   }
 
-  /** Compile the shader */
+  /**
+   * Compile the shader
+   *
+   * @author Adam Cox
+   */
   private void compile() {
     glCompileShader(id);
 

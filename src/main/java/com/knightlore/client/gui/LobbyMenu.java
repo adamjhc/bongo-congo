@@ -104,7 +104,7 @@ public class LobbyMenu implements IGui {
     
     Collection<ListGameObject> games = LobbyCache.instance.getGames();
     for (ListGameObject game : games) {
-    	lobbies.add(new LobbyObject(game.getName() + "'s " + "Lobby", SMALL, game));
+    	lobbies.add(new LobbyObject(game.getName()+" "+game.getUsernames().size()+"/6 players", SMALL, game));
     }
     
     for (LobbyObject lobby : lobbies) {

@@ -42,7 +42,11 @@ public class LobbyScreen implements IScreen {
   
   @Override
   public void update(float delta) {
-  	lobby.setLobbyName(lobbyData.getText().substring(4, lobbyData.getText().length() - 4));
+  	if (lobbyData.getGame() != null) {
+  		lobby.setLobbyName(lobbyData.getGame().getName());
+  	} else {
+  		lobby.setLobbyName(lobbyData.getText().substring(4, lobbyData.getText().length() - 4));
+  	}
   }
 
   @Override

@@ -147,7 +147,7 @@ public class LevelEditorScreen implements IScreen {
   	  if (Mouse.isLeftButtonPressed()) {
   		  try {
   			  editorMap.resetRotation();
-  			  Client.changeScreen(ClientState.NAMING_LEVEL);
+  			  Client.changeScreen(ClientState.NAMING_LEVEL, editorMap);
   		  } catch (Exception e) {
   			  e.printStackTrace();
   		  }

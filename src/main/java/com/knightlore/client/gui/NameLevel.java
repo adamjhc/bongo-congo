@@ -50,7 +50,7 @@ public class NameLevel implements IGui {
 		this.cancel.setColour(Colour.YELLOW);
 		
 		this.saveAndQuit = new TextObject("Save and Quit", SMALL);
-		this.cancel.setColour(Colour.YELLOW);
+		this.saveAndQuit.setColour(Colour.YELLOW);
 		
 		this.saveAndContinue = new TextObject("Save and Continue", SMALL);
 		this.saveAndContinue.setColour(Colour.YELLOW);
@@ -63,6 +63,9 @@ public class NameLevel implements IGui {
 
 	    this.separatorBottom = new TextObject("------------------------------", SMALL);
 	    this.separatorBottom.setColour(Colour.YELLOW);
+	    
+	    textObjects = new TextObject[] {cancel, saveAndQuit, saveAndContinue};
+	    guiObjects = new GuiObject[] {bongo, congo, nameYourLevel, cancel, saveAndQuit, saveAndContinue, levelName, separatorTop, separatorBottom};
 	}
 	
 	public void updateSize() {
@@ -79,24 +82,21 @@ public class NameLevel implements IGui {
 	    		Window.getHalfHeight() - SEPARATOR_TOP_POS - SEPARATOR_GAP);
 	    this.levelName.setPosition(
 	    		Window.getHalfWidth() - levelName.getSize() / 2,
-	    		Window.getHalfHeight() - levelName.getSize() / 2);
+	    		Window.getHalfHeight() - levelName.getHeight() / 2);
 	    this.saveAndContinue.setPosition(
 	            Window.getHalfWidth() - saveAndContinue.getSize() / 2,
 	            Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP);
 
 	    this.saveAndQuit.setPosition(
 	            Window.getHalfWidth() - saveAndQuit.getSize() / 2,
-	            Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 3);
+	            Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
 	        
 	    this.cancel.setPosition(
 	    		Window.getHalfWidth() - cancel.getSize() / 2,
-	        	Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
+	        	Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 3);
 	        
 	}
 	
-	public TextObject getNameYourLevel() {
-		return nameYourLevel;
-	}
 	
 	public TextObject getCancel() {
 		return cancel;

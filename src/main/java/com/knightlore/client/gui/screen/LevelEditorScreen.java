@@ -85,16 +85,18 @@ public class LevelEditorScreen implements IScreen {
   }
 
   private void cameraControl() {
-    if (Mouse.getXPos() <= 5) {
-      cameraPosition.add(-0.1f, 0.1f, 0);
-    } else if (Mouse.getXPos() >= Window.getWidth() - 5) {
-      cameraPosition.add(0.1f, -0.1f, 0);
-    }
+    if (Mouse.isInScreen()) {
+      if (Mouse.getXPos() <= 5) {
+        cameraPosition.add(-0.1f, 0.1f, 0);
+      } else if (Mouse.getXPos() >= Window.getWidth() - 5) {
+        cameraPosition.add(0.1f, -0.1f, 0);
+      }
 
-    if (Mouse.getYPos() <= 5) {
-      cameraPosition.add(0.1f, 0.1f, 0);
-    } else if (Mouse.getYPos() >= Window.getHeight() - 5) {
-      cameraPosition.add(-0.1f, -0.1f, 0);
+      if (Mouse.getYPos() <= 5) {
+        cameraPosition.add(0.1f, 0.1f, 0);
+      } else if (Mouse.getYPos() >= Window.getHeight() - 5) {
+        cameraPosition.add(-0.1f, -0.1f, 0);
+      }
     }
   }
 

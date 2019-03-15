@@ -6,6 +6,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.GLFW_CURSOR;
 import static org.lwjgl.glfw.GLFW.GLFW_CURSOR_DISABLED;
 import static org.lwjgl.glfw.GLFW.GLFW_CURSOR_NORMAL;
+import static org.lwjgl.glfw.GLFW.glfwSetCursorEnterCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetCursorPosCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetMouseButtonCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetScrollCallback;
@@ -15,6 +16,8 @@ public class Mouse {
 
   private static double xPos = 0;
   private static double yPos = 0;
+
+  private static boolean isInScreen = false;
 
   private static boolean leftButtonPressed = false;
   private static boolean rightButtonPressed = false;
@@ -45,6 +48,12 @@ public class Mouse {
           scrollUp = yOffset > 0;
           scrollDown = yOffset < 0;
         });
+
+    glfwSetCursorEnterCallback(
+        Window.getWindowHandle(),
+        (windowHandle, entered) -> {
+          isInScreen = entered;
+        });
   }
   
   public static void hideCursor() {
@@ -61,6 +70,10 @@ public class Mouse {
 
   public static double getYPos() {
     return yPos;
+  }
+
+  public static boolean isInScreen() {
+    return isInScreen;
   }
 
   public static boolean scrolledUp() {

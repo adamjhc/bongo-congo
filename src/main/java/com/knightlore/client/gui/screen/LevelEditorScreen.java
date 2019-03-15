@@ -148,7 +148,7 @@ public class LevelEditorScreen implements IScreen {
   	  if (Mouse.isLeftButtonPressed()) {
   		  try {
   			  editorMap.resetRotation();
-  			  save(false);
+  			  Client.changeScreen(ClientState.NAMING_LEVEL);
   		  } catch (Exception e) {
   			  e.printStackTrace();
   		  }
@@ -210,22 +210,4 @@ public class LevelEditorScreen implements IScreen {
     levelEditorRenderer.setCurrentTiles(currentTileX, currentTileY, currentTileZ);
   }
 
-  private void save(boolean levelIsComplete) throws IOException {
-	  String filePath = "customMaps/";
-	  if (levelIsComplete) {
-		  filePath = filePath + "playable/";
-	  } else {
-		  filePath = filePath + "unplayable/";
-	  }
-
-	  GsonBuilder builder = new GsonBuilder();
-	  Gson gson = builder.create();
-
-	  String jsonString = gson.toJson(editorMap);
-	  System.out.println(jsonString);
-
-	  BufferedWriter writer = new BufferedWriter(new FileWriter(filePath + "customMap.umap"));
-	  writer.write(jsonString);
-	  writer.close();
-  }
 }

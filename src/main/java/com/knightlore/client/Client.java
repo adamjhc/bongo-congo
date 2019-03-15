@@ -10,6 +10,7 @@ import com.knightlore.client.gui.screen.IScreen;
 import com.knightlore.client.gui.screen.LevelEditorScreen;
 import com.knightlore.client.gui.screen.LevelEditorSetupScreen;
 import com.knightlore.client.gui.screen.MainScreen;
+import com.knightlore.client.gui.screen.NameLevelScreen;
 import com.knightlore.client.gui.screen.OptionsScreen;
 import com.knightlore.client.gui.screen.ServerScreen;
 import com.knightlore.client.gui.screen.TestingLevelScreen;
@@ -75,6 +76,7 @@ public class Client extends Thread {
     screens.put(ClientState.TESTING_LEVEL, new TestingLevelScreen(gameRenderer, timer));
     screens.put(ClientState.OPTIONS_MENU, new OptionsScreen(guiRenderer));
     screens.put(ClientState.GAME, new GameScreen(gameRenderer, timer));
+    screens.put(ClientState.NAMING_LEVEL, new NameLevelScreen(guiRenderer));
 
     currentScreen = screens.get(ClientState.MAIN_MENU);
     currentScreen.startup();

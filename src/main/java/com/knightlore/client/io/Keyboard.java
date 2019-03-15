@@ -29,6 +29,12 @@ public class Keyboard {
     }
     return false;
   }
+  
+  public static int getKeyCode() {
+	  int x = keyCode;
+	  keyCode = -1;
+	  return x;
+  }
 
   public static boolean isKeyPressed(int newKeyCode) {
     return glfwGetKey(Window.getWindowHandle(), newKeyCode) == GLFW_PRESS;

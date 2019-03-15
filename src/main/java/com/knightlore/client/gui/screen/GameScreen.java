@@ -4,9 +4,9 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_J;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
 
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
@@ -72,9 +72,9 @@ public class GameScreen implements IScreen {
 
     // CONTROL TO SHOW OTHER PLAYERS SCORES
     if (Keyboard.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
-    	hud.moveScore(35, hud.getScoreSideGap());
+      hud.moveScore(35, hud.getScoreSideGap());
     } else {
-    	hud.moveScore(-10, hud.getScoreHide());
+      hud.moveScore(-10, hud.getScoreHide());
     }
   }
 
@@ -114,7 +114,7 @@ public class GameScreen implements IScreen {
 
   @Override
   public void shutdown(ClientState nextScreen) {
-  	Mouse.showCursor();
+    Mouse.showCursor();
     Audio.restart();
   }
 

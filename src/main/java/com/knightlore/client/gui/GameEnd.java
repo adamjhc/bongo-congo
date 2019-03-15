@@ -4,7 +4,7 @@ import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
 
-public class EndMenu implements IGui {
+public class GameEnd implements IGui {
 
   private GuiObject[] gameItems;
 

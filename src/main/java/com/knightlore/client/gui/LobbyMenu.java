@@ -13,7 +13,7 @@ import com.knightlore.networking.ListGameObject;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class ServerMenu implements IGui {
+public class LobbyMenu implements IGui {
 
   private static final int SEPARATOR_TOP_POS = 185;
   private static final int SEPARATOR_BOT_POS = 200;
@@ -30,16 +30,16 @@ public class ServerMenu implements IGui {
   private final TextObject multiplayer;
   private final TextObject join;
   private final TextObject refresh;
-  private final ArrayList<LobbyObject> lobbies;
+  private ArrayList<LobbyObject> lobbies;
   private GuiObject[] guiObjects;
   private TextObject[] textObjects;
   private int length;
 
-  private int current = 0;
+  private int current;
 
   private int yPos = SEPARATOR_TOP_POS - GAP;
 
-  public ServerMenu() {
+  public LobbyMenu() {
     this.bongo = new TextObject("Bongo", TITLE);
     this.bongo.setColour(Colour.LIGHT_BLUE);
 
@@ -69,32 +69,17 @@ public class ServerMenu implements IGui {
     this.exit = new TextObject("Exit", SMALL);
     this.exit.setColour(Colour.YELLOW);
 
-    this.lobbies = new ArrayList<>();
-    
-   //Collection<ListGameObject> games = LobbyCache.instance.getGames();
-
-    for (int i = 0; i < 10; i++) {
-      lobbies.add(new LobbyObject(i + "'s " + "Server", SMALL));
-    }
-
-    for (LobbyObject server : lobbies) {
-      server.setColour(Colour.YELLOW);
-      server.setPosition(
-          Window.getHalfWidth() - server.getSize() / 2, Window.getHalfHeight() - yPos);
-      yPos -= GAP;
-    }
-
     guiObjects =
         new GuiObject[] {bongo, congo, multiplayer, separatorTop, separatorBot, join, create, exit, refresh};
     length = guiObjects.length;
 
     textObjects = new TextObject[] {join, create, exit, separatorTop, separatorBot, refresh};
-
-    addLobbies();
+    
+    refreshLobbies();
   }
 
   public void createLobby() {
-    LobbyObject newServer = new LobbyObject("New Server " + lobbies.size(), SMALL);
+    LobbyObject newServer = new LobbyObject("New Lobby " + lobbies.size(), SMALL);
     newServer.setColour(Colour.YELLOW);
     newServer.setPosition(
         Window.getHalfWidth() - newServer.getSize() / 2,
@@ -104,6 +89,32 @@ public class ServerMenu implements IGui {
     lobbies.add(newServer);
     addLobby();
     for (int i = 0; i < lobbies.size(); i++) moveDown();
+  }
+  
+  public void refreshLobbies() {
+  	current = 0;
+  	
+  	if (lobbies != null) {
+    	for (LobbyObject lobby : lobbies) {
+    		lobby.setRender(false);
+    	}
+  	}
+
+    this.lobbies = new ArrayList<>();
+    
+    Collection<ListGameObject> games = LobbyCache.instance.getGames();
+    for (ListGameObject game : games) {
+    	lobbies.add(new LobbyObject(game.getName() + "'s " + "Lobby", SMALL, game));
+    }
+    
+    for (LobbyObject lobby : lobbies) {
+      lobby.setColour(Colour.YELLOW);
+      lobby.setPosition(
+          Window.getHalfWidth() - lobby.getSize() / 2, Window.getHalfHeight() - yPos);
+      yPos -= GAP;
+    }
+    
+    addLobbies();
   }
   
   public void deleteLobby() {
@@ -149,8 +160,8 @@ public class ServerMenu implements IGui {
       }
       guiObjects = guiObjectsNew.clone();
 
-      for (LobbyObject server : lobbies) {
-        server.setPositionY(server.getPositionY() - GAP);
+      for (LobbyObject lobby : lobbies) {
+        lobby.setPositionY(lobby.getPositionY() - GAP);
       }
     }
   }
@@ -166,8 +177,8 @@ public class ServerMenu implements IGui {
       }
       guiObjects = guiObjectsNew.clone();
 
-      for (LobbyObject server : lobbies) {
-        server.setPositionY(server.getPositionY() + GAP);
+      for (LobbyObject lobby : lobbies) {
+        lobby.setPositionY(lobby.getPositionY() + GAP);
       }
     }
   }
@@ -181,12 +192,12 @@ public class ServerMenu implements IGui {
   }
 
   private void resetHighlight() {
-    for (LobbyObject server : lobbies) {
-      if (server.getHighlighted()) {
-        server.setHighlighted();
-        server.setText(server.getText().substring(4, server.getText().length() - 4));
-        server.setPositionX(Window.getHalfWidth() - server.getSize() / 2);
-        server.setColour(Colour.YELLOW);
+    for (LobbyObject lobby : lobbies) {
+      if (lobby.getHighlighted()) {
+        lobby.setHighlighted();
+        lobby.setText(lobby.getText().substring(4, lobby.getText().length() - 4));
+        lobby.setPositionX(Window.getHalfWidth() - lobby.getSize() / 2);
+        lobby.setColour(Colour.YELLOW);
       }
     }
   }
@@ -201,6 +212,15 @@ public class ServerMenu implements IGui {
     lobbies
         .get(listPos + current)
         .setPositionX(Window.getHalfWidth() - lobbies.get(listPos + current).getSize() / 2);
+  }
+  
+  public LobbyObject getHighlighted() {
+  	for (LobbyObject lobby : lobbies) {
+  		if (lobby.getHighlighted()) {
+  			return lobby;
+  		}
+  	}
+  	return null;
   }
 
   public TextObject getCreate() {
@@ -217,6 +237,14 @@ public class ServerMenu implements IGui {
 
   public TextObject getExit() {
     return exit;
+  }
+  
+  public TextObject getRefresh() {
+  	return refresh;
+  }
+  
+  public TextObject getJoin() {
+  	return join;
   }
   
   public void updateSize() {
@@ -245,8 +273,8 @@ public class ServerMenu implements IGui {
         Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 4);
     
     int yPos = SEPARATOR_TOP_POS - GAP;
-    for (LobbyObject server : lobbies) {	
-    	server.setPosition(Window.getHalfWidth() - server.getSize() / 2,  Window.getHalfHeight() - yPos - current*GAP);
+    for (LobbyObject lobby : lobbies) {	
+    	lobby.setPosition(Window.getHalfWidth() - lobby.getSize() / 2,  Window.getHalfHeight() - yPos - current*GAP);
     	yPos -= GAP;
     }
   }

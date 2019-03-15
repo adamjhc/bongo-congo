@@ -41,8 +41,7 @@ public class LevelEditorRenderer extends Renderer {
     camera = new Camera(Window.getWidth(), Window.getHeight());
     shaderProgram = new ShaderProgram("world");
 
-    viewX = ((float) Window.getWidth() / (world.getScale() * 2)) + 1;
-    viewY = ((float) Window.getHeight() / (world.getScale() * 2)) + 2;
+    calculateView();
   }
 
   private void setupHud() {
@@ -98,6 +97,7 @@ public class LevelEditorRenderer extends Renderer {
 	  int scale = world.getScale();
 	  if (scale != 96) {
 		  world.setScale(scale + 12);
+		  calculateView();
 	  }
   }
   
@@ -105,7 +105,13 @@ public class LevelEditorRenderer extends Renderer {
 	  int scale = world.getScale();
 	  if (scale != 12) {
 		  world.setScale(scale - 12);
+		  calculateView();
 	  }
+  }
+
+  private void calculateView() {
+    viewX = ((float) Window.getWidth() / (world.getScale() * 2)) + 1;
+    viewY = ((float) Window.getHeight() / (world.getScale() * 2)) + 2;
   }
 
   @Override

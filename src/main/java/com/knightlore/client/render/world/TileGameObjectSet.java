@@ -1,6 +1,7 @@
 package com.knightlore.client.render.world;
 
 import com.knightlore.game.map.Tile;
+import com.knightlore.game.map.TileType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,12 +17,12 @@ public class TileGameObjectSet {
 
   static {
     tileSet = new ArrayList<>();
-    tileSet.add(new TileGameObject());
-    tileSet.add(new TileGameObject(true, "floor", 4, 2));
-    tileSet.add(new TileGameObject(false, "slab"));
-    tileSet.add(new TileGameObject(false, "block"));
-    tileSet.add(new TileGameObject(true, "hazard"));
-    tileSet.add(new TileGameObject(true, "goal"));
+    tileSet.add(new TileGameObject(TileType.AIR, "floor"));
+    tileSet.add(new TileGameObject(TileType.FLOOR, "floor"));
+    tileSet.add(new TileGameObject(TileType.WALL, "slab"));
+    tileSet.add(new TileGameObject(TileType.CLIMBABLE_WALL, "block"));
+    tileSet.add(new TileGameObject(TileType.HAZARD, "hazard"));
+    tileSet.add(new TileGameObject(TileType.GOAL, "goal"));
   }
 
   /**

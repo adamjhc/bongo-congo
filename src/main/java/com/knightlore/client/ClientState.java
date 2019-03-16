@@ -6,6 +6,8 @@ public enum ClientState {
   PRE_EDITOR,
   LEVEL_EDITOR,
   TESTING_LEVEL,
+  NAMING_LEVEL,
+  LOADING_LEVEL,
   OPTIONS_MENU,
   LOBBY,
   GAME,

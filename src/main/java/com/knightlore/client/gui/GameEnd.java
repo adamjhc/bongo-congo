@@ -6,9 +6,12 @@ import com.knightlore.client.gui.engine.TextObject;
 
 public class GameEnd implements IGui {
 
-  private GuiObject[] gameItems;
-
+  private GuiObject[] guiObjects;
   private TextObject[] textObjects;
+  
+  public GameEnd() {
+  	
+  }
 
   @Override
   public TextObject[] getTextObjects() {
@@ -17,6 +20,6 @@ public class GameEnd implements IGui {
 
   @Override
   public GuiObject[] getGuiObjects() {
-    return gameItems;
+    return guiObjects;
   }
 }

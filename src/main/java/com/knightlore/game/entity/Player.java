@@ -90,8 +90,6 @@ public class Player extends Entity {
     try {
       Tile newTile = levelMap.getTile(coords);
 
-
-        //TODO: sort out when to just do downwards climbing and falling uuuurghhhhh
         if (newTile.getIndex() == 0) { // Checks if tile is an air tile
           coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z - 1));
           Tile below = levelMap.getTile(coords);
@@ -104,7 +102,6 @@ public class Player extends Entity {
                 climbVal = -0.1f;
                 setPlayerState(PlayerState.CLIMBING);
             }
-
 
         } else if (newTile.getIndex() == 2) { // Checks if tile is a blocking tile
           setPosition(oldPos);
@@ -126,12 +123,10 @@ public class Player extends Entity {
           }
         }
         if (newTile.getIndex() == 4) {
-          System.out.println("Ow!"); // debug statement
           loseLife();
         }
 
       if (newTile.getIndex() == 5) { // Checks for goal
-        System.out.println("Win!"); // debug statement
         addToScore(10000);
         setPosition(newPos);
         // TODO: Switch game state here
@@ -178,6 +173,6 @@ public class Player extends Entity {
     }
     
   }
-  
+
 
 }

@@ -141,15 +141,15 @@ public class LevelEditorScreen implements IScreen {
     }
 
     if (checkPosition(levelEditorHud, levelEditorHud.getSave().getId(), "")) {
-      levelEditorHud.getSave().setColour();
-      if (Mouse.isLeftButtonPressed()) {
-        try {
-          editorMap.resetRotation();
-          save(false);
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-      }
+  	  levelEditorHud.getSave().setColour();
+  	  if (Mouse.isLeftButtonPressed()) {
+  		  try {
+  			  editorMap.resetRotation();
+  			  Client.changeScreen(ClientState.NAMING_LEVEL, editorMap);
+  		  } catch (Exception e) {
+  			  e.printStackTrace();
+  		  }
+  	  }
     } else levelEditorHud.getSave().setColour(new Vector4f(1, 1, 0, 1));
 
     if (checkPosition(levelEditorHud, levelEditorHud.getEmpty().getId(), "")) {
@@ -205,24 +205,5 @@ public class LevelEditorScreen implements IScreen {
     }
 
     levelEditorRenderer.setCurrentTiles(currentTileX, currentTileY, currentTileZ);
-  }
-
-  private void save(boolean levelIsComplete) throws IOException {
-    String filePath = "customMaps/";
-    if (levelIsComplete) {
-      filePath = filePath + "playable/";
-    } else {
-      filePath = filePath + "unplayable/";
-    }
-
-    GsonBuilder builder = new GsonBuilder();
-    Gson gson = builder.create();
-
-    String jsonString = gson.toJson(editorMap);
-    System.out.println(jsonString);
-
-    BufferedWriter writer = new BufferedWriter(new FileWriter(filePath + "customMap.umap"));
-    writer.write(jsonString);
-    writer.close();
   }
 }

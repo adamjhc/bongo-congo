@@ -30,6 +30,11 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.system.MemoryStack;
 
+/**
+ * Wrapper for OpenGL shader programs
+ *
+ * @author Adam Cox
+ */
 public class ShaderProgram {
 
   /** OpenGL id of the shader program */
@@ -48,6 +53,7 @@ public class ShaderProgram {
    * Initialise the shader program
    *
    * @param shaderFileName File name of the vertex and fragment shaders
+   * @author Adam Cox
    */
   public ShaderProgram(String shaderFileName) {
     id = glCreateProgram();
@@ -72,12 +78,17 @@ public class ShaderProgram {
    * Returns the assigned OpenGL Id of the shader program
    *
    * @return Shader program Id
+   * @author Adam Cox
    */
   int getId() {
     return id;
   }
 
-  /** Sets the shader program as the current program */
+  /**
+   * Sets the shader program as the current program
+   *
+   * @author Adam Cox
+   */
   public void bind() {
     glUseProgram(id);
   }
@@ -87,6 +98,7 @@ public class ShaderProgram {
    *
    * @param name Name of the variable
    * @param value Value to set to
+   * @author Adam Cox
    */
   public void setUniform(String name, int value) {
     glUniform1i(getUniformLocation(name), value);
@@ -97,6 +109,7 @@ public class ShaderProgram {
    *
    * @param name Name of the variable
    * @param value Value to set to
+   * @author Adam Cox
    */
   public void setUniform(String name, Vector3f value) {
     try (MemoryStack stack = stackPush()) {
@@ -109,6 +122,7 @@ public class ShaderProgram {
    *
    * @param name Name of the variable
    * @param value Value to set to
+   * @author Adam Cox
    */
   public void setUniform(String name, Vector4f value) {
     try (MemoryStack stack = stackPush()) {
@@ -121,6 +135,7 @@ public class ShaderProgram {
    *
    * @param name Name of the variable
    * @param value Value to set to
+   * @author Adam Cox
    */
   public void setUniform(String name, Matrix4f value) {
     try (MemoryStack stack = stackPush()) {
@@ -132,7 +147,8 @@ public class ShaderProgram {
    * Gets the OpenGL uniform variable location
    *
    * @param name Name of the variable
-   * @return Location
+   * @return Location Location of the Uniform
+   * @author Adam Cox
    */
   private int getUniformLocation(String name) {
     if (locationCache.containsKey(name)) {
@@ -152,6 +168,7 @@ public class ShaderProgram {
    * Attaches a shader to the shader program
    *
    * @param shaderId The OpenGL id of the shader
+   * @author Adam Cox
    */
   private void attachShader(int shaderId) {
     glAttachShader(id, shaderId);
@@ -162,12 +179,17 @@ public class ShaderProgram {
    *
    * @param index Attribute index to bind
    * @param name Variable name to bind to
+   * @author Adam Cox
    */
   private void bindAttribLocation(int index, String name) {
     glBindAttribLocation(id, index, name);
   }
 
-  /** Link the shader program */
+  /**
+   * Link the shader program
+   *
+   * @author Adam Cox
+   */
   private void link() {
     glLinkProgram(id);
 
@@ -176,7 +198,11 @@ public class ShaderProgram {
     }
   }
 
-  /** Validates the shader program */
+  /**
+   * Validates the shader program
+   *
+   * @author Adam Cox
+   */
   private void validate() {
     glValidateProgram(id);
 
@@ -185,7 +211,11 @@ public class ShaderProgram {
     }
   }
 
-  /** Clean up memory */
+  /**
+   * Clean up memory
+   *
+   * @author Adam Cox
+   */
   public void cleanup() {
     glDetachShader(id, vertexShader.getId());
     glDetachShader(id, fragmentShader.getId());

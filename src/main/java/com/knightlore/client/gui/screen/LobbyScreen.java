@@ -2,14 +2,18 @@ package com.knightlore.client.gui.screen;
 
 import static com.knightlore.client.util.GuiUtils.checkPosition;
 
+import java.util.Collection;
+
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.gui.Lobby;
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.gui.engine.LobbyObject;
 import com.knightlore.client.io.Mouse;
+import com.knightlore.client.networking.LobbyCache;
 import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.game.GameModel;
+import com.knightlore.networking.ListGameObject;
 
 public class LobbyScreen implements IScreen {
 
@@ -19,6 +23,8 @@ public class LobbyScreen implements IScreen {
   private Lobby lobby;
   
   private LobbyObject lobbyData;
+  
+  private ListGameObject game;
 
   public LobbyScreen(GuiRenderer guiRenderer) {
     this.guiRenderer = guiRenderer;
@@ -28,7 +34,8 @@ public class LobbyScreen implements IScreen {
   @Override
   public void startup(Object... args) {
   	lobbyData = (LobbyObject) args[0];
-  	lobby.refreshPlayers(lobbyData.getGame().getUsernames());
+  	game = lobbyData.getGame();
+  	lobby.refreshPlayers(game.getUsernames());
   }
   
   @Override
@@ -43,12 +50,20 @@ public class LobbyScreen implements IScreen {
   
   @Override
   public void update(float delta) {
+  	Collection<ListGameObject> games = LobbyCache.instance.getGames();
+  	for (ListGameObject game : games) {
+  		if (game.getUuid() == this.game.getUuid()) {
+  			this.game = game;
+  			break;
+  		}
+  	}
+  	
   	if (lobbyData.getGame() != null) {
-  		lobby.setLobbyName(lobbyData.getGame().getName());
+  		lobby.setLobbyName(game.getName());
   	} else {
   		lobby.setLobbyName(lobbyData.getText());
   	}
-  	lobby.refreshPlayers(lobbyData.getGame().getUsernames());
+  	lobby.refreshPlayers(game.getUsernames());
   }
 
   @Override

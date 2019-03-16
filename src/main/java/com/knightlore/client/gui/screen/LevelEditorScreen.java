@@ -42,7 +42,6 @@ public class LevelEditorScreen implements IScreen {
   private LevelEditorHud levelEditorHud;
 
   private GameModel gameModel;
-  private Vector3f cameraPosition;
   private int currentTileX, currentTileY, currentTileZ;
   private LevelMap editorMap;
 
@@ -58,7 +57,6 @@ public class LevelEditorScreen implements IScreen {
     LENGTH = editorMap.getTiles()[0].length;
     HEIGHT = editorMap.getTiles().length;
     gameModel = new GameModel("");
-    cameraPosition = new Vector3f(0, 0, 0);
     currentTileX = 0;
     currentTileY = 0;
     currentTileZ = 0;
@@ -73,7 +71,7 @@ public class LevelEditorScreen implements IScreen {
   @Override
   public void render() {
     levelEditorHud.updateSize();
-    levelEditorRenderer.render(editorMap, cameraPosition, levelEditorHud);
+    levelEditorRenderer.render(editorMap, levelEditorHud);
   }
 
   @Override
@@ -84,15 +82,15 @@ public class LevelEditorScreen implements IScreen {
   private void cameraControl() {
     if (Mouse.isInScreen()) {
       if (Mouse.getXPos() <= 5) {
-        cameraPosition.add(-0.1f, 0.1f, 0);
+        levelEditorRenderer.addToCameraPosition(new Vector3f(-0.1f, 0, 0), editorMap.getSize());
       } else if (Mouse.getXPos() >= Window.getWidth() - 5) {
-        cameraPosition.add(0.1f, -0.1f, 0);
+        levelEditorRenderer.addToCameraPosition(new Vector3f(0.1f, 0, 0), editorMap.getSize());
       }
 
       if (Mouse.getYPos() <= 5) {
-        cameraPosition.add(0.1f, 0.1f, 0);
+        levelEditorRenderer.addToCameraPosition(new Vector3f(0, 0.1f, 0), editorMap.getSize());
       } else if (Mouse.getYPos() >= Window.getHeight() - 5) {
-        cameraPosition.add(-0.1f, -0.1f, 0);
+        levelEditorRenderer.addToCameraPosition(new Vector3f(0, -0.1f, 0), editorMap.getSize());
       }
     }
   }
@@ -137,9 +135,9 @@ public class LevelEditorScreen implements IScreen {
     } else if (Keyboard.isKeyReleased(GLFW_KEY_PERIOD)) {
       editorMap.rotate(false);
     } else if (Keyboard.isKeyReleased(GLFW_KEY_Z)) {
-      levelEditorRenderer.zoomIn();
+      levelEditorRenderer.zoomIn(editorMap.getSize());
     } else if (Keyboard.isKeyReleased(GLFW_KEY_X)) {
-      levelEditorRenderer.zoomOut();
+      levelEditorRenderer.zoomOut(editorMap.getSize());
     }
 
     if (checkPosition(levelEditorHud, levelEditorHud.getSave().getId(), "")) {

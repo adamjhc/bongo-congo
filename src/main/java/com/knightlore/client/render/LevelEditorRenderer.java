@@ -9,6 +9,7 @@ import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.Tile;
 import com.knightlore.game.util.CoordinateUtils;
 import org.joml.Vector3f;
+import org.joml.Vector3i;
 
 /**
  * Renderer used for Level editor
@@ -53,19 +54,20 @@ public class LevelEditorRenderer extends Renderer {
     hudRenderer = new GuiRenderer();
   }
 
-  public void render(LevelMap levelMap, Vector3f cameraPosition, LevelEditorHud hud) {
+  public void addToCameraPosition(Vector3f cameraChange, Vector3i mapSize) {
+    camera.updatePosition(camera.getWorldPosition().add(cameraChange, new Vector3f()), world.getScale(), mapSize);
+  }
+
+  public void render(LevelMap levelMap, LevelEditorHud hud) {
     clearBuffers();
 
-    renderMap(levelMap, cameraPosition);
+    renderMap(levelMap);
     hudRenderer.renderGui(hud);
 
     Window.swapBuffers();
   }
 
-  private void renderMap(LevelMap levelMap, Vector3f cameraPosition) {
-    Vector3f cameraIsoPos = CoordinateUtils.toIsometric(cameraPosition);
-    camera.setPosition(cameraIsoPos, -world.getScale());
-
+  private void renderMap(LevelMap levelMap) {
     Tile[][][] tiles = levelMap.getTiles();
 
     for (int z = 0; z < tiles.length; z++) {
@@ -99,19 +101,21 @@ public class LevelEditorRenderer extends Renderer {
     currentTileZ = z;
   }
 
-  public void zoomIn() {
+  public void zoomIn(Vector3i mapSize) {
     int scale = world.getScale();
     if (scale != 96) {
       world.setScale(scale + 12);
       calculateView();
+      camera.updatePosition(camera.getWorldPosition(), world.getScale(), mapSize);
     }
   }
 
-  public void zoomOut() {
+  public void zoomOut(Vector3i mapSize) {
     int scale = world.getScale();
     if (scale != 12) {
       world.setScale(scale - 12);
       calculateView();
+      camera.updatePosition(camera.getWorldPosition(), world.getScale(), mapSize);
     }
   }
 

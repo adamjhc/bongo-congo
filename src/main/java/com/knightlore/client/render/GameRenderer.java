@@ -137,7 +137,7 @@ public class GameRenderer extends Renderer {
     Vector3f isometricPosition =
         playerGameObjects.get(gameModel.myPlayer().getId()).getIsometricPosition();
 
-    camera.setPosition(isometricPosition, -world.getScale());
+    camera.updatePosition(isometricPosition, world.getScale(), gameModel.getCurrentLevel().getLevelMap().getSize());
 
     List<GameObject> gameObjectsToDepthSort = new ArrayList<>();
     tileGameObjects.forEach(

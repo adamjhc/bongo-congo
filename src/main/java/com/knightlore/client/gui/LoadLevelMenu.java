@@ -88,6 +88,9 @@ public class LoadLevelMenu implements IGui {
 		    setGuiObjects = new GuiObject[] {bongo, congo, loadLevel, separatorTop, separatorBottom, load, back, nextPage, lastPage, pageCounter};
 		    setTextObjects = new TextObject[] {load, back, nextPage, lastPage};
 		    
+		    guiObjects = setGuiObjects;
+		    textObjects = setTextObjects;
+		    
 		    
 	}
 	

@@ -5,6 +5,7 @@ import com.knightlore.client.render.opengl.RenderModel;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.opengl.StaticTexture;
 import com.knightlore.client.render.opengl.Texture;
+import com.knightlore.game.map.TileType;
 import org.joml.Matrix4f;
 
 /**
@@ -23,24 +24,18 @@ public class TileGameObject extends GameObject {
   /** Texture rendered on the tile */
   private Texture texture;
 
-  /** Whether the tile is a floor */
-  private boolean isFloor = false;
-
-  /**
-   * Empty constructor for tiles without textures (e.g. air tiles)
-   *
-   * @author Adam Cox
-   */
-  TileGameObject() {}
+  /** Type of tile */
+  private TileType tileType;
 
   /**
    * Initialise tile game object with static texture
    *
+   * @param tileType Type of tile
    * @param textureFileName Name of the texture file
    * @author Adam Cox
    */
-  TileGameObject(boolean isFloor, String textureFileName) {
-    this.isFloor = isFloor;
+  TileGameObject(TileType tileType, String textureFileName) {
+    this.tileType = tileType;
     texture = new StaticTexture(textureFileName);
     setupRenderModel();
   }
@@ -53,8 +48,8 @@ public class TileGameObject extends GameObject {
    * @param fps Frames to render per second
    * @author Adam Cox
    */
-  TileGameObject(boolean isFloor, String textFileName, int frames, int fps) {
-    this.isFloor = isFloor;
+  TileGameObject(TileType tileType, String textFileName, int frames, int fps) {
+    this.tileType = tileType;
     texture = new AnimatedTexture(textFileName, frames, fps);
     setupRenderModel();
   }
@@ -68,7 +63,7 @@ public class TileGameObject extends GameObject {
   TileGameObject(TileGameObject copy) {
     texture = copy.texture;
     model = copy.model;
-    isFloor = copy.isFloor;
+    tileType = copy.tileType;
   }
 
   /**
@@ -97,7 +92,7 @@ public class TileGameObject extends GameObject {
    * @author Adam Cox
    */
   public boolean isFloor() {
-    return isFloor;
+    return tileType == TileType.FLOOR;
   }
 
   /**
@@ -122,7 +117,7 @@ public class TileGameObject extends GameObject {
    * @author Adam Cox
    */
   public void render(ShaderProgram shaderProgram, Matrix4f world, Matrix4f camera, int highlight) {
-    if (texture != null) {
+    if (tileType != TileType.AIR || highlight == 1) {
       shaderProgram.bind();
 
       texture.bind(0);

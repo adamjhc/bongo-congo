@@ -18,7 +18,7 @@ public class TileGameObjectSet {
   static {
     tileSet = new ArrayList<>();
     tileSet.add(new TileGameObject(TileType.AIR, "floor"));
-    tileSet.add(new TileGameObject(TileType.FLOOR, "floor", 4, 2));
+    tileSet.add(new TileGameObject(TileType.FLOOR, "floor"));
     tileSet.add(new TileGameObject(TileType.WALL, "slab"));
     tileSet.add(new TileGameObject(TileType.CLIMBABLE_WALL, "block"));
     tileSet.add(new TileGameObject(TileType.HAZARD, "hazard"));

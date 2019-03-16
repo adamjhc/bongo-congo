@@ -16,18 +16,33 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
+/**
+ * GameObject used for the Player entities
+ *
+ * @author Adam Cox
+ */
 public class PlayerGameObject extends EntityGameObject {
 
+  /** Map for climbing textures */
   private Map<Direction, AnimatedTexture> climbingTextures;
+
+  /** Map for rolling textures */
   private Map<Direction, AnimatedTexture> rollingTextures;
+
+  /** Texture used in falling */
   private AnimatedTexture fallingTexture;
+
+  /** Texture used when dead */
   private StaticTexture deadTexture;
+
+  /** Current state of the player entity */
   private PlayerState currentState;
 
   /**
    * Initialise the player game object
    *
    * @param textureFileName File name of the player texture
+   * @author Adam Cox
    */
   private PlayerGameObject(String textureFileName, Vector3f position, Vector4f colour) {
     super(textureFileName, colour);
@@ -46,6 +61,13 @@ public class PlayerGameObject extends EntityGameObject {
     setPosition(position);
   }
 
+  /**
+   * Generate list of PlayerGameObjects based on collection of player entities from game model
+   *
+   * @param players Collection of player entities from game model
+   * @return list of PlayerGameObjects
+   * @author Adam Cox
+   */
   public static List<PlayerGameObject> fromGameModel(Collection<Player> players) {
     List<PlayerGameObject> playerGameObjects = new ArrayList<>();
 
@@ -59,6 +81,12 @@ public class PlayerGameObject extends EntityGameObject {
     return playerGameObjects;
   }
 
+  /**
+   * Update with entity
+   *
+   * @param entity Entity to update with
+   * @author Adam Cox
+   */
   @Override
   public void update(Entity entity) {
     super.update(entity);
@@ -69,6 +97,7 @@ public class PlayerGameObject extends EntityGameObject {
    * Render the player
    *
    * @param camera Camera projection
+   * @author Adam Cox
    */
   public void render(ShaderProgram shaderProgram, Matrix4f camera, int worldScale) {
     transform.setPosition(isometricPosition);
@@ -104,6 +133,11 @@ public class PlayerGameObject extends EntityGameObject {
     model.render();
   }
 
+  /**
+   * Reset un looped animated textures
+   *
+   * @author Adam Cox
+   */
   private void resetUnloopedAnimatedTextures() {
     rollingTextures.forEach((direction, animatedTexture) -> animatedTexture.reset());
   }

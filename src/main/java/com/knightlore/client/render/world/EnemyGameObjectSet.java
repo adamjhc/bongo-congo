@@ -6,8 +6,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Set of possible EnemyGameObjects in game
+ *
+ * @author Adam Cox
+ */
 public class EnemyGameObjectSet {
 
+  /** Set of EnemyGameObjects */
   private static final List<EnemyGameObject> enemySet;
 
   static {
@@ -20,8 +26,20 @@ public class EnemyGameObjectSet {
     enemySet.add(new EnemyGameObject(enemyTextureFileName, Colour.WHITE));
   }
 
+  /**
+   * Empty private constructor so class cannot be initialised
+   *
+   * @author Adam Cox
+   */
   private EnemyGameObjectSet() {}
 
+  /**
+   * Generate list of EnemyGameObjects based on collection of enemy entities in game
+   *
+   * @param enemies Collection of enemy entities
+   * @return list of EnemyGameObjects
+   * @author Adam Cox
+   */
   public static List<EnemyGameObject> fromGameModel(Collection<Enemy> enemies) {
     List<EnemyGameObject> enemyGameObjects = new ArrayList<>();
 

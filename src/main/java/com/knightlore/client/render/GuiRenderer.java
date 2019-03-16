@@ -10,11 +10,24 @@ import com.knightlore.client.io.Window;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import org.joml.Matrix4f;
 
+/**
+ * Renders GUI elements
+ *
+ * @author Joseph Tuffin, Adam Cox
+ */
 public class GuiRenderer extends Renderer {
 
+  /** Shader program to use in rendering */
   private ShaderProgram shaderProgram;
+
+  /** Transformation used for projection */
   private Transformation transformation;
 
+  /**
+   * Initialise GuiRenderer
+   *
+   * @author Joseph, Tuffin, Adam Cox
+   */
   public GuiRenderer() {
     super();
 
@@ -22,6 +35,12 @@ public class GuiRenderer extends Renderer {
     transformation = new Transformation();
   }
 
+  /**
+   * Render only gui
+   *
+   * @param gui GUI to render
+   * @author Joseph Tuffin
+   */
   public void render(IGui gui) {
     clearBuffers();
 
@@ -32,9 +51,15 @@ public class GuiRenderer extends Renderer {
 
     renderGui(gui);
 
-    swapBuffers();
+    Window.swapBuffers();
   }
 
+  /**
+   * Render gui
+   *
+   * @param gui GUI to render
+   * @author Joseph Tuffin
+   */
   void renderGui(IGui gui) {
     shaderProgram.bind();
 
@@ -55,6 +80,11 @@ public class GuiRenderer extends Renderer {
     }
   }
 
+  /**
+   * Memory cleanup of shader program
+   *
+   * @author Adam Cox
+   */
   @Override
   protected void cleanup() {
     shaderProgram.cleanup();

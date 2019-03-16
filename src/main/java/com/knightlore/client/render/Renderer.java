@@ -12,12 +12,21 @@ import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL13.GL_MULTISAMPLE;
 
-import com.knightlore.client.io.Window;
-
+/**
+ * Abstract Renderer to make sure OpenGL is setup
+ *
+ * @author Adam Cox
+ */
 public abstract class Renderer {
 
+  /** Whether OpenGL has been setup */
   private static boolean hasSetupOpenGL = false;
 
+  /**
+   * Initialise Renderer
+   *
+   * @author Adam Cox
+   */
   Renderer() {
     if (!hasSetupOpenGL) {
       setupOpenGL();
@@ -25,6 +34,11 @@ public abstract class Renderer {
     }
   }
 
+  /**
+   * Setup OpenGL for LWJGL
+   *
+   * @author Adam Cox
+   */
   private void setupOpenGL() {
     createCapabilities();
     glEnable(GL_TEXTURE_2D);
@@ -33,13 +47,15 @@ public abstract class Renderer {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   }
 
+  /**
+   * Clear buffer
+   *
+   * @author Adam Cox
+   */
   void clearBuffers() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   }
 
-  void swapBuffers() {
-    Window.swapBuffers();
-  }
-
+  /** Abstract memory cleanup */
   protected abstract void cleanup();
 }

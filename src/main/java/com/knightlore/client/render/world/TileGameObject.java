@@ -7,6 +7,11 @@ import com.knightlore.client.render.opengl.StaticTexture;
 import com.knightlore.client.render.opengl.Texture;
 import org.joml.Matrix4f;
 
+/**
+ * GameObject used for map tiles
+ *
+ * @author Adam Cox
+ */
 public class TileGameObject extends GameObject {
 
   /** Set rendering width of the tiles */
@@ -18,15 +23,21 @@ public class TileGameObject extends GameObject {
   /** Texture rendered on the tile */
   private Texture texture;
 
+  /** Whether the tile is a floor */
   private boolean isFloor = false;
 
-  /** Empty constructor for tiles without textures (e.g. air tiles) */
+  /**
+   * Empty constructor for tiles without textures (e.g. air tiles)
+   *
+   * @author Adam Cox
+   */
   TileGameObject() {}
 
   /**
    * Initialise tile game object with static texture
    *
    * @param textureFileName Name of the texture file
+   * @author Adam Cox
    */
   TileGameObject(boolean isFloor, String textureFileName) {
     this.isFloor = isFloor;
@@ -40,6 +51,7 @@ public class TileGameObject extends GameObject {
    * @param textFileName Name of the texture file without _X
    * @param frames Number of frames
    * @param fps Frames to render per second
+   * @author Adam Cox
    */
   TileGameObject(boolean isFloor, String textFileName, int frames, int fps) {
     this.isFloor = isFloor;
@@ -47,13 +59,23 @@ public class TileGameObject extends GameObject {
     setupRenderModel();
   }
 
+  /**
+   * Copy constructor
+   *
+   * @param copy Copy to copy fields from
+   * @author Adam Cox
+   */
   TileGameObject(TileGameObject copy) {
     texture = copy.texture;
     model = copy.model;
     isFloor = copy.isFloor;
   }
 
-  /** Setup OpenGL render model */
+  /**
+   * Setup OpenGL render model
+   *
+   * @author Adam Cox
+   */
   private void setupRenderModel() {
     float scaledTextureHeight = 2 * (float) texture.getHeight() / texture.getWidth();
 
@@ -68,21 +90,37 @@ public class TileGameObject extends GameObject {
     model = new RenderModel(vertices, textureCoordinates, indices);
   }
 
+  /**
+   * Get whether the tile is a floor
+   *
+   * @return whether the tile is a floor
+   * @author Adam Cox
+   */
   public boolean isFloor() {
     return isFloor;
   }
 
   /**
-   * Render the tile
+   * Render the tile - unhighlighted
    *
    * @param shaderProgram Shader program to use
    * @param world World projection
    * @param camera Camera projection
+   * @author Adam Cox
    */
   public void render(ShaderProgram shaderProgram, Matrix4f world, Matrix4f camera) {
     render(shaderProgram, world, camera, 0);
   }
 
+  /**
+   * Render the TileGameObject
+   *
+   * @param shaderProgram Shader program to use
+   * @param world world projection
+   * @param camera camera projection
+   * @param highlight whether to highlight the tile
+   * @author Adam Cox
+   */
   public void render(ShaderProgram shaderProgram, Matrix4f world, Matrix4f camera, int highlight) {
     if (texture != null) {
       shaderProgram.bind();
@@ -99,6 +137,11 @@ public class TileGameObject extends GameObject {
     }
   }
 
+  /**
+   * Memory cleanup of textures and render model
+   *
+   * @author Adam Cox
+   */
   public void cleanup() {
     if (texture != null) {
       texture.cleanup();

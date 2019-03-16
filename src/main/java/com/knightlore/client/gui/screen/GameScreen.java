@@ -81,6 +81,7 @@ public class GameScreen implements IScreen {
 
     if (Keyboard.isKeyReleased(GLFW_KEY_J)) {
       gameModel.nextLevel();
+      hud.setLevel(gameModel.getCurrentLevelIndex());
 
       timer.resetStartTime();
       countDown.setStartTime();
@@ -169,6 +170,8 @@ public class GameScreen implements IScreen {
   public void shutdown(ClientState nextScreen) {
     Mouse.showCursor();
     Audio.restart();
+    
+    hud.getCountDown().setRender(false);
   }
 
   @Override

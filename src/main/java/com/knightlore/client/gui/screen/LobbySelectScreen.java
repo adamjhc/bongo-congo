@@ -7,12 +7,10 @@ import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.gui.LobbyMenu;
 import com.knightlore.client.gui.engine.Colour;
-import com.knightlore.client.gui.engine.LobbyObject;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;
 import com.knightlore.client.render.GuiRenderer;
-import org.joml.Vector4f;
 
 public class LobbySelectScreen implements IScreen {
 
@@ -48,6 +46,7 @@ public class LobbySelectScreen implements IScreen {
       menu.getCreate().setColour();
       if (Mouse.isLeftButtonPressed()) {
         menu.createLobby();
+        Client.changeScreen(ClientState.LOBBY, menu.getHighlighted());
       }
     } else menu.getCreate().setColour(Colour.YELLOW);
 

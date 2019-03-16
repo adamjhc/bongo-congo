@@ -84,6 +84,7 @@ public class LobbyMenu implements IGui {
     newServer.setPosition(
         Window.getHalfWidth() - newServer.getSize() / 2,
         Window.getHalfHeight() - yPos - (current * GAP));
+    newServer.setIsCreator(true);
     yPos -= GAP;
     
     resetHighlight();

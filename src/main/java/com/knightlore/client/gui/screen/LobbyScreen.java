@@ -35,6 +35,10 @@ public class LobbyScreen implements IScreen {
   public void startup(Object... args) {
   	lobbyData = (LobbyObject) args[0];
   	game = lobbyData.getGame();
+  	
+  	if (lobbyData.getIsCreator()) {
+  		lobby.getStart().setRender(true);
+  	}
   }
   
   @Override
@@ -61,11 +65,20 @@ public class LobbyScreen implements IScreen {
   		lobby.setLobbyName(game.getName());
     	lobby.refreshPlayers(game.getUsernames());
   	}
+  	
+  	if (lobbyData.getIsCreator()) {
+  		if (checkPosition(lobby, lobby.getStart().getId())) {
+  			lobby.getStart().setColour();
+  			if (Mouse.isLeftButtonPressed() ) {
+  				//TODO add code for starting game
+  			}
+  		} else lobby.getStart().setColour(Colour.YELLOW);
+  	}
   }
 
   @Override
   public void render() {
-  	lobby.updateSize();
+  	lobby.updateSize(lobbyData.getIsCreator());
   	
     guiRenderer.render(lobby);
   }

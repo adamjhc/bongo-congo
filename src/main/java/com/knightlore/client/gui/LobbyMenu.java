@@ -95,6 +95,7 @@ public class LobbyMenu implements IGui {
   }
   
   public void refreshLobbies() {
+  	yPos = SEPARATOR_TOP_POS - GAP;
   	current = 0;
   	
   	if (lobbies != null) {

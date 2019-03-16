@@ -28,6 +28,7 @@ public class LobbyScreen implements IScreen {
   @Override
   public void startup(Object... args) {
   	lobbyData = (LobbyObject) args[0];
+  	lobby.refreshPlayers(lobbyData.getGame().getUsernames());
   }
   
   @Override
@@ -47,6 +48,7 @@ public class LobbyScreen implements IScreen {
   	} else {
   		lobby.setLobbyName(lobbyData.getText());
   	}
+  	lobby.refreshPlayers(lobbyData.getGame().getUsernames());
   }
 
   @Override

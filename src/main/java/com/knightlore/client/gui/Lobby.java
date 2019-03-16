@@ -1,5 +1,7 @@
 package com.knightlore.client.gui;
 
+import java.util.ArrayList;
+
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
@@ -18,8 +20,11 @@ public class Lobby implements IGui {
   private final TextObject separatorTop;
   private final TextObject separatorBot;
   private final TextObject exit;
+  private ArrayList<TextObject> players;
   private GuiObject[] guiObjects;
   private TextObject[] textObjects;
+  
+  private int yPos = SEPARATOR_TOP_POS - GAP;
 
   public Lobby() {
     this.bongo = new TextObject("Bongo", TITLE);
@@ -50,6 +55,28 @@ public class Lobby implements IGui {
   
   public void setLobbyName(String name) {
   	this.lobby.setText(name);
+  }
+  
+  public void refreshPlayers(ArrayList<String> players) {
+  	yPos = SEPARATOR_TOP_POS - GAP;
+  	
+  	if (this.players != null) {
+  		for (TextObject player : this.players) {
+  			player.setRender(false);
+  		}
+  	}
+  	this.players = new ArrayList<>();
+  	
+  	for (String player : players) {
+  		this.players.add(new TextObject(player, SMALL));
+  	}
+  	
+  	for (TextObject player : this.players) {
+  		player.setColour(Colour.YELLOW);
+  		player.setPosition(
+  				Window.getHalfWidth() - player.getSize() / 2, Window.getHalfHeight() - yPos);
+  		yPos -= GAP;
+  	}
   }
   
   public void updateSize() {

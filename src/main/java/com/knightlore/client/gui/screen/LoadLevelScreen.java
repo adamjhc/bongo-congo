@@ -45,13 +45,19 @@ public class LoadLevelScreen implements IScreen {
 		TextObject[] allLevels = new TextObject[fCount + uLevels.length];
 		for (int i = 0; i < fCount; i++) {
 			String fileName = fLevels[i].getName();
-			allLevels[i] = new TextObject(fileName.substring(0, fileName.length()-5), IGui.SMALL);
-			allLevels[i].setId(fileName);
+			if (fileName.endsWith(".fmap")) {
+				allLevels[i] = new TextObject(fileName.substring(0, fileName.length()-5), IGui.SMALL);
+				allLevels[i].setId(fileName);
+				allLevels[i].setColour(Colour.YELLOW);
+			}
 		}
 		for (int i = 0; i < uLevels.length; i++) {
 			String fileName = uLevels[i].getName();
-			allLevels[i + fCount] = new TextObject(fileName.substring(0, fileName.length()-5), IGui.SMALL);
-			allLevels[i + fCount].setId(fileName);
+			if (fileName.endsWith(".umap")) {
+				allLevels[i + fCount] = new TextObject(fileName.substring(0, fileName.length()-5), IGui.SMALL);
+				allLevels[i + fCount].setId(fileName);
+				allLevels[i + fCount].setColour(Colour.YELLOW);
+			}
 		}
 		
 		loadLevelMenu.setLevels(allLevels);
@@ -61,44 +67,47 @@ public class LoadLevelScreen implements IScreen {
 		if (checkPosition(loadLevelMenu, loadLevelMenu.getLoad().getId())) {
 			loadLevelMenu.getLoad().setColour();
 			if (Mouse.isLeftButtonPressed() && !currentLevelName.equals("")) {
-				if (currentLevelName.contains(".pmap")) {
+				if (currentLevelName.contains(".fmap")) {
 					Client.changeScreen(ClientState.LEVEL_EDITOR, getMap(finishedFilePath+"/"+currentLevelName));
 				} else {
 					Client.changeScreen(ClientState.LEVEL_EDITOR, getMap(unfinishedFilePath+"/"+currentLevelName));
 				}
 			}
-		} else loadLevelMenu.getLoad().setColour(new Vector4f(1, 1, 0, 1));
+		} else loadLevelMenu.getLoad().setColour(Colour.YELLOW);
 		
 		if (checkPosition(loadLevelMenu, loadLevelMenu.getBack().getId())) {
 			loadLevelMenu.getBack().setColour();
 			if (Mouse.isLeftButtonPressed()) {
 				Client.changeScreen(ClientState.PRE_EDITOR);
 			}
-		} else loadLevelMenu.getBack().setColour(new Vector4f(1, 1, 0, 1));
+		} else loadLevelMenu.getBack().setColour(Colour.YELLOW);
 		
 		if (checkPosition(loadLevelMenu, loadLevelMenu.getNextPage().getId())) {
 			loadLevelMenu.getNextPage().setColour();
 			if (Mouse.isLeftButtonPressed()) {
 				loadLevelMenu.incPage();
 			}
-		} else loadLevelMenu.getNextPage().setColour(new Vector4f(1, 1, 0, 1));
+		} else loadLevelMenu.getNextPage().setColour(Colour.YELLOW);
 		
 		if (checkPosition(loadLevelMenu, loadLevelMenu.getLastPage().getId())) {
 			loadLevelMenu.getLastPage().setColour();
 			if (Mouse.isLeftButtonPressed()) {
 				loadLevelMenu.decPage();
 			}
-		} else loadLevelMenu.getLastPage().setColour(new Vector4f(1, 1, 0, 1));
+		} else loadLevelMenu.getLastPage().setColour(Colour.YELLOW);
 		
 		for (int i = 0; i < loadLevelMenu.numOnScreenLevels(); i++) {
 			if (checkPosition(loadLevelMenu, loadLevelMenu.getLevel(i).getId())) {
-				loadLevelMenu.getLevel(i).setColour();
+				if (!currentLevelName.equals(loadLevelMenu.getLevel(i).getId()))
+					loadLevelMenu.getLevel(i).setColour();
 				if (Mouse.isLeftButtonPressed()) {
 					loadLevelMenu.getLevel(i).setColour(Colour.GREEN);
 					currentLevelName = loadLevelMenu.getLevel(i).getId();
 				}
-			} else if (!loadLevelMenu.getLevel(i).getId().equals(currentLevelName)) {
-				loadLevelMenu.getLevel(i).setColour(new Vector4f(1, 1, 0, 1));
+			} else {
+				if (!currentLevelName.equals(loadLevelMenu.getLevel(i).getId())) {
+					loadLevelMenu.getLevel(i).setColour(Colour.YELLOW);
+				}
 			}
 		}
 	}

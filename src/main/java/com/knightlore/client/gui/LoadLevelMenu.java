@@ -94,7 +94,7 @@ public class LoadLevelMenu implements IGui {
 	}
 	
 	public TextObject getLevel(int i) {
-		return levels[i];
+		return levels[levelIndex + i];
 	}
 
 	@Override
@@ -114,7 +114,7 @@ public class LoadLevelMenu implements IGui {
 	}
 	
 	public void decPage() {
-		if (levelIndex > 12) {
+		if (levelIndex >= 12) {
 			levelIndex -= 12;
 		}
 	}
@@ -159,13 +159,12 @@ public class LoadLevelMenu implements IGui {
 	    ArrayList<GuiObject> tempG = new ArrayList<GuiObject>(Arrays.asList(setGuiObjects));
 	    ArrayList<TextObject> tempT = new ArrayList<TextObject>(Arrays.asList(setTextObjects));
 	    
-	    for (int i = levelIndex; i < Math.min(MAX_LEVEL_COUNT, levels.length-levelIndex); i++) {
-	    	tempG.add(levels[i]);
-	    	tempT.add(levels[i]);
-	    	levels[i].setColour(Colour.YELLOW);
-	    	levels[i].setPosition(
-	    			Window.getHalfWidth() - levels[i].getSize() / 2,
-	    			Window.getHalfHeight() - SEPARATOR_TOP_POS + SEPARATOR_GAP + (levels[i].getHeight()*i));
+	    for (int i = 0; i < Math.min(MAX_LEVEL_COUNT, levels.length-levelIndex); i++) {
+	    	tempG.add(levels[levelIndex + i]);
+	    	tempT.add(levels[levelIndex + i]);
+	    	levels[levelIndex + i].setPosition(
+	    			Window.getHalfWidth() - levels[levelIndex + i].getSize() / 2,
+	    			Window.getHalfHeight() - SEPARATOR_TOP_POS + SEPARATOR_GAP + (levels[levelIndex + i].getHeight()*i));
 	    }
 	    
 	    guiObjects = tempG.toArray(setGuiObjects);

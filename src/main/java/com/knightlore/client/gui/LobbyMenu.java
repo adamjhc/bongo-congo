@@ -76,23 +76,26 @@ public class LobbyMenu implements IGui {
     textObjects = new TextObject[] {join, create, exit, separatorTop, separatorBot, refresh};
     
     refreshLobbies();
-    addLobbies();
   }
 
   public void createLobby() {
-    LobbyObject newServer = new LobbyObject("New Server " + lobbies.size(), SMALL);
+    LobbyObject newServer = new LobbyObject("LOBBY PLACEHOLDER " + lobbies.size(), SMALL);
     newServer.setColour(Colour.YELLOW);
     newServer.setPosition(
         Window.getHalfWidth() - newServer.getSize() / 2,
         Window.getHalfHeight() - yPos - (current * GAP));
     yPos -= GAP;
-
+    
+    resetHighlight();
+    newServer.setHighlighted();
+    
     lobbies.add(newServer);
     addLobby();
     for (int i = 0; i < lobbies.size(); i++) moveDown();
   }
   
   public void refreshLobbies() {
+  	yPos = SEPARATOR_TOP_POS - GAP;
   	current = 0;
   	
   	if (lobbies != null) {
@@ -105,7 +108,7 @@ public class LobbyMenu implements IGui {
     
     Collection<ListGameObject> games = LobbyCache.instance.getGames();
     for (ListGameObject game : games) {
-    	lobbies.add(new LobbyObject(game.getName() + "'s " + "Server", SMALL, game));
+    	lobbies.add(new LobbyObject(game.getName()+" "+game.getUsernames().size()+"/6 players", SMALL, game));
     }
     
     for (LobbyObject lobby : lobbies) {
@@ -114,10 +117,24 @@ public class LobbyMenu implements IGui {
           Window.getHalfWidth() - lobby.getSize() / 2, Window.getHalfHeight() - yPos);
       yPos -= GAP;
     }
+    
+    addLobbies();
   }
   
-  public void deleteLobby() {
-  	//TODO add delete method
+  public void deleteLobby(ListGameObject game) {
+  	int i = 0;
+  	int deleteIndex = -1;
+  	for (LobbyObject lobby : lobbies) {
+  		if (lobby.getGame().getUuid() == game.getUuid()) {
+  			deleteIndex = i;
+  			break;
+  		}
+  		i++;
+  	}
+  	if (deleteIndex != -1) {
+    	lobbies.remove(deleteIndex);
+    	refreshLobbies();
+  	}
   }
 
   private void addLobby() {
@@ -159,8 +176,8 @@ public class LobbyMenu implements IGui {
       }
       guiObjects = guiObjectsNew.clone();
 
-      for (LobbyObject server : lobbies) {
-        server.setPositionY(server.getPositionY() - GAP);
+      for (LobbyObject lobby : lobbies) {
+        lobby.setPositionY(lobby.getPositionY() - GAP);
       }
     }
   }
@@ -176,8 +193,8 @@ public class LobbyMenu implements IGui {
       }
       guiObjects = guiObjectsNew.clone();
 
-      for (LobbyObject server : lobbies) {
-        server.setPositionY(server.getPositionY() + GAP);
+      for (LobbyObject lobby : lobbies) {
+        lobby.setPositionY(lobby.getPositionY() + GAP);
       }
     }
   }
@@ -191,12 +208,12 @@ public class LobbyMenu implements IGui {
   }
 
   private void resetHighlight() {
-    for (LobbyObject server : lobbies) {
-      if (server.getHighlighted()) {
-        server.setHighlighted();
-        server.setText(server.getText().substring(4, server.getText().length() - 4));
-        server.setPositionX(Window.getHalfWidth() - server.getSize() / 2);
-        server.setColour(Colour.YELLOW);
+    for (LobbyObject lobby : lobbies) {
+      if (lobby.getHighlighted()) {
+        lobby.setHighlighted();
+        lobby.setText(lobby.getText().substring(2, lobby.getText().length() - 2));
+        lobby.setPositionX(Window.getHalfWidth() - lobby.getSize() / 2);
+        lobby.setColour(Colour.YELLOW);
       }
     }
   }
@@ -207,10 +224,20 @@ public class LobbyMenu implements IGui {
     lobbies.get(listPos + current).setColour();
     lobbies
         .get(listPos + current)
-        .setText("=== " + lobbies.get(listPos + current).getText() + " ===");
+        .setText("- " + lobbies.get(listPos + current).getText() + " -");
     lobbies
         .get(listPos + current)
         .setPositionX(Window.getHalfWidth() - lobbies.get(listPos + current).getSize() / 2);
+  }
+  
+  public LobbyObject getHighlighted() {
+  	for (LobbyObject lobby : lobbies) {
+  		if (lobby.getHighlighted()) {
+  			
+  			return lobby;
+  		}
+  	}
+  	return null;
   }
 
   public TextObject getCreate() {
@@ -231,6 +258,10 @@ public class LobbyMenu implements IGui {
   
   public TextObject getRefresh() {
   	return refresh;
+  }
+  
+  public TextObject getJoin() {
+  	return join;
   }
   
   public void updateSize() {

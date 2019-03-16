@@ -9,7 +9,13 @@ import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.Tile;
 import com.knightlore.game.util.CoordinateUtils;
 import org.joml.Vector3f;
+import org.joml.Vector3i;
 
+/**
+ * Renderer used for Level editor
+ *
+ * @author Adam Cox, Adam Worwood
+ */
 public class LevelEditorRenderer extends Renderer {
 
   private World world;
@@ -41,34 +47,34 @@ public class LevelEditorRenderer extends Renderer {
     camera = new Camera(Window.getWidth(), Window.getHeight());
     shaderProgram = new ShaderProgram("world");
 
-    viewX = ((float) Window.getWidth() / (world.getScale() * 2)) + 1;
-    viewY = ((float) Window.getHeight() / (world.getScale() * 2)) + 2;
+    calculateView();
   }
 
   private void setupHud() {
     hudRenderer = new GuiRenderer();
   }
 
-  public void render(LevelMap levelMap, Vector3f cameraPosition, LevelEditorHud hud) {
-    clearBuffers();
-
-    renderMap(levelMap, cameraPosition);
-    hudRenderer.renderGui(hud);
-
-    swapBuffers();
+  public void addToCameraPosition(Vector3f cameraChange, Vector3i mapSize) {
+    camera.updatePosition(camera.getWorldPosition().add(cameraChange, new Vector3f()), world.getScale(), mapSize);
   }
 
-  private void renderMap(LevelMap levelMap, Vector3f cameraPosition) {
-    Vector3f cameraIsoPos = CoordinateUtils.toIsometric(cameraPosition);
-    camera.setPosition(cameraIsoPos.mul(-world.getScale(), new Vector3f()));
+  public void render(LevelMap levelMap, LevelEditorHud hud) {
+    clearBuffers();
 
+    renderMap(levelMap);
+    hudRenderer.renderGui(hud);
+
+    Window.swapBuffers();
+  }
+
+  private void renderMap(LevelMap levelMap) {
     Tile[][][] tiles = levelMap.getTiles();
 
     for (int z = 0; z < tiles.length; z++) {
       for (int y = tiles[z].length - 1; y >= 0; y--) {
         for (int x = tiles[z][y].length - 1; x >= 0; x--) {
           Vector3f isoTilePos = CoordinateUtils.toIsometric(x, y, z);
-          if (isWithinView(cameraIsoPos, isoTilePos)) {
+          if (isWithinView(isoTilePos)) {
             TileGameObject tileGameObject = TileGameObjectSet.getTile(tiles[z][y][x].getIndex());
             tileGameObject.setIsometricPosition(isoTilePos);
 
@@ -81,11 +87,12 @@ public class LevelEditorRenderer extends Renderer {
     }
   }
 
-  private boolean isWithinView(Vector3f isometricPosition, Vector3f gameObjectPosition) {
-    return isometricPosition.x + viewX >= gameObjectPosition.x
-        && isometricPosition.y + viewY >= gameObjectPosition.y
-        && isometricPosition.x - viewX <= gameObjectPosition.x - gameObjectPosition.z
-        && isometricPosition.y - viewY <= gameObjectPosition.y - gameObjectPosition.z;
+  private boolean isWithinView(Vector3f gameObjectPosition) {
+    Vector3f cameraPosition = camera.getWorldPosition();
+    return cameraPosition.x + viewX >= gameObjectPosition.x
+        && cameraPosition.y + viewY >= gameObjectPosition.y
+        && cameraPosition.x - viewX <= gameObjectPosition.x - gameObjectPosition.z
+        && cameraPosition.y - viewY <= gameObjectPosition.y - gameObjectPosition.z;
   }
 
   public void setCurrentTiles(int x, int y, int z) {
@@ -93,19 +100,28 @@ public class LevelEditorRenderer extends Renderer {
     currentTileY = y;
     currentTileZ = z;
   }
-  
-  public void zoomIn() {
-	  int scale = world.getScale();
-	  if (scale != 96) {
-		  world.setScale(scale + 12);
-	  }
+
+  public void zoomIn(Vector3i mapSize) {
+    int scale = world.getScale();
+    if (scale != 96) {
+      world.setScale(scale + 12);
+      calculateView();
+      camera.updatePosition(camera.getWorldPosition(), world.getScale(), mapSize);
+    }
   }
-  
-  public void zoomOut() {
-	  int scale = world.getScale();
-	  if (scale != 12) {
-		  world.setScale(scale - 12);
-	  }
+
+  public void zoomOut(Vector3i mapSize) {
+    int scale = world.getScale();
+    if (scale != 12) {
+      world.setScale(scale - 12);
+      calculateView();
+      camera.updatePosition(camera.getWorldPosition(), world.getScale(), mapSize);
+    }
+  }
+
+  private void calculateView() {
+    viewX = ((float) Window.getWidth() / (world.getScale() * 2)) + 1;
+    viewY = ((float) Window.getHeight() / (world.getScale() * 2)) + 2;
   }
 
   @Override

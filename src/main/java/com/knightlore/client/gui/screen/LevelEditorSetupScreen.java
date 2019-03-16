@@ -99,7 +99,7 @@ public class LevelEditorSetupScreen implements IScreen {
     if (checkPosition(preLevelEditor, preLevelEditor.getLoadLevel().getId(), "")) {
     	preLevelEditor.getLoadLevel().setColour();
     	if (Mouse.isLeftButtonPressed()) {
-    		Client.changeScreen(ClientState.LEVEL_EDITOR, getMap("customMaps/unplayable/customMap.umap"));
+    		Client.changeScreen(ClientState.LOADING_LEVEL, new Object());
     	}
     } else preLevelEditor.getLoadLevel().setColour(new Vector4f(1, 1, 0, 1));
     
@@ -135,25 +135,5 @@ public class LevelEditorSetupScreen implements IScreen {
       }
     }
     return (new LevelMap(emptyMap, (new TileSet())));
-  }
-  
-  private LevelMap getMap(String filePath) {
-	File levelFile = new File(filePath);
-	GsonBuilder builder = new GsonBuilder();
-	Gson gson = builder.create();
-	String jsonString = "";
-	try {
-	  FileReader fileReader = new FileReader(levelFile);
-	  BufferedReader levelReader = new BufferedReader(fileReader);
-	  String line = levelReader.readLine();
-	  jsonString = jsonString + line;
-	  while ((line = levelReader.readLine()) != null) {
-		jsonString = jsonString + line;
-	  }
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-
-	return gson.fromJson(jsonString, LevelMap.class);
   }
 }

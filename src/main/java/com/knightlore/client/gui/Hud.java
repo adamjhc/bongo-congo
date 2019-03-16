@@ -36,6 +36,7 @@ public class Hud implements IGui {
   private final TextObject player6Lives;
   private final TextObject counter;
   private final TextObject countDown;
+  private final TextObject level;
   private GuiObject[] guiObjects;
   private TextObject[] textObjects;
   private TextObject[] scores;
@@ -92,6 +93,10 @@ public class Hud implements IGui {
     this.countDown.setColour(Colour.YELLOW);
     this.countDown.setScale(4.0f);
     
+    this.level = new TextObject("L=1", SMALL);
+    this.level.setColour(Colour.YELLOW);
+    this.level.setScale(1f);
+    
     this.countDown.setRender(false);
     
     this.player1Score.setPosition(SCORE_SIDE_GAP, SCORE_SIDE_GAP);
@@ -124,7 +129,8 @@ public class Hud implements IGui {
           player5Lives,
           player6Lives,
           counter,
-          countDown
+          countDown,
+          level
         };
     textObjects = new TextObject[] {};
     
@@ -186,6 +192,10 @@ public class Hud implements IGui {
       this.lives[index].setText(livesText);
     }
   }
+  
+  public void setLevel(int levelIndex) {
+  	level.setText("L="+(levelIndex+1));
+  }
 
   public TextObject getCounter() {
     return counter;
@@ -228,6 +238,8 @@ public class Hud implements IGui {
     		Window.getHeight() - counter.getHeight()*counter.getScale());
     this.countDown.setPosition(Window.getHalfWidth() - countDown.getSize()*countDown.getScale()/2,
     		Window.getHeight() - countDown.getHeight()*countDown.getScale());
+    this.level.setPosition(Window.getWidth() - counter.getSize()*counter.getScale() - level.getSize()*level.getScale(),
+    		Window.getHeight() - level.getHeight()*level.getScale());
   }
   
   public void renderScores(GameModel gameModel) {

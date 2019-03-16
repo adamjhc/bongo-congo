@@ -76,7 +76,6 @@ public class LevelMap {
 		  }
 	  }
 	  
-	  System.out.println(rotation);
 	  tiles = newMap;
   }
   

@@ -1,5 +1,7 @@
 package com.knightlore.client.gui;
 
+import java.util.ArrayList;
+
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
@@ -8,10 +10,21 @@ import com.knightlore.client.io.Window;
 
 public class Lobby implements IGui {
 
+  private static final int SEPARATOR_TOP_POS = 185;
+  private static final int SEPARATOR_BOT_POS = 200;
+  private static final int SEPARATOR_GAP = FONT_SIZE_SMALL;
+	
   private final TextObject bongo;
   private final TextObject congo;
+  private final TextObject lobby;
+  private final TextObject separatorTop;
+  private final TextObject separatorBot;
+  private final TextObject exit;
+  private ArrayList<TextObject> players;
   private GuiObject[] guiObjects;
   private TextObject[] textObjects;
+  
+  private int yPos = SEPARATOR_TOP_POS - GAP;
 
   public Lobby() {
     this.bongo = new TextObject("Bongo", TITLE);
@@ -19,14 +32,73 @@ public class Lobby implements IGui {
 
     this.congo = new TextObject("Congo", TITLE);
     this.congo.setColour(Colour.RED);
+    
+    this.lobby = new TextObject("Lobby", SMALL);
+    this.lobby.setColour(Colour.YELLOW);
+    
+    this.separatorTop = new TextObject("------------------------------", SMALL);
+    this.separatorTop.setColour(Colour.YELLOW);
+    this.separatorTop.setId("Separator Top");
 
-    guiObjects = new GuiObject[] {bongo, congo};
+    this.separatorBot = new TextObject("------------------------------", SMALL);
+    this.separatorBot.setColour(Colour.YELLOW);
+    this.separatorBot.setId("Separator Bot");
+    
+    this.exit = new TextObject("Exit", SMALL);
+    this.exit.setColour(Colour.YELLOW);
+    
+
+    guiObjects = new GuiObject[] {bongo, congo, lobby, separatorTop, separatorBot, exit};
+    
+    textObjects = new TextObject[] {exit};
+  }
+  
+  public void setLobbyName(String name) {
+  	this.lobby.setText(name);
+  }
+  
+  public void refreshPlayers(ArrayList<String> players) {
+  	yPos = SEPARATOR_TOP_POS - GAP;
+  	
+  	if (this.players != null) {
+  		for (TextObject player : this.players) {
+  			player.setRender(false);
+  		}
+  	}
+  	this.players = new ArrayList<>();
+  	
+  	for (String player : players) {
+  		this.players.add(new TextObject(player, SMALL));
+  	}
+  	
+  	for (TextObject player : this.players) {
+  		player.setColour(Colour.YELLOW);
+  		player.setPosition(
+  				Window.getHalfWidth() - player.getSize() / 2, Window.getHalfHeight() - yPos);
+  		yPos -= GAP;
+  	}
   }
   
   public void updateSize() {
     this.bongo.setPosition(
         Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
     this.congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
+    this.separatorTop.setPosition(
+        Window.getHalfWidth() - separatorTop.getSize() / 2,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS);
+    this.separatorBot.setPosition(
+        Window.getHalfWidth() - separatorTop.getSize() / 2,
+        Window.getHalfHeight() + SEPARATOR_BOT_POS);
+    this.lobby.setPosition(
+        Window.getHalfWidth() - lobby.getSize() / 2,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS - SEPARATOR_GAP);		
+    this.exit.setPosition(
+        Window.getHalfWidth() - exit.getSize() / 2,
+        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 1);
+  }
+  
+  public TextObject getExit() {
+  	return exit;
   }
 
   @Override

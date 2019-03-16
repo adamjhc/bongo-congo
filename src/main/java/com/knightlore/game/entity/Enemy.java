@@ -7,6 +7,17 @@ public class Enemy extends Entity {
   public EnemyAI AI;
   private EnemyState currentState;
 
+  public Enemy() {
+    super();
+  }
+
+  public Enemy(Enemy copy) {
+    id = copy.id;
+    speed = copy.speed;
+    position = copy.position;
+    direction = copy.direction;
+  }
+
   @Override
   void update() {}
 

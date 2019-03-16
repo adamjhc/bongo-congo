@@ -99,7 +99,7 @@ public class LevelEditorSetupScreen implements IScreen {
     if (checkPosition(preLevelEditor, preLevelEditor.getLoadLevel().getId(), "")) {
     	preLevelEditor.getLoadLevel().setColour();
     	if (Mouse.isLeftButtonPressed()) {
-    		Client.changeScreen(ClientState.LOADING_LEVEL);
+    		Client.changeScreen(ClientState.LOADING_LEVEL, new Object());
     	}
     } else preLevelEditor.getLoadLevel().setColour(new Vector4f(1, 1, 0, 1));
     

@@ -19,7 +19,13 @@ public class LoadLevelMenu implements IGui {
 	private final GuiObject[] setGuiObjects;
 	private final TextObject[] setTextObjects;
 	
+	private int pageCount;
+	
 	private int levelIndex;
+	
+	private int currentPageNum;
+	
+	private TextObject pageCounter;
 	
 	private TextObject bongo;
 	
@@ -73,9 +79,13 @@ public class LoadLevelMenu implements IGui {
 		    this.lastPage = new TextObject("<", LARGE);
 		    this.lastPage.setColour(Colour.YELLOW);
 		    
-		    levelIndex = 0;
+		    this.pageCounter = new TextObject("1/" + pageCount, SMALL);
+		    this.pageCounter.setColour(Colour.YELLOW);
 		    
-		    setGuiObjects = new GuiObject[] {bongo, congo, loadLevel, separatorTop, separatorBottom, load, back, nextPage, lastPage};
+		    levelIndex = 0;
+		    currentPageNum = 1;
+		    
+		    setGuiObjects = new GuiObject[] {bongo, congo, loadLevel, separatorTop, separatorBottom, load, back, nextPage, lastPage, pageCounter};
 		    setTextObjects = new TextObject[] {load, back, nextPage, lastPage};
 		    
 		    
@@ -91,6 +101,11 @@ public class LoadLevelMenu implements IGui {
 	
 	public void setLevels(TextObject[] l) {
 		levels = l;
+		if (levels.length % 12 == 0) {
+			pageCount = levels.length / 12;
+		} else {
+			pageCount = levels.length / 12 + 1;
+		}
 	}
 	
 	public TextObject getLevel(int i) {
@@ -110,12 +125,14 @@ public class LoadLevelMenu implements IGui {
 	public void incPage() {
 		if (levelIndex + 12 < levels.length) {
 			levelIndex += 12;
+			currentPageNum += 1;
 		}
 	}
 	
 	public void decPage() {
 		if (levelIndex >= 12) {
 			levelIndex -= 12;
+			currentPageNum -= 1;
 		}
 	}
 	
@@ -150,11 +167,15 @@ public class LoadLevelMenu implements IGui {
 	            Window.getHalfWidth() - back.getSize() / 2,
 	            Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
 	    this.nextPage.setPosition(
-	    		(Window.getHalfWidth() - nextPage.getSize() / 2) * 1.5f,
-	    		Window.getHalfHeight() + SEPARATOR_BOT_POS - GAP - nextPage.getSize());
+	    		(Window.getHalfWidth() + nextPage.getSize()*2) / 2,
+	    		Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP + nextPage.getHeight()/2);
 	    this.lastPage.setPosition(
-	    		(Window.getHalfWidth() - nextPage.getSize() / 2) / 2,
-	    		Window.getHalfHeight() + SEPARATOR_BOT_POS - GAP - lastPage.getSize());
+	    		(Window.getHalfWidth() - lastPage.getSize() / 2) / 2,
+	    		Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP + lastPage.getHeight()/2);
+	    this.pageCounter.setText(currentPageNum + "/" + pageCount);
+	    this.pageCounter.setPosition(
+	    		(Window.getHalfWidth() - pageCounter.getSize() / 2) * 1.5f,
+	    		Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP + pageCounter.getHeight());
 	    
 	    ArrayList<GuiObject> tempG = new ArrayList<GuiObject>(Arrays.asList(setGuiObjects));
 	    ArrayList<TextObject> tempT = new ArrayList<TextObject>(Arrays.asList(setTextObjects));

@@ -33,11 +33,10 @@ public class LoadLevelScreen implements IScreen {
 	public LoadLevelScreen(GuiRenderer guiRenderer) {
 		this.guiRenderer = guiRenderer;
 		loadLevelMenu = new LoadLevelMenu();
-		startup();
 		currentLevelName = "";
 	}
 	
-	public void startup() {
+	public void startup(Object...args) {
 		File[] fLevels = (new File(finishedFilePath)).listFiles();
 		File[] uLevels = (new File(unfinishedFilePath)).listFiles();
 		

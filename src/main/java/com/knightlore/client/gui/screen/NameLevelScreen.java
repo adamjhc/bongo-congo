@@ -118,7 +118,6 @@ public class NameLevelScreen implements IScreen {
 		  Gson gson = builder.create();
 
 		  String jsonString = gson.toJson(level);
-		  System.out.println(jsonString);
 
 		  BufferedWriter writer = new BufferedWriter(new FileWriter(filePath + name + ".umap"));
 		  writer.write(jsonString);

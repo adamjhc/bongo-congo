@@ -81,6 +81,7 @@ public class GameScreen implements IScreen {
 
     if (Keyboard.isKeyReleased(GLFW_KEY_J)) {
       gameModel.nextLevel();
+      hud.setLevel(gameModel.getCurrentLevelIndex());
 
       timer.resetStartTime();
       countDown.setStartTime();

@@ -7,14 +7,20 @@ import com.knightlore.game.entity.EnemySet;
 import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.LevelMap;
+import java.lang.Math.*;
 import com.knightlore.game.map.TileSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import com.knightlore.game.map.Tile;
+import com.knightlore.game.util.CoordinateUtils;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+
+import static com.knightlore.game.entity.PlayerState.DEAD;
 
 public class GameModel {
 
@@ -23,14 +29,16 @@ public class GameModel {
   private EnemySet enemySet;
 
   private String uuid;
-  private GameState currentState;
+
 
   private ArrayList<Level> levels;
-  private Integer currentLevelIndex;
 
   private Map<String, Player> players;
   private int playerIdInc;
   private List<Vector4f> playerColours;
+  private Integer currentLevelIndex;
+  private GameState currentState;
+  private int accumulator = 0;
 
   public GameModel(String uuid) {
     this.uuid = uuid;
@@ -131,8 +139,37 @@ public class GameModel {
         }
         break;
       case CLIMBING:
+          Player player = myPlayer();
+          Vector3f bottom = player.getPosition();
+          if (!(accumulator > 10)) {
+              bottom.z += player.getClimbVal();
+              accumulator ++;
+              player.setPosition(bottom);
+              delay(5);
+          } else {
+              accumulator = 0;
+              player.setPosition(player.setPadding(player.getPosition()));
+              player.setPlayerState(PlayerState.IDLE);
+          }
+        break;
       case ROLLING:
+          break;
       case FALLING:
+          player = myPlayer();
+          Vector3f top = player.getPosition();
+          Tile tile = getCurrentLevel().getLevelMap().getTile(CoordinateUtils.getTileCoord(top));
+          // TODO: change the direction so that the falling looks better
+           if (top.z != 0) {
+              top.z -= 0.1;
+              if (top.z < 0) { top.z = 0;}
+              player.setPosition(top);
+              delay(5);
+           } else {
+               delay(500);
+               player.setPosition(player.setPadding(player.getPosition()));
+               player.loseLife();
+           }
+          break;
       case DEAD:
         break;
     }
@@ -176,4 +213,13 @@ public class GameModel {
   private void updatePlayerState(PlayerState state) {
     myPlayer().setPlayerState(state);
   }
+
+  private void delay(long target) { // target delay in milliseconds
+    long start = System.nanoTime() / 1000000;
+    long difference = 0;
+    while (difference < target) {
+      long check = System.nanoTime() / 1000000;
+      difference = check - start;
+    }
+        }
 }

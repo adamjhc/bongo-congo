@@ -98,11 +98,13 @@ public class LobbyMenu implements IGui {
   public void refreshLobbies() {
   	yPos = SEPARATOR_TOP_POS - GAP;
   	current = 0;
-  	
+
   	if (lobbies != null) {
-    	for (LobbyObject lobby : lobbies) {
-    		lobby.setRender(false);
-    	}
+    	GuiObject[] guiObjectsNew = new GuiObject[length];
+      for (int i = 0; i < length; i++) {
+      	guiObjectsNew[i] = guiObjects[i];
+      }
+      guiObjects = guiObjectsNew.clone();
   	}
 
     this.lobbies = new ArrayList<>();

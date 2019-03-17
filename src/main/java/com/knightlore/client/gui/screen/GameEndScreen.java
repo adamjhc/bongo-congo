@@ -3,6 +3,9 @@ package com.knightlore.client.gui.screen;
 import static com.knightlore.client.util.GuiUtils.checkPosition;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
 
 import com.knightlore.client.Client;
@@ -31,6 +34,7 @@ public class GameEndScreen implements IScreen{
   public void startup(Object... args) {
   	gameModel = (GameModel) args[0];
   	setWinner();
+  	listFinishingPositions();
   }
 	
   @Override
@@ -47,11 +51,16 @@ public class GameEndScreen implements IScreen{
     }
   }
   
-  @Override
-  public void update(float delta) {
-
+  private void listFinishingPositions() {
+  	Map<String, Player> players = gameModel.getPlayers();
+  	ArrayList<Player> playersList = new ArrayList<>(players.values());
+  	
+  	Collections.sort(playersList,
+  			(p1, p2) -> Integer.compare(p2.getScore(),p1.getScore()));
+  	
+  	gameEnd.displayScores(playersList);
   }
-  
+  	
   private void setWinner() {
   	boolean draw = false;
   	int highestScore = -1;

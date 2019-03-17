@@ -16,14 +16,13 @@ import com.knightlore.game.GameModel;
 import com.knightlore.networking.ListGameObject;
 
 public class LobbyScreen implements IScreen {
-
-  public static GameModel gameModel;
+	
+	public static GameModel gameModel;
 
   private GuiRenderer guiRenderer;
   private Lobby lobby;
   
   private LobbyObject lobbyData;
-  
   private ListGameObject game;
 
   public LobbyScreen(GuiRenderer guiRenderer) {

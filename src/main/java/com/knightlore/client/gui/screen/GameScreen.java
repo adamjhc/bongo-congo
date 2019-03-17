@@ -53,6 +53,7 @@ public class GameScreen implements IScreen {
       gameModel = new GameModel("");
       gameModel.createNewLevel(mapSet.getMap(0));
       gameModel.createNewLevel(mapSet.getMap(1));
+      gameModel.createNewLevel(mapSet.getMap(2));
       gameModel.addPlayer("1");
     } else {
       gameModel = (GameModel) args[0];
@@ -81,10 +82,15 @@ public class GameScreen implements IScreen {
 
     if (Keyboard.isKeyReleased(GLFW_KEY_J)) {
       gameModel.nextLevel();
-      hud.setLevel(gameModel.getCurrentLevelIndex());
-
-      timer.resetStartTime();
-      countDown.setStartTime();
+      
+      if (gameModel.getState() == GameState.NEXT_LEVEL) {
+      	hud.setLevel(gameModel.getCurrentLevelIndex());
+        timer.resetStartTime();
+        countDown.setStartTime();
+      }
+      else if (gameModel.getState() == GameState.SCORE) {
+    		Client.changeScreen(ClientState.END);
+    	}
     }
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {

@@ -20,6 +20,8 @@ public class Lobby implements IGui {
   private final TextObject separatorTop;
   private final TextObject separatorBot;
   private final TextObject exit;
+  private final TextObject start;
+  private int length;
   private ArrayList<TextObject> players;
   private GuiObject[] guiObjects;
   private TextObject[] textObjects;
@@ -47,10 +49,15 @@ public class Lobby implements IGui {
     this.exit = new TextObject("Exit", SMALL);
     this.exit.setColour(Colour.YELLOW);
     
-
-    guiObjects = new GuiObject[] {bongo, congo, lobby, separatorTop, separatorBot, exit};
+    this.start = new TextObject("Start", SMALL);
+    this.start.setColour(Colour.YELLOW);
     
-    textObjects = new TextObject[] {exit};
+    this.start.setRender(false);
+
+    guiObjects = new GuiObject[] {bongo, congo, lobby, separatorTop, separatorBot, exit, start};
+    length = guiObjects.length;
+    
+    textObjects = new TextObject[] {exit, start};
   }
   
   public void setLobbyName(String name) {
@@ -60,11 +67,14 @@ public class Lobby implements IGui {
   public void refreshPlayers(ArrayList<String> players) {
   	yPos = SEPARATOR_TOP_POS - GAP;
   	
-  	if (this.players != null) {
-  		for (TextObject player : this.players) {
-  			player.setRender(false);
-  		}
+  	if (players != null) {
+    	GuiObject[] guiObjectsNew = new GuiObject[length];
+      for (int i = 0; i < length; i++) {
+      	guiObjectsNew[i] = guiObjects[i];
+      }
+      guiObjects = guiObjectsNew.clone();
   	}
+  	
   	this.players = new ArrayList<>();
   	
   	for (String player : players) {
@@ -77,9 +87,20 @@ public class Lobby implements IGui {
   				Window.getHalfWidth() - player.getSize() / 2, Window.getHalfHeight() - yPos);
   		yPos -= GAP;
   	}
+  	
+  	addPlayers();
   }
   
-  public void updateSize() {
+  public void addPlayers() {
+  	GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length + players.size()];
+  	System.arraycopy(guiObjects, 0, guiObjectsNew, 0, guiObjects.length);
+    for (int i = guiObjects.length; i < guiObjects.length + players.size(); i++) {
+      guiObjectsNew[i] = players.get(i - guiObjects.length);
+    }
+    guiObjects = guiObjectsNew.clone();
+  }
+  
+  public void updateSize(boolean includeStart) {
     this.bongo.setPosition(
         Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
     this.congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
@@ -92,9 +113,22 @@ public class Lobby implements IGui {
     this.lobby.setPosition(
         Window.getHalfWidth() - lobby.getSize() / 2,
         Window.getHalfHeight() - SEPARATOR_TOP_POS - SEPARATOR_GAP);		
-    this.exit.setPosition(
-        Window.getHalfWidth() - exit.getSize() / 2,
-        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 1);
+    if (includeStart) {
+      this.exit.setPosition(
+          Window.getHalfWidth() - exit.getSize() / 2,
+          Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
+      this.start.setPosition(
+          Window.getHalfWidth() - start.getSize() / 2,
+          Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 1);
+    } else {
+      this.exit.setPosition(
+          Window.getHalfWidth() - exit.getSize() / 2,
+          Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 1);
+    }
+  }
+
+  public TextObject getStart() {
+  	return start;
   }
   
   public TextObject getExit() {

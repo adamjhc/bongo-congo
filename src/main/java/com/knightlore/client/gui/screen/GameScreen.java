@@ -89,7 +89,7 @@ public class GameScreen implements IScreen {
         countDown.setStartTime();
       }
       else if (gameModel.getState() == GameState.SCORE) {
-    		Client.changeScreen(ClientState.END);
+    		Client.changeScreen(ClientState.END, gameModel);
     	}
     }
 

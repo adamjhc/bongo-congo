@@ -60,6 +60,7 @@ public class GameScreen implements IScreen {
     }
 
     hud.renderScores(gameModel);
+    hud.setLevel(gameModel.getCurrentLevelIndex());
 
     Audio.restart();
     Mouse.hideCursor();

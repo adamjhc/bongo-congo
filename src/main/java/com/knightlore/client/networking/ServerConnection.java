@@ -25,6 +25,7 @@ public class ServerConnection {
     public static ServerConnection instance;
 
     Optional<String> sessionKey;
+    Optional<String> username;
     boolean authenticated = false;
     Client client;
 
@@ -76,9 +77,10 @@ public class ServerConnection {
 
     }
 
-    public void authSuccess(String sessionKey){
+    public void authSuccess(String sessionKey, String username){
         // Update local variables
         this.sessionKey = Optional.of(sessionKey);
+        this.username = Optional.of(username);
         this.authenticated = true;
 
 

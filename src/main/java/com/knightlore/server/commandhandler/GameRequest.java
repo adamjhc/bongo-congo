@@ -34,6 +34,7 @@ public class GameRequest extends Command{
 
         if(handler.sessionKey.isPresent()){
             String sessionKey = handler.sessionKey.get();
+            String username = handler.username.get();
 
             // Find session id
             SessionToken token = new SessionToken();
@@ -63,8 +64,9 @@ public class GameRequest extends Command{
                     logger.warn("User sent incorrect level id: " + levelID.toString());
                 }
             }
+
             // Create new game server
-            GameRepository.instance.newServer(uuid, port, handler.sessionKey.get(), levels);
+            GameRepository.instance.newServer(uuid, port, handler.sessionKey.get(), levels, username);
 
             // Start server
             GameRepository.instance.startServer(uuid);
@@ -84,6 +86,7 @@ public class GameRequest extends Command{
             game.setAttribute("ends_at", currentTimestamp);
             game.setAttribute("ip", ip);
             game.setAttribute("port", port);
+            game.setAttribute("username", username + "'s game");
             game.save();
 
             // Build response

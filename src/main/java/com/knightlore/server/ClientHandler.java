@@ -26,6 +26,7 @@ public class ClientHandler extends Thread
 
     public Authenticate authenticate = new Authenticate();
     public Optional<String> sessionKey = Optional.empty();
+    public Optional<String> username = Optional.empty();
 
     // Socket
     final Socket s;

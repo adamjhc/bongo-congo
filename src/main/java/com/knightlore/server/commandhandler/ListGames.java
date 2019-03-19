@@ -38,7 +38,7 @@ public class ListGames extends Command{
             try{
                 sessionKeyResponse.addGame(server.getUUID(),
                         InetAddress.getByName(Config.authServerIp().get()),
-                        server.getPort());
+                        server.getPort(), "James");
 
                 // TODO add connected players
                 

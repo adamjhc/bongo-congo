@@ -14,8 +14,11 @@ import com.knightlore.networking.Sendable;
 import com.knightlore.util.Config;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class ServerConnection {
 
@@ -168,5 +171,47 @@ public class ServerConnection {
 
     public Optional<String> getSessionKey() {
         return sessionKey;
+    }
+
+    public static void makeConnection() throws ConfigItemNotFoundException{
+        Optional<Integer> authServerPort = Config.authServerPort();
+        Optional<String> authServerIp = Config.authServerIp();
+
+        if(authServerIp.isPresent() && authServerPort.isPresent()){
+            com.knightlore.client.networking.backend.Client authClient;
+            try{
+                authClient = new com.knightlore.client.networking.backend.Client(InetAddress.getByName(authServerIp.get()), authServerPort.get());
+                authClient.run();
+                ServerConnection.instance = new ServerConnection(authClient);
+            }catch(UnknownHostException e){
+                System.out.println("Warning: Invalid IP");
+                System.exit(1);
+            }
+        }else{
+            throw new ConfigItemNotFoundException();
+        }
+
+        // Wait for instance to be ready
+        while(!ServerConnection.instance.ready()){
+            try{
+                TimeUnit.SECONDS.sleep(1);
+            }catch(InterruptedException e){
+                // Timeout should never interrupt
+            }
+            System.out.println("WAITING");
+        }
+
+        // Send authenticaton packet
+        try {
+            ServerConnection.instance.auth();
+        }catch(ClientAlreadyAuthenticatedException e){
+        }catch (IOException e){
+            System.out.println("Client could not connect ");
+        }catch (ConfigItemNotFoundException e){
+            System.out.println("ApiKey not provided");
+            System.exit(1);
+        }
+
+
     }
 }

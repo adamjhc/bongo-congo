@@ -11,15 +11,19 @@ public class ListGameObject {
     UUID uuid;
     InetAddress ip;
     int port;
-
     ArrayList<String> usernames;
-
     String name;
 
-    public ListGameObject(UUID uuid, InetAddress ip, int port) {
+    public ListGameObject(UUID uuid, InetAddress ip, int port, String name) {
         this.uuid = uuid;
         this.ip = ip;
         this.port = port;
+        this.name = name;
+        this.usernames = new ArrayList<>();
+    }
+
+    public void addUsers(ArrayList<String> usernames){
+        this.usernames = usernames;
     }
 
     public UUID getUuid() {

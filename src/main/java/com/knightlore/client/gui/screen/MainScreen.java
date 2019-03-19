@@ -8,12 +8,19 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_MINUS;
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.audio.Audio;
+import com.knightlore.client.exceptions.ClientAlreadyAuthenticatedException;
+import com.knightlore.client.exceptions.ConfigItemNotFoundException;
 import com.knightlore.client.gui.MainMenu;
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;
+import com.knightlore.client.networking.LobbyCache;
+import com.knightlore.client.networking.ServerConnection;
 import com.knightlore.client.render.GuiRenderer;
+
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class MainScreen implements IScreen {
 
@@ -45,6 +52,54 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getMultiplayer().getId())) {
       menu.getMultiplayer().setColour();
       if (Mouse.isLeftButtonPressed()) {
+        // Do network connection
+
+        // Call multiplayer connection
+        try{
+          // Make connection
+          System.out.println("Making con");
+          ServerConnection.makeConnection();
+          System.out.println("Con");
+
+          // Authenticate
+          try{
+            ServerConnection.instance.auth();
+          }catch(IOException e){
+            System.out.println("Auth error");
+          }catch(ClientAlreadyAuthenticatedException e){
+            // Ignore
+          }
+
+          // Wait for auth
+          while(!ServerConnection.instance.isAuthenticated()){
+            // Wait
+            try {
+              TimeUnit.SECONDS.sleep(1);
+              System.out.println("Waiting");
+            }catch(InterruptedException e){
+
+            }
+          }
+
+
+          // Retrieve Games
+          ServerConnection.instance.listGames();
+
+        }catch(ConfigItemNotFoundException e){
+          // TODO handle crash
+          System.out.println("Could not find the correct configuration files");
+        }
+
+        // Wait for game recieve response
+        while(LobbyCache.instance == null){
+          try {
+            TimeUnit.SECONDS.sleep(1);
+            System.out.println("Waiting");
+          }catch(InterruptedException e){
+
+          }
+        }
+
         Client.changeScreen(ClientState.LOBBY_MENU);
       }
     } else menu.getMultiplayer().setColour(Colour.YELLOW);

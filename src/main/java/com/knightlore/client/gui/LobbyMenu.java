@@ -108,20 +108,24 @@ public class LobbyMenu implements IGui {
   	}
 
     this.lobbies = new ArrayList<>();
-    
-    Collection<ListGameObject> games = LobbyCache.instance.getGames();
-    for (ListGameObject game : games) {
-    	lobbies.add(new LobbyObject(game.getName()+" "+game.getUsernames().size()+"/6 players", SMALL, game));
+
+  	if(LobbyCache.instance != null){
+      Collection<ListGameObject> games = LobbyCache.instance.getGames();
+      for (ListGameObject game : games) {
+        lobbies.add(new LobbyObject(game.getName()+" "+game.getUsernames().size()+"/6 players", SMALL, game));
+      }
+
+      for (LobbyObject lobby : lobbies) {
+        lobby.setColour(Colour.YELLOW);
+        lobby.setPosition(
+                Window.getHalfWidth() - lobby.getSize() / 2, Window.getHalfHeight() - yPos);
+        yPos -= GAP;
+      }
+
+      addLobbies();
+      System.out.println("REfreshed");
     }
-    
-    for (LobbyObject lobby : lobbies) {
-      lobby.setColour(Colour.YELLOW);
-      lobby.setPosition(
-          Window.getHalfWidth() - lobby.getSize() / 2, Window.getHalfHeight() - yPos);
-      yPos -= GAP;
-    }
-    
-    addLobbies();
+
   }
   
   public void deleteLobby(ListGameObject game) {

@@ -19,6 +19,10 @@ public class GameList implements GenericHandler {
         ListGameResponse data = gson.fromJson(response.getData(), ListGameResponse.class);
 
         // Set games based on response data
+        if(LobbyCache.instance == null){
+            LobbyCache.instance = new LobbyCache();
+        }
+
         LobbyCache.instance.setGames(data);
 
         // TODO replace with listener

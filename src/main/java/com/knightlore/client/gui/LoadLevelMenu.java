@@ -97,9 +97,10 @@ public class LoadLevelMenu implements IGui {
 	private TextObject load;
 	
 	/**
-	 * The TextObject for the word "back"
+	 * The TextObject for the word "exit"
 	 */
-	private TextObject back;
+	private TextObject exit;
+
 	
 	/**
 	 * The TextObject for the ">" icon
@@ -131,7 +132,7 @@ public class LoadLevelMenu implements IGui {
 		    this.loadLevel = new TextObject("Load Level", SMALL);
 		    this.loadLevel.setColour(Colour.YELLOW);
 		    
-			this.separatorTop = new TextObject("------------------------------", SMALL);
+		    this.separatorTop = new TextObject("------------------------------", SMALL);
 		    this.separatorTop.setColour(Colour.YELLOW);
 
 		    this.separatorBottom = new TextObject("------------------------------", SMALL);
@@ -140,8 +141,8 @@ public class LoadLevelMenu implements IGui {
 		    this.load = new TextObject("Load", SMALL);
 		    this.load.setColour(Colour.YELLOW);
 		    
-		    this.back = new TextObject("Back", SMALL);
-		    this.back.setColour(Colour.YELLOW);
+		    this.exit = new TextObject("Exit", SMALL);
+		    this.exit.setColour(Colour.YELLOW);
 		    
 		    this.nextPage = new TextObject(">", LARGE);
 		    this.nextPage.setColour(Colour.YELLOW);
@@ -155,13 +156,11 @@ public class LoadLevelMenu implements IGui {
 		    levelIndex = 0;
 		    currentPageNum = 1;
 		    
-		    setGuiObjects = new GuiObject[] {bongo, congo, loadLevel, separatorTop, separatorBottom, load, back, nextPage, lastPage, pageCounter};
-		    setTextObjects = new TextObject[] {load, back, nextPage, lastPage};
+		    setGuiObjects = new GuiObject[] {bongo, congo, loadLevel, separatorTop, separatorBottom, load, exit, nextPage, lastPage, pageCounter};
+		    setTextObjects = new TextObject[] {load, exit, nextPage, lastPage};
 		    
 		    guiObjects = setGuiObjects;
-		    textObjects = setTextObjects;
-		    
-		    
+		    textObjects = setTextObjects;  
 	}
 	
 	/**
@@ -177,7 +176,7 @@ public class LoadLevelMenu implements IGui {
 	 * @return The TextObject for the word "back"
 	 */
 	public TextObject getBack() {
-		return back;
+		return exit;
 	}
 	
 	/**
@@ -283,8 +282,8 @@ public class LoadLevelMenu implements IGui {
 	    this.load.setPosition(
 	            Window.getHalfWidth() - load.getSize() / 2,
 	            Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP);
-	    this.back.setPosition(
-	            Window.getHalfWidth() - back.getSize() / 2,
+	    this.exit.setPosition(
+	            Window.getHalfWidth() - exit.getSize() / 2,
 	            Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
 	    this.nextPage.setPosition(
 	    		(Window.getHalfWidth() + nextPage.getSize()*2) / 2,

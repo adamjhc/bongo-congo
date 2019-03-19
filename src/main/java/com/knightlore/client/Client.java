@@ -5,6 +5,7 @@ import static com.knightlore.client.util.GuiUtils.registerFont;
 
 import com.knightlore.client.audio.Audio;
 import com.knightlore.client.gui.engine.Timer;
+import com.knightlore.client.gui.screen.GameEndScreen;
 import com.knightlore.client.gui.screen.GameScreen;
 import com.knightlore.client.gui.screen.IScreen;
 import com.knightlore.client.gui.screen.LevelEditorScreen;
@@ -80,9 +81,8 @@ public class Client extends Thread {
     screens.put(ClientState.GAME, new GameScreen(gameRenderer, timer));
     screens.put(ClientState.NAMING_LEVEL, new NameLevelScreen(guiRenderer));
     screens.put(ClientState.LOBBY, new LobbyScreen(guiRenderer));
-    screens.put(ClientState.LOADING_LEVEL_TO_EDIT, new LoadLevelScreen(guiRenderer, false));
-    screens.put(ClientState.LOADING_LEVEL_TO_PLAY, new LoadLevelScreen(guiRenderer, true));
-
+    screens.put(ClientState.LOADING_LEVEL, new LoadLevelScreen(guiRenderer, false));
+    screens.put(ClientState.END, new GameEndScreen(guiRenderer));
 
     currentScreen = screens.get(ClientState.MAIN_MENU);
     currentScreen.startup();

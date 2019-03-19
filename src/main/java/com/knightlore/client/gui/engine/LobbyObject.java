@@ -7,6 +7,8 @@ public class LobbyObject extends TextObject {
 	
 	private boolean highlighted;
 	
+	private boolean isCreator;
+	
 	private ListGameObject game;
 	
 	// ADD LOBBY VARIABLES NEEDED (list of clients etc.)
@@ -14,6 +16,7 @@ public class LobbyObject extends TextObject {
 	public LobbyObject(String text, FontTexture fontTexture, ListGameObject game) {
 		super(text, fontTexture);	
 		this.highlighted = false;
+		this.isCreator = false;
 		this.game = game;
 	}
 	
@@ -29,6 +32,14 @@ public class LobbyObject extends TextObject {
     
   public void setHighlighted() {
     highlighted = !highlighted;
+  }
+  
+  public boolean getIsCreator() {
+  	return isCreator;
+  }
+  
+  public void setIsCreator(boolean creator) {
+  	this.isCreator = creator;
   }
     
   public ListGameObject getGame() {

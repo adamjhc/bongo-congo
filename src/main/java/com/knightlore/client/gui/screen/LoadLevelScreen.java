@@ -30,15 +30,18 @@ public class LoadLevelScreen implements IScreen {
 	private GuiRenderer guiRenderer;
 	private LoadLevelMenu loadLevelMenu;
 	
-	public LoadLevelScreen(GuiRenderer guiRenderer) {
+	private boolean forSingleplayer;
+	
+	public LoadLevelScreen(GuiRenderer guiRenderer, boolean forSingleplayer) {
 		this.guiRenderer = guiRenderer;
 		loadLevelMenu = new LoadLevelMenu();
 		currentLevelName = "";
+		this.forSingleplayer = forSingleplayer;
 	}
 	
 	public void startup(Object...args) {
 		File[] fLevels = (new File(finishedFilePath)).listFiles();
-		File[] uLevels = (new File(unfinishedFilePath)).listFiles();
+		File[] uLevels = forSingleplayer ? (new File[0]) : (new File(unfinishedFilePath)).listFiles();
 		
 		int fCount = fLevels.length;
 		TextObject[] allLevels = new TextObject[fCount + uLevels.length];
@@ -50,12 +53,14 @@ public class LoadLevelScreen implements IScreen {
 				allLevels[i].setColour(Colour.YELLOW);
 			}
 		}
-		for (int i = 0; i < uLevels.length; i++) {
-			String fileName = uLevels[i].getName();
-			if (fileName.endsWith(".umap")) {
-				allLevels[i + fCount] = new TextObject(fileName.substring(0, fileName.length()-5), IGui.SMALL);
-				allLevels[i + fCount].setId(fileName);
-				allLevels[i + fCount].setColour(Colour.YELLOW);
+		if (!forSingleplayer) {
+			for (int i = 0; i < uLevels.length; i++) {
+				String fileName = uLevels[i].getName();
+				if (fileName.endsWith(".umap")) {
+					allLevels[i + fCount] = new TextObject(fileName.substring(0, fileName.length()-5), IGui.SMALL);
+					allLevels[i + fCount].setId(fileName);
+					allLevels[i + fCount].setColour(Colour.YELLOW);
+				}
 			}
 		}
 		
@@ -67,7 +72,11 @@ public class LoadLevelScreen implements IScreen {
 			loadLevelMenu.getLoad().setColour();
 			if (Mouse.isLeftButtonPressed() && !currentLevelName.equals("")) {
 				if (currentLevelName.contains(".fmap")) {
-					Client.changeScreen(ClientState.LEVEL_EDITOR, getMap(finishedFilePath+"/"+currentLevelName));
+					if (forSingleplayer) {
+						Client.changeScreen(ClientState.GAME, getMap(finishedFilePath+"/"+currentLevelName));
+					} else {
+						Client.changeScreen(ClientState.LEVEL_EDITOR, getMap(finishedFilePath+"/"+currentLevelName));
+					}
 				} else {
 					Client.changeScreen(ClientState.LEVEL_EDITOR, getMap(unfinishedFilePath+"/"+currentLevelName));
 				}

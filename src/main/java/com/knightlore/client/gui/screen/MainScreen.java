@@ -37,7 +37,7 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getSingleplayer().getId())) {
       menu.getSingleplayer().setColour();
       if (Mouse.isLeftButtonPressed()) {
-        Client.changeScreen(ClientState.GAME);
+        Client.changeScreen(ClientState.LOADING_LEVEL_TO_PLAY, new Object());
       }
     } else menu.getSingleplayer().setColour(Colour.YELLOW);
 

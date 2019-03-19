@@ -141,7 +141,7 @@ public class GameModel {
       case CLIMBING:
           Player player = myPlayer();
           Vector3f bottom = player.getPosition();
-          if (!(accumulator > 10)) {
+          if (accumulator < 10) {
               bottom.z += player.getClimbVal();
               accumulator ++;
               player.setPosition(bottom);
@@ -153,11 +153,19 @@ public class GameModel {
           }
         break;
       case ROLLING:
+          if (accumulator < 10) {
+              movePlayerInDirection(myPlayer().getDirection(), delta);
+              delay(100); // TODO: is rolling in a direction or does it pause movement
+              accumulator++;
+        } else {
+          accumulator = 0;
+          updatePlayerState(PlayerState.IDLE);
+          myPlayer().setPosition(myPlayer().getPosition());
+          }
           break;
-      case FALLING:
+        case FALLING:
           player = myPlayer();
           Vector3f top = player.getPosition();
-          Tile tile = getCurrentLevel().getLevelMap().getTile(CoordinateUtils.getTileCoord(top));
           // TODO: change the direction so that the falling looks better
            if (top.z != 0) {
               top.z -= 0.1;

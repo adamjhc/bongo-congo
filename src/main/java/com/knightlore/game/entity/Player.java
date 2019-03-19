@@ -85,23 +85,24 @@ public class Player extends Entity {
    * @author Jacqueline Henes
    */
   public void update(Vector3f oldPos, Vector3f newPos, LevelMap levelMap) {
-    Vector3i coords = CoordinateUtils.getTileCoord(setPadding(newPos));
 
-    try {
-      Tile newTile = levelMap.getTile(coords);
+      Vector3i coords = CoordinateUtils.getTileCoord(setPadding(newPos));
+
+      try {
+          Tile newTile = levelMap.getTile(coords);
 
         if (newTile.getIndex() == 0) { // Checks if tile is an air tile
           coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z - 1));
           Tile below = levelMap.getTile(coords);
-            if (below.getIndex() == 2
-                || below.getIndex() == 3) { // Check if the tile you are falling onto is walkable
-              setPosition(oldPos);
-            } else if (below.getIndex() == 0) {
-                setPlayerState(PlayerState.FALLING);
-            } else {
-                climbVal = -0.1f;
-                setPlayerState(PlayerState.CLIMBING);
-            }
+          if (below.getIndex() == 2
+              || below.getIndex() == 3) { // Check if the tile you are falling onto is walkable
+            setPosition(oldPos);
+          } else if (below.getIndex() == 0) {
+            setPlayerState(PlayerState.FALLING);
+          } else {
+            climbVal = -0.1f;
+            setPlayerState(PlayerState.CLIMBING);
+          }
 
         } else if (newTile.getIndex() == 2) { // Checks if tile is a blocking tile
           setPosition(oldPos);
@@ -113,11 +114,11 @@ public class Player extends Entity {
         }
 
         if (newTile.getIndex() == 3) { // Checks for climbable tile
-            coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z + 1));
-            Tile above = levelMap.getTile(coords);
-            if (above.getIndex() == 1) { // Checks if the tile above climbable tile is accessible
-                climbVal = 0.1f;
-                setPlayerState(PlayerState.CLIMBING);
+          coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z + 1));
+          Tile above = levelMap.getTile(coords);
+          if (above.getIndex() == 1) { // Checks if the tile above climbable tile is accessible
+            climbVal = 0.1f;
+            setPlayerState(PlayerState.CLIMBING);
           } else {
             setPosition(oldPos);
           }
@@ -126,11 +127,11 @@ public class Player extends Entity {
           loseLife();
         }
 
-      if (newTile.getIndex() == 5) { // Checks for goal
-        addToScore(10000);
-        setPosition(newPos);
-        // TODO: Switch game state here
-      }
+        if (newTile.getIndex() == 5) { // Checks for goal
+          addToScore(10000);
+          setPosition(newPos);
+          // TODO: Switch game state here
+        }
 
       // TODO: Enemy collisions
 

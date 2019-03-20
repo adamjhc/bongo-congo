@@ -21,6 +21,7 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 import static com.knightlore.game.entity.PlayerState.DEAD;
+import static com.knightlore.game.entity.PlayerState.ROLLING;
 
 public class GameModel {
 
@@ -153,9 +154,10 @@ public class GameModel {
           }
         break;
       case ROLLING:
-          if (accumulator < 10) {
-              movePlayerInDirection(myPlayer().getDirection(), delta);
-              delay(100); // TODO: is rolling in a direction or does it pause movement
+          if (accumulator < 20) {
+              delay(5);
+              movePlayerInDirection(myPlayer().getDirection(), delta *1.5f);
+              updatePlayerState(PlayerState.ROLLING);
               accumulator++;
         } else {
           accumulator = 0;
@@ -166,7 +168,6 @@ public class GameModel {
         case FALLING:
           player = myPlayer();
           Vector3f top = player.getPosition();
-          // TODO: change the direction so that the falling looks better
            if (top.z != 0) {
               top.z -= 0.1;
               if (top.z < 0) { top.z = 0;}
@@ -206,10 +207,10 @@ public class GameModel {
     playerColours.add(removedPlayer.getColour());
   }
 
-  private void movePlayerInDirection(Direction direction, float delta) {
+  private void movePlayerInDirection(Direction direction, /*PlayerState playerState, */float delta) {
     Player player = myPlayer();
     player.setDirection(direction);
-    player.setPlayerState(PlayerState.MOVING);
+    //player.setPlayerState(playerState);
 
     Vector3f origPos = player.getPosition();
     Vector3f newPos = new Vector3f();

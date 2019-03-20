@@ -113,10 +113,10 @@ public class Player extends Entity {
           setPosition(newPos);
         }
 
-        if (newTile.getIndex() == 3) { // Checks for climbable tile
+        if (newTile.getIndex() == 3 ) { // Checks for climbable tile
           coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z + 1));
           Tile above = levelMap.getTile(coords);
-          if (above.getIndex() == 1) { // Checks if the tile above climbable tile is accessible
+          if (above.getIndex() == 1 && playerState != PlayerState.ROLLING) { // Checks if the tile above climbable tile is accessible
             climbVal = 0.1f;
             setPlayerState(PlayerState.CLIMBING);
           } else {
@@ -124,7 +124,7 @@ public class Player extends Entity {
           }
         }
         if (newTile.getIndex() == 4) {
-          loseLife();
+            loseLife();
         }
 
         if (newTile.getIndex() == 5) { // Checks for goal
@@ -162,17 +162,17 @@ public class Player extends Entity {
    * @author Jacqueline Henes
    */
   public void loseLife() {
-    lives -= 1;
-    if (lives <= 0) {
-      lives = 0;
-      playerState = PlayerState.DEAD;
-      System.out.println("Lost all lives");
-    } else {
+    if (playerState != PlayerState.ROLLING) {
+      lives -= 1;
+      if (lives <= 0) {
+        lives = 0;
+        playerState = PlayerState.DEAD;
+      } else {
         playerState = PlayerState.IDLE;
-      setPosition(START_POSITION);
-      setDirection(Direction.SOUTH);
+        setPosition(START_POSITION);
+        setDirection(Direction.SOUTH);
+      }
     }
-    
   }
 
 

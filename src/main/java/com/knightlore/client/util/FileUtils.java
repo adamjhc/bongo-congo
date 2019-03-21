@@ -10,6 +10,8 @@ import javax.imageio.ImageIO;
 
 public class FileUtils {
 
+  private FileUtils() {}
+
   public static String readShader(String filePath) {
     try (BufferedReader reader = new BufferedReader(new FileReader(new java.io.File(filePath)))) {
       StringBuilder stringBuilder = new StringBuilder();

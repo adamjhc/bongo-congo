@@ -34,6 +34,10 @@ public class Player extends Entity {
     lives = 3;
     score = 0;
   }
+  
+  public String getAssociatedSession() {
+  	return associatedSession;
+  }
 
   public void addToScore(int amount) {
     score += amount;

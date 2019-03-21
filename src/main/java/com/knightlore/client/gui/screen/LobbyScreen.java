@@ -16,14 +16,13 @@ import com.knightlore.game.GameModel;
 import com.knightlore.networking.ListGameObject;
 
 public class LobbyScreen implements IScreen {
-
-  public static GameModel gameModel;
+	
+	public static GameModel gameModel;
 
   private GuiRenderer guiRenderer;
   private Lobby lobby;
   
   private LobbyObject lobbyData;
-  
   private ListGameObject game;
 
   public LobbyScreen(GuiRenderer guiRenderer) {
@@ -35,6 +34,10 @@ public class LobbyScreen implements IScreen {
   public void startup(Object... args) {
   	lobbyData = (LobbyObject) args[0];
   	game = lobbyData.getGame();
+  	
+  	if (lobbyData.getIsCreator()) {
+  		lobby.getStart().setRender(true);
+  	}
   }
   
   @Override
@@ -61,11 +64,20 @@ public class LobbyScreen implements IScreen {
   		lobby.setLobbyName(game.getName());
     	lobby.refreshPlayers(game.getUsernames());
   	}
+  	
+  	if (lobbyData.getIsCreator()) {
+  		if (checkPosition(lobby, lobby.getStart().getId())) {
+  			lobby.getStart().setColour();
+  			if (Mouse.isLeftButtonPressed() ) {
+  				//TODO add code for starting game
+  			}
+  		} else lobby.getStart().setColour(Colour.YELLOW);
+  	}
   }
 
   @Override
   public void render() {
-  	lobby.updateSize();
+  	lobby.updateSize(lobbyData.getIsCreator());
   	
     guiRenderer.render(lobby);
   }

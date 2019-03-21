@@ -1,7 +1,6 @@
 package com.knightlore.client.networking.backend.responsehandlers.game;
 
 import com.google.gson.Gson;
-import com.knightlore.client.gui.screen.LobbyScreen;
 import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.networking.backend.responsehandlers.GenericHandler;
 import com.knightlore.game.GameModel;
@@ -19,7 +18,7 @@ public class GameRegister implements GenericHandler {
     GameModel model = gameRegisterResponse.game;
     UUID uuid = gameRegisterResponse.uuid;
 
-    LobbyScreen.gameModel = model;
+    GameConnection.gameModel = model;
     GameConnection.instance.uuid = uuid;
   }
 }

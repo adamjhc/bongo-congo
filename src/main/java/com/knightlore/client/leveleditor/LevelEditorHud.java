@@ -30,6 +30,10 @@ public class LevelEditorHud implements IGui {
   private final TextObject block;
   private final TextObject hazard;
   private final TextObject finish;
+  private final TextObject walkerSpawner;
+  private final TextObject randomerSpawner;
+  private final TextObject circlerSpawner;
+  private final TextObject chargerSpawner;
 
   private TextObject[] textObjects;
   private GuiObject[] guiObjects;
@@ -71,9 +75,21 @@ public class LevelEditorHud implements IGui {
     
     this.finish = new TextObject("Finish", fontTextureSmall);
     this.finish.setColour(Colour.YELLOW);
+    
+    this.walkerSpawner = new TextObject("Walker\nSpawner", fontTextureSmall);
+    this.walkerSpawner.setColour(Colour.YELLOW);
+    
+    this.randomerSpawner = new TextObject("Randomer\nSpawner", fontTextureSmall);
+    this.randomerSpawner.setColour(Colour.YELLOW);
+    
+    this.circlerSpawner = new TextObject("Circler\nSpawner", fontTextureSmall);
+    this.circlerSpawner.setColour(Colour.YELLOW);
+    
+    this.chargerSpawner = new TextObject("Charger\nSpawner", fontTextureSmall);
+    this.chargerSpawner.setColour(Colour.YELLOW);
 
-    guiObjects = new GuiObject[] {save, tiles, empty, floor, slab, block, hazard, finish};
-    textObjects = new TextObject[] {save, empty, floor, slab, block, hazard, finish};
+    guiObjects = new GuiObject[] {save, tiles, empty, floor, slab, block, hazard, finish, walkerSpawner, randomerSpawner, circlerSpawner, chargerSpawner};
+    textObjects = new TextObject[] {save, empty, floor, slab, block, hazard, finish, walkerSpawner, randomerSpawner, circlerSpawner, chargerSpawner};
   }
   
   public TextObject getSave() {

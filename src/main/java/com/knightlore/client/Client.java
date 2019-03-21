@@ -81,7 +81,7 @@ public class Client extends Thread {
     screens.put(ClientState.GAME, new GameScreen(gameRenderer, timer));
     screens.put(ClientState.NAMING_LEVEL, new NameLevelScreen(guiRenderer));
     screens.put(ClientState.LOBBY, new LobbyScreen(guiRenderer));
-    screens.put(ClientState.LOADING_LEVEL, new LoadLevelScreen(guiRenderer, false));
+    screens.put(ClientState.LOADING_LEVEL_TO_EDIT, new LoadLevelScreen(guiRenderer, false));
     screens.put(ClientState.END, new GameEndScreen(guiRenderer));
 
     currentScreen = screens.get(ClientState.MAIN_MENU);

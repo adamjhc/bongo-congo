@@ -142,7 +142,7 @@ public class GameScreen implements IScreen {
     hud.setLives(playerIndex, lives);
 
     int score = gameModel.myPlayer().getScore();
-    hud.setScore(playerIndex, score);
+    hud.setScore(playerIndex, score, Integer.toString(gameModel.myPlayer().getId()));
 
     hud.getScore(playerIndex).setColour(gameModel.myPlayer().getColour());
 
@@ -158,7 +158,7 @@ public class GameScreen implements IScreen {
       hud.setLives(playerIndex, lives);
 
       score = player.getScore();
-      hud.setScore(playerIndex, score);
+      hud.setScore(playerIndex, score, Integer.toString(player.getId()));
 
       hud.getScore(playerIndex).setColour(player.getColour());
     }

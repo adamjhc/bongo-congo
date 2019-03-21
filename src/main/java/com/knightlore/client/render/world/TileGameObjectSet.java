@@ -23,6 +23,10 @@ public class TileGameObjectSet {
     tileSet.add(new TileGameObject(TileType.CLIMBABLE_WALL, "block"));
     tileSet.add(new TileGameObject(TileType.HAZARD, "hazard"));
     tileSet.add(new TileGameObject(TileType.GOAL, "goal"));
+    tileSet.add(new TileGameObject(TileType.SPAWN_WALKER, "floor"));
+    tileSet.add(new TileGameObject(TileType.SPAWN_RANDOMER, "floor"));
+    tileSet.add(new TileGameObject(TileType.SPAWN_CIRCLER, "floor"));
+    tileSet.add(new TileGameObject(TileType.SPAWN_CHARGER, "floor"));
   }
 
   /**

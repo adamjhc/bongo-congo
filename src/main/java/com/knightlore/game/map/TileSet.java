@@ -11,6 +11,10 @@ public class TileSet {
   private static Tile climbableWallTile = new Tile(TileType.CLIMBABLE_WALL);
   private static Tile hazardTile = new Tile(TileType.HAZARD);
   private static Tile goalTile = new Tile(TileType.GOAL);
+  private static Tile walkerSpawnTile = new Tile(TileType.SPAWN_WALKER);
+  private static Tile randomerSpawnTile = new Tile(TileType.SPAWN_RANDOMER);
+  private static Tile circlerSpawnTile = new Tile(TileType.SPAWN_CIRCLER);
+  private static Tile chargerSpawnTile = new Tile(TileType.SPAWN_CHARGER);
 
   private ArrayList<Tile> set;
 
@@ -22,6 +26,10 @@ public class TileSet {
     set.add(climbableWallTile.getIndex(), climbableWallTile);
     set.add(hazardTile.getIndex(), hazardTile);
     set.add(goalTile.getIndex(), goalTile);
+    set.add(walkerSpawnTile.getIndex(), walkerSpawnTile);
+    set.add(randomerSpawnTile.getIndex(), randomerSpawnTile);
+    set.add(circlerSpawnTile.getIndex(), circlerSpawnTile);
+    set.add(chargerSpawnTile.getIndex(), chargerSpawnTile);
   }
 
   Tile getTile(int index, Vector3f position) {

@@ -11,7 +11,9 @@ import com.knightlore.networking.Sendable;
 import org.joml.Vector3f;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.Optional;
+import java.util.UUID;
 
 public class GameConnection {
 
@@ -20,6 +22,7 @@ public class GameConnection {
     public String sessionKey;
     boolean authenticated = false;
     Client client;
+    public UUID uuid;
 
     public int playerIndex;
 
@@ -110,5 +113,13 @@ public class GameConnection {
     // Game connection was unable to be established
     public void gameConnectionFailed(){
 
+    }
+
+    public InetAddress getIP(){
+        return this.client.ip;
+    }
+
+    public int port(){
+        return this.client.socket;
     }
 }

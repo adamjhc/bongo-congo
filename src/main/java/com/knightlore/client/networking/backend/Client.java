@@ -20,8 +20,8 @@ public class Client
     public boolean ready;
 
 
-    int socket;
-    InetAddress ip;
+    public int socket;
+    public InetAddress ip;
 
     public Client(InetAddress ip, int socket){
         this.socket = socket;
@@ -32,7 +32,10 @@ public class Client
     public void run(){
         try {
             // Join socket
+            System.out.println("Waiting for socket");
             Socket s = new Socket(this.ip, socket);
+
+            System.out.println("socket est");
 
             // Get input output streams
             this.dos = new ObjectOutputStream(s.getOutputStream());

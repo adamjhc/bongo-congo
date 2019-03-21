@@ -18,16 +18,18 @@ public class GameServer extends Thread {
     UUID id;
     public int socket;
     String sessionOwner;
+    String name;
     ArrayList<ClientHandler> clients;
 
     GameModel model;
 
-    public GameServer(UUID id, int socket, String sessionOwner, GameModel model){
+    public GameServer(UUID id, int socket, String sessionOwner, GameModel model, String name){
         this.id = id;
         this.socket = socket;
         this.sessionOwner = sessionOwner;
         this.model = model;
         this.clients = new ArrayList<>();
+        this.name = name;
     }
 
     // Start new server
@@ -154,5 +156,9 @@ public class GameServer extends Thread {
 
     public int getPort(){
         return this.socket;
+    }
+
+    public String getGameName(){
+        return this.name;
     }
 }

@@ -30,7 +30,7 @@ public class GameRepository {
      * @param port
      * @param sessionOwner
      */
-    public void newServer(UUID uuid, int port, String sessionOwner, ArrayList<Level> levels){
+    public void newServer(UUID uuid, int port, String sessionOwner, ArrayList<Level> levels, String username){
         LevelMapSet ms = new LevelMapSet(new TileSet());
         GameModel gameModel = new GameModel(uuid.toString());
 
@@ -56,7 +56,7 @@ public class GameRepository {
 
 
 
-        this.newServer(uuid, port, sessionOwner, gameModel);
+        this.newServer(uuid, port, sessionOwner, gameModel, username);
     }
 
     /**
@@ -67,8 +67,10 @@ public class GameRepository {
      * @param sessionOwner
      * @param gameModel
      */
-    public void newServer(UUID uuid, int port, String sessionOwner, GameModel gameModel){
-        GameServer server = new GameServer(uuid, port, sessionOwner, gameModel);
+    public void newServer(UUID uuid, int port, String sessionOwner, GameModel gameModel, String username){
+        String name = username + "'s game";
+
+        GameServer server = new GameServer(uuid, port, sessionOwner, gameModel, name);
         servers.put(uuid, server);
     }
 

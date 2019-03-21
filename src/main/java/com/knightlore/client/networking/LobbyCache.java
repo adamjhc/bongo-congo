@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class LobbyCache {
 
-    public static LobbyCache instance = new LobbyCache();
+    public static LobbyCache instance;
 
     HashMap<UUID, ListGameObject> games;
 

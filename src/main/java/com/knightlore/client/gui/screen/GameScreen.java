@@ -81,10 +81,10 @@ public class GameScreen implements IScreen {
       playerInputDirection = null;
     }
 
-    if (Keyboard.isKeyReleased(GLFW_KEY_J)) {
+    if (Keyboard.isKeyReleased(GLFW_KEY_J) && !hud.getCountDown().getRender()) {
       gameModel.nextLevel();
       
-      if (gameModel.getState() == GameState.NEXT_LEVEL) {
+      if (gameModel.getState() != GameState.SCORE) {
       	hud.setLevel(gameModel.getCurrentLevelIndex());
         timer.resetStartTime();
         countDown.setStartTime();
@@ -109,8 +109,12 @@ public class GameScreen implements IScreen {
   public void update(float delta) {
     float countDown = this.countDown.getGameTime();
     int countDownLeft = this.countDownTime + 1 - Math.round(countDown);
+    if (gameModel.getCurrentLevelIndex() > 0) {
+    	countDownLeft += 1;
+    }
     if (countDownLeft <= 0) countDownLeft = 0;
-    if (countDownLeft == this.countDownTime) hud.getCountDown().setRender(true);
+    if (countDownLeft <= this.countDownTime &&
+    		countDownLeft > 0) hud.getCountDown().setRender(true);
 
     int timeLeft = levelTime;
     if (countDownLeft == 0) {

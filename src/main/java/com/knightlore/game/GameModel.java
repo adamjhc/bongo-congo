@@ -39,6 +39,9 @@ public class GameModel {
   private List<Vector4f> playerColours;
   private Integer currentLevelIndex;
   private GameState currentState;
+
+  private float rollSpeed = 1.5f;
+  private int cooldown = 150;
   private int accumulator = 0;
 
   public GameModel(String uuid) {
@@ -127,12 +130,14 @@ public class GameModel {
     // Player updates
     switch (myPlayer().getPlayerState()) {
       case IDLE:
+          rollCountdown();
         if (playerInputDirection != null) {
           updatePlayerState(PlayerState.MOVING);
           movePlayerInDirection(playerInputDirection, delta);
         }
         break;
       case MOVING:
+        rollCountdown();
         if (playerInputDirection == null) {
           updatePlayerState(PlayerState.IDLE);
         } else {
@@ -140,6 +145,7 @@ public class GameModel {
         }
         break;
       case CLIMBING:
+          rollCountdown();
           Player player = myPlayer();
           Vector3f bottom = player.getPosition();
           if (accumulator < 10) {
@@ -154,16 +160,17 @@ public class GameModel {
           }
         break;
       case ROLLING:
-          if (accumulator < 20) {
-              delay(5);
-              movePlayerInDirection(myPlayer().getDirection(), delta *1.5f);
-              updatePlayerState(PlayerState.ROLLING);
-              accumulator++;
-        } else {
-          accumulator = 0;
-          updatePlayerState(PlayerState.IDLE);
-          myPlayer().setPosition(myPlayer().getPosition());
-          }
+              if (accumulator < 20 ) {
+                  delay(5);
+                  movePlayerInDirection(myPlayer().getDirection(), delta * rollSpeed);
+                  updatePlayerState(PlayerState.ROLLING);
+                  accumulator++;
+            } else {
+              accumulator = 0;
+              myPlayer().setCooldown(cooldown);
+              updatePlayerState(PlayerState.IDLE);
+              myPlayer().setPosition(myPlayer().getPosition());
+              }
           break;
         case FALLING:
           player = myPlayer();
@@ -176,10 +183,11 @@ public class GameModel {
            } else {
                delay(500);
                player.setPosition(player.setPadding(player.getPosition()));
+               player.setCooldown(0);
                player.loseLife();
            }
           break;
-      case DEAD:
+        case DEAD:
         break;
     }
   }
@@ -207,10 +215,9 @@ public class GameModel {
     playerColours.add(removedPlayer.getColour());
   }
 
-  private void movePlayerInDirection(Direction direction, /*PlayerState playerState, */float delta) {
+  private void movePlayerInDirection(Direction direction, float delta) {
     Player player = myPlayer();
     player.setDirection(direction);
-    //player.setPlayerState(playerState);
 
     Vector3f origPos = player.getPosition();
     Vector3f newPos = new Vector3f();
@@ -230,5 +237,13 @@ public class GameModel {
       long check = System.nanoTime() / 1000000;
       difference = check - start;
     }
-        }
+  }
+
+  private void rollCountdown() {
+      Player player = myPlayer();
+      int playerCooldown = player.getCooldown();
+      if (playerCooldown != 0) {
+          player.setCooldown(playerCooldown - 1);
+      }
+  }
 }

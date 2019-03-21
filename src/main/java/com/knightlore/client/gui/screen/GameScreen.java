@@ -86,7 +86,10 @@ public class GameScreen implements IScreen {
       countDown.setStartTime();
     }
 
-    if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)) {
+    if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)
+            && (gameModel.myPlayer().getCooldown() == 0)
+            && (gameModel.myPlayer().getPlayerState() == PlayerState.IDLE
+            || gameModel.myPlayer().getPlayerState() == PlayerState.MOVING)) {
   	    gameModel.myPlayer().setPlayerState(PlayerState.ROLLING);
     }
 

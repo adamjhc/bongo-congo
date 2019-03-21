@@ -14,6 +14,7 @@ public class Player extends Entity {
 
     private int score;
     private int lives;
+    private int rollCooldown;
     private float climbVal = 0.1f;
     private PlayerState playerState;
     private String associatedSession;
@@ -25,6 +26,7 @@ public class Player extends Entity {
     this.colour = colour;
 
     speed = 7;
+    rollCooldown = 0;
     direction = Direction.SOUTH;
     position = START_POSITION;
     playerState = PlayerState.IDLE;
@@ -58,6 +60,10 @@ public class Player extends Entity {
   }
 
   public float getClimbVal() { return climbVal;}
+
+  public int getCooldown() { return rollCooldown; }
+
+  public void setCooldown(int rollCooldown) { this.rollCooldown = rollCooldown; }
 
   @Override
   public Vector3f getPosition() {

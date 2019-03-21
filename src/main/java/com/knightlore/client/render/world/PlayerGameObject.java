@@ -53,7 +53,7 @@ public class PlayerGameObject extends EntityGameObject {
     for (Direction direction : Direction.values()) {
       String directionPath = textureFileName + "_" + direction.getAbbreviation();
       climbingTextures.put(direction, new AnimatedTexture(directionPath + "_run", 10, 20));
-      rollingTextures.put(direction, new AnimatedTexture(directionPath + "_roll", 10, 2, false));
+      rollingTextures.put(direction, new AnimatedTexture(directionPath + "_roll", 10, 20, false));
     }
     fallingTexture = new AnimatedTexture(textureFileName + "_fall", 10, 20);
     deadTexture = new StaticTexture(textureFileName + "_dead");

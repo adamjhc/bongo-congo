@@ -78,22 +78,22 @@ public class LobbyMenu implements IGui {
     refreshLobbies();
   }
 
-  public void createLobby() {
-    LobbyObject newServer = new LobbyObject("LOBBY PLACEHOLDER " + lobbies.size(), SMALL);
-    newServer.setColour(Colour.YELLOW);
-    newServer.setPosition(
-        Window.getHalfWidth() - newServer.getSize() / 2,
-        Window.getHalfHeight() - yPos - (current * GAP));
-    newServer.setIsCreator(true);
-    yPos -= GAP;
-    
-    resetHighlight();
-    newServer.setHighlighted();
-    
-    lobbies.add(newServer);
-    addLobby();
-    for (int i = 0; i < lobbies.size(); i++) moveDown();
-  }
+//  public void createLobby() {
+//    LobbyObject newServer = new LobbyObject("LOBBY PLACEHOLDER " + lobbies.size(), SMALL);
+//    newServer.setColour(Colour.YELLOW);
+//    newServer.setPosition(
+//        Window.getHalfWidth() - newServer.getSize() / 2,
+//        Window.getHalfHeight() - yPos - (current * GAP));
+//    newServer.setIsCreator(true);
+//    yPos -= GAP;
+//
+//    resetHighlight();
+//    newServer.setHighlighted();
+//
+//    lobbies.add(newServer);
+//    addLobby();
+//    for (int i = 0; i < lobbies.size(); i++) moveDown();
+//  }
   
   public void refreshLobbies() {
   	yPos = SEPARATOR_TOP_POS - GAP;
@@ -123,9 +123,8 @@ public class LobbyMenu implements IGui {
       }
 
       addLobbies();
-      System.out.println("REfreshed");
     }
-
+    System.out.println("Yeet");
   }
   
   public void deleteLobby(ListGameObject game) {
@@ -240,7 +239,6 @@ public class LobbyMenu implements IGui {
   public LobbyObject getHighlighted() {
   	for (LobbyObject lobby : lobbies) {
   		if (lobby.getHighlighted()) {
-  			
   			return lobby;
   		}
   	}

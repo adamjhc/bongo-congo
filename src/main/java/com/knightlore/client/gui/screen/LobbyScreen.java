@@ -10,6 +10,7 @@ import com.knightlore.client.gui.Lobby;
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.gui.engine.LobbyObject;
 import com.knightlore.client.io.Mouse;
+import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.networking.LobbyCache;
 import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.game.GameModel;
@@ -32,12 +33,13 @@ public static GameModel gameModel;
   
   @Override
   public void startup(Object... args) {
-  	lobbyData = (LobbyObject) args[0];
-  	game = lobbyData.getGame();
-  	
-  	if (lobbyData.getIsCreator()) {
-  		lobby.getStart().setRender(true);
-  	}
+    lobbyData = (LobbyObject) args[0];
+    game = lobbyData.getGame();
+
+    if (lobbyData.getIsCreator() || true) {
+        lobby.getStart().setRender(true);
+    }
+
   }
   
   @Override
@@ -65,11 +67,13 @@ public static GameModel gameModel;
     	lobby.refreshPlayers(game.getUsernames());
   	}
   	
-  	if (lobbyData.getIsCreator()) {
+  	if (lobbyData.getIsCreator() || true) {
   		if (checkPosition(lobby, lobby.getStart().getId())) {
   			lobby.getStart().setColour();
   			if (Mouse.isLeftButtonPressed() ) {
-  				//TODO add code for starting game
+                GameConnection.instance.startGame();
+
+                Client.changeScreen(ClientState.GAME);
   			}
   		} else lobby.getStart().setColour(Colour.YELLOW);
   	}

@@ -20,8 +20,8 @@ public class Client
     public boolean ready;
 
 
-    int socket;
-    InetAddress ip;
+    public int socket;
+    public InetAddress ip;
 
     public Client(InetAddress ip, int socket){
         this.socket = socket;

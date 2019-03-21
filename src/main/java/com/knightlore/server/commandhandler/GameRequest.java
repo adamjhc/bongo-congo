@@ -86,7 +86,7 @@ public class GameRequest extends Command{
             game.setAttribute("ends_at", currentTimestamp);
             game.setAttribute("ip", ip);
             game.setAttribute("port", port);
-            game.setAttribute("username", username + "'s game");
+            game.setAttribute("name", username + "'s game");
             game.save();
 
             // Build response

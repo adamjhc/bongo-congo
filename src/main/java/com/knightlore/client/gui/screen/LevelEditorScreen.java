@@ -199,6 +199,38 @@ public class LevelEditorScreen implements IScreen {
             TileType.values()[5]);
       }
     } else levelEditorHud.getFinish().setColour(new Vector4f(1, 1, 0, 1));
+    
+    if (checkPosition(levelEditorHud, levelEditorHud.getWalker().getId(), "")) {
+    	levelEditorHud.getWalker().setColour();
+    	if (Mouse.isLeftButtonPressed()) {
+    		editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
+    				TileType.values()[6]);
+    	}
+    } else levelEditorHud.getWalker().setColour(new Vector4f(1, 1, 0, 1));
+    
+    if (checkPosition(levelEditorHud, levelEditorHud.getRandomer().getId(), "")) {
+    	levelEditorHud.getRandomer().setColour();
+    	if (Mouse.isLeftButtonPressed()) {
+    		editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
+    				TileType.values()[7]);
+    	}
+    } else levelEditorHud.getRandomer().setColour(new Vector4f(1, 1, 0, 1));
+    
+    if (checkPosition(levelEditorHud, levelEditorHud.getCircler().getId(), "")) {
+    	levelEditorHud.getCircler().setColour();
+    	if (Mouse.isLeftButtonPressed()) {
+    		editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
+    				TileType.values()[8]);
+    	}
+    } else levelEditorHud.getCircler().setColour(new Vector4f(1, 1, 0, 1));
+    
+    if (checkPosition(levelEditorHud, levelEditorHud.getCharger().getId(), "")) {
+    	levelEditorHud.getCharger().setColour();
+    	if (Mouse.isLeftButtonPressed()) {
+    		editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
+    				TileType.values()[9]);
+    	}
+    } else levelEditorHud.getCharger().setColour(new Vector4f(1, 1, 0, 1));
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU);

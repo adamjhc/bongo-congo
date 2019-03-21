@@ -14,6 +14,9 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.joml.Vector4f;
 
 public class LevelEditorHud implements IGui {
@@ -30,10 +33,13 @@ public class LevelEditorHud implements IGui {
   private final TextObject block;
   private final TextObject hazard;
   private final TextObject finish;
-  private final TextObject walkerSpawner;
-  private final TextObject randomerSpawner;
-  private final TextObject circlerSpawner;
-  private final TextObject chargerSpawner;
+  private final TextObject walker;
+  private final TextObject randomer;
+  private final TextObject circler;
+  private final TextObject charger;
+  private final TextObject spawners;
+  private final TextObject[] vDivider;
+  private final TextObject hDivider;
 
   private TextObject[] textObjects;
   private GuiObject[] guiObjects;
@@ -76,20 +82,37 @@ public class LevelEditorHud implements IGui {
     this.finish = new TextObject("Finish", fontTextureSmall);
     this.finish.setColour(Colour.YELLOW);
     
-    this.walkerSpawner = new TextObject("Walker\nSpawner", fontTextureSmall);
-    this.walkerSpawner.setColour(Colour.YELLOW);
+    this.walker = new TextObject("Walker", fontTextureSmall);
+    this.walker.setColour(Colour.YELLOW);
     
-    this.randomerSpawner = new TextObject("Randomer\nSpawner", fontTextureSmall);
-    this.randomerSpawner.setColour(Colour.YELLOW);
+    this.randomer = new TextObject("Randomer", fontTextureSmall);
+    this.randomer.setColour(Colour.YELLOW);
     
-    this.circlerSpawner = new TextObject("Circler\nSpawner", fontTextureSmall);
-    this.circlerSpawner.setColour(Colour.YELLOW);
+    this.circler = new TextObject("Circler", fontTextureSmall);
+    this.circler.setColour(Colour.YELLOW);
     
-    this.chargerSpawner = new TextObject("Charger\nSpawner", fontTextureSmall);
-    this.chargerSpawner.setColour(Colour.YELLOW);
+    this.charger = new TextObject("Charger", fontTextureSmall);
+    this.charger.setColour(Colour.YELLOW);
+    
+    this.spawners = new TextObject("Spawners", fontTextureMedium);
+    this.spawners.setColour(Colour.YELLOW);
+    
+    this.hDivider = new TextObject("------------------------------------", fontTextureSmall);
+    this.hDivider.setColour(Colour.YELLOW);
 
-    guiObjects = new GuiObject[] {save, tiles, empty, floor, slab, block, hazard, finish, walkerSpawner, randomerSpawner, circlerSpawner, chargerSpawner};
-    textObjects = new TextObject[] {save, empty, floor, slab, block, hazard, finish, walkerSpawner, randomerSpawner, circlerSpawner, chargerSpawner};
+    guiObjects = new GuiObject[] {save, tiles, empty, floor, slab, block, hazard, finish, walker, randomer, circler, charger, spawners, hDivider};
+    textObjects = new TextObject[] {save, empty, floor, slab, block, hazard, finish, walker, randomer, circler, charger};
+    
+    this.vDivider = new TextObject[8];
+    ArrayList<GuiObject> tempG = new ArrayList<GuiObject>(Arrays.asList(guiObjects));
+    for (int i = 0; i < 8; i++) {
+    	this.vDivider[i] = new TextObject("|", fontTextureLarge);
+    	this.vDivider[i].setColour(Colour.YELLOW);
+    	tempG.add(this.vDivider[i]);
+    }
+    
+    guiObjects = tempG.toArray(guiObjects);
+    
   }
   
   public TextObject getSave() {
@@ -124,15 +147,40 @@ public class LevelEditorHud implements IGui {
 	  return finish;
   }
   
+  public TextObject getWalker() {
+	  return walker;
+  }
+  
+  public TextObject getRandomer() {
+	  return randomer;
+  }
+  
+  public TextObject getCircler() {
+	  return circler;
+  }
+  
+  public TextObject getCharger() {
+	  return charger;
+  }
   public void updateSize() {
 	  this.save.setPosition(Window.getWidth()-save.getSize()*1.1f, 10);
-	  this.tiles.setPosition(Window.getWidth()/2-tiles.getSize()/2, Window.getHeight()-tiles.getHeight()-GAP*4);  
-	  this.empty.setPosition(Window.getWidth()/2-empty.getSize()-GAP*18, Window.getHeight()-empty.getHeight()-GAP);
-	  this.floor.setPosition(Window.getWidth()/2-floor.getSize()-GAP*10, Window.getHeight()-floor.getHeight()-GAP);
-	  this.slab.setPosition(Window.getWidth()/2-slab.getSize()-GAP*2, Window.getHeight()-slab.getHeight()-GAP);
-	  this.block.setPosition(Window.getWidth()/2-block.getSize()+GAP*6, Window.getHeight()-block.getHeight()-GAP);
-	  this.hazard.setPosition(Window.getWidth()/2-hazard.getSize()+GAP*14, Window.getHeight()-hazard.getHeight()-GAP);
-	  this.finish.setPosition(Window.getWidth()/2-finish.getSize()+GAP*22, Window.getHeight()-finish.getHeight()-GAP);
+	  this.tiles.setPosition(Window.getWidth()/2-tiles.getSize()/2 - GAP*11, Window.getHeight()-tiles.getHeight()-GAP*8);
+	  this.spawners.setPosition(Window.getWidth()/2-spawners.getSize()/2 + GAP*10, Window.getHeight()-spawners.getHeight()-GAP*8);
+	  this.empty.setPosition(Window.getWidth()/2-empty.getSize()-GAP*12, Window.getHeight()-empty.getHeight()-GAP*6);
+	  this.floor.setPosition(Window.getWidth()/2-floor.getSize()-GAP*5, Window.getHeight()-floor.getHeight()-GAP*6);
+	  this.slab.setPosition(Window.getWidth()/2-slab.getSize()-GAP*12, Window.getHeight()-slab.getHeight()-GAP*4);
+	  this.block.setPosition(Window.getWidth()/2-block.getSize()-GAP*5, Window.getHeight()-block.getHeight()-GAP*4);
+	  this.hazard.setPosition(Window.getWidth()/2-hazard.getSize()-GAP*12, Window.getHeight()-hazard.getHeight()-GAP*2);
+	  this.finish.setPosition(Window.getWidth()/2-finish.getSize()-GAP*5, Window.getHeight()-finish.getHeight()-GAP*2);
+	  this.walker.setPosition(Window.getWidth()/2-walker.getSize()+GAP*8, Window.getHeight()-walker.getHeight()-GAP*5);
+	  this.randomer.setPosition(Window.getWidth()/2-randomer.getSize()+GAP*16, Window.getHeight()-randomer.getHeight()-GAP*5);
+	  this.circler.setPosition(Window.getWidth()/2-circler.getSize()+GAP*8, Window.getHeight()-circler.getHeight()-GAP*3);
+	  this.charger.setPosition(Window.getWidth()/2-charger.getSize()+GAP*16, Window.getHeight()-charger.getHeight()-GAP*3);
+	  this.hDivider.setPosition(Window.getWidth()/2-hDivider.getSize()/2, Window.getHeight()-hDivider.getHeight()-GAP*7);
+	  
+	  for (int i = 0; i < 8; i++) {
+		  this.vDivider[i].setPosition(Window.getHalfWidth()-vDivider[i].getSize()/2, Window.getHeight()-vDivider[i].getHeight()-GAP*i);
+	  }
   }
 
   @Override

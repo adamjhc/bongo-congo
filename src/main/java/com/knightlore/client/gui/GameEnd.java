@@ -66,14 +66,12 @@ public class GameEnd implements IGui {
   	this.scores = new ArrayList<>();
   	
   	for (Player player : players) {
-  		this.scores.add(new TextObject(
-  				player.getAssociatedSession()+": "+Integer.toString(player.getScore()), SMALL));
-  	}
-  	
-  	for (TextObject score : this.scores) {
-  		score.setColour(Colour.YELLOW);
+  		TextObject score = new TextObject(
+  				player.getId()+": "+Integer.toString(player.getScore()), SMALL);
+  		score.setColour(player.getColour());
   		score.setPosition(
   				Window.getHalfWidth() - score.getSize() / 2, Window.getHalfHeight() - yPos);
+  		this.scores.add(score);
   		yPos -= GAP;
   	}
   	addScores();

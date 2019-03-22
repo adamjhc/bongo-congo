@@ -17,8 +17,8 @@ public class Hud implements IGui {
   private static final int SCORE_SIDE_GAP = 4;
   private static final int LIVES_SIDE_GAP = 6;
   private static final int SCORE_HIDE =
-      - SCORE_SIDE_GAP - FONT_SIZE_SMALL * 11 - SCORE_SIDE_GAP - FONT_SIZE_LIVES * 3;
-  private static final int LIVES_HIDE = SCORE_HIDE + FONT_SIZE_SMALL * 11 + SCORE_SIDE_GAP;
+      - SCORE_SIDE_GAP - FONT_SIZE_SMALL * 10 - SCORE_SIDE_GAP - FONT_SIZE_LIVES * 3;
+  private static final int LIVES_HIDE = SCORE_HIDE + FONT_SIZE_SMALL * 10 + SCORE_SIDE_GAP;
 
   private static final int MAX_SCORE = 99999999;
 
@@ -43,22 +43,22 @@ public class Hud implements IGui {
   private TextObject[] lives;
 
   public Hud() {
-    this.player1Score = new TextObject("P1:00000000", SMALL);
+    this.player1Score = new TextObject("1:00000000", SMALL);
     this.player1Score.setColour();
 
-    this.player2Score = new TextObject("P2:00000000", SMALL);
+    this.player2Score = new TextObject("2:00000000", SMALL);
     this.player2Score.setColour(Colour.YELLOW);
 
-    this.player3Score = new TextObject("P3:00000000", SMALL);
+    this.player3Score = new TextObject("3:00000000", SMALL);
     this.player3Score.setColour(Colour.RED);
 
-    this.player4Score = new TextObject("P4:00000000", SMALL);
+    this.player4Score = new TextObject("4:00000000", SMALL);
     this.player4Score.setColour(new Vector4f(0, 1, 1, 1));
 
-    this.player5Score = new TextObject("P5:00000000", SMALL);
+    this.player5Score = new TextObject("5:00000000", SMALL);
     this.player5Score.setColour(new Vector4f(1, 0, 1, 1));
 
-    this.player6Score = new TextObject("P6:00000000", SMALL);
+    this.player6Score = new TextObject("6:00000000", SMALL);
     this.player6Score.setColour(new Vector4f(0, 0, 1, 1));
 
     this.player1Lives = new TextObject("***", LIVES);
@@ -161,7 +161,7 @@ public class Hud implements IGui {
     if (xPosScore < targetXPos && move > 0) {
       setPosition(move, xPosScore, xPosLives);
       if (player2Score.getPositionX() > targetXPos) {
-        setPosition(0, targetXPos, targetXPos + player1Score.getSize() + SCORE_SIDE_GAP);
+        setPosition(0, targetXPos, targetXPos + player2Score.getSize() + SCORE_SIDE_GAP);
       }
     } else if (xPosScore > targetXPos && move < 0) {
       setPosition(move, xPosScore, xPosLives);
@@ -217,12 +217,12 @@ public class Hud implements IGui {
     return this.scores[index];
   }
 
-  public void setScore(int index, int score) {
+  public void setScore(int index, int score, String name) {
     if (score > MAX_SCORE) {
       score = MAX_SCORE;
     }
     String text = String.format("%08d", score);
-    this.scores[index].setText("P"+(index+1)+":" + text);
+    this.scores[index].setText(name+":" + text);
   }
 
   public int getScoreHide() {

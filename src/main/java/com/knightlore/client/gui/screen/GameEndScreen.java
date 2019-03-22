@@ -79,7 +79,7 @@ public class GameEndScreen implements IScreen{
   		gameEnd.getWinner().setText("Draw");
   	} else {
   		gameEnd.getWinner().setText("Winner: "+
-  	highestScorePlayer.getAssociatedSession());
+  	highestScorePlayer.getId());
   	}
   }
 

@@ -5,6 +5,7 @@ import com.knightlore.client.io.Window;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.world.EnemyGameObject;
 import com.knightlore.client.render.world.EnemyGameObjectSet;
+import com.knightlore.client.render.world.EntityGameObject;
 import com.knightlore.client.render.world.GameObject;
 import com.knightlore.client.render.world.PlayerGameObject;
 import com.knightlore.client.render.world.TileGameObject;
@@ -153,11 +154,8 @@ public class GameRenderer extends Renderer {
 
     depthSortedGameObjects.forEach(
         gameObject -> {
-          if (gameObject instanceof PlayerGameObject) {
-            ((PlayerGameObject) gameObject)
-                .render(playerShaderProgram, camera.getProjection(), world.getScale());
-          } else if (gameObject instanceof EnemyGameObject) {
-            ((EnemyGameObject) gameObject)
+          if (gameObject instanceof EntityGameObject) {
+            ((EntityGameObject) gameObject)
                 .render(playerShaderProgram, camera.getProjection(), world.getScale());
           } else {
             ((TileGameObject) gameObject)

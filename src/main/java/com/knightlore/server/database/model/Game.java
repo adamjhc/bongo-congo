@@ -18,6 +18,7 @@ public class Game extends Model{
         this.attributes.addAttribute("created_at", new Attribute(Types.TIMESTAMP, null));
         this.attributes.addAttribute("started_at", new Attribute(Types.TIMESTAMP, null));
         this.attributes.addAttribute("ends_at", new Attribute(Types.TIMESTAMP, null));
+        this.attributes.addAttribute("name", new Attribute(Types.VARCHAR, null));
 
         this.identifier = "id";
     }

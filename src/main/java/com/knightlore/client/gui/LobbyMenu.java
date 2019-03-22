@@ -78,22 +78,22 @@ public class LobbyMenu implements IGui {
     refreshLobbies();
   }
 
-  public void createLobby() {
-    LobbyObject newServer = new LobbyObject("LOBBY PLACEHOLDER " + lobbies.size(), SMALL);
-    newServer.setColour(Colour.YELLOW);
-    newServer.setPosition(
-        Window.getHalfWidth() - newServer.getSize() / 2,
-        Window.getHalfHeight() - yPos - (current * GAP));
-    newServer.setIsCreator(true);
-    yPos -= GAP;
-    
-    resetHighlight();
-    newServer.setHighlighted();
-    
-    lobbies.add(newServer);
-    addLobby();
-    for (int i = 0; i < lobbies.size(); i++) moveDown();
-  }
+//  public void createLobby() {
+//    LobbyObject newServer = new LobbyObject("LOBBY PLACEHOLDER " + lobbies.size(), SMALL);
+//    newServer.setColour(Colour.YELLOW);
+//    newServer.setPosition(
+//        Window.getHalfWidth() - newServer.getSize() / 2,
+//        Window.getHalfHeight() - yPos - (current * GAP));
+//    newServer.setIsCreator(true);
+//    yPos -= GAP;
+//
+//    resetHighlight();
+//    newServer.setHighlighted();
+//
+//    lobbies.add(newServer);
+//    addLobby();
+//    for (int i = 0; i < lobbies.size(); i++) moveDown();
+//  }
   
   public void refreshLobbies() {
   	yPos = SEPARATOR_TOP_POS - GAP;
@@ -108,20 +108,23 @@ public class LobbyMenu implements IGui {
   	}
 
     this.lobbies = new ArrayList<>();
-    
-    Collection<ListGameObject> games = LobbyCache.instance.getGames();
-    for (ListGameObject game : games) {
-    	lobbies.add(new LobbyObject(game.getName()+" "+game.getUsernames().size()+"/6 players", SMALL, game));
+
+  	if(LobbyCache.instance != null){
+      Collection<ListGameObject> games = LobbyCache.instance.getGames();
+      for (ListGameObject game : games) {
+        lobbies.add(new LobbyObject(game.getName()+" "+game.getUsernames().size()+"/6 players", SMALL, game));
+      }
+
+      for (LobbyObject lobby : lobbies) {
+        lobby.setColour(Colour.YELLOW);
+        lobby.setPosition(
+                Window.getHalfWidth() - lobby.getSize() / 2, Window.getHalfHeight() - yPos);
+        yPos -= GAP;
+      }
+
+      addLobbies();
     }
-    
-    for (LobbyObject lobby : lobbies) {
-      lobby.setColour(Colour.YELLOW);
-      lobby.setPosition(
-          Window.getHalfWidth() - lobby.getSize() / 2, Window.getHalfHeight() - yPos);
-      yPos -= GAP;
-    }
-    
-    addLobbies();
+    System.out.println("Yeet");
   }
   
   public void deleteLobby(ListGameObject game) {
@@ -236,7 +239,6 @@ public class LobbyMenu implements IGui {
   public LobbyObject getHighlighted() {
   	for (LobbyObject lobby : lobbies) {
   		if (lobby.getHighlighted()) {
-  			
   			return lobby;
   		}
   	}

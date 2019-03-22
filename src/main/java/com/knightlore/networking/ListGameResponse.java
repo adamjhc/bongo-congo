@@ -13,8 +13,8 @@ public class ListGameResponse {
         games = new HashMap<>();
     }
 
-    public void addGame(UUID uuid, InetAddress ip, int port){
-        this.games.put(uuid, new ListGameObject(uuid, ip, port));
+    public void addGame(UUID uuid, InetAddress ip, int port, String name){
+        this.games.put(uuid, new ListGameObject(uuid, ip, port, name));
     }
 
     public HashMap<UUID, ListGameObject> getGames() {

@@ -64,8 +64,8 @@ public class Server
         ServerSocket ss = new ServerSocket(authServerPort.get());
 
         // Input
-        InputHandler inputHandler = new InputHandler();
-        inputHandler.start();
+//        InputHandler inputHandler = new InputHandler();
+//        inputHandler.start();
 
         // Capture new clients
         while (true)

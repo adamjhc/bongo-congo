@@ -7,37 +7,33 @@ import com.knightlore.game.entity.EnemySet;
 import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.LevelMap;
-import java.lang.Math.*;
-import com.knightlore.game.map.TileSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
-import com.knightlore.game.map.Tile;
-import com.knightlore.game.util.CoordinateUtils;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
-
-import static com.knightlore.game.entity.PlayerState.DEAD;
 
 public class GameModel {
 
   private final int noOfLevels = 3;
 
-  private EnemySet enemySet;
 
   private String uuid;
 
-
+  private GameState currentState;
+  private Integer currentLevelIndex;
   private ArrayList<Level> levels;
 
   private Map<String, Player> players;
   private int playerIdInc;
   private List<Vector4f> playerColours;
-  private Integer currentLevelIndex;
-  private GameState currentState;
+
+  private EnemySet enemySet;
+
+  private float rollSpeed = 1.5f;
+  private int cooldown = 150;
   private int accumulator = 0;
 
   public GameModel(String uuid) {
@@ -126,12 +122,14 @@ public class GameModel {
     // Player updates
     switch (myPlayer().getPlayerState()) {
       case IDLE:
+        rollCountdown();
         if (playerInputDirection != null) {
           updatePlayerState(PlayerState.MOVING);
           movePlayerInDirection(playerInputDirection, delta);
         }
         break;
       case MOVING:
+        rollCountdown();
         if (playerInputDirection == null) {
           updatePlayerState(PlayerState.IDLE);
         } else {
@@ -139,37 +137,50 @@ public class GameModel {
         }
         break;
       case CLIMBING:
-          Player player = myPlayer();
-          Vector3f bottom = player.getPosition();
-          if (!(accumulator > 10)) {
-              bottom.z += player.getClimbVal();
-              accumulator ++;
-              player.setPosition(bottom);
-              delay(5);
-          } else {
-              accumulator = 0;
-              player.setPosition(player.setPadding(player.getPosition()));
-              player.setPlayerState(PlayerState.IDLE);
-          }
+        rollCountdown();
+        Player player = myPlayer();
+        Vector3f bottom = player.getPosition();
+        if (accumulator < 10) {
+          bottom.z += player.getClimbVal();
+          accumulator++;
+          player.setPosition(bottom);
+          delay(5);
+        } else {
+          accumulator = 0;
+          player.setPosition(player.setPadding(player.getPosition()));
+          player.setPlayerState(PlayerState.IDLE);
+        }
         break;
       case ROLLING:
-          break;
+        if (accumulator < 20) {
+          delay(5);
+          movePlayerInDirection(myPlayer().getDirection(), delta * rollSpeed);
+          updatePlayerState(PlayerState.ROLLING);
+          accumulator++;
+        } else {
+          accumulator = 0;
+          myPlayer().setCooldown(cooldown);
+          updatePlayerState(PlayerState.IDLE);
+          myPlayer().setPosition(myPlayer().getPosition());
+        }
+        break;
       case FALLING:
-          player = myPlayer();
-          Vector3f top = player.getPosition();
-          Tile tile = getCurrentLevel().getLevelMap().getTile(CoordinateUtils.getTileCoord(top));
-          // TODO: change the direction so that the falling looks better
-           if (top.z != 0) {
-              top.z -= 0.1;
-              if (top.z < 0) { top.z = 0;}
-              player.setPosition(top);
-              delay(5);
-           } else {
-               delay(500);
-               player.setPosition(player.setPadding(player.getPosition()));
-               player.loseLife();
-           }
-          break;
+        player = myPlayer();
+        Vector3f top = player.getPosition();
+        if (top.z != 0) {
+          top.z -= 0.1;
+          if (top.z < 0) {
+            top.z = 0;
+          }
+          player.setPosition(top);
+          delay(5);
+        } else {
+          delay(500);
+          player.setPosition(player.setPadding(player.getPosition()));
+          player.setCooldown(0);
+          player.loseLife();
+        }
+        break;
       case DEAD:
         break;
     }
@@ -201,7 +212,6 @@ public class GameModel {
   private void movePlayerInDirection(Direction direction, float delta) {
     Player player = myPlayer();
     player.setDirection(direction);
-    player.setPlayerState(PlayerState.MOVING);
 
     Vector3f origPos = player.getPosition();
     Vector3f newPos = new Vector3f();
@@ -221,5 +231,13 @@ public class GameModel {
       long check = System.nanoTime() / 1000000;
       difference = check - start;
     }
-        }
+  }
+
+  private void rollCountdown() {
+    Player player = myPlayer();
+    int playerCooldown = player.getCooldown();
+    if (playerCooldown != 0) {
+      player.setCooldown(playerCooldown - 1);
+    }
+  }
 }

@@ -32,13 +32,14 @@ public class ListGames extends Command{
         Sendable response = sendable.makeResponse();
         ListGameResponse sessionKeyResponse = new ListGameResponse();
 
+        // Grab from db
         HashMap<UUID, GameServer> servers = GameRepository.instance.getServers();
 
         for(GameServer server : servers.values()){
             try{
                 sessionKeyResponse.addGame(server.getUUID(),
                         InetAddress.getByName(Config.authServerIp().get()),
-                        server.getPort());
+                        server.getPort(), server.getGameName());
 
                 // TODO add connected players
                 

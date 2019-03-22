@@ -32,52 +32,46 @@ public class GetSessionToken extends Command{
         Sendable response = sendable.makeResponse();
         SessionKeyResponse sessionKeyResponse;
 
-        if(handler.sessionKey.isPresent()){
-            String sessionKey = handler.sessionKey.get();
-            sessionKeyResponse = new SessionKeyResponse(true, sessionKey);
+        // Check against existing API key
+        RegistrationKey reg = new RegistrationKey();
+        reg.where(new Condition("key", "=", apikey.key));
+
+        ArrayList<Model> tokens = reg.get();
+
+        if(tokens.size() == 1){
+            Integer keyID = (int) tokens.get(0).getAttribute("id");
+
+            String sessionKey = SessionGenerator.generateActivationKey();
+
+            // Add to session
+            handler.sessionKey = Optional.of(sessionKey);
+            handler.username = Optional.of((String) tokens.get(0).getAttribute("username"));
+
+            SessionToken token = new SessionToken();
+            token.setAttribute("id", keyID);
+            token.setAttribute("token", sessionKey);
+            token.setAttribute("ip", handler.getSocketIP().toString());
+            token.setAttribute("registration_key_id", keyID);
+
+
+            Calendar calendar = Calendar.getInstance();
+            java.util.Date now = calendar.getTime();
+            java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
+
+
+            token.setAttribute("last_used_at", currentTimestamp);
+            token.setAttribute("created_at", currentTimestamp);
+            token.setAttribute("expires_at", currentTimestamp);
+
+
+            token.save();
+
+            // Respond
+            sessionKeyResponse = new SessionKeyResponse(true, sessionKey, (String) tokens.get(0).getAttribute("username"));
+            logger.info("Session token created for UID:" + keyID + ", SID:" + sessionKey);
         }else{
-            // Check against existing API key
-            RegistrationKey reg = new RegistrationKey();
-            reg.where(new Condition("key", "=", apikey.key));
-
-            ArrayList<Model> tokens = reg.get();
-
-            if(tokens.size() == 1){
-                Integer keyID = (int) tokens.get(0).getAttribute("id");
-
-                String sessionKey = SessionGenerator.generateActivationKey();
-
-                // Add to session
-                handler.sessionKey = Optional.of(sessionKey);
-
-
-                SessionToken token = new SessionToken();
-                token.setAttribute("id", keyID);
-                token.setAttribute("token", sessionKey);
-                token.setAttribute("ip", handler.getSocketIP().toString());
-                token.setAttribute("registration_key_id", keyID);
-
-
-                Calendar calendar = Calendar.getInstance();
-                java.util.Date now = calendar.getTime();
-                java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
-
-
-                token.setAttribute("last_used_at", currentTimestamp);
-                token.setAttribute("created_at", currentTimestamp);
-                token.setAttribute("expires_at", currentTimestamp);
-
-
-                token.save();
-
-                // Respond
-                sessionKeyResponse = new SessionKeyResponse(true, sessionKey);
-                logger.info("Session token created for UID:" + keyID + ", SID:" + sessionKey);
-            }else{
-                logger.info("User not found, session not generated");
-                sessionKeyResponse = new SessionKeyResponse(false);
-            }
-
+            logger.info("User not found, session not generated");
+            sessionKeyResponse = new SessionKeyResponse(false);
         }
 
         response.setData(gson.toJson(sessionKeyResponse));

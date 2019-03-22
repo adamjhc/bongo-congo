@@ -5,21 +5,26 @@ import com.knightlore.client.networking.backend.Client;
 import com.knightlore.client.networking.backend.ResponseHandler;
 import com.knightlore.client.networking.backend.responsehandlers.game.GameRegister;
 import com.knightlore.client.networking.backend.responsehandlers.server.GameRequest;
+import com.knightlore.game.GameModel;
 import com.knightlore.networking.ApiKey;
 import com.knightlore.networking.PositionUpdate;
 import com.knightlore.networking.Sendable;
 import org.joml.Vector3f;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.Optional;
+import java.util.UUID;
 
 public class GameConnection {
 
     public static GameConnection instance;
+    public static GameModel gameModel;
 
     public String sessionKey;
     boolean authenticated = false;
     Client client;
+    public UUID uuid;
 
     public int playerIndex;
 
@@ -110,5 +115,13 @@ public class GameConnection {
     // Game connection was unable to be established
     public void gameConnectionFailed(){
 
+    }
+
+    public InetAddress getIP(){
+        return this.client.ip;
+    }
+
+    public int port(){
+        return this.client.socket;
     }
 }

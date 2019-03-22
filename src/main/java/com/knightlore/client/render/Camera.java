@@ -52,52 +52,6 @@ class Camera {
   }
 
   /**
-   * Sets the scaledPosition of the camera in the world
-   *
-   * @param newWorldPosition New newWorldPosition of the camera
-   * @param worldScale
-   * @param mapSize
-   * @author Adam Cox
-   */
-  void updatePosition(Vector3f newWorldPosition, int worldScale, Vector3i mapSize) {
-    Vector3f newScaledPosition = newWorldPosition.mul(-worldScale, new Vector3f());
-
-    this.scaledPosition.y = newScaledPosition.y;
-    this.worldPosition.y = newWorldPosition.y;
-
-    Vector3f leftMapPos = CoordinateUtils.toIsometric(0, mapSize.y - 1f, 0);
-    Vector3f rightMapPos = CoordinateUtils.toIsometric(mapSize.x - 1f, 0, 0);
-
-    float cameraMinX = leftMapPos.x * worldScale + Window.ORIGINAL_WIDTH / (float) 2 - worldScale;
-    float cameraMaxX = rightMapPos.x * worldScale - Window.ORIGINAL_WIDTH / (float) 2 + worldScale;
-    float scaledCameraXPos = newWorldPosition.x * worldScale;
-
-    if (scaledCameraXPos <= cameraMinX && scaledCameraXPos >= cameraMaxX) {
-      scaledPosition.x = 0;
-      worldPosition.x = 0;
-    } else if (scaledCameraXPos <= cameraMinX) {
-      if (cameraMaxX <= cameraMinX) {
-        scaledPosition.x = 0;
-        worldPosition.x = 0;
-      } else {
-        scaledPosition.x = cameraMinX * -1;
-        worldPosition.x = cameraMinX / worldScale;
-      }
-    } else if (scaledCameraXPos >= cameraMaxX) {
-      if (cameraMaxX <= cameraMinX) {
-        scaledPosition.x = 0;
-        worldPosition.x = 0;
-      } else {
-        scaledPosition.x = cameraMaxX * -1;
-        worldPosition.x = cameraMaxX / worldScale;
-      }
-    } else {
-      scaledPosition.x = newScaledPosition.x;
-      worldPosition.x = newWorldPosition.x;
-    }
-  }
-
-  /**
    * Get the projection of the camera
    *
    * @return Projection of the camera
@@ -105,5 +59,59 @@ class Camera {
    */
   Matrix4f getProjection() {
     return projection.translate(scaledPosition, new Matrix4f());
+  }
+
+  /**
+   * Sets the scaledPosition of the camera in the world
+   *
+   * @param newWorldPosition New newWorldPosition of the camera
+   * @param worldScale Scale of the world
+   * @param mapSize Size of the map
+   * @author Adam Cox
+   */
+  void updatePosition(Vector3f newWorldPosition, int worldScale, Vector3i mapSize) {
+    Vector3f leftMostMapPos = CoordinateUtils.toIsometric(0, mapSize.y - 1f, 0);
+    Vector3f rightMostMapPos = CoordinateUtils.toIsometric(mapSize.x - 1f, 0, 0);
+    Vector3f topMostMapPos =
+        CoordinateUtils.toIsometric(mapSize.x - 1f, mapSize.y - 1f, mapSize.z - 1f);
+    Vector3f bottomMostMapPos = CoordinateUtils.toIsometric(0, 0, 0);
+
+    float cameraMinX = leftMostMapPos.x * worldScale + Window.ORIGINAL_WIDTH / 2f - worldScale;
+    float cameraMaxX = rightMostMapPos.x * worldScale - Window.ORIGINAL_WIDTH / 2f + worldScale;
+    float cameraMinY = bottomMostMapPos.y * worldScale + Window.ORIGINAL_HEIGHT / 4f - worldScale;
+    float cameraMaxY = topMostMapPos.y * worldScale - Window.ORIGINAL_HEIGHT / 4f + worldScale;
+
+    float newX = newWorldPosition.x * worldScale;
+    float newY = newWorldPosition.y * worldScale;
+
+    float scaledX = limitCameraAxis(newX, cameraMinX, cameraMaxX);
+    float scaledY = limitCameraAxis(newY, cameraMinY, cameraMaxY);
+
+    scaledPosition.x = scaledX * -1;
+    scaledPosition.y = scaledY * -1;
+
+    worldPosition.x = scaledX / worldScale;
+    worldPosition.y = scaledY / worldScale;
+  }
+
+  /**
+   * Limits a camera position
+   *
+   * @param newPos Proposed new position of the camera
+   * @param min Minimum position the camera is allowed
+   * @param max Maximum position the camera is allowed
+   * @return Position within limits
+   * @author Adam Cox
+   */
+  private float limitCameraAxis(float newPos, float min, float max) {
+    if (max <= min) return 0;
+
+    if (newPos <= min) {
+      return min;
+    } else if (newPos >= max) {
+      return max;
+    } else {
+      return newPos;
+    }
   }
 }

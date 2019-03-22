@@ -6,6 +6,7 @@ import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.Tile;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import org.joml.Vector3f;
 
 public class Level {
@@ -13,44 +14,36 @@ public class Level {
   public int duration;
   Date startedAt;
   private LevelMap levelMap;
-  private ArrayList<Enemy> enemies;
 
-  public Level() {
-    this.enemies = new ArrayList<>();
-  }
+  private EnemySet enemySet;
+  private ArrayList<Enemy> enemies;
+  private int enemyIdInc;
 
   public Level(LevelMap levelMap, EnemySet enemySet) {
     this.levelMap = levelMap;
-
+    this.enemySet = enemySet;
     enemies = new ArrayList<>();
+    enemyIdInc = 0;
+
     Tile[][][] tiles = levelMap.getTiles();
     for (int z = 0; z < tiles.length; z++) {
       for (int y = 0; y < tiles[z].length; y++) {
         for (int x = 0; x < tiles[z][y].length; x++) {
           Tile tile = tiles[z][y][x];
-          switch (tile.getType()) {
-            case SPAWN_WALKER:
-              enemies.add(enemySet.get(0, new Vector3f(x + 0.5f, y + 0.5f, z)));
-              break;
-            case SPAWN_RANDOMER:
-              enemies.add(enemySet.get(1, new Vector3f(x + 0.5f, y + 0.5f, z)));
-              break;
-            case SPAWN_CIRCLER:
-              enemies.add(enemySet.get(2, new Vector3f(x + 0.5f, y + 0.5f, z)));
-              break;
-            case SPAWN_CHARGER:
-              enemies.add(enemySet.get(3, new Vector3f(x + 0.5f, y + 0.5f, z)));
-              break;
-            default:
-              break;
+          if (tile.getType().ordinal() >= 6) {
+            addEnemy(tile.getType().ordinal() - 6, new Vector3f(x + 0.5f, y + 0.5f, z));
           }
         }
       }
     }
   }
 
-  public void addEnemy(Enemy enemy) {
-    this.enemies.add(enemy);
+  private void addEnemy(int enemySetIndex, Vector3f position) {
+    Enemy enemy = enemySet.get(enemySetIndex, position);
+    enemy.setId(enemyIdInc);
+    enemyIdInc++;
+
+    enemies.add(enemy);
   }
 
   public LevelMap getLevelMap() {
@@ -61,7 +54,7 @@ public class Level {
     this.levelMap = levelMap;
   }
 
-  public ArrayList<Enemy> getEnemies() {
+  public List<Enemy> getEnemies() {
     return enemies;
   }
 }

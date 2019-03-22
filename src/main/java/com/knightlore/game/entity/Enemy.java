@@ -5,10 +5,15 @@ import com.knightlore.game.entity.ai.EnemyAI;
 public class Enemy extends Entity {
 
   public EnemyAI AI;
+  private EnemyType enemyType;
   private EnemyState currentState;
 
-  public Enemy() {
+  public Enemy(EnemyType enemyType) {
     super();
+
+    this.enemyType = enemyType;
+
+    currentState = EnemyState.IDLE;
   }
 
   public Enemy(Enemy copy) {
@@ -16,10 +21,16 @@ public class Enemy extends Entity {
     speed = copy.speed;
     position = copy.position;
     direction = copy.direction;
+    enemyType = copy.enemyType;
+    currentState = copy.currentState;
   }
 
   @Override
   void update() {}
+
+  public EnemyType getEnemyType() {
+    return enemyType;
+  }
 
   public EnemyState getCurrentState() {
     return currentState;

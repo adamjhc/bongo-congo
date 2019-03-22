@@ -137,18 +137,16 @@ public class GameRenderer extends Renderer {
     Vector3f isometricPosition =
         playerGameObjects.get(gameModel.myPlayer().getId()).getIsometricPosition();
 
-    camera.updatePosition(isometricPosition, world.getScale(), gameModel.getCurrentLevel().getLevelMap().getSize());
+    camera.updatePosition(
+        isometricPosition, world.getScale(), gameModel.getCurrentLevel().getLevelMap().getSize());
 
     List<GameObject> gameObjectsToDepthSort = new ArrayList<>();
     tileGameObjects.forEach(
-        tileGameObject ->
-            ifWithinViewAddTo(gameObjectsToDepthSort, tileGameObject));
+        tileGameObject -> ifWithinViewAddTo(gameObjectsToDepthSort, tileGameObject));
     playerGameObjects.forEach(
-        playerGameObject ->
-            ifWithinViewAddTo(gameObjectsToDepthSort, playerGameObject));
+        playerGameObject -> ifWithinViewAddTo(gameObjectsToDepthSort, playerGameObject));
     enemyGameObjects.forEach(
-        enemyGameObject ->
-            ifWithinViewAddTo(gameObjectsToDepthSort, enemyGameObject));
+        enemyGameObject -> ifWithinViewAddTo(gameObjectsToDepthSort, enemyGameObject));
 
     List<GameObject> depthSortedGameObjects =
         depthSort(gameModel.getCurrentLevel().getLevelMap().getSize(), gameObjectsToDepthSort);
@@ -175,8 +173,7 @@ public class GameRenderer extends Renderer {
    * @param gameObject GameObject to test
    * @author Adam Cox
    */
-  private void ifWithinViewAddTo(
-      List<GameObject> gameObjectsToDepthSort, GameObject gameObject) {
+  private void ifWithinViewAddTo(List<GameObject> gameObjectsToDepthSort, GameObject gameObject) {
     if (isWithinView(gameObject.getIsometricPosition())) {
       gameObjectsToDepthSort.add(gameObject);
     }

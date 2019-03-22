@@ -65,6 +65,7 @@ public class LobbySelectScreen implements IScreen {
                 "Test");
 
         LobbyObject test = new LobbyObject( "Test", menu.SMALL, test1);
+        test.setIsCreator(true);
 
         // Sent off register request
         GameConnection.instance.register();

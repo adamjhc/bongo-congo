@@ -54,9 +54,21 @@ public class OptionsScreen implements IScreen {
     	}
     } else optionsMenu.getIsFullscreen().setColour(Colour.YELLOW);
     
+    if (checkPosition(optionsMenu, optionsMenu.getIsMute().getId())) {
+    	optionsMenu.getIsMute().setColour();
+    	if (Mouse.isLeftButtonPressed()) {
+    		Audio.toggle();
+    	}
+    } else optionsMenu.getIsMute().setColour(Colour.YELLOW);
+    
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU);
     }
+  }
+  
+  @Override
+  public void update(float delta) {
+  	optionsMenu.setMute();
   }
 
   @Override

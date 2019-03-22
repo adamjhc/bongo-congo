@@ -1,5 +1,6 @@
 package com.knightlore.client.gui;
 
+import com.knightlore.client.audio.Audio;
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
@@ -26,6 +27,8 @@ public class OptionsMenu implements IGui {
   private final TextObject separatorBot;
   private final TextObject musicVolume;
   private final TextObject fullScreen;
+  private final TextObject mute;
+  private final TextObject isMute;
   
   private GuiObject[] guiObjects;
   private TextObject[] textObjects;
@@ -66,6 +69,12 @@ public class OptionsMenu implements IGui {
     
     this.fullScreen = new TextObject("Fullscreen", SMALL);
     this.fullScreen.setColour(Colour.YELLOW);
+    
+    this.mute = new TextObject("Mute audio", SMALL);
+    this.mute.setColour(Colour.YELLOW);
+    
+    this.isMute = new TextObject("Yes", LARGE);
+    this.isMute.setColour(Colour.YELLOW);
 
     guiObjects =
         new GuiObject[] {
@@ -80,9 +89,11 @@ public class OptionsMenu implements IGui {
           separatorTop,
           separatorBot,
           musicVolume,
-          fullScreen
+          fullScreen,
+          mute,
+          isMute
         };
-    textObjects = new TextObject[] {incVolume, decVolume, exit, isFullscreen};
+    textObjects = new TextObject[] {incVolume, decVolume, exit, isFullscreen, isMute};
   }
 
   public void incVolume() {
@@ -103,9 +114,14 @@ public class OptionsMenu implements IGui {
   	if (this.isFullscreen.getText() == "Off") this.isFullscreen.setText("On");
   	else this.isFullscreen.setText("Off");
   	this.isFullscreen.setPositionX(Window.getHalfWidth() - isFullscreen.getSize() / 2);
-  	this.isFullscreen.setColour(Colour.YELLOW);
   	
   	Window.setFullscreen();
+  }
+  
+  public void setMute() {
+  	if (Audio.isOn()) this.isMute.setText("Off");
+  	else this.isMute.setText("On");
+  	this.isMute.setPositionY(Window.getHalfWidth() - isMute.getSize() / 2);
   }
   
   public TextObject getIncVolume() {
@@ -122,6 +138,10 @@ public class OptionsMenu implements IGui {
 
   public TextObject getIsFullscreen() {
   	return isFullscreen;
+  }
+  
+  public TextObject getIsMute() {
+  	return isMute;
   }
   
   public void updateSize() {
@@ -157,6 +177,12 @@ public class OptionsMenu implements IGui {
     this.fullScreen.setPosition(
     		Window.getHalfWidth() - fullScreen.getSize() / 2,
     		Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 3 + GAP_LARGE);
+    this.mute.setPosition(
+    		Window.getHalfWidth() - mute.getSize() / 2,
+    		Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 5 + GAP_LARGE * 2);
+    this.isMute.setPosition(
+    		Window.getHalfWidth() - isMute.getSize() / 2,
+    		Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 6 + GAP_LARGE * 2);
   }
   
   @Override

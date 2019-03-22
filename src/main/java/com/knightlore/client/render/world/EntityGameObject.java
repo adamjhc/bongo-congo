@@ -58,7 +58,7 @@ public abstract class EntityGameObject extends GameObject {
       movingTextures.put(direction, new AnimatedTexture(directionPath + "_run", 10, 15));
     }
 
-    float textureHeight = 2 * (float) idleTextures.get(Direction.NORTH).getHeight()
+    float textureHeight = 2f * idleTextures.get(Direction.NORTH).getHeight()
         / idleTextures.get(Direction.NORTH).getWidth();
     float[] vertices =
         new float[] {

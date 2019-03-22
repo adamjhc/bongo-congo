@@ -7,7 +7,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.util.Arrays;
 import java.util.Collection;
 import org.joml.Vector3f;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
@@ -33,6 +32,10 @@ public class CoordinateUtilsTest {
           new Object[][] {
             {new Vector3f(), new Vector3f()},
             {new Vector3f(1, 1, 0), new Vector3f(0, 1, 0)},
+            {new Vector3f(2, 2, 0), new Vector3f(0, 2, 0)},
+            {new Vector3f(0, 1, 0), new Vector3f(-1, 0.5f, 0)},
+            {new Vector3f(1, 0, 0), new Vector3f(1, 0.5f, 0)},
+            {new Vector3f(1, 2, 0), new Vector3f(-1f, 1.5f, 0)},
           });
     }
 
@@ -61,6 +64,16 @@ public class CoordinateUtilsTest {
           new Object[][] {
             {new Vector3f(), new Vector3f()},
             {new Vector3f(0, 1, 0), new Vector3f(1, 1, 0)},
+            {new Vector3f(0, 2, 0), new Vector3f(2, 2, 0)},
+            {new Vector3f(-1, 0.5f, 0), new Vector3f(0, 1, 0)},
+            {new Vector3f(1, 0.5f, 0), new Vector3f(1, 0, 0)},
+            {new Vector3f(-1f, 1.5f, 0), new Vector3f(1, 2, 0)},
+            {new Vector3f(0, 1, 0), new Vector3f(0, 0, 1)},
+            {new Vector3f(0, 2, 0), new Vector3f(1, 1, 1)},
+            {new Vector3f(0, 3, 0), new Vector3f(2, 2, 1)},
+            {new Vector3f(-1, 1.5f, 0), new Vector3f(0, 1, 1)},
+            {new Vector3f(1, 1.5f, 0), new Vector3f(1, 0, 1)},
+            {new Vector3f(-1f, 2.5f, 0), new Vector3f(1, 2, 1)},
           });
     }
 

@@ -92,7 +92,11 @@ public class TileGameObject extends GameObject {
    * @author Adam Cox
    */
   public boolean isFloor() {
-    return tileType == TileType.FLOOR;
+    return  tileType == TileType.FLOOR ||
+    		tileType == TileType.SPAWN_WALKER ||
+    		tileType == TileType.SPAWN_RANDOMER ||
+    		tileType == TileType.SPAWN_CIRCLER ||
+    		tileType == TileType.SPAWN_CHARGER;
   }
 
   /**

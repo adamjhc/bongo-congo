@@ -203,45 +203,89 @@ public class LevelEditorHud implements IGui {
 	  return tiles;
   }
   
+  /**
+   * Method to get the word "empty"
+   * @return The TextObject for the word "empty"
+   */
   public TextObject getEmpty() {
 	  return empty;
   }
   
+  /**
+   * Method to get the word "floor"
+   * @return The TextObject for the word "floor"
+   */
   public TextObject getFloor() {
 	  return floor;
   }
   
+  /**
+   * Method to get the word "slab"
+   * @return The TextObject for the word "slab"
+   */
   public TextObject getSlab() {
 	  return slab;
   }
   
+  /**
+   * Method to get the word "block"
+   * @return The TextObject for the word "block"
+   */
   public TextObject getBlock() {
 	  return block;
   }
   
+  /**
+   * Method to get the word "hazard"
+   * @return The TextObject for the word "hazard"
+   */
   public TextObject getHazard() {
 	  return hazard;
   }
   
+  /**
+   * Method to get the word "finish"
+   * @return The TextObject for the word "finish"
+   */
   public TextObject getFinish() {
 	  return finish;
   }
   
+  /**
+   * Method to get the word "walker"
+   * @return The TextObject for the word "walker"
+   */
   public TextObject getWalker() {
 	  return walker;
   }
   
+  /**
+   * Method to get the word "randomer"
+   * @return The TextObject for the word "randomer"
+   */
   public TextObject getRandomer() {
 	  return randomer;
   }
   
+  /**
+   * Method to get the word "circler"
+   * @return The TextObject for the word "circler"
+   */
   public TextObject getCircler() {
 	  return circler;
   }
   
+  /**
+   * Method to get the word "charger"
+   * @return The TextObject for the word "charger"
+   */
   public TextObject getCharger() {
 	  return charger;
   }
+  
+  /**
+   * Method to update the position of all objects in the GUI
+   */
   public void updateSize() {
 	  this.save.setPosition(Window.getWidth()-save.getSize()*1.1f, 10);
 	  this.tiles.setPosition(Window.getWidth()/2-tiles.getSize()/2 - GAP*11, Window.getHeight()-tiles.getHeight()-GAP*8);
@@ -263,11 +307,19 @@ public class LevelEditorHud implements IGui {
 	  }
   }
 
+  /**
+   * Method to get all GuiObjects displayed on the screen
+   * @return All displayed GuiObjects on screen
+   */
   @Override
   public GuiObject[] getGuiObjects() {
     return guiObjects;
   }
 
+  /**
+   * Method to get all clickable TextObjects on the screen
+   * @return All TextObjects that you can click on
+   */
   @Override
   public TextObject[] getTextObjects() {
     return textObjects;

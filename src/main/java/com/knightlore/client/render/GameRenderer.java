@@ -160,7 +160,7 @@ public class GameRenderer extends Renderer {
                 .render(playerShaderProgram, camera.getProjection(), world.getScale());
           } else if (gameObject instanceof EnemyGameObject) {
             ((EnemyGameObject) gameObject)
-                .render(worldShaderProgram, camera.getProjection(), world.getScale());
+                .render(playerShaderProgram, camera.getProjection(), world.getScale());
           } else {
             ((TileGameObject) gameObject)
                 .render(worldShaderProgram, world.getProjection(), camera.getProjection());

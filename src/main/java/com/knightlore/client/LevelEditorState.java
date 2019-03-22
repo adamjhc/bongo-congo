@@ -1,4 +1,4 @@
-package com.knightlore.client.leveleditor;
+package com.knightlore.client;
 
 public enum LevelEditorState {
 	EDITING,

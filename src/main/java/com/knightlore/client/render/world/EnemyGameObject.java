@@ -26,6 +26,7 @@ public class EnemyGameObject extends EntityGameObject {
    */
   EnemyGameObject(String textureFileName, Vector4f colour) {
     super(textureFileName, colour);
+    currentState = EnemyState.IDLE;
   }
 
   /**

@@ -1,4 +1,4 @@
-package com.knightlore.client.leveleditor;
+package com.knightlore.client.gui;
 
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.gui.engine.GuiObject;
@@ -21,27 +21,99 @@ import org.joml.Vector4f;
 
 public class LevelEditorHud implements IGui {
 
+  /**
+   * The Large font
+   */
   private static final Font FONT_LARGE = new Font("Press Start 2P", Font.PLAIN, 40);
 
+  /**
+   * The character set used for the text
+   */
   private static final String CHARSET = "ISO-8859-1";
   
+  /**
+   * The TextObject for the word "save"
+   */
   private final TextObject save;
+  
+  /**
+   * The TextObject for the word "tiles"
+   */
   private final TextObject tiles;
+  
+  /**
+   * The TextObject for the word "empty"
+   */
   private final TextObject empty;
+  
+  /**
+   * The TextObject for the word "floor"
+   */
   private final TextObject floor;
+  
+  /**
+   * The TextObject for the word "slab"
+   */
   private final TextObject slab;
+  
+  /**
+   * The TextObject for the word "block"
+   */
   private final TextObject block;
+  
+  /**
+   * The TextObject for the word "hazard"
+   */
   private final TextObject hazard;
+  
+  /**
+   * The TextObject for the word "finish"
+   */
   private final TextObject finish;
+  
+  /** 
+   * The TextObject for the word "walker"
+   */
   private final TextObject walker;
+  
+  /**
+   * The TextObject for the word "randomer"
+   */
   private final TextObject randomer;
+  
+  /**
+   * The TextObject for the word "circler"
+   */
   private final TextObject circler;
+  
+  /** 
+   * The TextObject for the word "charger"
+   */
   private final TextObject charger;
+  
+  /**
+   * The TextObject for the word "spawners"
+   */
   private final TextObject spawners;
+  
+  /**
+   * The TextObject for the vertical divider between GUI buttons
+   */
   private final TextObject[] vDivider;
+  
+  /**
+   * The TextObject for the horizontal divider between the section names of the GUI
+   */
   private final TextObject hDivider;
 
+  /**
+   * The list of all TextObjects you can click on
+   */
   private TextObject[] textObjects;
+  
+  /**
+   * The list of all GuiObjects that are displayed on the screen
+   */
   private GuiObject[] guiObjects;
 
   public LevelEditorHud() {
@@ -115,10 +187,18 @@ public class LevelEditorHud implements IGui {
     
   }
   
+  /**
+   * Method to get the word "save"
+   * @return The TextObject for the word "save"
+   */
   public TextObject getSave() {
 	  return save;
   }
   
+  /**
+   * Method to get the word "tiles"
+   * @return The TextObject for the word "tiles"
+   */
   public TextObject getTiles() {
 	  return tiles;
   }

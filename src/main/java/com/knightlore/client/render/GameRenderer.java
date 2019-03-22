@@ -81,8 +81,8 @@ public class GameRenderer extends Renderer {
     tileGameObjects = new ArrayList<>();
     playerGameObjects = new ArrayList<>();
     enemyGameObjects = new ArrayList<>();
-    viewX = ((float) Window.getWidth() / (world.getScale() * 2)) + 1;
-    viewY = ((float) Window.getHeight() / (world.getScale() * 2)) + 2;
+    viewX = (Window.getWidth() / (world.getScale() * 2f)) + 1;
+    viewY = (Window.getHeight() / (world.getScale() * 2f)) + 2;
   }
 
   /**

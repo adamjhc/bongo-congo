@@ -32,13 +32,7 @@ class Camera {
   Camera(int width, int height) {
     scaledPosition = new Vector3f();
     worldPosition = new Vector3f();
-    projection =
-        new Matrix4f()
-            .setOrtho2D(
-                ((float) -width) / 2,
-                ((float) width) / 2,
-                ((float) -height) / 2,
-                ((float) height) / 2);
+    projection = new Matrix4f().setOrtho2D(-width / 2f, width / 2f, -height / 2f, height / 2f);
   }
 
   /**

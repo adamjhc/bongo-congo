@@ -43,11 +43,11 @@ public class TileTest {
   }
 
   @RunWith(Parameterized.class)
-  public static class CanCreateTileTest {
+  public static class TileTypeTest {
 
     private TileType tileType;
 
-    public CanCreateTileTest(TileType tileType) {
+    public TileTypeTest(TileType tileType) {
       this.tileType = tileType;
     }
 

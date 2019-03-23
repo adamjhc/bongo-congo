@@ -29,7 +29,7 @@ public class OptionsMenu implements IGui {
   private final TextObject fullScreen;
   private final TextObject mute;
   private final TextObject isMute;
-  
+
   private GuiObject[] guiObjects;
   private TextObject[] textObjects;
 
@@ -51,7 +51,7 @@ public class OptionsMenu implements IGui {
 
     this.exit = new TextObject("Exit", SMALL);
     this.exit.setColour(Colour.YELLOW);
-    
+
     this.isFullscreen = new TextObject("Off", LARGE);
     this.isFullscreen.setColour(Colour.YELLOW);
 
@@ -66,13 +66,13 @@ public class OptionsMenu implements IGui {
 
     this.musicVolume = new TextObject("Game music volume", SMALL);
     this.musicVolume.setColour(Colour.YELLOW);
-    
+
     this.fullScreen = new TextObject("Fullscreen", SMALL);
     this.fullScreen.setColour(Colour.YELLOW);
-    
+
     this.mute = new TextObject("Mute audio", SMALL);
     this.mute.setColour(Colour.YELLOW);
-    
+
     this.isMute = new TextObject("Yes", LARGE);
     this.isMute.setColour(Colour.YELLOW);
 
@@ -109,21 +109,21 @@ public class OptionsMenu implements IGui {
     this.volume.setText((String.format("%03d", volumeAmount)));
     this.volume.setColour(Colour.YELLOW);
   }
-  
+
   public void setFullscreen() {
-  	if (this.isFullscreen.getText() == "Off") this.isFullscreen.setText("On");
-  	else this.isFullscreen.setText("Off");
-  	this.isFullscreen.setPositionX(Window.getHalfWidth() - isFullscreen.getSize() / 2);
-  	
-  	Window.setFullscreen();
+    if (this.isFullscreen.getText() == "Off") this.isFullscreen.setText("On");
+    else this.isFullscreen.setText("Off");
+    this.isFullscreen.setPositionX(Window.getHalfWidth() - isFullscreen.getSize() / 2);
+
+    Window.setFullscreen();
   }
-  
+
   public void setMute() {
-  	if (Audio.isOn()) this.isMute.setText("Off");
-  	else this.isMute.setText("On");
-  	this.isMute.setPositionY(Window.getHalfWidth() - isMute.getSize() / 2);
+    if (Audio.isOn()) this.isMute.setText("Off");
+    else this.isMute.setText("On");
+    this.isMute.setPositionY(Window.getHalfWidth() - isMute.getSize() / 2);
   }
-  
+
   public TextObject getIncVolume() {
     return incVolume;
   }
@@ -137,15 +137,16 @@ public class OptionsMenu implements IGui {
   }
 
   public TextObject getIsFullscreen() {
-  	return isFullscreen;
+    return isFullscreen;
   }
-  
+
   public TextObject getIsMute() {
-  	return isMute;
+    return isMute;
   }
-  
+
   public void updateSize() {
-    this.bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
+    this.bongo.setPosition(
+        Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
     this.congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
     this.volume.setPosition(
         Window.getHalfWidth() - volume.getSize() / 2,
@@ -160,8 +161,8 @@ public class OptionsMenu implements IGui {
         Window.getHalfWidth() - exit.getSize() / 2,
         Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP);
     this.isFullscreen.setPosition(
-    		Window.getHalfWidth() - isFullscreen.getSize() / 2,
-    		Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 4 + GAP_LARGE);
+        Window.getHalfWidth() - isFullscreen.getSize() / 2,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 4 + GAP_LARGE);
     this.options.setPosition(
         Window.getHalfWidth() - options.getSize() / 2,
         Window.getHalfHeight() - SEPARATOR_TOP_POS - SEPARATOR_GAP);
@@ -175,16 +176,16 @@ public class OptionsMenu implements IGui {
         Window.getHalfWidth() - musicVolume.getSize() / 2,
         Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP);
     this.fullScreen.setPosition(
-    		Window.getHalfWidth() - fullScreen.getSize() / 2,
-    		Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 3 + GAP_LARGE);
+        Window.getHalfWidth() - fullScreen.getSize() / 2,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 3 + GAP_LARGE);
     this.mute.setPosition(
-    		Window.getHalfWidth() - mute.getSize() / 2,
-    		Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 5 + GAP_LARGE * 2);
+        Window.getHalfWidth() - mute.getSize() / 2,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 5 + GAP_LARGE * 2);
     this.isMute.setPosition(
-    		Window.getHalfWidth() - isMute.getSize() / 2,
-    		Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 6 + GAP_LARGE * 2);
+        Window.getHalfWidth() - isMute.getSize() / 2,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 6 + GAP_LARGE * 2);
   }
-  
+
   @Override
   public TextObject[] getTextObjects() {
     return textObjects;

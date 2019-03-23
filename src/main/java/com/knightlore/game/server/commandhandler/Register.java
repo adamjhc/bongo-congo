@@ -7,41 +7,41 @@ import com.knightlore.networking.ApiKey;
 import com.knightlore.networking.GameRegisterResponse;
 import com.knightlore.networking.PlayerJoined;
 import com.knightlore.networking.Sendable;
-
 import java.util.Optional;
 
 public class Register extends Command {
 
-    public void run(ClientHandler handler, Sendable sendable) {
-        System.out.println("Game server register called");
+  public void run(ClientHandler handler, Sendable sendable) {
+    System.out.println("Game server register called");
 
-        // Create json data
-        String json = sendable.getData();
-        ApiKey apikey = gson.fromJson(json, ApiKey.class);
+    // Create json data
+    String json = sendable.getData();
+    ApiKey apikey = gson.fromJson(json, ApiKey.class);
 
-        // Save session key
-        handler.sessionKey = Optional.of(apikey.key);
+    // Save session key
+    handler.sessionKey = Optional.of(apikey.key);
 
-        // Update model to reflect new player
-        handler.server().getModel().addPlayer(handler.sessionKey.get());
+    // Update model to reflect new player
+    handler.server().getModel().addPlayer(handler.sessionKey.get());
 
-        // Send game model to client registered
-        Gson gson = new Gson();
-        GameModel model = handler.server().getModel();
+    // Send game model to client registered
+    Gson gson = new Gson();
+    GameModel model = handler.server().getModel();
 
-        Sendable response = sendable.makeResponse();
+    Sendable response = sendable.makeResponse();
 
-        GameRegisterResponse gameRegisterResponse = new GameRegisterResponse(model, handler.server().getUUID());
+    GameRegisterResponse gameRegisterResponse =
+        new GameRegisterResponse(model, handler.server().getUUID());
 
-        response.setData(gson.toJson(gameRegisterResponse));
+    response.setData(gson.toJson(gameRegisterResponse));
 
-        handler.send(response);
+    handler.send(response);
 
-        // Send player updates to new models
-        Sendable playerJoinedSendable = new Sendable();
-        playerJoinedSendable.setFunction("player_joined");
-        playerJoinedSendable.setData(gson.toJson(new PlayerJoined(handler.sessionKey.get())));
+    // Send player updates to new models
+    Sendable playerJoinedSendable = new Sendable();
+    playerJoinedSendable.setFunction("player_joined");
+    playerJoinedSendable.setData(gson.toJson(new PlayerJoined(handler.sessionKey.get())));
 
-        handler.server().sendToRegisteredExceptSelf(playerJoinedSendable, handler.sessionKey.get());
-    }
+    handler.server().sendToRegisteredExceptSelf(playerJoinedSendable, handler.sessionKey.get());
+  }
 }

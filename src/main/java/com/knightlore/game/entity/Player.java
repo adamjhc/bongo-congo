@@ -12,13 +12,13 @@ public class Player extends Entity {
 
   private static final Vector3f START_POSITION = new Vector3f(0.5f, 0.5f, 0);
 
-    private int score;
-    private int lives;
-    private int rollCooldown;
-    private float climbVal = 0.1f;
-    private PlayerState playerState;
-    private String associatedSession;
-    private Vector4f colour;
+  private int score;
+  private int lives;
+  private int rollCooldown;
+  private float climbVal = 0.1f;
+  private PlayerState playerState;
+  private String associatedSession;
+  private Vector4f colour;
 
   public Player(String sessionID, int id, Vector4f colour) {
     this.associatedSession = sessionID;
@@ -34,9 +34,9 @@ public class Player extends Entity {
     lives = 3;
     score = 0;
   }
-  
+
   public String getAssociatedSession() {
-  	return associatedSession;
+    return associatedSession;
   }
 
   public void addToScore(int amount) {
@@ -63,11 +63,17 @@ public class Player extends Entity {
     return score;
   }
 
-  public float getClimbVal() { return climbVal;}
+  public float getClimbVal() {
+    return climbVal;
+  }
 
-  public int getCooldown() { return rollCooldown; }
+  public int getCooldown() {
+    return rollCooldown;
+  }
 
-  public void setCooldown(int rollCooldown) { this.rollCooldown = rollCooldown; }
+  public void setCooldown(int rollCooldown) {
+    this.rollCooldown = rollCooldown;
+  }
 
   @Override
   public Vector3f getPosition() {
@@ -96,52 +102,54 @@ public class Player extends Entity {
    */
   public void update(Vector3f oldPos, Vector3f newPos, LevelMap levelMap) {
 
-      Vector3i coords = CoordinateUtils.getTileCoord(setPadding(newPos));
+    Vector3i coords = CoordinateUtils.getTileCoord(setPadding(newPos));
 
-      try {
-          Tile newTile = levelMap.getTile(coords);
+    try {
+      Tile newTile = levelMap.getTile(coords);
 
-        if (newTile.getIndex() == 0) { // Checks if tile is an air tile
-          coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z - 1));
-          Tile below = levelMap.getTile(coords);
-          if (below.getIndex() == 2
-              || below.getIndex() == 3) { // Check if the tile you are falling onto is walkable
-            setPosition(oldPos);
-          } else if (below.getIndex() == 0) {
-            setPlayerState(PlayerState.FALLING);
-          } else {
-            climbVal = -0.1f;
-            setPlayerState(PlayerState.CLIMBING);
-          }
-
-        } else if (newTile.getIndex() == 2) { // Checks if tile is a blocking tile
+      if (newTile.getIndex() == 0) { // Checks if tile is an air tile
+        coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z - 1));
+        Tile below = levelMap.getTile(coords);
+        if (below.getIndex() == 2
+            || below.getIndex() == 3) { // Check if the tile you are falling onto is walkable
           setPosition(oldPos);
-        } else { // Sets new position
-          if (GameConnection.instance != null) {
-            GameConnection.instance.updatePosition(position);
-          }
-          setPosition(newPos);
+        } else if (below.getIndex() == 0) {
+          setPlayerState(PlayerState.FALLING);
+        } else {
+          climbVal = -0.1f;
+          setPlayerState(PlayerState.CLIMBING);
         }
 
-        if (newTile.getIndex() == 3 ) { // Checks for climbable tile
-          coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z + 1));
-          Tile above = levelMap.getTile(coords);
-          if (above.getIndex() == 1 && playerState != PlayerState.ROLLING) { // Checks if the tile above climbable tile is accessible
-            climbVal = 0.1f;
-            setPlayerState(PlayerState.CLIMBING);
-          } else {
-            setPosition(oldPos);
-          }
+      } else if (newTile.getIndex() == 2) { // Checks if tile is a blocking tile
+        setPosition(oldPos);
+      } else { // Sets new position
+        if (GameConnection.instance != null) {
+          GameConnection.instance.updatePosition(position);
         }
-        if (newTile.getIndex() == 4) {
-            loseLife();
-        }
+        setPosition(newPos);
+      }
 
-        if (newTile.getIndex() == 5) { // Checks for goal
-          addToScore(10000);
-          setPosition(newPos);
-          // TODO: Switch game state here
+      if (newTile.getIndex() == 3) { // Checks for climbable tile
+        coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z + 1));
+        Tile above = levelMap.getTile(coords);
+        if (above.getIndex() == 1
+            && playerState
+                != PlayerState.ROLLING) { // Checks if the tile above climbable tile is accessible
+          climbVal = 0.1f;
+          setPlayerState(PlayerState.CLIMBING);
+        } else {
+          setPosition(oldPos);
         }
+      }
+      if (newTile.getIndex() == 4) {
+        loseLife();
+      }
+
+      if (newTile.getIndex() == 5) { // Checks for goal
+        addToScore(10000);
+        setPosition(newPos);
+        // TODO: Switch game state here
+      }
 
       // TODO: Enemy collisions
 
@@ -184,6 +192,4 @@ public class Player extends Entity {
       }
     }
   }
-
-
 }

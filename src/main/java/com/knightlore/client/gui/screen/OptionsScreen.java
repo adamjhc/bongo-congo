@@ -46,35 +46,35 @@ public class OptionsScreen implements IScreen {
         Client.changeScreen(ClientState.MAIN_MENU);
       }
     } else optionsMenu.getExit().setColour(Colour.YELLOW);
-    
+
     if (checkPosition(optionsMenu, optionsMenu.getIsFullscreen().getId())) {
-    	optionsMenu.getIsFullscreen().setColour();
-    	if (Mouse.isLeftButtonPressed()) {
-    		optionsMenu.setFullscreen();
-    	}
+      optionsMenu.getIsFullscreen().setColour();
+      if (Mouse.isLeftButtonPressed()) {
+        optionsMenu.setFullscreen();
+      }
     } else optionsMenu.getIsFullscreen().setColour(Colour.YELLOW);
-    
+
     if (checkPosition(optionsMenu, optionsMenu.getIsMute().getId())) {
-    	optionsMenu.getIsMute().setColour();
-    	if (Mouse.isLeftButtonPressed()) {
-    		Audio.toggle();
-    	}
+      optionsMenu.getIsMute().setColour();
+      if (Mouse.isLeftButtonPressed()) {
+        Audio.toggle();
+      }
     } else optionsMenu.getIsMute().setColour(Colour.YELLOW);
-    
+
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU);
     }
   }
-  
+
   @Override
   public void update(float delta) {
-  	optionsMenu.setMute();
+    optionsMenu.setMute();
   }
 
   @Override
   public void render() {
-  	optionsMenu.updateSize();
-  	
+    optionsMenu.updateSize();
+
     guiRenderer.render(optionsMenu);
   }
 

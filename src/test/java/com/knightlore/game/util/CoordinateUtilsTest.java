@@ -106,7 +106,7 @@ public class CoordinateUtilsTest {
       this.position = position;
     }
 
-    @Parameters
+    @Parameters(name = "{index}: It is {0} that map size {1} has position {2}")
     public static Collection<Object[]> data() {
       return Arrays.asList(
           new Object[][] {
@@ -148,7 +148,7 @@ public class CoordinateUtilsTest {
       this.worldCoords = worldCoords;
     }
 
-    @Parameters
+    @Parameters(name = "{index}: {0} == getTileCoord({1})")
     public static Collection<Object[]> data() {
       return Arrays.asList(
           new Object[][] {

@@ -51,21 +51,9 @@ public class TileTest {
       this.tileType = tileType;
     }
 
-    @Parameters
+    @Parameters(name = "{index}: {0}")
     public static Collection<Object> data() {
-      return Arrays.asList(
-          new Object[] {
-            TileType.AIR,
-            TileType.FLOOR,
-            TileType.WALL,
-            TileType.CLIMBABLE_WALL,
-            TileType.HAZARD,
-            TileType.GOAL,
-            TileType.SPAWN_WALKER,
-            TileType.SPAWN_RANDOMER,
-            TileType.SPAWN_CIRCLER,
-            TileType.SPAWN_CHARGER
-          });
+      return Arrays.asList((Object[]) TileType.values());
     }
 
     @Test

@@ -12,7 +12,7 @@ import org.junit.Test;
 public class PlayerTest {
 
   @Test
-  public void getAssociatedSession() {
+  public void getAssociatedSessionTest() {
     // arrange
     String expectedSessionID = "session";
     Player player = new Player(expectedSessionID, 0, Colour.GREEN);
@@ -22,7 +22,7 @@ public class PlayerTest {
   }
 
   @Test
-  public void idleIsDefaultPlayerState() {
+  public void idleIsDefaultPlayerStateTest() {
     // arrange
     Player player = new Player("", 0, Colour.GREEN);
 
@@ -31,7 +31,7 @@ public class PlayerTest {
   }
 
   @Test
-  public void setPlayerState() {
+  public void setPlayerStateTest() {
     // arrange
     Player player = new Player("", 0, Colour.GREEN);
     PlayerState expectedPlayerState = PlayerState.MOVING;
@@ -44,7 +44,7 @@ public class PlayerTest {
   }
 
   @Test
-  public void getColour() {
+  public void getColourTest() {
     // arrange
     Vector4f expectedColour = Colour.GREEN;
     Player player = new Player("", 0, expectedColour);
@@ -54,7 +54,7 @@ public class PlayerTest {
   }
 
   @Test
-  public void threeIsDefaultLives() {
+  public void threeIsDefaultLivesTest() {
     // arrange
     Player player = new Player("", 0, Colour.GREEN);
 
@@ -63,7 +63,7 @@ public class PlayerTest {
   }
 
   @Test
-  public void zeroIsDefaultScore() {
+  public void zeroIsDefaultScoreTest() {
     // arrange
     Player player = new Player("", 0, Colour.GREEN);
 
@@ -72,7 +72,7 @@ public class PlayerTest {
   }
 
   @Test
-  public void addToScore() {
+  public void addToScoreTest() {
     // arrange
     Player player = new Player("", 0, Colour.GREEN);
     int expectedScore = 1000;
@@ -85,7 +85,7 @@ public class PlayerTest {
   }
 
   @Test
-  public void addToScoreTwice() {
+  public void addToScoreTwiceTest() {
     // arrange
     Player player = new Player("", 0, Colour.GREEN);
     int expectedScore = 1000;
@@ -99,7 +99,7 @@ public class PlayerTest {
   }
 
   @Test
-  public void zeroIsDefaultRollCooldown() {
+  public void zeroIsDefaultRollCooldownTest() {
     // arrange
     Player player = new Player("", 0, Colour.GREEN);
 
@@ -108,7 +108,7 @@ public class PlayerTest {
   }
 
   @Test
-  public void setCooldown() {
+  public void setCooldownTest() {
     // arrange
     Player player = new Player("", 0, Colour.GREEN);
     int expectedCooldown = 20;
@@ -121,7 +121,7 @@ public class PlayerTest {
   }
 
   @Test
-  public void middleOfBottomTileIsDefaultPosition() {
+  public void middleOfBottomTileIsDefaultPositionTest() {
     // arrange
     Player player = new Player("", 0, Colour.GREEN);
 
@@ -130,7 +130,7 @@ public class PlayerTest {
   }
 
   @Test
-  public void loseLifeWhileOn3() {
+  public void loseLifeWhileOn3Test() {
     // arrange
     Player player = new Player("", 0, Colour.GREEN);
     player.setPosition(new Vector3f(20, 20, 20));
@@ -146,7 +146,7 @@ public class PlayerTest {
   }
 
   @Test
-  public void loseLifeWhileOn1() {
+  public void loseLifeWhileOn1Test() {
     // arrange
     Player player = new Player("", 0, Colour.GREEN);
     player.loseLife();
@@ -161,7 +161,7 @@ public class PlayerTest {
   }
 
   @Test
-  public void loseLifeWhileRolling() {
+  public void loseLifeWhileRollingTest() {
     // arrange
     Vector3f expectedPosition = new Vector3f(20, 20, 20);
     Direction expectedDirection = Direction.SOUTH_WEST;
@@ -183,7 +183,7 @@ public class PlayerTest {
   }
 
   @Test
-  public void resetPlayerToDefaults() {
+  public void resetPlayerToDefaultsTest() {
     // arrange
     Player player = new Player("", 0, Colour.GREEN);
     player.loseLife();

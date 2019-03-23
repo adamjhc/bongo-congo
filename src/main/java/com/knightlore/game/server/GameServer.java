@@ -5,7 +5,6 @@ import com.knightlore.game.GameModel;
 import com.knightlore.game.GameState;
 import com.knightlore.networking.GameStart;
 import com.knightlore.networking.Sendable;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -15,150 +14,145 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class GameServer extends Thread {
-    UUID id;
-    public int socket;
-    String sessionOwner;
-    String name;
-    ArrayList<ClientHandler> clients;
+  public int socket;
+  UUID id;
+  String sessionOwner;
+  String name;
+  ArrayList<ClientHandler> clients;
 
-    GameModel model;
+  GameModel model;
 
-    public GameServer(UUID id, int socket, String sessionOwner, GameModel model, String name){
-        this.id = id;
-        this.socket = socket;
-        this.sessionOwner = sessionOwner;
-        this.model = model;
-        this.clients = new ArrayList<>();
-        this.name = name;
-    }
+  public GameServer(UUID id, int socket, String sessionOwner, GameModel model, String name) {
+    this.id = id;
+    this.socket = socket;
+    this.sessionOwner = sessionOwner;
+    this.model = model;
+    this.clients = new ArrayList<>();
+    this.name = name;
+  }
 
-    // Start new server
-    public void run(){
-        // Spin up server
-        // server is listening on port 5056
-        try{
-            ServerSocket ss = new ServerSocket(this.socket);
+  // Start new server
+  public void run() {
+    // Spin up server
+    // server is listening on port 5056
+    try {
+      ServerSocket ss = new ServerSocket(this.socket);
 
-            // Capture new clients
-            while (true)
-            {
-                Socket s = null;
-                try
-                {
-                    // socket object to receive incoming com.knightlore.server.client requests
-                    s = ss.accept();
+      // Capture new clients
+      while (true) {
+        Socket s = null;
+        try {
+          // socket object to receive incoming com.knightlore.server.client requests
+          s = ss.accept();
 
-                    System.out.println("A new client is connected : " + s);
+          System.out.println("A new client is connected : " + s);
 
-                    // Get input and output streams
-                    ObjectOutputStream dos = new ObjectOutputStream(s.getOutputStream());
-                    ObjectInputStream dis = new ObjectInputStream(s.getInputStream());
+          // Get input and output streams
+          ObjectOutputStream dos = new ObjectOutputStream(s.getOutputStream());
+          ObjectInputStream dis = new ObjectInputStream(s.getInputStream());
 
+          System.out.println("Assigning new thread for this client");
 
-                    System.out.println("Assigning new thread for this client");
+          // Make thread for incoming
+          ClientHandler t = new ClientHandler(s, dis, dos, this);
 
-                    // Make thread for incoming
-                    ClientHandler t = new ClientHandler(s, dis, dos, this);
+          // Send to com.knightlore.server.client
+          t.start();
 
-                    // Send to com.knightlore.server.client
-                    t.start();
+          // Add to client bank
+          this.clients.add(t);
 
-                    // Add to client bank
-                    this.clients.add(t);
-
-                }
-                catch (Exception e){
-                    // If an error occurs, close
-                    s.close();
-                    System.out.println("An error has occured" + e);
-                }
-            }
-        }catch(IOException e){
-            e.printStackTrace();
+        } catch (Exception e) {
+          // If an error occurs, close
+          s.close();
+          System.out.println("An error has occured" + e);
         }
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public ArrayList<ClientHandler> registeredClients() {
+    ArrayList<ClientHandler> registered = new ArrayList<>();
+
+    for (ClientHandler each : this.clients) {
+      if (each.registered()) {
+        registered.add(each);
+      }
     }
 
+    return registered;
+  }
 
-    public ArrayList<ClientHandler> registeredClients(){
-        ArrayList<ClientHandler> registered = new ArrayList<>();
+  public String sessionOwner() {
+    return this.sessionOwner;
+  }
 
-        for(ClientHandler each : this.clients){
-            if(each.registered()){
-                registered.add(each);
-            }
+  public GameModel getModel() {
+    return this.model;
+  }
+
+  public void sendToRegistered(Sendable sendable) {
+    System.out.println("SENDING TO ALL");
+    try {
+      for (ClientHandler registered : this.registeredClients()) {
+        registered.dos.writeObject(sendable);
+      }
+    } catch (IOException e) {
+      System.out.println("FAILED TO SEND " + e);
+    }
+  }
+
+  public void sendToRegisteredExceptSelf(Sendable sendable, String ownSessionKey) {
+    System.out.println("SENDING TO EXCEPT SELF");
+    try {
+      for (ClientHandler registered : this.registeredClients()) {
+        if (!registered.sessionKey.get().equals(ownSessionKey)) {
+          registered.dos.writeObject(sendable);
         }
-
-        return registered;
+      }
+    } catch (IOException e) {
+      System.out.println("FAILED TO SEND " + e);
     }
+  }
 
-    public String sessionOwner(){
-        return this.sessionOwner;
-    }
+  public void startGame() {
+    // Update model
+    this.model.setState(GameState.PLAYING);
 
-    public GameModel getModel(){
-        return this.model;
-    }
+    // Send
+    Gson gson = new Gson();
+    Sendable sendable = new Sendable();
+    GameStart startGame = new GameStart();
+    sendable.setFunction("start_game");
+    sendable.setData(gson.toJson(startGame));
 
-    public void sendToRegistered(Sendable sendable){
-        System.out.println("SENDING TO ALL");
-        try{
-            for(ClientHandler registered : this.registeredClients()){
-                registered.dos.writeObject(sendable);
-            }
-        }catch(IOException e){
-            System.out.println("FAILED TO SEND " + e);
-        }
-    }
+    sendToRegistered(sendable);
+  }
 
-    public void sendToRegisteredExceptSelf(Sendable sendable, String ownSessionKey){
-        System.out.println("SENDING TO EXCEPT SELF");
-        try{
-            for(ClientHandler registered : this.registeredClients()){
-                if(!registered.sessionKey.get().equals(ownSessionKey)){
-                    registered.dos.writeObject(sendable);
-                }
-            }
-        }catch(IOException e){
-            System.out.println("FAILED TO SEND " + e);
-        }
-    }
+  //    public void setLevel(int index){
+  //        this.model.setLevel(index);
+  //
+  //        // Send update to clients
+  //        Gson gson = new Gson();
+  //        Sendable sendable = new Sendable();
+  //        SetLevel level = new SetLevel(index);
+  //        sendable.setData(gson.toJson(level));
+  //
+  //        // Send to registered clients
+  //        sendToRegistered(sendable);
+  //    }
 
-    public void startGame(){
-        // Update model
-        this.model.setState(GameState.PLAYING);
+  public UUID getUUID() {
+    return this.id;
+  }
 
-        // Send
-        Gson gson = new Gson();
-        Sendable sendable = new Sendable();
-        GameStart startGame = new GameStart();
-        sendable.setFunction("start_game");
-        sendable.setData(gson.toJson(startGame));
+  public int getPort() {
+    return this.socket;
+  }
 
-        sendToRegistered(sendable);
-    }
-
-//    public void setLevel(int index){
-//        this.model.setLevel(index);
-//
-//        // Send update to clients
-//        Gson gson = new Gson();
-//        Sendable sendable = new Sendable();
-//        SetLevel level = new SetLevel(index);
-//        sendable.setData(gson.toJson(level));
-//
-//        // Send to registered clients
-//        sendToRegistered(sendable);
-//    }
-
-    public UUID getUUID(){
-        return this.id;
-    }
-
-    public int getPort(){
-        return this.socket;
-    }
-
-    public String getGameName(){
-        return this.name;
-    }
+  public String getGameName() {
+    return this.name;
+  }
 }

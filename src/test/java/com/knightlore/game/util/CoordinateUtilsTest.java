@@ -153,6 +153,28 @@ public class CoordinateUtilsTest {
       return Arrays.asList(
           new Object[][] {
             {new Vector3i(), new Vector3f()},
+            {new Vector3i(1, 1, 1), new Vector3f(1.0f, 1.0f, 1.0f)},
+            {new Vector3i(1, 1, 1), new Vector3f(1.0f, 1.0f, 1.1f)},
+            {new Vector3i(1, 1, 1), new Vector3f(1.0f, 1.1f, 1.0f)},
+            {new Vector3i(1, 1, 1), new Vector3f(1.0f, 1.1f, 1.1f)},
+            {new Vector3i(1, 1, 1), new Vector3f(1.1f, 1.0f, 1.0f)},
+            {new Vector3i(1, 1, 1), new Vector3f(1.1f, 1.0f, 1.1f)},
+            {new Vector3i(1, 1, 1), new Vector3f(1.1f, 1.1f, 1.0f)},
+            {new Vector3i(1, 1, 1), new Vector3f(1.1f, 1.1f, 1.1f)},
+            {new Vector3i(1, 1, 1), new Vector3f(1.0f, 1.0f, 1.9f)},
+            {new Vector3i(1, 1, 1), new Vector3f(1.0f, 1.9f, 1.0f)},
+            {new Vector3i(1, 1, 1), new Vector3f(1.0f, 1.9f, 1.9f)},
+            {new Vector3i(1, 1, 1), new Vector3f(1.9f, 1.0f, 1.0f)},
+            {new Vector3i(1, 1, 1), new Vector3f(1.9f, 1.0f, 1.9f)},
+            {new Vector3i(1, 1, 1), new Vector3f(1.9f, 1.9f, 1.0f)},
+            {new Vector3i(1, 1, 1), new Vector3f(1.9f, 1.9f, 1.9f)},
+            {new Vector3i(1, 1, 2), new Vector3f(1.0f, 1.0f, 2.0f)},
+            {new Vector3i(1, 2, 1), new Vector3f(1.0f, 2.0f, 1.0f)},
+            {new Vector3i(1, 2, 2), new Vector3f(1.0f, 2.0f, 2.0f)},
+            {new Vector3i(2, 1, 1), new Vector3f(2.0f, 1.0f, 1.0f)},
+            {new Vector3i(2, 1, 2), new Vector3f(2.0f, 1.0f, 2.0f)},
+            {new Vector3i(2, 2, 1), new Vector3f(2.0f, 2.0f, 1.0f)},
+            {new Vector3i(2, 2, 2), new Vector3f(2.0f, 2.0f, 2.0f)},
           });
     }
 

@@ -95,15 +95,15 @@ public class LevelEditorSetupScreen implements IScreen {
         Client.changeScreen(ClientState.MAIN_MENU);
       }
     } else preLevelEditor.getBack().setColour(new Vector4f(1, 1, 0, 1));
-    
+
     if (checkPosition(preLevelEditor, preLevelEditor.getLoadLevel().getId(), "")) {
     	preLevelEditor.getLoadLevel().setColour();
     	if (Mouse.isLeftButtonPressed()) {
     		Client.changeScreen(ClientState.LOADING_LEVEL, new Object());
     	}
     } else preLevelEditor.getLoadLevel().setColour(new Vector4f(1, 1, 0, 1));
-    
-    
+
+
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU);
     }
@@ -112,7 +112,7 @@ public class LevelEditorSetupScreen implements IScreen {
   @Override
   public void render() {
   	preLevelEditor.updateSize();
-  	
+
     guiRenderer.render(preLevelEditor);
   }
 
@@ -134,6 +134,6 @@ public class LevelEditorSetupScreen implements IScreen {
         }
       }
     }
-    return (new LevelMap(emptyMap, (new TileSet())));
+    return (new LevelMap(emptyMap));
   }
 }

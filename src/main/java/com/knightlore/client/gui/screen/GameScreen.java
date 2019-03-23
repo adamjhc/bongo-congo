@@ -48,7 +48,7 @@ public class GameScreen implements IScreen {
   @Override
   public void startup(Object... args) {
     if (args.length == 0) {
-      LevelMapSet mapSet = new LevelMapSet(new TileSet());
+      LevelMapSet mapSet = new LevelMapSet();
       gameModel = new GameModel("");
       gameModel.createNewLevel(mapSet.getMap(0));
       gameModel.createNewLevel(mapSet.getMap(1));
@@ -82,7 +82,7 @@ public class GameScreen implements IScreen {
 
     if (Keyboard.isKeyReleased(GLFW_KEY_J) && !hud.getCountDown().getRender()) {
       gameModel.nextLevel();
-      
+
       if (gameModel.getState() != GameState.SCORE) {
       	hud.setLevel(gameModel.getCurrentLevelIndex());
         timer.resetStartTime();
@@ -187,7 +187,7 @@ public class GameScreen implements IScreen {
   public void shutdown(ClientState nextScreen) {
     Mouse.showCursor();
     Audio.restart();
-    
+
     hud.getCountDown().setRender(false);
   }
 

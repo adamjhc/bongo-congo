@@ -10,7 +10,11 @@ import org.joml.Vector4f;
 
 public class Player extends Entity {
 
-  private static final Vector3f START_POSITION = new Vector3f(0.5f, 0.5f, 0);
+  static final Vector3f START_POSITION = new Vector3f(0.5f, 0.5f, 0);
+  static final Direction START_DIRECTION = Direction.NORTH_WEST;
+  static final PlayerState START_PLAYER_STATE = PlayerState.IDLE;
+  static final int START_LIVES = 3;
+  static final int START_ROLL_COOLDOWN = 0;
 
   private int score;
   private int lives;
@@ -26,21 +30,17 @@ public class Player extends Entity {
     this.colour = colour;
 
     speed = 7;
-    rollCooldown = 0;
-    direction = Direction.SOUTH;
-    position = START_POSITION;
-    playerState = PlayerState.IDLE;
-
-    lives = 3;
     score = 0;
+
+    lives = START_LIVES;
+    rollCooldown = START_ROLL_COOLDOWN;
+    direction = START_DIRECTION;
+    position = START_POSITION;
+    playerState = START_PLAYER_STATE;
   }
 
   public String getAssociatedSession() {
     return associatedSession;
-  }
-
-  public void addToScore(int amount) {
-    score += amount;
   }
 
   public PlayerState getPlayerState() {
@@ -63,6 +63,10 @@ public class Player extends Entity {
     return score;
   }
 
+  public void addToScore(int amount) {
+    score += amount;
+  }
+
   public float getClimbVal() {
     return climbVal;
   }
@@ -81,10 +85,11 @@ public class Player extends Entity {
   }
 
   public void reset() {
-    playerState = PlayerState.IDLE;
+    playerState = START_PLAYER_STATE;
     position = START_POSITION;
-    direction = Direction.SOUTH_EAST;
-    lives = 3;
+    direction = START_DIRECTION;
+    lives = START_LIVES;
+    rollCooldown = START_ROLL_COOLDOWN;
   }
 
   @Override
@@ -186,9 +191,10 @@ public class Player extends Entity {
         lives = 0;
         playerState = PlayerState.DEAD;
       } else {
-        playerState = PlayerState.IDLE;
+        setPlayerState(START_PLAYER_STATE);
         setPosition(START_POSITION);
-        setDirection(Direction.SOUTH);
+        setDirection(START_DIRECTION);
+        setCooldown(START_ROLL_COOLDOWN);
       }
     }
   }

@@ -32,22 +32,12 @@ public class LevelMap {
     return tiles;
   }
 
-  public void setTiles(Tile[][][] tiles) {
-    this.tiles = tiles;
-  }
-
   public Tile getTile(Vector3i location) {
     if (CoordinateUtils.mapHasPosition(size, location)) {
       return this.tiles[location.z][location.y][location.x];
     }
 
     return null;
-  }
-
-  public void setTile(Vector3i location, Tile tile) {
-    if (CoordinateUtils.mapHasPosition(size, location)) {
-      this.tiles[location.z - 1][location.y - 1][location.x - 1] = tile;
-    }
   }
 
   public Vector3i getSize() {

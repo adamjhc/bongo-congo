@@ -34,4 +34,15 @@ public class Tile {
   public int getIndex() {
     return type.ordinal();
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof Tile)) {
+      return false;
+    }
+
+    Tile tile = (Tile) obj;
+
+    return this.type == tile.type && this.position.equals(tile.position, 0.01f);
+  }
 }

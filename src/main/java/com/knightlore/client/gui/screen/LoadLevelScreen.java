@@ -66,10 +66,10 @@ public class LoadLevelScreen implements IScreen {
       if (Mouse.isLeftButtonPressed() && !currentLevelName.equals("")) {
         if (currentLevelName.contains(".fmap")) {
           Client.changeScreen(
-              ClientState.LEVEL_EDITOR, getMap(finishedFilePath + "/" + currentLevelName));
+              ClientState.LEVEL_EDITOR, false, getMap(finishedFilePath + "/" + currentLevelName));
         } else {
           Client.changeScreen(
-              ClientState.LEVEL_EDITOR, getMap(unfinishedFilePath + "/" + currentLevelName));
+              ClientState.LEVEL_EDITOR, false, getMap(unfinishedFilePath + "/" + currentLevelName));
         }
       }
     } else loadLevelMenu.getLoad().setColour(Colour.YELLOW);
@@ -77,7 +77,7 @@ public class LoadLevelScreen implements IScreen {
     if (checkPosition(loadLevelMenu, loadLevelMenu.getBack().getId())) {
       loadLevelMenu.getBack().setColour();
       if (Mouse.isLeftButtonPressed()) {
-        Client.changeScreen(ClientState.PRE_EDITOR);
+        Client.changeScreen(ClientState.PRE_EDITOR, false);
       }
     } else loadLevelMenu.getBack().setColour(Colour.YELLOW);
 

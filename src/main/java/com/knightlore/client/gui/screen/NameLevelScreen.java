@@ -152,7 +152,7 @@ public class NameLevelScreen implements IScreen {
         } catch (IOException e) {
           e.printStackTrace();
         }
-        Client.changeScreen(ClientState.LEVEL_EDITOR, level);
+        Client.changeScreen(ClientState.LEVEL_EDITOR, false, level);
       }
     } else nameLevelUi.getSaveAndContinue().setColour(new Vector4f(1, 1, 0, 1));
 
@@ -164,14 +164,14 @@ public class NameLevelScreen implements IScreen {
         } catch (IOException e) {
           e.printStackTrace();
         }
-        Client.changeScreen(ClientState.MAIN_MENU);
+        Client.changeScreen(ClientState.MAIN_MENU, false);
       }
     } else nameLevelUi.getSaveAndQuit().setColour(new Vector4f(1, 1, 0, 1));
 
     if (checkPosition(nameLevelUi, nameLevelUi.getCancel().getId())) {
       nameLevelUi.getCancel().setColour();
       if (Mouse.isLeftButtonPressed()) {
-        Client.changeScreen(ClientState.LEVEL_EDITOR, level);
+        Client.changeScreen(ClientState.LEVEL_EDITOR, false, level);
       }
     } else nameLevelUi.getCancel().setColour(new Vector4f(1, 1, 0, 1));
   }

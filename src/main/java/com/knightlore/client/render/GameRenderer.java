@@ -2,7 +2,6 @@ package com.knightlore.client.render;
 
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.io.Window;
-import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.world.EnemyGameObject;
 import com.knightlore.client.render.world.EnemyGameObjectSet;
@@ -13,6 +12,7 @@ import com.knightlore.client.render.world.TileGameObject;
 import com.knightlore.client.render.world.TileGameObjectSet;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.entity.Enemy;
+import com.knightlore.game.entity.EnemyState;
 import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
 import java.util.ArrayList;
@@ -210,17 +210,21 @@ public class GameRenderer extends Renderer {
 
     gameObjects.forEach(
         gameObject -> {
-          if (gameObject instanceof PlayerGameObject) {
-            PlayerState playerState = ((PlayerGameObject) gameObject).getCurrentState();
-            if (playerState == PlayerState.CLIMBING || playerState == PlayerState.IDLE) {
-              buckets
-                  .get(
-                      getScreenDepth(
-                          mapSize, gameObject.getModelPosition().sub(1, 1, 0, new Vector3f())))
-                  .add(gameObject);
-            } else {
-              buckets.get(getScreenDepth(mapSize, gameObject.getModelPosition())).add(gameObject);
-            }
+          if (gameObject instanceof PlayerGameObject
+              && (((PlayerGameObject) gameObject).getCurrentState() == PlayerState.CLIMBING
+                  || ((PlayerGameObject) gameObject).getCurrentState() == PlayerState.IDLE)) {
+            buckets
+                .get(
+                    getScreenDepth(
+                        mapSize, gameObject.getModelPosition().sub(1, 1, 0, new Vector3f())))
+                .add(gameObject);
+          } else if (gameObject instanceof EnemyGameObject
+              && ((EnemyGameObject) gameObject).getCurrentState() == EnemyState.IDLE) {
+            buckets
+                .get(
+                    getScreenDepth(
+                        mapSize, gameObject.getModelPosition().sub(1, 1, 0, new Vector3f())))
+                .add(gameObject);
           } else {
             buckets.get(getScreenDepth(mapSize, gameObject.getModelPosition())).add(gameObject);
           }

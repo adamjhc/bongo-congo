@@ -48,6 +48,7 @@ public class LobbySelectScreen implements IScreen {
     if (checkPosition(menu, menu.getCreate().getId())) {
       menu.getCreate().setColour();
       if (Mouse.isLeftButtonPressed()) {
+        Client.showLoadingScreen();
         ServerConnection.instance.requestGame();
 
         while (GameConnection.instance == null) {
@@ -92,7 +93,7 @@ public class LobbySelectScreen implements IScreen {
       menu.getJoin().setColour();
       if (Mouse.isLeftButtonPressed()) {
         if (menu.getHighlighted() != null) {
-
+          Client.showLoadingScreen();
           com.knightlore.client.networking.backend.Client gameClient = new com.knightlore.client.networking.backend.Client(menu.getHighlighted().getGame().getIp(), menu.getHighlighted().getGame().getPort());
           gameClient.run();
 

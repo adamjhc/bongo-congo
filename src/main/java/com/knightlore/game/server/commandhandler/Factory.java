@@ -18,5 +18,9 @@ public class Factory {
       PositionUpdate handler = new PositionUpdate();
       handler.run(clientHandler, sendable);
     }
+    if (sendable.getFunction().equals("ready")) {
+      Ready handler = new Ready();
+      handler.run(clientHandler, sendable);
+    }
   }
 }

@@ -130,9 +130,6 @@ public class GameServer extends Thread {
     sendable.setData(gson.toJson(startGame));
 
     sendToRegistered(sendable);
-
-    GameManager manager = new GameManager(model, this);
-    manager.start();
   }
 
   public UUID getUUID() {
@@ -145,5 +142,16 @@ public class GameServer extends Thread {
 
   public String getGameName() {
     return this.name;
+  }
+
+  public boolean allReady(){
+    boolean ready = true;
+    for(ClientHandler each : this.clients){
+      if(!each.ready){
+        ready = false;
+      }
+    }
+
+    return ready;
   }
 }

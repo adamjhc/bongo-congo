@@ -80,6 +80,7 @@ public class GameScreen implements IScreen {
     // Send ready
     GameConnection.instance.sendReady();
 
+    Client.showLoadingScreen();
     while (GameConnection.gameModel.getState() != GameState.PLAYING) {
       try{
         TimeUnit.MILLISECONDS.sleep(50);

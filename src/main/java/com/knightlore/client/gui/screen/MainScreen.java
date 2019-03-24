@@ -52,6 +52,7 @@ public class MainScreen implements IScreen {
       menu.getMultiplayer().setColour();
       if (Mouse.isLeftButtonPressed()) {
         // Do network connection
+        Client.showLoadingScreen();
 
         // Call multiplayer connection
         try {

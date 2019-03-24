@@ -81,6 +81,10 @@ public class PlayerGameObject extends EntityGameObject {
     return playerGameObjects;
   }
 
+  public PlayerState getCurrentState() {
+    return currentState;
+  }
+
   /**
    * Update with entity
    *

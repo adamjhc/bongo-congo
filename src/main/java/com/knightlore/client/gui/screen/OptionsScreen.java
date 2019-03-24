@@ -43,7 +43,7 @@ public class OptionsScreen implements IScreen {
     if (checkPosition(optionsMenu, optionsMenu.getExit().getId())) {
       optionsMenu.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
-        Client.changeScreen(ClientState.MAIN_MENU);
+        Client.changeScreen(ClientState.MAIN_MENU, false);
       }
     } else optionsMenu.getExit().setColour(Colour.YELLOW);
 
@@ -62,7 +62,7 @@ public class OptionsScreen implements IScreen {
     } else optionsMenu.getIsMute().setColour(Colour.YELLOW);
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
-      Client.changeScreen(ClientState.MAIN_MENU);
+      Client.changeScreen(ClientState.MAIN_MENU, false);
     }
   }
 

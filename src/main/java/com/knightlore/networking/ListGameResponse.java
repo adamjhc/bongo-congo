@@ -17,6 +17,10 @@ public class ListGameResponse {
         this.games.put(uuid, new ListGameObject(uuid, ip, port, name));
     }
 
+    public void addGame(ListGameObject game){
+        this.games.put(game.uuid, game);
+    }
+
     public HashMap<UUID, ListGameObject> getGames() {
         return games;
     }

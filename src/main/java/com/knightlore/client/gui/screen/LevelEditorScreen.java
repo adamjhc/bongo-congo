@@ -14,8 +14,6 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_X;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_Z;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.gui.LevelEditorHud;
@@ -26,9 +24,6 @@ import com.knightlore.client.render.LevelEditorRenderer;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.TileType;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
@@ -198,15 +193,15 @@ public class LevelEditorScreen implements IScreen {
     }
 
     if (checkPosition(levelEditorHud, levelEditorHud.getSave().getId(), "")) {
-  	  levelEditorHud.getSave().setColour();
-  	  if (Mouse.isLeftButtonPressed()) {
-  		  try {
-  			  editorMap.resetRotation();
-  			  Client.changeScreen(ClientState.NAMING_LEVEL, editorMap);
-  		  } catch (Exception e) {
-  			  e.printStackTrace();
-  		  }
-  	  }
+      levelEditorHud.getSave().setColour();
+      if (Mouse.isLeftButtonPressed()) {
+        try {
+          editorMap.resetRotation();
+          Client.changeScreen(ClientState.NAMING_LEVEL, editorMap);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
     } else levelEditorHud.getSave().setColour(new Vector4f(1, 1, 0, 1));
 
     if (checkPosition(levelEditorHud, levelEditorHud.getEmpty().getId(), "")) {

@@ -2,9 +2,11 @@ package com.knightlore.client.render;
 
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.io.Window;
+import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.world.EnemyGameObject;
 import com.knightlore.client.render.world.EnemyGameObjectSet;
+import com.knightlore.client.render.world.EntityGameObject;
 import com.knightlore.client.render.world.GameObject;
 import com.knightlore.client.render.world.PlayerGameObject;
 import com.knightlore.client.render.world.TileGameObject;
@@ -80,8 +82,8 @@ public class GameRenderer extends Renderer {
     tileGameObjects = new ArrayList<>();
     playerGameObjects = new ArrayList<>();
     enemyGameObjects = new ArrayList<>();
-    viewX = ((float) Window.getWidth() / (world.getScale() * 2)) + 1;
-    viewY = ((float) Window.getHeight() / (world.getScale() * 2)) + 2;
+    viewX = (Window.getWidth() / (world.getScale() * 2f)) + 1;
+    viewY = (Window.getHeight() / (world.getScale() * 2f)) + 2;
   }
 
   /**
@@ -100,6 +102,7 @@ public class GameRenderer extends Renderer {
    * @author Adam Cox
    */
   public void init(GameModel gameModel) {
+    System.out.println("x");
     playerGameObjects = PlayerGameObject.fromGameModel(gameModel.getPlayers().values());
     tileGameObjects =
         TileGameObjectSet.fromGameModel(gameModel.getCurrentLevel().getLevelMap().getTiles());
@@ -153,11 +156,8 @@ public class GameRenderer extends Renderer {
 
     depthSortedGameObjects.forEach(
         gameObject -> {
-          if (gameObject instanceof PlayerGameObject) {
-            ((PlayerGameObject) gameObject)
-                .render(playerShaderProgram, camera.getProjection(), world.getScale());
-          } else if (gameObject instanceof EnemyGameObject) {
-            ((EnemyGameObject) gameObject)
+          if (gameObject instanceof EntityGameObject) {
+            ((EntityGameObject) gameObject)
                 .render(playerShaderProgram, camera.getProjection(), world.getScale());
           } else {
             ((TileGameObject) gameObject)

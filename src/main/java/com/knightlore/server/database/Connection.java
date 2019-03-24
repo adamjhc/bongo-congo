@@ -9,6 +9,7 @@ public class Connection {
 
     public static boolean connect(){
         String url = "jdbc:mysql://localhost/grouptask_server?user=root&password=password";
+        //String url = "jdbc:mysql://46.101.52.250/knightlore?user=knightlore&password=knightlore1234";
 
         try{
             java.sql.Connection conn = DriverManager.getConnection(url);

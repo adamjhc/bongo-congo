@@ -1,13 +1,12 @@
 package com.knightlore.client.gui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Window;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class LoadLevelMenu implements IGui {
 	
@@ -310,7 +309,4 @@ public class LoadLevelMenu implements IGui {
 	    guiObjects = tempG.toArray(setGuiObjects);
 	    textObjects = tempT.toArray(setTextObjects);
 	}
-	
-	
-
 }

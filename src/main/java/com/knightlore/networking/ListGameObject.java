@@ -26,6 +26,10 @@ public class ListGameObject {
         this.usernames = usernames;
     }
 
+    public void addUser(String username){
+        this.usernames.add(username);
+    }
+
     public UUID getUuid() {
         return uuid;
     }

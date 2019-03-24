@@ -6,11 +6,9 @@ import java.util.UUID;
 
 public class GameRegisterResponse {
 
-    public GameModel game;
     public UUID uuid;
 
-    public GameRegisterResponse(GameModel model, UUID uuid){
-        this.game = game;
+    public GameRegisterResponse(UUID uuid){
         this.uuid = uuid;
     }
 }

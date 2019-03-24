@@ -2,23 +2,20 @@ package com.knightlore.client.gui.screen;
 
 import static com.knightlore.client.util.GuiUtils.checkPosition;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-
-import org.joml.Vector4f;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.gui.LoadLevelMenu;
+import com.knightlore.client.gui.engine.Colour;
+import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.game.map.LevelMap;
-import com.knightlore.client.gui.engine.IGui;
-import com.knightlore.client.gui.engine.Colour;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 
 public class LoadLevelScreen implements IScreen {
 	
@@ -183,5 +180,4 @@ public class LoadLevelScreen implements IScreen {
 		}
 			return gson.fromJson(jsonString, LevelMap.class);
 		}
-
 }

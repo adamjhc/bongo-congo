@@ -50,8 +50,8 @@ public class Window {
   private static int oldWidth = width;
   private static int oldHeight = height;
 
-  private static float widthHalf = width / (float) 2;
-  private static float heightHalf = height / (float) 2;
+  private static float widthHalf = width / 2f;
+  private static float heightHalf = height / 2f;
 
   private static float oldWidthHalf = widthHalf;
   private static float oldHeightHalf = heightHalf;
@@ -59,7 +59,6 @@ public class Window {
   private static long windowHandle;
 
   private static boolean fullScreen = false;
-  private static boolean resized = false;
 
   private Window() {}
 
@@ -140,8 +139,8 @@ public class Window {
 
       width = vidMode.width();
       height = vidMode.height();
-      widthHalf = width / (float) 2;
-      heightHalf = height / (float) 2;
+      widthHalf = width / 2f;
+      heightHalf = height / 2f;
     } else {
       width = oldWidth;
       height = oldHeight;

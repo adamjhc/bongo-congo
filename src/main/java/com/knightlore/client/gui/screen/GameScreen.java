@@ -1,8 +1,13 @@
 package com.knightlore.client.gui.screen;
 
-import java.lang.Thread.State;
-import java.util.HashMap;
-import java.util.Map;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_J;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
@@ -19,11 +24,8 @@ import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.LevelMapSet;
-import com.knightlore.game.map.TileSet;
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.lwjgl.glfw.GLFW.*;
 
 public class GameScreen implements IScreen {
 
@@ -48,7 +50,7 @@ public class GameScreen implements IScreen {
   @Override
   public void startup(Object... args) {
     if (args.length == 0) {
-      LevelMapSet mapSet = new LevelMapSet(new TileSet());
+      LevelMapSet mapSet = new LevelMapSet();
       gameModel = new GameModel("");
       gameModel.createNewLevel(mapSet.getMap(0));
       gameModel.createNewLevel(mapSet.getMap(1));
@@ -59,9 +61,10 @@ public class GameScreen implements IScreen {
     }
 
     hud.renderScores(gameModel);
+    hud.setLevel(gameModel.getCurrentLevelIndex());
 
     Audio.restart();
-    Mouse.hideCursor();
+    //Mouse.hideCursor();
 
     countDown = new Timer();
 
@@ -79,24 +82,23 @@ public class GameScreen implements IScreen {
       playerInputDirection = null;
     }
 
-    if (Keyboard.isKeyReleased(GLFW_KEY_J)) {
+    if (Keyboard.isKeyReleased(GLFW_KEY_J) && !hud.getCountDown().getRender()) {
       gameModel.nextLevel();
-      
-      if (gameModel.getState() == GameState.NEXT_LEVEL) {
-      	hud.setLevel(gameModel.getCurrentLevelIndex());
+
+      if (gameModel.getState() != GameState.SCORE) {
+        hud.setLevel(gameModel.getCurrentLevelIndex());
         timer.resetStartTime();
         countDown.setStartTime();
+      } else if (gameModel.getState() == GameState.SCORE) {
+        Client.changeScreen(ClientState.END, gameModel);
       }
-      else if (gameModel.getState() == GameState.SCORE) {
-    		Client.changeScreen(ClientState.END, gameModel);
-    	}
     }
 
     if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)
-            && (gameModel.myPlayer().getCooldown() == 0)
-            && (gameModel.myPlayer().getPlayerState() == PlayerState.IDLE
+        && (gameModel.myPlayer().getCooldown() == 0)
+        && (gameModel.myPlayer().getPlayerState() == PlayerState.IDLE
             || gameModel.myPlayer().getPlayerState() == PlayerState.MOVING)) {
-  	    gameModel.myPlayer().setPlayerState(PlayerState.ROLLING);
+      gameModel.myPlayer().setPlayerState(PlayerState.ROLLING);
     }
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
@@ -114,8 +116,12 @@ public class GameScreen implements IScreen {
   public void update(float delta) {
     float countDown = this.countDown.getGameTime();
     int countDownLeft = this.countDownTime + 1 - Math.round(countDown);
+    if (gameModel.getCurrentLevelIndex() > 0) {
+      countDownLeft += 1;
+    }
     if (countDownLeft <= 0) countDownLeft = 0;
-    if (countDownLeft == this.countDownTime) hud.getCountDown().setRender(true);
+    if (countDownLeft <= this.countDownTime && countDownLeft > 0)
+      hud.getCountDown().setRender(true);
 
     int timeLeft = levelTime;
     if (countDownLeft == 0) {
@@ -143,7 +149,7 @@ public class GameScreen implements IScreen {
     hud.setLives(playerIndex, lives);
 
     int score = gameModel.myPlayer().getScore();
-    hud.setScore(playerIndex, score);
+    hud.setScore(playerIndex, score, Integer.toString(gameModel.myPlayer().getId()));
 
     hud.getScore(playerIndex).setColour(gameModel.myPlayer().getColour());
 
@@ -159,7 +165,7 @@ public class GameScreen implements IScreen {
       hud.setLives(playerIndex, lives);
 
       score = player.getScore();
-      hud.setScore(playerIndex, score);
+      hud.setScore(playerIndex, score, Integer.toString(player.getId()));
 
       hud.getScore(playerIndex).setColour(player.getColour());
     }
@@ -182,7 +188,7 @@ public class GameScreen implements IScreen {
   public void shutdown(ClientState nextScreen) {
     Mouse.showCursor();
     Audio.restart();
-    
+
     hud.getCountDown().setRender(false);
   }
 

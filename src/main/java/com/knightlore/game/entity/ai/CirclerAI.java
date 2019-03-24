@@ -1,15 +1,14 @@
 package com.knightlore.game.entity.ai;
 
+import java.util.List;
 import org.joml.Vector3f;
 
-import java.util.List;
-
 // Walks around in a circle of a set radius
-public class CirclerAI extends EnemyAI{
-    public float radius;
+public class CirclerAI extends EnemyAI {
+  public float radius;
 
-    @Override
-    public List<Vector3f> pathfind() {
-        return null;
-    }
+  @Override
+  public List<Vector3f> pathfind() {
+    return null;
+  }
 }

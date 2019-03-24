@@ -3,8 +3,6 @@ package com.knightlore.client.gui.screen;
 import static com.knightlore.client.util.GuiUtils.checkPosition;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.gui.PreLevelEditor;
@@ -13,14 +11,6 @@ import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.game.map.LevelMap;
-import com.knightlore.game.map.TileSet;
-
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-
 import org.joml.Vector4f;
 
 public class LevelEditorSetupScreen implements IScreen {
@@ -105,15 +95,14 @@ public class LevelEditorSetupScreen implements IScreen {
         Client.changeScreen(ClientState.MAIN_MENU);
       }
     } else preLevelEditor.getBack().setColour(new Vector4f(1, 1, 0, 1));
-    
+
     if (checkPosition(preLevelEditor, preLevelEditor.getLoadLevel().getId(), "")) {
     	preLevelEditor.getLoadLevel().setColour();
     	if (Mouse.isLeftButtonPressed()) {
     		Client.changeScreen(ClientState.LOADING_LEVEL_TO_EDIT, new Object());
     	}
     } else preLevelEditor.getLoadLevel().setColour(new Vector4f(1, 1, 0, 1));
-    
-    
+
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU);
     }
@@ -124,8 +113,8 @@ public class LevelEditorSetupScreen implements IScreen {
    */
   @Override
   public void render() {
-  	preLevelEditor.updateSize();
-  	
+    preLevelEditor.updateSize();
+
     guiRenderer.render(preLevelEditor);
   }
 
@@ -157,6 +146,6 @@ public class LevelEditorSetupScreen implements IScreen {
         }
       }
     }
-    return (new LevelMap(emptyMap, (new TileSet())));
+    return (new LevelMap(emptyMap));
   }
 }

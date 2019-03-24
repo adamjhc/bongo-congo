@@ -15,10 +15,8 @@ public class GameRegister implements GenericHandler {
     Gson gson = new Gson();
 
     GameRegisterResponse gameRegisterResponse = gson.fromJson(sendable.getData(), GameRegisterResponse.class);
-    GameModel model = gameRegisterResponse.game;
     UUID uuid = gameRegisterResponse.uuid;
 
-    GameConnection.gameModel = model;
     GameConnection.instance.uuid = uuid;
   }
 }

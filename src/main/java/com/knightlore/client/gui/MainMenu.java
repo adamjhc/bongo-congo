@@ -87,11 +87,12 @@ public class MainMenu implements IGui {
   public TextObject getLevelEditor() {
     return levelEditor;
   }
-  
+
   public void updateSize() {
-  	int gap = singleplayer.getHeight() + 5;
-  	
-    this.bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
+    int gap = singleplayer.getHeight() + 5;
+
+    this.bongo.setPosition(
+        Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
     this.congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
     this.singleplayer.setPosition(
         Window.getHalfWidth() - singleplayer.getSize() / 2, Window.getHalfHeight() + MENU_POS);
@@ -103,27 +104,28 @@ public class MainMenu implements IGui {
     this.options.setPosition(
         Window.getHalfWidth() - options.getSize() / 2, Window.getHalfHeight() + MENU_POS + gap * 2);
     this.soundOn.setPosition(
-        Window.getWidth() - soundOn.getSize()*soundOn.getScale(), Window.getHeight() - soundOn.getHeight()*soundOn.getScale());
+        Window.getWidth() - soundOn.getSize() * soundOn.getScale(),
+        Window.getHeight() - soundOn.getHeight() * soundOn.getScale());
     this.soundOff.setPosition(
         Window.getWidth() - soundOff.getSize(), Window.getHeight() - soundOff.getHeight());
     this.quit.setPosition(
         Window.getHalfWidth() - quit.getSize() / 2, Window.getHalfHeight() + MENU_POS + gap * 4);
   }
-  
+
   public void incFont() {
-  	singleplayer.setFontTexture(MEDIUM);
-  	multiplayer.setFontTexture(MEDIUM);
-  	levelEditor.setFontTexture(MEDIUM);
-  	options.setFontTexture(MEDIUM);
-  	quit.setFontTexture(MEDIUM);
+    singleplayer.setFontTexture(MEDIUM);
+    multiplayer.setFontTexture(MEDIUM);
+    levelEditor.setFontTexture(MEDIUM);
+    options.setFontTexture(MEDIUM);
+    quit.setFontTexture(MEDIUM);
   }
-  
+
   public void decFont() {
-  	singleplayer.setFontTexture(SMALL);
-  	multiplayer.setFontTexture(SMALL);
-  	levelEditor.setFontTexture(SMALL);
-  	options.setFontTexture(SMALL);
-  	quit.setFontTexture(SMALL);
+    singleplayer.setFontTexture(SMALL);
+    multiplayer.setFontTexture(SMALL);
+    levelEditor.setFontTexture(SMALL);
+    options.setFontTexture(SMALL);
+    quit.setFontTexture(SMALL);
   }
 
   @Override

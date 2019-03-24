@@ -22,12 +22,29 @@ import com.knightlore.client.gui.engine.Colour;
 
 public class LoadLevelScreen implements IScreen {
 	
+	/**
+	 * The file path for all finished levels
+	 */
 	private static final String finishedFilePath = "customMaps/playable";
+	
+	/**
+	 * The file path for all unfinished levels
+	 */
 	private static final String unfinishedFilePath = "customMaps/unplayable";
 	
+	/**
+	 * The name of the currently selected level
+	 */
 	private String currentLevelName;
 	
+	/**
+	 * The renderer used to render the menu
+	 */
 	private GuiRenderer guiRenderer;
+	
+	/**
+	 * The object containing the menu
+	 */
 	private LoadLevelMenu loadLevelMenu;
 	
 	private boolean forSingleplayer;
@@ -39,6 +56,9 @@ public class LoadLevelScreen implements IScreen {
 		this.forSingleplayer = forSingleplayer;
 	}
 	
+	/**
+	 * Method to initialise the menu when it is changed to
+	 */
 	public void startup(Object...args) {
 		File[] fLevels = (new File(finishedFilePath)).listFiles();
 		File[] uLevels = forSingleplayer ? (new File[0]) : (new File(unfinishedFilePath)).listFiles();
@@ -67,6 +87,9 @@ public class LoadLevelScreen implements IScreen {
 		loadLevelMenu.setLevels(allLevels);
 	}
 	
+	/**
+	 * Method to process users clicking on menu items
+	 */
 	public void input() {
 		if (checkPosition(loadLevelMenu, loadLevelMenu.getLoad().getId())) {
 			loadLevelMenu.getLoad().setColour();
@@ -120,35 +143,45 @@ public class LoadLevelScreen implements IScreen {
 		}
 	}
 	
+	/**
+	 * Method to render the GUI
+	 */
 	public void render() {
 		loadLevelMenu.updateSize();
 		guiRenderer.render(loadLevelMenu);
 	}
 
+	/**
+	 * Method to clean up the GUI
+	 */
 	@Override
 	public void cleanUp() {
 		loadLevelMenu.cleanup();
 		
 	}
 	
-	  private LevelMap getMap(String filePath) {
-			File levelFile = new File(filePath);
-			GsonBuilder builder = new GsonBuilder();
-			Gson gson = builder.create();
-			String jsonString = "";
-			try {
-			  FileReader fileReader = new FileReader(levelFile);
-			  BufferedReader levelReader = new BufferedReader(fileReader);
-			  String line = levelReader.readLine();
-			  jsonString = jsonString + line;
-			  while ((line = levelReader.readLine()) != null) {
+	/**
+	 * Method to get the map object from the selected level name
+	 * @param filePath The path to the map file being loaded
+	 * @return A new LevelMap built from the loaded map file
+	 */
+	private LevelMap getMap(String filePath) {
+		File levelFile = new File(filePath);
+		GsonBuilder builder = new GsonBuilder();
+		Gson gson = builder.create();
+		String jsonString = "";
+		try {
+			FileReader fileReader = new FileReader(levelFile);
+			BufferedReader levelReader = new BufferedReader(fileReader);
+			String line = levelReader.readLine();
+			jsonString = jsonString + line;
+			while ((line = levelReader.readLine()) != null) {
 				jsonString = jsonString + line;
-			  }
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
-
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 			return gson.fromJson(jsonString, LevelMap.class);
-		  }
+		}
 
 }

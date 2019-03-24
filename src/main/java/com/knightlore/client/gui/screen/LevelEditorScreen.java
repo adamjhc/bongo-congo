@@ -34,15 +34,54 @@ import org.joml.Vector4f;
 
 public class LevelEditorScreen implements IScreen {
 
+  /**
+   * The width of the level
+   */
   private int WIDTH;
+  
+  /**
+   * The height of the level
+   */
   private int HEIGHT;
+  
+  /**
+   * The length of the level
+   */
   private int LENGTH;
 
+  /**
+   * The renderer used for the level
+   */
   private LevelEditorRenderer levelEditorRenderer;
+  
+  /**
+   * The GUI displayed on the screen
+   */
   private LevelEditorHud levelEditorHud;
 
+  /**
+   * The model used to represent the level being edited
+   */
   private GameModel gameModel;
-  private int currentTileX, currentTileY, currentTileZ;
+  
+  /**
+   * The x coordinate of the currently selected tile
+   */
+  private int currentTileX;
+  
+  /** 
+   * The y coordinate of the currently selected tile
+   */
+  private int currentTileY;
+  
+  /**
+   * The z coordinate of the currently selected tile
+   */
+  private int currentTileZ;
+  
+  /**
+   * The Map being edited
+   */
   private LevelMap editorMap;
 
   public LevelEditorScreen(LevelEditorRenderer levelEditorRenderer) {
@@ -50,6 +89,9 @@ public class LevelEditorScreen implements IScreen {
     levelEditorHud = new LevelEditorHud();
   }
 
+  /**
+   * Method to setup the level once the level editor is started
+   */
   @Override
   public void startup(Object... args) {
     editorMap = (LevelMap) args[0];
@@ -62,23 +104,35 @@ public class LevelEditorScreen implements IScreen {
     currentTileZ = 0;
   }
 
+  /**
+   * Method to process user input
+   */
   @Override
   public void input() {
     cameraControl();
     levelEditorInput();
   }
 
+  /**
+   * Method to process GUI and level rendering
+   */
   @Override
   public void render() {
     levelEditorHud.updateSize();
     levelEditorRenderer.render(editorMap, levelEditorHud);
   }
 
+  /**
+   * Method to clean the GUI
+   */
   @Override
   public void cleanUp() {
     levelEditorHud.cleanup();
   }
 
+  /**
+   * Method to process camera movement from mouse movement
+   */
   private void cameraControl() {
     if (Mouse.isInScreen()) {
       if (Mouse.getXPos() <= 5) {
@@ -95,6 +149,9 @@ public class LevelEditorScreen implements IScreen {
     }
   }
 
+  /**
+   * Method to process keyboard input
+   */
   private void levelEditorInput() {
     if (Keyboard.isKeyReleased(GLFW_KEY_W)) {
       if (currentTileX != editorMap.getTiles()[currentTileZ][currentTileY].length - 1) {

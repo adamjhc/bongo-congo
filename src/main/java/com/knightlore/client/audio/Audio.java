@@ -6,7 +6,7 @@ public class Audio {
 
   private static MusicPlayer menuMusic;
   private static MusicPlayer gameMusic;
-  private static MusicPlayer endgameMusic;
+  private static MusicPlayer editorMusic;
   private static MusicPlayer menuSelectSound;
   private static MusicPlayer hitSound;
   private static MusicPlayer deathSound;
@@ -16,6 +16,8 @@ public class Audio {
   private static MusicPlayer gameOverJingle;
   private static MusicPlayer[] audioFiles;
   private static boolean isOn;
+  
+  private static int currentMusic;
 
   private Audio() {}
 
@@ -31,7 +33,7 @@ public class Audio {
       System.err.println("Could not load game music: " + e);
     }
     /* try {
-     * 		this.endgameMusic = 		new MusicPlayer(audioPath + "MUSIC_ENDGAME.wav", true);
+     * 		this.endgameMusic = 		new MusicPlayer(audioPath + "MUSIC_EDITOR.wav", true);
      * } catch (Exception e) {
      * 		System.err.println("Could not load endgame music: " + e);
      * }
@@ -82,7 +84,7 @@ public class Audio {
         new MusicPlayer[] {
           menuMusic,
           gameMusic,
-          endgameMusic,
+          editorMusic,
           menuSelectSound,
           hitSound,
           deathSound,
@@ -106,6 +108,12 @@ public class Audio {
       }
     }
   }
+  
+  public static void stop(AudioName file) {
+	  if (audioFiles[file.ordinal()].isPlaying()) {
+		  audioFiles[file.ordinal()].stop();
+	  }
+  }
 
   // Closes any audio files that have finished playing so that they can be played again
   public static void closeInactiveClips() {
@@ -121,7 +129,7 @@ public class Audio {
     if (!isOn) {
       gameMusic.stop();
     } else {
-      play(AudioName.MUSIC_GAME);
+      play(AudioName.values()[currentMusic]);
     }
   }
 
@@ -143,7 +151,7 @@ public class Audio {
   public enum AudioName {
     MUSIC_MENU,
     MUSIC_GAME,
-    MUSIC_ENDGAME,
+    MUSIC_EDITOR,
     SOUND_MENUSELECT,
     SOUND_HIT,
     SOUND_DEATH,

@@ -25,7 +25,14 @@ import org.joml.Vector4f;
 
 public class LevelEditorSetupScreen implements IScreen {
 
+  /**
+   * The renderer to render to menu
+   */
   private GuiRenderer guiRenderer;
+  
+  /**
+   * The menu object
+   */
   private PreLevelEditor preLevelEditor;
 
   public LevelEditorSetupScreen(GuiRenderer guiRenderer) {
@@ -33,6 +40,9 @@ public class LevelEditorSetupScreen implements IScreen {
     preLevelEditor = new PreLevelEditor();
   }
 
+  /**
+   * Method to process the user clicking on menu items
+   */
   @Override
   public void input() {
     if (checkPosition(preLevelEditor, preLevelEditor.getWLeft().getId())) {
@@ -109,6 +119,9 @@ public class LevelEditorSetupScreen implements IScreen {
     }
   }
 
+  /**
+   * Method to render the menu
+   */
   @Override
   public void render() {
   	preLevelEditor.updateSize();
@@ -116,11 +129,21 @@ public class LevelEditorSetupScreen implements IScreen {
     guiRenderer.render(preLevelEditor);
   }
 
+  /**
+   * Method to cleanup the GUI
+   */
   @Override
   public void cleanUp() {
     preLevelEditor.cleanup();
   }
 
+  /**
+   * Method to set up an empty map of the specified dimensions
+   * @param width The width of the level
+   * @param length The length of the level
+   * @param height The height of the level
+   * @return A new LevelMap with only floor tiles on the bottom layer and empty tiles on all others
+   */
   private LevelMap initialiseMap(int width, int length, int height) {
     int[][][] emptyMap = new int[height][length][width];
     for (int i = 0; i < emptyMap.length; i++) {

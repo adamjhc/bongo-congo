@@ -8,32 +8,79 @@ import com.knightlore.client.io.Window;
 
 public class NameLevel implements IGui {
 	
+	/**
+	 * The position of the top horizontal separator
+	 */
 	private static final int SEPARATOR_TOP_POS = 185;
+	
+	/**
+	 * The position of the bottom horizontal separator
+	 */
 	private static final int SEPARATOR_BOT_POS = 200;
+	
+	/**
+	 * The gap between a separator and the title above it
+	 */
 	private static final int SEPARATOR_GAP = FONT_SIZE_SMALL;
 	
+	/**
+	 * The beginning of the filepath to the directory to save the level
+	 */
 	private static final String filePath = "customMaps/unplayable/";
 	
+	/**
+	 * The TextObject for the word "Bongo"
+	 */
 	private TextObject bongo;
 	
+	/**
+	 * The TextObject for the word "Congo"
+	 */
 	private TextObject congo;
 	
+	/**
+	 * The TextObject for the top "-------------------------"
+	 */
 	private TextObject separatorTop;
 	
+	/**
+	 * The TextObject for the bottom "------------------------"
+	 */
 	private TextObject separatorBottom;
 	
+	/**
+	 * The TextObject for the words "Name Your Level"
+	 */
 	private TextObject nameYourLevel;
 	
+	/**
+	 * The TextObject for the word "cancel"
+	 */
 	private TextObject cancel;
 	
+	/**
+	 * The TextObject for the words "Save and Quit"
+	 */
 	private TextObject saveAndQuit;
 	
+	/**
+	 * The TextObject for the words "Save and Continue"
+	 */
 	private TextObject saveAndContinue;
 	
+	/**
+	 * The TextObject for the displayed level name
+	 */
 	private TextObject levelName;
 	
+	/**
+	 * The TextObjects you can click on
+	 */
 	private TextObject[] textObjects;
 	
+	/**
+	 * The GuiObjects being displayed on the screen
+	 */
 	private GuiObject[] guiObjects;
 	
 	public NameLevel() {
@@ -68,6 +115,9 @@ public class NameLevel implements IGui {
 	    guiObjects = new GuiObject[] {bongo, congo, nameYourLevel, cancel, saveAndQuit, saveAndContinue, levelName, separatorTop, separatorBottom};
 	}
 	
+	/**
+	 * Method to update the position of the GuiObjects on the screen
+	 */
 	public void updateSize() {
 		this.bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
 	    this.congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
@@ -97,29 +147,52 @@ public class NameLevel implements IGui {
 	        
 	}
 	
-	
+	/**
+	 * Method to get the word "cancel"
+	 * @return The TextObject for the word "cancel"
+	 */
 	public TextObject getCancel() {
 		return cancel;
 	}
 	
+	/**
+	 * Method to get the words "Save and Quit"
+	 * @return The TextObject for the words "Save and Quit"
+	 */
 	public TextObject getSaveAndQuit() {
 		return saveAndQuit;
 	}
 	
+	/**
+	 * Method to get the words "Save and Continue"
+	 * @return The TextObject for the words "Save and Continue"
+	 */
 	public TextObject getSaveAndContinue() {
 		return saveAndContinue;
 	}
 	
+	/**
+	 * Method to get the current level name
+	 * @return The name of the level
+	 */
 	public TextObject getLevelName() {
 		return levelName;
 	}
 
+	/**
+	 * Method to get all clickable TextObjects
+	 * @return All TextObjects you can click on
+	 */
 	@Override
 	public TextObject[] getTextObjects() {
 		// TODO Auto-generated method stub
 		return textObjects;
 	}
 
+	/**
+	 * Method to get all displayed GuiObjects on screen
+	 * @return All displayed objects on screen
+	 */
 	@Override
 	public GuiObject[] getGuiObjects() {
 		// TODO Auto-generated method stub

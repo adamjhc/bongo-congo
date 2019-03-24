@@ -20,7 +20,6 @@ public class StartGame implements GenericHandler {
     GameConnection.gameModel = gameStart.model;
 
     // Set state
-    GameConnection.gameModel.setState(GameState.PLAYING);
-
+    GameConnection.gameModel.setState(GameState.WAITING_READY);
   }
 }

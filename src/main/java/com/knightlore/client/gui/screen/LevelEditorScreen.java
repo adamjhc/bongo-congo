@@ -123,7 +123,7 @@ public class LevelEditorScreen implements IScreen {
         gameModel.createNewLevel(editorMap);
       } finally {
         gameModel.addPlayer("1");
-        Client.changeScreen(ClientState.TESTING_LEVEL, gameModel);
+        Client.changeScreen(ClientState.TESTING_LEVEL, true, gameModel);
       }
     } else if (Keyboard.isKeyReleased(GLFW_KEY_COMMA)) {
       editorMap.rotate(true);
@@ -140,7 +140,7 @@ public class LevelEditorScreen implements IScreen {
       if (Mouse.isLeftButtonPressed()) {
         try {
           editorMap.resetRotation();
-          Client.changeScreen(ClientState.NAMING_LEVEL, editorMap);
+          Client.changeScreen(ClientState.NAMING_LEVEL, false, editorMap);
         } catch (Exception e) {
           e.printStackTrace();
         }
@@ -196,7 +196,7 @@ public class LevelEditorScreen implements IScreen {
     } else levelEditorHud.getFinish().setColour(new Vector4f(1, 1, 0, 1));
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
-      Client.changeScreen(ClientState.MAIN_MENU);
+      Client.changeScreen(ClientState.MAIN_MENU, false);
     }
 
     levelEditorRenderer.setCurrentTiles(currentTileX, currentTileY, currentTileZ);

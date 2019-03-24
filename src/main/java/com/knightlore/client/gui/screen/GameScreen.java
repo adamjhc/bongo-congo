@@ -27,6 +27,7 @@ import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.LevelMapSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class GameScreen implements IScreen {
 
@@ -75,6 +76,18 @@ public class GameScreen implements IScreen {
     gameRenderer.init(gameModel);
 
     timer.resetStartTime();
+
+    // Send ready
+    GameConnection.instance.sendReady();
+
+    Client.showLoadingScreen();
+    while (GameConnection.gameModel.getState() != GameState.PLAYING) {
+      try{
+        TimeUnit.MILLISECONDS.sleep(50);
+      }catch(InterruptedException e){
+      }
+    }
+
     countDown.setStartTime();
   }
 
@@ -94,7 +107,7 @@ public class GameScreen implements IScreen {
         timer.resetStartTime();
         countDown.setStartTime();
       } else if (gameModel.getState() == GameState.SCORE) {
-        Client.changeScreen(ClientState.END, gameModel);
+        Client.changeScreen(ClientState.END, false, gameModel);
       }
     }
 
@@ -106,7 +119,7 @@ public class GameScreen implements IScreen {
     }
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
-      Client.changeScreen(ClientState.MAIN_MENU);
+      Client.changeScreen(ClientState.MAIN_MENU, false);
     }
 
     if (Keyboard.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {

@@ -19,6 +19,7 @@ public class GameServer extends Thread {
   String sessionOwner;
   String name;
   ArrayList<ClientHandler> clients;
+  GameManager manager;
 
   GameModel model;
 
@@ -141,5 +142,16 @@ public class GameServer extends Thread {
 
   public String getGameName() {
     return this.name;
+  }
+
+  public boolean allReady(){
+    boolean ready = true;
+    for(ClientHandler each : this.clients){
+      if(!each.ready){
+        ready = false;
+      }
+    }
+
+    return ready;
   }
 }

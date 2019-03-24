@@ -18,6 +18,8 @@ public class ClientHandler extends Thread{
     public Optional<String> sessionKey = Optional.empty();
     public Optional<String> username = Optional.empty();
 
+    public boolean ready = false;
+
     // Socket
     final Socket s;
     final GameServer gameServer;

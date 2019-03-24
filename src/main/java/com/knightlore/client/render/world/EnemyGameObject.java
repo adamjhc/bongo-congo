@@ -45,6 +45,16 @@ public class EnemyGameObject extends EntityGameObject {
   }
 
   /**
+   * Get the current state of the enemy
+   *
+   * @return current state of the enemy
+   * @author Adam Cox
+   */
+  public EnemyState getCurrentState() {
+    return currentState;
+  }
+
+  /**
    * Update the GameObject with the relevant entity
    *
    * @param entity Entity to update the GameObject with

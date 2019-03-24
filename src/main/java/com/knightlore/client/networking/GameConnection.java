@@ -107,6 +107,19 @@ public class GameConnection {
         }
     }
 
+    public void sendReady(){
+        // Build up get session string
+        Sendable sendable = new Sendable();
+        sendable.setUuid();
+        sendable.setFunction("ready");
+
+        try{
+            client.dos.writeObject(sendable);
+        }catch(IOException e){
+            System.out.println(e);
+        }
+    }
+
     // Run code after a connection to the game server has been successfully made
     public void gameConnectionMade(){
 

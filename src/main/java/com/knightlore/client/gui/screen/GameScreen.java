@@ -27,6 +27,7 @@ import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.LevelMapSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class GameScreen implements IScreen {
 
@@ -75,6 +76,17 @@ public class GameScreen implements IScreen {
     gameRenderer.init(gameModel);
 
     timer.resetStartTime();
+
+    // Send ready
+    GameConnection.instance.sendReady();
+
+    while (GameConnection.gameModel.getState() != GameState.PLAYING) {
+      try{
+        TimeUnit.MILLISECONDS.sleep(50);
+      }catch(InterruptedException e){
+      }
+    }
+
     countDown.setStartTime();
   }
 

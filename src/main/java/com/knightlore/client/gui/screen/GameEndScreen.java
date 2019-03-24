@@ -40,12 +40,12 @@ public class GameEndScreen implements IScreen {
     if (checkPosition(gameEnd, gameEnd.getExit().getId())) {
       gameEnd.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
-        Client.changeScreen(ClientState.MAIN_MENU);
+        Client.changeScreen(ClientState.MAIN_MENU, false);
       }
     } else gameEnd.getExit().setColour(Colour.YELLOW);
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
-      Client.changeScreen(ClientState.MAIN_MENU);
+      Client.changeScreen(ClientState.MAIN_MENU, false);
     }
   }
 

@@ -106,7 +106,7 @@ public class GameScreen implements IScreen {
         timer.resetStartTime();
         countDown.setStartTime();
       } else if (gameModel.getState() == GameState.SCORE) {
-        Client.changeScreen(ClientState.END, gameModel);
+        Client.changeScreen(ClientState.END, false, gameModel);
       }
     }
 
@@ -118,7 +118,7 @@ public class GameScreen implements IScreen {
     }
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
-      Client.changeScreen(ClientState.MAIN_MENU);
+      Client.changeScreen(ClientState.MAIN_MENU, false);
     }
 
     if (Keyboard.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {

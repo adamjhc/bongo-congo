@@ -2,9 +2,6 @@ package com.knightlore.client.gui.screen;
 
 import static com.knightlore.client.util.GuiUtils.checkPosition;
 
-import java.util.Collection;
-import java.util.concurrent.TimeUnit;
-
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.gui.Lobby;
@@ -14,7 +11,6 @@ import com.knightlore.client.io.Mouse;
 import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.networking.LobbyCache;
 import com.knightlore.client.render.GuiRenderer;
-import com.knightlore.game.GameModel;
 import com.knightlore.game.GameState;
 import com.knightlore.networking.ListGameObject;
 import java.util.Collection;
@@ -47,7 +43,7 @@ public class LobbyScreen implements IScreen {
     if (checkPosition(lobby, lobby.getExit().getId())) {
       lobby.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
-        Client.changeScreen(ClientState.LOBBY_MENU);
+        Client.changeScreen(ClientState.LOBBY_MENU, false);
       }
     } else lobby.getExit().setColour(Colour.YELLOW);
   }
@@ -77,7 +73,7 @@ public class LobbyScreen implements IScreen {
   	}
 
   	if(GameConnection.gameModel != null && GameConnection.gameModel.getState() != GameState.LOBBY){
-        com.knightlore.client.Client.changeScreen(ClientState.GAME, GameConnection.gameModel);
+            com.knightlore.client.Client.changeScreen(ClientState.GAME, true, GameConnection.gameModel);
     }
   }
 

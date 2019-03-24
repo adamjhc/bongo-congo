@@ -9,6 +9,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 
+import com.google.gson.Gson;
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.audio.Audio;
@@ -56,6 +57,9 @@ public class GameScreen implements IScreen {
       gameModel.createNewLevel(mapSet.getMap(1));
       gameModel.createNewLevel(mapSet.getMap(2));
       gameModel.addPlayer("1");
+
+      Gson gson = new Gson();
+      System.out.println(gson.toJson(gameModel.getCurrentLevel()));
     } else {
       gameModel = (GameModel) args[0];
     }

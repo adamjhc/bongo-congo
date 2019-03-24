@@ -13,6 +13,8 @@ public class PositionUpdate extends Command {
     com.knightlore.networking.PositionUpdate newPosition =
         gson.fromJson(sendable.getData(), com.knightlore.networking.PositionUpdate.class);
 
+    // todo update our model to reflect
+
     Sendable response = new Sendable();
     response.setFunction("position_update");
     response.setData(gson.toJson(newPosition));

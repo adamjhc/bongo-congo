@@ -86,6 +86,7 @@ public class TileGameObject extends GameObject {
   }
 
   /**
+<<<<<<< HEAD
    * Get whether the tile is a floor
    *
    * @return whether the tile is a floor
@@ -100,6 +101,8 @@ public class TileGameObject extends GameObject {
   }
 
   /**
+=======
+>>>>>>> dev
    * Render the tile - unhighlighted
    *
    * @param shaderProgram Shader program to use

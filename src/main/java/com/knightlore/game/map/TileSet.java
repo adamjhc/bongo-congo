@@ -15,6 +15,7 @@ public class TileSet {
   private static Tile randomerSpawnTile = new Tile(TileType.SPAWN_RANDOMER);
   private static Tile circlerSpawnTile = new Tile(TileType.SPAWN_CIRCLER);
   private static Tile chargerSpawnTile = new Tile(TileType.SPAWN_CHARGER);
+  private static Tile spawnWalker = new Tile(TileType.SPAWN_WALKER);
 
   private ArrayList<Tile> set;
 
@@ -30,6 +31,7 @@ public class TileSet {
     set.add(randomerSpawnTile.getIndex(), randomerSpawnTile);
     set.add(circlerSpawnTile.getIndex(), circlerSpawnTile);
     set.add(chargerSpawnTile.getIndex(), chargerSpawnTile);
+    set.add(spawnWalker.getIndex(), spawnWalker);
   }
 
   Tile getTile(int index, Vector3f position) {

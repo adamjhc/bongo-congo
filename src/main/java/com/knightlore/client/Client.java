@@ -1,9 +1,10 @@
 package com.knightlore.client;
 
-import static org.lwjgl.glfw.GLFW.glfwTerminate;
 import static com.knightlore.client.util.GuiUtils.registerFont;
+import static org.lwjgl.glfw.GLFW.glfwTerminate;
 
 import com.knightlore.client.audio.Audio;
+import com.knightlore.client.gui.Loading;
 import com.knightlore.client.gui.engine.Timer;
 import com.knightlore.client.gui.screen.GameEndScreen;
 import com.knightlore.client.gui.screen.GameScreen;
@@ -12,10 +13,10 @@ import com.knightlore.client.gui.screen.LevelEditorScreen;
 import com.knightlore.client.gui.screen.LevelEditorSetupScreen;
 import com.knightlore.client.gui.screen.LoadLevelScreen;
 import com.knightlore.client.gui.screen.LobbyScreen;
+import com.knightlore.client.gui.screen.LobbySelectScreen;
 import com.knightlore.client.gui.screen.MainScreen;
 import com.knightlore.client.gui.screen.NameLevelScreen;
 import com.knightlore.client.gui.screen.OptionsScreen;
-import com.knightlore.client.gui.screen.LobbySelectScreen;
 import com.knightlore.client.gui.screen.TestingLevelScreen;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
@@ -26,35 +27,47 @@ import com.knightlore.client.render.LevelEditorRenderer;
 import java.util.EnumMap;
 import java.util.Map;
 
-public class Client extends Thread {
+public class Client {
 
   private static final int TARGET_UPS = 60;
 
   private static Map<ClientState, IScreen> screens;
   private static IScreen currentScreen;
+  private static Loading loadingScreen;
 
-  private Timer timer;
+  private static GameRenderer gameRenderer;
+  private static GuiRenderer guiRenderer;
+  private static LevelEditorRenderer levelEditorRenderer;
 
-  private GameRenderer gameRenderer;
+  private static Timer timer;
 
   public static void main(String[] args) {
-    new Client().run();
+    Client.run();
   }
 
-  public static void changeScreen(ClientState newScreen, Object... args) {
+  public static void changeScreen(
+      ClientState newScreen, boolean showLoadingScreen, Object... args) {
+    if (showLoadingScreen) {
+      loadingScreen.updateSize();
+      showLoadingScreen();
+    }
+
     currentScreen.shutdown(newScreen);
     currentScreen = screens.get(newScreen);
     currentScreen.startup(args);
   }
 
-  @Override
-  public void run() {
+  public static void showLoadingScreen() {
+    guiRenderer.render(loadingScreen);
+  }
+
+  public static void run() {
     init();
     loop();
     dispose();
   }
 
-  private void init() {
+  private static void init() {
     // Setting up GLFW
     Window.init();
 
@@ -64,12 +77,12 @@ public class Client extends Thread {
     Keyboard.init();
 
     timer = new Timer();
-    
+
     registerFont();
 
     gameRenderer = new GameRenderer();
-    GuiRenderer guiRenderer = new GuiRenderer();
-    LevelEditorRenderer levelEditorRenderer = new LevelEditorRenderer();
+    guiRenderer = new GuiRenderer();
+    levelEditorRenderer = new LevelEditorRenderer();
 
     screens = new EnumMap<>(ClientState.class);
     screens.put(ClientState.MAIN_MENU, new MainScreen(guiRenderer));
@@ -84,11 +97,13 @@ public class Client extends Thread {
     screens.put(ClientState.LOADING_LEVEL_TO_EDIT, new LoadLevelScreen(guiRenderer, false));
     screens.put(ClientState.END, new GameEndScreen(guiRenderer));
 
+    loadingScreen = new Loading();
+
     currentScreen = screens.get(ClientState.MAIN_MENU);
     currentScreen.startup();
   }
 
-  private void loop() {
+  private static void loop() {
     float elapsedTime;
     float accumulator = 0f;
     float interval = 1f / TARGET_UPS;
@@ -111,8 +126,10 @@ public class Client extends Thread {
     }
   }
 
-  private void dispose() {
+  private static void dispose() {
     gameRenderer.cleanup();
+    guiRenderer.cleanup();
+    levelEditorRenderer.cleanup();
     screens.forEach((state, screen) -> screen.cleanUp());
 
     Window.freeCallbacks();

@@ -28,7 +28,7 @@ public class TestingLevelScreen extends GameScreen {
     }
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
-      Client.changeScreen(ClientState.LEVEL_EDITOR, gameModel.getCurrentLevel().getLevelMap());
+      Client.changeScreen(ClientState.LEVEL_EDITOR, false, gameModel.getCurrentLevel().getLevelMap());
     }
   }
 }

@@ -43,7 +43,7 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getSingleplayer().getId())) {
       menu.getSingleplayer().setColour();
       if (Mouse.isLeftButtonPressed()) {
-        Client.changeScreen(ClientState.GAME);
+        Client.changeScreen(ClientState.GAME, true);
       }
     } else menu.getSingleplayer().setColour(Colour.YELLOW);
 
@@ -52,6 +52,7 @@ public class MainScreen implements IScreen {
       menu.getMultiplayer().setColour();
       if (Mouse.isLeftButtonPressed()) {
         // Do network connection
+        Client.showLoadingScreen();
 
         // Call multiplayer connection
         try {
@@ -98,7 +99,7 @@ public class MainScreen implements IScreen {
           }
         }
 
-        Client.changeScreen(ClientState.LOBBY_MENU);
+        Client.changeScreen(ClientState.LOBBY_MENU, false);
       }
     } else menu.getMultiplayer().setColour(Colour.YELLOW);
 
@@ -106,7 +107,7 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getLevelEditor().getId())) {
       menu.getLevelEditor().setColour();
       if (Mouse.isLeftButtonPressed()) {
-        Client.changeScreen(ClientState.PRE_EDITOR);
+        Client.changeScreen(ClientState.PRE_EDITOR, false);
       }
     } else menu.getLevelEditor().setColour(Colour.YELLOW);
 
@@ -114,7 +115,7 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getOptions().getId())) {
       menu.getOptions().setColour();
       if (Mouse.isLeftButtonPressed()) {
-        Client.changeScreen(ClientState.OPTIONS_MENU);
+        Client.changeScreen(ClientState.OPTIONS_MENU, false);
       }
     } else menu.getOptions().setColour(Colour.YELLOW);
 

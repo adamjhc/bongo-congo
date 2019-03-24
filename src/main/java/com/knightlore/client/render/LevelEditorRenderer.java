@@ -127,7 +127,7 @@ public class LevelEditorRenderer extends Renderer {
   }
 
   @Override
-  protected void cleanup() {
+  public void cleanup() {
     shaderProgram.cleanup();
   }
 }

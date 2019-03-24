@@ -83,6 +83,16 @@ public class PlayerGameObject extends EntityGameObject {
   }
 
   /**
+   * Get the current state of the player
+   *
+   * @return current state of the player
+   * @author Adam Cox
+   */
+  public PlayerState getCurrentState() {
+    return currentState;
+  }
+
+  /**
    * Update with entity
    *
    * @param entity Entity to update with

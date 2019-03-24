@@ -2,7 +2,6 @@ package com.knightlore.client.render;
 
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.io.Window;
-import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.world.EnemyGameObject;
 import com.knightlore.client.render.world.EnemyGameObjectSet;
@@ -13,7 +12,9 @@ import com.knightlore.client.render.world.TileGameObject;
 import com.knightlore.client.render.world.TileGameObjectSet;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.entity.Enemy;
+import com.knightlore.game.entity.EnemyState;
 import com.knightlore.game.entity.Player;
+import com.knightlore.game.entity.PlayerState;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -202,25 +203,33 @@ public class GameRenderer extends Renderer {
    * @return List of Depth-sorted GameObjects
    */
   private List<GameObject> depthSort(Vector3i mapSize, List<GameObject> gameObjects) {
-    // initialise the buckets
     List<ArrayList<GameObject>> buckets = new ArrayList<>();
     for (int i = 0; i < getScreenDepth(mapSize, new Vector3f(0, 0, mapSize.z - 1)) + 1; i++) {
       buckets.add(new ArrayList<>());
     }
 
-    // distribute to buckets
     gameObjects.forEach(
         gameObject -> {
-          if (gameObject instanceof TileGameObject && ((TileGameObject) gameObject).isFloor()) {
+          if (gameObject instanceof PlayerGameObject
+              && (((PlayerGameObject) gameObject).getCurrentState() == PlayerState.CLIMBING
+                  || ((PlayerGameObject) gameObject).getCurrentState() == PlayerState.IDLE)) {
             buckets
-                .get(getLevelScreenDepth(mapSize, gameObject.getModelPosition().z))
+                .get(
+                    getScreenDepth(
+                        mapSize, gameObject.getModelPosition().sub(1, 1, 0, new Vector3f())))
+                .add(gameObject);
+          } else if (gameObject instanceof EnemyGameObject
+              && ((EnemyGameObject) gameObject).getCurrentState() == EnemyState.IDLE) {
+            buckets
+                .get(
+                    getScreenDepth(
+                        mapSize, gameObject.getModelPosition().sub(1, 1, 0, new Vector3f())))
                 .add(gameObject);
           } else {
             buckets.get(getScreenDepth(mapSize, gameObject.getModelPosition())).add(gameObject);
           }
         });
 
-    // flatten
     ArrayList<GameObject> depthSortedGameObjects = new ArrayList<>();
     buckets.forEach(depthSortedGameObjects::addAll);
     return depthSortedGameObjects;
@@ -235,13 +244,7 @@ public class GameRenderer extends Renderer {
    * @author Adam Cox
    */
   private int getScreenDepth(Vector3i mapSize, Vector3f position) {
-    return (int)
-        Math.ceil(
-            mapSize.x
-                - position.x
-                + mapSize.y
-                - position.y
-                + getLevelScreenDepth(mapSize, position.z));
+    return (int) Math.ceil(mapSize.x - position.x + mapSize.y - position.y + position.z);
   }
 
   /**

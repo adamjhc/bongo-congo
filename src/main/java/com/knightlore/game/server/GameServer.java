@@ -19,6 +19,7 @@ public class GameServer extends Thread {
   String sessionOwner;
   String name;
   ArrayList<ClientHandler> clients;
+  GameManager manager;
 
   GameModel model;
 
@@ -124,25 +125,12 @@ public class GameServer extends Thread {
     // Send
     Gson gson = new Gson();
     Sendable sendable = new Sendable();
-    GameStart startGame = new GameStart();
+    GameStart startGame = new GameStart(model);
     sendable.setFunction("start_game");
     sendable.setData(gson.toJson(startGame));
 
     sendToRegistered(sendable);
   }
-
-  //    public void setLevel(int index){
-  //        this.model.setLevel(index);
-  //
-  //        // Send update to clients
-  //        Gson gson = new Gson();
-  //        Sendable sendable = new Sendable();
-  //        SetLevel level = new SetLevel(index);
-  //        sendable.setData(gson.toJson(level));
-  //
-  //        // Send to registered clients
-  //        sendToRegistered(sendable);
-  //    }
 
   public UUID getUUID() {
     return this.id;
@@ -154,5 +142,16 @@ public class GameServer extends Thread {
 
   public String getGameName() {
     return this.name;
+  }
+
+  public boolean allReady(){
+    boolean ready = true;
+    for(ClientHandler each : this.clients){
+      if(!each.ready){
+        ready = false;
+      }
+    }
+
+    return ready;
   }
 }

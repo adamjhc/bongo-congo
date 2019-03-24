@@ -48,6 +48,7 @@ public class LobbySelectScreen implements IScreen {
     if (checkPosition(menu, menu.getCreate().getId())) {
       menu.getCreate().setColour();
       if (Mouse.isLeftButtonPressed()) {
+        Client.showLoadingScreen();
         ServerConnection.instance.requestGame();
 
         while (GameConnection.instance == null) {
@@ -70,14 +71,14 @@ public class LobbySelectScreen implements IScreen {
         // Sent off register request
         GameConnection.instance.register();
 
-        Client.changeScreen(ClientState.LOBBY, test);
+        Client.changeScreen(ClientState.LOBBY, false, test);
       }
     } else menu.getCreate().setColour(Colour.YELLOW);
 
     if (checkPosition(menu, menu.getExit().getId())) {
       menu.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
-        Client.changeScreen(ClientState.MAIN_MENU);
+        Client.changeScreen(ClientState.MAIN_MENU, false);
       }
     } else menu.getExit().setColour(Colour.YELLOW);
 
@@ -92,7 +93,7 @@ public class LobbySelectScreen implements IScreen {
       menu.getJoin().setColour();
       if (Mouse.isLeftButtonPressed()) {
         if (menu.getHighlighted() != null) {
-
+          Client.showLoadingScreen();
           com.knightlore.client.networking.backend.Client gameClient = new com.knightlore.client.networking.backend.Client(menu.getHighlighted().getGame().getIp(), menu.getHighlighted().getGame().getPort());
           gameClient.run();
 
@@ -109,13 +110,13 @@ public class LobbySelectScreen implements IScreen {
 
           GameConnection.instance.register();
 
-          Client.changeScreen(ClientState.LOBBY, menu.getHighlighted());
+          Client.changeScreen(ClientState.LOBBY, false, menu.getHighlighted());
         }
       }
     } else menu.getJoin().setColour(Colour.YELLOW);
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
-      Client.changeScreen(ClientState.MAIN_MENU);
+      Client.changeScreen(ClientState.MAIN_MENU, false);
     }
   }
 

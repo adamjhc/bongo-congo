@@ -85,26 +85,33 @@ public class LevelEditorSetupScreen implements IScreen {
                 preLevelEditor.getWidthNum(),
                 preLevelEditor.getLengthNum(),
                 preLevelEditor.getHeightNum());
-        Client.changeScreen(ClientState.LEVEL_EDITOR, editorMap);
+        Client.changeScreen(ClientState.LEVEL_EDITOR, false, editorMap);
       }
     } else preLevelEditor.getCreateLevel().setColour(Colour.YELLOW);
 
     if (checkPosition(preLevelEditor, preLevelEditor.getBack().getId())) {
       preLevelEditor.getBack().setColour();
       if (Mouse.isLeftButtonPressed()) {
-        Client.changeScreen(ClientState.MAIN_MENU);
+        Client.changeScreen(ClientState.MAIN_MENU, false);
       }
     } else preLevelEditor.getBack().setColour(new Vector4f(1, 1, 0, 1));
 
     if (checkPosition(preLevelEditor, preLevelEditor.getLoadLevel().getId(), "")) {
+<<<<<<< HEAD
     	preLevelEditor.getLoadLevel().setColour();
     	if (Mouse.isLeftButtonPressed()) {
     		Client.changeScreen(ClientState.LOADING_LEVEL_TO_EDIT, new Object());
     	}
+=======
+      preLevelEditor.getLoadLevel().setColour();
+      if (Mouse.isLeftButtonPressed()) {
+        Client.changeScreen(ClientState.LOADING_LEVEL, false, new Object());
+      }
+>>>>>>> dev
     } else preLevelEditor.getLoadLevel().setColour(new Vector4f(1, 1, 0, 1));
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
-      Client.changeScreen(ClientState.MAIN_MENU);
+      Client.changeScreen(ClientState.MAIN_MENU, false);
     }
   }
 

@@ -79,7 +79,7 @@ public class GuiRenderer extends Renderer {
    * @author Adam Cox
    */
   @Override
-  protected void cleanup() {
+  public void cleanup() {
     shaderProgram.cleanup();
   }
 }

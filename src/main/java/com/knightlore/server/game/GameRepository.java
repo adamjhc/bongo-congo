@@ -49,7 +49,8 @@ public class GameRepository {
                 gameModel.createNewLevel(ms.getMap(0));
             }else{
                 com.knightlore.server.database.model.Level level = (com.knightlore.server.database.model.Level) optLevel.get();
-                gameModel.addLevel(level.getModelLevel());
+                Level gameLevel = level.getModelLevel();
+                gameModel.addLevel(gameLevel);
             }
         }
 

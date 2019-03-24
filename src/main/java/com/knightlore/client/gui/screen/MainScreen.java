@@ -135,13 +135,13 @@ public class MainScreen implements IScreen {
       }
     }
     
-    if (Keyboard.isKeyReleased(GLFW_KEY_EQUAL)) {
-    	menu.incFont();
-    }
-    
-    if (Keyboard.isKeyReleased(GLFW_KEY_MINUS)) {
-    	menu.decFont();
-    }
+//    if (Keyboard.isKeyReleased(GLFW_KEY_EQUAL)) {
+//    	menu.incFont();
+//    }
+//    
+//    if (Keyboard.isKeyReleased(GLFW_KEY_MINUS)) {
+//    	menu.decFont();
+//    }
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Window.setShouldClose();

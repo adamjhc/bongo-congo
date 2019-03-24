@@ -22,22 +22,24 @@ public class Audio {
   private Audio() {}
 
   public static void init() {
-    /* try {
-     * 		this.menuMusic = 		new MusicPlayer(audioPath + "MUSIC_MENU.wav", true);
-     * } catch (Exception e) {
-     * 		System.err.println("Could not load menu music: " + e);
-     */
+    try {
+      menuMusic = 		new MusicPlayer(AUDIO_PATH + "MUSIC_MENU.wav", true);
+    } catch (Exception e) {
+      System.err.println("Could not load menu music: " + e);
+    }
+    
     try {
       gameMusic = new MusicPlayer((AUDIO_PATH + "MUSIC_GAME.wav"), true);
     } catch (Exception e) {
       System.err.println("Could not load game music: " + e);
     }
-    /* try {
-     * 		this.endgameMusic = 		new MusicPlayer(audioPath + "MUSIC_EDITOR.wav", true);
-     * } catch (Exception e) {
-     * 		System.err.println("Could not load endgame music: " + e);
-     * }
-     */
+    
+    try {
+      editorMusic = 		new MusicPlayer(AUDIO_PATH + "MUSIC_EDITOR.wav", true);
+    } catch (Exception e) {
+      System.err.println("Could not load endgame music: " + e);
+    }
+
     /* try {
      * 		 this.menuSelectSound = 	new MusicPlayer(audioPath + "SOUND_MENUSELECT.wav", false);
      * } catch (Exception e) {
@@ -92,6 +94,8 @@ public class Audio {
           victoryJingle,
           gameOverJingle
         };
+    
+    currentMusic = 0;
   }
 
   public static boolean isOn() {
@@ -103,6 +107,7 @@ public class Audio {
     if (isOn) {
       try {
         audioFiles[file.ordinal()].play();
+        currentMusic = file.ordinal();
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -127,7 +132,7 @@ public class Audio {
   public static void toggle() {
     isOn = !isOn;
     if (!isOn) {
-      gameMusic.stop();
+      stop(AudioName.values()[currentMusic]);
     } else {
       play(AudioName.values()[currentMusic]);
     }

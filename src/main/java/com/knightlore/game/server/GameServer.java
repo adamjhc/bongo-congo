@@ -19,6 +19,7 @@ public class GameServer extends Thread {
   String sessionOwner;
   String name;
   ArrayList<ClientHandler> clients;
+  GameManager manager;
 
   GameModel model;
 
@@ -129,6 +130,9 @@ public class GameServer extends Thread {
     sendable.setData(gson.toJson(startGame));
 
     sendToRegistered(sendable);
+
+    GameManager manager = new GameManager(model, this);
+    manager.start();
   }
 
   public UUID getUUID() {

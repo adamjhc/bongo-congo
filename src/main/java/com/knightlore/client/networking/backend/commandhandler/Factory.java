@@ -22,5 +22,10 @@ public class Factory {
             PlayerJoined handler = new PlayerJoined();
             handler.run(client, sendable);
         }
+
+        if(sendable.getFunction().equals("enemy_location_update")){
+            EnemyPositionUpdate handler = new EnemyPositionUpdate();
+            handler.run(client, sendable);
+        }
     }
 }

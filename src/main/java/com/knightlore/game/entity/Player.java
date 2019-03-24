@@ -175,8 +175,7 @@ public class Player extends Entity {
   public Vector3f setPadding(Vector3f pos) {
     Vector3f padded = new Vector3f();
     direction.getNormalisedDirection().mul(0.4f, padded);
-    pos.add(padded, padded);
-    return padded;
+    return padded.add(pos);
   }
 
   /**

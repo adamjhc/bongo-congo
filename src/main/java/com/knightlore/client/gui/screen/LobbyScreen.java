@@ -3,6 +3,7 @@ package com.knightlore.client.gui.screen;
 import static com.knightlore.client.util.GuiUtils.checkPosition;
 
 import java.util.Collection;
+import java.util.concurrent.TimeUnit;
 
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
@@ -14,6 +15,7 @@ import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.networking.LobbyCache;
 import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.game.GameModel;
+import com.knightlore.game.GameState;
 import com.knightlore.networking.ListGameObject;
 
 public class LobbyScreen implements IScreen {
@@ -70,11 +72,13 @@ public class LobbyScreen implements IScreen {
   			lobby.getStart().setColour();
   			if (Mouse.isLeftButtonPressed() ) {
                 GameConnection.instance.startGame();
-
-                Client.changeScreen(ClientState.GAME);
   			}
   		} else lobby.getStart().setColour(Colour.YELLOW);
   	}
+
+  	if(GameConnection.gameModel != null && GameConnection.gameModel.getState() != GameState.LOBBY){
+            com.knightlore.client.Client.changeScreen(ClientState.GAME, GameConnection.gameModel);
+    }
   }
 
   @Override

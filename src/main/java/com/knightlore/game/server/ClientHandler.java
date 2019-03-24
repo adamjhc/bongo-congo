@@ -17,6 +17,7 @@ public class ClientHandler extends Thread{
     final ObjectOutputStream dos;
 
     public Optional<String> sessionKey = Optional.empty();
+    public Optional<String> username = Optional.empty();
 
     // Socket
     final Socket s;

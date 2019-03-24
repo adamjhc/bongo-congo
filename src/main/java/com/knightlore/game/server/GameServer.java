@@ -130,7 +130,10 @@ public class GameServer extends Thread {
         // Send
         Gson gson = new Gson();
         Sendable sendable = new Sendable();
-        GameStart startGame = new GameStart();
+
+        GameStart startGame = new GameStart(model);
+
+
         sendable.setFunction("start_game");
         sendable.setData(gson.toJson(startGame));
 

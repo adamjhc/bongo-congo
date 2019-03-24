@@ -34,7 +34,6 @@ public class GameRepository {
         LevelMapSet ms = new LevelMapSet(new TileSet());
         GameModel gameModel = new GameModel(uuid.toString());
 
-        gameModel.createNewLevel(ms.getMap(0));
         // Default to provided levels
         if(levels.size() > 0){
             for(com.knightlore.game.Level currentLevel : levels){

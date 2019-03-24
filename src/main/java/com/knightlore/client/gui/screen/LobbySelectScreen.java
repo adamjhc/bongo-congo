@@ -15,7 +15,9 @@ import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.networking.ServerConnection;
 import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.networking.ListGameObject;
+import com.knightlore.util.Config;
 
+import java.net.InetAddress;
 import java.util.concurrent.TimeUnit;
 
 public class LobbySelectScreen implements IScreen {
@@ -91,6 +93,23 @@ public class LobbySelectScreen implements IScreen {
       menu.getJoin().setColour();
       if (Mouse.isLeftButtonPressed()) {
         if (menu.getHighlighted() != null) {
+
+          com.knightlore.client.networking.backend.Client gameClient = new com.knightlore.client.networking.backend.Client(menu.getHighlighted().getGame().getIp(), menu.getHighlighted().getGame().getPort());
+          gameClient.run();
+
+          GameConnection.instance = new GameConnection(gameClient, ServerConnection.instance.getSessionKey().get());
+
+          // Wait
+          while(!GameConnection.instance.ready()){
+            try{
+              TimeUnit.SECONDS.sleep(1);
+            }catch (InterruptedException e){
+              // Shouldn't happen
+            }
+          }
+
+          GameConnection.instance.register();
+
           Client.changeScreen(ClientState.LOBBY, menu.getHighlighted());
         }
       }

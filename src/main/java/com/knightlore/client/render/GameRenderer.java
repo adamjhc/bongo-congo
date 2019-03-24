@@ -2,6 +2,7 @@ package com.knightlore.client.render;
 
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.io.Window;
+import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.world.EnemyGameObject;
 import com.knightlore.client.render.world.EnemyGameObjectSet;
@@ -100,6 +101,7 @@ public class GameRenderer extends Renderer {
    * @author Adam Cox
    */
   public void init(GameModel gameModel) {
+    System.out.println("x");
     playerGameObjects = PlayerGameObject.fromGameModel(gameModel.getPlayers().values());
     tileGameObjects =
         TileGameObjectSet.fromGameModel(gameModel.getCurrentLevel().getLevelMap().getTiles());

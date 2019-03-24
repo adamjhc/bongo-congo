@@ -61,7 +61,7 @@ public class GameScreen implements IScreen {
     hud.renderScores(gameModel);
 
     Audio.restart();
-    Mouse.hideCursor();
+    //Mouse.hideCursor();
 
     countDown = new Timer();
 

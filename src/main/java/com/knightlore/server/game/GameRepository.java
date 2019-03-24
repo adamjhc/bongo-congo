@@ -31,7 +31,7 @@ public class GameRepository {
      * @param sessionOwner
      */
     public void newServer(UUID uuid, int port, String sessionOwner, ArrayList<Level> levels, String username){
-        LevelMapSet ms = new LevelMapSet(new TileSet());
+        LevelMapSet ms = new LevelMapSet();
         GameModel gameModel = new GameModel(uuid.toString());
 
         // Default to provided levels

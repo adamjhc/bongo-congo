@@ -6,6 +6,7 @@ import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.world.EnemyGameObject;
 import com.knightlore.client.render.world.EnemyGameObjectSet;
+import com.knightlore.client.render.world.EntityGameObject;
 import com.knightlore.client.render.world.GameObject;
 import com.knightlore.client.render.world.PlayerGameObject;
 import com.knightlore.client.render.world.TileGameObject;
@@ -81,8 +82,8 @@ public class GameRenderer extends Renderer {
     tileGameObjects = new ArrayList<>();
     playerGameObjects = new ArrayList<>();
     enemyGameObjects = new ArrayList<>();
-    viewX = ((float) Window.getWidth() / (world.getScale() * 2)) + 1;
-    viewY = ((float) Window.getHeight() / (world.getScale() * 2)) + 2;
+    viewX = (Window.getWidth() / (world.getScale() * 2f)) + 1;
+    viewY = (Window.getHeight() / (world.getScale() * 2f)) + 2;
   }
 
   /**
@@ -139,30 +140,25 @@ public class GameRenderer extends Renderer {
     Vector3f isometricPosition =
         playerGameObjects.get(gameModel.myPlayer().getId()).getIsometricPosition();
 
-    camera.updatePosition(isometricPosition, world.getScale(), gameModel.getCurrentLevel().getLevelMap().getSize());
+    camera.updatePosition(
+        isometricPosition, world.getScale(), gameModel.getCurrentLevel().getLevelMap().getSize());
 
     List<GameObject> gameObjectsToDepthSort = new ArrayList<>();
     tileGameObjects.forEach(
-        tileGameObject ->
-            ifWithinViewAddTo(gameObjectsToDepthSort, tileGameObject));
+        tileGameObject -> ifWithinViewAddTo(gameObjectsToDepthSort, tileGameObject));
     playerGameObjects.forEach(
-        playerGameObject ->
-            ifWithinViewAddTo(gameObjectsToDepthSort, playerGameObject));
+        playerGameObject -> ifWithinViewAddTo(gameObjectsToDepthSort, playerGameObject));
     enemyGameObjects.forEach(
-        enemyGameObject ->
-            ifWithinViewAddTo(gameObjectsToDepthSort, enemyGameObject));
+        enemyGameObject -> ifWithinViewAddTo(gameObjectsToDepthSort, enemyGameObject));
 
     List<GameObject> depthSortedGameObjects =
         depthSort(gameModel.getCurrentLevel().getLevelMap().getSize(), gameObjectsToDepthSort);
 
     depthSortedGameObjects.forEach(
         gameObject -> {
-          if (gameObject instanceof PlayerGameObject) {
-            ((PlayerGameObject) gameObject)
+          if (gameObject instanceof EntityGameObject) {
+            ((EntityGameObject) gameObject)
                 .render(playerShaderProgram, camera.getProjection(), world.getScale());
-          } else if (gameObject instanceof EnemyGameObject) {
-            ((EnemyGameObject) gameObject)
-                .render(worldShaderProgram, camera.getProjection(), world.getScale());
           } else {
             ((TileGameObject) gameObject)
                 .render(worldShaderProgram, world.getProjection(), camera.getProjection());
@@ -177,8 +173,7 @@ public class GameRenderer extends Renderer {
    * @param gameObject GameObject to test
    * @author Adam Cox
    */
-  private void ifWithinViewAddTo(
-      List<GameObject> gameObjectsToDepthSort, GameObject gameObject) {
+  private void ifWithinViewAddTo(List<GameObject> gameObjectsToDepthSort, GameObject gameObject) {
     if (isWithinView(gameObject.getIsometricPosition())) {
       gameObjectsToDepthSort.add(gameObject);
     }

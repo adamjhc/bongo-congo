@@ -17,12 +17,13 @@ import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.GameState;
 import com.knightlore.networking.ListGameObject;
+import java.util.Collection;
 
 public class LobbyScreen implements IScreen {
 
-    private GuiRenderer guiRenderer;
+  private GuiRenderer guiRenderer;
   private Lobby lobby;
-  
+
   private LobbyObject lobbyData;
   private ListGameObject game;
 
@@ -30,18 +31,17 @@ public class LobbyScreen implements IScreen {
     this.guiRenderer = guiRenderer;
     lobby = new Lobby();
   }
-  
+
   @Override
   public void startup(Object... args) {
     lobbyData = (LobbyObject) args[0];
     game = lobbyData.getGame();
 
-    if (lobbyData.getIsCreator() || true) {
-        lobby.getStart().setRender(true);
+    if (lobbyData.getIsCreator()) {
+      lobby.getStart().setRender(true);
     }
-
   }
-  
+
   @Override
   public void input() {
     if (checkPosition(lobby, lobby.getExit().getId())) {
@@ -83,8 +83,8 @@ public class LobbyScreen implements IScreen {
 
   @Override
   public void render() {
-  	lobby.updateSize(lobbyData.getIsCreator());
-  	
+    lobby.updateSize(lobbyData.getIsCreator());
+
     guiRenderer.render(lobby);
   }
 

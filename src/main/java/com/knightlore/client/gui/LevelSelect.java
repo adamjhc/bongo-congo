@@ -1,5 +1,3 @@
 package com.knightlore.client.gui;
 
-public class LevelSelect {
-
-}
+public class LevelSelect {}

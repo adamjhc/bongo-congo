@@ -7,9 +7,7 @@ import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Window;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.entity.Player;
-
 import java.util.Map;
-
 import org.joml.Vector4f;
 
 public class Hud implements IGui {
@@ -17,8 +15,8 @@ public class Hud implements IGui {
   private static final int SCORE_SIDE_GAP = 4;
   private static final int LIVES_SIDE_GAP = 6;
   private static final int SCORE_HIDE =
-      - SCORE_SIDE_GAP - FONT_SIZE_SMALL * 11 - SCORE_SIDE_GAP - FONT_SIZE_LIVES * 3;
-  private static final int LIVES_HIDE = SCORE_HIDE + FONT_SIZE_SMALL * 11 + SCORE_SIDE_GAP;
+      -SCORE_SIDE_GAP - FONT_SIZE_SMALL * 10 - SCORE_SIDE_GAP - FONT_SIZE_LIVES * 3;
+  private static final int LIVES_HIDE = SCORE_HIDE + FONT_SIZE_SMALL * 10 + SCORE_SIDE_GAP;
 
   private static final int MAX_SCORE = 99999999;
 
@@ -43,62 +41,62 @@ public class Hud implements IGui {
   private TextObject[] lives;
 
   public Hud() {
-    this.player1Score = new TextObject("P1:00000000", SMALL);
+    this.player1Score = new TextObject("1:00000000", SMALL);
     this.player1Score.setColour();
 
-    this.player2Score = new TextObject("P2:00000000", SMALL);
+    this.player2Score = new TextObject("2:00000000", SMALL);
     this.player2Score.setColour(Colour.YELLOW);
 
-    this.player3Score = new TextObject("P3:00000000", SMALL);
+    this.player3Score = new TextObject("3:00000000", SMALL);
     this.player3Score.setColour(Colour.RED);
 
-    this.player4Score = new TextObject("P4:00000000", SMALL);
+    this.player4Score = new TextObject("4:00000000", SMALL);
     this.player4Score.setColour(new Vector4f(0, 1, 1, 1));
 
-    this.player5Score = new TextObject("P5:00000000", SMALL);
+    this.player5Score = new TextObject("5:00000000", SMALL);
     this.player5Score.setColour(new Vector4f(1, 0, 1, 1));
 
-    this.player6Score = new TextObject("P6:00000000", SMALL);
+    this.player6Score = new TextObject("6:00000000", SMALL);
     this.player6Score.setColour(new Vector4f(0, 0, 1, 1));
 
     this.player1Lives = new TextObject("***", LIVES);
     this.player1Lives.setColour(Colour.RED);
-    this.player1Lives.setScale((float)FONT_SIZE_SMALL / (float)FONT_SIZE_LIVES);
+    this.player1Lives.setScale((float) FONT_SIZE_SMALL / (float) FONT_SIZE_LIVES);
 
     this.player2Lives = new TextObject("***", LIVES);
     this.player2Lives.setColour(Colour.RED);
-    this.player2Lives.setScale((float)FONT_SIZE_SMALL / (float)FONT_SIZE_LIVES);
-    
+    this.player2Lives.setScale((float) FONT_SIZE_SMALL / (float) FONT_SIZE_LIVES);
+
     this.player3Lives = new TextObject("***", LIVES);
     this.player3Lives.setColour(Colour.RED);
-    this.player3Lives.setScale((float)FONT_SIZE_SMALL / (float)FONT_SIZE_LIVES);
-    
+    this.player3Lives.setScale((float) FONT_SIZE_SMALL / (float) FONT_SIZE_LIVES);
+
     this.player4Lives = new TextObject("***", LIVES);
     this.player4Lives.setColour(Colour.RED);
-    this.player4Lives.setScale((float)FONT_SIZE_SMALL / (float)FONT_SIZE_LIVES);
-    
+    this.player4Lives.setScale((float) FONT_SIZE_SMALL / (float) FONT_SIZE_LIVES);
+
     this.player5Lives = new TextObject("***", LIVES);
     this.player5Lives.setColour(Colour.RED);
-    this.player5Lives.setScale((float)FONT_SIZE_SMALL / (float)FONT_SIZE_LIVES);
-    
+    this.player5Lives.setScale((float) FONT_SIZE_SMALL / (float) FONT_SIZE_LIVES);
+
     this.player6Lives = new TextObject("***", LIVES);
     this.player6Lives.setColour(Colour.RED);
-    this.player6Lives.setScale((float)FONT_SIZE_SMALL / (float)FONT_SIZE_LIVES);
-    
+    this.player6Lives.setScale((float) FONT_SIZE_SMALL / (float) FONT_SIZE_LIVES);
+
     this.counter = new TextObject("90", LARGE);
     this.counter.setColour(Colour.YELLOW);
     this.counter.setScale(1.5f);
-    
+
     this.countDown = new TextObject("5", LARGE);
     this.countDown.setColour(Colour.YELLOW);
     this.countDown.setScale(4.0f);
-    
+
     this.level = new TextObject("L=1", SMALL);
     this.level.setColour(Colour.YELLOW);
     this.level.setScale(1f);
-    
+
     this.countDown.setRender(false);
-    
+
     this.player1Score.setPosition(SCORE_SIDE_GAP, SCORE_SIDE_GAP);
     this.player2Score.setPosition(SCORE_HIDE, SCORE_SIDE_GAP + GAP);
     this.player3Score.setPosition(SCORE_HIDE, SCORE_SIDE_GAP + GAP * 2);
@@ -133,25 +131,15 @@ public class Hud implements IGui {
           level
         };
     textObjects = new TextObject[] {};
-    
+
     scores =
-    		new TextObject[] {
-            player1Score,
-            player2Score,
-            player3Score,
-            player4Score,
-            player5Score,
-            player6Score
-    		};
-    lives = 
-    		new TextObject[] {
-            player1Lives,
-            player2Lives,
-            player3Lives,
-            player4Lives,
-            player5Lives,
-            player6Lives
-    		};
+        new TextObject[] {
+          player1Score, player2Score, player3Score, player4Score, player5Score, player6Score
+        };
+    lives =
+        new TextObject[] {
+          player1Lives, player2Lives, player3Lives, player4Lives, player5Lives, player6Lives
+        };
   }
 
   public void moveScore(float move, float targetXPos) {
@@ -161,7 +149,7 @@ public class Hud implements IGui {
     if (xPosScore < targetXPos && move > 0) {
       setPosition(move, xPosScore, xPosLives);
       if (player2Score.getPositionX() > targetXPos) {
-        setPosition(0, targetXPos, targetXPos + player1Score.getSize() + SCORE_SIDE_GAP);
+        setPosition(0, targetXPos, targetXPos + player2Score.getSize() + SCORE_SIDE_GAP);
       }
     } else if (xPosScore > targetXPos && move < 0) {
       setPosition(move, xPosScore, xPosLives);
@@ -192,9 +180,9 @@ public class Hud implements IGui {
       this.lives[index].setText(livesText);
     }
   }
-  
+
   public void setLevel(int levelIndex) {
-  	level.setText("L="+(levelIndex+1));
+    level.setText("L=" + (levelIndex + 1));
   }
 
   public TextObject getCounter() {
@@ -204,25 +192,25 @@ public class Hud implements IGui {
   public void setCounter(String statusText) {
     this.counter.setText(statusText);
   }
-  
+
   public TextObject getCountDown() {
-  	return countDown;
+    return countDown;
   }
-  
+
   public void setCountDown(String statusText) {
-  	this.countDown.setText(statusText);
+    this.countDown.setText(statusText);
   }
 
   public TextObject getScore(int index) {
     return this.scores[index];
   }
 
-  public void setScore(int index, int score) {
+  public void setScore(int index, int score, String name) {
     if (score > MAX_SCORE) {
       score = MAX_SCORE;
     }
     String text = String.format("%08d", score);
-    this.scores[index].setText("P"+(index+1)+":" + text);
+    this.scores[index].setText(name + ":" + text);
   }
 
   public int getScoreHide() {
@@ -232,30 +220,35 @@ public class Hud implements IGui {
   public int getScoreSideGap() {
     return SCORE_SIDE_GAP;
   }
-  
+
   public void updateSize() {
-    this.counter.setPosition(Window.getWidth() - counter.getSize()*counter.getScale(),
-    		Window.getHeight() - counter.getHeight()*counter.getScale());
-    this.countDown.setPosition(Window.getHalfWidth() - countDown.getSize()*countDown.getScale()/2,
-    		Window.getHeight() - countDown.getHeight()*countDown.getScale());
-    this.level.setPosition(Window.getWidth() - counter.getSize()*counter.getScale() - level.getSize()*level.getScale(),
-    		Window.getHeight() - level.getHeight()*level.getScale());
+    this.counter.setPosition(
+        Window.getWidth() - counter.getSize() * counter.getScale(),
+        Window.getHeight() - counter.getHeight() * counter.getScale());
+    this.countDown.setPosition(
+        Window.getHalfWidth() - countDown.getSize() * countDown.getScale() / 2,
+        Window.getHeight() - countDown.getHeight() * countDown.getScale());
+    this.level.setPosition(
+        Window.getWidth()
+            - counter.getSize() * counter.getScale()
+            - level.getSize() * level.getScale(),
+        Window.getHeight() - level.getHeight() * level.getScale());
   }
-  
+
   public void renderScores(GameModel gameModel) {
-  	Map<String, Player> players = gameModel.getPlayers();
-  	int numPlayers = players.size();
-  	
-  	player2Score.setRender(numPlayers > 1 ? true : false);
-  	player2Lives.setRender(numPlayers > 1 ? true : false);
-  	player3Score.setRender(numPlayers > 2 ? true : false);
-  	player3Lives.setRender(numPlayers > 2 ? true : false);
-  	player4Score.setRender(numPlayers > 3 ? true : false);
-  	player4Lives.setRender(numPlayers > 3 ? true : false);
-  	player5Score.setRender(numPlayers > 4 ? true : false);
-  	player5Lives.setRender(numPlayers > 4 ? true : false);
-  	player6Score.setRender(numPlayers > 5 ? true : false);
-  	player6Lives.setRender(numPlayers > 5 ? true : false);
+    Map<String, Player> players = gameModel.getPlayers();
+    int numPlayers = players.size();
+
+    player2Score.setRender(numPlayers > 1);
+    player2Lives.setRender(numPlayers > 1);
+    player3Score.setRender(numPlayers > 2);
+    player3Lives.setRender(numPlayers > 2);
+    player4Score.setRender(numPlayers > 3);
+    player4Lives.setRender(numPlayers > 3);
+    player5Score.setRender(numPlayers > 4);
+    player5Lives.setRender(numPlayers > 4);
+    player6Score.setRender(numPlayers > 5);
+    player6Lives.setRender(numPlayers > 5);
   }
 
   @Override

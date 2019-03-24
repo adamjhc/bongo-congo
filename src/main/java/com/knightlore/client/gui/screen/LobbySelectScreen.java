@@ -10,14 +10,10 @@ import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.gui.engine.LobbyObject;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
-import com.knightlore.client.io.Window;
 import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.networking.ServerConnection;
 import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.networking.ListGameObject;
-import com.knightlore.util.Config;
-
-import java.net.InetAddress;
 import java.util.concurrent.TimeUnit;
 
 public class LobbySelectScreen implements IScreen {
@@ -61,12 +57,15 @@ public class LobbySelectScreen implements IScreen {
             // Shouldn't happen
           }
         }
-        ListGameObject test1 = new ListGameObject(GameConnection.instance.uuid,
+        ListGameObject test1 =
+            new ListGameObject(
+                GameConnection.instance.uuid,
                 GameConnection.instance.getIP(),
                 GameConnection.instance.port(),
                 "Test");
 
-        LobbyObject test = new LobbyObject( "Test", menu.SMALL, test1);
+        LobbyObject test = new LobbyObject("Test", menu.SMALL, test1);
+        test.setIsCreator(true);
 
         // Sent off register request
         GameConnection.instance.register();

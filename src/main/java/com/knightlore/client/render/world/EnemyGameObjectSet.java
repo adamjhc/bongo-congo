@@ -45,7 +45,8 @@ public class EnemyGameObjectSet {
 
     enemies.forEach(
         enemy -> {
-          EnemyGameObject enemyGameObject = new EnemyGameObject(enemySet.get(enemy.getEnemyType().ordinal()));
+          EnemyGameObject enemyGameObject =
+              new EnemyGameObject(enemySet.get(enemy.getEnemyType().ordinal()));
           enemyGameObject.setPosition(enemy.getPosition());
           enemyGameObjects.add(enemyGameObject);
         });

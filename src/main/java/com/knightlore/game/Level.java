@@ -19,9 +19,10 @@ public class Level {
   private ArrayList<Enemy> enemies;
   private int enemyIdInc;
 
-  public Level(LevelMap levelMap, EnemySet enemySet) {
+  public Level(LevelMap levelMap) {
     this.levelMap = levelMap;
-    this.enemySet = enemySet;
+
+    enemySet = new EnemySet();
     enemies = new ArrayList<>();
     enemyIdInc = 0;
 

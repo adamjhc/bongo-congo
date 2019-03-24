@@ -45,7 +45,7 @@ public class PreLevelEditor implements IGui {
 
     this.congo = new TextObject("Congo", TITLE);
     this.congo.setColour(Colour.RED);
-    
+
     this.editor = new TextObject("Level Editor", SMALL);
     this.editor.setColour(Colour.YELLOW);
 
@@ -102,10 +102,9 @@ public class PreLevelEditor implements IGui {
 
     this.exit = new TextObject("Exit", SMALL);
     this.exit.setColour(Colour.YELLOW);
-    
+
     this.loadLevel = new TextObject("Load Level", SMALL);
     this.loadLevel.setColour(Colour.YELLOW);
-
 
     guiObjects =
         new GuiObject[] {
@@ -130,7 +129,10 @@ public class PreLevelEditor implements IGui {
           exit,
           loadLevel
         };
-    textObjects = new TextObject[] {wLeft, wRight, lLeft, lRight, hLeft, hRight, createLevel, exit, loadLevel};
+    textObjects =
+        new TextObject[] {
+          wLeft, wRight, lLeft, lRight, hLeft, hRight, createLevel, exit, loadLevel
+        };
   }
 
   public void incWidth() {
@@ -230,13 +232,14 @@ public class PreLevelEditor implements IGui {
   public TextObject getCreateLevel() {
     return createLevel;
   }
-  
+
   public TextObject getLoadLevel() {
-	  return loadLevel;
+    return loadLevel;
   }
-  
+
   public void updateSize() {
-    this.bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
+    this.bongo.setPosition(
+        Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
     this.congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
     this.separatorTop.setPosition(
         Window.getHalfWidth() - separatorTop.getSize() / 2,
@@ -245,8 +248,8 @@ public class PreLevelEditor implements IGui {
         Window.getHalfWidth() - separatorBottom.getSize() / 2,
         Window.getHalfHeight() + SEPARATOR_BOT_POS);
     this.editor.setPosition(
-    		Window.getHalfWidth() - editor.getSize() / 2,
-    		Window.getHalfHeight() - SEPARATOR_TOP_POS - SEPARATOR_GAP);
+        Window.getHalfWidth() - editor.getSize() / 2,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS - SEPARATOR_GAP);
 
     this.width.setPosition(
         Window.getHalfWidth() - width.getSize() / 2,
@@ -296,10 +299,10 @@ public class PreLevelEditor implements IGui {
     this.exit.setPosition(
         Window.getHalfWidth() - exit.getSize() / 2,
         Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 3);
-    
+
     this.loadLevel.setPosition(
-    		Window.getHalfWidth() - loadLevel.getSize() / 2,
-    		Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
+        Window.getHalfWidth() - loadLevel.getSize() / 2,
+        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
   }
 
   @Override

@@ -5,10 +5,8 @@ import java.util.ArrayList;
 public class LevelMapSet {
 
   private ArrayList<LevelMap> set;
-  private TileSet tileSet;
 
-  public LevelMapSet(TileSet tileSet) {
-    this.tileSet = tileSet;
+  public LevelMapSet() {
     set = new ArrayList<>();
     loadMaps();
   }
@@ -72,8 +70,7 @@ public class LevelMapSet {
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 3},
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3},
               },
-            },
-            tileSet));
+            }));
     set.add(
         new LevelMap(
             new int[][][] {
@@ -128,8 +125,7 @@ public class LevelMapSet {
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 3},
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3},
               },
-            },
-            tileSet));
+            }));
     set.add(
         new LevelMap(
             new int[][][] {
@@ -184,7 +180,6 @@ public class LevelMapSet {
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 3},
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3},
               },
-            },
-            tileSet));
+            }));
   }
 }

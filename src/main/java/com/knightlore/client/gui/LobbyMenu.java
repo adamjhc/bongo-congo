@@ -9,7 +9,6 @@ import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;
 import com.knightlore.client.networking.LobbyCache;
 import com.knightlore.networking.ListGameObject;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -62,7 +61,7 @@ public class LobbyMenu implements IGui {
 
     this.create = new TextObject("Create game", SMALL);
     this.create.setColour(Colour.YELLOW);
-    
+
     this.refresh = new TextObject("Refresh", SMALL);
     this.refresh.setColour(Colour.YELLOW);
 
@@ -70,55 +69,59 @@ public class LobbyMenu implements IGui {
     this.exit.setColour(Colour.YELLOW);
 
     guiObjects =
-        new GuiObject[] {bongo, congo, multiplayer, separatorTop, separatorBot, join, create, exit, refresh};
+        new GuiObject[] {
+          bongo, congo, multiplayer, separatorTop, separatorBot, join, create, exit, refresh
+        };
     length = guiObjects.length;
 
     textObjects = new TextObject[] {join, create, exit, separatorTop, separatorBot, refresh};
-    
+
     refreshLobbies();
   }
 
-//  public void createLobby() {
-//    LobbyObject newServer = new LobbyObject("LOBBY PLACEHOLDER " + lobbies.size(), SMALL);
-//    newServer.setColour(Colour.YELLOW);
-//    newServer.setPosition(
-//        Window.getHalfWidth() - newServer.getSize() / 2,
-//        Window.getHalfHeight() - yPos - (current * GAP));
-//    newServer.setIsCreator(true);
-//    yPos -= GAP;
-//
-//    resetHighlight();
-//    newServer.setHighlighted();
-//
-//    lobbies.add(newServer);
-//    addLobby();
-//    for (int i = 0; i < lobbies.size(); i++) moveDown();
-//  }
-  
-  public void refreshLobbies() {
-  	yPos = SEPARATOR_TOP_POS - GAP;
-  	current = 0;
+  //  public void createLobby() {
+  //    LobbyObject newServer = new LobbyObject("LOBBY PLACEHOLDER " + lobbies.size(), SMALL);
+  //    newServer.setColour(Colour.YELLOW);
+  //    newServer.setPosition(
+  //        Window.getHalfWidth() - newServer.getSize() / 2,
+  //        Window.getHalfHeight() - yPos - (current * GAP));
+  //    newServer.setIsCreator(true);
+  //    yPos -= GAP;
+  //
+  //    resetHighlight();
+  //    newServer.setHighlighted();
+  //
+  //    lobbies.add(newServer);
+  //    addLobby();
+  //    for (int i = 0; i < lobbies.size(); i++) moveDown();
+  //  }
 
-  	if (lobbies != null) {
-    	GuiObject[] guiObjectsNew = new GuiObject[length];
+  public void refreshLobbies() {
+    yPos = SEPARATOR_TOP_POS - GAP;
+    current = 0;
+
+    if (lobbies != null) {
+      GuiObject[] guiObjectsNew = new GuiObject[length];
       for (int i = 0; i < length; i++) {
-      	guiObjectsNew[i] = guiObjects[i];
+        guiObjectsNew[i] = guiObjects[i];
       }
       guiObjects = guiObjectsNew.clone();
-  	}
+    }
 
     this.lobbies = new ArrayList<>();
 
-  	if(LobbyCache.instance != null){
+    if (LobbyCache.instance != null) {
       Collection<ListGameObject> games = LobbyCache.instance.getGames();
       for (ListGameObject game : games) {
-        lobbies.add(new LobbyObject(game.getName()+" "+game.getUsernames().size()+"/6 players", SMALL, game));
+        lobbies.add(
+            new LobbyObject(
+                game.getName() + " " + game.getUsernames().size() + "/6 players", SMALL, game));
       }
 
       for (LobbyObject lobby : lobbies) {
         lobby.setColour(Colour.YELLOW);
         lobby.setPosition(
-                Window.getHalfWidth() - lobby.getSize() / 2, Window.getHalfHeight() - yPos);
+            Window.getHalfWidth() - lobby.getSize() / 2, Window.getHalfHeight() - yPos);
         yPos -= GAP;
       }
 
@@ -126,21 +129,21 @@ public class LobbyMenu implements IGui {
     }
     System.out.println("Yeet");
   }
-  
+
   public void deleteLobby(ListGameObject game) {
-  	int i = 0;
-  	int deleteIndex = -1;
-  	for (LobbyObject lobby : lobbies) {
-  		if (lobby.getGame().getUuid() == game.getUuid()) {
-  			deleteIndex = i;
-  			break;
-  		}
-  		i++;
-  	}
-  	if (deleteIndex != -1) {
-    	lobbies.remove(deleteIndex);
-    	refreshLobbies();
-  	}
+    int i = 0;
+    int deleteIndex = -1;
+    for (LobbyObject lobby : lobbies) {
+      if (lobby.getGame().getUuid() == game.getUuid()) {
+        deleteIndex = i;
+        break;
+      }
+      i++;
+    }
+    if (deleteIndex != -1) {
+      lobbies.remove(deleteIndex);
+      refreshLobbies();
+    }
   }
 
   private void addLobby() {
@@ -228,21 +231,19 @@ public class LobbyMenu implements IGui {
     resetHighlight();
     lobbies.get(listPos + current).setHighlighted();
     lobbies.get(listPos + current).setColour();
-    lobbies
-        .get(listPos + current)
-        .setText("- " + lobbies.get(listPos + current).getText() + " -");
+    lobbies.get(listPos + current).setText("- " + lobbies.get(listPos + current).getText() + " -");
     lobbies
         .get(listPos + current)
         .setPositionX(Window.getHalfWidth() - lobbies.get(listPos + current).getSize() / 2);
   }
-  
+
   public LobbyObject getHighlighted() {
-  	for (LobbyObject lobby : lobbies) {
-  		if (lobby.getHighlighted()) {
-  			return lobby;
-  		}
-  	}
-  	return null;
+    for (LobbyObject lobby : lobbies) {
+      if (lobby.getHighlighted()) {
+        return lobby;
+      }
+    }
+    return null;
   }
 
   public TextObject getCreate() {
@@ -260,17 +261,18 @@ public class LobbyMenu implements IGui {
   public TextObject getExit() {
     return exit;
   }
-  
+
   public TextObject getRefresh() {
-  	return refresh;
+    return refresh;
   }
-  
+
   public TextObject getJoin() {
-  	return join;
+    return join;
   }
-  
+
   public void updateSize() {
-    this.bongo.setPosition(Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
+    this.bongo.setPosition(
+        Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
     this.congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
     this.multiplayer.setPosition(
         Window.getHalfWidth() - multiplayer.getSize() / 2,
@@ -288,16 +290,18 @@ public class LobbyMenu implements IGui {
         Window.getHalfWidth() - join.getSize() / 2,
         Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
     this.refresh.setPosition(
-    		Window.getHalfWidth() - refresh.getSize() / 2,
-    		Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 3);
+        Window.getHalfWidth() - refresh.getSize() / 2,
+        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 3);
     this.exit.setPosition(
         Window.getHalfWidth() - exit.getSize() / 2,
         Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 4);
-    
+
     int yPos = SEPARATOR_TOP_POS - GAP;
-    for (LobbyObject lobby : lobbies) {	
-    	lobby.setPosition(Window.getHalfWidth() - lobby.getSize() / 2,  Window.getHalfHeight() - yPos - current*GAP);
-    	yPos -= GAP;
+    for (LobbyObject lobby : lobbies) {
+      lobby.setPosition(
+          Window.getHalfWidth() - lobby.getSize() / 2,
+          Window.getHalfHeight() - yPos - current * GAP);
+      yPos -= GAP;
     }
   }
 

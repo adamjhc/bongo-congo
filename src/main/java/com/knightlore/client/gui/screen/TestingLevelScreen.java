@@ -5,10 +5,8 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_J;
 
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
-import com.knightlore.client.audio.Audio;
 import com.knightlore.client.gui.engine.Timer;
 import com.knightlore.client.io.Keyboard;
-import com.knightlore.client.io.Mouse;
 import com.knightlore.client.render.GameRenderer;
 
 public class TestingLevelScreen extends GameScreen {

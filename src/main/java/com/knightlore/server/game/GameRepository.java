@@ -31,10 +31,9 @@ public class GameRepository {
      * @param sessionOwner
      */
     public void newServer(UUID uuid, int port, String sessionOwner, ArrayList<Level> levels, String username){
-        LevelMapSet ms = new LevelMapSet(new TileSet());
+        LevelMapSet ms = new LevelMapSet();
         GameModel gameModel = new GameModel(uuid.toString());
 
-        gameModel.createNewLevel(ms.getMap(0));
         // Default to provided levels
         if(levels.size() > 0){
             for(com.knightlore.game.Level currentLevel : levels){

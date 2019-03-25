@@ -10,15 +10,17 @@ import java.util.UUID;
 public class LobbyCache {
 
     public static LobbyCache instance;
-
+    public int cacheBuster;
     HashMap<UUID, ListGameObject> games;
 
     public LobbyCache(){
+        cacheBuster = 0;
         this.games = new HashMap<>();
     }
 
     public void setGames(ListGameResponse response){
         this.games = response.getGames();
+        cacheBuster += 1;
     }
 
     public Collection<ListGameObject> getGames(){

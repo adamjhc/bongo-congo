@@ -1,5 +1,6 @@
 package com.knightlore.client.networking.backend.commandhandler;
 
+import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.networking.backend.Client;
 import com.knightlore.game.entity.Player;
 import com.knightlore.networking.Sendable;
@@ -30,6 +31,11 @@ public class Factory {
 
         if(sendable.getFunction().equals("ready")){
             Ready handler = new Ready();
+            handler.run(client, sendable);
+        }
+
+        if(sendable.getFunction().equals("game_close")){
+            GameClose handler = new GameClose();
             handler.run(client, sendable);
         }
     }

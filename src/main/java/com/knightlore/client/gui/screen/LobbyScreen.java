@@ -74,7 +74,7 @@ public class LobbyScreen implements IScreen {
   		} else lobby.getStart().setColour(Colour.YELLOW);
   	}
 
-  	if(GameConnection.gameModel != null && GameConnection.gameModel.getState() != GameState.LOBBY){
+  	if(GameConnection.gameModel != null){
         com.knightlore.client.Client.changeScreen(ClientState.GAME, true, GameConnection.gameModel);
     }
   }

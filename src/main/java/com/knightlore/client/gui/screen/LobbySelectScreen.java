@@ -11,6 +11,7 @@ import com.knightlore.client.gui.engine.LobbyObject;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.networking.GameConnection;
+import com.knightlore.client.networking.LobbyCache;
 import com.knightlore.client.networking.ServerConnection;
 import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.networking.ListGameObject;
@@ -28,7 +29,7 @@ public class LobbySelectScreen implements IScreen {
 
   @Override
   public void startup(Object... args) {
-    menu.refreshLobbies();
+    menuRefresh();
   }
 
   @Override
@@ -85,7 +86,7 @@ public class LobbySelectScreen implements IScreen {
     if (checkPosition(menu, menu.getRefresh().getId())) {
       menu.getRefresh().setColour();
       if (Mouse.isLeftButtonPressed()) {
-        menu.refreshLobbies();
+        menuRefresh();
       }
     } else menu.getRefresh().setColour(Colour.YELLOW);
 
@@ -130,5 +131,21 @@ public class LobbySelectScreen implements IScreen {
   @Override
   public void cleanUp() {
     menu.cleanup();
+  }
+
+  public void menuRefresh(){
+    int cacheV = LobbyCache.instance.cacheBuster;
+
+    ServerConnection.instance.listGames();
+    while(cacheV == LobbyCache.instance.cacheBuster){
+      try{
+        TimeUnit.MILLISECONDS.sleep(100);
+        System.out.println("Waitings");
+
+      }catch(InterruptedException e){
+        // Shouldn't happen
+      }
+    }
+    menu.refreshLobbies();
   }
 }

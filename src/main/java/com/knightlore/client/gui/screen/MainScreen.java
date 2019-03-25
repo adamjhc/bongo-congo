@@ -54,40 +54,38 @@ public class MainScreen implements IScreen {
         // Do network connection
         Client.showLoadingScreen();
 
-        // Call multiplayer connection
-        try {
-          // Make connection
-          System.out.println("Making con");
-          ServerConnection.makeConnection();
-          System.out.println("Con");
-
-          // Authenticate
+        // Check for multiplayer connection
+        if(ServerConnection.instance == null){
           try {
-            ServerConnection.instance.auth();
-          } catch (IOException e) {
-            System.out.println("Auth error");
-          } catch (ClientAlreadyAuthenticatedException e) {
-            // Ignore
-          }
+            // Make connection
+            ServerConnection.makeConnection();
 
-          // Wait for auth
-          while (!ServerConnection.instance.isAuthenticated()) {
-            // Wait
+            // Authenticate
             try {
-              TimeUnit.SECONDS.sleep(1);
-              System.out.println("Waiting");
-            } catch (InterruptedException e) {
-
+              ServerConnection.instance.auth();
+            } catch (IOException e) {
+              System.out.println("Auth error");
+            } catch (ClientAlreadyAuthenticatedException e) {
+              // Ignore
             }
+
+            // Wait for auth
+            while (!ServerConnection.instance.isAuthenticated()) {
+              // Wait
+              try {
+                TimeUnit.SECONDS.sleep(1);
+                System.out.println("Waiting");
+              } catch (InterruptedException e) {
+
+              }
+            }
+          }catch(ConfigItemNotFoundException e){
+
           }
-
-          // Retrieve Games
-          ServerConnection.instance.listGames();
-
-        } catch (ConfigItemNotFoundException e) {
-          // TODO handle crash
-          System.out.println("Could not find the correct configuration files");
         }
+
+        // Retrieve Games
+        ServerConnection.instance.listGames();
 
         // Wait for game recieve response
         while (LobbyCache.instance == null) {

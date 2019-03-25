@@ -3,8 +3,8 @@ package com.knightlore.server.game;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.Level;
 import com.knightlore.game.map.LevelMapSet;
-import com.knightlore.game.map.TileSet;
 import com.knightlore.game.server.GameServer;
+import com.knightlore.server.GameServerSupervisor;
 import com.knightlore.server.database.model.Model;
 import org.apache.log4j.Logger;
 
@@ -54,8 +54,6 @@ public class GameRepository {
             }
         }
 
-
-
         this.newServer(uuid, port, sessionOwner, gameModel, username);
     }
 
@@ -69,9 +67,13 @@ public class GameRepository {
      */
     public void newServer(UUID uuid, int port, String sessionOwner, GameModel gameModel, String username){
         String name = username + "'s game";
-
         GameServer server = new GameServer(uuid, port, sessionOwner, gameModel, name);
         servers.put(uuid, server);
+
+        // Create supervisor
+        GameServerSupervisor currentManager = new GameServerSupervisor(server);
+        currentManager.start();
+
     }
 
     public void startServer(UUID uuid){
@@ -99,5 +101,9 @@ public class GameRepository {
 
     public HashMap<UUID, GameServer> getServers(){
         return this.servers;
+    }
+
+    public void removeServer(UUID uuid){
+        this.servers.remove(uuid);
     }
 }

@@ -3,6 +3,8 @@ package com.knightlore.game.server;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.server.commandhandler.Factory;
 import com.knightlore.networking.Sendable;
+import com.knightlore.server.game.GameRepository;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -72,8 +74,8 @@ public class ClientHandler extends Thread{
       // Check for server owner
       if(this.sessionKey.isPresent() && gameServer.sessionOwner.equals(this.sessionKey.get())){
         // Delete server
-        System.out.println("Owner found");
         gameServer.close();
+        GameRepository.instance.removeServer(this.server().getUUID());
       }
     } catch (IOException e) {
       e.printStackTrace();

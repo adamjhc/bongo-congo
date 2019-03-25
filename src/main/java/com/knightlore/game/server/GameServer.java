@@ -21,7 +21,7 @@ public class GameServer extends Thread {
   String sessionOwner;
   String name;
   ArrayList<ClientHandler> clients;
-  GameManager manager;
+  boolean running;
 
   GameModel model;
 
@@ -32,6 +32,7 @@ public class GameServer extends Thread {
     this.model = model;
     this.clients = new ArrayList<>();
     this.name = name;
+    this.running = true;
   }
 
   // Start new server
@@ -42,7 +43,7 @@ public class GameServer extends Thread {
       ServerSocket ss = new ServerSocket(this.socket);
 
       // Capture new clients
-      while (true) {
+      while (running) {
         Socket s = null;
         try {
           // socket object to receive incoming com.knightlore.server.client requests
@@ -74,6 +75,8 @@ public class GameServer extends Thread {
     } catch (IOException e) {
       e.printStackTrace();
     }
+
+    System.out.println("THREAD CLOSE");
   }
 
   public ArrayList<ClientHandler> registeredClients() {
@@ -159,8 +162,16 @@ public class GameServer extends Thread {
 
   public void close(){
     for(ClientHandler client: this.clients){
+      // Send close
+      Sendable sendable = new Sendable();
+      sendable.setFunction("game_close");
+      client.send(sendable);
+
+      // Close client
       client.close();
     }
 
+    running = false;
+    this.interrupt();
   }
 }

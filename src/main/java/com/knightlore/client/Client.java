@@ -6,21 +6,12 @@ import static org.lwjgl.glfw.GLFW.glfwTerminate;
 import com.knightlore.client.audio.Audio;
 import com.knightlore.client.gui.Loading;
 import com.knightlore.client.gui.engine.Timer;
-import com.knightlore.client.gui.screen.GameEndScreen;
-import com.knightlore.client.gui.screen.GameScreen;
-import com.knightlore.client.gui.screen.IScreen;
-import com.knightlore.client.gui.screen.LevelEditorScreen;
-import com.knightlore.client.gui.screen.LevelEditorSetupScreen;
-import com.knightlore.client.gui.screen.LoadLevelScreen;
-import com.knightlore.client.gui.screen.LobbyScreen;
-import com.knightlore.client.gui.screen.LobbySelectScreen;
-import com.knightlore.client.gui.screen.MainScreen;
-import com.knightlore.client.gui.screen.NameLevelScreen;
-import com.knightlore.client.gui.screen.OptionsScreen;
-import com.knightlore.client.gui.screen.TestingLevelScreen;
+import com.knightlore.client.gui.screen.*;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;
+import com.knightlore.client.networking.GameConnection;
+import com.knightlore.client.networking.ServerConnection;
 import com.knightlore.client.render.GameRenderer;
 import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.client.render.LevelEditorRenderer;
@@ -49,6 +40,7 @@ public class Client {
       ClientState newScreen, boolean showLoadingScreen, Object... args) {
     if (showLoadingScreen) {
       loadingScreen.updateSize();
+      ServerConnection.instance.listGames();
       showLoadingScreen();
     }
 

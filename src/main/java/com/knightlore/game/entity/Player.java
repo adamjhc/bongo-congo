@@ -131,6 +131,11 @@ public class Player extends Entity {
     this.rollCooldown = rollCooldown;
   }
 
+  /**
+   * Setter for property 'climbFlag'.
+   *
+   * @param climbFlag Value to set for property 'climbFlag'.
+   */
   public void setClimbFlag(boolean climbFlag) {this.climbFlag = climbFlag; }
 
   /** {@inheritDoc} */
@@ -153,8 +158,7 @@ public class Player extends Entity {
 
   /**
    * The main method called in the game loop. Continuously checks for collision events with specific
-   * tiles such as blocking or hazards. Also allows the player to climb up layers of the levelMap,
-   * and manages falling down layers.
+   * tiles such as blocking or hazards. Also allows the player to climb up and down layers of the levelMap.
    *
    * @param oldPos The position of the player before collision check update
    * @param newPos The potential position of the player after collision check update
@@ -168,7 +172,7 @@ public class Player extends Entity {
     try {
       Tile newTile = levelMap.getTile(coords);
 
-      if (newTile.getIndex() == 0) { // Checks if tile is an air tile
+      if (newTile.getIndex() == 0) { // Air tile collision
         coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z - 1));
         Tile below = levelMap.getTile(coords);
         if (below.getIndex() == 2 || below.getIndex() == 3) { // Check if the tile you are falling onto is walkable
@@ -180,7 +184,7 @@ public class Player extends Entity {
           setPlayerState(PlayerState.CLIMBING);
         }
 
-      } else if (newTile.getIndex() == 2) { // Checks if tile is a blocking tile
+      } else if (newTile.getIndex() == 2) { // Wall tile collision
         setPosition(oldPos);
       } else { // Sets new position
         if (GameConnection.instance != null) {
@@ -189,7 +193,7 @@ public class Player extends Entity {
         setPosition(newPos);
       }
 
-      if (newTile.getIndex() == 3 ) { // Checks for climbable tile
+      if (newTile.getIndex() == 3 ) { // Climbing tile collision
         coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z + 1));
         Tile above = levelMap.getTile(coords);
         if (above.getIndex() == 1 && playerState != PlayerState.ROLLING && climbFlag) { // Checks if the tile above climbable tile is accessible
@@ -200,11 +204,11 @@ public class Player extends Entity {
         }
       }
 
-      if (newTile.getIndex() == 4) {
+      if (newTile.getIndex() == 4) { // Hazard collision
         loseLife();
       }
 
-      if (newTile.getIndex() == 5) { // Checks for goal
+      if (newTile.getIndex() == 5) { // Goal collision
         addToScore(10000);
         setPosition(newPos);
         // TODO: Switch game state here

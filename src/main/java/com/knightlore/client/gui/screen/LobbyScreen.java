@@ -63,7 +63,7 @@ public class LobbyScreen implements IScreen {
     	lobby.refreshPlayers(game.getUsernames());
   	}
   	
-  	if (lobbyData.getIsCreator() || true) {
+  	if (lobbyData.getIsCreator()) {
   		if (checkPosition(lobby, lobby.getStart().getId())) {
   			lobby.getStart().setColour();
   			if (Mouse.isLeftButtonPressed() ) {

@@ -39,26 +39,56 @@ public class Player extends Entity {
     playerState = START_PLAYER_STATE;
   }
 
+  /**
+   * Getter for property 'associatedSession'.
+   *
+   * @return Value for property 'associatedSession'.
+   */
   public String getAssociatedSession() {
     return associatedSession;
   }
 
+  /**
+   * Getter for property 'playerState'.
+   *
+   * @return Value for property 'playerState'.
+   */
   public PlayerState getPlayerState() {
     return playerState;
   }
 
+  /**
+   * Setter for property 'playerState'.
+   *
+   * @param playerState Value to set for property 'playerState'.
+   */
   public void setPlayerState(PlayerState playerState) {
     this.playerState = playerState;
   }
 
+  /**
+   * Getter for property 'colour'.
+   *
+   * @return Value for property 'colour'.
+   */
   public Vector4f getColour() {
     return colour;
   }
 
+  /**
+   * Getter for property 'lives'.
+   *
+   * @return Value for property 'lives'.
+   */
   public int getLives() {
     return lives;
   }
 
+  /**
+   * Getter for property 'score'.
+   *
+   * @return Value for property 'score'.
+   */
   public int getScore() {
     return score;
   }
@@ -67,18 +97,34 @@ public class Player extends Entity {
     score += amount;
   }
 
+  /**
+   * Getter for property 'climbVal'.
+   *
+   * @return Value for property 'climbVal'.
+   */
   public float getClimbVal() {
     return climbVal;
   }
 
+  /**
+   * Getter for property 'cooldown'.
+   *
+   * @return Value for property 'cooldown'.
+   */
   public int getCooldown() {
     return rollCooldown;
   }
 
+  /**
+   * Setter for property 'cooldown'.
+   *
+   * @param rollCooldown Value to set for property 'cooldown'.
+   */
   public void setCooldown(int rollCooldown) {
     this.rollCooldown = rollCooldown;
   }
 
+  /** {@inheritDoc} */
   @Override
   public Vector3f getPosition() {
     return position;
@@ -92,6 +138,7 @@ public class Player extends Entity {
     rollCooldown = START_ROLL_COOLDOWN;
   }
 
+  /** {@inheritDoc} */
   @Override
   void update() {}
 

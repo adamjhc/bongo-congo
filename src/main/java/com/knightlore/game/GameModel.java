@@ -113,17 +113,19 @@ public class GameModel {
       currentState = GameState.PLAYING;
     }
 
-    // Player updates
-    switch (myPlayer().getPlayerState()) {
-      case IDLE:
+    if (myPlayer().getPlayerState() != PlayerState.ROLLING) {
         rollCountdown();
+    }
+
+      // Player updates
+      switch (myPlayer().getPlayerState()) {
+      case IDLE:
         if (playerInputDirection != null) {
           updatePlayerState(PlayerState.MOVING);
           movePlayerInDirection(playerInputDirection, delta);
         }
         break;
       case MOVING:
-        rollCountdown();
         if (playerInputDirection == null) {
           updatePlayerState(PlayerState.IDLE);
         } else {
@@ -131,7 +133,6 @@ public class GameModel {
         }
         break;
       case CLIMBING:
-        rollCountdown();
         Player player = myPlayer();
         Vector3f bottom = player.getPosition();
         if (accumulator < 10) {

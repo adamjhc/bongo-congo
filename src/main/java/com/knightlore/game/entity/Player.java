@@ -156,7 +156,7 @@ public class Player extends Entity {
    * @param oldPos The position of the player before collision check update
    * @param newPos The potential position of the player after collision check update
    * @param levelMap The current levelMap being played
-   * @author Jacqueline Henes
+   * @author Jacqui Henes
    */
   public void update(Vector3f oldPos, Vector3f newPos, LevelMap levelMap) {
 
@@ -224,7 +224,7 @@ public class Player extends Entity {
    *
    * @param pos The position to be padded
    * @return The padded coordinates of the player
-   * @author Jacqueline Henes, Adam Cox
+   * @author Jacqui Henes, Adam Cox
    */
   public Vector3f setPadding(Vector3f pos) {
     Vector3f padded = new Vector3f();
@@ -235,7 +235,7 @@ public class Player extends Entity {
   /**
    * Resets player to spawn point having lost a life
    *
-   * @author Jacqueline Henes
+   * @author Jacqui Henes
    */
   public void loseLife() {
     if (playerState != PlayerState.ROLLING) {

@@ -8,6 +8,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_MINUS;
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.audio.Audio;
+import com.knightlore.client.audio.Audio.AudioName;
 import com.knightlore.client.exceptions.ClientAlreadyAuthenticatedException;
 import com.knightlore.client.exceptions.ConfigItemNotFoundException;
 import com.knightlore.client.gui.MainMenu;
@@ -25,16 +26,21 @@ public class MainScreen implements IScreen {
 
   MainMenu menu;
   GuiRenderer renderer;
+  AudioName SELECT = AudioName.SOUND_MENUSELECT;
 
   public MainScreen(GuiRenderer renderer) {
     menu = new MainMenu();
     this.renderer = renderer;
 
     Audio.restart();
-  }
+    }
 
   @Override
-  public void startup(Object... args) {}
+  public void startup(Object... args) {
+	    Audio.stop(Audio.getCurrentMusic());
+	    Audio.play(Audio.AudioName.MUSIC_MENU);
+
+  }
 
   @Override
   public void input() {
@@ -43,6 +49,7 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getSingleplayer().getId())) {
       menu.getSingleplayer().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         Client.changeScreen(ClientState.GAME, true);
       }
     } else menu.getSingleplayer().setColour(Colour.YELLOW);
@@ -51,6 +58,7 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getMultiplayer().getId())) {
       menu.getMultiplayer().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         // Do network connection
         Client.showLoadingScreen();
 
@@ -107,6 +115,7 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getLevelEditor().getId())) {
       menu.getLevelEditor().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         Client.changeScreen(ClientState.PRE_EDITOR, false);
       }
     } else menu.getLevelEditor().setColour(Colour.YELLOW);
@@ -115,6 +124,7 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getOptions().getId())) {
       menu.getOptions().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         Client.changeScreen(ClientState.OPTIONS_MENU, false);
       }
     } else menu.getOptions().setColour(Colour.YELLOW);
@@ -123,6 +133,7 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getQuit().getId())) {
       menu.getQuit().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         Window.setShouldClose();
       }
     } else menu.getQuit().setColour(Colour.YELLOW);

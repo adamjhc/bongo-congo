@@ -53,6 +53,10 @@ class MusicPlayer {
     this.clip.stop();
     this.clip.close();
   }
+  
+  boolean shouldLoop() {
+	  return this.loops;
+  }
 
   void incVolume() {
     float prev = gainControl.getValue();

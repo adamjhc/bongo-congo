@@ -16,6 +16,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_Z;
 
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
+import com.knightlore.client.audio.Audio;
 import com.knightlore.client.gui.LevelEditorHud;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
@@ -97,6 +98,8 @@ public class LevelEditorScreen implements IScreen {
     currentTileX = 0;
     currentTileY = 0;
     currentTileZ = 0;
+    Audio.stop(Audio.getCurrentMusic());
+    Audio.play(Audio.AudioName.MUSIC_EDITOR);
   }
 
   /**

@@ -61,6 +61,8 @@ public class GameScreen implements IScreen {
 
       Gson gson = new Gson();
       System.out.println(gson.toJson(gameModel.getCurrentLevel()));
+      Audio.stop(Audio.getCurrentMusic());
+      Audio.play(Audio.AudioName.MUSIC_GAME);
     } else {
       gameModel = (GameModel) args[0];
     }

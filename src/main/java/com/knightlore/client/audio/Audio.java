@@ -40,12 +40,12 @@ public class Audio {
       System.err.println("Could not load endgame music: " + e);
     }
 
-    /* try {
-     * 		 this.menuSelectSound = 	new MusicPlayer(audioPath + "SOUND_MENUSELECT.wav", false);
-     * } catch (Exception e) {
-     * 		System.err.println("Could not load menu select sound: " + e);
-     * }
-     */
+    try {
+      menuSelectSound = 	new MusicPlayer(AUDIO_PATH + "SOUND_MENUSELECT.wav", false);
+    } catch (Exception e) {
+      System.err.println("Could not load menu select sound: " + e);
+    }
+
     /* try {
      * 		this.hitSound = 			new MusicPlayer(audioPath + "SOUND_HIT.wav", false);
      * } catch (Exception e) {
@@ -87,12 +87,12 @@ public class Audio {
           menuMusic,
           gameMusic,
           editorMusic,
-          menuSelectSound,
+          menuSelectSound/*,
           hitSound,
           deathSound,
           rollSound,
           victoryJingle,
-          gameOverJingle
+          gameOverJingle*/
         };
     
     currentMusic = 0;
@@ -100,6 +100,10 @@ public class Audio {
 
   public static boolean isOn() {
     return isOn;
+  }
+  
+  public static AudioName getCurrentMusic() {
+	  return AudioName.values()[currentMusic];
   }
 
   // param1: the audio file to be played
@@ -123,7 +127,7 @@ public class Audio {
   // Closes any audio files that have finished playing so that they can be played again
   public static void closeInactiveClips() {
     for (MusicPlayer audioFile : audioFiles) {
-      if (!audioFile.isPlaying()) {
+      if (!audioFile.isPlaying() && !audioFile.shouldLoop()) {
         audioFile.stop();
       }
     }

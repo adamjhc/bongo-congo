@@ -16,20 +16,20 @@ import org.joml.Vector4f;
 
 public class GameModel {
 
-  private final int noOfLevels = 3;
+    private static final int NUMBER_OF_LEVELS = 3;
+    private static final float ROLL_SPEED = 1.5f;
+    private static final int ROLL_COOLDOWN = 150;
 
-  private String uuid;
+    private String uuid;
 
-  private GameState currentState;
-  private Integer currentLevelIndex;
-  private ArrayList<Level> levels;
+    private GameState currentState;
+    private Integer currentLevelIndex;
+    private ArrayList<Level> levels;
 
-  private Map<String, Player> players;
-  private int playerIdInc;
-  private List<Vector4f> playerColours;
+    private Map<String, Player> players;
+    private int playerIdInc;
+    private List<Vector4f> playerColours;
 
-  private float rollSpeed = 1.5f;
-  private int cooldown = 150;
   private int accumulator = 0;
 
   public GameModel(String uuid) {
@@ -98,7 +98,7 @@ public class GameModel {
   }
 
   public void nextLevel() {
-    if (currentLevelIndex == noOfLevels - 1) {
+    if (currentLevelIndex == NUMBER_OF_LEVELS - 1) {
       currentState = GameState.SCORE;
       return;
     }
@@ -113,17 +113,19 @@ public class GameModel {
       currentState = GameState.PLAYING;
     }
 
-    // Player updates
-    switch (myPlayer().getPlayerState()) {
-      case IDLE:
+    if (myPlayer().getPlayerState() != PlayerState.ROLLING) {
         rollCountdown();
+    }
+
+      // Player updates
+      switch (myPlayer().getPlayerState()) {
+      case IDLE:
         if (playerInputDirection != null) {
           updatePlayerState(PlayerState.MOVING);
           movePlayerInDirection(playerInputDirection, delta);
         }
         break;
       case MOVING:
-        rollCountdown();
         if (playerInputDirection == null) {
           updatePlayerState(PlayerState.IDLE);
         } else {
@@ -131,29 +133,33 @@ public class GameModel {
         }
         break;
       case CLIMBING:
-        rollCountdown();
         Player player = myPlayer();
         Vector3f bottom = player.getPosition();
+        // 'Plays' climbing animation
         if (accumulator < 10) {
           bottom.z += player.getClimbVal();
           accumulator++;
           player.setPosition(bottom);
           delay(5);
         } else {
+          // Done playing animation, set position
           accumulator = 0;
           player.setPosition(player.setPadding(player.getPosition()));
+          player.setClimbFlag(false);
           player.setPlayerState(PlayerState.IDLE);
         }
         break;
       case ROLLING:
+        // 'Play' animation
         if (accumulator < 20) {
           delay(5);
-          movePlayerInDirection(myPlayer().getDirection(), delta * rollSpeed);
+          movePlayerInDirection(myPlayer().getDirection(), delta * ROLL_SPEED);
           updatePlayerState(PlayerState.ROLLING);
           accumulator++;
         } else {
+          // Set up cooldown and stop animation
           accumulator = 0;
-          myPlayer().setCooldown(cooldown);
+          myPlayer().setCooldown(ROLL_COOLDOWN);
           updatePlayerState(PlayerState.IDLE);
           myPlayer().setPosition(myPlayer().getPosition());
         }
@@ -161,6 +167,7 @@ public class GameModel {
       case FALLING:
         player = myPlayer();
         Vector3f top = player.getPosition();
+        // 'Play' animation
         if (top.z != 0) {
           top.z -= 0.1;
           if (top.z < 0) {
@@ -169,9 +176,9 @@ public class GameModel {
           player.setPosition(top);
           delay(5);
         } else {
+          // Reset player
           delay(500);
           player.setPosition(player.setPadding(player.getPosition()));
-          player.setCooldown(0);
           player.loseLife();
         }
         break;
@@ -214,11 +221,21 @@ public class GameModel {
     player.update(origPos, newPos, getCurrentLevel().getLevelMap());
   }
 
+    /**
+     * Updates the current client's Player PlayerState
+     * @param state
+     * */
   private void updatePlayerState(PlayerState state) {
     myPlayer().setPlayerState(state);
   }
 
-  private void delay(long target) { // target delay in milliseconds
+    /**
+     * Helper method for game physics related animations in the update loop
+     * 'Pauses' the player for a set delay, allowing animations to play out
+     * @param target delay in milliseconds
+     * @author Jacqui Henes
+     */
+  private void delay(long target) {
     long start = System.nanoTime() / 1000000;
     long difference = 0;
     while (difference < target) {
@@ -227,6 +244,10 @@ public class GameModel {
     }
   }
 
+    /**
+     * Decrements the cooldown for Player rolling
+     * @author Jacqui Henes
+     */
   private void rollCountdown() {
     Player player = myPlayer();
     int playerCooldown = player.getCooldown();

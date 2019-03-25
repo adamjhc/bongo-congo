@@ -55,7 +55,8 @@ public class LevelEditorRenderer extends Renderer {
   }
 
   public void addToCameraPosition(Vector3f cameraChange, Vector3i mapSize) {
-    camera.updatePosition(camera.getWorldPosition().add(cameraChange, new Vector3f()), world.getScale(), mapSize);
+    camera.updatePosition(
+        camera.getWorldPosition().add(cameraChange, new Vector3f()), world.getScale(), mapSize);
   }
 
   public void render(LevelMap levelMap, LevelEditorHud hud) {
@@ -120,12 +121,12 @@ public class LevelEditorRenderer extends Renderer {
   }
 
   private void calculateView() {
-    viewX = ((float) Window.getWidth() / (world.getScale() * 2)) + 1;
-    viewY = ((float) Window.getHeight() / (world.getScale() * 2)) + 2;
+    viewX = (Window.getWidth() / (world.getScale() * 2f)) + 1;
+    viewY = (Window.getHeight() / (world.getScale() * 2f)) + 2;
   }
 
   @Override
-  protected void cleanup() {
+  public void cleanup() {
     shaderProgram.cleanup();
   }
 }

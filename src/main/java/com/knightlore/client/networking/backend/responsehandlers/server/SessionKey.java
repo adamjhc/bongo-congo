@@ -15,9 +15,8 @@ public class SessionKey implements GenericHandler {
         System.out.println("Session key received");
         SessionKeyResponse data = gson.fromJson(response.getData(), SessionKeyResponse.class);
 
-
         if(data.success){
-            ServerConnection.instance.authSuccess(data.key);
+            ServerConnection.instance.authSuccess(data.key, data.username);
         }else{
             ServerConnection.instance.authFail();
         }

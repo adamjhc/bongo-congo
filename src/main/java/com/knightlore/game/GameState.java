@@ -4,5 +4,6 @@ public enum GameState {
   LOBBY,
   PLAYING,
   NEXT_LEVEL,
-  SCORE
+  SCORE,
+  WAITING_READY
 }

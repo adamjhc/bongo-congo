@@ -72,7 +72,7 @@ public class TileGameObject extends GameObject {
    * @author Adam Cox
    */
   private void setupRenderModel() {
-    float scaledTextureHeight = 2 * (float) texture.getHeight() / texture.getWidth();
+    float scaledTextureHeight = 2f * texture.getHeight() / texture.getWidth();
 
     float[] vertices =
         new float[] {
@@ -83,16 +83,6 @@ public class TileGameObject extends GameObject {
         };
 
     model = new RenderModel(vertices, textureCoordinates, indices);
-  }
-
-  /**
-   * Get whether the tile is a floor
-   *
-   * @return whether the tile is a floor
-   * @author Adam Cox
-   */
-  public boolean isFloor() {
-    return tileType == TileType.FLOOR;
   }
 
   /**

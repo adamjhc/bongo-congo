@@ -10,15 +10,19 @@ import org.joml.Vector4f;
 
 public class Player extends Entity {
 
-  private static final Vector3f START_POSITION = new Vector3f(0.5f, 0.5f, 0);
+  static final Vector3f START_POSITION = new Vector3f(0.5f, 0.5f, 0);
+  static final Direction START_DIRECTION = Direction.NORTH_WEST;
+  static final PlayerState START_PLAYER_STATE = PlayerState.IDLE;
+  static final int START_LIVES = 3;
+  static final int START_ROLL_COOLDOWN = 0;
 
-    private int score;
-    private int lives;
-    private int rollCooldown;
-    private float climbVal = 0.1f;
-    private PlayerState playerState;
-    private String associatedSession;
-    private Vector4f colour;
+  private int score;
+  private int lives;
+  private int rollCooldown;
+  private float climbVal = 0.1f;
+  private PlayerState playerState;
+  private String associatedSession;
+  private Vector4f colour;
 
   public Player(String sessionID, int id, Vector4f colour) {
     this.associatedSession = sessionID;
@@ -26,21 +30,17 @@ public class Player extends Entity {
     this.colour = colour;
 
     speed = 7;
-    rollCooldown = 0;
-    direction = Direction.SOUTH;
-    position = START_POSITION;
-    playerState = PlayerState.IDLE;
-
-    lives = 3;
     score = 0;
-  }
-  
-  public String getAssociatedSession() {
-  	return associatedSession;
+
+    lives = START_LIVES;
+    rollCooldown = START_ROLL_COOLDOWN;
+    direction = START_DIRECTION;
+    position = START_POSITION;
+    playerState = START_PLAYER_STATE;
   }
 
-  public void addToScore(int amount) {
-    score += amount;
+  public String getAssociatedSession() {
+    return associatedSession;
   }
 
   public PlayerState getPlayerState() {
@@ -63,11 +63,21 @@ public class Player extends Entity {
     return score;
   }
 
-  public float getClimbVal() { return climbVal;}
+  public void addToScore(int amount) {
+    score += amount;
+  }
 
-  public int getCooldown() { return rollCooldown; }
+  public float getClimbVal() {
+    return climbVal;
+  }
 
-  public void setCooldown(int rollCooldown) { this.rollCooldown = rollCooldown; }
+  public int getCooldown() {
+    return rollCooldown;
+  }
+
+  public void setCooldown(int rollCooldown) {
+    this.rollCooldown = rollCooldown;
+  }
 
   @Override
   public Vector3f getPosition() {
@@ -75,10 +85,11 @@ public class Player extends Entity {
   }
 
   public void reset() {
-    playerState = PlayerState.IDLE;
+    playerState = START_PLAYER_STATE;
     position = START_POSITION;
-    direction = Direction.SOUTH_EAST;
-    lives = 3;
+    direction = START_DIRECTION;
+    lives = START_LIVES;
+    rollCooldown = START_ROLL_COOLDOWN;
   }
 
   @Override
@@ -96,52 +107,54 @@ public class Player extends Entity {
    */
   public void update(Vector3f oldPos, Vector3f newPos, LevelMap levelMap) {
 
-      Vector3i coords = CoordinateUtils.getTileCoord(setPadding(newPos));
+    Vector3i coords = CoordinateUtils.getTileCoord(setPadding(newPos));
 
-      try {
-          Tile newTile = levelMap.getTile(coords);
+    try {
+      Tile newTile = levelMap.getTile(coords);
 
-        if (newTile.getIndex() == 0) { // Checks if tile is an air tile
-          coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z - 1));
-          Tile below = levelMap.getTile(coords);
-          if (below.getIndex() == 2
-              || below.getIndex() == 3) { // Check if the tile you are falling onto is walkable
-            setPosition(oldPos);
-          } else if (below.getIndex() == 0) {
-            setPlayerState(PlayerState.FALLING);
-          } else {
-            climbVal = -0.1f;
-            setPlayerState(PlayerState.CLIMBING);
-          }
-
-        } else if (newTile.getIndex() == 2) { // Checks if tile is a blocking tile
+      if (newTile.getIndex() == 0) { // Checks if tile is an air tile
+        coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z - 1));
+        Tile below = levelMap.getTile(coords);
+        if (below.getIndex() == 2
+            || below.getIndex() == 3) { // Check if the tile you are falling onto is walkable
           setPosition(oldPos);
-        } else { // Sets new position
-          if (GameConnection.instance != null) {
-            GameConnection.instance.updatePosition(position);
-          }
-          setPosition(newPos);
+        } else if (below.getIndex() == 0) {
+          setPlayerState(PlayerState.FALLING);
+        } else {
+          climbVal = -0.1f;
+          setPlayerState(PlayerState.CLIMBING);
         }
 
-        if (newTile.getIndex() == 3 ) { // Checks for climbable tile
-          coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z + 1));
-          Tile above = levelMap.getTile(coords);
-          if (above.getIndex() == 1 && playerState != PlayerState.ROLLING) { // Checks if the tile above climbable tile is accessible
-            climbVal = 0.1f;
-            setPlayerState(PlayerState.CLIMBING);
-          } else {
-            setPosition(oldPos);
-          }
+      } else if (newTile.getIndex() == 2) { // Checks if tile is a blocking tile
+        setPosition(oldPos);
+      } else { // Sets new position
+        if (GameConnection.instance != null) {
+          GameConnection.instance.updatePosition(position);
         }
-        if (newTile.getIndex() == 4) {
-            loseLife();
-        }
+        setPosition(newPos);
+      }
 
-        if (newTile.getIndex() == 5) { // Checks for goal
-          addToScore(10000);
-          setPosition(newPos);
-          // TODO: Switch game state here
+      if (newTile.getIndex() == 3) { // Checks for climbable tile
+        coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z + 1));
+        Tile above = levelMap.getTile(coords);
+        if (above.getIndex() == 1
+            && playerState
+                != PlayerState.ROLLING) { // Checks if the tile above climbable tile is accessible
+          climbVal = 0.1f;
+          setPlayerState(PlayerState.CLIMBING);
+        } else {
+          setPosition(oldPos);
         }
+      }
+      if (newTile.getIndex() == 4) {
+        loseLife();
+      }
+
+      if (newTile.getIndex() == 5) { // Checks for goal
+        addToScore(10000);
+        setPosition(newPos);
+        // TODO: Switch game state here
+      }
 
       // TODO: Enemy collisions
 
@@ -162,8 +175,7 @@ public class Player extends Entity {
   public Vector3f setPadding(Vector3f pos) {
     Vector3f padded = new Vector3f();
     direction.getNormalisedDirection().mul(0.4f, padded);
-    pos.add(padded, padded);
-    return padded;
+    return padded.add(pos);
   }
 
   /**
@@ -178,12 +190,11 @@ public class Player extends Entity {
         lives = 0;
         playerState = PlayerState.DEAD;
       } else {
-        playerState = PlayerState.IDLE;
+        setPlayerState(START_PLAYER_STATE);
         setPosition(START_POSITION);
-        setDirection(Direction.SOUTH);
+        setDirection(START_DIRECTION);
+        setCooldown(START_ROLL_COOLDOWN);
       }
     }
   }
-
-
 }

@@ -19,11 +19,14 @@ public class DemoClient {
         // Check we have the right variables
         Optional<Integer> authServerPort = Config.authServerPort();
         Optional<String> authServerIp = Config.authServerIp();
+
         if(authServerIp.isPresent() && authServerPort.isPresent()){
             com.knightlore.client.networking.backend.Client authClient;
             try{
                 authClient = new com.knightlore.client.networking.backend.Client(InetAddress.getByName(authServerIp.get()), authServerPort.get());
                 authClient.run();
+
+
                 ServerConnection.instance = new ServerConnection(authClient);
             }catch(UnknownHostException e){
                 System.out.println("Warning: Invalid IP");
@@ -32,6 +35,7 @@ public class DemoClient {
         }else{
             throw new ConfigItemNotFoundException();
         }
+
         while(!ServerConnection.instance.ready()){
             try{
                 TimeUnit.SECONDS.sleep(1);

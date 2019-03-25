@@ -30,11 +30,10 @@ public class GameRepository {
      * @param port
      * @param sessionOwner
      */
-    public void newServer(UUID uuid, int port, String sessionOwner, ArrayList<Level> levels){
-        LevelMapSet ms = new LevelMapSet(new TileSet());
+    public void newServer(UUID uuid, int port, String sessionOwner, ArrayList<Level> levels, String username){
+        LevelMapSet ms = new LevelMapSet();
         GameModel gameModel = new GameModel(uuid.toString());
 
-        gameModel.createNewLevel(ms.getMap(0));
         // Default to provided levels
         if(levels.size() > 0){
             for(com.knightlore.game.Level currentLevel : levels){
@@ -50,13 +49,14 @@ public class GameRepository {
                 gameModel.createNewLevel(ms.getMap(0));
             }else{
                 com.knightlore.server.database.model.Level level = (com.knightlore.server.database.model.Level) optLevel.get();
-                gameModel.addLevel(level.getModelLevel());
+                Level gameLevel = level.getModelLevel();
+                gameModel.addLevel(gameLevel);
             }
         }
 
 
 
-        this.newServer(uuid, port, sessionOwner, gameModel);
+        this.newServer(uuid, port, sessionOwner, gameModel, username);
     }
 
     /**
@@ -67,8 +67,10 @@ public class GameRepository {
      * @param sessionOwner
      * @param gameModel
      */
-    public void newServer(UUID uuid, int port, String sessionOwner, GameModel gameModel){
-        GameServer server = new GameServer(uuid, port, sessionOwner, gameModel);
+    public void newServer(UUID uuid, int port, String sessionOwner, GameModel gameModel, String username){
+        String name = username + "'s game";
+
+        GameServer server = new GameServer(uuid, port, sessionOwner, gameModel, name);
         servers.put(uuid, server);
     }
 

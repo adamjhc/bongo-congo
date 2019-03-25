@@ -78,7 +78,18 @@ public class PlayerGameObject extends EntityGameObject {
           playerGameObjects.add(playerGameObject);
         });
 
+    System.out.println("X");
     return playerGameObjects;
+  }
+
+  /**
+   * Get the current state of the player
+   *
+   * @return current state of the player
+   * @author Adam Cox
+   */
+  public PlayerState getCurrentState() {
+    return currentState;
   }
 
   /**

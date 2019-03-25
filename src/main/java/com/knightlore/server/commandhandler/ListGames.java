@@ -1,10 +1,7 @@
 package com.knightlore.server.commandhandler;
 
 import com.knightlore.game.server.GameServer;
-import com.knightlore.networking.ApiKey;
-import com.knightlore.networking.ListGameResponse;
-import com.knightlore.networking.Sendable;
-import com.knightlore.networking.SessionKeyResponse;
+import com.knightlore.networking.*;
 import com.knightlore.server.ClientHandler;
 import com.knightlore.server.database.SessionGenerator;
 import com.knightlore.server.database.model.*;
@@ -32,15 +29,21 @@ public class ListGames extends Command{
         Sendable response = sendable.makeResponse();
         ListGameResponse sessionKeyResponse = new ListGameResponse();
 
+        // Grab from db
         HashMap<UUID, GameServer> servers = GameRepository.instance.getServers();
 
         for(GameServer server : servers.values()){
             try{
-                sessionKeyResponse.addGame(server.getUUID(),
+                ListGameObject game = new ListGameObject(server.getUUID(),
                         InetAddress.getByName(Config.authServerIp().get()),
-                        server.getPort());
+                        server.getPort(), server.getGameName());
 
                 // TODO add connected players
+                for(com.knightlore.game.server.ClientHandler client : server.registeredClients()){
+                    game.addUser(client.username.get());
+                }
+
+                sessionKeyResponse.addGame(game);
                 
             }catch(UnknownHostException e){
 

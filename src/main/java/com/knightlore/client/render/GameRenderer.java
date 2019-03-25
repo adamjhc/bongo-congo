@@ -5,13 +5,16 @@ import com.knightlore.client.io.Window;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.world.EnemyGameObject;
 import com.knightlore.client.render.world.EnemyGameObjectSet;
+import com.knightlore.client.render.world.EntityGameObject;
 import com.knightlore.client.render.world.GameObject;
 import com.knightlore.client.render.world.PlayerGameObject;
 import com.knightlore.client.render.world.TileGameObject;
 import com.knightlore.client.render.world.TileGameObjectSet;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.entity.Enemy;
+import com.knightlore.game.entity.EnemyState;
 import com.knightlore.game.entity.Player;
+import com.knightlore.game.entity.PlayerState;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -80,8 +83,8 @@ public class GameRenderer extends Renderer {
     tileGameObjects = new ArrayList<>();
     playerGameObjects = new ArrayList<>();
     enemyGameObjects = new ArrayList<>();
-    viewX = ((float) Window.getWidth() / (world.getScale() * 2)) + 1;
-    viewY = ((float) Window.getHeight() / (world.getScale() * 2)) + 2;
+    viewX = (Window.getWidth() / (world.getScale() * 2f)) + 1;
+    viewY = (Window.getHeight() / (world.getScale() * 2f)) + 2;
   }
 
   /**
@@ -100,6 +103,7 @@ public class GameRenderer extends Renderer {
    * @author Adam Cox
    */
   public void init(GameModel gameModel) {
+    System.out.println("x");
     playerGameObjects = PlayerGameObject.fromGameModel(gameModel.getPlayers().values());
     tileGameObjects =
         TileGameObjectSet.fromGameModel(gameModel.getCurrentLevel().getLevelMap().getTiles());
@@ -137,30 +141,25 @@ public class GameRenderer extends Renderer {
     Vector3f isometricPosition =
         playerGameObjects.get(gameModel.myPlayer().getId()).getIsometricPosition();
 
-    camera.updatePosition(isometricPosition, world.getScale(), gameModel.getCurrentLevel().getLevelMap().getSize());
+    camera.updatePosition(
+        isometricPosition, world.getScale(), gameModel.getCurrentLevel().getLevelMap().getSize());
 
     List<GameObject> gameObjectsToDepthSort = new ArrayList<>();
     tileGameObjects.forEach(
-        tileGameObject ->
-            ifWithinViewAddTo(gameObjectsToDepthSort, tileGameObject));
+        tileGameObject -> ifWithinViewAddTo(gameObjectsToDepthSort, tileGameObject));
     playerGameObjects.forEach(
-        playerGameObject ->
-            ifWithinViewAddTo(gameObjectsToDepthSort, playerGameObject));
+        playerGameObject -> ifWithinViewAddTo(gameObjectsToDepthSort, playerGameObject));
     enemyGameObjects.forEach(
-        enemyGameObject ->
-            ifWithinViewAddTo(gameObjectsToDepthSort, enemyGameObject));
+        enemyGameObject -> ifWithinViewAddTo(gameObjectsToDepthSort, enemyGameObject));
 
     List<GameObject> depthSortedGameObjects =
         depthSort(gameModel.getCurrentLevel().getLevelMap().getSize(), gameObjectsToDepthSort);
 
     depthSortedGameObjects.forEach(
         gameObject -> {
-          if (gameObject instanceof PlayerGameObject) {
-            ((PlayerGameObject) gameObject)
+          if (gameObject instanceof EntityGameObject) {
+            ((EntityGameObject) gameObject)
                 .render(playerShaderProgram, camera.getProjection(), world.getScale());
-          } else if (gameObject instanceof EnemyGameObject) {
-            ((EnemyGameObject) gameObject)
-                .render(worldShaderProgram, camera.getProjection(), world.getScale());
           } else {
             ((TileGameObject) gameObject)
                 .render(worldShaderProgram, world.getProjection(), camera.getProjection());
@@ -175,8 +174,7 @@ public class GameRenderer extends Renderer {
    * @param gameObject GameObject to test
    * @author Adam Cox
    */
-  private void ifWithinViewAddTo(
-      List<GameObject> gameObjectsToDepthSort, GameObject gameObject) {
+  private void ifWithinViewAddTo(List<GameObject> gameObjectsToDepthSort, GameObject gameObject) {
     if (isWithinView(gameObject.getIsometricPosition())) {
       gameObjectsToDepthSort.add(gameObject);
     }
@@ -205,25 +203,33 @@ public class GameRenderer extends Renderer {
    * @return List of Depth-sorted GameObjects
    */
   private List<GameObject> depthSort(Vector3i mapSize, List<GameObject> gameObjects) {
-    // initialise the buckets
     List<ArrayList<GameObject>> buckets = new ArrayList<>();
     for (int i = 0; i < getScreenDepth(mapSize, new Vector3f(0, 0, mapSize.z - 1)) + 1; i++) {
       buckets.add(new ArrayList<>());
     }
 
-    // distribute to buckets
     gameObjects.forEach(
         gameObject -> {
-          if (gameObject instanceof TileGameObject && ((TileGameObject) gameObject).isFloor()) {
+          if (gameObject instanceof PlayerGameObject
+              && (((PlayerGameObject) gameObject).getCurrentState() == PlayerState.CLIMBING
+                  || ((PlayerGameObject) gameObject).getCurrentState() == PlayerState.IDLE)) {
             buckets
-                .get(getLevelScreenDepth(mapSize, gameObject.getModelPosition().z))
+                .get(
+                    getScreenDepth(
+                        mapSize, gameObject.getModelPosition().sub(1, 1, 0, new Vector3f())))
+                .add(gameObject);
+          } else if (gameObject instanceof EnemyGameObject
+              && ((EnemyGameObject) gameObject).getCurrentState() == EnemyState.IDLE) {
+            buckets
+                .get(
+                    getScreenDepth(
+                        mapSize, gameObject.getModelPosition().sub(1, 1, 0, new Vector3f())))
                 .add(gameObject);
           } else {
             buckets.get(getScreenDepth(mapSize, gameObject.getModelPosition())).add(gameObject);
           }
         });
 
-    // flatten
     ArrayList<GameObject> depthSortedGameObjects = new ArrayList<>();
     buckets.forEach(depthSortedGameObjects::addAll);
     return depthSortedGameObjects;
@@ -238,13 +244,7 @@ public class GameRenderer extends Renderer {
    * @author Adam Cox
    */
   private int getScreenDepth(Vector3i mapSize, Vector3f position) {
-    return (int)
-        Math.ceil(
-            mapSize.x
-                - position.x
-                + mapSize.y
-                - position.y
-                + getLevelScreenDepth(mapSize, position.z));
+    return (int) Math.ceil(mapSize.x - position.x + mapSize.y - position.y + position.z);
   }
 
   /**

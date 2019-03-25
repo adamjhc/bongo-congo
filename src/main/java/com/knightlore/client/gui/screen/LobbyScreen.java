@@ -2,26 +2,24 @@ package com.knightlore.client.gui.screen;
 
 import static com.knightlore.client.util.GuiUtils.checkPosition;
 
-import java.util.Collection;
-
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.gui.Lobby;
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.gui.engine.LobbyObject;
 import com.knightlore.client.io.Mouse;
+import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.networking.LobbyCache;
 import com.knightlore.client.render.GuiRenderer;
-import com.knightlore.game.GameModel;
+import com.knightlore.game.GameState;
 import com.knightlore.networking.ListGameObject;
+import java.util.Collection;
 
 public class LobbyScreen implements IScreen {
-	
-	public static GameModel gameModel;
 
   private GuiRenderer guiRenderer;
   private Lobby lobby;
-  
+
   private LobbyObject lobbyData;
   private ListGameObject game;
 
@@ -29,23 +27,23 @@ public class LobbyScreen implements IScreen {
     this.guiRenderer = guiRenderer;
     lobby = new Lobby();
   }
-  
+
   @Override
   public void startup(Object... args) {
-  	lobbyData = (LobbyObject) args[0];
-  	game = lobbyData.getGame();
-  	
-  	if (lobbyData.getIsCreator()) {
-  		lobby.getStart().setRender(true);
-  	}
+    lobbyData = (LobbyObject) args[0];
+    game = lobbyData.getGame();
+
+    if (lobbyData.getIsCreator()) {
+      lobby.getStart().setRender(true);
+    }
   }
-  
+
   @Override
   public void input() {
     if (checkPosition(lobby, lobby.getExit().getId())) {
       lobby.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
-        Client.changeScreen(ClientState.LOBBY_MENU);
+        Client.changeScreen(ClientState.LOBBY_MENU, false);
       }
     } else lobby.getExit().setColour(Colour.YELLOW);
   }
@@ -65,20 +63,24 @@ public class LobbyScreen implements IScreen {
     	lobby.refreshPlayers(game.getUsernames());
   	}
   	
-  	if (lobbyData.getIsCreator()) {
+  	if (lobbyData.getIsCreator() || true) {
   		if (checkPosition(lobby, lobby.getStart().getId())) {
   			lobby.getStart().setColour();
   			if (Mouse.isLeftButtonPressed() ) {
-  				//TODO add code for starting game
+                GameConnection.instance.startGame();
   			}
   		} else lobby.getStart().setColour(Colour.YELLOW);
   	}
+
+  	if(GameConnection.gameModel != null && GameConnection.gameModel.getState() != GameState.LOBBY){
+        com.knightlore.client.Client.changeScreen(ClientState.GAME, true, GameConnection.gameModel);
+    }
   }
 
   @Override
   public void render() {
-  	lobby.updateSize(lobbyData.getIsCreator());
-  	
+    lobby.updateSize(lobbyData.getIsCreator());
+
     guiRenderer.render(lobby);
   }
 

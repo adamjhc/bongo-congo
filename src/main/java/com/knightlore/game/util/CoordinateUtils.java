@@ -28,13 +28,13 @@ public class CoordinateUtils {
         0);
   }
 
-  public static boolean mapHasPosition(Vector3i map, Vector3i position) {
+  public static boolean mapHasPosition(Vector3i mapSize, Vector3i position) {
     return position.x >= 0
         && position.y >= 0
         && position.z >= 0
-        && position.x <= map.x
-        && position.y <= map.y
-        && position.z <= map.z;
+        && position.x < mapSize.x
+        && position.y < mapSize.y
+        && position.z < mapSize.z;
   }
 
   public static Vector3i getTileCoord(Vector3f coord) {

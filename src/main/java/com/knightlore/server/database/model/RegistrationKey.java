@@ -14,6 +14,8 @@ public class RegistrationKey extends Model{
         this.attributes.addAttribute("key", new Attribute(Types.VARCHAR, null));
         this.attributes.addAttribute("description", new Attribute(Types.VARCHAR, null));
 
+        this.attributes.addAttribute("username", new Attribute(Types.VARCHAR, null));
+
         this.identifier = "id";
     }
 

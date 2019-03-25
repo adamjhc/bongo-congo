@@ -24,6 +24,12 @@ public class Player extends Entity {
   private String associatedSession;
   private Vector4f colour;
 
+    /** Constructor for a Player object
+     *
+     * @param sessionID ID for the session where the player is instantiated
+     * @param id Used to differentiate between multiple Players in one session
+     * @param colour Colour of the player character
+     */
   public Player(String sessionID, int id, Vector4f colour) {
     this.associatedSession = sessionID;
     this.id = id;
@@ -193,6 +199,7 @@ public class Player extends Entity {
           setPosition(oldPos);
         }
       }
+
       if (newTile.getIndex() == 4) {
         loseLife();
       }

@@ -111,7 +111,8 @@ public class Audio {
     if (isOn) {
       try {
         audioFiles[file.ordinal()].play();
-        currentMusic = file.ordinal();
+        if (file.ordinal() < 3)
+        	currentMusic = file.ordinal();
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -127,7 +128,7 @@ public class Audio {
   // Closes any audio files that have finished playing so that they can be played again
   public static void closeInactiveClips() {
     for (MusicPlayer audioFile : audioFiles) {
-      if (!audioFile.isPlaying() && !audioFile.shouldLoop()) {
+      if (!audioFile.isPlaying() && audioFile != audioFiles[currentMusic]) {
         audioFile.stop();
       }
     }
@@ -150,11 +151,15 @@ public class Audio {
   }
 
   public static void incVolume() {
-    gameMusic.incVolume();
+	for (MusicPlayer audioFile : audioFiles) {
+		audioFile.incVolume();
+	}
   }
 
   public static void decVolume() {
-    gameMusic.decVolume();
+	for (MusicPlayer audioFile : audioFiles) {
+		audioFile.decVolume();
+	}
   }
 
   public enum AudioName {

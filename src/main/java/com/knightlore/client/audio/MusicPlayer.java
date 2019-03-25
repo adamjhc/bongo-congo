@@ -43,9 +43,10 @@ class MusicPlayer {
     if (!this.isPlaying()) {
       this.resetStream();
       this.clip.stop();
+      clip.start();
+    } else if (this.isPlaying()) {
+    	return;
     }
-
-    clip.start();
   }
 
   // Stops and closes the audio file (closing is necessary so that it can be played again)

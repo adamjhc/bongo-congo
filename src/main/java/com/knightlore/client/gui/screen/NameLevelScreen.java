@@ -50,6 +50,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
+import com.knightlore.client.audio.Audio;
+import com.knightlore.client.audio.Audio.AudioName;
 import com.knightlore.client.gui.NameLevel;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Keyboard;
@@ -64,6 +66,8 @@ import java.util.Arrays;
 import org.joml.Vector4f;
 
 public class NameLevelScreen implements IScreen {
+	
+	private static final AudioName SELECT = AudioName.SOUND_MENUSELECT;
 	
 	/**
 	 * The list of all characters that we respond to the user pressing
@@ -126,6 +130,7 @@ public class NameLevelScreen implements IScreen {
 		if (checkPosition(nameLevelUi, nameLevelUi.getSaveAndContinue().getId())) {
 			nameLevelUi.getSaveAndContinue().setColour();
 			if (Mouse.isLeftButtonPressed()) {
+				Audio.play(SELECT);
 				try {
 					save(false, nameLevelUi.getLevelName().getText());
 				} catch (IOException e) {
@@ -138,6 +143,7 @@ public class NameLevelScreen implements IScreen {
 		if (checkPosition(nameLevelUi, nameLevelUi.getSaveAndQuit().getId())) {
 			nameLevelUi.getSaveAndQuit().setColour();
 			if (Mouse.isLeftButtonPressed()) {
+				Audio.play(SELECT);
 				try {
 					save(false, nameLevelUi.getLevelName().getText());
 				} catch (IOException e) {
@@ -150,6 +156,7 @@ public class NameLevelScreen implements IScreen {
 		if (checkPosition(nameLevelUi, nameLevelUi.getCancel().getId())) {
 			nameLevelUi.getCancel().setColour();
 			if (Mouse.isLeftButtonPressed()) {
+				Audio.play(SELECT);
 				Client.changeScreen(ClientState.LEVEL_EDITOR, false, level);
 			}
 		} else nameLevelUi.getCancel().setColour(new Vector4f(1, 1, 0, 1));

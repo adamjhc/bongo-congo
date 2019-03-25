@@ -37,7 +37,8 @@ public class MainScreen implements IScreen {
 
   @Override
   public void startup(Object... args) {
-	    Audio.stop(Audio.getCurrentMusic());
+	    if (Audio.getCurrentMusic() != AudioName.MUSIC_MENU)
+	    	Audio.stop(Audio.getCurrentMusic());
 	    Audio.play(Audio.AudioName.MUSIC_MENU);
 
   }
@@ -142,6 +143,7 @@ public class MainScreen implements IScreen {
         && Mouse.getYPos() > menu.getSound().getPositionY()) {
       if (Mouse.isLeftButtonPressed()) {
         Audio.toggle();
+        Audio.play(SELECT);
       }
     }
 

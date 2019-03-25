@@ -17,6 +17,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_Z;
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.audio.Audio;
+import com.knightlore.client.audio.Audio.AudioName;
 import com.knightlore.client.gui.LevelEditorHud;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
@@ -29,6 +30,11 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 public class LevelEditorScreen implements IScreen {
+	
+  /**
+   * The sound that plays whenever the user clicks on a GUI element
+   */
+  private static final AudioName SELECT = AudioName.SOUND_MENUSELECT;
 
   /**
    * The width of the level
@@ -198,6 +204,7 @@ public class LevelEditorScreen implements IScreen {
     if (checkPosition(levelEditorHud, levelEditorHud.getSave().getId(), "")) {
       levelEditorHud.getSave().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         try {
           editorMap.resetRotation();
           Client.changeScreen(ClientState.NAMING_LEVEL, false, editorMap);
@@ -210,6 +217,7 @@ public class LevelEditorScreen implements IScreen {
     if (checkPosition(levelEditorHud, levelEditorHud.getEmpty().getId(), "")) {
       levelEditorHud.getEmpty().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
             TileType.values()[0]);
       }
@@ -218,6 +226,7 @@ public class LevelEditorScreen implements IScreen {
     if (checkPosition(levelEditorHud, levelEditorHud.getFloor().getId(), "")) {
       levelEditorHud.getFloor().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
             TileType.values()[1]);
       }
@@ -226,6 +235,7 @@ public class LevelEditorScreen implements IScreen {
     if (checkPosition(levelEditorHud, levelEditorHud.getSlab().getId(), "")) {
       levelEditorHud.getSlab().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
             TileType.values()[2]);
       }
@@ -234,6 +244,7 @@ public class LevelEditorScreen implements IScreen {
     if (checkPosition(levelEditorHud, levelEditorHud.getBlock().getId(), "")) {
       levelEditorHud.getBlock().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
             TileType.values()[3]);
       }
@@ -242,6 +253,7 @@ public class LevelEditorScreen implements IScreen {
     if (checkPosition(levelEditorHud, levelEditorHud.getHazard().getId(), "")) {
       levelEditorHud.getHazard().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
             TileType.values()[4]);
       }
@@ -250,6 +262,7 @@ public class LevelEditorScreen implements IScreen {
     if (checkPosition(levelEditorHud, levelEditorHud.getFinish().getId(), "")) {
       levelEditorHud.getFinish().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
             TileType.values()[5]);
       }
@@ -258,6 +271,7 @@ public class LevelEditorScreen implements IScreen {
     if (checkPosition(levelEditorHud, levelEditorHud.getWalker().getId(), "")) {
     	levelEditorHud.getWalker().setColour();
     	if (Mouse.isLeftButtonPressed()) {
+    		Audio.play(SELECT);
     		editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
     				TileType.values()[6]);
     	}
@@ -266,6 +280,7 @@ public class LevelEditorScreen implements IScreen {
     if (checkPosition(levelEditorHud, levelEditorHud.getRandomer().getId(), "")) {
     	levelEditorHud.getRandomer().setColour();
     	if (Mouse.isLeftButtonPressed()) {
+    		Audio.play(SELECT);
     		editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
     				TileType.values()[7]);
     	}
@@ -274,6 +289,7 @@ public class LevelEditorScreen implements IScreen {
     if (checkPosition(levelEditorHud, levelEditorHud.getCircler().getId(), "")) {
     	levelEditorHud.getCircler().setColour();
     	if (Mouse.isLeftButtonPressed()) {
+    		Audio.play(SELECT);
     		editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
     				TileType.values()[8]);
     	}
@@ -282,6 +298,7 @@ public class LevelEditorScreen implements IScreen {
     if (checkPosition(levelEditorHud, levelEditorHud.getCharger().getId(), "")) {
     	levelEditorHud.getCharger().setColour();
     	if (Mouse.isLeftButtonPressed()) {
+    		Audio.play(SELECT);
     		editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
     				TileType.values()[9]);
     	}

@@ -22,5 +22,10 @@ public class Factory {
       Ready handler = new Ready();
       handler.run(clientHandler, sendable);
     }
+
+    if (sendable.getFunction().equals("level_complete")) {
+      LevelComplete handler = new LevelComplete();
+      handler.run(clientHandler, sendable);
+    }
   }
 }

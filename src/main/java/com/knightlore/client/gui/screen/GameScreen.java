@@ -99,17 +99,17 @@ public class GameScreen implements IScreen {
       playerInputDirection = null;
     }
 
-    if (Keyboard.isKeyReleased(GLFW_KEY_J) && !hud.getCountDown().getRender()) {
-      gameModel.nextLevel();
-
-      if (gameModel.getState() != GameState.SCORE) {
-        hud.setLevel(gameModel.getCurrentLevelIndex());
-        timer.resetStartTime();
-        countDown.setStartTime();
-      } else if (gameModel.getState() == GameState.SCORE) {
-        Client.changeScreen(ClientState.END, false, gameModel);
-      }
-    }
+//    if (Keyboard.isKeyReleased(GLFW_KEY_J) && !hud.getCountDown().getRender()) {
+//      gameModel.nextLevel();
+//
+//      if (gameModel.getState() != GameState.SCORE) {
+//        hud.setLevel(gameModel.getCurrentLevelIndex());
+//        timer.resetStartTime();
+//        countDown.setStartTime();
+//      } else if (gameModel.getState() == GameState.SCORE) {
+//        Client.changeScreen(ClientState.END, false, gameModel);
+//      }
+//    }
 
     if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)
         && (gameModel.myPlayer().getCooldown() == 0)
@@ -192,6 +192,16 @@ public class GameScreen implements IScreen {
     }
 
     gameModel.update(delta, playerInputDirection);
+
+    // Check for complete
+    if(gameModel.getState() == GameState.SCORE) {
+      Client.changeScreen(ClientState.END, false, gameModel);
+    }
+
+    if (gameModel.getState() == GameState.NEXT_LEVEL) {
+      hud.setLevel(gameModel.getCurrentLevelIndex());
+      timer.resetStartTime();
+    }
   }
 
   @Override

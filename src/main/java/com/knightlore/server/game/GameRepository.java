@@ -53,7 +53,7 @@ public class GameRepository {
                 gameModel.addLevel(gameLevel);
             }
         }
-
+        gameModel.createNewLevel(ms.getMap(0));
         this.newServer(uuid, port, sessionOwner, gameModel, username);
     }
 

@@ -6,5 +6,6 @@ public enum PlayerState {
   CLIMBING,
   ROLLING,
   FALLING,
-  DEAD
+  DEAD,
+  FINISHED
 }

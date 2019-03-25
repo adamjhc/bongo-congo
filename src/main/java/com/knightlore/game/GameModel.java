@@ -234,4 +234,12 @@ public class GameModel {
       player.setCooldown(playerCooldown - 1);
     }
   }
+
+  public boolean lastLevel(){
+    return this.currentLevelIndex == this.levels.size() -1;
+  }
+
+  public void incrementLevel(){
+    this.currentLevelIndex ++;
+  }
 }

@@ -23,30 +23,30 @@ public class GameManager extends Thread {
 
     @Override
     public void run(){
-        while(true){
-            Enemy james = this.model.getCurrentLevel().getEnemies().get(0);
-
-            Vector3f loc = james.getPosition();
-            loc.x += 0.05;
-            james.setPosition(loc);
-
-            try{
-                TimeUnit.MILLISECONDS.sleep(100);
-            }catch(InterruptedException e){
-
-            }
-
-            // Update
-            EnemyLocationUpdate update = new EnemyLocationUpdate();
-            update.addEnemy(james.getId(), james.getPosition());
-
-            Sendable sendable = new Sendable();
-            sendable.setFunction("enemy_location_update");
-            Gson gson = new Gson();
-            sendable.setData(gson.toJson(update));
-
-            server.sendToRegistered(sendable);
-
-        }
+//        while(true){
+//            Enemy james = this.model.getCurrentLevel().getEnemies().get(0);
+//
+//            Vector3f loc = james.getPosition();
+//            loc.x += 0.05;
+//            james.setPosition(loc);
+//
+//            try{
+//                TimeUnit.MILLISECONDS.sleep(100);
+//            }catch(InterruptedException e){
+//
+//            }
+//
+//            // Update
+//            EnemyLocationUpdate update = new EnemyLocationUpdate();
+//            update.addEnemy(james.getId(), james.getPosition());
+//
+//            Sendable sendable = new Sendable();
+//            sendable.setFunction("enemy_location_update");
+//            Gson gson = new Gson();
+//            sendable.setData(gson.toJson(update));
+//
+//            server.sendToRegistered(sendable);
+//
+//        }
     }
 }

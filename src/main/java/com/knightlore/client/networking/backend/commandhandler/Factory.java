@@ -38,5 +38,15 @@ public class Factory {
             GameClose handler = new GameClose();
             handler.run(client, sendable);
         }
+
+        if(sendable.getFunction().equals("level_complete")){
+            LevelComplete handler = new LevelComplete();
+            handler.run(client, sendable);
+        }
+
+        if(sendable.getFunction().equals("game_complete")){
+            GameComplete handler = new GameComplete();
+            handler.run(client, sendable);
+        }
     }
 }

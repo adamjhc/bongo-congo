@@ -95,19 +95,28 @@ public class GameConnection {
 
     public void register(){
         // Build up get session string
+        Gson gson = new Gson();
+
         Sendable sendable = new Sendable();
         sendable.setUuid();
         sendable.setFunction("register");
-
-        Gson gson = new Gson();
-
         ApiKey key = new ApiKey(this.sessionKey);
         sendable.setData(gson.toJson(key));
 
         // Specify handler
-        System.out.println("SENDING " + sendable.getData());
         ResponseHandler.waiting.put(sendable.getUuid(), new GameRegister());
 
+
+        try{
+            client.dos.writeObject(sendable);
+        }catch(IOException e){
+            System.out.println(e);
+        }
+    }
+
+    public void sendLevelComplete(){
+        Sendable sendable = new Sendable();
+        sendable.setFunction("level_complete");
 
         try{
             client.dos.writeObject(sendable);

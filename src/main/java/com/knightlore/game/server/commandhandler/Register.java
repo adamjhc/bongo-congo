@@ -24,18 +24,16 @@ public class Register extends Command {
     // Save session key
     handler.sessionKey = Optional.of(apikey.key);
 
-        // Set username
-        handler.username = Optional.of("Geoff");
+    // Set username
+    handler.username = Optional.of("Geoff");
 
-        // Update model to reflect new player
-        handler.server().getModel().addPlayer(handler.sessionKey.get());
+    // Update model to reflect new player
+    handler.server().getModel().addPlayer(handler.sessionKey.get());
 
-        // Send register response
-        Gson gson = new Gson();
-
-        Sendable response = sendable.makeResponse();
-
-        GameRegisterResponse gameRegisterResponse = new GameRegisterResponse(handler.server().getUUID());
+    // Send register response
+    Gson gson = new Gson();
+    Sendable response = sendable.makeResponse();
+    GameRegisterResponse gameRegisterResponse = new GameRegisterResponse(handler.server().getUUID());
 
     response.setData(gson.toJson(gameRegisterResponse));
 

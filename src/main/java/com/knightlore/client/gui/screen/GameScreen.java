@@ -104,17 +104,16 @@ public class GameScreen implements IScreen {
       }
     }
 
-    if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)
+    if (Keyboard.isKeyReleased(GLFW_KEY_RIGHT_SHIFT)
         && (gameModel.myPlayer().getCooldown() == 0)
         && (gameModel.myPlayer().getPlayerState() == PlayerState.IDLE
             || gameModel.myPlayer().getPlayerState() == PlayerState.MOVING)) {
       gameModel.myPlayer().setPlayerState(PlayerState.ROLLING);
     }
 
-    if (Keyboard.isKeyReleased(GLFW_KEY_RIGHT_SHIFT)) {
+    if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)) {
         gameModel.myPlayer().setClimbFlag(true);
     }
-
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU, false);

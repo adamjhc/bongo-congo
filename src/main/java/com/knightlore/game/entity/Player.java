@@ -211,7 +211,7 @@ public class Player extends Entity {
       }
 
       // TODO: Enemy collisions
-
+      climbFlag = false;
       // catches SW and SE edges    catches NE and NW edges
     } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
           climbFlag = false;

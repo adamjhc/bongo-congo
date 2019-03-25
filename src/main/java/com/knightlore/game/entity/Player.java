@@ -20,6 +20,7 @@ public class Player extends Entity {
   private int lives;
   private int rollCooldown;
   private float climbVal = 0.1f;
+  private boolean climbFlag = false;
   private PlayerState playerState;
   private String associatedSession;
   private Vector4f colour;
@@ -130,6 +131,8 @@ public class Player extends Entity {
     this.rollCooldown = rollCooldown;
   }
 
+  public void setClimbFlag(boolean climbFlag) {this.climbFlag = climbFlag; }
+
   /** {@inheritDoc} */
   @Override
   public Vector3f getPosition() {
@@ -168,12 +171,11 @@ public class Player extends Entity {
       if (newTile.getIndex() == 0) { // Checks if tile is an air tile
         coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z - 1));
         Tile below = levelMap.getTile(coords);
-        if (below.getIndex() == 2
-            || below.getIndex() == 3) { // Check if the tile you are falling onto is walkable
+        if (below.getIndex() == 2 || below.getIndex() == 3) { // Check if the tile you are falling onto is walkable
           setPosition(oldPos);
         } else if (below.getIndex() == 0) {
           setPlayerState(PlayerState.FALLING);
-        } else {
+        } else if (climbFlag) {
           climbVal = -0.1f;
           setPlayerState(PlayerState.CLIMBING);
         }
@@ -187,12 +189,10 @@ public class Player extends Entity {
         setPosition(newPos);
       }
 
-      if (newTile.getIndex() == 3) { // Checks for climbable tile
+      if (newTile.getIndex() == 3 ) { // Checks for climbable tile
         coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z + 1));
         Tile above = levelMap.getTile(coords);
-        if (above.getIndex() == 1
-            && playerState
-                != PlayerState.ROLLING) { // Checks if the tile above climbable tile is accessible
+        if (above.getIndex() == 1 && playerState != PlayerState.ROLLING && climbFlag) { // Checks if the tile above climbable tile is accessible
           climbVal = 0.1f;
           setPlayerState(PlayerState.CLIMBING);
         } else {
@@ -214,6 +214,7 @@ public class Player extends Entity {
 
       // catches SW and SE edges    catches NE and NW edges
     } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
+          climbFlag = false;
       setPosition(oldPos);
     }
   }

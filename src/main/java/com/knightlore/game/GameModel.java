@@ -145,6 +145,7 @@ public class GameModel {
           // Done playing animation, set position
           accumulator = 0;
           player.setPosition(player.setPadding(player.getPosition()));
+          player.setClimbFlag(false);
           player.setPlayerState(PlayerState.IDLE);
         }
         break;

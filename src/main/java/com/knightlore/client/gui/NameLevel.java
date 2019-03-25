@@ -6,36 +6,54 @@ import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Window;
 
+/**
+ * Screen to name and save a custom level
+ * 
+ * @author Adam W
+ *
+ */
 public class NameLevel implements IGui {
 
+	/** Position of the top separator line */
   private static final int SEPARATOR_TOP_POS = 185;
+  /** Position of the bottom separator line */
   private static final int SEPARATOR_BOT_POS = 200;
+  /** Gap between each line of text */
   private static final int SEPARATOR_GAP = FONT_SIZE_SMALL;
 
+  /** File path to custom maps */
   private static final String filePath = "customMaps/unplayable/";
 
+  /** Bongo text object */
   private TextObject bongo;
-
+  /** Congo text object */
   private TextObject congo;
-
+  /** Top separator line text object */
   private TextObject separatorTop;
-
+  /** Bottom separator line text object */
   private TextObject separatorBottom;
-
+  /** Name level text object */
   private TextObject nameYourLevel;
-
+  /** Cancel changes text object*/
   private TextObject cancel;
-
+  /** Save changes and quit text object*/
   private TextObject saveAndQuit;
-
+  /** Save changes and continue text object*/
   private TextObject saveAndContinue;
-
+  /** Level name text object*/
   private TextObject levelName;
 
+  /** List of text objects */
   private TextObject[] textObjects;
-
+  /** List of gui objects */
   private GuiObject[] guiObjects;
 
+  /**
+   * Create gui objects
+   * 
+   * @author Adam W
+   * 
+   */
   public NameLevel() {
     this.bongo = new TextObject("Bongo", TITLE);
     this.bongo.setColour(Colour.LIGHT_BLUE);
@@ -79,6 +97,12 @@ public class NameLevel implements IGui {
         };
   }
 
+  /**
+   * Updates the position of the gui objects
+   * 
+   * @author Adam W
+   * 
+   */
   public void updateSize() {
     this.bongo.setPosition(
         Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
@@ -108,18 +132,46 @@ public class NameLevel implements IGui {
         Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 3);
   }
 
+  /**
+   * Returns cancel
+   * 
+   * @return Cancel
+   * @author Adam W
+   * 
+   */
   public TextObject getCancel() {
     return cancel;
   }
 
+  /**
+   * Returns save and quit
+   * 
+   * @return SaveAndQuit
+   * @author Adam W
+   * 
+   */
   public TextObject getSaveAndQuit() {
     return saveAndQuit;
   }
 
+  /**
+   * Returns save and continue
+   * 
+   * @return SaveAndContinue
+   * @author Adam W
+   * 
+   */
   public TextObject getSaveAndContinue() {
     return saveAndContinue;
   }
 
+  /**
+   * Returns level name
+   * 
+   * @return LevelName
+   * @author Adam W
+   * 
+   */
   public TextObject getLevelName() {
     return levelName;
   }

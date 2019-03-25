@@ -6,22 +6,51 @@ import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Window;
 
+/**
+ * The main menu which has buttons for:
+ * Singleplayer
+ * Multiplayer
+ * Options
+ * Editor
+ * 
+ * @author Joseph
+ *
+ */
 public class MainMenu implements IGui {
 
+	/** Position of the menu */
   private static final int MENU_POS = 0;
 
+  /** Singleplayer text object */
   private final TextObject singleplayer;
+  /** Multiplayer text object */
   private final TextObject multiplayer;
+  /** Quit game text object */
   private final TextObject quit;
+  /** Sound icon text object */
   private final TextObject soundOn;
+  /** Sound off icon text object */
   private final TextObject soundOff;
+  /** Options text object */
   private final TextObject options;
+  /** Level editor text object */
   private final TextObject levelEditor;
+  /** Bongo text object */
   private final TextObject bongo;
+  /** Congo text object */
   private final TextObject congo;
+  
+  /** List of gui objects */
   private GuiObject[] guiObjects;
+  /** List of text objects */
   private TextObject[] textObjects;
 
+  /**
+   * Create gui objects
+   * 
+   * @author Joseph
+   * 
+   */
   public MainMenu() {
     this.bongo = new TextObject("Bongo", TITLE);
     this.bongo.setColour(Colour.LIGHT_BLUE);
@@ -60,34 +89,89 @@ public class MainMenu implements IGui {
     textObjects = new TextObject[] {singleplayer, multiplayer, options, quit, soundOn, levelEditor};
   }
 
+  /**
+   * Returns singleplayer
+   * 
+   * @return Singleplayer
+   * @author Joseph
+   * 
+   */
   public TextObject getSingleplayer() {
     return singleplayer;
   }
 
+  /**
+   * Returns multiplayer
+   * 
+   * @return Multiplayer
+   * @author Joseph
+   * 
+   */
   public TextObject getMultiplayer() {
     return multiplayer;
   }
 
+  /**
+   * Returns sound icon
+   * 
+   * @return soundOn
+   * @author Joseph
+   * 
+   */
   public TextObject getSound() {
     return soundOn;
   }
 
+  /**
+   * Returns sound off icon
+   * 
+   * @return soundOff
+   * @author Joseph
+   * 
+   */
   public TextObject getSoundMute() {
     return soundOff;
   }
 
+  /**
+   * Returns quit
+   * 
+   * @return Quit
+   * @author Joseph
+   * 
+   */
   public TextObject getQuit() {
     return quit;
   }
 
+  /**
+   * Returns options
+   * 
+   * @return Options
+   * @author Joseph
+   * 
+   */
   public TextObject getOptions() {
     return options;
   }
-
+  
+  /**
+   * Returns level editor
+   * 
+   * @return LevelEditor
+   * @author Joseph
+   * 
+   */
   public TextObject getLevelEditor() {
     return levelEditor;
   }
-
+  
+  /**
+   * Updates the position of the gui objects
+   * 
+   * @author Joseph
+   * 
+   */
   public void updateSize() {
     int gap = singleplayer.getHeight() + 5;
 
@@ -112,6 +196,12 @@ public class MainMenu implements IGui {
         Window.getHalfWidth() - quit.getSize() / 2, Window.getHalfHeight() + MENU_POS + gap * 4);
   }
 
+  /**
+   * Increases the size of the menu font
+   * 
+   * @author Joseph
+   * 
+   */
   public void incFont() {
     singleplayer.setFontTexture(MEDIUM);
     multiplayer.setFontTexture(MEDIUM);
@@ -120,6 +210,12 @@ public class MainMenu implements IGui {
     quit.setFontTexture(MEDIUM);
   }
 
+  /**
+   * Decreases the size of the menu font
+   * 
+   * @author Joseph
+   * 
+   */
   public void decFont() {
     singleplayer.setFontTexture(SMALL);
     multiplayer.setFontTexture(SMALL);

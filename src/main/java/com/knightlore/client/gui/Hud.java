@@ -186,6 +186,7 @@ public class Hud implements IGui {
    * @param move The number of pixels to move
    * @param targetXPos The target position to reach
    * @author Joseph
+   * 
    */
   public void moveScore(float move, float targetXPos) {
     float xPosScore = player2Score.getPositionX();
@@ -204,10 +205,11 @@ public class Hud implements IGui {
   /**
    * Sets the position for the lives and scores
    * 
-   * @param move
-   * @param xPosScore
-   * @param xPosLives
+   * @param move The number of pixels to move
+   * @param xPosScore The x position for scores
+   * @param xPosLives The x position for lives
    * @author Joseph
+   * 
    */
   public void setPosition(float move, float xPosScore, float xPosLives) {
     player2Score.setPositionX(xPosScore + move);
@@ -223,11 +225,12 @@ public class Hud implements IGui {
   }
 
   /**
+   * Sets the lives for a given player
    * 
-   * 
-   * @param index
-   * @param lives
+   * @param index The player index
+   * @param lives The number of lives for that player
    * @author Joseph
+   * 
    */
   public void setLives(int index, int lives) {
     if (lives <= 0) {
@@ -241,30 +244,82 @@ public class Hud implements IGui {
     }
   }
 
+  /**
+   * Sets the current level
+   * 
+   * @param levelIndex The current level index
+   * @author Joseph
+   * 
+   */
   public void setLevel(int levelIndex) {
     level.setText("L=" + (levelIndex + 1));
   }
 
+  /**
+   * Returns counter
+   * 
+   * @return Counter
+   * @author Joseph
+   * 
+   */
   public TextObject getCounter() {
     return counter;
   }
 
+  /**
+   * Sets the counter to the statusText
+   * 
+   * @param statusText The counter text
+   * @author Joseph
+   * 
+   */
   public void setCounter(String statusText) {
     this.counter.setText(statusText);
   }
 
+  /**
+   * Returns countDown
+   * 
+   * @return countDown
+   * @author Joseph
+   * 
+   */
   public TextObject getCountDown() {
     return countDown;
   }
 
+  /**
+   * Sets the countdown to the statusText
+   * 
+   * @param statusText The countdown text
+   * @author Joseph
+   * 
+   */
   public void setCountDown(String statusText) {
     this.countDown.setText(statusText);
   }
 
+  /**
+   * Gets the score for a player using their index
+   *
+   * @param index The player index
+   * @return The score for the indexed player
+   * @author Joseph
+   * 
+   */
   public TextObject getScore(int index) {
     return this.scores[index];
   }
 
+  /**
+   * Sets the score for a given player
+   * 
+   * @param index The player index
+   * @param score The new score
+   * @param name The player name
+   * @author Joseph
+   * 
+   */
   public void setScore(int index, int score, String name) {
     if (score > MAX_SCORE) {
       score = MAX_SCORE;
@@ -273,14 +328,34 @@ public class Hud implements IGui {
     this.scores[index].setText(name + ":" + text);
   }
 
+  /**
+   * Returns the position to hide scores in
+   * 
+   * @return SCORE_HIDE
+   * @author Joseph
+   * 
+   */
   public int getScoreHide() {
     return SCORE_HIDE;
   }
 
+  /**
+   * Returns the gap for scores
+   * 
+   * @return SCORE_SIDE_GAP
+   * @author Joseph
+   * 
+   */
   public int getScoreSideGap() {
     return SCORE_SIDE_GAP;
   }
 
+  /**
+   * Updates the position of the gui objects
+   * 
+   * @author Joseph
+   * 
+   */
   public void updateSize() {
     this.counter.setPosition(
         Window.getWidth() - counter.getSize() * counter.getScale(),
@@ -295,6 +370,13 @@ public class Hud implements IGui {
         Window.getHeight() - level.getHeight() * level.getScale());
   }
 
+  /**
+   * Sets which scores need to be rendered
+   * 
+   * @param gameModel The game model containing players
+   * @author Joseph
+   * 
+   */
   public void renderScores(GameModel gameModel) {
     Map<String, Player> players = gameModel.getPlayers();
     int numPlayers = players.size();

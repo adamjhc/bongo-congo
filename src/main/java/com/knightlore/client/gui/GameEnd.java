@@ -138,9 +138,9 @@ public class GameEnd implements IGui {
   }
 
   /**
-   * Returns the winner text object
+   * Returns winner
    * 
-   * @return The winner text object
+   * @return Winner
    * @author Joseph
    * 
    */
@@ -149,9 +149,9 @@ public class GameEnd implements IGui {
   }
 
   /**
-   * Returns the exit text object
+   * Returns Exit
    *
-   * @return The exit text object
+   * @return Exit
    * @author Joseph
    * 
    */

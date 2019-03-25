@@ -5,5 +5,5 @@ import com.knightlore.networking.Sendable;
 
 public interface GenericHandler {
 
-    void run(Client client, Sendable response);
+  void run(Client client, Sendable response);
 }

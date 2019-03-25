@@ -108,7 +108,7 @@ public class GameModel {
     currentLevelIndex++;
   }
 
-  public void update(float delta, Direction playerInputDirection) {
+  public void clientUpdate(float delta, Direction playerInputDirection) {
     if (currentState == GameState.NEXT_LEVEL) {
       currentState = GameState.PLAYING;
     }
@@ -179,6 +179,8 @@ public class GameModel {
         break;
     }
   }
+
+  public void serverUpdate() {}
 
   public void addPlayer(String uuid) {
     Vector4f playerColour = playerColours.get(new Random().nextInt(playerColours.size()));

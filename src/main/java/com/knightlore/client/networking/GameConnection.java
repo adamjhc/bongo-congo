@@ -38,8 +38,12 @@ public class GameConnection {
         return this.client.ready;
     }
 
-    public void close() throws IOException{
-        this.client.close();
+    public void close(){
+        try{
+            this.client.close();
+        }catch(IOException e){
+            System.out.println("Error occurred while disconnecting");
+        }
     }
 
     public void startGame(){

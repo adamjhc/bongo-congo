@@ -5,6 +5,8 @@ import com.knightlore.game.GameModel;
 import com.knightlore.game.GameState;
 import com.knightlore.networking.GameStart;
 import com.knightlore.networking.Sendable;
+import com.knightlore.server.game.GameRepository;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -153,5 +155,12 @@ public class GameServer extends Thread {
     }
 
     return ready;
+  }
+
+  public void close(){
+    for(ClientHandler client: this.clients){
+      client.close();
+    }
+
   }
 }

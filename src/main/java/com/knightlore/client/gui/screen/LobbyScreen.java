@@ -43,6 +43,8 @@ public class LobbyScreen implements IScreen {
     if (checkPosition(lobby, lobby.getExit().getId())) {
       lobby.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
+          // Delete connection
+          GameConnection.instance.close();
         Client.changeScreen(ClientState.LOBBY_MENU, false);
       }
     } else lobby.getExit().setColour(Colour.YELLOW);
@@ -63,7 +65,7 @@ public class LobbyScreen implements IScreen {
     	lobby.refreshPlayers(game.getUsernames());
   	}
   	
-  	if (lobbyData.getIsCreator() || true) {
+  	if (lobbyData.getIsCreator()) {
   		if (checkPosition(lobby, lobby.getStart().getId())) {
   			lobby.getStart().setColour();
   			if (Mouse.isLeftButtonPressed() ) {

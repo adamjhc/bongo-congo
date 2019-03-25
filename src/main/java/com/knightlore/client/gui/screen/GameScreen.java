@@ -1,14 +1,5 @@
 package com.knightlore.client.gui.screen;
 
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_J;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
-
 import com.google.gson.Gson;
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
@@ -28,6 +19,8 @@ import com.knightlore.game.map.LevelMapSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import static org.lwjgl.glfw.GLFW.*;
 
 public class GameScreen implements IScreen {
 
@@ -111,11 +104,15 @@ public class GameScreen implements IScreen {
       }
     }
 
-    if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)
+    if (Keyboard.isKeyReleased(GLFW_KEY_RIGHT_SHIFT)
         && (gameModel.myPlayer().getCooldown() == 0)
         && (gameModel.myPlayer().getPlayerState() == PlayerState.IDLE
             || gameModel.myPlayer().getPlayerState() == PlayerState.MOVING)) {
       gameModel.myPlayer().setPlayerState(PlayerState.ROLLING);
+    }
+
+    if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)) {
+        gameModel.myPlayer().setClimbFlag(true);
     }
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {

@@ -116,12 +116,8 @@ public class GameRenderer extends Renderer {
    * @author Adam Cox
    */
   public void render(GameModel gameModel, IGui hud) {
-    clearBuffers();
-
     renderGame(gameModel);
-    hudRenderer.renderGui(hud);
-
-    Window.swapBuffers();
+    hudRenderer.render(hud);
   }
 
   /**

@@ -56,6 +56,18 @@ class Camera {
   }
 
   /**
+   * Set unlimited camera position
+   *
+   * @param position Position of camera
+   * @param worldScale Scale of the world
+   * @author Adam Cox
+   */
+  void setPosition(Vector3f position, int worldScale) {
+    scaledPosition = position.mul(-worldScale, new Vector3f());
+    worldPosition = new Vector3f(position);
+  }
+
+  /**
    * Sets the scaledPosition of the camera in the world
    *
    * @param newWorldPosition New newWorldPosition of the camera

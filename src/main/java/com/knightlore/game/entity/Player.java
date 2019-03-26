@@ -1,5 +1,6 @@
 package com.knightlore.game.entity;
 
+import com.knightlore.client.audio.Audio;
 import com.knightlore.client.networking.GameConnection;
 import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.Tile;
@@ -191,9 +192,6 @@ public class Player extends Entity {
       } else if (newTile.getIndex() == 2) { // Wall tile collision
         setPosition(oldPos);
       } else { // Sets new position
-        if (GameConnection.instance != null) {
-          GameConnection.instance.updatePosition(position);
-        }
         setPosition(newPos);
       }
 
@@ -205,6 +203,19 @@ public class Player extends Entity {
           setPlayerState(PlayerState.CLIMBING);
         } else {
           setPosition(oldPos);
+        }
+      }
+      if (newTile.getIndex() == 4) {
+        loseLife();
+      }
+
+      if (newTile.getIndex() == 5) { // Checks for goal
+        addToScore(10000);
+        setPosition(newPos);
+        // TODO: Switch game state here
+
+        if(GameConnection.instance != null){
+          GameConnection.instance.sendLevelComplete();
         }
       }
 
@@ -243,8 +254,13 @@ public class Player extends Entity {
    */
   public void loseLife() {
 
+    if(GameConnection.instance != null){
+      GameConnection.instance.sendDeath();
+    }
+
       lives -= 1;
       if (lives <= 0) {
+    	Audio.play(Audio.AudioName.JINGLE_GAMEOVER);
         lives = 0;
         playerState = PlayerState.DEAD;
       } else {
@@ -253,6 +269,13 @@ public class Player extends Entity {
         setDirection(START_DIRECTION);
         setCooldown(START_ROLL_COOLDOWN);
       }
-    }
+  }
 
+  public void decrementLives(){
+    this.lives --;
+  }
+
+  public void setScore(int score){
+    this.score = score;
+  }
 }

@@ -83,6 +83,8 @@ public class ClientHandler extends Thread
 
             logger.info("Client connection to game closed session key: " + this.sessionKey.get());
 
+            // Remove
+            server.connectedClients.remove(UUID.fromString(this.sessionKey.get()));
         }catch(IOException e){
             e.printStackTrace();
         }

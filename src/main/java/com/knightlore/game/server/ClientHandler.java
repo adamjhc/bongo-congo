@@ -3,6 +3,8 @@ package com.knightlore.game.server;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.server.commandhandler.Factory;
 import com.knightlore.networking.Sendable;
+import com.knightlore.server.game.GameRepository;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -24,6 +26,8 @@ public class ClientHandler extends Thread{
     final Socket s;
     final GameServer gameServer;
 
+    private boolean running;
+
   public ClientHandler(
       Socket s, ObjectInputStream dis, ObjectOutputStream dos, GameServer gameServer) {
     this.s = s;
@@ -31,13 +35,14 @@ public class ClientHandler extends Thread{
     this.dos = dos;
     this.sessionKey = Optional.empty();
     this.gameServer = gameServer;
+    this.running = true;
   }
 
   @Override
   public void run() {
 
     Sendable sendable;
-    while (true) {
+    while (running) {
       try {
         // Retrieve new incoming sendable object
         sendable = (Sendable) dis.readObject();
@@ -50,14 +55,7 @@ public class ClientHandler extends Thread{
           break;
         }
 
-        // Next check for session
-        if (!this.sessionKey.isPresent()) {
-          // Assume this message is the session key
-
-        }
-
         // If not, pass to factory
-        // TODO implement factory
         Factory.create(this, sendable);
 
       } catch (IOException e) {
@@ -71,6 +69,14 @@ public class ClientHandler extends Thread{
       // closing resources
       this.dis.close();
       this.dos.close();
+      System.out.println("Client disconnect");
+
+      // Check for server owner
+      if(this.sessionKey.isPresent() && gameServer.sessionOwner.equals(this.sessionKey.get())){
+        // Delete server
+        gameServer.close();
+        GameRepository.instance.removeServer(this.server().getUUID());
+      }
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -98,5 +104,10 @@ public class ClientHandler extends Thread{
 
   public boolean registered() {
     return this.sessionKey.isPresent();
+  }
+
+  public void close(){
+    this.running = false;
+    this.interrupt();
   }
 }

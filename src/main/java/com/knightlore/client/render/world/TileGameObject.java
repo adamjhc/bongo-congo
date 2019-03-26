@@ -86,6 +86,23 @@ public class TileGameObject extends GameObject {
   }
 
   /**
+<<<<<<< HEAD
+   * Get whether the tile is a floor
+   *
+   * @return whether the tile is a floor
+   * @author Adam Cox
+   */
+  public boolean isFloor() {
+    return  tileType == TileType.FLOOR ||
+    		tileType == TileType.SPAWN_WALKER ||
+    		tileType == TileType.SPAWN_RANDOMER ||
+    		tileType == TileType.SPAWN_CIRCLER ||
+    		tileType == TileType.SPAWN_CHARGER;
+  }
+
+  /**
+=======
+>>>>>>> dev
    * Render the tile - unhighlighted
    *
    * @param shaderProgram Shader program to use

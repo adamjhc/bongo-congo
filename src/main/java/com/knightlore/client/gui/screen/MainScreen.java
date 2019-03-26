@@ -8,6 +8,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_MINUS;
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.audio.Audio;
+import com.knightlore.client.audio.Audio.AudioName;
 import com.knightlore.client.exceptions.ClientAlreadyAuthenticatedException;
 import com.knightlore.client.exceptions.ConfigItemNotFoundException;
 import com.knightlore.client.gui.MainMenu;
@@ -25,16 +26,22 @@ public class MainScreen implements IScreen {
 
   MainMenu menu;
   GuiRenderer renderer;
+  AudioName SELECT = AudioName.SOUND_MENUSELECT;
 
   public MainScreen(GuiRenderer renderer) {
     menu = new MainMenu();
     this.renderer = renderer;
 
     Audio.restart();
-  }
+    }
 
   @Override
-  public void startup(Object... args) {}
+  public void startup(Object... args) {
+	    if (Audio.getCurrentMusic() != AudioName.MUSIC_MENU)
+	    	Audio.stop(Audio.getCurrentMusic());
+	    Audio.play(Audio.AudioName.MUSIC_MENU);
+
+  }
 
   @Override
   public void input() {
@@ -43,7 +50,8 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getSingleplayer().getId())) {
       menu.getSingleplayer().setColour();
       if (Mouse.isLeftButtonPressed()) {
-        Client.changeScreen(ClientState.LEVEL_SELECT, false);
+    	Audio.play(SELECT);
+        Client.changeScreen(ClientState.LEVEL_SELECT, true);
       }
     } else menu.getSingleplayer().setColour(Colour.YELLOW);
 
@@ -51,43 +59,42 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getMultiplayer().getId())) {
       menu.getMultiplayer().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         // Do network connection
         Client.showLoadingScreen();
 
-        // Call multiplayer connection
-        try {
-          // Make connection
-          System.out.println("Making con");
-          ServerConnection.makeConnection();
-          System.out.println("Con");
-
-          // Authenticate
+        // Check for multiplayer connection
+        if(ServerConnection.instance == null){
           try {
-            ServerConnection.instance.auth();
-          } catch (IOException e) {
-            System.out.println("Auth error");
-          } catch (ClientAlreadyAuthenticatedException e) {
-            // Ignore
-          }
+            // Make connection
+            ServerConnection.makeConnection();
 
-          // Wait for auth
-          while (!ServerConnection.instance.isAuthenticated()) {
-            // Wait
+            // Authenticate
             try {
-              TimeUnit.SECONDS.sleep(1);
-              System.out.println("Waiting");
-            } catch (InterruptedException e) {
-
+              ServerConnection.instance.auth();
+            } catch (IOException e) {
+              System.out.println("Auth error");
+            } catch (ClientAlreadyAuthenticatedException e) {
+              // Ignore
             }
+
+            // Wait for auth
+            while (!ServerConnection.instance.isAuthenticated()) {
+              // Wait
+              try {
+                TimeUnit.SECONDS.sleep(1);
+                System.out.println("Waiting");
+              } catch (InterruptedException e) {
+
+              }
+            }
+          }catch(ConfigItemNotFoundException e){
+
           }
-
-          // Retrieve Games
-          ServerConnection.instance.listGames();
-
-        } catch (ConfigItemNotFoundException e) {
-          // TODO handle crash
-          System.out.println("Could not find the correct configuration files");
         }
+
+        // Retrieve Games
+        ServerConnection.instance.listGames();
 
         // Wait for game recieve response
         while (LobbyCache.instance == null) {
@@ -107,6 +114,7 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getLevelEditor().getId())) {
       menu.getLevelEditor().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         Client.changeScreen(ClientState.PRE_EDITOR, false);
       }
     } else menu.getLevelEditor().setColour(Colour.YELLOW);
@@ -115,6 +123,7 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getOptions().getId())) {
       menu.getOptions().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         Client.changeScreen(ClientState.OPTIONS_MENU, false);
       }
     } else menu.getOptions().setColour(Colour.YELLOW);
@@ -123,6 +132,7 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getQuit().getId())) {
       menu.getQuit().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         Window.setShouldClose();
       }
     } else menu.getQuit().setColour(Colour.YELLOW);
@@ -131,6 +141,7 @@ public class MainScreen implements IScreen {
         && Mouse.getYPos() > menu.getSound().getPositionY()) {
       if (Mouse.isLeftButtonPressed()) {
         Audio.toggle();
+        Audio.play(SELECT);
       }
     }
 

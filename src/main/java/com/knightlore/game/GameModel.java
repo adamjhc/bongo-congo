@@ -1,5 +1,6 @@
 package com.knightlore.game;
 
+import com.knightlore.client.audio.Audio;
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.networking.GameConnection;
 import com.knightlore.game.entity.Direction;
@@ -120,12 +121,17 @@ public class GameModel {
     if (myPlayer().getPlayerState() != PlayerState.ROLLING) {
         rollCountdown();
     }
-    
+
     if (getTileIndex(myPlayer().getPosition()) == 5) { // Checks for goal
       myPlayer().addToScore(10000);
       // TODO: move to next level
     }
 
+    if (getTileIndex(myPlayer().getPosition()) == 4 && myPlayer().getPlayerState() != PlayerState.ROLLING && myPlayer().getPlayerState() != PlayerState.DEAD) {
+      Audio.play(Audio.AudioName.SOUND_HIT);
+      delay(100);
+      myPlayer().loseLife();
+    }
 
 
     // Player updates
@@ -276,6 +282,14 @@ public class GameModel {
     if (playerCooldown != 0) {
       player.setCooldown(playerCooldown - 1);
     }
+  }
+
+  public boolean lastLevel(){
+    return this.currentLevelIndex == this.levels.size() -1;
+  }
+
+  public void incrementLevel(){
+    this.currentLevelIndex ++;
   }
 
   public Vector3f roundZ(Vector3f pos) {

@@ -24,7 +24,7 @@
 //
 //        // Add enemies
 //        Enemy enemy = new Enemy();
-//        enemy.updatePosition(new Vector3f(5, 5, 0));
+//        enemy.updateStatus(new Vector3f(5, 5, 0));
 //
 //        levelOne.addEnemy(enemy);
 //        levelOne.setLevelMap(levelOneMap);

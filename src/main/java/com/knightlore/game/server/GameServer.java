@@ -5,6 +5,8 @@ import com.knightlore.game.GameModel;
 import com.knightlore.game.GameState;
 import com.knightlore.networking.GameStart;
 import com.knightlore.networking.Sendable;
+import com.knightlore.server.game.GameRepository;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -19,7 +21,7 @@ public class GameServer extends Thread {
   String sessionOwner;
   String name;
   ArrayList<ClientHandler> clients;
-  GameManager manager;
+  boolean running;
 
   GameModel model;
 
@@ -30,6 +32,7 @@ public class GameServer extends Thread {
     this.model = model;
     this.clients = new ArrayList<>();
     this.name = name;
+    this.running = true;
   }
 
   // Start new server
@@ -40,7 +43,7 @@ public class GameServer extends Thread {
       ServerSocket ss = new ServerSocket(this.socket);
 
       // Capture new clients
-      while (true) {
+      while (running) {
         Socket s = null;
         try {
           // socket object to receive incoming com.knightlore.server.client requests
@@ -72,6 +75,8 @@ public class GameServer extends Thread {
     } catch (IOException e) {
       e.printStackTrace();
     }
+
+    System.out.println("THREAD CLOSE");
   }
 
   public ArrayList<ClientHandler> registeredClients() {
@@ -110,6 +115,7 @@ public class GameServer extends Thread {
     try {
       for (ClientHandler registered : this.registeredClients()) {
         if (!registered.sessionKey.get().equals(ownSessionKey)) {
+          System.out.println("Sending to " + registered.sessionKey.get());
           registered.dos.writeObject(sendable);
         }
       }
@@ -153,5 +159,20 @@ public class GameServer extends Thread {
     }
 
     return ready;
+  }
+
+  public void close(){
+    for(ClientHandler client: this.clients){
+      // Send close
+      Sendable sendable = new Sendable();
+      sendable.setFunction("game_close");
+      client.send(sendable);
+
+      // Close client
+      client.close();
+    }
+
+    running = false;
+    this.interrupt();
   }
 }

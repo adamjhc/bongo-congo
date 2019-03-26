@@ -8,35 +8,144 @@ import com.knightlore.client.io.Window;
 
 public class PreLevelEditor implements IGui {
 
+  /**
+   * The position of the top horizontal separator
+   */
   private static final int SEPARATOR_TOP_POS = 185;
+  
+  /**
+   * The position of the bottom horizontal separator
+   */
   private static final int SEPARATOR_BOT_POS = 200;
+  
+  /**
+   * The size of the gap between the separator and the title above it
+   */
   private static final int SEPARATOR_GAP = FONT_SIZE_SMALL;
 
+  /**
+   * The maximum width of a level
+   */
   private static final int MAX_WIDTH = 50;
+  
+  /**
+   * The maximum length of a level
+   */
   private static final int MAX_LENGTH = 50;
+  
+  /**
+   * The maximum height of a level
+   */
   private static final int MAX_HEIGHT = 50;
 
+  /**
+   * The TextObject for the word "width"
+   */
   private final TextObject width;
+  
+  /**
+   * The TextObject for the word "length"
+   */
   private final TextObject length;
+  
+  /**
+   * The TextObject for the word "height"
+   */
   private final TextObject height;
+  
+  /**
+   * The TextObject for the value of the width of the level
+   */
   private final TextObject wNum;
+  
+  /**
+   * The TextObject for the value of the length of the level
+   */
   private final TextObject lNum;
+  
+  /**
+   * The TextObject for the value of the height of the level
+   */
   private final TextObject hNum;
+  
+  /**
+   * The TextObject for the "<" decrementing the width
+   */
   private final TextObject wLeft;
+  
+  /**
+   * The TextObject for the ">" incrementing the width
+   */
   private final TextObject wRight;
+  
+  /**
+   * The TextObject for the "<" decrementing the length
+   */
   private final TextObject lLeft;
+  
+  /**
+   * The TextObject for the ">" incrementing the length
+   */
   private final TextObject lRight;
+  
+  /**
+   * The TextObject for the "<" decrementing the height
+   */
   private final TextObject hLeft;
+  
+  /**
+   * The TextObject for the ">" incrementing the height
+   */
   private final TextObject hRight;
+  
+  /**
+   * The TextObject for the words "Create Level"
+   */
   private final TextObject createLevel;
+  
+  /**
+   * The TextObject for the word "exit"
+   */
   private final TextObject exit;
+  
+  /**
+   * The TextObject for the words "Load Level"
+   */
   private final TextObject loadLevel;
+  
+  /**
+   * The TextObject for the word "Bongo"
+   */
   private final TextObject bongo;
+  
+  /** 
+   * The TextObject for the word "Congo"
+   */
   private final TextObject congo;
+  
+  /**
+   * The TextObject for the words "Level Editor"
+   */
   private final TextObject editor;
+  
+  /**
+   * The TextObject for the top "---------------------"
+   */
   private final TextObject separatorTop;
+  
+  /**
+   * The TextObject for the bottom "---------------------"
+   */
   private final TextObject separatorBottom;
+  
+  /**
+   * The list of all displayed GuiObjects
+   */
   private GuiObject[] guiObjects;
+  
+  /**
+   * The list of all TextObjects you can click on
+   */
   private TextObject[] textObjects;
 
   public PreLevelEditor() {
@@ -135,6 +244,9 @@ public class PreLevelEditor implements IGui {
         };
   }
 
+  /**
+   * Method to increment the width of the level
+   */
   public void incWidth() {
     int newWidth = Integer.parseInt(this.wNum.getText());
     if (newWidth < MAX_WIDTH) newWidth++;
@@ -142,6 +254,9 @@ public class PreLevelEditor implements IGui {
     this.wNum.setColour(Colour.YELLOW);
   }
 
+  /**
+   * Method to decrement the width of the level
+   */
   public void decWidth() {
     int newWidth = Integer.parseInt(this.wNum.getText());
     if (newWidth > 1) newWidth--;
@@ -149,6 +264,9 @@ public class PreLevelEditor implements IGui {
     this.wNum.setColour(Colour.YELLOW);
   }
 
+  /**
+   * Method to increment the length of the level
+   */
   public void incLength() {
     int newLength = Integer.parseInt(this.lNum.getText());
     if (newLength < MAX_LENGTH) newLength++;
@@ -156,6 +274,9 @@ public class PreLevelEditor implements IGui {
     this.lNum.setColour(Colour.YELLOW);
   }
 
+  /**
+   * Method to decrement the length of the level
+   */
   public void decLength() {
     int newLength = Integer.parseInt(this.lNum.getText());
     if (newLength > 1) newLength--;
@@ -163,6 +284,9 @@ public class PreLevelEditor implements IGui {
     this.lNum.setColour(Colour.YELLOW);
   }
 
+  /**
+   * Method to increment the height of the level
+   */
   public void incHeight() {
     int newHeight = Integer.parseInt(this.hNum.getText());
     if (newHeight < MAX_HEIGHT) newHeight++;
@@ -170,6 +294,9 @@ public class PreLevelEditor implements IGui {
     this.hNum.setColour(Colour.YELLOW);
   }
 
+  /**
+   * Method to decrement the height of the level
+   */
   public void decHeight() {
     int newHeight = Integer.parseInt(this.hNum.getText());
     if (newHeight > 1) newHeight--;
@@ -177,66 +304,106 @@ public class PreLevelEditor implements IGui {
     this.hNum.setColour(Colour.YELLOW);
   }
 
+  /**
+   * Method to get the current value of the level's width
+   * @return The value of the width
+   */
   public int getWidthNum() {
     return Integer.parseInt(this.wNum.getText());
   }
 
+  /**
+   * Method to get the current value of the level's length
+   * @return The value of the length
+   */
   public int getLengthNum() {
     return Integer.parseInt(this.lNum.getText());
   }
 
+  /**
+   * Method to get the current value of the level's height
+   * @return The value of the height
+   */
   public int getHeightNum() {
     return Integer.parseInt(this.hNum.getText());
   }
 
-  public TextObject getWidth() {
-    return width;
-  }
-
-  public TextObject getLength() {
-    return length;
-  }
-
-  public TextObject getHeight() {
-    return height;
-  }
-
+  /**
+   * Method to get the "<" that decrements width
+   * @return The TextObject for the width's "<"
+   */
   public TextObject getWLeft() {
     return wLeft;
   }
 
+  /**
+   * Method to get the ">" that increments width
+   * @return The TextObject for the width's ">"
+   */
   public TextObject getWRight() {
     return wRight;
   }
 
+  /**
+   * Method to get the "<" that decrements length
+   * @return The TextObject for the length's "<"
+   */
   public TextObject getLLeft() {
     return lLeft;
   }
 
+  /**
+   * Method to get the ">" that increments length
+   * @return The TextObject for the length's ">"
+   */
   public TextObject getLRight() {
     return lRight;
   }
 
+  /**
+   * Method to get the "<" that decrements height
+   * @return The TextObject for the height's "<"
+   */
   public TextObject getHLeft() {
     return hLeft;
   }
 
+  /**
+   * Method to get the ">" that increments height
+   * @return The TextObject for the height's ">"
+   */
   public TextObject getHRight() {
     return hRight;
   }
 
+  /**
+   * Method to get the word "exit"
+   * @return The TextObject for the word "exit"
+   */
   public TextObject getBack() {
     return exit;
   }
 
+  /**
+   * Method to get the words "Create Level"
+   * @return The TextObject for the words "Create Level"
+   */
   public TextObject getCreateLevel() {
     return createLevel;
   }
 
+  
+  /**
+   * Method to get the words "Load Level"
+   * @return The TextObject for the words "Load Level"
+   */
   public TextObject getLoadLevel() {
     return loadLevel;
   }
 
+  /**
+   * Method to update the position of all displayed objects on the screen
+   */
   public void updateSize() {
     this.bongo.setPosition(
         Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
@@ -305,11 +472,19 @@ public class PreLevelEditor implements IGui {
         Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
   }
 
+  /**
+   * Method to get all displayed GuiObjects on the screen
+   * @return The list of all displayed objects
+   */
   @Override
   public GuiObject[] getGuiObjects() {
     return guiObjects;
   }
 
+  /**
+   * Method to get all clickable TextObjects
+   * @return The list of all TextObjects you can click on
+   */
   @Override
   public TextObject[] getTextObjects() {
     return textObjects;

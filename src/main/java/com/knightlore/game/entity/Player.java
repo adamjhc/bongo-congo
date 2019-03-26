@@ -1,5 +1,6 @@
 package com.knightlore.game.entity;
 
+import com.knightlore.client.audio.Audio;
 import com.knightlore.client.networking.GameConnection;
 import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.Tile;
@@ -201,6 +202,7 @@ public class Player extends Entity {
       }
 
       if (newTile.getIndex() == 4) {
+    	Audio.play(Audio.AudioName.SOUND_HIT);
         loseLife();
       }
 

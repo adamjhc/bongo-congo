@@ -30,7 +30,7 @@ public class Audio {
   /**
    * The sound effect for dying
    */
-  private static MusicPlayer deathSound;
+  private static MusicPlayer hitSound;
   
   /**
    * The sound effect for rolling
@@ -97,18 +97,13 @@ public class Audio {
       System.err.println("Could not load menu select sound: " + e);
     }
 
-    /* try {
-     * 		this.hitSound = 			new MusicPlayer(audioPath + "SOUND_HIT.wav", false);
-     * } catch (Exception e) {
-     * 		System.err.println("Could not load hit sound: " + e);
-     * }
-     */
-    /* try {
-     * 		this.deathSound = 		new MusicPlayer(audioPath + "SOUND_DEATH.wav", false);
-     * } catch (Exception e) {
-     * 		System.err.println("Could not load death sound: " + e);
-     * }
-     */
+    try {
+       hitSound = 			new MusicPlayer(AUDIO_PATH + "SOUND_HIT.wav", false);
+    } catch (Exception e) {
+       System.err.println("Could not load hit sound: " + e);
+    }
+    
+    
     /* try {
      * 		 this.rollSound = 		new MusicPlayer(audioPath + "SOUND_ROLL.wav", false);
      * } catch (Exception e) {
@@ -138,9 +133,8 @@ public class Audio {
           menuMusic,
           gameMusic,
           editorMusic,
-          menuSelectSound/*,
-          hitSound,
-          deathSound,
+          menuSelectSound,
+          hitSound/*,
           rollSound,
           victoryJingle,
           gameOverJingle*/

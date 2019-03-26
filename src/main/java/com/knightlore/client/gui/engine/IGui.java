@@ -1,15 +1,16 @@
 package com.knightlore.client.gui.engine;
 
 import com.knightlore.client.gui.engine.graphics.FontTexture;
+
 import java.awt.Font;
 
 public interface IGui {
-
-  int FONT_SIZE_SMALL = 24;
-  int FONT_SIZE_MEDIUM = 32;
-  int FONT_SIZE_LARGE = 32;
-  int FONT_SIZE_TITLE = 72;
-  int FONT_SIZE_LIVES = 72;
+	
+	int FONT_SIZE_SMALL = 24;
+	int FONT_SIZE_MEDIUM = 32;
+	int FONT_SIZE_LARGE = 32;
+	int FONT_SIZE_TITLE = 72;
+	int FONT_SIZE_LIVES = 72;
 
   Font FONT_SMALL = new Font("Press Start 2P", Font.PLAIN, FONT_SIZE_SMALL);
   Font FONT_MEDIUM = new Font("Press Start 2P", Font.PLAIN, FONT_SIZE_MEDIUM);
@@ -28,8 +29,8 @@ public interface IGui {
 
   int TITLE_POS = 300;
 
-  int GAP = FONT_SIZE_SMALL + 5;
-  int GAP_LARGE = FONT_SIZE_LARGE + 5;
+  int GAP = FONT_SIZE_SMALL+5;
+  int GAP_LARGE = FONT_SIZE_LARGE+5;
 
   TextObject[] getTextObjects();
 

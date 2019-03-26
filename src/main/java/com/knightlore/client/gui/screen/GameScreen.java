@@ -51,6 +51,8 @@ public class GameScreen implements IScreen {
 
   @Override
   public void startup(Object... args) {
+	Audio.stop(Audio.getCurrentMusic());
+	Audio.play(Audio.AudioName.MUSIC_GAME);
     // Singleplayer sends levels to start game server
     if (args.length != 0) {
       GameModel gameModel = new GameModel("1");
@@ -65,30 +67,23 @@ public class GameScreen implements IScreen {
           new GameServer(UUID.randomUUID(), 1337, playerSessionId, gameModel, "Player 1");
       server.start();
 
-      com.knightlore.client.networking.backend.Client gameClient;
+      com.knightlore.client.networking.backend.Client gameClient = null;
       try {
         gameClient =
             new com.knightlore.client.networking.backend.Client(InetAddress.getLocalHost(), 1337);
       } catch (UnknownHostException e) {
-        Client.changeScreen(ClientState.MAIN_MENU, false);
-        return;
+        e.printStackTrace();
       }
       gameClient.run();
 
       GameConnection.instance = new GameConnection(gameClient, playerSessionId);
 
       // Wait for GameServer to instantiate
-      int timeout = 10;
-      int wait = 0;
       while (!GameConnection.instance.ready()) {
         try {
           TimeUnit.SECONDS.sleep(1);
-          wait++;
-
-          if (wait == timeout) {
-            Client.changeScreen(ClientState.MAIN_MENU, false);
-          }
-        } catch (InterruptedException ignored) {
+        } catch (InterruptedException e) {
+          // Shouldn't happen
         }
       }
 
@@ -140,17 +135,6 @@ public class GameScreen implements IScreen {
       playerInputDirection = null;
     }
 
-    if (Keyboard.isKeyReleased(GLFW_KEY_J) && !hud.getCountDown().getRender()) {
-      gameModel.nextLevel();
-
-      if (gameModel.getState() != GameState.SCORE) {
-        hud.setLevel(gameModel.getCurrentLevelIndex());
-        timer.resetStartTime();
-        countDown.setStartTime();
-      } else if (gameModel.getState() == GameState.SCORE) {
-        Client.changeScreen(ClientState.END, false, gameModel);
-      }
-    }
 
     if (Keyboard.isKeyReleased(GLFW_KEY_RIGHT_SHIFT)
         && (gameModel.myPlayer().getCooldown() == 0)
@@ -238,7 +222,18 @@ public class GameScreen implements IScreen {
       gameRenderer.init(gameModel);
     }
 
-    gameModel.clientUpdate(delta, playerInputDirection);
+      gameModel.clientUpdate(delta, playerInputDirection);
+
+    // Check for complete
+    if(gameModel.getState() == GameState.SCORE) {
+      Client.changeScreen(ClientState.END, false, gameModel);
+    }
+
+    if (gameModel.getState() == GameState.NEXT_LEVEL) {
+      hud.setLevel(gameModel.getCurrentLevelIndex());
+      timer.resetStartTime();
+    }
+
   }
 
   @Override
@@ -251,7 +246,7 @@ public class GameScreen implements IScreen {
   @Override
   public void shutdown(ClientState nextScreen) {
     Mouse.showCursor();
-    Audio.restart();
+    Audio.stop(Audio.getCurrentMusic());
 
     hud.getCountDown().setRender(false);
     GameConnection.gameModel = null;

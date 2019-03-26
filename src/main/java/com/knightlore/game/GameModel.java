@@ -1,5 +1,6 @@
 package com.knightlore.game;
 
+import com.knightlore.client.audio.Audio;
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.networking.GameConnection;
 import com.knightlore.game.entity.Direction;
@@ -11,8 +12,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import com.knightlore.game.map.Tile;
+import com.knightlore.game.util.CoordinateUtils;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+
+import static org.joml.Math.round;
 
 public class GameModel {
 
@@ -117,8 +123,20 @@ public class GameModel {
         rollCountdown();
     }
 
-      // Player updates
-      switch (myPlayer().getPlayerState()) {
+    if (getTileIndex(myPlayer().getPosition()) == 5) { // Checks for goal
+      myPlayer().addToScore(10000);
+      // TODO: Switch game state here
+    }
+
+    if (getTileIndex(myPlayer().getPosition()) == 4 && myPlayer().getPlayerState() != PlayerState.ROLLING && myPlayer().getPlayerState() != PlayerState.DEAD) {
+      Audio.play(Audio.AudioName.SOUND_HIT);
+      delay(100);
+      myPlayer().loseLife();
+    }
+
+
+    // Player updates
+    switch (myPlayer().getPlayerState()) {
       case IDLE:
         if (playerInputDirection != null) {
           updatePlayerState(PlayerState.MOVING);
@@ -144,7 +162,7 @@ public class GameModel {
         } else {
           // Done playing animation, set position
           accumulator = 0;
-          player.setPosition(player.setPadding(player.getPosition()));
+          player.setPosition(player.setPadding(roundZ(bottom)));
           player.setClimbFlag(false);
           player.setPlayerState(PlayerState.IDLE);
         }
@@ -177,7 +195,7 @@ public class GameModel {
           delay(5);
         } else {
           // Reset player
-          delay(500);
+          delay(100);
           player.setPosition(player.setPadding(player.getPosition()));
           player.loseLife();
         }
@@ -257,4 +275,24 @@ public class GameModel {
       player.setCooldown(playerCooldown - 1);
     }
   }
+
+  public boolean lastLevel(){
+    return this.currentLevelIndex == this.levels.size() -1;
+  }
+
+  public void incrementLevel(){
+    this.currentLevelIndex ++;
+  }
+
+  public Vector3f roundZ(Vector3f pos) {
+    Vector3f rounded = new Vector3f(pos);
+    rounded.z = round(pos.z);
+    return rounded;
+  }
+
+  public int getTileIndex(Vector3f coords) {
+    return getCurrentLevel().getLevelMap().getTile(CoordinateUtils.getTileCoord(coords)).getIndex();
+
+  }
+
 }

@@ -244,6 +244,7 @@ public class Player extends Entity {
     if (playerState != PlayerState.ROLLING) {
       lives -= 1;
       if (lives <= 0) {
+    	Audio.play(Audio.AudioName.JINGLE_GAMEOVER);
         lives = 0;
         playerState = PlayerState.DEAD;
       } else {

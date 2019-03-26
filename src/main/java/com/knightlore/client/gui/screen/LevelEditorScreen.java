@@ -205,7 +205,7 @@ public class LevelEditorScreen implements IScreen {
     	Audio.play(SELECT);
         try {
           editorMap.resetRotation();
-          Client.changeScreen(ClientState.NAMING_LEVEL, false, editorMap);
+          Client.changeScreen(ClientState.NAMING_LEVEL, false, editorMap, false);
         } catch (Exception e) {
           e.printStackTrace();
         }

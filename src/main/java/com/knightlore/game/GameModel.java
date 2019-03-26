@@ -129,7 +129,6 @@ public class GameModel {
     }
 
     if (getTileIndex(myPlayer().getPosition()) == 4 && myPlayer().getPlayerState() != PlayerState.ROLLING && myPlayer().getPlayerState() != PlayerState.DEAD) {
-      Audio.play(Audio.AudioName.SOUND_HIT);
       delay(100);
       myPlayer().loseLife();
     }

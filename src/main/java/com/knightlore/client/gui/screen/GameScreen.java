@@ -39,9 +39,9 @@ public class GameScreen implements IScreen {
   Timer timer;
   Direction playerInputDirection;
 
-  private Timer countDown;
-  private Hud hud;
-  private GameRenderer gameRenderer;
+  protected Timer countDown;
+  protected Hud hud;
+  protected GameRenderer gameRenderer;
 
   public GameScreen(GameRenderer gameRenderer, Timer timer) {
     this.gameRenderer = gameRenderer;

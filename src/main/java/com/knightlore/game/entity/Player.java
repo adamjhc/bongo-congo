@@ -267,6 +267,7 @@ public class Player extends Entity {
   }
 
   public void decrementLives(){
+	Audio.play(Audio.AudioName.SOUND_HIT);
     this.lives --;
   }
 

@@ -67,6 +67,11 @@ import org.joml.Vector4f;
 
 public class NameLevelScreen implements IScreen {
 	
+	/**
+	 * Whether or not the level being named is complete or not
+	 */
+	private static boolean FINISHED;
+	
 	private static final AudioName SELECT = AudioName.SOUND_MENUSELECT;
 	
 	/**
@@ -105,6 +110,11 @@ public class NameLevelScreen implements IScreen {
 	 */
 	public void startup(Object...args) {
 		level = (LevelMap) args[0];
+		FINISHED = (boolean) args[1];
+		if (Audio.getCurrentMusic() != AudioName.MUSIC_EDITOR)
+	    	Audio.stop(Audio.getCurrentMusic());
+	    Audio.play(Audio.AudioName.MUSIC_EDITOR);
+		
 	}
 	
 	/**
@@ -132,7 +142,7 @@ public class NameLevelScreen implements IScreen {
 			if (Mouse.isLeftButtonPressed()) {
 				Audio.play(SELECT);
 				try {
-					save(false, nameLevelUi.getLevelName().getText());
+					save(nameLevelUi.getLevelName().getText());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -145,7 +155,7 @@ public class NameLevelScreen implements IScreen {
 			if (Mouse.isLeftButtonPressed()) {
 				Audio.play(SELECT);
 				try {
-					save(false, nameLevelUi.getLevelName().getText());
+					save(nameLevelUi.getLevelName().getText());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -185,12 +195,15 @@ public class NameLevelScreen implements IScreen {
 	 * @param name	The name of the level
 	 * @throws IOException Thrown when the file path can't be found
 	 */
-	private void save(boolean levelIsComplete, String name) throws IOException {
+	private void save(String name) throws IOException {
 		  String filePath = "customMaps/";
-		  if (levelIsComplete) {
+		  String fileType;
+		  if (FINISHED) {
 			  filePath = filePath + "playable/";
+			  fileType = ".fmap";
 		  } else {
 			  filePath = filePath + "unplayable/";
+			  fileType = ".umap";
 		  }
 
 		  GsonBuilder builder = new GsonBuilder();
@@ -198,7 +211,8 @@ public class NameLevelScreen implements IScreen {
 
 		  String jsonString = gson.toJson(level);
 
-		  BufferedWriter writer = new BufferedWriter(new FileWriter(filePath + name + ".umap"));
+		  
+		  BufferedWriter writer = new BufferedWriter(new FileWriter(filePath + name + fileType));
 		  writer.write(jsonString);
 		  writer.close();
 	  }

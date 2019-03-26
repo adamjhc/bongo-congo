@@ -8,6 +8,7 @@ import com.knightlore.client.networking.backend.ResponseHandler;
 import com.knightlore.client.networking.backend.responsehandlers.game.GameRegister;
 import com.knightlore.client.networking.backend.responsehandlers.server.GameRequest;
 import com.knightlore.game.GameModel;
+import com.knightlore.game.entity.Player;
 import com.knightlore.networking.ApiKey;
 import com.knightlore.networking.PositionUpdate;
 import com.knightlore.networking.Sendable;
@@ -75,7 +76,7 @@ public class GameConnection {
         }
     }
 
-    public void updatePosition(Vector3f vector){
+    public void updatePosition(){
         // Build up get session string
         Sendable sendable = new Sendable();
         sendable.setUuid();
@@ -83,7 +84,9 @@ public class GameConnection {
 
         Gson gson = new Gson();
 
-        PositionUpdate request = new com.knightlore.networking.PositionUpdate(vector, this.sessionKey);
+        Player player = GameConnection.gameModel.myPlayer();
+
+        PositionUpdate request = new com.knightlore.networking.PositionUpdate(player.getPosition(), this.sessionKey, player.getDirection(), player.getPlayerState());
         sendable.setData(gson.toJson(request));
 
         // Specify handler

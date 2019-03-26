@@ -17,9 +17,8 @@ public class PeriodicLocationUpdater extends Thread {
     }
 
     public void run(){
-
         while(true){
-            gameConnection.updatePosition(GameConnection.gameModel.myPlayer().getPosition());
+            gameConnection.updatePosition();
 
             try{
                 TimeUnit.MILLISECONDS.sleep(20);

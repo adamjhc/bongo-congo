@@ -26,6 +26,7 @@ import com.knightlore.client.io.Window;
 import com.knightlore.client.render.GameRenderer;
 import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.client.render.LevelEditorRenderer;
+import com.knightlore.client.render.LevelSelectRenderer;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -40,6 +41,7 @@ public class Client {
   private static GameRenderer gameRenderer;
   private static GuiRenderer guiRenderer;
   private static LevelEditorRenderer levelEditorRenderer;
+  private static LevelSelectRenderer levelSelectRenderer;
 
   private static Timer timer;
 
@@ -85,6 +87,7 @@ public class Client {
     gameRenderer = new GameRenderer();
     guiRenderer = new GuiRenderer();
     levelEditorRenderer = new LevelEditorRenderer();
+    levelSelectRenderer = new LevelSelectRenderer();
 
     screens = new EnumMap<>(ClientState.class);
     screens.put(ClientState.MAIN_MENU, new MainScreen(guiRenderer));
@@ -98,7 +101,7 @@ public class Client {
     screens.put(ClientState.LOBBY, new LobbyScreen(guiRenderer));
     screens.put(ClientState.LOADING_LEVEL, new LoadLevelScreen(guiRenderer));
     screens.put(ClientState.END, new GameEndScreen(guiRenderer));
-    screens.put(ClientState.LEVEL_SELECT, new LevelSelectScreen(guiRenderer));
+    screens.put(ClientState.LEVEL_SELECT, new LevelSelectScreen(levelSelectRenderer));
     screens.put(ClientState.SHOW_ERROR, new ShowErrorScreen(guiRenderer));
 
     loadingScreen = new Loading();
@@ -134,6 +137,7 @@ public class Client {
     gameRenderer.cleanup();
     guiRenderer.cleanup();
     levelEditorRenderer.cleanup();
+    levelSelectRenderer.cleanup();
     screens.forEach((state, screen) -> screen.cleanUp());
 
     Window.freeCallbacks();

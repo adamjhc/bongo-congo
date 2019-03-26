@@ -24,7 +24,7 @@ public class GuiRenderer extends Renderer {
   /**
    * Initialise GuiRenderer
    *
-   * @author Joseph, Tuffin, Adam Cox
+   * @author Joseph Tuffin, Adam Cox
    */
   public GuiRenderer() {
     super();

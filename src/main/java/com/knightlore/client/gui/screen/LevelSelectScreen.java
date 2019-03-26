@@ -11,7 +11,7 @@ import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Mouse;
-import com.knightlore.client.render.GuiRenderer;
+import com.knightlore.client.render.LevelSelectRenderer;
 import com.knightlore.game.Level;
 import com.knightlore.game.map.LevelMap;
 import java.io.BufferedReader;
@@ -20,18 +20,23 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import org.joml.Vector3f;
+import org.joml.Vector3i;
 
 public class LevelSelectScreen implements IScreen {
 
   private static final String MAP_FILE_PATH = "customMaps/playable";
 
+  private LevelSelectRenderer levelSelectRenderer;
+
   private Collection<LevelDisplay> selectedLevels;
 
-  private GuiRenderer guiRenderer;
+  private LevelMap selectedMap;
+
   private LevelSelectMenu levelSelectMenu;
 
-  public LevelSelectScreen(GuiRenderer guiRenderer) {
-    this.guiRenderer = guiRenderer;
+  public LevelSelectScreen(LevelSelectRenderer levelSelectRenderer) {
+    this.levelSelectRenderer = levelSelectRenderer;
 
     levelSelectMenu = new LevelSelectMenu();
   }
@@ -64,6 +69,7 @@ public class LevelSelectScreen implements IScreen {
       if (Mouse.isLeftButtonPressed() && selectedLevels.size() == 3) {
         List<Level> levelList = getLevelsFromFile();
         Client.changeScreen(ClientState.GAME, true, levelList);
+        return;
       }
     } else levelSelectMenu.getStart().setColour(Colour.YELLOW);
 
@@ -71,6 +77,7 @@ public class LevelSelectScreen implements IScreen {
       levelSelectMenu.getBack().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Client.changeScreen(ClientState.MAIN_MENU, false);
+        return;
       }
     } else levelSelectMenu.getBack().setColour(Colour.YELLOW);
 
@@ -101,6 +108,13 @@ public class LevelSelectScreen implements IScreen {
             selectedLevels.add(new LevelDisplay(i, levelSelectMenu.getLevel(i).getId()));
           }
         }
+
+        if (Mouse.isRightButtonPressed()) {
+          selectedMap = getMap(levelSelectMenu.getLevel(i).getId());
+          levelSelectRenderer.setWorldScale(60);
+          Vector3i mapSize = selectedMap.getSize();
+          levelSelectRenderer.setCameraPosition(new Vector3f(-mapSize.y, (mapSize.x + mapSize.z) / 2f, 0));
+        }
       } else {
         if (selectedLevels.contains(new LevelDisplay(i))) {
           levelSelectMenu.getLevel(i).setColour(Colour.GREEN);
@@ -112,9 +126,23 @@ public class LevelSelectScreen implements IScreen {
   }
 
   @Override
+  public void update(float delta) {
+    if (selectedMap != null) {
+      levelSelectMenu.offsetMenu(delta * 300);
+    }
+  }
+
+  @Override
   public void render() {
     levelSelectMenu.updateSize();
-    guiRenderer.render(levelSelectMenu);
+
+    levelSelectRenderer.render(selectedMap, levelSelectMenu);
+  }
+
+  @Override
+  public void shutdown(ClientState nextScreen) {
+    selectedMap = null;
+    levelSelectMenu = new LevelSelectMenu();
   }
 
   @Override
@@ -125,13 +153,12 @@ public class LevelSelectScreen implements IScreen {
   private List<Level> getLevelsFromFile() {
     List<Level> levelList = new ArrayList<>();
     selectedLevels.forEach(
-        levelDisplay ->
-            levelList.add(new Level(getMap(MAP_FILE_PATH + "/" + levelDisplay.getLevelName()))));
+        levelDisplay -> levelList.add(new Level(getMap(levelDisplay.getLevelName()))));
     return levelList;
   }
 
-  private LevelMap getMap(String filePath) {
-    File levelFile = new File(filePath);
+  private LevelMap getMap(String levelName) {
+    File levelFile = new File(MAP_FILE_PATH + "/" + levelName);
     GsonBuilder builder = new GsonBuilder();
     Gson gson = builder.create();
     StringBuilder jsonString = new StringBuilder();

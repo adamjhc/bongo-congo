@@ -2,19 +2,34 @@ package com.knightlore.client;
 
 import static com.knightlore.client.util.GuiUtils.registerFont;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.glClear;
 
 import com.knightlore.client.audio.Audio;
 import com.knightlore.client.gui.Loading;
 import com.knightlore.client.gui.engine.Timer;
-import com.knightlore.client.gui.screen.*;
+import com.knightlore.client.gui.screen.GameEndScreen;
+import com.knightlore.client.gui.screen.GameScreen;
+import com.knightlore.client.gui.screen.IScreen;
+import com.knightlore.client.gui.screen.LevelEditorScreen;
+import com.knightlore.client.gui.screen.LevelEditorSetupScreen;
+import com.knightlore.client.gui.screen.LevelSelectScreen;
+import com.knightlore.client.gui.screen.LoadLevelScreen;
+import com.knightlore.client.gui.screen.LobbyScreen;
+import com.knightlore.client.gui.screen.LobbySelectScreen;
+import com.knightlore.client.gui.screen.MainScreen;
+import com.knightlore.client.gui.screen.NameLevelScreen;
+import com.knightlore.client.gui.screen.OptionsScreen;
+import com.knightlore.client.gui.screen.ShowErrorScreen;
+import com.knightlore.client.gui.screen.TestingLevelScreen;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;
-import com.knightlore.client.networking.GameConnection;
-import com.knightlore.client.networking.ServerConnection;
 import com.knightlore.client.render.GameRenderer;
 import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.client.render.LevelEditorRenderer;
+import com.knightlore.client.render.LevelSelectRenderer;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -29,6 +44,7 @@ public class Client {
   private static GameRenderer gameRenderer;
   private static GuiRenderer guiRenderer;
   private static LevelEditorRenderer levelEditorRenderer;
+  private static LevelSelectRenderer levelSelectRenderer;
 
   private static Timer timer;
 
@@ -49,7 +65,9 @@ public class Client {
   }
 
   public static void showLoadingScreen() {
+    clearBuffers();
     guiRenderer.render(loadingScreen);
+    Window.swapBuffers();
   }
 
   public static void run() {
@@ -74,6 +92,7 @@ public class Client {
     gameRenderer = new GameRenderer();
     guiRenderer = new GuiRenderer();
     levelEditorRenderer = new LevelEditorRenderer();
+    levelSelectRenderer = new LevelSelectRenderer();
 
     screens = new EnumMap<>(ClientState.class);
     screens.put(ClientState.MAIN_MENU, new MainScreen(guiRenderer));
@@ -85,9 +104,9 @@ public class Client {
     screens.put(ClientState.GAME, new GameScreen(gameRenderer, timer));
     screens.put(ClientState.NAMING_LEVEL, new NameLevelScreen(guiRenderer));
     screens.put(ClientState.LOBBY, new LobbyScreen(guiRenderer));
-    screens.put(ClientState.LOADING_LEVEL, new LoadLevelScreen(guiRenderer, false));
+    screens.put(ClientState.LOADING_LEVEL, new LoadLevelScreen(guiRenderer));
     screens.put(ClientState.END, new GameEndScreen(guiRenderer));
-    screens.put(ClientState.LEVEL_SELECT, new LevelSelectScreen(guiRenderer));
+    screens.put(ClientState.LEVEL_SELECT, new LevelSelectScreen(levelSelectRenderer));
     screens.put(ClientState.SHOW_ERROR, new ShowErrorScreen(guiRenderer));
 
     loadingScreen = new Loading();
@@ -115,7 +134,10 @@ public class Client {
         accumulator -= interval;
       }
 
+      clearBuffers();
       currentScreen.render();
+      Window.swapBuffers();
+
       Audio.closeInactiveClips();
     }
   }
@@ -124,11 +146,21 @@ public class Client {
     gameRenderer.cleanup();
     guiRenderer.cleanup();
     levelEditorRenderer.cleanup();
+    levelSelectRenderer.cleanup();
     screens.forEach((state, screen) -> screen.cleanUp());
 
     Window.freeCallbacks();
     Window.destroyWindow();
 
     glfwTerminate();
+  }
+
+  /**
+   * Clear buffer
+   *
+   * @author Adam Cox
+   */
+  private static void clearBuffers() {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   }
 }

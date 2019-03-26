@@ -24,7 +24,7 @@ public class GuiRenderer extends Renderer {
   /**
    * Initialise GuiRenderer
    *
-   * @author Joseph, Tuffin, Adam Cox
+   * @author Joseph Tuffin, Adam Cox
    */
   public GuiRenderer() {
     super();
@@ -34,26 +34,12 @@ public class GuiRenderer extends Renderer {
   }
 
   /**
-   * Render only gui
-   *
-   * @param gui GUI to render
-   * @author Joseph Tuffin
-   */
-  public void render(IGui gui) {
-    clearBuffers();
-
-    renderGui(gui);
-
-    Window.swapBuffers();
-  }
-
-  /**
    * Render gui
    *
    * @param gui GUI to render
    * @author Joseph Tuffin
    */
-  void renderGui(IGui gui) {
+  public void render(IGui gui) {
     shaderProgram.bind();
 
     Matrix4f ortho =

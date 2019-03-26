@@ -47,15 +47,6 @@ public abstract class Renderer {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   }
 
-  /**
-   * Clear buffer
-   *
-   * @author Adam Cox
-   */
-  void clearBuffers() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  }
-
   /** Abstract memory cleanup */
   protected abstract void cleanup();
 }

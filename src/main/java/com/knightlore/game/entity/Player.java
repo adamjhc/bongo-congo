@@ -214,6 +214,7 @@ public class Player extends Entity {
         // TODO: Switch game state here
 
         if(GameConnection.instance != null){
+          Audio.play(Audio.AudioName.JINGLE_VICTORY);
           GameConnection.instance.sendLevelComplete();
         }
       }

@@ -102,7 +102,7 @@ public class NameLevel implements IGui {
 		this.saveAndContinue = new TextObject("Save and Continue", SMALL);
 		this.saveAndContinue.setColour(Colour.YELLOW);
 		
-		this.levelName = new TextObject("Untitled", LARGE);
+		this.levelName = new TextObject("UNTITLED", LARGE);
 		this.levelName.setColour(Colour.GREEN);
 		
 		this.separatorTop = new TextObject("------------------------------", SMALL);

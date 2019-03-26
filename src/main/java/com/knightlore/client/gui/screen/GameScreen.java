@@ -5,6 +5,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_J;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_SHIFT;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
@@ -112,8 +113,7 @@ public class GameScreen implements IScreen {
     // Send ready
     GameConnection.instance.sendReady();
 
-    Client.showLoadingScreen();
-    while (gameModel.getState() != GameState.PLAYING) {
+    while (GameConnection.gameModel.getState() != GameState.PLAYING) {
       try {
         TimeUnit.MILLISECONDS.sleep(50);
       } catch (InterruptedException e) {
@@ -145,11 +145,15 @@ public class GameScreen implements IScreen {
       }
     }
 
-    if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)
+    if (Keyboard.isKeyReleased(GLFW_KEY_RIGHT_SHIFT)
         && (gameModel.myPlayer().getCooldown() == 0)
         && (gameModel.myPlayer().getPlayerState() == PlayerState.IDLE
             || gameModel.myPlayer().getPlayerState() == PlayerState.MOVING)) {
       gameModel.myPlayer().setPlayerState(PlayerState.ROLLING);
+    }
+
+    if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)) {
+      gameModel.myPlayer().setClimbFlag(true);
     }
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {

@@ -1,5 +1,6 @@
 package com.knightlore.game;
 
+import com.knightlore.client.audio.Audio;
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.networking.GameConnection;
 import com.knightlore.game.entity.Direction;
@@ -127,7 +128,8 @@ public class GameModel {
       // TODO: Switch game state here
     }
 
-    if (getTileIndex(myPlayer().getPosition()) == 4 && myPlayer().getPlayerState() != PlayerState.ROLLING) {
+    if (getTileIndex(myPlayer().getPosition()) == 4 && myPlayer().getPlayerState() != PlayerState.ROLLING && myPlayer().getPlayerState() != PlayerState.DEAD) {
+      Audio.play(Audio.AudioName.SOUND_HIT);
       delay(100);
       myPlayer().loseLife();
     }

@@ -1,5 +1,6 @@
 package com.knightlore.game.entity;
 
+import com.knightlore.client.audio.Audio;
 import com.knightlore.client.networking.GameConnection;
 import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.Tile;
@@ -253,6 +254,7 @@ public class Player extends Entity {
 
       lives -= 1;
       if (lives <= 0) {
+    	Audio.play(Audio.AudioName.JINGLE_GAMEOVER);
         lives = 0;
         playerState = PlayerState.DEAD;
       } else {

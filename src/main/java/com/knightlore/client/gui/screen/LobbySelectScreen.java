@@ -5,6 +5,8 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
+import com.knightlore.client.audio.Audio;
+import com.knightlore.client.audio.Audio.AudioName;
 import com.knightlore.client.gui.LobbyMenu;
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.gui.engine.LobbyObject;
@@ -18,6 +20,8 @@ import com.knightlore.networking.ListGameObject;
 import java.util.concurrent.TimeUnit;
 
 public class LobbySelectScreen implements IScreen {
+	
+  private static final AudioName SELECT = AudioName.SOUND_MENUSELECT;
 
   private GuiRenderer guiRenderer;
   private LobbyMenu menu;
@@ -42,6 +46,7 @@ public class LobbySelectScreen implements IScreen {
         menu.moveUp();
       }
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         menu.highlight();
       }
     }
@@ -49,6 +54,7 @@ public class LobbySelectScreen implements IScreen {
     if (checkPosition(menu, menu.getCreate().getId())) {
       menu.getCreate().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         Client.showLoadingScreen();
         ServerConnection.instance.requestGame();
 
@@ -95,6 +101,7 @@ public class LobbySelectScreen implements IScreen {
     if (checkPosition(menu, menu.getExit().getId())) {
       menu.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         Client.changeScreen(ClientState.MAIN_MENU, false);
       }
     } else menu.getExit().setColour(Colour.YELLOW);
@@ -102,6 +109,7 @@ public class LobbySelectScreen implements IScreen {
     if (checkPosition(menu, menu.getRefresh().getId())) {
       menu.getRefresh().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         menuRefresh();
       }
     } else menu.getRefresh().setColour(Colour.YELLOW);
@@ -109,6 +117,7 @@ public class LobbySelectScreen implements IScreen {
     if (checkPosition(menu, menu.getJoin().getId())) {
       menu.getJoin().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         if (menu.getHighlighted() != null) {
           Client.showLoadingScreen();
           com.knightlore.client.networking.backend.Client gameClient = new com.knightlore.client.networking.backend.Client(menu.getHighlighted().getGame().getIp(), menu.getHighlighted().getGame().getPort());

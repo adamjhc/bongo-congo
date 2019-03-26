@@ -122,6 +122,15 @@ public class MainScreen implements IScreen {
       }
     } else menu.getLevelEditor().setColour(Colour.YELLOW);
 
+    // HIGHSCORE BUTTON
+    if (checkPosition(menu, menu.getHighscore().getId())) {
+      menu.getHighscore().setColour();
+      if (Mouse.isLeftButtonPressed()) {
+        Client.changeScreen(ClientState.HIGHSCORE, false);
+        return;
+      }
+    }
+
     // OPTIONS BUTTON
     if (checkPosition(menu, menu.getOptions().getId())) {
       menu.getOptions().setColour();

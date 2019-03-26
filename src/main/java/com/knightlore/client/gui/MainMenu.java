@@ -25,16 +25,18 @@ public class MainMenu implements IGui {
   private final TextObject singleplayer;
   /** Multiplayer text */
   private final TextObject multiplayer;
+  /** Level editor text */
+  private final TextObject levelEditor;
+  /** Highscore text */
+  private final TextObject highscore;
+  /** Options text */
+  private final TextObject options;
   /** Quit game text */
   private final TextObject quit;
   /** Sound icon text */
   private final TextObject soundOn;
   /** Sound off icon text */
   private final TextObject soundOff;
-  /** Options text */
-  private final TextObject options;
-  /** Level editor text */
-  private final TextObject levelEditor;
   /** Bongo text */
   private final TextObject bongo;
   /** Congo text */
@@ -64,29 +66,43 @@ public class MainMenu implements IGui {
     this.multiplayer = new TextObject("Multiplayer", SMALL);
     this.multiplayer.setColour(Colour.YELLOW);
 
+    this.levelEditor = new TextObject("Editor", SMALL);
+    this.levelEditor.setColour(Colour.YELLOW);
+
+    this.highscore = new TextObject("Highscores", SMALL);
+    this.highscore.setColour(Colour.YELLOW);
+
+    this.options = new TextObject("Options", SMALL);
+    this.options.setColour(Colour.YELLOW);
+
+    this.quit = new TextObject("Quit", SMALL);
+    this.quit.setColour(Colour.YELLOW);
+
     this.soundOn = new TextObject("(", LARGE);
     this.soundOn.setColour();
     this.soundOn.setScale(1.25f);
 
     this.soundOff = new TextObject("/", MEDIUM);
     this.soundOff.setColour(Colour.RED);
-
-    this.quit = new TextObject("Quit", SMALL);
-    this.quit.setColour(Colour.YELLOW);
-
-    this.options = new TextObject("Options", SMALL);
-    this.options.setColour(Colour.YELLOW);
-
-    this.levelEditor = new TextObject("Editor", SMALL);
-    this.levelEditor.setColour(Colour.YELLOW);
-
     this.soundOff.setRender();
 
     guiObjects =
         new GuiObject[] {
-          bongo, congo, singleplayer, multiplayer, quit, options, soundOn, soundOff, levelEditor
+          bongo,
+          congo,
+          singleplayer,
+          multiplayer,
+          quit,
+          options,
+          soundOn,
+          soundOff,
+          levelEditor,
+          highscore
         };
-    textObjects = new TextObject[] {singleplayer, multiplayer, options, quit, soundOn, levelEditor};
+    textObjects =
+        new TextObject[] {
+          singleplayer, multiplayer, options, quit, soundOn, levelEditor, highscore
+        };
   }
 
   /**
@@ -112,25 +128,35 @@ public class MainMenu implements IGui {
   }
 
   /**
-   * Returns sound icon
+   * Returns level editor
    * 
-   * @return soundOn
+   * @return Level editor
    * @author Joseph
    * 
    */
-  public TextObject getSound() {
-    return soundOn;
+  public TextObject getLevelEditor() {
+    return levelEditor;
   }
 
   /**
-   * Returns sound off icon
+   * Returns highscore
    * 
-   * @return soundOff
+   * @return Highscore
+   * @author Adam C
+   */
+  public TextObject getHighscore() {
+    return highscore;
+  }
+
+  /**
+   * Return options
+   * 
+   * @return Options
    * @author Joseph
    * 
    */
-  public TextObject getSoundMute() {
-    return soundOff;
+  public TextObject getOptions() {
+    return options;
   }
 
   /**
@@ -145,25 +171,25 @@ public class MainMenu implements IGui {
   }
 
   /**
-   * Returns options
+   * Returns sound
    * 
-   * @return Options
+   * @return SoundOn
    * @author Joseph
    * 
    */
-  public TextObject getOptions() {
-    return options;
+  public TextObject getSound() {
+    return soundOn;
   }
-  
+
   /**
-   * Returns level editor
+   * Returns sound off 
    * 
-   * @return LevelEditor
+   * @return SoundOff
    * @author Joseph
    * 
    */
-  public TextObject getLevelEditor() {
-    return levelEditor;
+  public TextObject getSoundMute() {
+    return soundOff;
   }
   
   /**
@@ -178,22 +204,27 @@ public class MainMenu implements IGui {
     this.bongo.setPosition(
         Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
     this.congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
+
     this.singleplayer.setPosition(
         Window.getHalfWidth() - singleplayer.getSize() / 2, Window.getHalfHeight() + MENU_POS);
     this.multiplayer.setPosition(
         Window.getHalfWidth() - multiplayer.getSize() / 2, Window.getHalfHeight() + MENU_POS + gap);
     this.levelEditor.setPosition(
         Window.getHalfWidth() - levelEditor.getSize() / 2,
+        Window.getHalfHeight() + MENU_POS + gap * 2);
+    this.highscore.setPosition(
+        Window.getHalfWidth() - highscore.getSize() / 2,
         Window.getHalfHeight() + MENU_POS + gap * 3);
     this.options.setPosition(
-        Window.getHalfWidth() - options.getSize() / 2, Window.getHalfHeight() + MENU_POS + gap * 2);
+        Window.getHalfWidth() - options.getSize() / 2, Window.getHalfHeight() + MENU_POS + gap * 4);
+    this.quit.setPosition(
+        Window.getHalfWidth() - quit.getSize() / 2, Window.getHalfHeight() + MENU_POS + gap * 5);
+
     this.soundOn.setPosition(
         Window.getWidth() - soundOn.getSize() * soundOn.getScale(),
         Window.getHeight() - soundOn.getHeight() * soundOn.getScale());
     this.soundOff.setPosition(
         Window.getWidth() - soundOff.getSize(), Window.getHeight() - soundOff.getHeight());
-    this.quit.setPosition(
-        Window.getHalfWidth() - quit.getSize() / 2, Window.getHalfHeight() + MENU_POS + gap * 4);
   }
 
   /**
@@ -206,6 +237,7 @@ public class MainMenu implements IGui {
     singleplayer.setFontTexture(MEDIUM);
     multiplayer.setFontTexture(MEDIUM);
     levelEditor.setFontTexture(MEDIUM);
+    highscore.setFontTexture(MEDIUM);
     options.setFontTexture(MEDIUM);
     quit.setFontTexture(MEDIUM);
   }
@@ -220,6 +252,7 @@ public class MainMenu implements IGui {
     singleplayer.setFontTexture(SMALL);
     multiplayer.setFontTexture(SMALL);
     levelEditor.setFontTexture(SMALL);
+    highscore.setFontTexture(SMALL);
     options.setFontTexture(SMALL);
     quit.setFontTexture(SMALL);
   }

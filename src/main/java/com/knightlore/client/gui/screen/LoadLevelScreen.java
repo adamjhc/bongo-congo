@@ -89,14 +89,14 @@ public class LoadLevelScreen implements IScreen {
       }
     } else loadLevelMenu.getLoad().setColour(Colour.YELLOW);
 
-    if (checkPosition(loadLevelMenu, loadLevelMenu.getBack().getId())) {
-      loadLevelMenu.getBack().setColour();
+    if (checkPosition(loadLevelMenu, loadLevelMenu.getExit().getId())) {
+      loadLevelMenu.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Audio.play(SELECT);
         Client.changeScreen(ClientState.PRE_EDITOR, false);
         return;
       }
-    } else loadLevelMenu.getBack().setColour(Colour.YELLOW);
+    } else loadLevelMenu.getExit().setColour(Colour.YELLOW);
 
     if (checkPosition(loadLevelMenu, loadLevelMenu.getNextPage().getId())) {
       loadLevelMenu.getNextPage().setColour();

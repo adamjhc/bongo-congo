@@ -96,14 +96,14 @@ public class LevelEditorSetupScreen implements IScreen {
       }
     } else preLevelEditor.getCreateLevel().setColour(Colour.YELLOW);
 
-    if (checkPosition(preLevelEditor, preLevelEditor.getBack().getId())) {
-      preLevelEditor.getBack().setColour();
+    if (checkPosition(preLevelEditor, preLevelEditor.getExit().getId())) {
+      preLevelEditor.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Audio.play(SELECT);
         Client.changeScreen(ClientState.MAIN_MENU, false);
         return;
       }
-    } else preLevelEditor.getBack().setColour(new Vector4f(1, 1, 0, 1));
+    } else preLevelEditor.getExit().setColour(new Vector4f(1, 1, 0, 1));
 
     if (checkPosition(preLevelEditor, preLevelEditor.getLoadLevel().getId(), "")) {
       preLevelEditor.getLoadLevel().setColour();

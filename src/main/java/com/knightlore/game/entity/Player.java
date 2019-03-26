@@ -199,6 +199,7 @@ public class Player extends Entity {
         Tile above = levelMap.getTile(coords);
         if (above.getIndex() == 1 && playerState != PlayerState.ROLLING && climbFlag) { // Checks if the tile above climbable tile is accessible
           climbVal = 0.1f;
+          Audio.play(Audio.AudioName.SOUND_CLIMB);
           setPlayerState(PlayerState.CLIMBING);
         } else {
           setPosition(oldPos);

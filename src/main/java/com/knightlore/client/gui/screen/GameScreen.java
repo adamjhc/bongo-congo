@@ -138,6 +138,7 @@ public class GameScreen implements IScreen {
         && (gameModel.myPlayer().getCooldown() == 0)
         && (gameModel.myPlayer().getPlayerState() == PlayerState.IDLE
             || gameModel.myPlayer().getPlayerState() == PlayerState.MOVING)) {
+      Audio.play(Audio.AudioName.SOUND_ROLL);
       gameModel.myPlayer().setPlayerState(PlayerState.ROLLING);
     }
 

@@ -2,25 +2,76 @@ package com.knightlore.client.audio;
 
 public class Audio {
 
+  /**
+   * The file path to all the audio files
+   */
   private static final String AUDIO_PATH = "src/main/resources/audio/";
 
+  /**
+   * The MusicPlayer for the menu music
+   */
   private static MusicPlayer menuMusic;
+  
+  /**
+   * The MusicPlayer for the main game music
+   */
   private static MusicPlayer gameMusic;
+  
+  /**
+   * The MusicPlayer for the level editor music
+   */
   private static MusicPlayer editorMusic;
+  
+  /**
+   * The sound effect for selecting a menu item
+   */
   private static MusicPlayer menuSelectSound;
-  private static MusicPlayer hitSound;
+
+  /**
+   * The sound effect for dying
+   */
   private static MusicPlayer deathSound;
+  
+  /**
+   * The sound effect for rolling
+   */
   private static MusicPlayer rollSound;
+  
+  /**
+   * The sound effect for climbing
+   */
   private static MusicPlayer climbSound;
+  
+  /**
+   * The jingle that plays when you win
+   */
   private static MusicPlayer victoryJingle;
+  
+  /**
+   * The jingle that plays when you lose
+   */
   private static MusicPlayer gameOverJingle;
+  
+  /**
+   * The list of all the audio files
+   */
   private static MusicPlayer[] audioFiles;
+  
+  /**
+   * Whether music has been muted or not
+   */
   private static boolean isOn;
   
+  /**
+   * The index in audioFiles of the current music being played
+   */
   private static int currentMusic;
 
   private Audio() {}
 
+  /**
+   * Method to retrieve all the audio files and choose the initial music
+   */
   public static void init() {
     try {
       menuMusic = 		new MusicPlayer(AUDIO_PATH + "MUSIC_MENU.wav", true);
@@ -98,15 +149,26 @@ public class Audio {
     currentMusic = 0;
   }
 
+  /**
+   * Method to get whether music has been muted or not
+   * @return Whether music has been muted or not
+   */
   public static boolean isOn() {
     return isOn;
   }
   
+  /**
+   * Method to get the current music being played
+   * @return The MusicPlayer for the current music being played
+   */
   public static AudioName getCurrentMusic() {
 	  return AudioName.values()[currentMusic];
   }
 
-  // param1: the audio file to be played
+  /**
+   * Method to play a given audio file
+   * @param file The name of the file to be played
+   */
   public static void play(AudioName file) {
     if (isOn) {
       try {
@@ -119,13 +181,19 @@ public class Audio {
     }
   }
   
+  /**
+   * Method to stop a given audio file
+   * @param file The name of the file to be played
+   */
   public static void stop(AudioName file) {
 	  if (audioFiles[file.ordinal()].isPlaying()) {
 		  audioFiles[file.ordinal()].stop();
 	  }
   }
 
-  // Closes any audio files that have finished playing so that they can be played again
+  /**
+   * Method to close any unused audio clips so that they can be played again
+   */
   public static void closeInactiveClips() {
     for (MusicPlayer audioFile : audioFiles) {
       if (!audioFile.isPlaying() && audioFile != audioFiles[currentMusic]) {
@@ -134,6 +202,9 @@ public class Audio {
     }
   }
 
+  /**
+   * Method to toggle whether music is muted or not
+   */
   public static void toggle() {
     isOn = !isOn;
     if (!isOn) {
@@ -143,6 +214,9 @@ public class Audio {
     }
   }
 
+  /**
+   * Method to restart the current music
+   */
   public static void restart() {
     if (isOn) {
       toggle();
@@ -150,18 +224,29 @@ public class Audio {
     }
   }
 
+  /**
+   * Method to increment the volume for all audio files
+   */
   public static void incVolume() {
 	for (MusicPlayer audioFile : audioFiles) {
 		audioFile.incVolume();
 	}
   }
 
+  /**
+   * Method to decrement the volume for all audio files
+   */
   public static void decVolume() {
 	for (MusicPlayer audioFile : audioFiles) {
 		audioFile.decVolume();
 	}
   }
 
+  /**
+   * The names of all the audio files in use
+   * @author GreenMario
+   *
+   */
   public enum AudioName {
     MUSIC_MENU,
     MUSIC_GAME,

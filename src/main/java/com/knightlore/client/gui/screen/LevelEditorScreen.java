@@ -21,7 +21,6 @@ import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;
 import com.knightlore.client.leveleditor.LevelEditorHud;
 import com.knightlore.client.render.LevelEditorRenderer;
-import com.knightlore.game.GameModel;
 import com.knightlore.game.Level;
 import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.TileType;

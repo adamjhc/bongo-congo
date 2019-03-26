@@ -51,6 +51,8 @@ public class GameScreen implements IScreen {
 
   @Override
   public void startup(Object... args) {
+	Audio.stop(Audio.getCurrentMusic());
+	Audio.play(Audio.AudioName.MUSIC_GAME);
     // Singleplayer sends levels to start game server
     if (args.length != 0) {
       GameModel gameModel = new GameModel("1");
@@ -244,7 +246,7 @@ public class GameScreen implements IScreen {
   @Override
   public void shutdown(ClientState nextScreen) {
     Mouse.showCursor();
-    Audio.restart();
+    Audio.stop(Audio.getCurrentMusic());
 
     hud.getCountDown().setRender(false);
     GameConnection.gameModel = null;

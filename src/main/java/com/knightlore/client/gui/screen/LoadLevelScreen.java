@@ -6,6 +6,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
+import com.knightlore.client.audio.Audio;
+import com.knightlore.client.audio.Audio.AudioName;
 import com.knightlore.client.gui.LoadLevelMenu;
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.gui.engine.IGui;
@@ -19,12 +21,21 @@ import java.io.FileReader;
 
 public class LoadLevelScreen implements IScreen {
 
+  private static final AudioName SELECT = AudioName.SOUND_MENUSELECT;
+
+  /** The file path for all finished levels */
   private static final String finishedFilePath = "customMaps/playable";
+
+  /** The file path for all unfinished levels */
   private static final String unfinishedFilePath = "customMaps/unplayable";
 
+  /** The name of the currently selected level */
   private String currentLevelName;
 
+  /** The renderer used to render the menu */
   private GuiRenderer guiRenderer;
+
+  /** The object containing the menu */
   private LoadLevelMenu loadLevelMenu;
 
   public LoadLevelScreen(GuiRenderer guiRenderer) {
@@ -33,6 +44,7 @@ public class LoadLevelScreen implements IScreen {
     currentLevelName = "";
   }
 
+  /** Method to initialise the menu when it is changed to */
   public void startup(Object... args) {
     File[] fLevels = (new File(finishedFilePath)).listFiles();
     File[] uLevels = (new File(unfinishedFilePath)).listFiles();
@@ -60,10 +72,12 @@ public class LoadLevelScreen implements IScreen {
     loadLevelMenu.setLevels(allLevels);
   }
 
+  /** Method to process users clicking on menu items */
   public void input() {
     if (checkPosition(loadLevelMenu, loadLevelMenu.getLoad().getId())) {
       loadLevelMenu.getLoad().setColour();
       if (Mouse.isLeftButtonPressed() && !currentLevelName.equals("")) {
+        Audio.play(SELECT);
         if (currentLevelName.contains(".fmap")) {
           Client.changeScreen(
               ClientState.LEVEL_EDITOR, false, getMap(finishedFilePath + "/" + currentLevelName));
@@ -77,6 +91,7 @@ public class LoadLevelScreen implements IScreen {
     if (checkPosition(loadLevelMenu, loadLevelMenu.getBack().getId())) {
       loadLevelMenu.getBack().setColour();
       if (Mouse.isLeftButtonPressed()) {
+        Audio.play(SELECT);
         Client.changeScreen(ClientState.PRE_EDITOR, false);
       }
     } else loadLevelMenu.getBack().setColour(Colour.YELLOW);
@@ -84,6 +99,7 @@ public class LoadLevelScreen implements IScreen {
     if (checkPosition(loadLevelMenu, loadLevelMenu.getNextPage().getId())) {
       loadLevelMenu.getNextPage().setColour();
       if (Mouse.isLeftButtonPressed()) {
+        Audio.play(SELECT);
         loadLevelMenu.incPage();
       }
     } else loadLevelMenu.getNextPage().setColour(Colour.YELLOW);
@@ -91,6 +107,7 @@ public class LoadLevelScreen implements IScreen {
     if (checkPosition(loadLevelMenu, loadLevelMenu.getLastPage().getId())) {
       loadLevelMenu.getLastPage().setColour();
       if (Mouse.isLeftButtonPressed()) {
+        Audio.play(SELECT);
         loadLevelMenu.decPage();
       }
     } else loadLevelMenu.getLastPage().setColour(Colour.YELLOW);
@@ -100,6 +117,7 @@ public class LoadLevelScreen implements IScreen {
         if (!currentLevelName.equals(loadLevelMenu.getLevel(i).getId()))
           loadLevelMenu.getLevel(i).setColour();
         if (Mouse.isLeftButtonPressed()) {
+          Audio.play(SELECT);
           loadLevelMenu.getLevel(i).setColour(Colour.GREEN);
           currentLevelName = loadLevelMenu.getLevel(i).getId();
         }
@@ -111,16 +129,24 @@ public class LoadLevelScreen implements IScreen {
     }
   }
 
+  /** Method to render the GUI */
   public void render() {
     loadLevelMenu.updateSize();
     guiRenderer.render(loadLevelMenu);
   }
 
+  /** Method to clean up the GUI */
   @Override
   public void cleanUp() {
     loadLevelMenu.cleanup();
   }
 
+  /**
+   * Method to get the map object from the selected level name
+   *
+   * @param filePath The path to the map file being loaded
+   * @return A new LevelMap built from the loaded map file
+   */
   private LevelMap getMap(String filePath) {
     File levelFile = new File(filePath);
     GsonBuilder builder = new GsonBuilder();
@@ -137,7 +163,6 @@ public class LoadLevelScreen implements IScreen {
     } catch (Exception e) {
       e.printStackTrace();
     }
-
     return gson.fromJson(jsonString, LevelMap.class);
   }
 }

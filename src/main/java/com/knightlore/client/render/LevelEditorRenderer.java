@@ -1,8 +1,9 @@
 package com.knightlore.client.render;
 
+import com.knightlore.client.gui.LevelEditorHud;
 import com.knightlore.client.io.Window;
-import com.knightlore.client.leveleditor.LevelEditorHud;
 import com.knightlore.client.render.opengl.ShaderProgram;
+import com.knightlore.client.render.world.EditorTileGameObjectSet;
 import com.knightlore.client.render.world.TileGameObject;
 import com.knightlore.client.render.world.TileGameObjectSet;
 import com.knightlore.game.map.LevelMap;
@@ -60,12 +61,8 @@ public class LevelEditorRenderer extends Renderer {
   }
 
   public void render(LevelMap levelMap, LevelEditorHud hud) {
-    clearBuffers();
-
     renderMap(levelMap);
-    hudRenderer.renderGui(hud);
-
-    Window.swapBuffers();
+    hudRenderer.render(hud);
   }
 
   private void renderMap(LevelMap levelMap) {
@@ -76,7 +73,7 @@ public class LevelEditorRenderer extends Renderer {
         for (int x = tiles[z][y].length - 1; x >= 0; x--) {
           Vector3f isoTilePos = CoordinateUtils.toIsometric(x, y, z);
           if (isWithinView(isoTilePos)) {
-            TileGameObject tileGameObject = TileGameObjectSet.getTile(tiles[z][y][x].getIndex());
+            TileGameObject tileGameObject = EditorTileGameObjectSet.getTile(tiles[z][y][x].getIndex());
             tileGameObject.setIsometricPosition(isoTilePos);
 
             int highlight = (x == currentTileX && y == currentTileY && z == currentTileZ) ? 1 : 0;

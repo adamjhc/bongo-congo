@@ -4,6 +4,8 @@ import static com.knightlore.client.util.GuiUtils.checkPosition;
 
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
+import com.knightlore.client.audio.Audio;
+import com.knightlore.client.audio.Audio.AudioName;
 import com.knightlore.client.gui.Lobby;
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.gui.engine.LobbyObject;
@@ -16,6 +18,8 @@ import com.knightlore.networking.ListGameObject;
 import java.util.Collection;
 
 public class LobbyScreen implements IScreen {
+	
+  private static final AudioName SELECT = AudioName.SOUND_MENUSELECT;
 
   private GuiRenderer guiRenderer;
   private Lobby lobby;
@@ -43,6 +47,7 @@ public class LobbyScreen implements IScreen {
     if (checkPosition(lobby, lobby.getExit().getId())) {
       lobby.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
           // Delete connection
           GameConnection.instance.close();
         Client.changeScreen(ClientState.LOBBY_MENU, false);
@@ -69,6 +74,7 @@ public class LobbyScreen implements IScreen {
   		if (checkPosition(lobby, lobby.getStart().getId())) {
   			lobby.getStart().setColour();
   			if (Mouse.isLeftButtonPressed() ) {
+  				Audio.play(SELECT);
                 GameConnection.instance.startGame();
   			}
   		} else lobby.getStart().setColour(Colour.YELLOW);

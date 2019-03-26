@@ -6,6 +6,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.audio.Audio;
+import com.knightlore.client.audio.Audio.AudioName;
 import com.knightlore.client.gui.OptionsMenu;
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.io.Keyboard;
@@ -13,6 +14,8 @@ import com.knightlore.client.io.Mouse;
 import com.knightlore.client.render.GuiRenderer;
 
 public class OptionsScreen implements IScreen {
+  
+  private static final AudioName SELECT = AudioName.SOUND_MENUSELECT;
 
   private GuiRenderer guiRenderer;
   private OptionsMenu optionsMenu;
@@ -43,6 +46,7 @@ public class OptionsScreen implements IScreen {
     if (checkPosition(optionsMenu, optionsMenu.getExit().getId())) {
       optionsMenu.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         Client.changeScreen(ClientState.MAIN_MENU, false);
       }
     } else optionsMenu.getExit().setColour(Colour.YELLOW);
@@ -50,6 +54,7 @@ public class OptionsScreen implements IScreen {
     if (checkPosition(optionsMenu, optionsMenu.getIsFullscreen().getId())) {
       optionsMenu.getIsFullscreen().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         optionsMenu.setFullscreen();
       }
     } else optionsMenu.getIsFullscreen().setColour(Colour.YELLOW);
@@ -58,6 +63,7 @@ public class OptionsScreen implements IScreen {
       optionsMenu.getIsMute().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Audio.toggle();
+        Audio.play(SELECT);
       }
     } else optionsMenu.getIsMute().setColour(Colour.YELLOW);
 

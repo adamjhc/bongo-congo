@@ -31,23 +31,23 @@ public class LobbyMenu implements IGui {
   /** The maximum number of servers that can be displayed */
   private static final int MAX_SERVERS = (SEPARATOR_TOP_POS + SEPARATOR_BOT_POS - GAP) / GAP;
 
-  /** Top separator line text object */
+  /** Top separator line text */
   private final TextObject separatorTop;
-  /** Bottom separator line text object */
+  /** Bottom separator line text*/
   private final TextObject separatorBot;
-  /** Create game text object */
+  /** Create game text */
   private final TextObject create;
-  /** Exit screen text object */
+  /** Exit screen text */
   private final TextObject exit;
-  /** Bongo text object */
+  /** Bongo text */
   private final TextObject bongo;
-  /** Congo text object */
+  /** Congo text */
   private final TextObject congo;
-  /** Multiplayer title text object */
+  /** Multiplayer title text */
   private final TextObject multiplayer;
-  /** Join game text object */
+  /** Join game text */
   private final TextObject join;
-  /** Refresh games text object */
+  /** Refresh games text */
   private final TextObject refresh;
   
   /** List of lobbies */

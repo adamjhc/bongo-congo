@@ -22,19 +22,19 @@ public class Lobby implements IGui {
   /** Gap between each line of text */
   private static final int SEPARATOR_GAP = FONT_SIZE_SMALL;
 
-  /** Bongo text object */
+  /** Bongo text */
   private final TextObject bongo;
-  /** Congo text object */
+  /** Congo text */
   private final TextObject congo;
-  /** Lobby text object */
+  /** Lobby text */
   private final TextObject lobby;
-  /** Top separator line text object */
+  /** Top separator line text */
   private final TextObject separatorTop;
-  /** Bottom separator line text object */
+  /** Bottom separator line text */
   private final TextObject separatorBot;
-  /** Exit screen text object */
+  /** Exit screen text */
   private final TextObject exit;
-  /** Start game text object */
+  /** Start game text */
   private final TextObject start;
   /** Number of gui objects initially */
   private int length;

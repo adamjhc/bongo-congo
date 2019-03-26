@@ -21,23 +21,23 @@ public class MainMenu implements IGui {
 	/** Position of the menu */
   private static final int MENU_POS = 0;
 
-  /** Singleplayer text object */
+  /** Singleplayer text */
   private final TextObject singleplayer;
-  /** Multiplayer text object */
+  /** Multiplayer text */
   private final TextObject multiplayer;
-  /** Quit game text object */
+  /** Quit game text */
   private final TextObject quit;
-  /** Sound icon text object */
+  /** Sound icon text */
   private final TextObject soundOn;
-  /** Sound off icon text object */
+  /** Sound off icon text */
   private final TextObject soundOff;
-  /** Options text object */
+  /** Options text */
   private final TextObject options;
-  /** Level editor text object */
+  /** Level editor text */
   private final TextObject levelEditor;
-  /** Bongo text object */
+  /** Bongo text */
   private final TextObject bongo;
-  /** Congo text object */
+  /** Congo text */
   private final TextObject congo;
   
   /** List of gui objects */

@@ -24,23 +24,23 @@ import java.util.concurrent.TimeUnit;
 
 public class MainScreen implements IScreen {
 
-  MainMenu menu;
-  GuiRenderer renderer;
-  AudioName SELECT = AudioName.SOUND_MENUSELECT;
+  private MainMenu menu;
+  private GuiRenderer renderer;
+  private AudioName SELECT = AudioName.SOUND_MENUSELECT;
 
   public MainScreen(GuiRenderer renderer) {
     menu = new MainMenu();
     this.renderer = renderer;
 
     Audio.restart();
-    }
+  }
 
   @Override
   public void startup(Object... args) {
-	    if (Audio.getCurrentMusic() != AudioName.MUSIC_MENU)
-	    	Audio.stop(Audio.getCurrentMusic());
-	    Audio.play(Audio.AudioName.MUSIC_MENU);
-
+    if (Audio.getCurrentMusic() != AudioName.MUSIC_MENU) {
+      Audio.stop(Audio.getCurrentMusic());
+    }
+    Audio.play(Audio.AudioName.MUSIC_MENU);
   }
 
   @Override
@@ -50,8 +50,9 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getSingleplayer().getId())) {
       menu.getSingleplayer().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
-        Client.changeScreen(ClientState.LEVEL_SELECT, true);
+        Audio.play(SELECT);
+        Client.changeScreen(ClientState.LEVEL_SELECT, false);
+        return;
       }
     } else menu.getSingleplayer().setColour(Colour.YELLOW);
 
@@ -59,12 +60,12 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getMultiplayer().getId())) {
       menu.getMultiplayer().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         // Do network connection
         Client.showLoadingScreen();
 
         // Check for multiplayer connection
-        if(ServerConnection.instance == null){
+        if (ServerConnection.instance == null) {
           try {
             // Make connection
             ServerConnection.makeConnection();
@@ -88,7 +89,7 @@ public class MainScreen implements IScreen {
 
               }
             }
-          }catch(ConfigItemNotFoundException e){
+          } catch (ConfigItemNotFoundException e) {
 
           }
         }
@@ -107,6 +108,7 @@ public class MainScreen implements IScreen {
         }
 
         Client.changeScreen(ClientState.LOBBY_MENU, false);
+        return;
       }
     } else menu.getMultiplayer().setColour(Colour.YELLOW);
 
@@ -114,8 +116,9 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getLevelEditor().getId())) {
       menu.getLevelEditor().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         Client.changeScreen(ClientState.PRE_EDITOR, false);
+        return;
       }
     } else menu.getLevelEditor().setColour(Colour.YELLOW);
 
@@ -123,8 +126,9 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getOptions().getId())) {
       menu.getOptions().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         Client.changeScreen(ClientState.OPTIONS_MENU, false);
+        return;
       }
     } else menu.getOptions().setColour(Colour.YELLOW);
 
@@ -132,7 +136,7 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getQuit().getId())) {
       menu.getQuit().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         Window.setShouldClose();
       }
     } else menu.getQuit().setColour(Colour.YELLOW);

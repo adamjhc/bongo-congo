@@ -11,35 +11,50 @@ import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Mouse;
-import com.knightlore.client.render.GuiRenderer;
+import com.knightlore.client.render.LevelSelectRenderer;
 import com.knightlore.game.Level;
 import com.knightlore.game.map.LevelMap;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Queue;
+import org.joml.Vector3f;
+import org.joml.Vector3i;
 
 public class LevelSelectScreen implements IScreen {
 
+  /** File path to maps */
   private static final String MAP_FILE_PATH = "customMaps/playable";
 
-  private Queue<LevelDisplay> selectedLevels;
+  /** Renderer used for rendering map preview and gui elements */
+  private LevelSelectRenderer levelSelectRenderer;
 
-  private GuiRenderer guiRenderer;
+  /** Collection of selected levels */
+  private Collection<LevelDisplay> selectedLevels;
+
+  /** Selected map for preview */
+  private LevelMap selectedMap;
+
+  /** GUI elements for screen */
   private LevelSelectMenu levelSelectMenu;
 
-  public LevelSelectScreen(GuiRenderer guiRenderer) {
-    this.guiRenderer = guiRenderer;
+  /**
+   * Initialise LevelSelectScreen
+   *
+   * @param levelSelectRenderer renderer used for screen
+   * @author Adam Cox
+   */
+  public LevelSelectScreen(LevelSelectRenderer levelSelectRenderer) {
+    this.levelSelectRenderer = levelSelectRenderer;
 
     levelSelectMenu = new LevelSelectMenu();
   }
 
   @Override
   public void startup(Object... args) {
-    selectedLevels = new LinkedList<>();
+    selectedLevels = new ArrayList<>();
 
     File[] fLevels = (new File(MAP_FILE_PATH)).listFiles();
     if (fLevels != null) {
@@ -63,8 +78,9 @@ public class LevelSelectScreen implements IScreen {
     if (checkPosition(levelSelectMenu, levelSelectMenu.getStart().getId())) {
       levelSelectMenu.getStart().setColour();
       if (Mouse.isLeftButtonPressed() && selectedLevels.size() == 3) {
-        List<Level> levelList = getLevelsFromFile();
+        List<Level> levelList = getSelectedLevelsFromFile();
         Client.changeScreen(ClientState.GAME, true, levelList);
+        return;
       }
     } else levelSelectMenu.getStart().setColour(Colour.YELLOW);
 
@@ -72,6 +88,7 @@ public class LevelSelectScreen implements IScreen {
       levelSelectMenu.getBack().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Client.changeScreen(ClientState.MAIN_MENU, false);
+        return;
       }
     } else levelSelectMenu.getBack().setColour(Colour.YELLOW);
 
@@ -91,22 +108,29 @@ public class LevelSelectScreen implements IScreen {
 
     for (int i = 0; i < levelSelectMenu.numOnScreenLevels(); i++) {
       if (checkPosition(levelSelectMenu, levelSelectMenu.getLevel(i).getId())) {
-        if (!selectedLevels.contains(new LevelDisplay(levelSelectMenu.getLevel(i).getId(), i))) {
+        if (selectedLevels.contains(new LevelDisplay(i)) || selectedLevels.size() != 3) {
           levelSelectMenu.getLevel(i).setColour();
         }
 
-        if (Mouse.isLeftButtonPressed()
-            && !selectedLevels.contains(new LevelDisplay(levelSelectMenu.getLevel(i).getId(), i))) {
-          if (selectedLevels.size() == 3) {
-            LevelDisplay firstSelect = selectedLevels.remove();
-            levelSelectMenu.getLevel(firstSelect.getIndex()).setColour();
+        if (Mouse.isLeftButtonPressed()) {
+          if (selectedLevels.contains(new LevelDisplay(i))) {
+            selectedLevels.remove(new LevelDisplay(i));
+          } else if (selectedLevels.size() != 3) {
+            selectedLevels.add(new LevelDisplay(i, levelSelectMenu.getLevel(i).getId()));
           }
+        }
 
-          selectedLevels.add(new LevelDisplay(levelSelectMenu.getLevel(i).getId(), i));
-          levelSelectMenu.getLevel(i).setColour(Colour.GREEN);
+        if (Mouse.isRightButtonPressed()) {
+          selectedMap = getMap(levelSelectMenu.getLevel(i).getId());
+          levelSelectRenderer.setWorldScale(60);
+          Vector3i mapSize = selectedMap.getSize();
+          levelSelectRenderer.setCameraPosition(
+              new Vector3f(-mapSize.y, (mapSize.x + mapSize.z) / 2f, 0));
         }
       } else {
-        if (!selectedLevels.contains(new LevelDisplay(levelSelectMenu.getLevel(i).getId(), i))) {
+        if (selectedLevels.contains(new LevelDisplay(i))) {
+          levelSelectMenu.getLevel(i).setColour(Colour.GREEN);
+        } else {
           levelSelectMenu.getLevel(i).setColour(Colour.YELLOW);
         }
       }
@@ -114,9 +138,23 @@ public class LevelSelectScreen implements IScreen {
   }
 
   @Override
+  public void update(float delta) {
+    if (selectedMap != null) {
+      levelSelectMenu.offsetMenu(delta * 300);
+    }
+  }
+
+  @Override
   public void render() {
     levelSelectMenu.updateSize();
-    guiRenderer.render(levelSelectMenu);
+
+    levelSelectRenderer.render(selectedMap, levelSelectMenu);
+  }
+
+  @Override
+  public void shutdown(ClientState nextScreen) {
+    selectedMap = null;
+    levelSelectMenu = new LevelSelectMenu();
   }
 
   @Override
@@ -124,16 +162,28 @@ public class LevelSelectScreen implements IScreen {
     levelSelectMenu.cleanup();
   }
 
-  private List<Level> getLevelsFromFile() {
+  /**
+   * Gets a list of Level objects based on the selected maps
+   *
+   * @return list of level objects based on the selected maps
+   * @author Adam Cox
+   */
+  private List<Level> getSelectedLevelsFromFile() {
     List<Level> levelList = new ArrayList<>();
     selectedLevels.forEach(
-        levelDisplay ->
-            levelList.add(new Level(getMap(MAP_FILE_PATH + "/" + levelDisplay.getLevelName()))));
+        levelDisplay -> levelList.add(new Level(getMap(levelDisplay.getLevelName()))));
     return levelList;
   }
 
-  private LevelMap getMap(String filePath) {
-    File levelFile = new File(filePath);
+  /**
+   * Gets the LevelMap from file
+   *
+   * @param levelName Name of the level
+   * @return LevelMap object
+   * @author Adam Cox
+   */
+  private LevelMap getMap(String levelName) {
+    File levelFile = new File(MAP_FILE_PATH + "/" + levelName);
     GsonBuilder builder = new GsonBuilder();
     Gson gson = builder.create();
     StringBuilder jsonString = new StringBuilder();
@@ -149,25 +199,67 @@ public class LevelSelectScreen implements IScreen {
     return gson.fromJson(jsonString.toString(), LevelMap.class);
   }
 
+  /** Used to display levels in the list */
   private class LevelDisplay {
+
+    /** Name of level */
     String levelName;
+
+    /** Index of level on display */
     int index;
 
-    LevelDisplay(String levelName, int index) {
+    /**
+     * Initialise LevelDisplay
+     *
+     * @param index Index of map
+     * @author Adam Cox
+     */
+    LevelDisplay(int index) {
+      this.index = index;
+    }
+
+    /**
+     * Initialise LevelDisplay with level name
+     *
+     * @param index Index of map
+     * @param levelName Level name
+     * @author Adam Cox
+     */
+    LevelDisplay(int index, String levelName) {
       this.levelName = levelName;
       this.index = index;
     }
 
-    public String getLevelName() {
+    /**
+     * Get Level name
+     *
+     * @return Level name
+     * @author Adam Cox
+     */
+    String getLevelName() {
       return levelName;
     }
 
+    /**
+     * Get level index
+     *
+     * @return level index
+     * @author Adam Cox
+     */
     public int getIndex() {
       return index;
     }
 
     @Override
     public boolean equals(Object obj) {
+      if (obj == null) {
+        return false;
+      }
+
+      if (obj.getClass() != this.getClass()) {
+        return false;
+      }
+
       return index == ((LevelDisplay) obj).getIndex();
     }
   }

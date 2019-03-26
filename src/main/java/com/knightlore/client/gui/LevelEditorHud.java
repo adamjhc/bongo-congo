@@ -17,105 +17,56 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.joml.Vector4f;
-
+/**
+ * The Head-up display shown when using the level editor
+ * 
+ * @author Adam W, Joseph
+ *
+ */
 public class LevelEditorHud implements IGui {
 
-  /**
-   * The Large font
-   */
-  private static final Font FONT_LARGE = new Font("Press Start 2P", Font.PLAIN, 40);
-
-  /**
-   * The character set used for the text
-   */
-  private static final String CHARSET = "ISO-8859-1";
-  
-  /**
-   * The TextObject for the word "save"
-   */
+  /** Save text */
   private final TextObject save;
-  
-  /**
-   * The TextObject for the word "tiles"
-   */
+  /** Tiles text */
   private final TextObject tiles;
-  
-  /**
-   * The TextObject for the word "empty"
-   */
+  /** Empty text */
   private final TextObject empty;
-  
-  /**
-   * The TextObject for the word "floor"
-   */
+  /** Floor text */
   private final TextObject floor;
-  
-  /**
-   * The TextObject for the word "slab"
-   */
+  /** Slab text */
   private final TextObject slab;
-  
-  /**
-   * The TextObject for the word "block"
-   */
+  /** Block text */
   private final TextObject block;
-  
-  /**
-   * The TextObject for the word "hazard"
-   */
+  /** Hazard text */
   private final TextObject hazard;
-  
-  /**
-   * The TextObject for the word "finish"
-   */
+  /** Finish text */
   private final TextObject finish;
-  
-  /** 
-   * The TextObject for the word "walker"
-   */
+  /** Walker text */
   private final TextObject walker;
-  
-  /**
-   * The TextObject for the word "randomer"
-   */
+  /** Randomer text */
   private final TextObject randomer;
-  
-  /**
-   * The TextObject for the word "circler"
-   */
+  /** Circler text */
   private final TextObject circler;
-  
-  /** 
-   * The TextObject for the word "charger"
-   */
+  /** Charger text */
   private final TextObject charger;
-  
-  /**
-   * The TextObject for the word "spawners"
-   */
+  /** Spawners text */
   private final TextObject spawners;
-  
-  /**
-   * The TextObject for the vertical divider between GUI buttons
-   */
+  /** Gui vertical divider */
   private final TextObject[] vDivider;
-  
-  /**
-   * The TextObject for the horizontal divider between the section names of the GUI
-   */
+  /** Gui horizontal divider */
   private final TextObject hDivider;
 
-  /**
-   * The list of all TextObjects you can click on
-   */
+  /** List of the text objects that have user interaction */
   private TextObject[] textObjects;
-  
-  /**
-   * The list of all GuiObjects that are displayed on the screen
-   */
+  /** List of all the gui objects */
   private GuiObject[] guiObjects;
 
+  /**
+   * Create gui objects
+   * 
+   * @author Adam W
+   * 
+   */
   public LevelEditorHud() {
     try (InputStream myStream =
         new BufferedInputStream(
@@ -188,103 +139,142 @@ public class LevelEditorHud implements IGui {
   }
   
   /**
-   * Method to get the word "save"
-   * @return The TextObject for the word "save"
+   * Return save
+   * 
+   * @return Save
+   * @author Adam W
+   * 
    */
   public TextObject getSave() {
 	  return save;
   }
   
   /**
-   * Method to get the word "tiles"
-   * @return The TextObject for the word "tiles"
+   * Return tiles
+   * 
+   * @return Tiles
+   * @author Adam W
+   * 
    */
   public TextObject getTiles() {
 	  return tiles;
   }
   
   /**
-   * Method to get the word "empty"
-   * @return The TextObject for the word "empty"
+   * Return empty
+   * 
+   * @return Empty
+   * @author Adam W
+   * 
    */
   public TextObject getEmpty() {
 	  return empty;
   }
   
   /**
-   * Method to get the word "floor"
-   * @return The TextObject for the word "floor"
+   * Return floor
+   * 
+   * @return Floor
+   * @author Adam W
+   * 
    */
   public TextObject getFloor() {
 	  return floor;
   }
   
   /**
-   * Method to get the word "slab"
-   * @return The TextObject for the word "slab"
+   * Return slab
+   * 
+   * @return Slab
+   * @author Adam W
+   * 
    */
   public TextObject getSlab() {
 	  return slab;
   }
   
   /**
-   * Method to get the word "block"
-   * @return The TextObject for the word "block"
+   * Return block
+   * 
+   * @return Block
+   * @author Adam W
+   * 
    */
   public TextObject getBlock() {
 	  return block;
   }
   
   /**
-   * Method to get the word "hazard"
-   * @return The TextObject for the word "hazard"
+   * Return hazard
+   * 
+   * @return Hazard
+   * @author Adam W
+   * 
    */
   public TextObject getHazard() {
 	  return hazard;
   }
   
   /**
-   * Method to get the word "finish"
-   * @return The TextObject for the word "finish"
+   * Return finish
+   * 
+   * @return Finish
+   * @author Adam W
+   * 
    */
   public TextObject getFinish() {
 	  return finish;
   }
   
   /**
-   * Method to get the word "walker"
-   * @return The TextObject for the word "walker"
+   * Return walker
+   * 
+   * @return Walker
+   * @author Adam W
+   * 
    */
   public TextObject getWalker() {
 	  return walker;
   }
   
   /**
-   * Method to get the word "randomer"
-   * @return The TextObject for the word "randomer"
+   * Return randomer
+   * 
+   * @return Randomer
+   * @author Adam W
+   * 
    */
   public TextObject getRandomer() {
 	  return randomer;
   }
   
   /**
-   * Method to get the word "circler"
-   * @return The TextObject for the word "circler"
+   * Return circler
+   * 
+   * @return Circler
+   * @author Adam W
+   * 
    */
   public TextObject getCircler() {
 	  return circler;
   }
   
   /**
-   * Method to get the word "charger"
-   * @return The TextObject for the word "charger"
+   * Return charger
+   * 
+   * @return Charger
+   * @author Adam W
+   * 
    */
   public TextObject getCharger() {
 	  return charger;
   }
   
   /**
-   * Method to update the position of all objects in the GUI
+   * Updates the position of the gui objects
+   * 
+   * @author Adam W
+   * 
    */
   public void updateSize() {
 	  this.save.setPosition(Window.getWidth()-save.getSize()*1.1f, 10);
@@ -307,19 +297,11 @@ public class LevelEditorHud implements IGui {
 	  }
   }
 
-  /**
-   * Method to get all GuiObjects displayed on the screen
-   * @return All displayed GuiObjects on screen
-   */
   @Override
   public GuiObject[] getGuiObjects() {
     return guiObjects;
   }
 
-  /**
-   * Method to get all clickable TextObjects on the screen
-   * @return All TextObjects that you can click on
-   */
   @Override
   public TextObject[] getTextObjects() {
     return textObjects;

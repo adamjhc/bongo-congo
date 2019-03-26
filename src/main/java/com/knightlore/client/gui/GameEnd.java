@@ -23,17 +23,17 @@ public class GameEnd implements IGui {
   /** Gap between each line of text */
   private static final int SEPARATOR_GAP = FONT_SIZE_SMALL;
 
-  /** Bongo text object */
+  /** Bongo text */
   private final TextObject bongo;
-  /** Congo text object */
+  /** Congo text */
   private final TextObject congo;
-  /** Exit screen text object */
+  /** Exit screen text */
   private final TextObject exit;
-  /** Top separator line text object */
+  /** Top separator line text */
   private final TextObject separatorTop;
-  /** Bottom separator line text object */
+  /** Bottom separator line text */
   private final TextObject separatorBot;
-  /** Game winner text object */
+  /** Game winner text */
   private final TextObject winner;
   /** List of each players score */
   private ArrayList<TextObject> scores;

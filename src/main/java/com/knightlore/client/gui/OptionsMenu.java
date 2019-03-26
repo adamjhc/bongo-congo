@@ -26,31 +26,31 @@ public class OptionsMenu implements IGui {
   /** Maximum volume value */
   private static final int MAX_VOLUME = 100;
 
-  /** Increase volume text object */
+  /** Increase volume text */
   private final TextObject incVolume;
-  /** Decrease volume text object */
+  /** Decrease volume text */
   private final TextObject decVolume;
-  /** Current volume text object */
+  /** Current volume text */
   private final TextObject volume;
-  /** Exit screen text object */
+  /** Exit screen text */
   private final TextObject exit;
   /** Is the game fullscreen */
   private final TextObject isFullscreen;
-  /** Bongo text object */
+  /** Bongo text */
   private final TextObject bongo;
-  /** Congo text object */ 
+  /** Congo text */ 
   private final TextObject congo;
-  /** Options title text object */
+  /** Options title text */
   private final TextObject options;
-  /** Top separator line text object */
+  /** Top separator line text */
   private final TextObject separatorTop;
-  /** Bottom separator line text object */
+  /** Bottom separator line text */
   private final TextObject separatorBot;
-  /** Music volume title text object */
+  /** Music volume title text */
   private final TextObject musicVolume;
-  /** Fullscreen title text object */
+  /** Fullscreen title text */
   private final TextObject fullScreen;
-  /** Mute audio title text object */
+  /** Mute audio title text */
   private final TextObject mute;
   /** Is the audio muted */
   private final TextObject isMute;

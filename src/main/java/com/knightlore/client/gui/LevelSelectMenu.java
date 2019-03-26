@@ -10,67 +10,87 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Screen that allows you to select which levels you wish 
- * to play in Singleplayer
- * 
- * @author Adam C
+ * Screen that allows you to select which levels you wish to play in Singleplayer
  *
+ * @author Adam C, Joseph
+ * 
  */
 public class LevelSelectMenu implements IGui {
 
-	/** Position of the top separator line */
+  /** Position of the top separator line */
   private static final int SEPARATOR_TOP_POS = 185;
+
   /** Position of the bottom separator line */
   private static final int SEPARATOR_BOT_POS = 200;
+
   /** Gap between each line of text */
   private static final int SEPARATOR_GAP = FONT_SIZE_SMALL;
-  
+
   /** Maximum number of levels that can be shown */
   private static final int MAX_LEVEL_COUNT = 12;
 
   /** List of all the set gui objects */
   private final GuiObject[] setGuiObjects;
+
   /** List of the set text objects that have user interaction */
   private final TextObject[] setTextObjects;
+
+  /** Offset from centre to make space for map preview */
+  private int menuOffset;
+
   /** Total number of pages */
   private int pageCount;
+
   /** level index */
   private int levelIndex;
+
   /** Current page number */
   private int currentPageNum;
+
   /** The page counter */
   private TextObject pageCounter;
-  /** Bongo text object */
+
+  /** Bongo text */
   private TextObject bongo;
-  /** Congo text object */
+
+  /** Congo text */
   private TextObject congo;
-  /** Top separator line text object */
+
+  /** Top separator line text */
   private TextObject separatorTop;
-  /** Bottom separator line text object */
+
+  /** Bottom separator line text */
   private TextObject separatorBottom;
+
   /** List of the levels */
   private TextObject[] levels;
-  /** Load level (title) text object */
-  private TextObject loadLevel;
-  /** Start game text object */
+
+  /** Load level (title) text */
+  private TextObject selectLevel;
+
+  /** Start game text */
   private TextObject start;
-  /** Exit screen text object */
+
+  /** Exit screen text */
   private TextObject exit;
-  /** Next page text object */
+
+  /** Next page text */
   private TextObject nextPage;
-  /** Last page text object */
+
+  /** Last page text */
   private TextObject lastPage;
-  
+
   /** List of all the gui objects */
   private TextObject[] textObjects;
+
   /** List of the text objects that have user interaction */
   private GuiObject[] guiObjects;
 
   /**
    * Create gui objects
-   * 
+   *
    * @author Adam C
-   * 
+   *
    */
   public LevelSelectMenu() {
     this.bongo = new TextObject("Bongo", TITLE);
@@ -79,13 +99,13 @@ public class LevelSelectMenu implements IGui {
     this.congo = new TextObject("Congo", TITLE);
     this.congo.setColour(Colour.RED);
 
-    this.loadLevel = new TextObject("Select 3 Levels", SMALL);
-    this.loadLevel.setColour(Colour.YELLOW);
+    this.selectLevel = new TextObject("Select 3 Levels", SMALL);
+    this.selectLevel.setColour(Colour.YELLOW);
 
-    this.separatorTop = new TextObject("------------------------------", SMALL);
+    this.separatorTop = new TextObject("-------------------", SMALL);
     this.separatorTop.setColour(Colour.YELLOW);
 
-    this.separatorBottom = new TextObject("------------------------------", SMALL);
+    this.separatorBottom = new TextObject("-------------------", SMALL);
     this.separatorBottom.setColour(Colour.YELLOW);
 
     this.start = new TextObject("Start", SMALL);
@@ -105,15 +125,16 @@ public class LevelSelectMenu implements IGui {
 
     levelIndex = 0;
     currentPageNum = 1;
+    menuOffset = 0;
 
     setGuiObjects =
         new GuiObject[] {
           bongo,
           congo,
-          loadLevel,
+          selectLevel,
           separatorTop,
           separatorBottom,
-            start,
+          start,
           exit,
           nextPage,
           lastPage,
@@ -141,6 +162,7 @@ public class LevelSelectMenu implements IGui {
    * 
    * @return Exit
    * @author Adam C
+   * 
    */
   public TextObject getBack() {
     return exit;
@@ -210,10 +232,10 @@ public class LevelSelectMenu implements IGui {
   public TextObject getNextPage() {
     return nextPage;
   }
-  
+
   /**
    * Gets the last page
-   * 
+   *
    * @return LastPage
    * @author Adam C
    * 
@@ -221,10 +243,10 @@ public class LevelSelectMenu implements IGui {
   public TextObject getLastPage() {
     return lastPage;
   }
-  
+
   /**
-   * 	Returns the number of levels on screen
-   * 
+   * Returns the number of levels on screen
+   *
    * @return Number of levels on screen
    * @author Adam C
    * 
@@ -232,10 +254,16 @@ public class LevelSelectMenu implements IGui {
   public int numOnScreenLevels() {
     return Math.min(MAX_LEVEL_COUNT, levels.length - levelIndex);
   }
-  
+
+  public void offsetMenu(float amount) {
+    if (menuOffset <= 250) {
+      menuOffset += amount;
+    }
+  }
+
   /**
    * Updates the position of the gui objects
-   * 
+   *
    * @author Adam C
    * 
    */
@@ -243,30 +271,35 @@ public class LevelSelectMenu implements IGui {
     this.bongo.setPosition(
         Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
     this.congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
+
+    this.selectLevel.setPosition(
+        Window.getHalfWidth() - selectLevel.getSize() / 2 - menuOffset,
+        Window.getHalfHeight() - SEPARATOR_TOP_POS - SEPARATOR_GAP);
+
     this.separatorTop.setPosition(
-        Window.getHalfWidth() - separatorTop.getSize() / 2,
+        Window.getHalfWidth() - separatorTop.getSize() / 2 - menuOffset,
         Window.getHalfHeight() - SEPARATOR_TOP_POS);
     this.separatorBottom.setPosition(
-        Window.getHalfWidth() - separatorBottom.getSize() / 2,
+        Window.getHalfWidth() - separatorBottom.getSize() / 2 - menuOffset,
         Window.getHalfHeight() + SEPARATOR_BOT_POS);
-    this.loadLevel.setPosition(
-        Window.getHalfWidth() - loadLevel.getSize() / 2,
-        Window.getHalfHeight() - SEPARATOR_TOP_POS - SEPARATOR_GAP);
+
     this.start.setPosition(
-        Window.getHalfWidth() - start.getSize() / 2,
+        Window.getHalfWidth() - start.getSize() / 2 - menuOffset,
         Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP);
     this.exit.setPosition(
-        Window.getHalfWidth() - exit.getSize() / 2,
+        Window.getHalfWidth() - exit.getSize() / 2 - menuOffset,
         Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
+
     this.nextPage.setPosition(
-        (Window.getHalfWidth() + nextPage.getSize() * 2) / 2,
+        Window.getHalfWidth() - separatorBottom.getSize() / 2 + nextPage.getSize() - menuOffset,
         Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP + (float) nextPage.getHeight() / 2);
     this.lastPage.setPosition(
-        (Window.getHalfWidth() - lastPage.getSize() / 2) / 2,
+        Window.getHalfWidth() - separatorBottom.getSize() / 2 - menuOffset,
         Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP + (float) lastPage.getHeight() / 2);
+
     this.pageCounter.setText(currentPageNum + "/" + pageCount);
     this.pageCounter.setPosition(
-        (Window.getHalfWidth() - pageCounter.getSize() / 2) * 1.5f,
+        Window.getHalfWidth() + separatorBottom.getSize() / 2 - pageCounter.getSize() - menuOffset,
         Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP + pageCounter.getHeight());
 
     List<GuiObject> tempG = new ArrayList<>(Arrays.asList(setGuiObjects));
@@ -276,7 +309,7 @@ public class LevelSelectMenu implements IGui {
       tempG.add(levels[levelIndex + i]);
       tempT.add(levels[levelIndex + i]);
       levels[levelIndex + i].setPosition(
-          Window.getHalfWidth() - levels[levelIndex + i].getSize() / 2,
+          Window.getHalfWidth() - levels[levelIndex + i].getSize() / 2 - menuOffset,
           Window.getHalfHeight()
               - SEPARATOR_TOP_POS
               + SEPARATOR_GAP
@@ -286,7 +319,7 @@ public class LevelSelectMenu implements IGui {
     guiObjects = tempG.toArray(setGuiObjects);
     textObjects = tempT.toArray(setTextObjects);
   }
-  
+
   @Override
   public TextObject[] getTextObjects() {
     return textObjects;

@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import com.knightlore.game.map.Tile;
 import com.knightlore.game.util.CoordinateUtils;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -125,15 +124,18 @@ public class GameModel {
 
     if (getTileIndex(myPlayer().getPosition()) == 5) { // Checks for goal
       myPlayer().addToScore(10000);
-      // TODO: Switch game state here
+      if(GameConnection.instance != null){
+        GameConnection.instance.sendLevelComplete();
+      }
     }
 
-    if (getTileIndex(myPlayer().getPosition()) == 4 && myPlayer().getPlayerState() != PlayerState.ROLLING && myPlayer().getPlayerState() != PlayerState.DEAD) {
-      Audio.play(Audio.AudioName.SOUND_HIT);
-      delay(100);
-      myPlayer().loseLife();
-    }
 
+//    if (getTileIndex(myPlayer().getPosition()) == 4
+//            && myPlayer().getPlayerState() != PlayerState.ROLLING
+//            && myPlayer().getPlayerState() != PlayerState.FALLING) {
+//      delay(200);
+//      myPlayer().loseLife();
+//    }
 
     // Player updates
     switch (myPlayer().getPlayerState()) {
@@ -154,7 +156,7 @@ public class GameModel {
         Player player = myPlayer();
         Vector3f bottom = player.getPosition();
         // 'Plays' climbing animation
-        if (accumulator < 10) {
+        if (accumulator < 9) {
           bottom.z += player.getClimbVal();
           accumulator++;
           player.setPosition(bottom);
@@ -163,6 +165,7 @@ public class GameModel {
           // Done playing animation, set position
           accumulator = 0;
           player.setPosition(player.setPadding(roundZ(bottom)));
+          System.out.println(player.getPosition());
           player.setClimbFlag(false);
           player.setPlayerState(PlayerState.IDLE);
         }
@@ -195,14 +198,24 @@ public class GameModel {
           delay(5);
         } else {
           // Reset player
-          delay(100);
-          player.setPosition(player.setPadding(player.getPosition()));
+          player.setPosition(top);
+          delay(200);
           player.loseLife();
         }
         break;
       case DEAD:
         break;
     }
+    if (getTileIndex(myPlayer().getPosition()) == 4
+            && myPlayer().getPlayerState() != PlayerState.ROLLING
+            && myPlayer().getPlayerState() != PlayerState.DEAD
+            && myPlayer().getPlayerState() != PlayerState.FALLING) {
+      Audio.play(Audio.AudioName.SOUND_HIT);
+      delay(200);
+      myPlayer().loseLife();
+    }
+
+    myPlayer().setClimbFlag(false);
   }
 
   public void serverUpdate() {}

@@ -40,7 +40,7 @@ public class Player extends Entity {
     this.id = id;
     this.colour = colour;
 
-    speed = 5;
+    speed = 4;
     score = 0;
 
     lives = START_LIVES;
@@ -182,6 +182,7 @@ public class Player extends Entity {
         if (below.getIndex() == 2 || below.getIndex() == 3) { // Check if the tile you are falling onto is walkable
           setPosition(oldPos);
         } else if (below.getIndex() == 0) {
+          setPosition(setPadding(position, 0.3f));
           setPlayerState(PlayerState.FALLING);
         } else if (climbFlag) {
           climbVal = -0.1f;
@@ -194,7 +195,7 @@ public class Player extends Entity {
         setPosition(newPos);
       }
 
-      if (newTile.getIndex() == 3 ) { // Checks for climbable tile
+      if (newTile.getIndex() == 3 ) { // Climbing
         coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z+1));
         Tile above = levelMap.getTile(coords);
         if (above.getIndex() == 1 && playerState != PlayerState.ROLLING && climbFlag) { // Checks if the tile above climbable tile is accessible
@@ -204,22 +205,11 @@ public class Player extends Entity {
           setPosition(oldPos);
         }
       }
-      if (newTile.getIndex() == 4) {
-        loseLife();
-      }
 
-      if (newTile.getIndex() == 5) { // Checks for goal
-        addToScore(10000);
-        setPosition(newPos);
-        // TODO: Switch game state here
 
-        if(GameConnection.instance != null){
-          GameConnection.instance.sendLevelComplete();
-        }
-      }
+
 
       // TODO: Enemy collisions
-      climbFlag = false;
       // catches SW and SE edges    catches NE and NW edges
     } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
       climbFlag = false;
@@ -238,6 +228,12 @@ public class Player extends Entity {
   public Vector3f setPadding(Vector3f pos) {
     Vector3f padded = new Vector3f();
     direction.getNormalisedDirection().mul(0.2f, padded);
+    return padded.add(pos);
+  }
+
+  public Vector3f setPadding(Vector3f pos, float scalar) {
+    Vector3f padded = new Vector3f();
+    direction.getNormalisedDirection().mul(scalar, padded);
     return padded.add(pos);
   }
 

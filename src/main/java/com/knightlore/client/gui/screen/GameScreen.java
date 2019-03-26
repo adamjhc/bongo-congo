@@ -135,7 +135,6 @@ public class GameScreen implements IScreen {
       playerInputDirection = null;
     }
 
-
     if (Keyboard.isKeyReleased(GLFW_KEY_RIGHT_SHIFT)
         && (gameModel.myPlayer().getCooldown() == 0)
         && (gameModel.myPlayer().getPlayerState() == PlayerState.IDLE

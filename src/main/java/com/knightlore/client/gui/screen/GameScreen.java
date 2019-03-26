@@ -51,7 +51,7 @@ public class GameScreen implements IScreen {
   @Override
   public void startup(Object... args) {
     // Singleplayer sends levels to start game server
-    if (args[0] instanceof List) {
+    if (args.length != 0) {
       GameModel gameModel = new GameModel("1");
       List<Level> levelList = (List<Level>) args[0];
       for (Level level : levelList) {
@@ -243,6 +243,7 @@ public class GameScreen implements IScreen {
     Audio.restart();
 
     hud.getCountDown().setRender(false);
+    GameConnection.gameModel = null;
   }
 
   @Override

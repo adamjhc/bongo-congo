@@ -1,7 +1,5 @@
 package com.knightlore.client.util;
 
-import com.knightlore.client.gui.engine.IGui;
-import com.knightlore.client.io.Mouse;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
@@ -10,13 +8,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.knightlore.client.gui.engine.IGui;
+import com.knightlore.client.io.Mouse;
+
 public class GuiUtils {
-
-  private GuiUtils() {}
-
-  public static boolean checkPosition(IGui gui, String textObject) {
-    return checkPosition(gui, textObject, "");
-  }
+	
+	public static boolean checkPosition(IGui gui, String textObject) {
+		return checkPosition(gui, textObject, "");
+	}
 
   public static boolean checkPosition(IGui gui, String textObject, String textObjectLower) {
     int objectIndex = -1;
@@ -49,15 +48,15 @@ public class GuiUtils {
             < gui.getTextObjects()[objectIndexLower].getPositionY()
                 + gui.getTextObjects()[objectIndexLower].getHeight();
   }
-
+  
   public static void registerFont() {
-    try (InputStream myStream =
-        new BufferedInputStream(
-            new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"))) {
-      GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-      ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, myStream));
-    } catch (IOException | FontFormatException e) {
-      e.printStackTrace();
-    }
+	  try (InputStream myStream =
+			  new BufferedInputStream(
+					  new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"))) {
+		  GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		  ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, myStream));
+	  } catch (IOException | FontFormatException e) {
+		  e.printStackTrace();
+	  }
   }
 }

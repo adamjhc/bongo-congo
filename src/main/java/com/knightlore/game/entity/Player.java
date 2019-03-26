@@ -8,6 +8,9 @@ import org.joml.Vector3f;
 import org.joml.Vector3i;
 import org.joml.Vector4f;
 
+import static org.joml.Math.ceil;
+import static org.joml.Math.round;
+
 public class Player extends Entity {
 
   static final Vector3f START_POSITION = new Vector3f(0.5f, 0.5f, 0);
@@ -36,7 +39,7 @@ public class Player extends Entity {
     this.id = id;
     this.colour = colour;
 
-    speed = 7;
+    speed = 5;
     score = 0;
 
     lives = START_LIVES;
@@ -131,6 +134,11 @@ public class Player extends Entity {
     this.rollCooldown = rollCooldown;
   }
 
+  /**
+   * Setter for property 'climbFlag'.
+   *
+   * @param climbFlag Value to set for property 'climbFlag'.
+   */
   public void setClimbFlag(boolean climbFlag) {this.climbFlag = climbFlag; }
 
   /** {@inheritDoc} */
@@ -153,8 +161,7 @@ public class Player extends Entity {
 
   /**
    * The main method called in the game loop. Continuously checks for collision events with specific
-   * tiles such as blocking or hazards. Also allows the player to climb up layers of the levelMap,
-   * and manages falling down layers.
+   * tiles such as blocking or hazards. Also allows the player to climb up and down layers of the levelMap.
    *
    * @param oldPos The position of the player before collision check update
    * @param newPos The potential position of the player after collision check update
@@ -168,7 +175,7 @@ public class Player extends Entity {
     try {
       Tile newTile = levelMap.getTile(coords);
 
-      if (newTile.getIndex() == 0) { // Checks if tile is an air tile
+      if (newTile.getIndex() == 0) { // Air tile collision
         coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z - 1));
         Tile below = levelMap.getTile(coords);
         if (below.getIndex() == 2 || below.getIndex() == 3) { // Check if the tile you are falling onto is walkable
@@ -180,7 +187,7 @@ public class Player extends Entity {
           setPlayerState(PlayerState.CLIMBING);
         }
 
-      } else if (newTile.getIndex() == 2) { // Checks if tile is a blocking tile
+      } else if (newTile.getIndex() == 2) { // Wall tile collision
         setPosition(oldPos);
       } else { // Sets new position
         if (GameConnection.instance != null) {
@@ -190,7 +197,7 @@ public class Player extends Entity {
       }
 
       if (newTile.getIndex() == 3 ) { // Checks for climbable tile
-        coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z + 1));
+        coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z+1));
         Tile above = levelMap.getTile(coords);
         if (above.getIndex() == 1 && playerState != PlayerState.ROLLING && climbFlag) { // Checks if the tile above climbable tile is accessible
           climbVal = 0.1f;
@@ -200,21 +207,11 @@ public class Player extends Entity {
         }
       }
 
-      if (newTile.getIndex() == 4) {
-        loseLife();
-      }
-
-      if (newTile.getIndex() == 5) { // Checks for goal
-        addToScore(10000);
-        setPosition(newPos);
-        // TODO: Switch game state here
-      }
-
       // TODO: Enemy collisions
       climbFlag = false;
       // catches SW and SE edges    catches NE and NW edges
     } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
-          climbFlag = false;
+      climbFlag = false;
       setPosition(oldPos);
     }
   }
@@ -229,7 +226,7 @@ public class Player extends Entity {
    */
   public Vector3f setPadding(Vector3f pos) {
     Vector3f padded = new Vector3f();
-    direction.getNormalisedDirection().mul(0.4f, padded);
+    direction.getNormalisedDirection().mul(0.2f, padded);
     return padded.add(pos);
   }
 
@@ -239,7 +236,7 @@ public class Player extends Entity {
    * @author Jacqui Henes
    */
   public void loseLife() {
-    if (playerState != PlayerState.ROLLING) {
+
       lives -= 1;
       if (lives <= 0) {
         lives = 0;
@@ -251,5 +248,5 @@ public class Player extends Entity {
         setCooldown(START_ROLL_COOLDOWN);
       }
     }
-  }
+
 }

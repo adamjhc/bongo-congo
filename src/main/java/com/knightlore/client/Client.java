@@ -65,7 +65,9 @@ public class Client {
   }
 
   public static void showLoadingScreen() {
+    clearBuffers();
     guiRenderer.render(loadingScreen);
+    Window.swapBuffers();
   }
 
   public static void run() {

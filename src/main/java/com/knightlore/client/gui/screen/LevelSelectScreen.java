@@ -18,15 +18,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Queue;
 
 public class LevelSelectScreen implements IScreen {
 
   private static final String MAP_FILE_PATH = "customMaps/playable";
 
-  private Queue<LevelDisplay> selectedLevels;
+  private Collection<LevelDisplay> selectedLevels;
 
   private GuiRenderer guiRenderer;
   private LevelSelectMenu levelSelectMenu;
@@ -39,7 +38,7 @@ public class LevelSelectScreen implements IScreen {
 
   @Override
   public void startup(Object... args) {
-    selectedLevels = new LinkedList<>();
+    selectedLevels = new ArrayList<>();
 
     File[] fLevels = (new File(MAP_FILE_PATH)).listFiles();
     if (fLevels != null) {
@@ -91,22 +90,21 @@ public class LevelSelectScreen implements IScreen {
 
     for (int i = 0; i < levelSelectMenu.numOnScreenLevels(); i++) {
       if (checkPosition(levelSelectMenu, levelSelectMenu.getLevel(i).getId())) {
-        if (!selectedLevels.contains(new LevelDisplay(levelSelectMenu.getLevel(i).getId(), i))) {
+        if (selectedLevels.contains(new LevelDisplay(i)) || selectedLevels.size() != 3) {
           levelSelectMenu.getLevel(i).setColour();
         }
 
-        if (Mouse.isLeftButtonPressed()
-            && !selectedLevels.contains(new LevelDisplay(levelSelectMenu.getLevel(i).getId(), i))) {
-          if (selectedLevels.size() == 3) {
-            LevelDisplay firstSelect = selectedLevels.remove();
-            levelSelectMenu.getLevel(firstSelect.getIndex()).setColour();
+        if (Mouse.isLeftButtonPressed()) {
+          if (selectedLevels.contains(new LevelDisplay(i))) {
+            selectedLevels.remove(new LevelDisplay(i));
+          } else if (selectedLevels.size() != 3) {
+            selectedLevels.add(new LevelDisplay(i, levelSelectMenu.getLevel(i).getId()));
           }
-
-          selectedLevels.add(new LevelDisplay(levelSelectMenu.getLevel(i).getId(), i));
-          levelSelectMenu.getLevel(i).setColour(Colour.GREEN);
         }
       } else {
-        if (!selectedLevels.contains(new LevelDisplay(levelSelectMenu.getLevel(i).getId(), i))) {
+        if (selectedLevels.contains(new LevelDisplay(i))) {
+          levelSelectMenu.getLevel(i).setColour(Colour.GREEN);
+        } else {
           levelSelectMenu.getLevel(i).setColour(Colour.YELLOW);
         }
       }
@@ -153,7 +151,11 @@ public class LevelSelectScreen implements IScreen {
     String levelName;
     int index;
 
-    LevelDisplay(String levelName, int index) {
+    LevelDisplay(int index) {
+      this.index = index;
+    }
+
+    LevelDisplay(int index, String levelName) {
       this.levelName = levelName;
       this.index = index;
     }
@@ -168,6 +170,14 @@ public class LevelSelectScreen implements IScreen {
 
     @Override
     public boolean equals(Object obj) {
+      if (obj == null) {
+        return false;
+      }
+
+      if (obj.getClass() != this.getClass()) {
+        return false;
+      }
+
       return index == ((LevelDisplay) obj).getIndex();
     }
   }

@@ -6,42 +6,45 @@ import com.knightlore.game.map.LevelMapSet;
 import com.knightlore.game.server.GameServer;
 import com.knightlore.server.GameServerSupervisor;
 import com.knightlore.server.database.model.Model;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
+import java.util.UUID;
 import org.apache.log4j.Logger;
-
-import java.util.*;
 
 public class GameRepository {
 
-    final static Logger logger = Logger.getLogger(GameRepository.class);
+  private static final Logger logger = Logger.getLogger(GameRepository.class);
+  public static GameRepository instance = new GameRepository();
 
-    public static GameRepository instance = new GameRepository();
-    final Random rand = new Random();
+  private final Random rand = new Random();
+  private HashMap<UUID, GameServer> servers;
 
-    HashMap<UUID, GameServer> servers;
+  public GameRepository() {
+    servers = new HashMap<>();
+  }
 
-    public GameRepository() {
-        servers = new HashMap<>();
-    }
+  /**
+   * Create new game server instance with default game model Store in repository
+   *
+   * @param uuid
+   * @param port
+   * @param sessionOwner
+   */
+  public void newServer(
+      UUID uuid, int port, String sessionOwner, List<Level> levels, String username) {
+    LevelMapSet ms = new LevelMapSet();
+    GameModel gameModel = new GameModel(uuid.toString());
 
-    /**
-     * Create new game server instance with default game model
-     * Store in repository
-     * @param uuid
-     * @param port
-     * @param sessionOwner
-     */
-    public void newServer(UUID uuid, int port, String sessionOwner, ArrayList<Level> levels, String username){
-        LevelMapSet ms = new LevelMapSet();
-        GameModel gameModel = new GameModel(uuid.toString());
-
-        // Default to provided levels
-        if(levels.size() > 0){
-            for(com.knightlore.game.Level currentLevel : levels){
-                gameModel.addLevel(currentLevel);
-            }
-        }else{
-            // No levels provided, fallback on first from database
-            Optional<Model> optLevel = com.knightlore.server.database.model.Level.instance.first();
+    // Default to provided levels
+    if (!levels.isEmpty()) {
+      for (com.knightlore.game.Level currentLevel : levels) {
+        gameModel.addLevel(currentLevel);
+      }
+    } else {
+      // No levels provided, fallback on first from database
+      Optional<Model> optLevel = com.knightlore.server.database.model.Level.instance.first();
 
             if(!optLevel.isPresent()){
                 // No db found, fallback on server generated
@@ -53,7 +56,7 @@ public class GameRepository {
                 gameModel.addLevel(gameLevel);
             }
         }
-        gameModel.createNewLevel(ms.getMap(0));
+
         this.newServer(uuid, port, sessionOwner, gameModel, username);
     }
 
@@ -76,28 +79,28 @@ public class GameRepository {
 
     }
 
-    public void startServer(UUID uuid){
-        logger.info("Starting server: " + uuid.toString());
-        servers.get(uuid).start();
-    }
+  public void startServer(UUID uuid) {
+    logger.info("Starting server: " + uuid.toString());
+    servers.get(uuid).start();
+  }
 
-    public int getNewPort(){
-        int port;
+  public int getNewPort() {
+    int port;
 
-        while(true){
-            port = rand.nextInt(65530) + 1025;
+    while (true) {
+      port = rand.nextInt(65530) + 1025;
 
-            for(GameServer current: this.servers.values()){
-                if(current.socket == port){
-                    continue;
-                }
-            }
-
-            break;
+      for (GameServer current : this.servers.values()) {
+        if (current.socket == port) {
+          continue;
         }
+      }
 
-        return port;
+      break;
     }
+
+    return port;
+  }
 
     public HashMap<UUID, GameServer> getServers(){
         return this.servers;

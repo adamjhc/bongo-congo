@@ -11,7 +11,7 @@ import org.joml.Vector3f;
 
 public class Level {
 
-  public int duration;
+  private int duration;
   Date startedAt;
   private LevelMap levelMap;
 
@@ -39,12 +39,8 @@ public class Level {
     }
   }
 
-  private void addEnemy(int enemySetIndex, Vector3f position) {
-    Enemy enemy = enemySet.get(enemySetIndex, position);
-    enemy.setId(enemyIdInc);
-    enemyIdInc++;
-
-    enemies.add(enemy);
+  public int getDuration() {
+    return duration;
   }
 
   public LevelMap getLevelMap() {
@@ -57,5 +53,13 @@ public class Level {
 
   public List<Enemy> getEnemies() {
     return enemies;
+  }
+
+  private void addEnemy(int enemySetIndex, Vector3f position) {
+    Enemy enemy = enemySet.get(enemySetIndex, position);
+    enemy.setId(enemyIdInc);
+    enemyIdInc++;
+
+    enemies.add(enemy);
   }
 }

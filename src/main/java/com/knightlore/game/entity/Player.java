@@ -8,6 +8,9 @@ import org.joml.Vector3f;
 import org.joml.Vector3i;
 import org.joml.Vector4f;
 
+import static org.joml.Math.ceil;
+import static org.joml.Math.round;
+
 public class Player extends Entity {
 
   static final Vector3f START_POSITION = new Vector3f(0.5f, 0.5f, 0);
@@ -20,16 +23,23 @@ public class Player extends Entity {
   private int lives;
   private int rollCooldown;
   private float climbVal = 0.1f;
+  private boolean climbFlag = false;
   private PlayerState playerState;
   private String associatedSession;
   private Vector4f colour;
 
+    /** Constructor for a Player object
+     *
+     * @param sessionID ID for the session where the player is instantiated
+     * @param id Used to differentiate between multiple Players in one session
+     * @param colour Colour of the player character
+     */
   public Player(String sessionID, int id, Vector4f colour) {
     this.associatedSession = sessionID;
     this.id = id;
     this.colour = colour;
 
-    speed = 7;
+    speed = 5;
     score = 0;
 
     lives = START_LIVES;
@@ -39,26 +49,56 @@ public class Player extends Entity {
     playerState = START_PLAYER_STATE;
   }
 
+  /**
+   * Getter for property 'associatedSession'.
+   *
+   * @return Value for property 'associatedSession'.
+   */
   public String getAssociatedSession() {
     return associatedSession;
   }
 
+  /**
+   * Getter for property 'playerState'.
+   *
+   * @return Value for property 'playerState'.
+   */
   public PlayerState getPlayerState() {
     return playerState;
   }
 
+  /**
+   * Setter for property 'playerState'.
+   *
+   * @param playerState Value to set for property 'playerState'.
+   */
   public void setPlayerState(PlayerState playerState) {
     this.playerState = playerState;
   }
 
+  /**
+   * Getter for property 'colour'.
+   *
+   * @return Value for property 'colour'.
+   */
   public Vector4f getColour() {
     return colour;
   }
 
+  /**
+   * Getter for property 'lives'.
+   *
+   * @return Value for property 'lives'.
+   */
   public int getLives() {
     return lives;
   }
 
+  /**
+   * Getter for property 'score'.
+   *
+   * @return Value for property 'score'.
+   */
   public int getScore() {
     return score;
   }
@@ -67,18 +107,41 @@ public class Player extends Entity {
     score += amount;
   }
 
+  /**
+   * Getter for property 'climbVal'.
+   *
+   * @return Value for property 'climbVal'.
+   */
   public float getClimbVal() {
     return climbVal;
   }
 
+  /**
+   * Getter for property 'cooldown'.
+   *
+   * @return Value for property 'cooldown'.
+   */
   public int getCooldown() {
     return rollCooldown;
   }
 
+  /**
+   * Setter for property 'cooldown'.
+   *
+   * @param rollCooldown Value to set for property 'cooldown'.
+   */
   public void setCooldown(int rollCooldown) {
     this.rollCooldown = rollCooldown;
   }
 
+  /**
+   * Setter for property 'climbFlag'.
+   *
+   * @param climbFlag Value to set for property 'climbFlag'.
+   */
+  public void setClimbFlag(boolean climbFlag) {this.climbFlag = climbFlag; }
+
+  /** {@inheritDoc} */
   @Override
   public Vector3f getPosition() {
     return position;
@@ -92,18 +155,18 @@ public class Player extends Entity {
     rollCooldown = START_ROLL_COOLDOWN;
   }
 
+  /** {@inheritDoc} */
   @Override
   void update() {}
 
   /**
    * The main method called in the game loop. Continuously checks for collision events with specific
-   * tiles such as blocking or hazards. Also allows the player to climb up layers of the levelMap,
-   * and manages falling down layers.
+   * tiles such as blocking or hazards. Also allows the player to climb up and down layers of the levelMap.
    *
    * @param oldPos The position of the player before collision check update
    * @param newPos The potential position of the player after collision check update
    * @param levelMap The current levelMap being played
-   * @author Jacqueline Henes
+   * @author Jacqui Henes
    */
   public void update(Vector3f oldPos, Vector3f newPos, LevelMap levelMap) {
 
@@ -112,31 +175,28 @@ public class Player extends Entity {
     try {
       Tile newTile = levelMap.getTile(coords);
 
-      if (newTile.getIndex() == 0) { // Checks if tile is an air tile
+      if (newTile.getIndex() == 0) { // Air tile collision
         coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z - 1));
         Tile below = levelMap.getTile(coords);
-        if (below.getIndex() == 2
-            || below.getIndex() == 3) { // Check if the tile you are falling onto is walkable
+        if (below.getIndex() == 2 || below.getIndex() == 3) { // Check if the tile you are falling onto is walkable
           setPosition(oldPos);
         } else if (below.getIndex() == 0) {
           setPlayerState(PlayerState.FALLING);
-        } else {
+        } else if (climbFlag) {
           climbVal = -0.1f;
           setPlayerState(PlayerState.CLIMBING);
         }
 
-      } else if (newTile.getIndex() == 2) { // Checks if tile is a blocking tile
+      } else if (newTile.getIndex() == 2) { // Wall tile collision
         setPosition(oldPos);
       } else { // Sets new position
         setPosition(newPos);
       }
 
-      if (newTile.getIndex() == 3) { // Checks for climbable tile
-        coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z + 1));
+      if (newTile.getIndex() == 3 ) { // Checks for climbable tile
+        coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z+1));
         Tile above = levelMap.getTile(coords);
-        if (above.getIndex() == 1
-            && playerState
-                != PlayerState.ROLLING) { // Checks if the tile above climbable tile is accessible
+        if (above.getIndex() == 1 && playerState != PlayerState.ROLLING && climbFlag) { // Checks if the tile above climbable tile is accessible
           climbVal = 0.1f;
           setPlayerState(PlayerState.CLIMBING);
         } else {
@@ -158,9 +218,10 @@ public class Player extends Entity {
       }
 
       // TODO: Enemy collisions
-
+      climbFlag = false;
       // catches SW and SE edges    catches NE and NW edges
     } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
+      climbFlag = false;
       setPosition(oldPos);
     }
   }
@@ -171,25 +232,25 @@ public class Player extends Entity {
    *
    * @param pos The position to be padded
    * @return The padded coordinates of the player
-   * @author Jacqueline Henes, Adam Cox
+   * @author Jacqui Henes, Adam Cox
    */
   public Vector3f setPadding(Vector3f pos) {
     Vector3f padded = new Vector3f();
-    direction.getNormalisedDirection().mul(0.4f, padded);
+    direction.getNormalisedDirection().mul(0.2f, padded);
     return padded.add(pos);
   }
 
   /**
    * Resets player to spawn point having lost a life
    *
-   * @author Jacqueline Henes
+   * @author Jacqui Henes
    */
   public void loseLife() {
+
     if(GameConnection.instance != null){
       GameConnection.instance.sendDeath();
     }
 
-    if (playerState != PlayerState.ROLLING) {
       lives -= 1;
       if (lives <= 0) {
         lives = 0;
@@ -200,7 +261,6 @@ public class Player extends Entity {
         setDirection(START_DIRECTION);
         setCooldown(START_ROLL_COOLDOWN);
       }
-    }
   }
 
   public void decrementLives(){

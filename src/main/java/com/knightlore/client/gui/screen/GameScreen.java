@@ -5,11 +5,11 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_J;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_SHIFT;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 
-import com.google.gson.Gson;
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.audio.Audio;
@@ -21,27 +21,27 @@ import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.render.GameRenderer;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.GameState;
+import com.knightlore.game.Level;
 import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
-import com.knightlore.game.map.LevelMapSet;
+import com.knightlore.game.server.GameServer;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class GameScreen implements IScreen {
 
-  GameModel gameModel;
-
   Timer timer;
-  Timer countDown;
-  Hud hud;
   Direction playerInputDirection;
 
+  private Timer countDown;
+  private Hud hud;
   private GameRenderer gameRenderer;
-
-  private int levelTime = 90;
-  private int countDownTime = 5;
 
   public GameScreen(GameRenderer gameRenderer, Timer timer) {
     this.gameRenderer = gameRenderer;
@@ -51,25 +51,58 @@ public class GameScreen implements IScreen {
 
   @Override
   public void startup(Object... args) {
-    if (args.length == 0) {
-      LevelMapSet mapSet = new LevelMapSet();
-      gameModel = new GameModel("");
-      gameModel.createNewLevel(mapSet.getMap(0));
-      gameModel.createNewLevel(mapSet.getMap(1));
-      gameModel.createNewLevel(mapSet.getMap(2));
-      gameModel.addPlayer("1");
+    // Singleplayer sends levels to start game server
+    if (args.length != 0) {
+      GameModel gameModel = new GameModel("1");
+      List<Level> levelList = (List<Level>) args[0];
+      for (Level level : levelList) {
+        gameModel.addLevel(level);
+      }
 
-      Gson gson = new Gson();
-      System.out.println(gson.toJson(gameModel.getCurrentLevel()));
-    } else {
-      gameModel = (GameModel) args[0];
+      String playerSessionId = "1";
+
+      GameServer server =
+          new GameServer(UUID.randomUUID(), 1337, playerSessionId, gameModel, "Player 1");
+      server.start();
+
+      com.knightlore.client.networking.backend.Client gameClient = null;
+      try {
+        gameClient =
+            new com.knightlore.client.networking.backend.Client(InetAddress.getLocalHost(), 1337);
+      } catch (UnknownHostException e) {
+        e.printStackTrace();
+      }
+      gameClient.run();
+
+      GameConnection.instance = new GameConnection(gameClient, playerSessionId);
+
+      // Wait for GameServer to instantiate
+      while (!GameConnection.instance.ready()) {
+        try {
+          TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+          // Shouldn't happen
+        }
+      }
+
+      GameConnection.instance.register();
+      GameConnection.instance.startGame();
     }
+
+    while (GameConnection.gameModel == null) {
+      try {
+        TimeUnit.SECONDS.sleep(1);
+      } catch (InterruptedException ex) {
+      }
+    }
+
+    GameModel gameModel = GameConnection.gameModel;
 
     hud.renderScores(gameModel);
     hud.setLevel(gameModel.getCurrentLevelIndex());
 
     Audio.restart();
-    //Mouse.hideCursor();
+    Mouse.hideCursor();
 
     countDown = new Timer();
 
@@ -80,11 +113,10 @@ public class GameScreen implements IScreen {
     // Send ready
     GameConnection.instance.sendReady();
 
-    Client.showLoadingScreen();
     while (GameConnection.gameModel.getState() != GameState.PLAYING) {
-      try{
+      try {
         TimeUnit.MILLISECONDS.sleep(50);
-      }catch(InterruptedException e){
+      } catch (InterruptedException e) {
       }
     }
 
@@ -93,29 +125,24 @@ public class GameScreen implements IScreen {
 
   @Override
   public void input() {
+    GameModel gameModel = GameConnection.gameModel;
+
     if (Integer.parseInt(hud.getCountDown().getText()) == 0) {
       playerInputDirection = getPlayerInputDirection();
     } else {
       playerInputDirection = null;
     }
 
-//    if (Keyboard.isKeyReleased(GLFW_KEY_J) && !hud.getCountDown().getRender()) {
-//      gameModel.nextLevel();
-//
-//      if (gameModel.getState() != GameState.SCORE) {
-//        hud.setLevel(gameModel.getCurrentLevelIndex());
-//        timer.resetStartTime();
-//        countDown.setStartTime();
-//      } else if (gameModel.getState() == GameState.SCORE) {
-//        Client.changeScreen(ClientState.END, false, gameModel);
-//      }
-//    }
 
-    if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)
+    if (Keyboard.isKeyReleased(GLFW_KEY_RIGHT_SHIFT)
         && (gameModel.myPlayer().getCooldown() == 0)
         && (gameModel.myPlayer().getPlayerState() == PlayerState.IDLE
             || gameModel.myPlayer().getPlayerState() == PlayerState.MOVING)) {
       gameModel.myPlayer().setPlayerState(PlayerState.ROLLING);
+    }
+
+    if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)) {
+      gameModel.myPlayer().setClimbFlag(true);
     }
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
@@ -131,23 +158,25 @@ public class GameScreen implements IScreen {
 
   @Override
   public void update(float delta) {
+    GameModel gameModel = GameConnection.gameModel;
+
     float countDown = this.countDown.getGameTime();
-    int countDownLeft = this.countDownTime + 1 - Math.round(countDown);
+    int countDownTime = 5;
+    int countDownLeft = countDownTime + 1 - Math.round(countDown);
     if (gameModel.getCurrentLevelIndex() > 0) {
       countDownLeft += 1;
     }
     if (countDownLeft <= 0) countDownLeft = 0;
-    if (countDownLeft <= this.countDownTime && countDownLeft > 0)
-      hud.getCountDown().setRender(true);
+    if (countDownLeft <= countDownTime && countDownLeft > 0) hud.getCountDown().setRender(true);
 
-    int timeLeft = levelTime;
+    int timeLeft = gameModel.getCurrentLevel().getDuration();
     if (countDownLeft == 0) {
       hud.getCountDown().setRender(false);
       if (timer.getStartTime() == 0) {
         timer.setStartTime();
       } else {
         float gameTime = timer.getGameTime();
-        timeLeft = levelTime - Math.round(gameTime);
+        timeLeft = gameModel.getCurrentLevel().getDuration() - Math.round(gameTime);
         if (timeLeft < 0) {
           timeLeft = 0;
         }
@@ -191,7 +220,7 @@ public class GameScreen implements IScreen {
       gameRenderer.init(gameModel);
     }
 
-    gameModel.update(delta, playerInputDirection);
+      gameModel.clientUpdate(delta, playerInputDirection);
 
     // Check for complete
     if(gameModel.getState() == GameState.SCORE) {
@@ -202,13 +231,14 @@ public class GameScreen implements IScreen {
       hud.setLevel(gameModel.getCurrentLevelIndex());
       timer.resetStartTime();
     }
+
   }
 
   @Override
   public void render() {
     hud.updateSize();
 
-    gameRenderer.render(gameModel, hud);
+    gameRenderer.render(GameConnection.gameModel, hud);
   }
 
   @Override
@@ -217,6 +247,7 @@ public class GameScreen implements IScreen {
     Audio.restart();
 
     hud.getCountDown().setRender(false);
+    GameConnection.gameModel = null;
   }
 
   @Override

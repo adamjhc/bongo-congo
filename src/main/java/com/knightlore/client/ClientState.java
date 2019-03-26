@@ -2,6 +2,7 @@ package com.knightlore.client;
 
 public enum ClientState {
   MAIN_MENU,
+  LEVEL_SELECT,
   LOBBY_MENU,
   PRE_EDITOR,
   LEVEL_EDITOR,
@@ -11,6 +12,7 @@ public enum ClientState {
   OPTIONS_MENU,
   LOBBY,
   GAME,
-  END,
   GAME_CLOSED,
+  END,
+  SHOW_ERROR,
 }

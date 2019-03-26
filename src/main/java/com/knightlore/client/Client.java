@@ -40,7 +40,6 @@ public class Client {
       ClientState newScreen, boolean showLoadingScreen, Object... args) {
     if (showLoadingScreen) {
       loadingScreen.updateSize();
-      ServerConnection.instance.listGames();
       showLoadingScreen();
     }
 
@@ -88,6 +87,8 @@ public class Client {
     screens.put(ClientState.LOBBY, new LobbyScreen(guiRenderer));
     screens.put(ClientState.LOADING_LEVEL, new LoadLevelScreen(guiRenderer));
     screens.put(ClientState.END, new GameEndScreen(guiRenderer));
+    screens.put(ClientState.LEVEL_SELECT, new LevelSelectScreen(guiRenderer));
+    screens.put(ClientState.SHOW_ERROR, new ShowErrorScreen(guiRenderer));
 
     loadingScreen = new Loading();
 

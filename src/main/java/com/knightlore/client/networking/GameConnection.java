@@ -15,15 +15,17 @@ import com.knightlore.networking.Sendable;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.UUID;
+import org.joml.Vector3f;
 
 public class GameConnection {
 
-    public static GameConnection instance;
-    public static GameModel gameModel;
+  public static GameConnection instance;
+  public static GameModel gameModel;
 
+  public UUID uuid;
+  private Client client;
     public String sessionKey;
     boolean authenticated = false;
-    Client client;
     public UUID uuid;
 
     public int playerIndex;
@@ -31,15 +33,15 @@ public class GameConnection {
 
     public PeriodicStatusUpdater updater;
 
-    // Key already validated
-    public GameConnection(Client client, String sessionKey) {
-        this.client = client;
-        this.sessionKey = sessionKey;
-    }
+  // Key already validated
+  public GameConnection(Client client, String sessionKey) {
+    this.client = client;
+    this.sessionKey = sessionKey;
+  }
 
-    public boolean ready(){
-        return this.client.ready;
-    }
+  public boolean ready() {
+    return this.client.ready;
+  }
 
     public void close(){
         try{
@@ -52,26 +54,26 @@ public class GameConnection {
         com.knightlore.client.Client.changeScreen(ClientState.MAIN_MENU, false);
     }
 
-    public void startGame(){
-        // Build up get session string
-        Sendable sendable = new Sendable();
-        sendable.setUuid();
-        sendable.setFunction("game_start");
+  public void startGame() {
+    // Build up get session string
+    Sendable sendable = new Sendable();
+    sendable.setUuid();
+    sendable.setFunction("game_start");
 
-        Gson gson = new Gson();
+    Gson gson = new Gson();
 
-        com.knightlore.networking.GameRequest request = new com.knightlore.networking.GameRequest();
-        sendable.setData(gson.toJson(request));
+    com.knightlore.networking.GameRequest request = new com.knightlore.networking.GameRequest();
+    sendable.setData(gson.toJson(request));
 
-        // Specify handler
-        System.out.println("SENDING " + sendable.getData());
+    // Specify handler
+    System.out.println("SENDING " + sendable.getData());
 
-        try{
-            client.dos.writeObject(sendable);
-        }catch(IOException e){
-            System.out.println(e);
-        }
+    try {
+      client.dos.writeObject(sendable);
+    } catch (IOException e) {
+      System.out.println(e);
     }
+  }
 
     public void updateStatus(){
         // Build up get session string
@@ -96,12 +98,12 @@ public class GameConnection {
         // Specify handler
         System.out.println("SENDING " + sendable.getData());
 
-        try{
-            client.dos.writeObject(sendable);
-        }catch(IOException e){
-            System.out.println(e);
-        }
+    try {
+      client.dos.writeObject(sendable);
+    } catch (IOException e) {
+      System.out.println(e);
     }
+  }
 
     public void register(){
         // Build up get session string
@@ -116,13 +118,12 @@ public class GameConnection {
         // Specify handler
         ResponseHandler.waiting.put(sendable.getUuid(), new GameRegister());
 
-
-        try{
-            client.dos.writeObject(sendable);
-        }catch(IOException e){
-            System.out.println(e);
-        }
+    try {
+      client.dos.writeObject(sendable);
+    } catch (IOException e) {
+      System.out.println(e);
     }
+  }
 
     public void sendLevelComplete(){
         Sendable sendable = new Sendable();
@@ -135,18 +136,18 @@ public class GameConnection {
         }
     }
 
-    public void sendReady(){
-        // Build up get session string
-        Sendable sendable = new Sendable();
-        sendable.setUuid();
-        sendable.setFunction("ready");
+  public void sendReady() {
+    // Build up get session string
+    Sendable sendable = new Sendable();
+    sendable.setUuid();
+    sendable.setFunction("ready");
 
-        try{
-            client.dos.writeObject(sendable);
-        }catch(IOException e){
-            System.out.println(e);
-        }
+    try {
+      client.dos.writeObject(sendable);
+    } catch (IOException e) {
+      System.out.println(e);
     }
+  }
 
     public void sendDeath(){
         Sendable sendable = new Sendable();
@@ -159,21 +160,17 @@ public class GameConnection {
         }
     }
 
-    // Run code after a connection to the game server has been successfully made
-    public void gameConnectionMade(){
+  // Run code after a connection to the game server has been successfully made
+  public void gameConnectionMade() {}
 
-    }
+  // Game connection was unable to be established
+  public void gameConnectionFailed() {}
 
-    // Game connection was unable to be established
-    public void gameConnectionFailed(){
+  public InetAddress getIP() {
+    return this.client.ip;
+  }
 
-    }
-
-    public InetAddress getIP(){
-        return this.client.ip;
-    }
-
-    public int port(){
-        return this.client.socket;
-    }
+  public int port() {
+    return this.client.socket;
+  }
 }

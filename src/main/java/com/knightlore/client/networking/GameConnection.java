@@ -26,7 +26,6 @@ public class GameConnection {
   private Client client;
     public String sessionKey;
     boolean authenticated = false;
-    public UUID uuid;
 
     public int playerIndex;
     public boolean gameCancelled;

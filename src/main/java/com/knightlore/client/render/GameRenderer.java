@@ -103,7 +103,6 @@ public class GameRenderer extends Renderer {
    * @author Adam Cox
    */
   public void init(GameModel gameModel) {
-    System.out.println("x");
     playerGameObjects = PlayerGameObject.fromGameModel(gameModel.getPlayers().values());
     tileGameObjects =
         TileGameObjectSet.fromGameModel(gameModel.getCurrentLevel().getLevelMap().getTiles());

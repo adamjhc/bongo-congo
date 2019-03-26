@@ -1,12 +1,12 @@
 package com.knightlore.client.gui.screen;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_J;
 
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.gui.engine.Timer;
 import com.knightlore.client.io.Keyboard;
+import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.render.GameRenderer;
 
 public class TestingLevelScreen extends GameScreen {
@@ -19,13 +19,11 @@ public class TestingLevelScreen extends GameScreen {
   public void input() {
     playerInputDirection = getPlayerInputDirection();
 
-    if (Keyboard.isKeyReleased(GLFW_KEY_J)) {
-      timer.setStartTime();
-      gameModel.nextLevel();
-    }
-
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
-      Client.changeScreen(ClientState.LEVEL_EDITOR, false, gameModel.getCurrentLevel().getLevelMap());
+      Client.changeScreen(
+          ClientState.LEVEL_EDITOR,
+          false,
+          GameConnection.gameModel.getCurrentLevel().getLevelMap());
     }
   }
 }

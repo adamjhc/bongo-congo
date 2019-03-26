@@ -40,7 +40,7 @@ public class Player extends Entity {
     this.id = id;
     this.colour = colour;
 
-    speed = 5;
+    speed = 4;
     score = 0;
 
     lives = START_LIVES;
@@ -205,19 +205,9 @@ public class Player extends Entity {
           setPosition(oldPos);
         }
       }
-      if (newTile.getIndex() == 4) {
-        loseLife();
-      }
 
-      if (newTile.getIndex() == 5) { // Checks for goal
-        addToScore(10000);
-        setPosition(newPos);
-        // TODO: Switch game state here
 
-        if(GameConnection.instance != null){
-          GameConnection.instance.sendLevelComplete();
-        }
-      }
+
 
       // TODO: Enemy collisions
       // catches SW and SE edges    catches NE and NW edges

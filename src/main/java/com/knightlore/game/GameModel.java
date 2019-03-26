@@ -124,15 +124,18 @@ public class GameModel {
 
     if (getTileIndex(myPlayer().getPosition()) == 5) { // Checks for goal
       myPlayer().addToScore(10000);
-      // TODO: move to next level
+      if(GameConnection.instance != null){
+        GameConnection.instance.sendLevelComplete();
+      }
     }
 
-    if (getTileIndex(myPlayer().getPosition()) == 4 && myPlayer().getPlayerState() != PlayerState.ROLLING && myPlayer().getPlayerState() != PlayerState.DEAD) {
-      Audio.play(Audio.AudioName.SOUND_HIT);
-      delay(100);
-      myPlayer().loseLife();
-    }
 
+//    if (getTileIndex(myPlayer().getPosition()) == 4
+//            && myPlayer().getPlayerState() != PlayerState.ROLLING
+//            && myPlayer().getPlayerState() != PlayerState.FALLING) {
+//      delay(200);
+//      myPlayer().loseLife();
+//    }
 
     // Player updates
     switch (myPlayer().getPlayerState()) {
@@ -153,7 +156,7 @@ public class GameModel {
         Player player = myPlayer();
         Vector3f bottom = player.getPosition();
         // 'Plays' climbing animation
-        if (accumulator < 10) {
+        if (accumulator < 9) {
           bottom.z += player.getClimbVal();
           accumulator++;
           player.setPosition(bottom);
@@ -162,6 +165,7 @@ public class GameModel {
           // Done playing animation, set position
           accumulator = 0;
           player.setPosition(player.setPadding(roundZ(bottom)));
+          System.out.println(player.getPosition());
           player.setClimbFlag(false);
           player.setPlayerState(PlayerState.IDLE);
         }
@@ -190,7 +194,6 @@ public class GameModel {
           if (top.z < 0) {
             top.z = 0;
           }
-          System.out.println("TOP:" + top );
           player.setPosition(top);
           delay(5);
         } else {
@@ -205,7 +208,9 @@ public class GameModel {
     }
     if (getTileIndex(myPlayer().getPosition()) == 4
             && myPlayer().getPlayerState() != PlayerState.ROLLING
+            && myPlayer().getPlayerState() != PlayerState.DEAD
             && myPlayer().getPlayerState() != PlayerState.FALLING) {
+      Audio.play(Audio.AudioName.SOUND_HIT);
       delay(200);
       myPlayer().loseLife();
     }

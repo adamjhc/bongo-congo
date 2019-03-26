@@ -9,48 +9,69 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Screen that allows you to select which levels you wish 
+ * to play in Singleplayer
+ * 
+ * @author Adam C
+ *
+ */
 public class LevelSelectMenu implements IGui {
 
+	/** Position of the top separator line */
   private static final int SEPARATOR_TOP_POS = 185;
+  /** Position of the bottom separator line */
   private static final int SEPARATOR_BOT_POS = 200;
+  /** Gap between each line of text */
   private static final int SEPARATOR_GAP = FONT_SIZE_SMALL;
+  
+  /** Maximum number of levels that can be shown */
   private static final int MAX_LEVEL_COUNT = 12;
 
+  /** List of all the set gui objects */
   private final GuiObject[] setGuiObjects;
+  /** List of the set text objects that have user interaction */
   private final TextObject[] setTextObjects;
-
+  /** Total number of pages */
   private int pageCount;
-
+  /** level index */
   private int levelIndex;
-
+  /** Current page number */
   private int currentPageNum;
-
+  /** The page counter */
   private TextObject pageCounter;
-
+  /** Bongo text object */
   private TextObject bongo;
-
+  /** Congo text object */
   private TextObject congo;
-
+  /** Top separator line text object */
   private TextObject separatorTop;
-
+  /** Bottom separator line text object */
   private TextObject separatorBottom;
-
+  /** List of the levels */
   private TextObject[] levels;
-
+  /** Load level (title) text object */
   private TextObject loadLevel;
-
+  /** Start game text object */
   private TextObject start;
-
+  /** Exit screen text object */
   private TextObject exit;
-
+  /** Next page text object */
   private TextObject nextPage;
-
+  /** Last page text object */
   private TextObject lastPage;
-
+  
+  /** List of all the gui objects */
   private TextObject[] textObjects;
-
+  /** List of the text objects that have user interaction */
   private GuiObject[] guiObjects;
 
+  /**
+   * Create gui objects
+   * 
+   * @author Adam C
+   * 
+   */
   public LevelSelectMenu() {
     this.bongo = new TextObject("Bongo", TITLE);
     this.bongo.setColour(Colour.LIGHT_BLUE);
@@ -104,14 +125,34 @@ public class LevelSelectMenu implements IGui {
     textObjects = setTextObjects;
   }
 
+  /**
+   * Returns start
+   * 
+   * @return Start
+   * @author Adam C
+   * 
+   */
   public TextObject getStart() {
     return start;
   }
 
+  /**
+   * Returns exit
+   * 
+   * @return Exit
+   * @author Adam C
+   */
   public TextObject getBack() {
     return exit;
   }
 
+  /**
+   * Initialise levels
+   * 
+   * @param l Level list
+   * @author Adam C
+   * 
+   */
   public void setLevels(TextObject[] l) {
     levels = l;
     if (levels.length % 12 == 0) {
@@ -121,20 +162,24 @@ public class LevelSelectMenu implements IGui {
     }
   }
 
+  /**
+   * Get level
+   * 
+   * @param i Level index
+   * @return Level
+   * @author Adam C
+   * 
+   */
   public TextObject getLevel(int i) {
     return levels[levelIndex + i];
   }
 
-  @Override
-  public TextObject[] getTextObjects() {
-    return textObjects;
-  }
-
-  @Override
-  public GuiObject[] getGuiObjects() {
-    return guiObjects;
-  }
-
+  /**
+   * Increase the page
+   * 
+   * @author Adam C
+   * 
+   */
   public void incPage() {
     if (levelIndex + 12 < levels.length) {
       levelIndex += 12;
@@ -142,6 +187,12 @@ public class LevelSelectMenu implements IGui {
     }
   }
 
+  /**
+   * Decrease the page
+   * 
+   * @author Adam C
+   * 
+   */
   public void decPage() {
     if (levelIndex >= 12) {
       levelIndex -= 12;
@@ -149,18 +200,45 @@ public class LevelSelectMenu implements IGui {
     }
   }
 
+  /**
+   * Gets the next page
+   * 
+   * @return NextPage
+   * @author Adam C
+   * 
+   */
   public TextObject getNextPage() {
     return nextPage;
   }
-
+  
+  /**
+   * Gets the last page
+   * 
+   * @return LastPage
+   * @author Adam C
+   * 
+   */
   public TextObject getLastPage() {
     return lastPage;
   }
-
+  
+  /**
+   * 	Returns the number of levels on screen
+   * 
+   * @return Number of levels on screen
+   * @author Adam C
+   * 
+   */
   public int numOnScreenLevels() {
     return Math.min(MAX_LEVEL_COUNT, levels.length - levelIndex);
   }
-
+  
+  /**
+   * Updates the position of the gui objects
+   * 
+   * @author Adam C
+   * 
+   */
   public void updateSize() {
     this.bongo.setPosition(
         Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
@@ -207,5 +285,15 @@ public class LevelSelectMenu implements IGui {
 
     guiObjects = tempG.toArray(setGuiObjects);
     textObjects = tempT.toArray(setTextObjects);
+  }
+  
+  @Override
+  public TextObject[] getTextObjects() {
+    return textObjects;
+  }
+
+  @Override
+  public GuiObject[] getGuiObjects() {
+    return guiObjects;
   }
 }

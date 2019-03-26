@@ -26,4 +26,8 @@ public class LobbyCache {
     public Collection<ListGameObject> getGames(){
         return this.games.values();
     }
+
+    public ListGameObject getGame(UUID uuid){
+        return games.get(uuid);
+    }
 }

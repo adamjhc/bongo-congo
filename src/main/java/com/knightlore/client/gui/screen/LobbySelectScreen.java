@@ -59,18 +59,34 @@ public class LobbySelectScreen implements IScreen {
             // Shouldn't happen
           }
         }
-        ListGameObject test1 =
-            new ListGameObject(
-                GameConnection.instance.uuid,
-                GameConnection.instance.getIP(),
-                GameConnection.instance.port(),
-                "Test");
+        // Sent off register request
+        GameConnection.instance.register();
+
+        // Wait for register response
+        while(GameConnection.instance.uuid == null){
+          try{
+            TimeUnit.SECONDS.sleep(1);
+          }catch(InterruptedException e){
+
+          }
+        }
+
+        // Update game list
+        ServerConnection.instance.listGames();
+        int cache = LobbyCache.instance.cacheBuster;
+
+        while (cache == LobbyCache.instance.cacheBuster) {
+          try {
+            TimeUnit.SECONDS.sleep(1);
+          } catch (InterruptedException e) {
+            // Shouldn't happen
+          }
+        }
+        ListGameObject test1 = LobbyCache.instance.getGame(GameConnection.instance.uuid);
 
         LobbyObject test = new LobbyObject("Test", menu.SMALL, test1);
         test.setIsCreator(true);
 
-        // Sent off register request
-        GameConnection.instance.register();
 
         Client.changeScreen(ClientState.LOBBY, false, test);
       }
@@ -99,7 +115,6 @@ public class LobbySelectScreen implements IScreen {
           gameClient.run();
 
           GameConnection.instance = new GameConnection(gameClient, ServerConnection.instance.getSessionKey().get());
-
           // Wait
           while(!GameConnection.instance.ready()){
             try{

@@ -11,17 +11,19 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class GameServer extends Thread {
   public int socket;
-  UUID id;
-  String sessionOwner;
-  String name;
-  ArrayList<ClientHandler> clients;
+
   GameManager manager;
 
-  GameModel model;
+  private UUID id;
+  private String sessionOwner;
+  private String name;
+  private List<ClientHandler> clients;
+  private GameModel model;
 
   public GameServer(UUID id, int socket, String sessionOwner, GameModel model, String name) {
     this.id = id;
@@ -32,20 +34,15 @@ public class GameServer extends Thread {
     this.name = name;
   }
 
-  // Start new server
+  @Override
   public void run() {
     // Spin up server
     // server is listening on port 5056
-    try {
-      ServerSocket ss = new ServerSocket(this.socket);
-
+    try (ServerSocket ss = new ServerSocket(this.socket)) {
       // Capture new clients
       while (true) {
-        Socket s = null;
-        try {
+        try (Socket s = ss.accept()) {
           // socket object to receive incoming com.knightlore.server.client requests
-          s = ss.accept();
-
           System.out.println("A new client is connected : " + s);
 
           // Get input and output streams
@@ -65,8 +62,8 @@ public class GameServer extends Thread {
 
         } catch (Exception e) {
           // If an error occurs, close
-          s.close();
           System.out.println("An error has occured" + e);
+          break;
         }
       }
     } catch (IOException e) {
@@ -74,8 +71,8 @@ public class GameServer extends Thread {
     }
   }
 
-  public ArrayList<ClientHandler> registeredClients() {
-    ArrayList<ClientHandler> registered = new ArrayList<>();
+  public List<ClientHandler> registeredClients() {
+    List<ClientHandler> registered = new ArrayList<>();
 
     for (ClientHandler each : this.clients) {
       if (each.registered()) {
@@ -144,10 +141,10 @@ public class GameServer extends Thread {
     return this.name;
   }
 
-  public boolean allReady(){
+  public boolean allReady() {
     boolean ready = true;
-    for(ClientHandler each : this.clients){
-      if(!each.ready){
+    for (ClientHandler each : this.clients) {
+      if (!each.ready) {
         ready = false;
       }
     }

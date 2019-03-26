@@ -79,7 +79,7 @@ public class LobbyScreen implements IScreen {
   	}
 
   	if(GameConnection.gameModel != null && GameConnection.gameModel.getState() != GameState.LOBBY){
-        com.knightlore.client.Client.changeScreen(ClientState.GAME, true, GameConnection.gameModel);
+        com.knightlore.client.Client.changeScreen(ClientState.GAME, true);
     }
   }
 

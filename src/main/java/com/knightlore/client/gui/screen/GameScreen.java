@@ -67,23 +67,30 @@ public class GameScreen implements IScreen {
           new GameServer(UUID.randomUUID(), 1337, playerSessionId, gameModel, "Player 1");
       server.start();
 
-      com.knightlore.client.networking.backend.Client gameClient = null;
+      com.knightlore.client.networking.backend.Client gameClient;
       try {
         gameClient =
             new com.knightlore.client.networking.backend.Client(InetAddress.getLocalHost(), 1337);
       } catch (UnknownHostException e) {
-        e.printStackTrace();
+        Client.changeScreen(ClientState.MAIN_MENU, false);
+        return;
       }
       gameClient.run();
 
       GameConnection.instance = new GameConnection(gameClient, playerSessionId);
 
       // Wait for GameServer to instantiate
+      int timeout = 10;
+      int wait = 0;
       while (!GameConnection.instance.ready()) {
         try {
           TimeUnit.SECONDS.sleep(1);
-        } catch (InterruptedException e) {
-          // Shouldn't happen
+          wait++;
+
+          if (wait == timeout) {
+            Client.changeScreen(ClientState.MAIN_MENU, false);
+          }
+        } catch (InterruptedException ignored) {
         }
       }
 

@@ -106,7 +106,8 @@ public class LevelEditorScreen implements IScreen {
     currentTileX = 0;
     currentTileY = 0;
     currentTileZ = 0;
-    Audio.stop(Audio.getCurrentMusic());
+    if (Audio.getCurrentMusic() != Audio.AudioName.MUSIC_EDITOR)
+    	Audio.stop(Audio.getCurrentMusic());
     Audio.play(Audio.AudioName.MUSIC_EDITOR);
   }
 

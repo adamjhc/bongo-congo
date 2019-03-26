@@ -41,6 +41,7 @@ public class GameEndScreen implements IScreen {
       gameEnd.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Client.changeScreen(ClientState.MAIN_MENU, false);
+        return;
       }
     } else gameEnd.getExit().setColour(Colour.YELLOW);
 
@@ -53,7 +54,7 @@ public class GameEndScreen implements IScreen {
     Map<String, Player> players = gameModel.getPlayers();
     ArrayList<Player> playersList = new ArrayList<>(players.values());
 
-    Collections.sort(playersList, (p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
+    playersList.sort((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
 
     gameEnd.displayScores(playersList);
   }

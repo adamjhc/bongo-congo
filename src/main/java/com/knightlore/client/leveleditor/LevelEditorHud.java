@@ -6,7 +6,6 @@ import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.gui.engine.graphics.FontTexture;
 import com.knightlore.client.io.Window;
-
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
@@ -14,14 +13,13 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import org.joml.Vector4f;
 
 public class LevelEditorHud implements IGui {
 
   private static final Font FONT_LARGE = new Font("Press Start 2P", Font.PLAIN, 40);
 
   private static final String CHARSET = "ISO-8859-1";
-  
+
   private final TextObject save;
   private final TextObject tiles;
   private final TextObject empty;
@@ -53,70 +51,84 @@ public class LevelEditorHud implements IGui {
 
     this.tiles = new TextObject("Tiles", fontTextureMedium);
     this.tiles.setColour(Colour.YELLOW);
-    
+
     this.empty = new TextObject("Empty", fontTextureSmall);
     this.empty.setColour(Colour.YELLOW);
-    
+
     this.floor = new TextObject("Floor", fontTextureSmall);
     this.floor.setColour(Colour.YELLOW);
-    
+
     this.slab = new TextObject("Slab", fontTextureSmall);
     this.slab.setColour(Colour.YELLOW);
-    
+
     this.block = new TextObject("Block", fontTextureSmall);
     this.block.setColour(Colour.YELLOW);
-    
+
     this.hazard = new TextObject("Hazard", fontTextureSmall);
     this.hazard.setColour(Colour.YELLOW);
-    
+
     this.finish = new TextObject("Finish", fontTextureSmall);
     this.finish.setColour(Colour.YELLOW);
 
     guiObjects = new GuiObject[] {save, tiles, empty, floor, slab, block, hazard, finish};
     textObjects = new TextObject[] {save, empty, floor, slab, block, hazard, finish};
   }
-  
+
   public TextObject getSave() {
-	  return save;
+    return save;
   }
-  
+
   public TextObject getTiles() {
-	  return tiles;
+    return tiles;
   }
-  
+
   public TextObject getEmpty() {
-	  return empty;
+    return empty;
   }
-  
+
   public TextObject getFloor() {
-	  return floor;
+    return floor;
   }
-  
+
   public TextObject getSlab() {
-	  return slab;
+    return slab;
   }
-  
+
   public TextObject getBlock() {
-	  return block;
+    return block;
   }
-  
+
   public TextObject getHazard() {
-	  return hazard;
+    return hazard;
   }
-  
+
   public TextObject getFinish() {
-	  return finish;
+    return finish;
   }
-  
+
   public void updateSize() {
-	  this.save.setPosition(Window.getWidth()-save.getSize()*1.1f, 10);
-	  this.tiles.setPosition(Window.getWidth()/2-tiles.getSize()/2, Window.getHeight()-tiles.getHeight()-GAP*4);  
-	  this.empty.setPosition(Window.getWidth()/2-empty.getSize()-GAP*18, Window.getHeight()-empty.getHeight()-GAP);
-	  this.floor.setPosition(Window.getWidth()/2-floor.getSize()-GAP*10, Window.getHeight()-floor.getHeight()-GAP);
-	  this.slab.setPosition(Window.getWidth()/2-slab.getSize()-GAP*2, Window.getHeight()-slab.getHeight()-GAP);
-	  this.block.setPosition(Window.getWidth()/2-block.getSize()+GAP*6, Window.getHeight()-block.getHeight()-GAP);
-	  this.hazard.setPosition(Window.getWidth()/2-hazard.getSize()+GAP*14, Window.getHeight()-hazard.getHeight()-GAP);
-	  this.finish.setPosition(Window.getWidth()/2-finish.getSize()+GAP*22, Window.getHeight()-finish.getHeight()-GAP);
+    this.save.setPosition(Window.getWidth() - save.getSize() * 1.1f, 10);
+    this.tiles.setPosition(
+        Window.getHalfWidth() - tiles.getSize() / 2,
+        Window.getHeight() - tiles.getHeight() - GAP * 4f);
+    this.empty.setPosition(
+        Window.getHalfWidth() - empty.getSize() - GAP * 18,
+        Window.getHeight() - empty.getHeight() - (float) GAP);
+    this.floor.setPosition(
+        Window.getHalfWidth() - floor.getSize() - GAP * 10,
+        Window.getHeight() - floor.getHeight() - (float) GAP);
+    this.slab.setPosition(
+        Window.getHalfWidth() - slab.getSize() - GAP * 2,
+        Window.getHeight() - slab.getHeight() - (float) GAP);
+    this.block.setPosition(
+        Window.getHalfWidth() - block.getSize() + GAP * 6,
+        Window.getHeight() - block.getHeight() - (float) GAP);
+    this.hazard.setPosition(
+        Window.getHalfWidth() - hazard.getSize() + GAP * 14,
+        Window.getHeight() - hazard.getHeight() - (float) GAP);
+    this.finish.setPosition(
+        Window.getHalfWidth() - finish.getSize() + GAP * 22,
+        Window.getHeight() - finish.getHeight() - (float) GAP);
   }
 
   @Override

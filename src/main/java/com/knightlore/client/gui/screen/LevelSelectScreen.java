@@ -145,7 +145,6 @@ public class LevelSelectScreen implements IScreen {
         jsonString.append(line);
       }
     } catch (Exception ignored) {
-      throw new IllegalStateException("Map does not exist");
     }
     return gson.fromJson(jsonString.toString(), LevelMap.class);
   }
@@ -169,14 +168,6 @@ public class LevelSelectScreen implements IScreen {
 
     @Override
     public boolean equals(Object obj) {
-      if (obj == null) {
-        return false;
-      }
-
-      if (this.getClass() != obj.getClass()) {
-        return false;
-      }
-
       return index == ((LevelDisplay) obj).getIndex();
     }
   }

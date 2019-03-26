@@ -65,30 +65,23 @@ public class GameScreen implements IScreen {
           new GameServer(UUID.randomUUID(), 1337, playerSessionId, gameModel, "Player 1");
       server.start();
 
-      com.knightlore.client.networking.backend.Client gameClient;
+      com.knightlore.client.networking.backend.Client gameClient = null;
       try {
         gameClient =
             new com.knightlore.client.networking.backend.Client(InetAddress.getLocalHost(), 1337);
       } catch (UnknownHostException e) {
-        Client.changeScreen(ClientState.SHOW_ERROR, false, "Error connecting to server");
-        return;
+        e.printStackTrace();
       }
       gameClient.run();
 
       GameConnection.instance = new GameConnection(gameClient, playerSessionId);
 
       // Wait for GameServer to instantiate
-      int timeout = 10;
-      int wait = 0;
       while (!GameConnection.instance.ready()) {
         try {
           TimeUnit.SECONDS.sleep(1);
-          wait++;
-
-          if (wait == timeout) {
-            Client.changeScreen(ClientState.SHOW_ERROR, false, "Connection timeout");
-          }
-        } catch (InterruptedException ignored) {
+        } catch (InterruptedException e) {
+          // Shouldn't happen
         }
       }
 
@@ -96,17 +89,10 @@ public class GameScreen implements IScreen {
       GameConnection.instance.startGame();
     }
 
-    int timeout = 10;
-    int wait = 0;
     while (GameConnection.gameModel == null) {
       try {
         TimeUnit.SECONDS.sleep(1);
-        wait++;
-
-        if (wait == timeout) {
-          Client.changeScreen(ClientState.SHOW_ERROR, false, "Connection timeout");
-        }
-      } catch (InterruptedException ignored) {
+      } catch (InterruptedException ex) {
       }
     }
 

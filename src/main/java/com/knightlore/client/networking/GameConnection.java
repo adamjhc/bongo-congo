@@ -3,20 +3,17 @@ package com.knightlore.client.networking;
 import com.google.gson.Gson;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.networking.backend.Client;
-import com.knightlore.client.networking.backend.PeriodicLocationUpdater;
+import com.knightlore.client.networking.backend.PeriodicStatusUpdater;
 import com.knightlore.client.networking.backend.ResponseHandler;
 import com.knightlore.client.networking.backend.responsehandlers.game.GameRegister;
-import com.knightlore.client.networking.backend.responsehandlers.server.GameRequest;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.entity.Player;
 import com.knightlore.networking.ApiKey;
 import com.knightlore.networking.PositionUpdate;
 import com.knightlore.networking.Sendable;
-import org.joml.Vector3f;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.util.Optional;
 import java.util.UUID;
 
 public class GameConnection {
@@ -32,7 +29,7 @@ public class GameConnection {
     public int playerIndex;
     public boolean gameCancelled;
 
-    public PeriodicLocationUpdater updater;
+    public PeriodicStatusUpdater updater;
 
     // Key already validated
     public GameConnection(Client client, String sessionKey) {
@@ -76,7 +73,7 @@ public class GameConnection {
         }
     }
 
-    public void updatePosition(){
+    public void updateStatus(){
         // Build up get session string
         Sendable sendable = new Sendable();
         sendable.setUuid();
@@ -86,7 +83,14 @@ public class GameConnection {
 
         Player player = GameConnection.gameModel.myPlayer();
 
-        PositionUpdate request = new com.knightlore.networking.PositionUpdate(player.getPosition(), this.sessionKey, player.getDirection(), player.getPlayerState());
+        PositionUpdate request = new com.knightlore.networking.PositionUpdate(
+                player.getPosition(),
+                this.sessionKey,
+                player.getDirection(),
+                player.getPlayerState(),
+                player.getScore()
+        );
+
         sendable.setData(gson.toJson(request));
 
         // Specify handler
@@ -136,6 +140,17 @@ public class GameConnection {
         Sendable sendable = new Sendable();
         sendable.setUuid();
         sendable.setFunction("ready");
+
+        try{
+            client.dos.writeObject(sendable);
+        }catch(IOException e){
+            System.out.println(e);
+        }
+    }
+
+    public void sendDeath(){
+        Sendable sendable = new Sendable();
+        sendable.setFunction("player_death");
 
         try{
             client.dos.writeObject(sendable);

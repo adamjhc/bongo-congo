@@ -181,6 +181,10 @@ public class Player extends Entity {
    * @author Jacqueline Henes
    */
   public void loseLife() {
+    if(GameConnection.instance != null){
+      GameConnection.instance.sendDeath();
+    }
+
     if (playerState != PlayerState.ROLLING) {
       lives -= 1;
       if (lives <= 0) {
@@ -193,5 +197,13 @@ public class Player extends Entity {
         setCooldown(START_ROLL_COOLDOWN);
       }
     }
+  }
+
+  public void decrementLives(){
+    this.lives --;
+  }
+
+  public void setScore(int score){
+    this.score = score;
   }
 }

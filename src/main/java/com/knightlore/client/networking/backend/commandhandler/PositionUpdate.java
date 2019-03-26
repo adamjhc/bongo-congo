@@ -13,9 +13,10 @@ public class PositionUpdate implements GenericHandler {
     com.knightlore.networking.PositionUpdate location =
         gson.fromJson(sendable.getData(), com.knightlore.networking.PositionUpdate.class);
 
-    System.out.println("Yeeters");
-
-    // Set state
+    // Update location
     GameConnection.gameModel.getPlayers().get(location.sessionId).setPosition(location.coordinates);
+
+    // Update score
+    GameConnection.gameModel.getPlayers().get(location.sessionId).setScore(location.score);
   }
 }

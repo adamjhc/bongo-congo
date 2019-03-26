@@ -28,11 +28,8 @@ public class Register extends Command {
 
     // Send register response
     Gson gson = new Gson();
-
     Sendable response = sendable.makeResponse();
-
-    GameRegisterResponse gameRegisterResponse =
-        new GameRegisterResponse(handler.server().getUUID());
+    GameRegisterResponse gameRegisterResponse = new GameRegisterResponse(handler.server().getUUID());
 
     response.setData(gson.toJson(gameRegisterResponse));
 

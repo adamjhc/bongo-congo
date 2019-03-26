@@ -5,5 +5,8 @@ public enum GameState {
   PLAYING,
   NEXT_LEVEL,
   SCORE,
-  WAITING_READY
+  WAITING_READY,
+  CLOSED,
+  FINISHED,
+  LEVEL_FINISHED
 }

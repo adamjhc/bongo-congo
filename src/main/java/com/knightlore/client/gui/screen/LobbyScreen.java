@@ -48,6 +48,8 @@ public class LobbyScreen implements IScreen {
       lobby.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
     	Audio.play(SELECT);
+          // Delete connection
+          GameConnection.instance.close();
         Client.changeScreen(ClientState.LOBBY_MENU, false);
       }
     } else lobby.getExit().setColour(Colour.YELLOW);
@@ -68,7 +70,7 @@ public class LobbyScreen implements IScreen {
     	lobby.refreshPlayers(game.getUsernames());
   	}
   	
-  	if (lobbyData.getIsCreator() || true) {
+  	if (lobbyData.getIsCreator()) {
   		if (checkPosition(lobby, lobby.getStart().getId())) {
   			lobby.getStart().setColour();
   			if (Mouse.isLeftButtonPressed() ) {
@@ -78,8 +80,8 @@ public class LobbyScreen implements IScreen {
   		} else lobby.getStart().setColour(Colour.YELLOW);
   	}
 
-  	if(GameConnection.gameModel != null && GameConnection.gameModel.getState() != GameState.LOBBY){
-        com.knightlore.client.Client.changeScreen(ClientState.GAME, true, GameConnection.gameModel);
+  	if(GameConnection.gameModel != null){
+        com.knightlore.client.Client.changeScreen(ClientState.GAME, true);
     }
   }
 

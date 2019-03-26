@@ -122,7 +122,7 @@ public class GameModel {
     if (myPlayer().getPlayerState() != PlayerState.ROLLING) {
         rollCountdown();
     }
-    
+
     if (getTileIndex(myPlayer().getPosition()) == 5) { // Checks for goal
       myPlayer().addToScore(10000);
       // TODO: Switch game state here
@@ -274,6 +274,14 @@ public class GameModel {
     if (playerCooldown != 0) {
       player.setCooldown(playerCooldown - 1);
     }
+  }
+
+  public boolean lastLevel(){
+    return this.currentLevelIndex == this.levels.size() -1;
+  }
+
+  public void incrementLevel(){
+    this.currentLevelIndex ++;
   }
 
   public Vector3f roundZ(Vector3f pos) {

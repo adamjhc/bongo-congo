@@ -15,6 +15,9 @@ public class PositionUpdate extends Command {
 
     // Update our model to reflect position change
     handler.model().getPlayers().get(newPosition.sessionId).setPosition(newPosition.coordinates);
+    handler.model().getPlayers().get(newPosition.sessionId).setScore(newPosition.score);
+    handler.model().getPlayers().get(newPosition.sessionId).setDirection(newPosition.direction);
+    handler.model().getPlayers().get(newPosition.sessionId).setPlayerState(newPosition.state);
 
     Sendable response = new Sendable();
     response.setFunction("position_update");

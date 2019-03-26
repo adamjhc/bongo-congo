@@ -22,6 +22,7 @@ public class GameServer extends Thread {
   String name;
   ArrayList<ClientHandler> clients;
   boolean running;
+  boolean lobby;
 
   GameModel model;
 
@@ -33,6 +34,7 @@ public class GameServer extends Thread {
     this.clients = new ArrayList<>();
     this.name = name;
     this.running = true;
+    this.lobby = true;
   }
 
   // Start new server
@@ -135,6 +137,7 @@ public class GameServer extends Thread {
     sendable.setFunction("start_game");
     sendable.setData(gson.toJson(startGame));
 
+    this.lobby = false;
     sendToRegistered(sendable);
   }
 
@@ -174,5 +177,9 @@ public class GameServer extends Thread {
 
     running = false;
     this.interrupt();
+  }
+
+  public boolean inLobby(){
+    return this.lobby;
   }
 }

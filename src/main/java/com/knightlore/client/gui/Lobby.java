@@ -7,26 +7,54 @@ import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Window;
 import java.util.ArrayList;
 
+/**
+ * Multiplayer lobby screen
+ * 
+ * @author Joseph
+ *
+ */
 public class Lobby implements IGui {
 
-  private static final int SEPARATOR_TOP_POS = 185;
+	/** Position of the top separator line */
+	private static final int SEPARATOR_TOP_POS = 185;
+	/** Position of the bottom separator line */
   private static final int SEPARATOR_BOT_POS = 200;
+  /** Gap between each line of text */
   private static final int SEPARATOR_GAP = FONT_SIZE_SMALL;
 
+  /** Bongo text */
   private final TextObject bongo;
+  /** Congo text */
   private final TextObject congo;
+  /** Lobby text */
   private final TextObject lobby;
+  /** Top separator line text */
   private final TextObject separatorTop;
+  /** Bottom separator line text */
   private final TextObject separatorBot;
+  /** Exit screen text */
   private final TextObject exit;
+  /** Start game text */
   private final TextObject start;
+  /** Number of gui objects initially */
   private int length;
+  
+  /** List of players */
   private ArrayList<TextObject> players;
+  /** List of gui objects */
   private GuiObject[] guiObjects;
+  /** List of text objects */
   private TextObject[] textObjects;
 
+  /** Position of the next gui object */
   private int yPos = SEPARATOR_TOP_POS - GAP;
 
+  /**
+   * Create gui objects
+   * 
+   * @author Joseph
+   * 
+   */
   public Lobby() {
     this.bongo = new TextObject("Bongo", TITLE);
     this.bongo.setColour(Colour.LIGHT_BLUE);
@@ -59,10 +87,24 @@ public class Lobby implements IGui {
     textObjects = new TextObject[] {exit, start};
   }
 
+  /**
+   * Sets the name of the lobby
+   * 
+   * @param name The lobby name
+   * @author Joseph
+   * 
+   */
   public void setLobbyName(String name) {
     this.lobby.setText(name);
   }
 
+  /**
+   * Refreshes to show the players who are currently in the lobby
+   * 
+   * @param players
+   * @author Joseph
+   * 
+   */
   public void refreshPlayers(ArrayList<String> players) {
     yPos = SEPARATOR_TOP_POS - GAP;
 
@@ -90,6 +132,12 @@ public class Lobby implements IGui {
     addPlayers();
   }
 
+  /**
+   * Adds players to the list of gui objects 
+   * 
+   * @author Joseph
+   * 
+   */
   public void addPlayers() {
     GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length + players.size()];
     System.arraycopy(guiObjects, 0, guiObjectsNew, 0, guiObjects.length);
@@ -98,7 +146,14 @@ public class Lobby implements IGui {
     }
     guiObjects = guiObjectsNew.clone();
   }
-
+  
+  /**
+   * Updates the position of the gui objects
+   * 
+   * @param includeStart Whether start is displayed or not
+   * @author Joseph
+   * 
+   */
   public void updateSize(boolean includeStart) {
     this.bongo.setPosition(
         Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
@@ -125,11 +180,25 @@ public class Lobby implements IGui {
           Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 1);
     }
   }
-
+  
+  /**
+   * Returns start
+   * 
+   * @return start
+   * @author Joseph
+   * 
+   */
   public TextObject getStart() {
     return start;
   }
 
+  /**
+   * Returns exit
+   * 
+   * @return Exit
+   * @author Joseph
+   * 
+   */
   public TextObject getExit() {
     return exit;
   }

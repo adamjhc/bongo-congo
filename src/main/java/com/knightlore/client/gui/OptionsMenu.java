@@ -7,32 +7,65 @@ import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Window;
 
+/**
+ * Screen that allows you to change various options
+ * in the game 
+ * 
+ * @author Joseph
+ *
+ */
 public class OptionsMenu implements IGui {
 
+	/** Position of the top separator line */
   private static final int SEPARATOR_TOP_POS = 185;
+  /** Position of the bottom separator line */
   private static final int SEPARATOR_BOT_POS = 200;
+  /** Gap between each line of text */
   private static final int SEPARATOR_GAP = FONT_SIZE_SMALL;
 
+  /** Maximum volume value */
   private static final int MAX_VOLUME = 100;
 
+  /** Increase volume text */
   private final TextObject incVolume;
+  /** Decrease volume text */
   private final TextObject decVolume;
+  /** Current volume text */
   private final TextObject volume;
+  /** Exit screen text */
   private final TextObject exit;
+  /** Is the game fullscreen */
   private final TextObject isFullscreen;
+  /** Bongo text */
   private final TextObject bongo;
+  /** Congo text */ 
   private final TextObject congo;
+  /** Options title text */
   private final TextObject options;
+  /** Top separator line text */
   private final TextObject separatorTop;
+  /** Bottom separator line text */
   private final TextObject separatorBot;
+  /** Music volume title text */
   private final TextObject musicVolume;
+  /** Fullscreen title text */
   private final TextObject fullScreen;
+  /** Mute audio title text */
   private final TextObject mute;
+  /** Is the audio muted */
   private final TextObject isMute;
-
+  
+  /** List of gui objects */
   private GuiObject[] guiObjects;
+  /** List of text objects */
   private TextObject[] textObjects;
 
+  /**
+   * Create gui objects
+   * 
+   * @author Joseph
+   * 
+   */
   public OptionsMenu() {
     this.bongo = new TextObject("Bongo", TITLE);
     this.bongo.setColour(Colour.LIGHT_BLUE);
@@ -96,6 +129,12 @@ public class OptionsMenu implements IGui {
     textObjects = new TextObject[] {incVolume, decVolume, exit, isFullscreen, isMute};
   }
 
+  /**
+   * Increase the volume 
+   * 
+   * @author Joseph
+   * 
+   */
   public void incVolume() {
     int volumeAmount = Integer.parseInt(this.volume.getText());
     if (volumeAmount < MAX_VOLUME) volumeAmount++;
@@ -103,6 +142,12 @@ public class OptionsMenu implements IGui {
     this.volume.setColour(Colour.YELLOW);
   }
 
+  /**
+   * Decrease the volume
+   * 
+   * @author Joseph
+   * 
+   */
   public void decVolume() {
     int volumeAmount = Integer.parseInt(this.volume.getText());
     if (volumeAmount > 0) volumeAmount--;
@@ -110,6 +155,12 @@ public class OptionsMenu implements IGui {
     this.volume.setColour(Colour.YELLOW);
   }
 
+  /**
+   * Set the game to be fullscreen
+   * 
+   * @author Joseph
+   * 
+   */
   public void setFullscreen() {
     if (this.isFullscreen.getText() == "Off") this.isFullscreen.setText("On");
     else this.isFullscreen.setText("Off");
@@ -117,33 +168,80 @@ public class OptionsMenu implements IGui {
 
     Window.setFullscreen();
   }
-
+  
+  /**
+   * Set the audio to be muted
+   * 
+   * @author Joseph
+   * 
+   */
   public void setMute() {
     if (Audio.isOn()) this.isMute.setText("Off");
     else this.isMute.setText("On");
     this.isMute.setPositionY(Window.getHalfWidth() - isMute.getSize() / 2);
   }
 
+  /**
+   * Return volume increase
+   * 
+   * @return IncVolume
+   * @author Joseph
+   * 
+   */
   public TextObject getIncVolume() {
     return incVolume;
   }
 
+  /**
+   * Return volume decrease
+   * 
+   * @return DecVolume
+   * @author Joseph
+   * 
+   */
   public TextObject getDecVolume() {
     return decVolume;
   }
 
+  /**
+   * Return exit
+   * 
+   * @return Exit
+   * @author Joseph
+   * 
+   */
   public TextObject getExit() {
     return exit;
   }
 
+  /**
+   * Return is fullscreen enabled
+   * 
+   * @return IsFullscreen
+   * @author Joseph
+   * 
+   */
   public TextObject getIsFullscreen() {
     return isFullscreen;
   }
 
+  /**
+   * Return is audio muted
+   * 
+   * @return IsMute
+   * @author Joseph
+   * 
+   */
   public TextObject getIsMute() {
     return isMute;
   }
 
+  /**
+   * Updates the position of the gui objects
+   * 
+   * @author Joseph
+   * 
+   */
   public void updateSize() {
     this.bongo.setPosition(
         Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);

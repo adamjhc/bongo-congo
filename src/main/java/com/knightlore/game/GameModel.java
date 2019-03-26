@@ -1,5 +1,7 @@
 package com.knightlore.game;
 
+import static org.joml.Math.round;
+
 import com.knightlore.client.audio.Audio;
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.networking.GameConnection;
@@ -7,34 +9,30 @@ import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.LevelMap;
+import com.knightlore.game.util.CoordinateUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
-import com.knightlore.game.map.Tile;
-import com.knightlore.game.util.CoordinateUtils;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
-import static org.joml.Math.round;
-
 public class GameModel {
 
-    private static final int NUMBER_OF_LEVELS = 3;
-    private static final float ROLL_SPEED = 1.5f;
-    private static final int ROLL_COOLDOWN = 150;
+  private static final int NUMBER_OF_LEVELS = 3;
+  private static final float ROLL_SPEED = 1.5f;
+  private static final int ROLL_COOLDOWN = 150;
 
-    private String uuid;
+  private String uuid;
 
-    private GameState currentState;
-    private Integer currentLevelIndex;
-    private ArrayList<Level> levels;
+  private GameState currentState;
+  private Integer currentLevelIndex;
+  private ArrayList<Level> levels;
 
-    private Map<String, Player> players;
-    private int playerIdInc;
-    private List<Vector4f> playerColours;
+  private Map<String, Player> players;
+  private int playerIdInc;
+  private List<Vector4f> playerColours;
 
   private int accumulator = 0;
 
@@ -120,7 +118,7 @@ public class GameModel {
     }
 
     if (myPlayer().getPlayerState() != PlayerState.ROLLING) {
-        rollCountdown();
+      rollCountdown();
     }
 
     if (getTileIndex(myPlayer().getPosition()) == 5) { // Checks for goal
@@ -128,12 +126,13 @@ public class GameModel {
       // TODO: Switch game state here
     }
 
-    if (getTileIndex(myPlayer().getPosition()) == 4 && myPlayer().getPlayerState() != PlayerState.ROLLING && myPlayer().getPlayerState() != PlayerState.DEAD) {
+    if (getTileIndex(myPlayer().getPosition()) == 4
+        && myPlayer().getPlayerState() != PlayerState.ROLLING
+        && myPlayer().getPlayerState() != PlayerState.DEAD) {
       Audio.play(Audio.AudioName.SOUND_HIT);
       delay(100);
       myPlayer().loseLife();
     }
-
 
     // Player updates
     switch (myPlayer().getPlayerState()) {
@@ -205,7 +204,9 @@ public class GameModel {
     }
   }
 
-  public void serverUpdate() {}
+  public void serverUpdate(float delta) {
+
+  }
 
   public void addPlayer(String uuid) {
     Vector4f playerColour = playerColours.get(new Random().nextInt(playerColours.size()));
@@ -241,20 +242,22 @@ public class GameModel {
     player.update(origPos, newPos, getCurrentLevel().getLevelMap());
   }
 
-    /**
-     * Updates the current client's Player PlayerState
-     * @param state
-     * */
+  /**
+   * Updates the current client's Player PlayerState
+   *
+   * @param state
+   */
   private void updatePlayerState(PlayerState state) {
     myPlayer().setPlayerState(state);
   }
 
-    /**
-     * Helper method for game physics related animations in the update loop
-     * 'Pauses' the player for a set delay, allowing animations to play out
-     * @param target delay in milliseconds
-     * @author Jacqui Henes
-     */
+  /**
+   * Helper method for game physics related animations in the update loop 'Pauses' the player for a
+   * set delay, allowing animations to play out
+   *
+   * @param target delay in milliseconds
+   * @author Jacqui Henes
+   */
   private void delay(long target) {
     long start = System.nanoTime() / 1000000;
     long difference = 0;
@@ -264,10 +267,11 @@ public class GameModel {
     }
   }
 
-    /**
-     * Decrements the cooldown for Player rolling
-     * @author Jacqui Henes
-     */
+  /**
+   * Decrements the cooldown for Player rolling
+   *
+   * @author Jacqui Henes
+   */
   private void rollCountdown() {
     Player player = myPlayer();
     int playerCooldown = player.getCooldown();
@@ -276,12 +280,12 @@ public class GameModel {
     }
   }
 
-  public boolean lastLevel(){
-    return this.currentLevelIndex == this.levels.size() -1;
+  public boolean lastLevel() {
+    return this.currentLevelIndex == this.levels.size() - 1;
   }
 
-  public void incrementLevel(){
-    this.currentLevelIndex ++;
+  public void incrementLevel() {
+    this.currentLevelIndex++;
   }
 
   public Vector3f roundZ(Vector3f pos) {
@@ -292,7 +296,5 @@ public class GameModel {
 
   public int getTileIndex(Vector3f coords) {
     return getCurrentLevel().getLevelMap().getTile(CoordinateUtils.getTileCoord(coords)).getIndex();
-
   }
-
 }

@@ -12,6 +12,7 @@ public enum ClientState {
   OPTIONS_MENU,
   LOBBY,
   GAME,
+  GAME_CLOSED,
   END,
   SHOW_ERROR,
 }

@@ -25,11 +25,5 @@ public class GameList implements GenericHandler {
 
         LobbyCache.instance.setGames(data);
 
-        // TODO replace with listener
-        for(ListGameObject game : LobbyCache.instance.getGames()){
-            System.out.println("---------------");
-            System.out.println("PORT: " + game.getPort());
-            System.out.println("---------------");
-        }
     }
 }

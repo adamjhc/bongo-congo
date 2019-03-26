@@ -1,5 +1,6 @@
 package com.knightlore.game.server.commandhandler;
 
+import com.knightlore.game.entity.Player;
 import com.knightlore.game.server.ClientHandler;
 import com.knightlore.networking.Sendable;
 
@@ -20,6 +21,16 @@ public class Factory {
     }
     if (sendable.getFunction().equals("ready")) {
       Ready handler = new Ready();
+      handler.run(clientHandler, sendable);
+    }
+
+    if (sendable.getFunction().equals("level_complete")) {
+      LevelComplete handler = new LevelComplete();
+      handler.run(clientHandler, sendable);
+    }
+
+    if (sendable.getFunction().equals("player_death")) {
+      PlayerDeath handler = new PlayerDeath();
       handler.run(clientHandler, sendable);
     }
   }

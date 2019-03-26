@@ -24,8 +24,11 @@ import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;
 import com.knightlore.client.render.LevelEditorRenderer;
 import com.knightlore.game.GameModel;
+import com.knightlore.game.Level;
 import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.TileType;
+import java.util.ArrayList;
+import java.util.List;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
@@ -100,7 +103,6 @@ public class LevelEditorScreen implements IScreen {
     WIDTH = editorMap.getTiles()[0][0].length;
     LENGTH = editorMap.getTiles()[0].length;
     HEIGHT = editorMap.getTiles().length;
-    gameModel = new GameModel("");
     currentTileX = 0;
     currentTileY = 0;
     currentTileZ = 0;
@@ -182,15 +184,11 @@ public class LevelEditorScreen implements IScreen {
         currentTileZ -= 1;
       }
     } else if (Keyboard.isKeyReleased(GLFW_KEY_ENTER)) {
+      Client.showLoadingScreen();
       editorMap.resetRotation();
-      try {
-        gameModel.overwriteCurrentLevel(editorMap);
-      } catch (Exception e) {
-        gameModel.createNewLevel(editorMap);
-      } finally {
-        gameModel.addPlayer("1");
-        Client.changeScreen(ClientState.TESTING_LEVEL, true, gameModel);
-      }
+      List<Level> levelList = new ArrayList<>();
+      levelList.add(new Level(editorMap));
+      Client.changeScreen(ClientState.TESTING_LEVEL, true, levelList);
     } else if (Keyboard.isKeyReleased(GLFW_KEY_COMMA)) {
       editorMap.rotate(true);
     } else if (Keyboard.isKeyReleased(GLFW_KEY_PERIOD)) {

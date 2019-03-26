@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import com.knightlore.game.map.Tile;
 import com.knightlore.game.util.CoordinateUtils;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -124,13 +123,9 @@ public class GameModel {
     
     if (getTileIndex(myPlayer().getPosition()) == 5) { // Checks for goal
       myPlayer().addToScore(10000);
-      // TODO: Switch game state here
+      // TODO: move to next level
     }
 
-    if (getTileIndex(myPlayer().getPosition()) == 4 && myPlayer().getPlayerState() != PlayerState.ROLLING) {
-      delay(100);
-      myPlayer().loseLife();
-    }
 
 
     // Player updates
@@ -189,18 +184,27 @@ public class GameModel {
           if (top.z < 0) {
             top.z = 0;
           }
+          System.out.println("TOP:" + top );
           player.setPosition(top);
           delay(5);
         } else {
           // Reset player
-          delay(100);
-          player.setPosition(player.setPadding(player.getPosition()));
+          player.setPosition(top);
+          delay(200);
           player.loseLife();
         }
         break;
       case DEAD:
         break;
     }
+    if (getTileIndex(myPlayer().getPosition()) == 4
+            && myPlayer().getPlayerState() != PlayerState.ROLLING
+            && myPlayer().getPlayerState() != PlayerState.FALLING) {
+      delay(200);
+      myPlayer().loseLife();
+    }
+
+    myPlayer().setClimbFlag(false);
   }
 
   public void serverUpdate() {}

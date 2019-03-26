@@ -151,6 +151,10 @@ public class Player extends Entity {
         addToScore(10000);
         setPosition(newPos);
         // TODO: Switch game state here
+
+        if(GameConnection.instance != null){
+          GameConnection.instance.sendLevelComplete();
+        }
       }
 
       // TODO: Enemy collisions

@@ -50,15 +50,11 @@ public class LevelSelectRenderer extends Renderer {
   }
 
   public void render(LevelMap selectedMap, IGui gui) {
-    clearBuffers();
-
     if (selectedMap != null) {
       renderMap(selectedMap);
     }
 
-    guiRenderer.renderGui(gui);
-
-    Window.swapBuffers();
+    guiRenderer.render(gui);
   }
 
   private void renderMap(LevelMap levelMap) {

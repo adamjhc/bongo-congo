@@ -2,6 +2,9 @@ package com.knightlore.client;
 
 import static com.knightlore.client.util.GuiUtils.registerFont;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.glClear;
 
 import com.knightlore.client.audio.Audio;
 import com.knightlore.client.gui.Loading;
@@ -129,7 +132,9 @@ public class Client {
         accumulator -= interval;
       }
 
+      clearBuffers();
       currentScreen.render();
+      Window.swapBuffers();
     }
   }
 
@@ -144,5 +149,14 @@ public class Client {
     Window.destroyWindow();
 
     glfwTerminate();
+  }
+
+  /**
+   * Clear buffer
+   *
+   * @author Adam Cox
+   */
+  private static void clearBuffers() {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   }
 }

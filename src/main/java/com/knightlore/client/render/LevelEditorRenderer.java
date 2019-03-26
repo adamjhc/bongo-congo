@@ -60,12 +60,8 @@ public class LevelEditorRenderer extends Renderer {
   }
 
   public void render(LevelMap levelMap, LevelEditorHud hud) {
-    clearBuffers();
-
     renderMap(levelMap);
-    hudRenderer.renderGui(hud);
-
-    Window.swapBuffers();
+    hudRenderer.render(hud);
   }
 
   private void renderMap(LevelMap levelMap) {

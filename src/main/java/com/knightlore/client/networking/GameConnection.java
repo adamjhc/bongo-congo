@@ -3,6 +3,7 @@ package com.knightlore.client.networking;
 import com.google.gson.Gson;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.networking.backend.Client;
+import com.knightlore.client.networking.backend.PeriodicLocationUpdater;
 import com.knightlore.client.networking.backend.ResponseHandler;
 import com.knightlore.client.networking.backend.responsehandlers.game.GameRegister;
 import com.knightlore.client.networking.backend.responsehandlers.server.GameRequest;
@@ -29,6 +30,8 @@ public class GameConnection {
 
     public int playerIndex;
     public boolean gameCancelled;
+
+    public PeriodicLocationUpdater updater;
 
     // Key already validated
     public GameConnection(Client client, String sessionKey) {

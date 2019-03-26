@@ -115,6 +115,7 @@ public class GameServer extends Thread {
     try {
       for (ClientHandler registered : this.registeredClients()) {
         if (!registered.sessionKey.get().equals(ownSessionKey)) {
+          System.out.println("Sending to " + registered.sessionKey.get());
           registered.dos.writeObject(sendable);
         }
       }

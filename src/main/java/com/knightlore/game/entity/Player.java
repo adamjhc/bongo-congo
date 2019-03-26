@@ -128,9 +128,6 @@ public class Player extends Entity {
       } else if (newTile.getIndex() == 2) { // Checks if tile is a blocking tile
         setPosition(oldPos);
       } else { // Sets new position
-        if (GameConnection.instance != null) {
-          GameConnection.instance.updatePosition(position);
-        }
         setPosition(newPos);
       }
 

@@ -24,6 +24,7 @@ public class ClientReceiver extends Thread{
 
         while (true) {
             try {
+                System.out.println("WAITING FOR MESSAGE");
                 received = (Sendable) dis.readObject();
                 System.out.println(received.getFunction());
 

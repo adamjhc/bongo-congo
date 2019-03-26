@@ -25,16 +25,27 @@ import org.joml.Vector3i;
 
 public class LevelSelectScreen implements IScreen {
 
+  /** File path to maps */
   private static final String MAP_FILE_PATH = "customMaps/playable";
 
+  /** Renderer used for rendering map preview and gui elements */
   private LevelSelectRenderer levelSelectRenderer;
 
+  /** Collection of selected levels */
   private Collection<LevelDisplay> selectedLevels;
 
+  /** Selected map for preview */
   private LevelMap selectedMap;
 
+  /** GUI elements for screen */
   private LevelSelectMenu levelSelectMenu;
 
+  /**
+   * Initialise LevelSelectScreen
+   *
+   * @param levelSelectRenderer renderer used for screen
+   * @author Adam Cox
+   */
   public LevelSelectScreen(LevelSelectRenderer levelSelectRenderer) {
     this.levelSelectRenderer = levelSelectRenderer;
 
@@ -67,7 +78,7 @@ public class LevelSelectScreen implements IScreen {
     if (checkPosition(levelSelectMenu, levelSelectMenu.getStart().getId())) {
       levelSelectMenu.getStart().setColour();
       if (Mouse.isLeftButtonPressed() && selectedLevels.size() == 3) {
-        List<Level> levelList = getLevelsFromFile();
+        List<Level> levelList = getSelectedLevelsFromFile();
         Client.changeScreen(ClientState.GAME, true, levelList);
         return;
       }
@@ -113,7 +124,8 @@ public class LevelSelectScreen implements IScreen {
           selectedMap = getMap(levelSelectMenu.getLevel(i).getId());
           levelSelectRenderer.setWorldScale(60);
           Vector3i mapSize = selectedMap.getSize();
-          levelSelectRenderer.setCameraPosition(new Vector3f(-mapSize.y, (mapSize.x + mapSize.z) / 2f, 0));
+          levelSelectRenderer.setCameraPosition(
+              new Vector3f(-mapSize.y, (mapSize.x + mapSize.z) / 2f, 0));
         }
       } else {
         if (selectedLevels.contains(new LevelDisplay(i))) {
@@ -150,13 +162,26 @@ public class LevelSelectScreen implements IScreen {
     levelSelectMenu.cleanup();
   }
 
-  private List<Level> getLevelsFromFile() {
+  /**
+   * Gets a list of Level objects based on the selected maps
+   *
+   * @return list of level objects based on the selected maps
+   * @author Adam Cox
+   */
+  private List<Level> getSelectedLevelsFromFile() {
     List<Level> levelList = new ArrayList<>();
     selectedLevels.forEach(
         levelDisplay -> levelList.add(new Level(getMap(levelDisplay.getLevelName()))));
     return levelList;
   }
 
+  /**
+   * Gets the LevelMap from file
+   *
+   * @param levelName Name of the level
+   * @return LevelMap object
+   * @author Adam Cox
+   */
   private LevelMap getMap(String levelName) {
     File levelFile = new File(MAP_FILE_PATH + "/" + levelName);
     GsonBuilder builder = new GsonBuilder();
@@ -174,23 +199,53 @@ public class LevelSelectScreen implements IScreen {
     return gson.fromJson(jsonString.toString(), LevelMap.class);
   }
 
+  /** Used to display levels in the list */
   private class LevelDisplay {
+
+    /** Name of level */
     String levelName;
+
+    /** Index of level on display */
     int index;
 
+    /**
+     * Initialise LevelDisplay
+     *
+     * @param index Index of map
+     * @author Adam Cox
+     */
     LevelDisplay(int index) {
       this.index = index;
     }
 
+    /**
+     * Initialise LevelDisplay with level name
+     *
+     * @param index Index of map
+     * @param levelName Level name
+     * @author Adam Cox
+     */
     LevelDisplay(int index, String levelName) {
       this.levelName = levelName;
       this.index = index;
     }
 
-    public String getLevelName() {
+    /**
+     * Get Level name
+     *
+     * @return Level name
+     * @author Adam Cox
+     */
+    String getLevelName() {
       return levelName;
     }
 
+    /**
+     * Get level index
+     *
+     * @return level index
+     * @author Adam Cox
+     */
     public int getIndex() {
       return index;
     }

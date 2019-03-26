@@ -85,6 +85,7 @@ public class LoadLevelScreen implements IScreen {
           Client.changeScreen(
               ClientState.LEVEL_EDITOR, false, getMap(unfinishedFilePath + "/" + currentLevelName));
         }
+        return;
       }
     } else loadLevelMenu.getLoad().setColour(Colour.YELLOW);
 
@@ -93,6 +94,7 @@ public class LoadLevelScreen implements IScreen {
       if (Mouse.isLeftButtonPressed()) {
         Audio.play(SELECT);
         Client.changeScreen(ClientState.PRE_EDITOR, false);
+        return;
       }
     } else loadLevelMenu.getBack().setColour(Colour.YELLOW);
 

@@ -24,9 +24,7 @@ public class TestingLevelScreen extends GameScreen {
     super(gameRenderer, timer);
   }
 
-  /**
-   * Method to process keyboard input during the level test
-   */
+  /** Method to process keyboard input during the level test */
   @Override
   public void input() {
 	GameModel gameModel = GameConnection.gameModel;

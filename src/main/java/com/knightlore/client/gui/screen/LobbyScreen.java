@@ -13,12 +13,11 @@ import com.knightlore.client.io.Mouse;
 import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.networking.LobbyCache;
 import com.knightlore.client.render.GuiRenderer;
-import com.knightlore.game.GameState;
 import com.knightlore.networking.ListGameObject;
 import java.util.Collection;
 
 public class LobbyScreen implements IScreen {
-	
+
   private static final AudioName SELECT = AudioName.SOUND_MENUSELECT;
 
   private GuiRenderer guiRenderer;
@@ -47,41 +46,41 @@ public class LobbyScreen implements IScreen {
     if (checkPosition(lobby, lobby.getExit().getId())) {
       lobby.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
-          // Delete connection
-          GameConnection.instance.close();
+        Audio.play(SELECT);
+        // Delete connection
+        GameConnection.instance.close();
         Client.changeScreen(ClientState.LOBBY_MENU, false);
       }
     } else lobby.getExit().setColour(Colour.YELLOW);
   }
-  
+
   @Override
   public void update(float delta) {
-  	Collection<ListGameObject> games = LobbyCache.instance.getGames();
-  	for (ListGameObject game : games) {
-  		if (game.getUuid() == this.game.getUuid()) {
-  			this.game = game;
-  			break;
-  		}
-  	}
-  	
-  	if (lobbyData.getGame() != null) {
-  		lobby.setLobbyName(game.getName());
-    	lobby.refreshPlayers(game.getUsernames());
-  	}
-  	
-  	if (lobbyData.getIsCreator()) {
-  		if (checkPosition(lobby, lobby.getStart().getId())) {
-  			lobby.getStart().setColour();
-  			if (Mouse.isLeftButtonPressed() ) {
-  				Audio.play(SELECT);
-                GameConnection.instance.startGame();
-  			}
-  		} else lobby.getStart().setColour(Colour.YELLOW);
-  	}
+    Collection<ListGameObject> games = LobbyCache.instance.getGames();
+    for (ListGameObject game : games) {
+      if (game.getUuid() == this.game.getUuid()) {
+        this.game = game;
+        break;
+      }
+    }
 
-  	if(GameConnection.gameModel != null){
-        com.knightlore.client.Client.changeScreen(ClientState.GAME, true);
+    if (lobbyData.getGame() != null) {
+      lobby.setLobbyName(game.getName());
+      lobby.refreshPlayers(game.getUsernames());
+    }
+
+    if (lobbyData.getIsCreator()) {
+      if (checkPosition(lobby, lobby.getStart().getId())) {
+        lobby.getStart().setColour();
+        if (Mouse.isLeftButtonPressed()) {
+          Audio.play(SELECT);
+          GameConnection.instance.startGame();
+        }
+      } else lobby.getStart().setColour(Colour.YELLOW);
+    }
+
+    if (GameConnection.gameModel != null) {
+      com.knightlore.client.Client.changeScreen(ClientState.GAME, true);
     }
   }
 

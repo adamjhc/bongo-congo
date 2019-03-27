@@ -5,13 +5,13 @@ import com.knightlore.game.GameModel;
 import com.knightlore.game.GameState;
 import com.knightlore.networking.GameStart;
 import com.knightlore.networking.Sendable;
-import com.knightlore.server.game.GameRepository;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -36,18 +36,18 @@ public class GameServer extends Thread {
   }
 
   // Start new server
+  @Override
   public void run() {
     // Spin up server
     // server is listening on port 5056
-    try {
-      ServerSocket ss = new ServerSocket(this.socket);
-
+    try (ServerSocket serverSocket = new ServerSocket(this.socket)) {
       // Capture new clients
       while (running) {
         Socket s = null;
         try {
           // socket object to receive incoming com.knightlore.server.client requests
-          s = ss.accept();
+          serverSocket.setSoTimeout(1000);
+          s = serverSocket.accept();
 
           System.out.println("A new client is connected : " + s);
 
@@ -66,6 +66,8 @@ public class GameServer extends Thread {
           // Add to client bank
           this.clients.add(t);
 
+        } catch (SocketTimeoutException e) {
+          // loop back round
         } catch (Exception e) {
           // If an error occurs, close
           s.close();
@@ -150,10 +152,10 @@ public class GameServer extends Thread {
     return this.name;
   }
 
-  public boolean allReady(){
+  public boolean allReady() {
     boolean ready = true;
-    for(ClientHandler each : this.clients){
-      if(!each.ready){
+    for (ClientHandler each : this.clients) {
+      if (!each.ready) {
         ready = false;
       }
     }
@@ -161,8 +163,8 @@ public class GameServer extends Thread {
     return ready;
   }
 
-  public void close(){
-    for(ClientHandler client: this.clients){
+  public void close() {
+    for (ClientHandler client : this.clients) {
       // Send close
       Sendable sendable = new Sendable();
       sendable.setFunction("game_close");

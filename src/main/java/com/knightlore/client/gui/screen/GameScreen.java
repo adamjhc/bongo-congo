@@ -195,7 +195,7 @@ public class GameScreen implements IScreen {
     int countDownTime = 5;
     int countDownLeft = countDownTime + 1 - Math.round(countDown);
     if (gameModel.getCurrentLevelIndex() > 0) {
-      countDownLeft += 1;
+      countDownLeft += 0;
     }
     if (countDownLeft <= 0) countDownLeft = 0;
     if (countDownLeft <= countDownTime && countDownLeft > 0) hud.getCountDown().setRender(true);
@@ -248,7 +248,11 @@ public class GameScreen implements IScreen {
     }
 
     if (gameModel.getState() == GameState.NEXT_LEVEL) {
+    	System.out.println("NEXT LEVEL DETECTED");
       gameRenderer.init(gameModel);
+      hud.setLevel(gameModel.getCurrentLevelIndex());
+      timer.resetStartTime();
+      this.countDown.setStartTime();
     }
 
     gameModel.clientUpdate(delta, playerInputDirection);
@@ -258,12 +262,6 @@ public class GameScreen implements IScreen {
       System.out.println("DETECT END");
       Client.changeScreen(ClientState.END, false, gameModel.getPlayers().values());
       return;
-    }
-
-    if (gameModel.getState() == GameState.NEXT_LEVEL) {
-      System.out.println("NEXT LEVEL DETECTED");
-      hud.setLevel(gameModel.getCurrentLevelIndex());
-      timer.resetStartTime();
     }
   }
 

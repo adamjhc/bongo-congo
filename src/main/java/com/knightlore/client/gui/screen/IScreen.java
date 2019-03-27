@@ -2,50 +2,62 @@ package com.knightlore.client.gui.screen;
 
 import com.knightlore.client.ClientState;
 
+/**
+ * Interface for screens
+ * 
+ * @author Adam C
+ *
+ */
 public interface IScreen {
 
-  /**
-   * Initialisation of screen
-   *
-   * @param args Variable arguments passed from previous screen
-   * @author Adam Cox
-   */
+	/**
+	 * initialise values when the screen starts
+	 * 
+	 * @param args List of objects passed in on start up
+	 * @author Adam C
+	 * 
+	 */
   default void startup(Object... args) {}
 
   /**
-   * Input handling of screen
-   *
-   * @author Adam Cox
+   * Check for user input
+   * 
+   * @author Adam C
+   * 
    */
   default void input() {}
 
   /**
-   * Update screen
-   *
-   * @param delta Amount of time passed since last update
-   * @author Adam Cox
+   * Update the screen
+   * 
+   * @param delta Delta time
+   * @author Adam C
+   * 
    */
   default void update(float delta) {}
 
   /**
-   * Render screen
-   *
-   * @author Adam Cox
+   * Render the screen
+   * 
+   * @author Adam C
+   * 
    */
   default void render() {}
 
   /**
-   * De-constructor of screen
-   *
-   * @param nextScreen Screen next showing
-   * @author Adam Cox
+   * Reset values when screen shutdown 
+   * 
+   * @param nextScreen The next screen to display once shutdown
+   * @author Adam C
+   * 
    */
   default void shutdown(ClientState nextScreen) {}
 
   /**
-   * Clean up of memory allocated objects
-   *
-   * @author Adam Cox
+   * Cleanup gui
+   * 
+   * @author Adam C
+   * 
    */
   void cleanUp();
 }

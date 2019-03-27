@@ -36,38 +36,40 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Handles the game screen startup, input, updates, rendering and cleanup
+ * 
+ * @author Joseph, Adam C, Lewis
+ *
+ */
 public class GameScreen implements IScreen {
 
-  /** Direction player has inputted to move */
+	/** Input direction */
   Direction playerInputDirection;
 
-  /** Gui elements */
+  /** Head up display */
   Hud hud;
-
-  /** Timer used for count down */
+  /** Level start counter */
   Timer countDown;
-
-  /** Timer used for game time */
+  /** level duration counter */
   Timer timer;
-
-  /** Renderer used for rendering the game */
+  /** Game renderer */
   GameRenderer gameRenderer;
-
-  /** Renderer used for rendering gui elements */
+  /** Gui renderer */
   private GuiRenderer guiRenderer;
-
-  /** GameServer reference used in singleplayer */
+  /** Game server */
   private GameServer gameServer;
-
-  /** GameClient reference used in singleplayer */
+  /** Client */
   private com.knightlore.client.networking.backend.Client gameClient;
 
   /**
-   * Initialise GameScreen
-   *
-   * @param guiRenderer renderer used for rendering gui elements
-   * @param gameRenderer renderer used for rendering the game
-   * @param timer Timer used for game time
+   * Initialise renderers, timer and gui
+   * 
+   * @param guiRenderer The gui renderer
+   * @param gameRenderer The game renderer
+   * @param timer The game timer
+   * @author Joseph
+   * 
    */
   public GameScreen(GuiRenderer guiRenderer, GameRenderer gameRenderer, Timer timer) {
     this.guiRenderer = guiRenderer;
@@ -296,9 +298,11 @@ public class GameScreen implements IScreen {
   }
 
   /**
-   * Gets the direction the user has inputted to move the player in
-   *
-   * @return Direction enum to move in
+   * Return the current input direction
+   * 
+   * @return Direction
+   * @author Adam C
+   * 
    */
   Direction getPlayerInputDirection() {
     if (Keyboard.isKeyPressed(GLFW_KEY_W) // Player presses W

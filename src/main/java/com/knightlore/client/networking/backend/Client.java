@@ -29,14 +29,10 @@ public class Client
         this.ready = false;
     }
 
-    public void run(){
-        try {
-            // Join socket
-            System.out.println("Waiting for socket");
-            Socket s = new Socket(this.ip, socket);
-
-            System.out.println("socket est");
-
+    public boolean run(){
+        // Join socket
+        System.out.println("Waiting for socket");
+        try(Socket s = new Socket(this.ip, socket)) {
             // Get input output streams
             this.dos = new ObjectOutputStream(s.getOutputStream());
             this.dis = new ObjectInputStream(s.getInputStream());
@@ -48,7 +44,10 @@ public class Client
             this.ready = true;
         }catch(Exception e){
             System.out.println("There wan an error establishing the socket connection");
+            return false;
         }
+
+        return true;
     }
 
     public void close() throws IOException{

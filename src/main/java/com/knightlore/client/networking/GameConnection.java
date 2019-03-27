@@ -1,7 +1,6 @@
 package com.knightlore.client.networking;
 
 import com.google.gson.Gson;
-import com.knightlore.client.ClientState;
 import com.knightlore.client.networking.backend.Client;
 import com.knightlore.client.networking.backend.ResponseHandler;
 import com.knightlore.client.networking.backend.responsehandlers.game.GameRegister;
@@ -42,9 +41,6 @@ public class GameConnection {
     } catch (IOException e) {
       System.out.println("Error occurred while disconnecting");
     }
-
-    // TODO game cancelled for 5 seconds
-    com.knightlore.client.Client.changeScreen(ClientState.MAIN_MENU, false);
   }
 
   public void startGame() {

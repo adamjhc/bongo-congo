@@ -2,6 +2,8 @@ package com.knightlore.game.entity.ai;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import com.knightlore.game.entity.Direction;
 import org.joml.Vector3f;
 
 /* Generic Enemy AI
@@ -15,21 +17,13 @@ import org.joml.Vector3f;
 public abstract class EnemyAI {
 
   public Vector3f
-      home; // Enemy 'start' point and where the pathfinding assumes the enemy is at that moment
+      home;
   private List<Vector3f> path;
 
   protected EnemyAI() {}
 
-  EnemyAI(Vector3f home) {
-    this.home = home;
+  public Vector3f pathfind(Vector3f current, float delta, int speed, Direction direction) {
+    return new Vector3f();
   }
 
-  public List<Vector3f> pathfind() {
-    this.path = new LinkedList<Vector3f>(); // TODO: confirm what the 'coordinates' are
-    return path;
-  }
-
-  public void setHome(Vector3f home) {
-    this.home = home;
-  }
 }

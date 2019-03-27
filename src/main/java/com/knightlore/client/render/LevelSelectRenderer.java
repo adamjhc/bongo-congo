@@ -12,8 +12,6 @@ import org.joml.Vector3f;
 
 public class LevelSelectRenderer extends Renderer {
 
-  private GuiRenderer guiRenderer;
-
   private World world;
   private Camera camera;
   private ShaderProgram shaderProgram;
@@ -24,20 +22,11 @@ public class LevelSelectRenderer extends Renderer {
   public LevelSelectRenderer() {
     super();
 
-    setupWorld();
-  }
-
-  private void setupWorld() {
-    guiRenderer = new GuiRenderer();
-
     world = new World();
     camera = new Camera(Window.getWidth(), Window.getHeight());
     shaderProgram = new ShaderProgram("world");
 
     calculateView();
-
-
-    setCameraPosition(new Vector3f(-9, 5, 0));
   }
 
   public void setCameraPosition(Vector3f position) {
@@ -49,12 +38,10 @@ public class LevelSelectRenderer extends Renderer {
     calculateView();
   }
 
-  public void render(LevelMap selectedMap, IGui gui) {
+  public void render(LevelMap selectedMap) {
     if (selectedMap != null) {
       renderMap(selectedMap);
     }
-
-    guiRenderer.render(gui);
   }
 
   private void renderMap(LevelMap levelMap) {

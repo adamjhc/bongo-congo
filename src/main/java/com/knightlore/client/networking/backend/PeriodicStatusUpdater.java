@@ -19,7 +19,7 @@ public class PeriodicStatusUpdater extends Thread {
       }
 
       try {
-        TimeUnit.MILLISECONDS.sleep(20);
+        TimeUnit.MILLISECONDS.sleep(60);
       } catch (InterruptedException e) {
 
       }

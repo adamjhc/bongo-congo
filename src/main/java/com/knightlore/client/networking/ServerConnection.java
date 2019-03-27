@@ -5,10 +5,7 @@ import com.knightlore.client.exceptions.ClientAlreadyAuthenticatedException;
 import com.knightlore.client.exceptions.ConfigItemNotFoundException;
 import com.knightlore.client.networking.backend.Client;
 import com.knightlore.client.networking.backend.ResponseHandler;
-import com.knightlore.client.networking.backend.responsehandlers.server.GameList;
-import com.knightlore.client.networking.backend.responsehandlers.server.GameRequest;
-import com.knightlore.client.networking.backend.responsehandlers.server.ListLevels;
-import com.knightlore.client.networking.backend.responsehandlers.server.SessionKey;
+import com.knightlore.client.networking.backend.responsehandlers.server.*;
 import com.knightlore.game.Level;
 import com.knightlore.networking.ApiKey;
 import com.knightlore.networking.LevelUpload;
@@ -172,6 +169,25 @@ public class ServerConnection {
             }
         }
     }
+
+    public void getHighscores(){
+        if(this.authenticated){
+            // Build up get session string
+            Sendable sendable = new Sendable();
+            sendable.setUuid();
+            sendable.setFunction("list_highscores");
+
+            // Specify handler
+            ResponseHandler.waiting.put(sendable.getUuid(), new HighScores());
+
+            try{
+                client.dos.writeObject(sendable);
+            }catch(IOException e){
+                System.out.println(e);
+            }
+        }
+    }
+
 
     public Optional<String> getSessionKey() {
         return sessionKey;

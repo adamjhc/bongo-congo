@@ -1,11 +1,9 @@
 package com.knightlore.client.render;
 
-import com.knightlore.client.gui.LevelEditorHud;
 import com.knightlore.client.io.Window;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.world.EditorTileGameObjectSet;
 import com.knightlore.client.render.world.TileGameObject;
-import com.knightlore.client.render.world.TileGameObjectSet;
 import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.Tile;
 import com.knightlore.game.util.CoordinateUtils;
@@ -26,8 +24,6 @@ public class LevelEditorRenderer extends Renderer {
   private float viewX;
   private float viewY;
 
-  private GuiRenderer hudRenderer;
-
   private int currentTileX;
   private int currentTileY;
   private int currentTileZ;
@@ -39,11 +35,6 @@ public class LevelEditorRenderer extends Renderer {
     currentTileY = 0;
     currentTileZ = 0;
 
-    setupWorld();
-    setupHud();
-  }
-
-  private void setupWorld() {
     world = new World();
     camera = new Camera(Window.getWidth(), Window.getHeight());
     shaderProgram = new ShaderProgram("world");
@@ -51,21 +42,12 @@ public class LevelEditorRenderer extends Renderer {
     calculateView();
   }
 
-  private void setupHud() {
-    hudRenderer = new GuiRenderer();
-  }
-
   public void addToCameraPosition(Vector3f cameraChange, Vector3i mapSize) {
     camera.updatePosition(
         camera.getWorldPosition().add(cameraChange, new Vector3f()), world.getScale(), mapSize);
   }
 
-  public void render(LevelMap levelMap, LevelEditorHud hud) {
-    renderMap(levelMap);
-    hudRenderer.render(hud);
-  }
-
-  private void renderMap(LevelMap levelMap) {
+  public void render(LevelMap levelMap) {
     Tile[][][] tiles = levelMap.getTiles();
 
     for (int z = 0; z < tiles.length; z++) {
@@ -73,7 +55,8 @@ public class LevelEditorRenderer extends Renderer {
         for (int x = tiles[z][y].length - 1; x >= 0; x--) {
           Vector3f isoTilePos = CoordinateUtils.toIsometric(x, y, z);
           if (isWithinView(isoTilePos)) {
-            TileGameObject tileGameObject = EditorTileGameObjectSet.getTile(tiles[z][y][x].getIndex());
+            TileGameObject tileGameObject =
+                EditorTileGameObjectSet.getTile(tiles[z][y][x].getIndex());
             tileGameObject.setIsometricPosition(isoTilePos);
 
             int highlight = (x == currentTileX && y == currentTileY && z == currentTileZ) ? 1 : 0;

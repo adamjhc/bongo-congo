@@ -20,7 +20,7 @@ import com.knightlore.networking.ListGameObject;
 import java.util.concurrent.TimeUnit;
 
 public class LobbySelectScreen implements IScreen {
-	
+
   private static final AudioName SELECT = AudioName.SOUND_MENUSELECT;
 
   private GuiRenderer guiRenderer;
@@ -46,7 +46,7 @@ public class LobbySelectScreen implements IScreen {
         menu.moveUp();
       }
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         menu.highlight();
       }
     }
@@ -54,7 +54,7 @@ public class LobbySelectScreen implements IScreen {
     if (checkPosition(menu, menu.getCreate().getId())) {
       menu.getCreate().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         Client.showLoadingScreen();
         ServerConnection.instance.requestGame();
 
@@ -69,10 +69,10 @@ public class LobbySelectScreen implements IScreen {
         GameConnection.instance.register();
 
         // Wait for register response
-        while(GameConnection.instance.uuid == null){
-          try{
+        while (GameConnection.instance.uuid == null) {
+          try {
             TimeUnit.SECONDS.sleep(1);
-          }catch(InterruptedException e){
+          } catch (InterruptedException e) {
 
           }
         }
@@ -93,23 +93,24 @@ public class LobbySelectScreen implements IScreen {
         LobbyObject test = new LobbyObject("Test", menu.SMALL, test1);
         test.setIsCreator(true);
 
-
         Client.changeScreen(ClientState.LOBBY, false, test);
+        return;
       }
     } else menu.getCreate().setColour(Colour.YELLOW);
 
     if (checkPosition(menu, menu.getExit().getId())) {
       menu.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         Client.changeScreen(ClientState.MAIN_MENU, false);
+        return;
       }
     } else menu.getExit().setColour(Colour.YELLOW);
 
     if (checkPosition(menu, menu.getRefresh().getId())) {
       menu.getRefresh().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         menuRefresh();
       }
     } else menu.getRefresh().setColour(Colour.YELLOW);
@@ -117,18 +118,22 @@ public class LobbySelectScreen implements IScreen {
     if (checkPosition(menu, menu.getJoin().getId())) {
       menu.getJoin().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         if (menu.getHighlighted() != null) {
           Client.showLoadingScreen();
-          com.knightlore.client.networking.backend.Client gameClient = new com.knightlore.client.networking.backend.Client(menu.getHighlighted().getGame().getIp(), menu.getHighlighted().getGame().getPort());
+          com.knightlore.client.networking.backend.Client gameClient =
+              new com.knightlore.client.networking.backend.Client(
+                  menu.getHighlighted().getGame().getIp(),
+                  menu.getHighlighted().getGame().getPort());
           gameClient.run();
 
-          GameConnection.instance = new GameConnection(gameClient, ServerConnection.instance.getSessionKey().get());
+          GameConnection.instance =
+              new GameConnection(gameClient, ServerConnection.instance.getSessionKey().get());
           // Wait
-          while(!GameConnection.instance.ready()){
-            try{
+          while (!GameConnection.instance.ready()) {
+            try {
               TimeUnit.SECONDS.sleep(1);
-            }catch (InterruptedException e){
+            } catch (InterruptedException e) {
               // Shouldn't happen
             }
           }
@@ -136,6 +141,7 @@ public class LobbySelectScreen implements IScreen {
           GameConnection.instance.register();
 
           Client.changeScreen(ClientState.LOBBY, false, menu.getHighlighted());
+          return;
         }
       }
     } else menu.getJoin().setColour(Colour.YELLOW);
@@ -157,16 +163,16 @@ public class LobbySelectScreen implements IScreen {
     menu.cleanup();
   }
 
-  public void menuRefresh(){
+  private void menuRefresh() {
     int cacheV = LobbyCache.instance.cacheBuster;
 
     ServerConnection.instance.listGames();
-    while(cacheV == LobbyCache.instance.cacheBuster){
-      try{
+    while (cacheV == LobbyCache.instance.cacheBuster) {
+      try {
         TimeUnit.MILLISECONDS.sleep(100);
         System.out.println("Waitings");
 
-      }catch(InterruptedException e){
+      } catch (InterruptedException e) {
         // Shouldn't happen
       }
     }

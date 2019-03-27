@@ -14,7 +14,7 @@ import com.knightlore.client.io.Mouse;
 import com.knightlore.client.render.GuiRenderer;
 
 public class OptionsScreen implements IScreen {
-  
+
   private static final AudioName SELECT = AudioName.SOUND_MENUSELECT;
 
   private GuiRenderer guiRenderer;
@@ -46,15 +46,16 @@ public class OptionsScreen implements IScreen {
     if (checkPosition(optionsMenu, optionsMenu.getExit().getId())) {
       optionsMenu.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         Client.changeScreen(ClientState.MAIN_MENU, false);
+        return;
       }
     } else optionsMenu.getExit().setColour(Colour.YELLOW);
 
     if (checkPosition(optionsMenu, optionsMenu.getIsFullscreen().getId())) {
       optionsMenu.getIsFullscreen().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         optionsMenu.setFullscreen();
       }
     } else optionsMenu.getIsFullscreen().setColour(Colour.YELLOW);

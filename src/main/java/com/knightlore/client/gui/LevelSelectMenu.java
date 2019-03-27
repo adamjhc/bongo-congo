@@ -12,7 +12,8 @@ import java.util.List;
 /**
  * Screen that allows you to select which levels you wish to play in Singleplayer
  *
- * @author Adam Cox
+ * @author Adam C, Joseph
+ * 
  */
 public class LevelSelectMenu implements IGui {
 
@@ -49,34 +50,34 @@ public class LevelSelectMenu implements IGui {
   /** The page counter */
   private TextObject pageCounter;
 
-  /** Bongo text object */
+  /** Bongo text */
   private TextObject bongo;
 
-  /** Congo text object */
+  /** Congo text */
   private TextObject congo;
 
-  /** Top separator line text object */
+  /** Top separator line text */
   private TextObject separatorTop;
 
-  /** Bottom separator line text object */
+  /** Bottom separator line text */
   private TextObject separatorBottom;
 
   /** List of the levels */
   private TextObject[] levels;
 
-  /** Load level (title) text object */
+  /** Load level (title) text */
   private TextObject selectLevel;
 
-  /** Start game text object */
+  /** Start game text */
   private TextObject start;
 
-  /** Exit screen text object */
+  /** Exit screen text */
   private TextObject exit;
 
-  /** Next page text object */
+  /** Next page text */
   private TextObject nextPage;
 
-  /** Last page text object */
+  /** Last page text */
   private TextObject lastPage;
 
   /** List of all the gui objects */
@@ -88,7 +89,8 @@ public class LevelSelectMenu implements IGui {
   /**
    * Create gui objects
    *
-   * @author Adam Cox
+   * @author Adam C
+   *
    */
   public LevelSelectMenu() {
     this.bongo = new TextObject("Bongo", TITLE);
@@ -146,9 +148,10 @@ public class LevelSelectMenu implements IGui {
 
   /**
    * Returns start
-   *
+   * 
    * @return Start
    * @author Adam C
+   * 
    */
   public TextObject getStart() {
     return start;
@@ -156,9 +159,10 @@ public class LevelSelectMenu implements IGui {
 
   /**
    * Returns exit
-   *
+   * 
    * @return Exit
-   * @author Adam Cox
+   * @author Adam C
+   * 
    */
   public TextObject getBack() {
     return exit;
@@ -166,9 +170,10 @@ public class LevelSelectMenu implements IGui {
 
   /**
    * Initialise levels
-   *
+   * 
    * @param l Level list
-   * @author Adam Cox
+   * @author Adam C
+   * 
    */
   public void setLevels(TextObject[] l) {
     levels = l;
@@ -181,10 +186,11 @@ public class LevelSelectMenu implements IGui {
 
   /**
    * Get level
-   *
+   * 
    * @param i Level index
    * @return Level
-   * @author Adam Cox
+   * @author Adam C
+   * 
    */
   public TextObject getLevel(int i) {
     return levels[levelIndex + i];
@@ -192,8 +198,9 @@ public class LevelSelectMenu implements IGui {
 
   /**
    * Increase the page
-   *
-   * @author Adam Cox
+   * 
+   * @author Adam C
+   * 
    */
   public void incPage() {
     if (levelIndex + 12 < levels.length) {
@@ -204,8 +211,9 @@ public class LevelSelectMenu implements IGui {
 
   /**
    * Decrease the page
-   *
-   * @author Adam Cox
+   * 
+   * @author Adam C
+   * 
    */
   public void decPage() {
     if (levelIndex >= 12) {
@@ -216,9 +224,10 @@ public class LevelSelectMenu implements IGui {
 
   /**
    * Gets the next page
-   *
+   * 
    * @return NextPage
-   * @author Adam Cox
+   * @author Adam C
+   * 
    */
   public TextObject getNextPage() {
     return nextPage;
@@ -228,7 +237,8 @@ public class LevelSelectMenu implements IGui {
    * Gets the last page
    *
    * @return LastPage
-   * @author Adam Cox
+   * @author Adam C
+   * 
    */
   public TextObject getLastPage() {
     return lastPage;
@@ -238,7 +248,8 @@ public class LevelSelectMenu implements IGui {
    * Returns the number of levels on screen
    *
    * @return Number of levels on screen
-   * @author Adam Cox
+   * @author Adam C
+   * 
    */
   public int numOnScreenLevels() {
     return Math.min(MAX_LEVEL_COUNT, levels.length - levelIndex);
@@ -253,7 +264,8 @@ public class LevelSelectMenu implements IGui {
   /**
    * Updates the position of the gui objects
    *
-   * @author Adam Cox
+   * @author Adam C
+   * 
    */
   public void updateSize() {
     this.bongo.setPosition(

@@ -3,7 +3,6 @@ package com.knightlore.client.gui.screen;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_J;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_SHIFT;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
@@ -51,8 +50,8 @@ public class GameScreen implements IScreen {
 
   @Override
   public void startup(Object... args) {
-	Audio.stop(Audio.getCurrentMusic());
-	Audio.play(Audio.AudioName.MUSIC_GAME);
+    Audio.stop(Audio.getCurrentMusic());
+    Audio.play(Audio.AudioName.MUSIC_GAME);
     // Singleplayer sends levels to start game server
     if (args.length != 0) {
       GameModel gameModel = new GameModel("1");
@@ -148,6 +147,7 @@ public class GameScreen implements IScreen {
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU, false);
+      return;
     }
 
     if (Keyboard.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
@@ -221,18 +221,18 @@ public class GameScreen implements IScreen {
       gameRenderer.init(gameModel);
     }
 
-      gameModel.clientUpdate(delta, playerInputDirection);
+    gameModel.clientUpdate(delta, playerInputDirection);
 
     // Check for complete
-    if(gameModel.getState() == GameState.SCORE) {
+    if (gameModel.getState() == GameState.SCORE) {
       Client.changeScreen(ClientState.END, false, gameModel);
+      return;
     }
 
     if (gameModel.getState() == GameState.NEXT_LEVEL) {
       hud.setLevel(gameModel.getCurrentLevelIndex());
       timer.resetStartTime();
     }
-
   }
 
   @Override

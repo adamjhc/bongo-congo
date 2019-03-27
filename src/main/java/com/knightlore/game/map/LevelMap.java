@@ -10,11 +10,8 @@ public class LevelMap {
   private Vector3i size;
 
   private int rotation;
-  
-  private String name;
 
   public LevelMap(int[][][] tiles) {
-	this.name = "";
     this.tiles = new Tile[tiles.length][tiles[0].length][tiles[0][0].length];
     this.rotation = 0;
 
@@ -72,10 +69,6 @@ public class LevelMap {
     }
 
     tiles = newMap;
-  }
-  
-  public void setName(String n) {
-	  this.name = n;
   }
 
   public void resetRotation() {

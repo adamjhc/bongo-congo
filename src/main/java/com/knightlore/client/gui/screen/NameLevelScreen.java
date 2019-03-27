@@ -60,7 +60,9 @@ import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.networking.ServerConnection;
 import com.knightlore.client.render.GuiRenderer;
+import com.knightlore.game.Level;
 import com.knightlore.game.map.LevelMap;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -175,7 +177,6 @@ public class NameLevelScreen implements IScreen {
       if (Mouse.isLeftButtonPressed()) {
         Audio.play(SELECT);
         try {
-          level.setName(nameLevelUi.getLevelName().getText());
           save(nameLevelUi.getLevelName().getText());
         } catch (IOException e) {
           e.printStackTrace();
@@ -190,7 +191,6 @@ public class NameLevelScreen implements IScreen {
       if (Mouse.isLeftButtonPressed()) {
         Audio.play(SELECT);
         try {
-          level.setName(nameLevelUi.getLevelName().getText());
           save(nameLevelUi.getLevelName().getText());
         } catch (IOException e) {
           e.printStackTrace();
@@ -212,7 +212,13 @@ public class NameLevelScreen implements IScreen {
       nameLevelUi.getPublish().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Audio.play(SELECT);
-        level.setName(nameLevelUi.getLevelName().getText());
+        if (!connectToServer()) {
+          Client.changeScreen(ClientState.SHOW_ERROR, false, "Error connecting to server");
+          return;
+          }
+        
+        Level sentLevel = new Level(level);
+        ServerConnection.instance.sendLevel(sentLevel, nameLevelUi.getLevelName().getText());
     	nameLevelUi.removePublish();
       }
     } else nameLevelUi.getPublish();

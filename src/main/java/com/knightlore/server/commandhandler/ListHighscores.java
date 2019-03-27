@@ -1,7 +1,6 @@
 package com.knightlore.server.commandhandler;
 
-import com.google.gson.Gson;
-import com.knightlore.networking.HighscoreResponse;
+import com.knightlore.networking.HighScoreResponse;
 import com.knightlore.networking.Sendable;
 import com.knightlore.server.ClientHandler;
 import com.knightlore.server.database.model.*;
@@ -10,7 +9,6 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.UUID;
 
 public class ListHighscores extends Command{
 
@@ -25,7 +23,7 @@ public class ListHighscores extends Command{
 
         // Build response
         Sendable response = sendable.makeResponse();
-        HighscoreResponse hsResponse = new HighscoreResponse();
+        HighScoreResponse hsResponse = new HighScoreResponse();
 
         int max = 20;
         for(Model currentGamePlayer: models){

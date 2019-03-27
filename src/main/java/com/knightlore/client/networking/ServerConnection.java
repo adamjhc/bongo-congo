@@ -170,7 +170,7 @@ public class ServerConnection {
         }
     }
 
-    public void getHighscores(){
+    public void getHighScores(){
         if(this.authenticated){
             // Build up get session string
             Sendable sendable = new Sendable();

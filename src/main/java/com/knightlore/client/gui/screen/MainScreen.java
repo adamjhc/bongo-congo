@@ -1,9 +1,7 @@
 package com.knightlore.client.gui.screen;
 
 import static com.knightlore.client.util.GuiUtils.checkPosition;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_EQUAL;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_MINUS;
 
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
@@ -98,8 +96,8 @@ public class MainScreen implements IScreen {
     } else menu.getLevelEditor().setColour(Colour.YELLOW);
 
     // HIGHSCORE BUTTON
-    if (checkPosition(menu, menu.getHighscore().getId())) {
-      menu.getHighscore().setColour();
+    if (checkPosition(menu, menu.getHighScore().getId())) {
+      menu.getHighScore().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Audio.play(SELECT);
 
@@ -109,7 +107,7 @@ public class MainScreen implements IScreen {
           return;
         }
 
-        ServerConnection.instance.getHighscores();
+        ServerConnection.instance.getHighScores();
 
         int currentCache = HighScoreCache.instance.cache;
 
@@ -124,7 +122,7 @@ public class MainScreen implements IScreen {
         Client.changeScreen(ClientState.HIGHSCORE, false);
         return;
       }
-    } else menu.getHighscore().setColour(Colour.YELLOW);
+    } else menu.getHighScore().setColour(Colour.YELLOW);
 
     // OPTIONS BUTTON
     if (checkPosition(menu, menu.getOptions().getId())) {

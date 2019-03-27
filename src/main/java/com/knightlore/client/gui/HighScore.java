@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Highscore implements IGui {
+public class HighScore implements IGui {
 
   /** The position in the window of the top --------------- */
   private static final int SEPARATOR_TOP_POS = 185;
@@ -32,8 +32,8 @@ public class Highscore implements IGui {
   /** The number of pages necessary to display all level names */
   private int pageCount;
 
-  /** The index of the list of highscores that we start displaying highscores from */
-  private int highscoreIndex;
+  /** The index of the list of high scores that we start displaying high scores from */
+  private int highScoreIndex;
 
   /** The page number we are currently on */
   private int currentPageNum;
@@ -54,10 +54,10 @@ public class Highscore implements IGui {
   private TextObject separatorBottom;
 
   /** The list of level names to be displayed on screen */
-  private TextObject[] highscores;
+  private TextObject[] highScores;
 
   /** The TextObject for the words "Load Level" */
-  private TextObject highscoreTitle;
+  private TextObject highScoreTitle;
 
   /** The TextObject for the word "exit" */
   private TextObject exit;
@@ -74,15 +74,15 @@ public class Highscore implements IGui {
   /** The list of all the GuiObjects in this UI */
   private GuiObject[] guiObjects;
 
-  public Highscore() {
+  public HighScore() {
     this.bongo = new TextObject("Bongo", TITLE);
     this.bongo.setColour(Colour.LIGHT_BLUE);
 
     this.congo = new TextObject("Congo", TITLE);
     this.congo.setColour(Colour.RED);
 
-    this.highscoreTitle = new TextObject("Highscores", SMALL);
-    this.highscoreTitle.setColour(Colour.YELLOW);
+    this.highScoreTitle = new TextObject("Highscores", SMALL);
+    this.highScoreTitle.setColour(Colour.YELLOW);
 
     this.separatorTop = new TextObject("------------------------------", SMALL);
     this.separatorTop.setColour(Colour.YELLOW);
@@ -102,12 +102,20 @@ public class Highscore implements IGui {
     this.pageCounter = new TextObject("1/" + pageCount, SMALL);
     this.pageCounter.setColour(Colour.YELLOW);
 
-    highscoreIndex = 0;
+    highScoreIndex = 0;
     currentPageNum = 1;
 
     setGuiObjects =
         new GuiObject[] {
-          bongo, congo, separatorTop, separatorBottom, exit, nextPage, lastPage, pageCounter, highscoreTitle
+          bongo,
+          congo,
+          separatorTop,
+          separatorBottom,
+          exit,
+          nextPage,
+          lastPage,
+          pageCounter,
+          highScoreTitle
         };
     setTextObjects = new TextObject[] {exit, nextPage, lastPage};
 
@@ -125,28 +133,18 @@ public class Highscore implements IGui {
   }
 
   /**
-   * Method to define the list of highscores
+   * Method to define the list of highScores
    *
-   * @param highscores The highscores
+   * @param highScores The highScores
    */
-  public void setHighscores(TextObject[] highscores) {
-    this.highscores = highscores;
-    if (highscores.length % 12 == 0) {
-      pageCount = highscores.length / 12;
+  public void setHighScores(TextObject[] highScores) {
+    this.highScores = highScores;
+    if (highScores.length % 12 == 0) {
+      pageCount = highScores.length / 12;
     } else {
-      pageCount = highscores.length / 12 + 1;
+      pageCount = highScores.length / 12 + 1;
     }
-    System.out.println(highscores.length);
-  }
-
-  /**
-   * Method to get a level name from the list of level names
-   *
-   * @param i The index of the TextObject in the list of level names
-   * @return The name of the level stored at the index i
-   */
-  public TextObject getHighscore(int i) {
-    return highscores[highscoreIndex + i];
+    System.out.println(highScores.length);
   }
 
   /**
@@ -171,16 +169,16 @@ public class Highscore implements IGui {
 
   /** Method to increment the start pointer of the list of level names */
   public void incPage() {
-    if (highscoreIndex + 12 < highscores.length) {
-      highscoreIndex += 12;
+    if (highScoreIndex + 12 < highScores.length) {
+      highScoreIndex += 12;
       currentPageNum += 1;
     }
   }
 
   /** Method to decrement the start pointer of the list of level names */
   public void decPage() {
-    if (highscoreIndex >= 12) {
-      highscoreIndex -= 12;
+    if (highScoreIndex >= 12) {
+      highScoreIndex -= 12;
       currentPageNum -= 1;
     }
   }
@@ -209,7 +207,7 @@ public class Highscore implements IGui {
    * @return The number of level names being displayed
    */
   public int numOnScreenLevels() {
-    return Math.min(MAX_HIGHSCORE_COUNT, highscores.length - highscoreIndex);
+    return Math.min(MAX_HIGHSCORE_COUNT, highScores.length - highScoreIndex);
   }
 
   /**
@@ -226,8 +224,8 @@ public class Highscore implements IGui {
     this.separatorBottom.setPosition(
         Window.getHalfWidth() - separatorBottom.getSize() / 2,
         Window.getHalfHeight() + SEPARATOR_BOT_POS);
-    this.highscoreTitle.setPosition(
-        Window.getHalfWidth() - highscoreTitle.getSize() / 2,
+    this.highScoreTitle.setPosition(
+        Window.getHalfWidth() - highScoreTitle.getSize() / 2,
         Window.getHalfHeight() - SEPARATOR_TOP_POS - SEPARATOR_GAP);
     this.exit.setPosition(
         Window.getHalfWidth() - exit.getSize() / 2,
@@ -246,15 +244,15 @@ public class Highscore implements IGui {
     List<GuiObject> tempG = new ArrayList<>(Arrays.asList(setGuiObjects));
     List<TextObject> tempT = new ArrayList<>(Arrays.asList(setTextObjects));
 
-    for (int i = 0; i < Math.min(MAX_HIGHSCORE_COUNT, highscores.length - highscoreIndex); i++) {
-      tempG.add(highscores[highscoreIndex + i]);
-      tempT.add(highscores[highscoreIndex + i]);
-      highscores[highscoreIndex + i].setPosition(
-          Window.getHalfWidth() - highscores[highscoreIndex + i].getSize() / 2,
+    for (int i = 0; i < Math.min(MAX_HIGHSCORE_COUNT, highScores.length - highScoreIndex); i++) {
+      tempG.add(highScores[highScoreIndex + i]);
+      tempT.add(highScores[highScoreIndex + i]);
+      highScores[highScoreIndex + i].setPosition(
+          Window.getHalfWidth() - highScores[highScoreIndex + i].getSize() / 2,
           Window.getHalfHeight()
               - SEPARATOR_TOP_POS
               + SEPARATOR_GAP
-              + (highscores[highscoreIndex + i].getHeight() * i));
+              + (highScores[highScoreIndex + i].getHeight() * i));
     }
 
     guiObjects = tempG.toArray(setGuiObjects);

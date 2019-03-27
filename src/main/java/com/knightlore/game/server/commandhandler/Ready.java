@@ -16,6 +16,7 @@ public class Ready extends Command {
       GameManager manager = new GameManager(handler.model(), handler.server());
       manager.start();
 
+
       // Send
       Sendable ready = new Sendable();
       ready.setFunction("ready");

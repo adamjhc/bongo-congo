@@ -5,11 +5,10 @@ import com.knightlore.client.exceptions.ClientAlreadyAuthenticatedException;
 import com.knightlore.client.exceptions.ConfigItemNotFoundException;
 import com.knightlore.client.networking.backend.Client;
 import com.knightlore.client.networking.backend.ResponseHandler;
-import com.knightlore.client.networking.backend.responsehandlers.server.GameList;
-import com.knightlore.client.networking.backend.responsehandlers.server.GameRequest;
-import com.knightlore.client.networking.backend.responsehandlers.server.ListLevels;
-import com.knightlore.client.networking.backend.responsehandlers.server.SessionKey;
+import com.knightlore.client.networking.backend.responsehandlers.server.*;
+import com.knightlore.game.Level;
 import com.knightlore.networking.ApiKey;
+import com.knightlore.networking.LevelUpload;
 import com.knightlore.networking.Sendable;
 import com.knightlore.util.Config;
 
@@ -54,9 +53,9 @@ public class ServerConnection {
         }
 
         // Check for api key in config
-        Optional<String> apikey = Config.apiKey();
+        Optional<String> apiKey = Config.apiKey();
 
-        if(!apikey.isPresent()){
+        if(!apiKey.isPresent()){
             throw new ConfigItemNotFoundException();
         }
 
@@ -67,7 +66,7 @@ public class ServerConnection {
 
         Gson gson = new Gson();
 
-        ApiKey myKey = new ApiKey(apikey.get());
+        ApiKey myKey = new ApiKey(apiKey.get());
         sendable.setData(gson.toJson(myKey));
 
         ResponseHandler.waiting.put(sendable.getUuid(), new SessionKey());
@@ -171,11 +170,30 @@ public class ServerConnection {
         }
     }
 
+    public void getHighscores(){
+        if(this.authenticated){
+            // Build up get session string
+            Sendable sendable = new Sendable();
+            sendable.setUuid();
+            sendable.setFunction("list_highscores");
+
+            // Specify handler
+            ResponseHandler.waiting.put(sendable.getUuid(), new HighScores());
+
+            try{
+                client.dos.writeObject(sendable);
+            }catch(IOException e){
+                System.out.println(e);
+            }
+        }
+    }
+
+
     public Optional<String> getSessionKey() {
         return sessionKey;
     }
 
-    public static void makeConnection() throws ConfigItemNotFoundException{
+    public static boolean makeConnection() throws ConfigItemNotFoundException{
         Optional<Integer> authServerPort = Config.authServerPort();
         Optional<String> authServerIp = Config.authServerIp();
 
@@ -183,24 +201,33 @@ public class ServerConnection {
             com.knightlore.client.networking.backend.Client authClient;
             try{
                 authClient = new com.knightlore.client.networking.backend.Client(InetAddress.getByName(authServerIp.get()), authServerPort.get());
-                authClient.run();
+                if (!authClient.run()) {
+                    return false;
+                }
                 ServerConnection.instance = new ServerConnection(authClient);
             }catch(UnknownHostException e){
-                System.out.println("Warning: Invalid IP");
-                System.exit(1);
+                e.printStackTrace();
+                return false;
             }
         }else{
             throw new ConfigItemNotFoundException();
         }
 
         // Wait for instance to be ready
+        int timeout = 5;
+        int wait = 0;
         while(!ServerConnection.instance.ready()){
             try{
                 TimeUnit.SECONDS.sleep(1);
-            }catch(InterruptedException e){
+            }catch(InterruptedException ignored){
                 // Timeout should never interrupt
             }
             System.out.println("WAITING");
+            wait++;
+
+            if (wait == timeout) {
+                return false;
+            }
         }
 
         // Send authenticaton packet
@@ -209,11 +236,28 @@ public class ServerConnection {
         }catch(ClientAlreadyAuthenticatedException e){
         }catch (IOException e){
             System.out.println("Client could not connect ");
+            return false;
         }catch (ConfigItemNotFoundException e){
             System.out.println("ApiKey not provided");
-            System.exit(1);
+            return false;
         }
 
+        return true;
+    }
 
+    public void sendLevel(Level level, String name){
+        Sendable sendable = new Sendable();
+        sendable.setFunction("level_upload");
+
+        Gson gson = new Gson();
+        LevelUpload lu = new LevelUpload(level, name);
+
+        sendable.setData(gson.toJson(lu));
+
+        try{
+            client.dos.writeObject(sendable);
+        }catch(IOException e){
+            System.out.println(e);
+        }
     }
 }

@@ -25,5 +25,13 @@ public class Factory {
             handler = new ListLevels();
             handler.run(clientHandler, sendable);
         }
+        if(sendable.getFunction().equals("level_upload")){
+            handler = new LevelUpload();
+            handler.run(clientHandler, sendable);
+        }
+        if(sendable.getFunction().equals("list_highscores")){
+            handler = new ListHighscores();
+            handler.run(clientHandler, sendable);
+        }
     }
 }

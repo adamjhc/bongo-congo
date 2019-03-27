@@ -16,20 +16,14 @@ import com.knightlore.game.map.LevelMap;
 import org.joml.Vector4f;
 
 public class LevelEditorSetupScreen implements IScreen {
-	
-  /**
-   * The sound that plays when the users selects a menu item
-   */
+
+  /** The sound that plays when the users selects a menu item */
   private static final AudioName SELECT = AudioName.SOUND_MENUSELECT;
 
-  /**
-   * The renderer to render to menu
-   */
+  /** The renderer to render to menu */
   private GuiRenderer guiRenderer;
-  
-  /**
-   * The menu object
-   */
+
+  /** The menu object */
   private PreLevelEditor preLevelEditor;
 
   public LevelEditorSetupScreen(GuiRenderer guiRenderer) {
@@ -37,15 +31,13 @@ public class LevelEditorSetupScreen implements IScreen {
     preLevelEditor = new PreLevelEditor();
   }
 
-  /**
-   * Method to process the user clicking on menu items
-   */
+  /** Method to process the user clicking on menu items */
   @Override
   public void input() {
     if (checkPosition(preLevelEditor, preLevelEditor.getWLeft().getId())) {
       preLevelEditor.getWLeft().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         preLevelEditor.decWidth();
       }
     } else preLevelEditor.getWLeft().setColour(Colour.YELLOW);
@@ -53,7 +45,7 @@ public class LevelEditorSetupScreen implements IScreen {
     if (checkPosition(preLevelEditor, preLevelEditor.getWRight().getId())) {
       preLevelEditor.getWRight().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         preLevelEditor.incWidth();
       }
     } else preLevelEditor.getWRight().setColour(Colour.YELLOW);
@@ -61,7 +53,7 @@ public class LevelEditorSetupScreen implements IScreen {
     if (checkPosition(preLevelEditor, preLevelEditor.getLLeft().getId())) {
       preLevelEditor.getLLeft().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         preLevelEditor.decLength();
       }
     } else preLevelEditor.getLLeft().setColour(Colour.YELLOW);
@@ -69,7 +61,7 @@ public class LevelEditorSetupScreen implements IScreen {
     if (checkPosition(preLevelEditor, preLevelEditor.getLRight().getId())) {
       preLevelEditor.getLRight().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         preLevelEditor.incLength();
       }
     } else preLevelEditor.getLRight().setColour(Colour.YELLOW);
@@ -77,7 +69,7 @@ public class LevelEditorSetupScreen implements IScreen {
     if (checkPosition(preLevelEditor, preLevelEditor.getHLeft().getId())) {
       preLevelEditor.getHLeft().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         preLevelEditor.decHeight();
       }
     } else preLevelEditor.getHLeft().setColour(Colour.YELLOW);
@@ -85,7 +77,7 @@ public class LevelEditorSetupScreen implements IScreen {
     if (checkPosition(preLevelEditor, preLevelEditor.getHRight().getId())) {
       preLevelEditor.getHRight().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         preLevelEditor.incHeight();
       }
     } else preLevelEditor.getHRight().setColour(Colour.YELLOW);
@@ -93,29 +85,32 @@ public class LevelEditorSetupScreen implements IScreen {
     if (checkPosition(preLevelEditor, preLevelEditor.getCreateLevel().getId())) {
       preLevelEditor.getCreateLevel().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         LevelMap editorMap =
             initialiseMap(
                 preLevelEditor.getWidthNum(),
                 preLevelEditor.getLengthNum(),
                 preLevelEditor.getHeightNum());
         Client.changeScreen(ClientState.LEVEL_EDITOR, false, editorMap);
+        return;
       }
     } else preLevelEditor.getCreateLevel().setColour(Colour.YELLOW);
 
-    if (checkPosition(preLevelEditor, preLevelEditor.getBack().getId())) {
-      preLevelEditor.getBack().setColour();
+    if (checkPosition(preLevelEditor, preLevelEditor.getExit().getId())) {
+      preLevelEditor.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         Client.changeScreen(ClientState.MAIN_MENU, false);
+        return;
       }
-    } else preLevelEditor.getBack().setColour(new Vector4f(1, 1, 0, 1));
+    } else preLevelEditor.getExit().setColour(new Vector4f(1, 1, 0, 1));
 
     if (checkPosition(preLevelEditor, preLevelEditor.getLoadLevel().getId(), "")) {
       preLevelEditor.getLoadLevel().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         Client.changeScreen(ClientState.LOADING_LEVEL, false, new Object());
+        return;
       }
     } else preLevelEditor.getLoadLevel().setColour(new Vector4f(1, 1, 0, 1));
 
@@ -124,9 +119,7 @@ public class LevelEditorSetupScreen implements IScreen {
     }
   }
 
-  /**
-   * Method to render the menu
-   */
+  /** Method to render the menu */
   @Override
   public void render() {
     preLevelEditor.updateSize();
@@ -134,9 +127,7 @@ public class LevelEditorSetupScreen implements IScreen {
     guiRenderer.render(preLevelEditor);
   }
 
-  /**
-   * Method to cleanup the GUI
-   */
+  /** Method to cleanup the GUI */
   @Override
   public void cleanUp() {
     preLevelEditor.cleanup();
@@ -144,6 +135,7 @@ public class LevelEditorSetupScreen implements IScreen {
 
   /**
    * Method to set up an empty map of the specified dimensions
+   *
    * @param width The width of the level
    * @param length The length of the level
    * @param height The height of the level

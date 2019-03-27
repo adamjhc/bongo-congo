@@ -3,7 +3,6 @@ package com.knightlore.client.gui.screen;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_J;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_SHIFT;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
@@ -19,6 +18,7 @@ import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.render.GameRenderer;
+import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.GameState;
 import com.knightlore.game.Level;
@@ -26,24 +26,31 @@ import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.server.GameServer;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class GameScreen implements IScreen {
 
-  Timer timer;
   Direction playerInputDirection;
 
-  private Timer countDown;
-  private Hud hud;
-  private GameRenderer gameRenderer;
+  Hud hud;
 
-  public GameScreen(GameRenderer gameRenderer, Timer timer) {
+  Timer countDown;
+  Timer timer;
+  GameRenderer gameRenderer;
+  private GuiRenderer guiRenderer;
+  private GameServer gameServer;
+  private com.knightlore.client.networking.backend.Client gameClient;
+
+  public GameScreen(GuiRenderer guiRenderer, GameRenderer gameRenderer, Timer timer) {
+    this.guiRenderer = guiRenderer;
     this.gameRenderer = gameRenderer;
     this.timer = timer;
     hud = new Hud();
@@ -51,8 +58,8 @@ public class GameScreen implements IScreen {
 
   @Override
   public void startup(Object... args) {
-	Audio.stop(Audio.getCurrentMusic());
-	Audio.play(Audio.AudioName.MUSIC_GAME);
+    Audio.stop(Audio.getCurrentMusic());
+    Audio.play(Audio.AudioName.MUSIC_GAME);
     // Singleplayer sends levels to start game server
     if (args.length != 0) {
       GameModel gameModel = new GameModel("1");
@@ -63,14 +70,13 @@ public class GameScreen implements IScreen {
 
       String playerSessionId = "1";
 
-      GameServer server =
-          new GameServer(UUID.randomUUID(), 1337, playerSessionId, gameModel, "Player 1");
-      server.start();
+      int port = new Random().nextInt(65535);
+      gameServer = new GameServer(UUID.randomUUID(), port, playerSessionId, gameModel, "Player 1");
+      gameServer.start();
 
-      com.knightlore.client.networking.backend.Client gameClient = null;
       try {
         gameClient =
-            new com.knightlore.client.networking.backend.Client(InetAddress.getLocalHost(), 1337);
+            new com.knightlore.client.networking.backend.Client(InetAddress.getLocalHost(), port);
       } catch (UnknownHostException e) {
         e.printStackTrace();
       }
@@ -139,6 +145,7 @@ public class GameScreen implements IScreen {
         && (gameModel.myPlayer().getCooldown() == 0)
         && (gameModel.myPlayer().getPlayerState() == PlayerState.IDLE
             || gameModel.myPlayer().getPlayerState() == PlayerState.MOVING)) {
+      Audio.play(Audio.AudioName.SOUND_ROLL);
       gameModel.myPlayer().setPlayerState(PlayerState.ROLLING);
     }
 
@@ -148,6 +155,7 @@ public class GameScreen implements IScreen {
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU, false);
+      return;
     }
 
     if (Keyboard.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
@@ -221,25 +229,28 @@ public class GameScreen implements IScreen {
       gameRenderer.init(gameModel);
     }
 
-      gameModel.clientUpdate(delta, playerInputDirection);
+    gameModel.clientUpdate(delta, playerInputDirection);
 
     // Check for complete
-    if(gameModel.getState() == GameState.SCORE) {
-      Client.changeScreen(ClientState.END, false, gameModel);
+    if (gameModel.getState() == GameState.SCORE) {
+      System.out.println("DETECT END");
+      Client.changeScreen(ClientState.END, false, gameModel.getPlayers());
+      return;
     }
 
     if (gameModel.getState() == GameState.NEXT_LEVEL) {
+      System.out.println("NEXT LEVEL DETECTED");
       hud.setLevel(gameModel.getCurrentLevelIndex());
       timer.resetStartTime();
     }
-
   }
 
   @Override
   public void render() {
     hud.updateSize();
 
-    gameRenderer.render(GameConnection.gameModel, hud);
+    gameRenderer.render(GameConnection.gameModel);
+    guiRenderer.render(hud);
   }
 
   @Override
@@ -248,7 +259,15 @@ public class GameScreen implements IScreen {
     Audio.stop(Audio.getCurrentMusic());
 
     hud.getCountDown().setRender(false);
-    GameConnection.gameModel = null;
+    if (gameServer != null) {
+      GameConnection.gameModel = null;
+      gameServer.close();
+      gameServer.interrupt();
+      try {
+        gameClient.close();
+      } catch (IOException ignored) {
+      }
+    }
   }
 
   @Override

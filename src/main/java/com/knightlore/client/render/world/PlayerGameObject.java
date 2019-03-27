@@ -78,7 +78,6 @@ public class PlayerGameObject extends EntityGameObject {
           playerGameObjects.add(playerGameObject);
         });
 
-    System.out.println("X");
     return playerGameObjects;
   }
 
@@ -120,6 +119,7 @@ public class PlayerGameObject extends EntityGameObject {
 
     switch (currentState) {
       case IDLE:
+      case FINISHED:
         idleTextures.get(currentDirection).bind(0);
         resetUnloopedAnimatedTextures();
         break;

@@ -15,6 +15,8 @@ public class PositionUpdate implements GenericHandler {
 
     // Update location
     GameConnection.gameModel.getPlayers().get(location.sessionId).setPosition(location.coordinates);
+    GameConnection.gameModel.getPlayers().get(location.sessionId).setDirection(location.direction);
+    GameConnection.gameModel.getPlayers().get(location.sessionId).setPlayerState(location.state);
 
     // Update score
     GameConnection.gameModel.getPlayers().get(location.sessionId).setScore(location.score);

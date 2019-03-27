@@ -198,16 +198,26 @@ public class Player extends Entity {
       if (newTile.getIndex() == 3 ) { // Climbing
         coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z+1));
         Tile above = levelMap.getTile(coords);
-        if (above.getIndex() == 1 && playerState != PlayerState.ROLLING && climbFlag) { // Checks if the tile above climbable tile is accessible
+        if ((above.getIndex() == 1 || above.getIndex() == 4 || above.getIndex() >= 6) && playerState != PlayerState.ROLLING && climbFlag) { // Checks if the tile above climbable tile is accessible
           climbVal = 0.1f;
+          Audio.play(Audio.AudioName.SOUND_CLIMB);
           setPlayerState(PlayerState.CLIMBING);
         } else {
           setPosition(oldPos);
         }
       }
 
+      if (newTile.getIndex() == 5 && playerState != PlayerState.FINISHED) { // Checks for goal
+        addToScore(10000);
+        setPosition(newPos);
+        // TODO: Switch game state here
+        setPlayerState(PlayerState.FINISHED);
 
-
+        if(GameConnection.instance != null){
+          Audio.play(Audio.AudioName.JINGLE_VICTORY);
+          GameConnection.instance.sendLevelComplete();
+        }
+      }
 
       // TODO: Enemy collisions
       // catches SW and SE edges    catches NE and NW edges

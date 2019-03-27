@@ -7,26 +7,50 @@ import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Window;
 import com.knightlore.game.entity.Player;
 import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * Screen shown at the end of a game to display winner
+ *
+ * @author Joseph
+ */
 public class GameEnd implements IGui {
 
+  /** Position of the top separator line */
   private static final int SEPARATOR_TOP_POS = 185;
+  /** Position of the bottom separator line */
   private static final int SEPARATOR_BOT_POS = 200;
+  /** Gap between each line of text */
   private static final int SEPARATOR_GAP = FONT_SIZE_SMALL;
 
+  /** Bongo text */
   private final TextObject bongo;
+  /** Congo text */
   private final TextObject congo;
+  /** Exit screen text */
   private final TextObject exit;
+  /** Top separator line text */
   private final TextObject separatorTop;
+  /** Bottom separator line text */
   private final TextObject separatorBot;
+  /** Game winner text */
   private final TextObject winner;
+  /** List of each players score */
   private ArrayList<TextObject> scores;
 
+  /** List of all the gui objects */
   private GuiObject[] guiObjects;
+  /** List of the text objects that have user interaction */
   private TextObject[] textObjects;
 
+  /** Position of the next gui object */
   private int yPos = SEPARATOR_TOP_POS - GAP;
 
+  /**
+   * Create gui objects
+   *
+   * @author Joseph
+   */
   public GameEnd() {
     this.bongo = new TextObject("Bongo", TITLE);
     this.bongo.setColour(Colour.LIGHT_BLUE);
@@ -50,14 +74,19 @@ public class GameEnd implements IGui {
     textObjects = new TextObject[] {exit};
   }
 
-  public void displayScores(ArrayList<Player> players) {
+  /**
+   * Creates a text object for each player to display their score
+   *
+   * @param players List of the player names
+   * @author Joseph
+   */
+  public void displayScores(List<Player> players) {
     yPos = SEPARATOR_TOP_POS - GAP;
 
     this.scores = new ArrayList<>();
 
     for (Player player : players) {
-      TextObject score =
-          new TextObject(player.getId() + ": " + player.getScore(), SMALL);
+      TextObject score = new TextObject(player.getId() + ": " + player.getScore(), SMALL);
       score.setColour(player.getColour());
       score.setPosition(Window.getHalfWidth() - score.getSize() / 2, Window.getHalfHeight() - yPos);
       this.scores.add(score);
@@ -66,7 +95,12 @@ public class GameEnd implements IGui {
     addScores();
   }
 
-  public void addScores() {
+  /**
+   * Adds the scores to the list of gui objects
+   *
+   * @author Joseph
+   */
+  private void addScores() {
     GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length + scores.size()];
     System.arraycopy(guiObjects, 0, guiObjectsNew, 0, guiObjects.length);
     for (int i = guiObjects.length; i < guiObjects.length + scores.size(); i++) {
@@ -75,6 +109,11 @@ public class GameEnd implements IGui {
     guiObjects = guiObjectsNew.clone();
   }
 
+  /**
+   * Updates the position of the gui objects
+   *
+   * @author Joseph
+   */
   public void updateSize() {
     this.bongo.setPosition(
         Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
@@ -93,10 +132,22 @@ public class GameEnd implements IGui {
         Window.getHalfHeight() - SEPARATOR_TOP_POS - SEPARATOR_GAP);
   }
 
+  /**
+   * Returns winner
+   *
+   * @return Winner
+   * @author Joseph
+   */
   public TextObject getWinner() {
     return winner;
   }
 
+  /**
+   * Returns Exit
+   *
+   * @return Exit
+   * @author Joseph
+   */
   public TextObject getExit() {
     return exit;
   }

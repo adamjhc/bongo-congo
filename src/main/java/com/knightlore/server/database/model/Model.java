@@ -16,6 +16,10 @@ public abstract class Model {
 
     private Connection conn = com.knightlore.server.database.Connection.getConnection();
 
+    public void orderBy(){
+
+    }
+
     public Optional<Integer> randomKey(){
         try {
             PreparedStatement stmt = conn.prepareStatement("SELECT " + this.attributes.getPrimaryKey() +" FROM " + this.table + " ORDER BY random() LIMIT 1");

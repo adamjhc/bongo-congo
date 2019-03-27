@@ -33,10 +33,14 @@ public class LevelUpload extends Command{
         current.where(new Condition("token", "=", handler.sessionKey.get()));
         Optional<Model> currentTokenModel = current.first();
 
+        System.out.println("Name: "+ levelUpload.name);
+        System.out.println("ID: "+  currentTokenModel.get().getAttribute("registration_key_id"));
+
         Level levelModel = new Level();
-        levelModel.setAttribute("created_by", currentTokenModel.get().getAttribute("registration_key_id"));
+        levelModel.setAttribute("created_by", (int) currentTokenModel.get().getAttribute("registration_key_id"));
         levelModel.setAttribute("uuid", UUID.randomUUID().toString());
         levelModel.setAttribute("name", levelUpload.name);
-        levelModel.setAttribute("name", gson.toJson(levelUpload.level));
+        levelModel.setAttribute("data", gson.toJson(levelUpload.level));
+        levelModel.save();
     }
 }

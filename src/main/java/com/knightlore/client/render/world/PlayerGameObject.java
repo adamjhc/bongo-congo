@@ -78,7 +78,6 @@ public class PlayerGameObject extends EntityGameObject {
           playerGameObjects.add(playerGameObject);
         });
 
-    System.out.println("X");
     return playerGameObjects;
   }
 

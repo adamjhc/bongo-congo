@@ -1,29 +1,30 @@
 package com.knightlore.client.networking.backend;
 
 import com.knightlore.client.networking.GameConnection;
-
 import java.util.concurrent.TimeUnit;
 
 public class PeriodicStatusUpdater extends Thread {
 
-    GameConnection gameConnection;
+  private Client client;
 
-    public PeriodicStatusUpdater(GameConnection connection){
-        gameConnection = connection;
+  public PeriodicStatusUpdater(Client client) {
+    this.client = client;
+  }
 
+  @Override
+  public void run() {
+    while (client.isRunning()) {
+      if (GameConnection.gameModel != null) {
+        GameConnection.instance.updateStatus();
+      }
+
+      try {
+        TimeUnit.MILLISECONDS.sleep(20);
+      } catch (InterruptedException e) {
+
+      }
+
+      System.out.println("send");
     }
-
-    public void run(){
-        while(true){
-            gameConnection.updateStatus();
-
-            try{
-                TimeUnit.MILLISECONDS.sleep(20);
-            }catch(InterruptedException e){
-
-            }
-
-            System.out.println("send");
-        }
-    }
+  }
 }

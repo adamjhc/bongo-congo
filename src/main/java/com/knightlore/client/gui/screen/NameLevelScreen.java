@@ -170,6 +170,7 @@ public class NameLevelScreen implements IScreen {
       if (Mouse.isLeftButtonPressed()) {
         Audio.play(SELECT);
         try {
+          level.setName(nameLevelUi.getLevelName().getText());
           save(nameLevelUi.getLevelName().getText());
         } catch (IOException e) {
           e.printStackTrace();
@@ -184,6 +185,7 @@ public class NameLevelScreen implements IScreen {
       if (Mouse.isLeftButtonPressed()) {
         Audio.play(SELECT);
         try {
+          level.setName(nameLevelUi.getLevelName().getText());
           save(nameLevelUi.getLevelName().getText());
         } catch (IOException e) {
           e.printStackTrace();
@@ -205,6 +207,7 @@ public class NameLevelScreen implements IScreen {
       nameLevelUi.getPublish().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Audio.play(SELECT);
+        level.setName(nameLevelUi.getLevelName().getText());
     	nameLevelUi.removePublish();
       }
     } else nameLevelUi.getPublish();

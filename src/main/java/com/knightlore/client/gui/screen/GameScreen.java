@@ -78,12 +78,6 @@ public class GameScreen implements IScreen {
     hud = new Hud();
   }
 
-  /**
-   * Initialise values when game starts
-   * 
-   * @author Joseph, Adam C, Lewis
-   * 
-   */
   @Override
   public void startup(Object... args) {
     Audio.stop(Audio.getCurrentMusic());
@@ -159,12 +153,6 @@ public class GameScreen implements IScreen {
     countDown.setStartTime();
   }
 
-  /**
-   * Check for user input
-   * 
-   * @author Joseph, Adam C, Lewis
-   * 
-   */
   @Override
   public void input() {
     GameModel gameModel = GameConnection.gameModel;
@@ -199,12 +187,6 @@ public class GameScreen implements IScreen {
     }
   }
 
-  /**
-   * Update game screen
-   * 
-   * @author Joseph, Adam C, Lewis
-   * 
-   */
   @Override
   public void update(float delta) {
     GameModel gameModel = GameConnection.gameModel;
@@ -274,7 +256,7 @@ public class GameScreen implements IScreen {
     // Check for complete
     if (gameModel.getState() == GameState.SCORE) {
       System.out.println("DETECT END");
-      Client.changeScreen(ClientState.END, false, gameModel.getPlayers());
+      Client.changeScreen(ClientState.END, false, gameModel.getPlayers().values());
       return;
     }
 
@@ -285,12 +267,6 @@ public class GameScreen implements IScreen {
     }
   }
 
-  /**
-   * Render the screen and update text positions
-   * 
-   * @author Joseph
-   * 
-   */
   @Override
   public void render() {
     hud.updateSize();
@@ -299,12 +275,6 @@ public class GameScreen implements IScreen {
     guiRenderer.render(hud);
   }
 
-  /**
-   * Reset values when screen shutdown
-   * 
-   * @author Joseph, Adam C, Lewis
-   * 
-   */
   @Override
   public void shutdown(ClientState nextScreen) {
     Mouse.showCursor();
@@ -322,12 +292,6 @@ public class GameScreen implements IScreen {
     }
   }
 
-  /**
-   * Cleanup the gui
-   * 
-   * @author Joseph
-   * 
-   */
   @Override
   public void cleanUp() {
     hud.cleanup();

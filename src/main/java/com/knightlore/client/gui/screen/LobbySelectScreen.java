@@ -21,11 +21,20 @@ import java.util.concurrent.TimeUnit;
 
 public class LobbySelectScreen implements IScreen {
 
+  /** Audio clip name for selection */
   private static final AudioName SELECT = AudioName.SOUND_MENUSELECT;
 
+  /** Renderer used for rendering gui elements */
   private GuiRenderer guiRenderer;
+
+  /** Gui elements to render */
   private LobbyMenu menu;
   
+  /**
+   * Initialise LobbySelectScreen
+   *
+   * @param guiRenderer renderer used to render gui elements
+   */
   public LobbySelectScreen(GuiRenderer guiRenderer) {
     this.guiRenderer = guiRenderer;
     menu = new LobbyMenu();
@@ -163,6 +172,7 @@ public class LobbySelectScreen implements IScreen {
     menu.cleanup();
   }
 
+  /** Refresh gui based on LobbyCache */
   private void menuRefresh() {
     int cacheV = LobbyCache.instance.cacheBuster;
 

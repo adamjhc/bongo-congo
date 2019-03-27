@@ -49,12 +49,6 @@ public class LobbyScreen implements IScreen {
     lobby = new Lobby();
   }
 
-  /**
-   * Initialise values when screen starts
-   * 
-   * @author Joseph
-   * 
-   */
   @Override
   public void startup(Object... args) {
     lobbyData = (LobbyObject) args[0];
@@ -65,12 +59,6 @@ public class LobbyScreen implements IScreen {
     }
   }
 
-  /**
-   * Check for user input
-   * 
-   * @author Joseph
-   * 
-   */
   @Override
   public void input() {
     if (checkPosition(lobby, lobby.getExit().getId())) {
@@ -84,12 +72,6 @@ public class LobbyScreen implements IScreen {
     } else lobby.getExit().setColour(Colour.YELLOW);
   }
 
-  /**
-   * Update lobby screen
-   * 
-   * @author Joseph
-   * 
-   */
   @Override
   public void update(float delta) {
     Collection<ListGameObject> games = LobbyCache.instance.getGames();
@@ -120,12 +102,6 @@ public class LobbyScreen implements IScreen {
     }
   }
 
-  /**
-   * Render the screen and update text positions
-   * 
-   * @author Joseph
-   * 
-   */
   @Override
   public void render() {
     lobby.updateSize(lobbyData.getIsCreator());
@@ -133,12 +109,6 @@ public class LobbyScreen implements IScreen {
     guiRenderer.render(lobby);
   }
 
-  /**
-   * Cleanup the gui
-   * 
-   * @author Joseph
-   * 
-   */
   @Override
   public void cleanUp() {
     lobby.cleanup();

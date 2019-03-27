@@ -13,7 +13,7 @@ import com.knightlore.client.io.Mouse;
 import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.game.entity.Player;
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.Collection;
 
 /**
  * Handles the game end screen startup, input, updates, rendering and cleanup
@@ -23,9 +23,9 @@ import java.util.Map;
  */
 public class GameEndScreen implements IScreen {
 
-	/** Map of the players */
-  private Map<String, Player> players;
-
+	/** Players */
+	private Collection<Player> players;
+	
   /** Gui renderer */
   private GuiRenderer guiRenderer;
   /** Game end gui */
@@ -43,25 +43,13 @@ public class GameEndScreen implements IScreen {
     gameEnd = new GameEnd();
   }
 
-  /**
-   * Initialise values when screen starts
-   * 
-   * @author Joseph
-   * 
-   */
   @Override
   public void startup(Object... args) {
-    players = (Map<String, Player>) args[0];
+    players = (Collection<Player>) args[0];
     setWinner();
     listFinishingPositions();
   }
 
-  /**
-   * Check for user input
-   * 
-   * @author Joseph
-   * 
-   */
   @Override
   public void input() {
     if (checkPosition(gameEnd, gameEnd.getExit().getId())) {
@@ -85,7 +73,7 @@ public class GameEndScreen implements IScreen {
    * 
    */
   private void listFinishingPositions() {
-    ArrayList<Player> playersList = new ArrayList<>(players.values());
+    ArrayList<Player> playersList = new ArrayList<>(players);
 
     playersList.sort((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
 
@@ -102,7 +90,7 @@ public class GameEndScreen implements IScreen {
     boolean draw = false;
     int highestScore = -1;
     Player highestScorePlayer = null;
-    for (Player player : players.values()) {
+    for (Player player : players) {
       if (player.getScore() > highestScore) {
         highestScorePlayer = player;
         highestScore = player.getScore();
@@ -119,12 +107,6 @@ public class GameEndScreen implements IScreen {
     }
   }
 
-  /**
-   * Render the screen and update text positions
-   * 
-   * @author Joseph
-   * 
-   */
   @Override
   public void render() {
     gameEnd.updateSize();
@@ -132,12 +114,6 @@ public class GameEndScreen implements IScreen {
     guiRenderer.render(gameEnd);
   }
 
-  /**
-   * Cleanup the gui
-   * 
-   * @author Joseph
-   * 
-   */
   @Override
   public void cleanUp() {
     gameEnd.cleanup();

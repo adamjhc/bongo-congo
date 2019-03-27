@@ -23,14 +23,23 @@ import java.util.concurrent.TimeUnit;
 
 public class MainScreen implements IScreen {
 
+  /** Audio clip name for selection */
   private static final AudioName SELECT = AudioName.SOUND_MENUSELECT;
 
-  private MainMenu menu;
+  /** Renderer used for rendering gui elements */
   private GuiRenderer renderer;
 
-  public MainScreen(GuiRenderer renderer) {
+  /** Gui elements to render */
+  private MainMenu menu;
+
+  /**
+   * Initialise MainScreen
+   *
+   * @param guiRenderer renderer used to render gui elements
+   */
+  public MainScreen(GuiRenderer guiRenderer) {
+    this.renderer = guiRenderer;
     menu = new MainMenu();
-    this.renderer = renderer;
 
     Audio.restart();
   }
@@ -111,10 +120,10 @@ public class MainScreen implements IScreen {
 
         int currentCache = HighScoreCache.instance.cache;
 
-        while(currentCache == HighScoreCache.instance.cache){
-          try{
+        while (currentCache == HighScoreCache.instance.cache) {
+          try {
             TimeUnit.MILLISECONDS.sleep(50);
-          }catch(InterruptedException e){
+          } catch (InterruptedException e) {
 
           }
         }
@@ -151,13 +160,13 @@ public class MainScreen implements IScreen {
       }
     }
 
-//    if (Keyboard.isKeyReleased(GLFW_KEY_EQUAL)) {
-//    	menu.incFont();
-//    }
-//    
-//    if (Keyboard.isKeyReleased(GLFW_KEY_MINUS)) {
-//    	menu.decFont();
-//    }
+    //    if (Keyboard.isKeyReleased(GLFW_KEY_EQUAL)) {
+    //    	menu.incFont();
+    //    }
+    //
+    //    if (Keyboard.isKeyReleased(GLFW_KEY_MINUS)) {
+    //    	menu.decFont();
+    //    }
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Window.setShouldClose();
@@ -177,6 +186,11 @@ public class MainScreen implements IScreen {
     menu.cleanup();
   }
 
+  /**
+   * Attempt to connect to server
+   *
+   * @return boolean whether connection was successful
+   */
   private boolean connectToServer() {
     Client.showLoadingScreen();
 

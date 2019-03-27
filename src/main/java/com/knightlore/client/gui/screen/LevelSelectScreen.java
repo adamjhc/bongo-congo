@@ -29,6 +29,7 @@ import org.joml.Vector3i;
 
 public class LevelSelectScreen implements IScreen {
 
+  /** Audio clip name used for selection */
   private static final AudioName SELECT = AudioName.SOUND_MENUSELECT;
 
   /** File path to maps */

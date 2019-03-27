@@ -43,7 +43,7 @@ public class GameRepository {
         gameModel.addLevel(currentLevel);
       }
     } else {
-      // No levels provided, fallback on first from database
+      // No levels provided, fallback on random 3 from database from database
       Optional<Model> optLevel = com.knightlore.server.database.model.Level.instance.first();
 
             if(!optLevel.isPresent()){

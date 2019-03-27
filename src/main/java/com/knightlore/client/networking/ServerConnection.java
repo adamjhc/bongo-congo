@@ -11,6 +11,7 @@ import com.knightlore.client.networking.backend.responsehandlers.server.ListLeve
 import com.knightlore.client.networking.backend.responsehandlers.server.SessionKey;
 import com.knightlore.game.Level;
 import com.knightlore.networking.ApiKey;
+import com.knightlore.networking.LevelUpload;
 import com.knightlore.networking.Sendable;
 import com.knightlore.util.Config;
 
@@ -233,7 +234,9 @@ public class ServerConnection {
         sendable.setFunction("level_upload");
 
         Gson gson = new Gson();
-        sendable.setData(gson.toJson(level));
+        LevelUpload lu = new LevelUpload(level, name);
+
+        sendable.setData(gson.toJson(lu));
 
         try{
             client.dos.writeObject(sendable);

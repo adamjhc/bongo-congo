@@ -210,7 +210,6 @@ public class Player extends Entity {
       if (newTile.getIndex() == 5 && playerState != PlayerState.FINISHED) { // Checks for goal
         addToScore(10000);
         setPosition(newPos);
-        // TODO: Switch game state here
         setPlayerState(PlayerState.FINISHED);
 
         if(GameConnection.instance != null){
@@ -219,7 +218,7 @@ public class Player extends Entity {
         }
       }
 
-      // TODO: Enemy collisions
+
       // catches SW and SE edges    catches NE and NW edges
     } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
       climbFlag = false;

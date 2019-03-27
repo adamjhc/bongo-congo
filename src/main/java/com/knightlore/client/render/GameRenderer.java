@@ -199,8 +199,8 @@ public class GameRenderer extends Renderer {
    */
   private List<GameObject> depthSort(Vector3i mapSize, List<GameObject> gameObjects) {
     List<ArrayList<GameObject>> buckets = new ArrayList<>();
-    for (int i = 0; i < getScreenDepth(mapSize, new Vector3f(0, 0, mapSize.z - 1)) + 1; i++) {
-      buckets.add(new ArrayList<>());
+    for (int i = -1; i < getScreenDepth(mapSize, new Vector3f(0, 0, mapSize.z - 1)) + 1; i++) {
+      buckets.add(i + 1, new ArrayList<>());
     }
 
     gameObjects.forEach(
@@ -221,7 +221,7 @@ public class GameRenderer extends Renderer {
                         mapSize, gameObject.getModelPosition().sub(1, 1, 0, new Vector3f())))
                 .add(gameObject);
           } else {
-            buckets.get(getScreenDepth(mapSize, gameObject.getModelPosition())).add(gameObject);
+            buckets.get(getScreenDepth(mapSize, gameObject.getModelPosition()) + 1).add(gameObject);
           }
         });
 

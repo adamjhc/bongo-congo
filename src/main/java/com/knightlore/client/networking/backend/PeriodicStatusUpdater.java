@@ -14,7 +14,9 @@ public class PeriodicStatusUpdater extends Thread {
   @Override
   public void run() {
     while (client.isRunning()) {
-      GameConnection.instance.updateStatus();
+      if (GameConnection.gameModel != null) {
+        GameConnection.instance.updateStatus();
+      }
 
       try {
         TimeUnit.MILLISECONDS.sleep(20);

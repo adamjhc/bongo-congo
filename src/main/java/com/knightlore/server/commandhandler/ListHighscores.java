@@ -27,7 +27,7 @@ public class ListHighscores extends Command{
         Sendable response = sendable.makeResponse();
         HighscoreResponse hsResponse = new HighscoreResponse();
 
-        int max = 3;
+        int max = 20;
         for(Model currentGamePlayer: models){
             if(max != 0){
                 // Retrieve username for this

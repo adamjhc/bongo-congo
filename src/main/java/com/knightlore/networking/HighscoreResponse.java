@@ -1,17 +1,17 @@
 package com.knightlore.networking;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class HighscoreResponse {
 
-    public HashMap<String, Integer> scores;
+    public ArrayList<HighscoreResponseObject> scores;
 
 
     public HighscoreResponse(){
-        this.scores = new HashMap<>();
+        this.scores = new ArrayList<>();
     }
 
     public void addScore(String username, int score){
-        scores.put(username, score);
+        scores.add(new HighscoreResponseObject(username, score));
     }
 }

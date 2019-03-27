@@ -11,9 +11,18 @@ import com.knightlore.client.render.GuiRenderer;
 
 public class ShowErrorScreen implements IScreen {
 
+  /** Renderer used for rendering gui elements */
   private GuiRenderer guiRenderer;
+
+  /** Gui elements to render */
   private ShowError showError;
 
+  /**
+   * Initialise ShowErrorScreen
+   *
+   * @param guiRenderer renderer used for rendering gui elements
+   * @author Adam Cox
+   */
   public ShowErrorScreen(GuiRenderer guiRenderer) {
     this.guiRenderer = guiRenderer;
     showError = new ShowError();

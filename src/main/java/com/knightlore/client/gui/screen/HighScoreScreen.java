@@ -19,9 +19,18 @@ import java.util.List;
 
 public class HighScoreScreen implements IScreen {
 
+  /** Renderer to render gui elements */
   private GuiRenderer guiRenderer;
+
+  /** Gui elements to render */
   private HighScore highScoreGui;
 
+  /**
+   * Initialise high score screen
+   *
+   * @param guiRenderer renderer to render gui elements
+   * @author Adam Cox
+   */
   public HighScoreScreen(GuiRenderer guiRenderer) {
     this.guiRenderer = guiRenderer;
 

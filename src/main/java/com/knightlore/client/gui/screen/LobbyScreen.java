@@ -18,14 +18,26 @@ import java.util.Collection;
 
 public class LobbyScreen implements IScreen {
 
+  /** Audio clip name used for selection */
   private static final AudioName SELECT = AudioName.SOUND_MENUSELECT;
 
+  /** Renderer used for rendering gui elements */
   private GuiRenderer guiRenderer;
+
+  /** Gui elements to render */
   private Lobby lobby;
 
+  /** Selected lobby from previous lobby select screen */
   private LobbyObject lobbyData;
+
+  /** Game data sent from server */
   private ListGameObject game;
 
+  /**
+   * Initialise LobbyScreen
+   *
+   * @param guiRenderer renderer used for rendering gui elements
+   */
   public LobbyScreen(GuiRenderer guiRenderer) {
     this.guiRenderer = guiRenderer;
     lobby = new Lobby();

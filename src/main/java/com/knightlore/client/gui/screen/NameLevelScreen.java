@@ -218,6 +218,7 @@ public class NameLevelScreen implements IScreen {
           }
         
         Level sentLevel = new Level(level);
+        System.out.println("LEVEL: " + nameLevelUi.getLevelName().getText());
         ServerConnection.instance.sendLevel(sentLevel, nameLevelUi.getLevelName().getText());
     	nameLevelUi.removePublish();
       }

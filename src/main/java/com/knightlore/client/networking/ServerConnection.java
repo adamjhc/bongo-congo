@@ -9,6 +9,7 @@ import com.knightlore.client.networking.backend.responsehandlers.server.GameList
 import com.knightlore.client.networking.backend.responsehandlers.server.GameRequest;
 import com.knightlore.client.networking.backend.responsehandlers.server.ListLevels;
 import com.knightlore.client.networking.backend.responsehandlers.server.SessionKey;
+import com.knightlore.game.Level;
 import com.knightlore.networking.ApiKey;
 import com.knightlore.networking.Sendable;
 import com.knightlore.util.Config;
@@ -225,5 +226,19 @@ public class ServerConnection {
         }
 
         return true;
+    }
+
+    public void sendLevel(Level level, String name){
+        Sendable sendable = new Sendable();
+        sendable.setFunction("level_upload");
+
+        Gson gson = new Gson();
+        sendable.setData(gson.toJson(level));
+
+        try{
+            client.dos.writeObject(sendable);
+        }catch(IOException e){
+            System.out.println(e);
+        }
     }
 }

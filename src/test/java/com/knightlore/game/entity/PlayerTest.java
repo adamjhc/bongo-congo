@@ -161,28 +161,6 @@ public class PlayerTest {
   }
 
   @Test
-  public void loseLifeWhileRollingTest() {
-    // arrange
-    Vector3f expectedPosition = new Vector3f(20, 20, 20);
-    Direction expectedDirection = Direction.SOUTH_WEST;
-    PlayerState expectedPlayerState = PlayerState.ROLLING;
-
-    Player player = new Player("", 0, Colour.GREEN);
-    player.setPosition(expectedPosition);
-    player.setDirection(expectedDirection);
-    player.setPlayerState(expectedPlayerState);
-
-    // act
-    player.loseLife();
-
-    // assert
-    assertThat(player.getPosition(), is(equalTo(expectedPosition)));
-    assertThat(player.getDirection(), is(equalTo(expectedDirection)));
-    assertThat(player.getPlayerState(), is(equalTo(expectedPlayerState)));
-    assertThat(player.getLives(), is(equalTo(3)));
-  }
-
-  @Test
   public void resetPlayerToDefaultsTest() {
     // arrange
     Player player = new Player("", 0, Colour.GREEN);

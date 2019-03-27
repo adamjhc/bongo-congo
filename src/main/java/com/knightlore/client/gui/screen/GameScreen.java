@@ -39,15 +39,15 @@ public class GameScreen implements IScreen {
 
   Direction playerInputDirection;
 
-  private GameRenderer gameRenderer;
+  Hud hud;
+
+  Timer countDown;
+  Timer timer;
+
+  GameRenderer gameRenderer;
 
   private GameServer gameServer;
   private com.knightlore.client.networking.backend.Client gameClient;
-
-  private Hud hud;
-
-  private Timer countDown;
-  private Timer timer;
 
   public GameScreen(GameRenderer gameRenderer, Timer timer) {
     this.gameRenderer = gameRenderer;
@@ -69,7 +69,7 @@ public class GameScreen implements IScreen {
 
       String playerSessionId = "1";
 
-      int port = new Random().nextInt(65530) + 1025;
+      int port = new Random().nextInt(65535);
       gameServer = new GameServer(UUID.randomUUID(), port, playerSessionId, gameModel, "Player 1");
       gameServer.start();
 
@@ -144,6 +144,7 @@ public class GameScreen implements IScreen {
         && (gameModel.myPlayer().getCooldown() == 0)
         && (gameModel.myPlayer().getPlayerState() == PlayerState.IDLE
             || gameModel.myPlayer().getPlayerState() == PlayerState.MOVING)) {
+      Audio.play(Audio.AudioName.SOUND_ROLL);
       gameModel.myPlayer().setPlayerState(PlayerState.ROLLING);
     }
 
@@ -255,6 +256,7 @@ public class GameScreen implements IScreen {
 
     hud.getCountDown().setRender(false);
     if (gameServer != null) {
+      GameConnection.gameModel = null;
       gameServer.close();
       gameServer.interrupt();
       try {

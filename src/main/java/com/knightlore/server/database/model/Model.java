@@ -151,11 +151,11 @@ public abstract class Model {
         for(Condition condition: this.conditions){
             switch(this.attributes.getAttribute(condition.key).type){
                 case Types.INTEGER:
-                    stmt.setInt(1, (Integer) condition.operand);
+                    stmt.setInt(i, (Integer) condition.operand);
                     break;
 
                 case Types.VARCHAR:
-                    stmt.setString(1, (String) condition.operand);
+                    stmt.setString(i, (String) condition.operand);
                     break;
             }
             i++;
@@ -245,7 +245,7 @@ public abstract class Model {
         // Now bind
         try{
             PreparedStatement stmt = conn.prepareStatement(statement);
-
+            System.out.println(stmt);
             stmt = this.bindWhereParams(stmt);
 
             ResultSet results = stmt.executeQuery();

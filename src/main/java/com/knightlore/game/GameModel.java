@@ -209,6 +209,14 @@ public class GameModel {
       myPlayer().loseLife();
     }
 
+    List<Enemy> enemies = getCurrentLevel().getEnemies();
+    for (Enemy enemy : enemies) {
+      if (enemy.getPosition().distance(myPlayer().getPosition()) < 0.3f) {
+        Audio.play(Audio.AudioName.SOUND_HIT);
+        delay(200);
+        myPlayer().loseLife();
+      }
+    }
     myPlayer().setClimbFlag(false);
   }
 

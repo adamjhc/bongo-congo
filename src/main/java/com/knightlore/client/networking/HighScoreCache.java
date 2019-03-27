@@ -1,33 +1,26 @@
 package com.knightlore.client.networking;
 
-import com.knightlore.networking.HighscoreResponse;
-import com.knightlore.networking.HighscoreResponseObject;
-import com.knightlore.networking.ListLevelObject;
-import com.knightlore.networking.ListLevelsResponse;
-
+import com.knightlore.networking.HighScoreResponse;
+import com.knightlore.networking.HighScoreResponseObject;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.List;
 
 public class HighScoreCache {
 
-    public static HighScoreCache instance = new HighScoreCache();
+  public static HighScoreCache instance = new HighScoreCache();
+  public int cache = 0;
+  private List<HighScoreResponseObject> scores;
 
-    ArrayList<HighscoreResponseObject> scores;
-    public int cache = 0;
+  public HighScoreCache() {
+    this.scores = new ArrayList<>();
+  }
 
-    public HighScoreCache(){
-        this.scores = new ArrayList<>();
-    }
+  public List<HighScoreResponseObject> getScores() {
+    return this.scores;
+  }
 
-    public void setScores(HighscoreResponse response){
-        this.scores = response.scores;
-        cache ++;
-    }
-
-    public ArrayList<HighscoreResponseObject> getScores(){
-        return this.scores;
-    }
-
+  public void setScores(HighScoreResponse response) {
+    this.scores = response.scores;
+    cache++;
+  }
 }

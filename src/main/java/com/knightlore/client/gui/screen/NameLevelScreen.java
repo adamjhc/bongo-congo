@@ -226,7 +226,7 @@ public class NameLevelScreen implements IScreen {
         ServerConnection.instance.sendLevel(sentLevel, nameLevelUi.getLevelName().getText());
         nameLevelUi.removePublish();
       }
-    } else nameLevelUi.getPublish();
+    } else nameLevelUi.getPublish().setColour(new Vector4f(1, 1, 0, 1));
   }
 
   /** Method to render the GUI */

@@ -6,6 +6,7 @@ import com.knightlore.client.audio.Audio;
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.networking.GameConnection;
 import com.knightlore.game.entity.Direction;
+import com.knightlore.game.entity.Enemy;
 import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.LevelMap;
@@ -130,14 +131,6 @@ public class GameModel {
       }
     }
 
-    if (getTileIndex(myPlayer().getPosition()) == 4
-        && myPlayer().getPlayerState() != PlayerState.ROLLING
-        && myPlayer().getPlayerState() != PlayerState.DEAD) {
-      Audio.play(Audio.AudioName.SOUND_HIT);
-      delay(100);
-      myPlayer().loseLife();
-    }
-
     // Player updates
     switch (myPlayer().getPlayerState()) {
       case IDLE:
@@ -220,7 +213,10 @@ public class GameModel {
   }
 
   public void serverUpdate(float delta) {
-
+    List<Enemy> enemies = getCurrentLevel().getEnemies();
+    for (Enemy enemy : enemies) {
+      enemy.update();
+    }
   }
 
   public void addPlayer(String uuid) {

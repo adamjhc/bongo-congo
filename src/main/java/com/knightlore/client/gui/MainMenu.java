@@ -18,7 +18,7 @@ import com.knightlore.client.io.Window;
 public class MainMenu implements IGui {
 
   /** Position of the menu */
-  private static final int MENU_POS = 0;
+  private static final int MENU_POS = -60;
 
   /** Singleplayer text */
   private final TextObject singleplayer;

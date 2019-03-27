@@ -11,15 +11,13 @@ import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.render.GuiRenderer;
-import com.knightlore.game.GameModel;
 import com.knightlore.game.entity.Player;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Map;
 
 public class GameEndScreen implements IScreen {
 
-  GameModel gameModel;
+  private Map<String, Player> players;
 
   private GuiRenderer guiRenderer;
   private GameEnd gameEnd;
@@ -31,7 +29,7 @@ public class GameEndScreen implements IScreen {
 
   @Override
   public void startup(Object... args) {
-    gameModel = (GameModel) args[0];
+    players = (Map<String, Player>) args[0];
     setWinner();
     listFinishingPositions();
   }
@@ -41,7 +39,7 @@ public class GameEndScreen implements IScreen {
     if (checkPosition(gameEnd, gameEnd.getExit().getId())) {
       gameEnd.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(Audio.AudioName.SOUND_MENUSELECT);
+        Audio.play(Audio.AudioName.SOUND_MENUSELECT);
         Client.changeScreen(ClientState.MAIN_MENU, false);
         return;
       }
@@ -53,7 +51,6 @@ public class GameEndScreen implements IScreen {
   }
 
   private void listFinishingPositions() {
-    Map<String, Player> players = gameModel.getPlayers();
     ArrayList<Player> playersList = new ArrayList<>(players.values());
 
     playersList.sort((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
@@ -65,7 +62,6 @@ public class GameEndScreen implements IScreen {
     boolean draw = false;
     int highestScore = -1;
     Player highestScorePlayer = null;
-    Map<String, Player> players = gameModel.getPlayers();
     for (Player player : players.values()) {
       if (player.getScore() > highestScore) {
         highestScorePlayer = player;
@@ -75,6 +71,7 @@ public class GameEndScreen implements IScreen {
         draw = true;
       }
     }
+
     if (draw) {
       gameEnd.getWinner().setText("Draw");
     } else {

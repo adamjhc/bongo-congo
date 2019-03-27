@@ -18,6 +18,7 @@ import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.render.GameRenderer;
+import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.GameState;
 import com.knightlore.game.Level;
@@ -25,24 +26,31 @@ import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.server.GameServer;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class GameScreen implements IScreen {
 
-  Timer timer;
   Direction playerInputDirection;
 
-  protected Timer countDown;
-  protected Hud hud;
-  protected GameRenderer gameRenderer;
+  Hud hud;
 
-  public GameScreen(GameRenderer gameRenderer, Timer timer) {
+  Timer countDown;
+  Timer timer;
+  GameRenderer gameRenderer;
+  private GuiRenderer guiRenderer;
+  private GameServer gameServer;
+  private com.knightlore.client.networking.backend.Client gameClient;
+
+  public GameScreen(GuiRenderer guiRenderer, GameRenderer gameRenderer, Timer timer) {
+    this.guiRenderer = guiRenderer;
     this.gameRenderer = gameRenderer;
     this.timer = timer;
     hud = new Hud();
@@ -62,14 +70,13 @@ public class GameScreen implements IScreen {
 
       String playerSessionId = "1";
 
-      GameServer server =
-          new GameServer(UUID.randomUUID(), 1337, playerSessionId, gameModel, "Player 1");
-      server.start();
+      int port = new Random().nextInt(65535);
+      gameServer = new GameServer(UUID.randomUUID(), port, playerSessionId, gameModel, "Player 1");
+      gameServer.start();
 
-      com.knightlore.client.networking.backend.Client gameClient = null;
       try {
         gameClient =
-            new com.knightlore.client.networking.backend.Client(InetAddress.getLocalHost(), 1337);
+            new com.knightlore.client.networking.backend.Client(InetAddress.getLocalHost(), port);
       } catch (UnknownHostException e) {
         e.printStackTrace();
       }
@@ -226,11 +233,13 @@ public class GameScreen implements IScreen {
 
     // Check for complete
     if (gameModel.getState() == GameState.SCORE) {
-      Client.changeScreen(ClientState.END, false, gameModel);
+      System.out.println("DETECT END");
+      Client.changeScreen(ClientState.END, false, gameModel.getPlayers());
       return;
     }
 
     if (gameModel.getState() == GameState.NEXT_LEVEL) {
+      System.out.println("NEXT LEVEL DETECTED");
       hud.setLevel(gameModel.getCurrentLevelIndex());
       timer.resetStartTime();
     }
@@ -240,7 +249,8 @@ public class GameScreen implements IScreen {
   public void render() {
     hud.updateSize();
 
-    gameRenderer.render(GameConnection.gameModel, hud);
+    gameRenderer.render(GameConnection.gameModel);
+    guiRenderer.render(hud);
   }
 
   @Override
@@ -249,7 +259,15 @@ public class GameScreen implements IScreen {
     Audio.stop(Audio.getCurrentMusic());
 
     hud.getCountDown().setRender(false);
-    GameConnection.gameModel = null;
+    if (gameServer != null) {
+      GameConnection.gameModel = null;
+      gameServer.close();
+      gameServer.interrupt();
+      try {
+        gameClient.close();
+      } catch (IOException ignored) {
+      }
+    }
   }
 
   @Override

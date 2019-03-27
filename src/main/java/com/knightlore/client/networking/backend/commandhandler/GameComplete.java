@@ -10,7 +10,7 @@ public class GameComplete implements GenericHandler {
   public void run(Client client, Sendable sendable) {
     System.out.println("Game complete!");
 
-    // Increment
+    // Set state to score
     GameConnection.gameModel.setState(GameState.SCORE);
   }
 }

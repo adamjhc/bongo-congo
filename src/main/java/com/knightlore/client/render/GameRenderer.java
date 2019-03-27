@@ -1,6 +1,5 @@
 package com.knightlore.client.render;
 
-import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.io.Window;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.world.EnemyGameObject;
@@ -27,9 +26,6 @@ import org.joml.Vector3i;
  * @author Adam Cox
  */
 public class GameRenderer extends Renderer {
-
-  /** Used for rendering HUD */
-  private GuiRenderer hudRenderer;
 
   /** World object used in renderer */
   private World world;
@@ -66,16 +62,6 @@ public class GameRenderer extends Renderer {
   public GameRenderer() {
     super();
 
-    setupWorld();
-    setupHud();
-  }
-
-  /**
-   * Setup render world
-   *
-   * @author Adam Cox
-   */
-  private void setupWorld() {
     world = new World();
     camera = new Camera(Window.getWidth(), Window.getHeight());
     worldShaderProgram = new ShaderProgram("world");
@@ -85,15 +71,6 @@ public class GameRenderer extends Renderer {
     enemyGameObjects = new ArrayList<>();
     viewX = (Window.getWidth() / (world.getScale() * 2f)) + 1;
     viewY = (Window.getHeight() / (world.getScale() * 2f)) + 2;
-  }
-
-  /**
-   * Setup hud for game
-   *
-   * @author Adam Cox
-   */
-  private void setupHud() {
-    hudRenderer = new GuiRenderer();
   }
 
   /**
@@ -115,9 +92,8 @@ public class GameRenderer extends Renderer {
    * @param gameModel GameModel model to render
    * @author Adam Cox
    */
-  public void render(GameModel gameModel, IGui hud) {
+  public void render(GameModel gameModel) {
     renderGame(gameModel);
-    hudRenderer.render(hud);
   }
 
   /**
@@ -199,8 +175,8 @@ public class GameRenderer extends Renderer {
    */
   private List<GameObject> depthSort(Vector3i mapSize, List<GameObject> gameObjects) {
     List<ArrayList<GameObject>> buckets = new ArrayList<>();
-    for (int i = 0; i < getScreenDepth(mapSize, new Vector3f(0, 0, mapSize.z - 1)) + 1; i++) {
-      buckets.add(new ArrayList<>());
+    for (int i = -1; i < getScreenDepth(mapSize, new Vector3f(0, 0, mapSize.z - 1)) + 1; i++) {
+      buckets.add(i + 1, new ArrayList<>());
     }
 
     gameObjects.forEach(
@@ -221,7 +197,7 @@ public class GameRenderer extends Renderer {
                         mapSize, gameObject.getModelPosition().sub(1, 1, 0, new Vector3f())))
                 .add(gameObject);
           } else {
-            buckets.get(getScreenDepth(mapSize, gameObject.getModelPosition())).add(gameObject);
+            buckets.get(getScreenDepth(mapSize, gameObject.getModelPosition()) + 1).add(gameObject);
           }
         });
 

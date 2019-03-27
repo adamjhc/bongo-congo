@@ -52,17 +52,24 @@ import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.audio.Audio;
 import com.knightlore.client.audio.Audio.AudioName;
+import com.knightlore.client.exceptions.ClientAlreadyAuthenticatedException;
+import com.knightlore.client.exceptions.ConfigItemNotFoundException;
 import com.knightlore.client.gui.NameLevel;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
+import com.knightlore.client.networking.ServerConnection;
 import com.knightlore.client.render.GuiRenderer;
+import com.knightlore.game.Level;
 import com.knightlore.game.map.LevelMap;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
+
 import org.joml.Vector4f;
 
 public class NameLevelScreen implements IScreen {
@@ -118,6 +125,9 @@ public class NameLevelScreen implements IScreen {
               GLFW_KEY_KP_ADD,
               GLFW_KEY_BACKSPACE,
               GLFW_KEY_SPACE));
+  
+  /**Whether the level being saved is complete or not*/
+  private boolean complete;
 
   /** The renderer used to render the menu */
   private GuiRenderer guiRenderer;
@@ -137,6 +147,10 @@ public class NameLevelScreen implements IScreen {
   @Override
   public void startup(Object... args) {
     level = (LevelMap) args[0];
+    complete = (boolean) args[1];
+    if (complete) {
+    	nameLevelUi.showPublish();
+    } else nameLevelUi.removePublish();
   }
 
   /** Method to process user keyboard input and clicking on menu items */
@@ -163,7 +177,7 @@ public class NameLevelScreen implements IScreen {
       if (Mouse.isLeftButtonPressed()) {
         Audio.play(SELECT);
         try {
-          save(false, nameLevelUi.getLevelName().getText());
+          save(nameLevelUi.getLevelName().getText());
         } catch (IOException e) {
           e.printStackTrace();
         }
@@ -177,7 +191,7 @@ public class NameLevelScreen implements IScreen {
       if (Mouse.isLeftButtonPressed()) {
         Audio.play(SELECT);
         try {
-          save(false, nameLevelUi.getLevelName().getText());
+          save(nameLevelUi.getLevelName().getText());
         } catch (IOException e) {
           e.printStackTrace();
         }
@@ -193,6 +207,22 @@ public class NameLevelScreen implements IScreen {
         Client.changeScreen(ClientState.LEVEL_EDITOR, false, level);
       }
     } else nameLevelUi.getCancel().setColour(new Vector4f(1, 1, 0, 1));
+    
+    if (checkPosition(nameLevelUi, nameLevelUi.getPublish().getId())) {
+      nameLevelUi.getPublish().setColour();
+      if (Mouse.isLeftButtonPressed()) {
+        Audio.play(SELECT);
+        if (!connectToServer()) {
+          Client.changeScreen(ClientState.SHOW_ERROR, false, "Error connecting to server");
+          return;
+          }
+        
+        Level sentLevel = new Level(level);
+        System.out.println("LEVEL: " + nameLevelUi.getLevelName().getText());
+        ServerConnection.instance.sendLevel(sentLevel, nameLevelUi.getLevelName().getText());
+    	nameLevelUi.removePublish();
+      }
+    } else nameLevelUi.getPublish();
   }
 
   /** Method to render the GUI */
@@ -215,12 +245,15 @@ public class NameLevelScreen implements IScreen {
    * @param name The name of the level
    * @throws IOException Thrown when the file path can't be found
    */
-  private void save(boolean levelIsComplete, String name) throws IOException {
+  private void save(String name) throws IOException {
     String filePath = "customMaps/";
-    if (levelIsComplete) {
+    String fileType;
+    if (complete) {
       filePath = filePath + "playable/";
+      fileType = ".fmap";
     } else {
       filePath = filePath + "unplayable/";
+      fileType = ".umap";
     }
 
     GsonBuilder builder = new GsonBuilder();
@@ -228,8 +261,51 @@ public class NameLevelScreen implements IScreen {
 
     String jsonString = gson.toJson(level);
 
-    BufferedWriter writer = new BufferedWriter(new FileWriter(filePath + name + ".umap"));
+    BufferedWriter writer = new BufferedWriter(new FileWriter(filePath + name + fileType));
     writer.write(jsonString);
     writer.close();
   }
+  
+  private boolean connectToServer() {
+	    Client.showLoadingScreen();
+
+	    // Check for multiplayer connection
+	    if (ServerConnection.instance == null) {
+	      try {
+	        // Make connection
+	        if (!ServerConnection.makeConnection()) {
+	          return false;
+	        }
+
+	        // Authenticate
+	        try {
+	          ServerConnection.instance.auth();
+	        } catch (IOException e) {
+	          return false;
+	        } catch (ClientAlreadyAuthenticatedException e) {
+	          return true;
+	        }
+
+	        // Wait for auth
+	        int timeout = 5;
+	        int wait = 0;
+	        while (!ServerConnection.instance.isAuthenticated()) {
+	          // Wait
+	          try {
+	            TimeUnit.SECONDS.sleep(1);
+	          } catch (InterruptedException ignored) {
+	          }
+
+	          wait++;
+
+	          if (wait == timeout) {
+	            return false;
+	          }
+	        }
+	      } catch (ConfigItemNotFoundException ignored) {
+	      }
+	    }
+
+	    return true;
+	  }
 }

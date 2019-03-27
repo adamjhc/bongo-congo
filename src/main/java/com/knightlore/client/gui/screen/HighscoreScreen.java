@@ -5,6 +5,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
+import com.knightlore.client.audio.Audio;
 import com.knightlore.client.gui.Highscore;
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.gui.engine.TextObject;
@@ -35,6 +36,7 @@ public class HighscoreScreen implements IScreen {
     if (checkPosition(highscoreGui, highscoreGui.getBack().getId())) {
       highscoreGui.getBack().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(Audio.AudioName.SOUND_MENUSELECT);
         Client.changeScreen(ClientState.MAIN_MENU, false);
         return;
       }
@@ -43,6 +45,7 @@ public class HighscoreScreen implements IScreen {
     if (checkPosition(highscoreGui, highscoreGui.getNextPage().getId())) {
       highscoreGui.getNextPage().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(Audio.AudioName.SOUND_MENUSELECT);
         highscoreGui.incPage();
       }
     } else highscoreGui.getNextPage().setColour(Colour.YELLOW);
@@ -50,6 +53,7 @@ public class HighscoreScreen implements IScreen {
     if (checkPosition(highscoreGui, highscoreGui.getLastPage().getId())) {
       highscoreGui.getLastPage().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(Audio.AudioName.SOUND_MENUSELECT);
         highscoreGui.decPage();
       }
     } else highscoreGui.getLastPage().setColour(Colour.YELLOW);

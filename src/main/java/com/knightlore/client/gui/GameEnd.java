@@ -7,16 +7,16 @@ import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Window;
 import com.knightlore.game.entity.Player;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Screen shown at the end of a game to display winner
- * 
- * @author Joseph
  *
+ * @author Joseph
  */
 public class GameEnd implements IGui {
 
-	/** Position of the top separator line */
+  /** Position of the top separator line */
   private static final int SEPARATOR_TOP_POS = 185;
   /** Position of the bottom separator line */
   private static final int SEPARATOR_BOT_POS = 200;
@@ -48,9 +48,8 @@ public class GameEnd implements IGui {
 
   /**
    * Create gui objects
-   * 
+   *
    * @author Joseph
-   * 
    */
   public GameEnd() {
     this.bongo = new TextObject("Bongo", TITLE);
@@ -77,19 +76,17 @@ public class GameEnd implements IGui {
 
   /**
    * Creates a text object for each player to display their score
-   * 
+   *
    * @param players List of the player names
    * @author Joseph
-   * 
    */
-  public void displayScores(ArrayList<Player> players) {
+  public void displayScores(List<Player> players) {
     yPos = SEPARATOR_TOP_POS - GAP;
 
     this.scores = new ArrayList<>();
 
     for (Player player : players) {
-      TextObject score =
-          new TextObject(player.getId() + ": " + player.getScore(), SMALL);
+      TextObject score = new TextObject(player.getId() + ": " + player.getScore(), SMALL);
       score.setColour(player.getColour());
       score.setPosition(Window.getHalfWidth() - score.getSize() / 2, Window.getHalfHeight() - yPos);
       this.scores.add(score);
@@ -100,11 +97,10 @@ public class GameEnd implements IGui {
 
   /**
    * Adds the scores to the list of gui objects
-   * 
+   *
    * @author Joseph
-   * 
    */
-  public void addScores() {
+  private void addScores() {
     GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length + scores.size()];
     System.arraycopy(guiObjects, 0, guiObjectsNew, 0, guiObjects.length);
     for (int i = guiObjects.length; i < guiObjects.length + scores.size(); i++) {
@@ -115,9 +111,8 @@ public class GameEnd implements IGui {
 
   /**
    * Updates the position of the gui objects
-   * 
+   *
    * @author Joseph
-   * 
    */
   public void updateSize() {
     this.bongo.setPosition(
@@ -139,10 +134,9 @@ public class GameEnd implements IGui {
 
   /**
    * Returns winner
-   * 
+   *
    * @return Winner
    * @author Joseph
-   * 
    */
   public TextObject getWinner() {
     return winner;
@@ -153,13 +147,11 @@ public class GameEnd implements IGui {
    *
    * @return Exit
    * @author Joseph
-   * 
    */
   public TextObject getExit() {
     return exit;
   }
 
-  
   @Override
   public TextObject[] getTextObjects() {
     return textObjects;

@@ -8,7 +8,6 @@ import com.knightlore.game.server.ClientHandler;
 import com.knightlore.networking.ApiKey;
 import com.knightlore.networking.Sendable;
 import com.knightlore.networking.SessionKeyResponse;
-//import com.sun.media.jfxmedia.events.PlayerStateEvent;
 
 public class LevelComplete extends Command {
 
@@ -21,7 +20,7 @@ public class LevelComplete extends Command {
     // Check for all complete
     boolean allFinished = true;
     for(Player current: handler.model().getPlayers().values()){
-      if(current.getPlayerState() != PlayerState.FINISHED){
+      if(!(current.getPlayerState() == PlayerState.FINISHED || current.getPlayerState() == PlayerState.DEAD)){
         allFinished = false;
         break;
       }

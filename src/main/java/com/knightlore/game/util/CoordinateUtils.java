@@ -1,6 +1,8 @@
 package com.knightlore.game.util;
 
 import com.knightlore.client.render.world.TileGameObject;
+import com.knightlore.game.Level;
+import com.knightlore.game.map.LevelMap;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
@@ -39,5 +41,13 @@ public class CoordinateUtils {
 
   public static Vector3i getTileCoord(Vector3f coord) {
     return new Vector3i(((int) Math.floor(coord.x)), ((int) Math.floor(coord.y)), ((int) coord.z));
+  }
+
+  public static int getTileIndex(Level level, Vector3f coords) {
+    return level.getLevelMap().getTile(getTileCoord(coords)).getIndex();
+  }
+
+  public static int getTileIndex(LevelMap levelMap, Vector3f coords) {
+    return levelMap.getTile(getTileCoord(coords)).getIndex();
   }
 }

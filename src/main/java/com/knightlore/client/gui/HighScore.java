@@ -20,7 +20,7 @@ public class HighScore implements IGui {
   /** The size of of the gap between a separator and a word above or below it */
   private static final int SEPARATOR_GAP = FONT_SIZE_SMALL;
 
-  /** The maximum number of level names that can be displayed on screen at a given time */
+  /** The maximum number of highscore that can be displayed on screen at a given time */
   private static final int MAX_HIGHSCORE_COUNT = 12;
 
   /** The GuiObjects that will always be present on screen, regardless of the page number */
@@ -29,7 +29,7 @@ public class HighScore implements IGui {
   /** The TextObjects that will always be present on screen, regardless of the page number */
   private final TextObject[] setTextObjects;
 
-  /** The number of pages necessary to display all level names */
+  /** The number of pages necessary to display all highscore */
   private int pageCount;
 
   /** The index of the list of high scores that we start displaying high scores from */
@@ -53,7 +53,7 @@ public class HighScore implements IGui {
   /** The TextObject for the second "----------------" */
   private TextObject separatorBottom;
 
-  /** The list of level names to be displayed on screen */
+  /** The list of highscore to be displayed on screen */
   private TextObject[] highScores;
 
   /** The TextObject for the words "Load Level" */
@@ -167,7 +167,7 @@ public class HighScore implements IGui {
     return guiObjects;
   }
 
-  /** Method to increment the start pointer of the list of level names */
+  /** Method to increment the start pointer of the list of highscore */
   public void incPage() {
     if (highScoreIndex + 12 < highScores.length) {
       highScoreIndex += 12;
@@ -175,7 +175,7 @@ public class HighScore implements IGui {
     }
   }
 
-  /** Method to decrement the start pointer of the list of level names */
+  /** Method to decrement the start pointer of the list of highscore */
   public void decPage() {
     if (highScoreIndex >= 12) {
       highScoreIndex -= 12;
@@ -199,15 +199,6 @@ public class HighScore implements IGui {
    */
   public TextObject getLastPage() {
     return lastPage;
-  }
-
-  /**
-   * Method to determine how many level names are currently appearing on the screen
-   *
-   * @return The number of level names being displayed
-   */
-  public int numOnScreenLevels() {
-    return Math.min(MAX_HIGHSCORE_COUNT, highScores.length - highScoreIndex);
   }
 
   /**

@@ -13,15 +13,25 @@ import com.knightlore.client.io.Mouse;
 import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.game.entity.Player;
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.Collection;
 
 public class GameEndScreen implements IScreen {
 
-  private Map<String, Player> players;
-
+  /** Renderer to render gui elements */
   private GuiRenderer guiRenderer;
+
+  /** GUI elements to render */
   private GameEnd gameEnd;
 
+  /** Player objects from game model */
+  private Collection<Player> players;
+
+  /**
+   * Initialise GameEndScreen
+   *
+   * @param guiRenderer Renderer to render gui elements
+   * @author Joseph Tuffin
+   */
   public GameEndScreen(GuiRenderer guiRenderer) {
     this.guiRenderer = guiRenderer;
     gameEnd = new GameEnd();
@@ -29,7 +39,7 @@ public class GameEndScreen implements IScreen {
 
   @Override
   public void startup(Object... args) {
-    players = (Map<String, Player>) args[0];
+    players = (Collection<Player>) args[0];
     setWinner();
     listFinishingPositions();
   }
@@ -50,19 +60,33 @@ public class GameEndScreen implements IScreen {
     }
   }
 
+  @Override
+  public void render() {
+    gameEnd.updateSize();
+
+    guiRenderer.render(gameEnd);
+  }
+
+  @Override
+  public void cleanUp() {
+    gameEnd.cleanup();
+  }
+
+  /** Sort players collection and display on gui */
   private void listFinishingPositions() {
-    ArrayList<Player> playersList = new ArrayList<>(players.values());
+    ArrayList<Player> playersList = new ArrayList<>(players);
 
     playersList.sort((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
 
     gameEnd.displayScores(playersList);
   }
 
+  /** Calculate the winner and set to display on gui */
   private void setWinner() {
     boolean draw = false;
     int highestScore = -1;
     Player highestScorePlayer = null;
-    for (Player player : players.values()) {
+    for (Player player : players) {
       if (player.getScore() > highestScore) {
         highestScorePlayer = player;
         highestScore = player.getScore();
@@ -77,17 +101,5 @@ public class GameEndScreen implements IScreen {
     } else {
       gameEnd.getWinner().setText("Winner: " + highestScorePlayer.getId());
     }
-  }
-
-  @Override
-  public void render() {
-    gameEnd.updateSize();
-
-    guiRenderer.render(gameEnd);
-  }
-
-  @Override
-  public void cleanUp() {
-    gameEnd.cleanup();
   }
 }

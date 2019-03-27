@@ -1,10 +1,9 @@
 package com.knightlore.client.render;
 
-import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.io.Window;
 import com.knightlore.client.render.opengl.ShaderProgram;
+import com.knightlore.client.render.world.EditorTileGameObjectSet;
 import com.knightlore.client.render.world.TileGameObject;
-import com.knightlore.client.render.world.TileGameObjectSet;
 import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.Tile;
 import com.knightlore.game.util.CoordinateUtils;
@@ -52,7 +51,8 @@ public class LevelSelectRenderer extends Renderer {
         for (int x = tiles[z][y].length - 1; x >= 0; x--) {
           Vector3f isoTilePos = CoordinateUtils.toIsometric(x, y, z);
           if (isWithinView(isoTilePos)) {
-            TileGameObject tileGameObject = TileGameObjectSet.getTile(tiles[z][y][x].getIndex());
+            TileGameObject tileGameObject =
+                EditorTileGameObjectSet.getTile(tiles[z][y][x].getIndex());
             tileGameObject.setIsometricPosition(isoTilePos);
             tileGameObject.render(shaderProgram, world.getProjection(), camera.getProjection());
           }

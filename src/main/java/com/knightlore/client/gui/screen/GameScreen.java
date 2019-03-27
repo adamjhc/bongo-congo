@@ -38,17 +38,37 @@ import java.util.concurrent.TimeUnit;
 
 public class GameScreen implements IScreen {
 
+  /** Direction player has inputted to move */
   Direction playerInputDirection;
 
+  /** Gui elements */
   Hud hud;
 
+  /** Timer used for count down */
   Timer countDown;
+
+  /** Timer used for game time */
   Timer timer;
+
+  /** Renderer used for rendering the game */
   GameRenderer gameRenderer;
+
+  /** Renderer used for rendering gui elements */
   private GuiRenderer guiRenderer;
+
+  /** GameServer reference used in singleplayer */
   private GameServer gameServer;
+
+  /** GameClient reference used in singleplayer */
   private com.knightlore.client.networking.backend.Client gameClient;
 
+  /**
+   * Initialise GameScreen
+   *
+   * @param guiRenderer renderer used for rendering gui elements
+   * @param gameRenderer renderer used for rendering the game
+   * @param timer Timer used for game time
+   */
   public GameScreen(GuiRenderer guiRenderer, GameRenderer gameRenderer, Timer timer) {
     this.guiRenderer = guiRenderer;
     this.gameRenderer = gameRenderer;
@@ -234,7 +254,7 @@ public class GameScreen implements IScreen {
     // Check for complete
     if (gameModel.getState() == GameState.SCORE) {
       System.out.println("DETECT END");
-      Client.changeScreen(ClientState.END, false, gameModel.getPlayers());
+      Client.changeScreen(ClientState.END, false, gameModel.getPlayers().values());
       return;
     }
 
@@ -275,6 +295,11 @@ public class GameScreen implements IScreen {
     hud.cleanup();
   }
 
+  /**
+   * Gets the direction the user has inputted to move the player in
+   *
+   * @return Direction enum to move in
+   */
   Direction getPlayerInputDirection() {
     if (Keyboard.isKeyPressed(GLFW_KEY_W) // Player presses W
         && !Keyboard.isKeyPressed(GLFW_KEY_A)

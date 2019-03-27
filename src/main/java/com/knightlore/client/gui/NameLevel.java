@@ -1,5 +1,8 @@
 package com.knightlore.client.gui;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.IGui;
@@ -42,6 +45,10 @@ public class NameLevel implements IGui {
   private TextObject saveAndContinue;
   /** Level name text object*/
   private TextObject levelName;
+  /** Publish text object */
+  private TextObject publish;
+  /** Whether the level has been published */
+  private boolean published;
 
   /** List of text objects */
   private TextObject[] textObjects;
@@ -81,8 +88,13 @@ public class NameLevel implements IGui {
 
     this.separatorBottom = new TextObject("------------------------------", SMALL);
     this.separatorBottom.setColour(Colour.YELLOW);
+    
+    this.publish = new TextObject ("Publish", SMALL);
+    this.publish.setColour(Colour.YELLOW);
 
-    textObjects = new TextObject[] {cancel, saveAndQuit, saveAndContinue};
+    this.published = false;
+    
+    textObjects = new TextObject[] {cancel, saveAndQuit, saveAndContinue, publish};
     guiObjects =
         new GuiObject[] {
           bongo,
@@ -93,7 +105,8 @@ public class NameLevel implements IGui {
           saveAndContinue,
           levelName,
           separatorTop,
-          separatorBottom
+          separatorBottom,
+          publish
         };
   }
 
@@ -104,6 +117,7 @@ public class NameLevel implements IGui {
    * 
    */
   public void updateSize() {
+	int publishGap = published ? 0 : 1;
     this.bongo.setPosition(
         Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
     this.congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
@@ -119,17 +133,20 @@ public class NameLevel implements IGui {
     this.levelName.setPosition(
         Window.getHalfWidth() - levelName.getSize() / 2,
         Window.getHalfHeight() - levelName.getHeight() / 2);
+    this.publish.setPosition(
+    	Window.getHalfWidth() - publish.getSize() / 2,
+    	Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP);
     this.saveAndContinue.setPosition(
         Window.getHalfWidth() - saveAndContinue.getSize() / 2,
-        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP);
+        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * (1 + publishGap));
 
     this.saveAndQuit.setPosition(
         Window.getHalfWidth() - saveAndQuit.getSize() / 2,
-        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
+        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * (2 + publishGap));
 
     this.cancel.setPosition(
         Window.getHalfWidth() - cancel.getSize() / 2,
-        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 3);
+        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * (3 + publishGap));
   }
 
   /**
@@ -141,6 +158,16 @@ public class NameLevel implements IGui {
    */
   public TextObject getCancel() {
     return cancel;
+  }
+  
+  /**
+   * Returns pubish
+   * 
+   * @return Publish
+   * @author Adam W
+   */
+  public TextObject getPublish() {
+	return publish;
   }
 
   /**
@@ -174,6 +201,22 @@ public class NameLevel implements IGui {
    */
   public TextObject getLevelName() {
     return levelName;
+  }
+  
+  public void removePublish() {
+	  textObjects = Arrays.copyOfRange(textObjects, 0, 3);
+	  guiObjects = Arrays.copyOfRange(guiObjects, 0, 9);
+	  published = true;
+  }
+  
+  public void showPublish() {
+	  ArrayList<TextObject> tempT = new ArrayList<TextObject>(Arrays.asList(textObjects));
+	  ArrayList<GuiObject> tempG = new ArrayList<GuiObject>(Arrays.asList(guiObjects));
+	  tempT.add(publish);
+	  tempG.add(publish);
+	  textObjects = tempT.toArray(textObjects);
+	  guiObjects = tempG.toArray(guiObjects);
+	  published = false;
   }
 
   @Override

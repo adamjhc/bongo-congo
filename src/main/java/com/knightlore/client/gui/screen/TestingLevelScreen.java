@@ -132,7 +132,7 @@ public class TestingLevelScreen extends GameScreen {
 	      gameModel.clientUpdate(delta, playerInputDirection);
 
 	    // Check for complete
-	    if(gameModel.getState() == GameState.SCORE) {
+	    if(gameModel.getState() == GameState.SCORE && gameModel.myPlayer().getPlayerState() != PlayerState.DEAD) {
 	      Client.changeScreen(ClientState.NAMING_LEVEL, false, gameModel.getCurrentLevel().getLevelMap(), true);
 	    }
 

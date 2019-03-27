@@ -15,12 +15,13 @@ public class Client {
   public ObjectInputStream dis;
   public ClientReceiver receiver;
   public boolean ready;
-
-  public int socket;
+  public int port;
   public InetAddress ip;
+  private Socket socket;
+  private boolean running;
 
-  public Client(InetAddress ip, int socket) {
-    this.socket = socket;
+  public Client(InetAddress ip, int port) {
+    this.port = port;
     this.ip = ip;
     this.ready = false;
   }
@@ -29,17 +30,19 @@ public class Client {
     try {
       // Join socket
       System.out.println("Waiting for socket");
-      Socket s = new Socket(this.ip, socket);
 
+      socket = new Socket(ip, port);
+      socket.setReuseAddress(true);
       // Get input output streams
-      this.dos = new ObjectOutputStream(s.getOutputStream());
-      this.dis = new ObjectInputStream(s.getInputStream());
+      dos = new ObjectOutputStream(socket.getOutputStream());
+      dis = new ObjectInputStream(socket.getInputStream());
 
       // Start Client Receiver thread
-      receiver = new ClientReceiver(this, this.dis);
+      receiver = new ClientReceiver(this, dis);
       receiver.start();
 
       this.ready = true;
+      running = true;
     } catch (Exception e) {
       System.out.println("There wan an error establishing the socket connection");
       return false;
@@ -48,9 +51,15 @@ public class Client {
     return true;
   }
 
+  boolean isRunning() {
+    return running;
+  }
+
   public void close() throws IOException {
     // closing resources
+    running = false;
     dis.close();
     dos.close();
+    socket.close();
   }
 }

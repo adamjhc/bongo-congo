@@ -14,8 +14,6 @@ import com.knightlore.client.io.Window;
  * Editor
  * 
  * @author Joseph
- *
- * @author Joseph
  */
 public class MainMenu implements IGui {
 
@@ -24,27 +22,37 @@ public class MainMenu implements IGui {
 
   /** Singleplayer text */
   private final TextObject singleplayer;
+
   /** Multiplayer text */
   private final TextObject multiplayer;
+
   /** Level editor text */
   private final TextObject levelEditor;
+
   /** HighScore text */
   private final TextObject highScore;
+
   /** Options text */
   private final TextObject options;
+
   /** Quit game text */
   private final TextObject quit;
+
   /** Sound icon text */
   private final TextObject soundOn;
+
   /** Sound off icon text */
   private final TextObject soundOff;
+
   /** Bongo text */
   private final TextObject bongo;
+
   /** Congo text */
   private final TextObject congo;
 
   /** List of gui objects */
   private GuiObject[] guiObjects;
+
   /** List of text objects */
   private TextObject[] textObjects;
 

@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.networking.backend.Client;
 import com.knightlore.networking.EnemyLocationUpdate;
+import com.knightlore.networking.EnemyLocationUpdateObject;
 import com.knightlore.networking.Sendable;
 import org.joml.Vector3f;
 
@@ -17,8 +18,10 @@ public class EnemyPositionUpdate implements GenericHandler{
         Gson gson = new Gson();
         EnemyLocationUpdate enemyLocationUpdate = gson.fromJson(sendable.getData(), EnemyLocationUpdate.class);
 
-        for(Map.Entry<Integer, Vector3f> entity : enemyLocationUpdate.updates.entrySet()){
-            GameConnection.gameModel.getCurrentLevel().getEnemies().get(entity.getKey()).setPosition(entity.getValue());
+        for(Map.Entry<Integer, EnemyLocationUpdateObject> entity : enemyLocationUpdate.updates.entrySet()){
+            GameConnection.gameModel.getCurrentLevel().getEnemies().get(entity.getKey()).setPosition(entity.getValue().position);
+            GameConnection.gameModel.getCurrentLevel().getEnemies().get(entity.getKey()).setDirection(entity.getValue().direction);
+            GameConnection.gameModel.getCurrentLevel().getEnemies().get(entity.getKey()).setCurrentState(entity.getValue().state);
         }
     }
 

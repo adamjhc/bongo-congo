@@ -236,7 +236,7 @@ public class GameScreen implements IScreen {
 
     // Check for complete
     if (gameModel.getState() == GameState.SCORE) {
-      Client.changeScreen(ClientState.END, false, gameModel);
+      Client.changeScreen(ClientState.END, false, gameModel.getPlayers());
       return;
     }
 

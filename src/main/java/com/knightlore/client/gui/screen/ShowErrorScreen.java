@@ -5,6 +5,7 @@ import static com.knightlore.client.util.GuiUtils.checkPosition;
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.gui.ShowError;
+import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.render.GuiRenderer;
 
@@ -26,13 +27,18 @@ public class ShowErrorScreen implements IScreen {
 
   @Override
   public void input() {
-    if (checkPosition(showError, showError.getExit().getId()) && Mouse.isLeftButtonPressed()) {
-      Client.changeScreen(ClientState.MAIN_MENU, false);
-    }
+    if (checkPosition(showError, showError.getExit().getId())) {
+      showError.getExit().setColour();
+      if (Mouse.isLeftButtonPressed()) {
+        Client.changeScreen(ClientState.MAIN_MENU, false);
+      }
+    } else showError.getExit().setColour(Colour.YELLOW);
   }
 
   @Override
   public void render() {
+    showError.updateSize();
+
     guiRenderer.render(showError);
   }
 

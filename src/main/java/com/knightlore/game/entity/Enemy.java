@@ -59,7 +59,7 @@ public class Enemy extends Entity {
         move(newPos, levelMap);
         break;
       case RANDOMER:
-        Direction newDir = enemyType.getRandom().pathfind(position, delta, speed, direction);
+        Direction newDir = enemyType.getRandom().pathfind(direction);
         setDirection(newDir);
         direction.getNormalisedDirection().mul(speed * delta, newPos);
         newPos.add(position);

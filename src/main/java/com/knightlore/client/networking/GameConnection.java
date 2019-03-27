@@ -8,7 +8,6 @@ import com.knightlore.client.networking.backend.responsehandlers.game.GameRegist
 import com.knightlore.game.GameModel;
 import com.knightlore.game.GameState;
 import com.knightlore.game.entity.Player;
-import com.knightlore.game.server.GameServer;
 import com.knightlore.networking.ApiKey;
 import com.knightlore.networking.PositionUpdate;
 import com.knightlore.networking.Sendable;
@@ -46,10 +45,9 @@ public class GameConnection {
     }
 
     // TODO game cancelled for 5 seconds
-    if(GameConnection.gameModel.getState() != GameState.SCORE){
+    if (GameConnection.gameModel != null && GameConnection.gameModel.getState() != GameState.SCORE) {
       com.knightlore.client.Client.changeScreen(ClientState.MAIN_MENU, false);
     }
-
   }
 
   public void startGame() {

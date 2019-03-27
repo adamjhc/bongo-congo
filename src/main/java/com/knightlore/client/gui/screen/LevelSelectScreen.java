@@ -6,6 +6,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
+import com.knightlore.client.audio.Audio;
+import com.knightlore.client.audio.Audio.AudioName;
 import com.knightlore.client.gui.LevelSelectMenu;
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.gui.engine.IGui;
@@ -24,6 +26,8 @@ import org.joml.Vector3f;
 import org.joml.Vector3i;
 
 public class LevelSelectScreen implements IScreen {
+	
+  private static final AudioName SELECT = AudioName.SOUND_MENUSELECT;
 
   /** File path to maps */
   private static final String MAP_FILE_PATH = "customMaps/playable";
@@ -78,6 +82,7 @@ public class LevelSelectScreen implements IScreen {
     if (checkPosition(levelSelectMenu, levelSelectMenu.getStart().getId())) {
       levelSelectMenu.getStart().setColour();
       if (Mouse.isLeftButtonPressed() && selectedLevels.size() == 3) {
+    	Audio.play(SELECT);
         List<Level> levelList = getSelectedLevelsFromFile();
         Client.changeScreen(ClientState.GAME, true, levelList);
         return;
@@ -87,6 +92,7 @@ public class LevelSelectScreen implements IScreen {
     if (checkPosition(levelSelectMenu, levelSelectMenu.getBack().getId())) {
       levelSelectMenu.getBack().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         Client.changeScreen(ClientState.MAIN_MENU, false);
         return;
       }
@@ -95,6 +101,7 @@ public class LevelSelectScreen implements IScreen {
     if (checkPosition(levelSelectMenu, levelSelectMenu.getNextPage().getId())) {
       levelSelectMenu.getNextPage().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         levelSelectMenu.incPage();
       }
     } else levelSelectMenu.getNextPage().setColour(Colour.YELLOW);
@@ -102,6 +109,7 @@ public class LevelSelectScreen implements IScreen {
     if (checkPosition(levelSelectMenu, levelSelectMenu.getLastPage().getId())) {
       levelSelectMenu.getLastPage().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(SELECT);
         levelSelectMenu.decPage();
       }
     } else levelSelectMenu.getLastPage().setColour(Colour.YELLOW);
@@ -113,6 +121,7 @@ public class LevelSelectScreen implements IScreen {
         }
 
         if (Mouse.isLeftButtonPressed()) {
+          Audio.play(SELECT);
           if (selectedLevels.contains(new LevelDisplay(i))) {
             selectedLevels.remove(new LevelDisplay(i));
           } else if (selectedLevels.size() != 3) {
@@ -121,6 +130,7 @@ public class LevelSelectScreen implements IScreen {
         }
 
         if (Mouse.isRightButtonPressed()) {
+          Audio.play(SELECT);
           selectedMap = getMap(levelSelectMenu.getLevel(i).getId());
           levelSelectRenderer.setWorldScale(60);
           Vector3i mapSize = selectedMap.getSize();

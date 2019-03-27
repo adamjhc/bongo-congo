@@ -104,18 +104,18 @@ public class Audio {
     }
     
     
-    /* try {
-     * 		 this.rollSound = 		new MusicPlayer(audioPath + "SOUND_ROLL.wav", false);
-     * } catch (Exception e) {
-     * 		System.err.println("Could not load roll sound: " + e);
-     * }
-     */
-    /* try {
-     * 		this.climbSound =		new MusicPlayer(audioPath + "SOUND_CLIMB.wav", false);
-     * } catch (Exception e) {
-     * 		System.err.println("Could not load climb sound: " + e);
-     * }
-     */
+    try {
+    	rollSound = 		new MusicPlayer(AUDIO_PATH + "SOUND_ROLL.wav", false);
+    } catch (Exception e) {
+        System.err.println("Could not load roll sound: " + e);
+    }
+  
+    try {
+        climbSound =		new MusicPlayer(AUDIO_PATH + "SOUND_CLIMB.wav", false);
+    } catch (Exception e) {
+        System.err.println("Could not load climb sound: " + e);
+    }
+    
     try {
        victoryJingle = 	new MusicPlayer(AUDIO_PATH + "JINGLE_VICTORY.wav", false);
     } catch (Exception e) {
@@ -136,7 +136,8 @@ public class Audio {
           editorMusic,
           menuSelectSound,
           hitSound,
-          //rollSound,
+          rollSound,
+          climbSound,
           victoryJingle,
           gameOverJingle
         };
@@ -248,8 +249,8 @@ public class Audio {
     MUSIC_EDITOR,
     SOUND_MENUSELECT,
     SOUND_HIT,
-    //SOUND_ROLL,
-    //SOUND_CLIMB,
+    SOUND_ROLL,
+    SOUND_CLIMB,
     JINGLE_VICTORY,
     JINGLE_GAMEOVER
   }

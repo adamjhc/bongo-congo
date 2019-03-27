@@ -166,7 +166,7 @@ public class GameModel {
         break;
       case ROLLING:
         // 'Play' animation
-        if (accumulator < 20) {
+        if (accumulator < 25) {
           delay(5);
           movePlayerInDirection(myPlayer().getDirection(), delta * ROLL_SPEED);
           updatePlayerState(PlayerState.ROLLING);
@@ -215,7 +215,7 @@ public class GameModel {
   public void serverUpdate(float delta) {
     List<Enemy> enemies = getCurrentLevel().getEnemies();
     for (Enemy enemy : enemies) {
-      enemy.update();
+      enemy.update(delta, getCurrentLevel().getLevelMap());
     }
   }
 

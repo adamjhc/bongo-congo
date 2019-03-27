@@ -2,6 +2,8 @@ package com.knightlore.game.entity.ai;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import com.knightlore.game.entity.Direction;
 import org.joml.Vector3f;
 
 /* Generic Enemy AI
@@ -20,15 +22,8 @@ public abstract class EnemyAI {
 
   protected EnemyAI() {}
 
-  EnemyAI(Vector3f home) {
-    this.home = home;
-  }
-
-  public Vector3f pathfind(Vector3f current) {
+  public Vector3f pathfind(Vector3f current, float delta, int speed, Direction direction) {
     return new Vector3f();
   }
 
-  public void setHome(Vector3f home) {
-    this.home = home;
-  }
 }

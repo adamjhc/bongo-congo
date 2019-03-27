@@ -8,19 +8,17 @@ import com.knightlore.game.entity.Direction;
 import org.joml.Vector3f;
 
 // Walks back and forth on the same plane
-public class WalkerAI extends EnemyAI {
+public class WalkerAI {
 
-  Direction direction;
+  public WalkerAI() {
 
-  public WalkerAI(Vector3f home, Direction startDirection) {
-    this.home = home;
-    this.direction = startDirection;
   }
 
-  @Override
-  public Vector3f pathfind(Vector3f current) {
+  public Vector3f pathfind(Vector3f current, float delta, float speed, Direction direction) {
     Vector3f newPos = new Vector3f();
-    direction.getNormalisedDirection().mul(0.3f, newPos);
+    direction.getNormalisedDirection().mul(speed * delta, newPos);
     return newPos.add(current);
   }
+
+
 }

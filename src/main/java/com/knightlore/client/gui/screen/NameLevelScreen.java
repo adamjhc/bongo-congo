@@ -52,10 +52,13 @@ import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.audio.Audio;
 import com.knightlore.client.audio.Audio.AudioName;
+import com.knightlore.client.exceptions.ClientAlreadyAuthenticatedException;
+import com.knightlore.client.exceptions.ConfigItemNotFoundException;
 import com.knightlore.client.gui.NameLevel;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
+import com.knightlore.client.networking.ServerConnection;
 import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.game.map.LevelMap;
 import java.io.BufferedWriter;
@@ -63,6 +66,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
+
 import org.joml.Vector4f;
 
 public class NameLevelScreen implements IScreen {
@@ -253,4 +258,47 @@ public class NameLevelScreen implements IScreen {
     writer.write(jsonString);
     writer.close();
   }
+  
+  private boolean connectToServer() {
+	    Client.showLoadingScreen();
+
+	    // Check for multiplayer connection
+	    if (ServerConnection.instance == null) {
+	      try {
+	        // Make connection
+	        if (!ServerConnection.makeConnection()) {
+	          return false;
+	        }
+
+	        // Authenticate
+	        try {
+	          ServerConnection.instance.auth();
+	        } catch (IOException e) {
+	          return false;
+	        } catch (ClientAlreadyAuthenticatedException e) {
+	          return true;
+	        }
+
+	        // Wait for auth
+	        int timeout = 5;
+	        int wait = 0;
+	        while (!ServerConnection.instance.isAuthenticated()) {
+	          // Wait
+	          try {
+	            TimeUnit.SECONDS.sleep(1);
+	          } catch (InterruptedException ignored) {
+	          }
+
+	          wait++;
+
+	          if (wait == timeout) {
+	            return false;
+	          }
+	        }
+	      } catch (ConfigItemNotFoundException ignored) {
+	      }
+	    }
+
+	    return true;
+	  }
 }

@@ -200,6 +200,7 @@ public class Player extends Entity {
         Tile above = levelMap.getTile(coords);
         if (above.getIndex() == 1 && playerState != PlayerState.ROLLING && climbFlag) { // Checks if the tile above climbable tile is accessible
           climbVal = 0.1f;
+          Audio.play(Audio.AudioName.SOUND_CLIMB);
           setPlayerState(PlayerState.CLIMBING);
         } else {
           setPosition(oldPos);
@@ -207,6 +208,11 @@ public class Player extends Entity {
       }
 
 
+        if(GameConnection.instance != null){
+          Audio.play(Audio.AudioName.JINGLE_VICTORY);
+          GameConnection.instance.sendLevelComplete();
+        }
+      }
 
 
       // TODO: Enemy collisions
@@ -262,6 +268,7 @@ public class Player extends Entity {
   }
 
   public void decrementLives(){
+	Audio.play(Audio.AudioName.SOUND_HIT);
     this.lives --;
   }
 

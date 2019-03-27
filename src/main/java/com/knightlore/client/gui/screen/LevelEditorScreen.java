@@ -83,7 +83,8 @@ public class LevelEditorScreen implements IScreen {
     currentTileX = 0;
     currentTileY = 0;
     currentTileZ = 0;
-    Audio.stop(Audio.getCurrentMusic());
+    if (Audio.getCurrentMusic() != Audio.AudioName.MUSIC_EDITOR)
+    	Audio.stop(Audio.getCurrentMusic());
     Audio.play(Audio.AudioName.MUSIC_EDITOR);
   }
 
@@ -183,7 +184,7 @@ public class LevelEditorScreen implements IScreen {
     	Audio.play(SELECT);
         try {
           editorMap.resetRotation();
-          Client.changeScreen(ClientState.NAMING_LEVEL, false, editorMap);
+          Client.changeScreen(ClientState.NAMING_LEVEL, false, editorMap, false);
         } catch (Exception e) {
           e.printStackTrace();
         }

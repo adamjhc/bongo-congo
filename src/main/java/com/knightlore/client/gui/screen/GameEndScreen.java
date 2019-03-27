@@ -5,6 +5,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
+import com.knightlore.client.audio.Audio;
 import com.knightlore.client.gui.GameEnd;
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.io.Keyboard;
@@ -40,6 +41,7 @@ public class GameEndScreen implements IScreen {
     if (checkPosition(gameEnd, gameEnd.getExit().getId())) {
       gameEnd.getExit().setColour();
       if (Mouse.isLeftButtonPressed()) {
+    	Audio.play(Audio.AudioName.SOUND_MENUSELECT);
         Client.changeScreen(ClientState.MAIN_MENU, false);
         return;
       }

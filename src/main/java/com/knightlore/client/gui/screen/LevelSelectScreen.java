@@ -13,6 +13,7 @@ import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Mouse;
+import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.client.render.LevelSelectRenderer;
 import com.knightlore.game.Level;
 import com.knightlore.game.map.LevelMap;
@@ -26,13 +27,16 @@ import org.joml.Vector3f;
 import org.joml.Vector3i;
 
 public class LevelSelectScreen implements IScreen {
-	
+
   private static final AudioName SELECT = AudioName.SOUND_MENUSELECT;
 
   /** File path to maps */
   private static final String MAP_FILE_PATH = "customMaps/playable";
 
-  /** Renderer used for rendering map preview and gui elements */
+  /** Renderer used for rendering gui elements */
+  private GuiRenderer guiRenderer;
+
+  /** Renderer used for rendering map preview */
   private LevelSelectRenderer levelSelectRenderer;
 
   /** Collection of selected levels */
@@ -50,7 +54,8 @@ public class LevelSelectScreen implements IScreen {
    * @param levelSelectRenderer renderer used for screen
    * @author Adam Cox
    */
-  public LevelSelectScreen(LevelSelectRenderer levelSelectRenderer) {
+  public LevelSelectScreen(GuiRenderer guiRenderer, LevelSelectRenderer levelSelectRenderer) {
+    this.guiRenderer = guiRenderer;
     this.levelSelectRenderer = levelSelectRenderer;
 
     levelSelectMenu = new LevelSelectMenu();
@@ -82,7 +87,7 @@ public class LevelSelectScreen implements IScreen {
     if (checkPosition(levelSelectMenu, levelSelectMenu.getStart().getId())) {
       levelSelectMenu.getStart().setColour();
       if (Mouse.isLeftButtonPressed() && selectedLevels.size() == 3) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         List<Level> levelList = getSelectedLevelsFromFile();
         Client.changeScreen(ClientState.GAME, true, levelList);
         return;
@@ -92,7 +97,7 @@ public class LevelSelectScreen implements IScreen {
     if (checkPosition(levelSelectMenu, levelSelectMenu.getBack().getId())) {
       levelSelectMenu.getBack().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         Client.changeScreen(ClientState.MAIN_MENU, false);
         return;
       }
@@ -101,7 +106,7 @@ public class LevelSelectScreen implements IScreen {
     if (checkPosition(levelSelectMenu, levelSelectMenu.getNextPage().getId())) {
       levelSelectMenu.getNextPage().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         levelSelectMenu.incPage();
       }
     } else levelSelectMenu.getNextPage().setColour(Colour.YELLOW);
@@ -109,7 +114,7 @@ public class LevelSelectScreen implements IScreen {
     if (checkPosition(levelSelectMenu, levelSelectMenu.getLastPage().getId())) {
       levelSelectMenu.getLastPage().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         levelSelectMenu.decPage();
       }
     } else levelSelectMenu.getLastPage().setColour(Colour.YELLOW);
@@ -158,7 +163,8 @@ public class LevelSelectScreen implements IScreen {
   public void render() {
     levelSelectMenu.updateSize();
 
-    levelSelectRenderer.render(selectedMap, levelSelectMenu);
+    levelSelectRenderer.render(selectedMap);
+    guiRenderer.render(levelSelectMenu);
   }
 
   @Override

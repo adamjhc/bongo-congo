@@ -15,18 +15,40 @@ import com.knightlore.game.entity.Player;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * Handles the game end screen startup, input, updates, rendering and cleanup
+ * 
+ * @author Joseph, Adam C
+ *
+ */
 public class GameEndScreen implements IScreen {
 
+	/** Map of the players */
   private Map<String, Player> players;
 
+  /** Gui renderer */
   private GuiRenderer guiRenderer;
+  /** Game end gui */
   private GameEnd gameEnd;
 
+  /**
+   * Initialise renderer and gui
+   * 
+   * @param guiRenderer The gui renderer
+   * @author Joseph
+   * 
+   */
   public GameEndScreen(GuiRenderer guiRenderer) {
     this.guiRenderer = guiRenderer;
     gameEnd = new GameEnd();
   }
 
+  /**
+   * Initialise values when screen starts
+   * 
+   * @author Joseph
+   * 
+   */
   @Override
   public void startup(Object... args) {
     players = (Map<String, Player>) args[0];
@@ -34,6 +56,12 @@ public class GameEndScreen implements IScreen {
     listFinishingPositions();
   }
 
+  /**
+   * Check for user input
+   * 
+   * @author Joseph
+   * 
+   */
   @Override
   public void input() {
     if (checkPosition(gameEnd, gameEnd.getExit().getId())) {
@@ -50,6 +78,12 @@ public class GameEndScreen implements IScreen {
     }
   }
 
+  /**
+   * Set the order of the finishing positions
+   * 
+   * @author Joseph
+   * 
+   */
   private void listFinishingPositions() {
     ArrayList<Player> playersList = new ArrayList<>(players.values());
 
@@ -58,6 +92,12 @@ public class GameEndScreen implements IScreen {
     gameEnd.displayScores(playersList);
   }
 
+  /**
+   * Set the winner of the game
+   * 
+   * @author Joseph
+   * 
+   */
   private void setWinner() {
     boolean draw = false;
     int highestScore = -1;
@@ -79,6 +119,12 @@ public class GameEndScreen implements IScreen {
     }
   }
 
+  /**
+   * Render the screen and update text positions
+   * 
+   * @author Joseph
+   * 
+   */
   @Override
   public void render() {
     gameEnd.updateSize();
@@ -86,6 +132,12 @@ public class GameEndScreen implements IScreen {
     guiRenderer.render(gameEnd);
   }
 
+  /**
+   * Cleanup the gui
+   * 
+   * @author Joseph
+   * 
+   */
   @Override
   public void cleanUp() {
     gameEnd.cleanup();

@@ -36,19 +36,41 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Handles the game screen startup, input, updates, rendering and cleanup
+ * 
+ * @author Joseph, Adam C, Lewis
+ *
+ */
 public class GameScreen implements IScreen {
 
+	/** Input direction */
   Direction playerInputDirection;
 
+  /** Head up display */
   Hud hud;
-
+  /** Level start counter */
   Timer countDown;
+  /** level duration counter */
   Timer timer;
+  /** Game renderer */
   GameRenderer gameRenderer;
+  /** Gui renderer */
   private GuiRenderer guiRenderer;
+  /** Game server */
   private GameServer gameServer;
+  /** Client */
   private com.knightlore.client.networking.backend.Client gameClient;
 
+  /**
+   * Initialise renderers, timer and gui
+   * 
+   * @param guiRenderer The gui renderer
+   * @param gameRenderer The game renderer
+   * @param timer The game timer
+   * @author Joseph
+   * 
+   */
   public GameScreen(GuiRenderer guiRenderer, GameRenderer gameRenderer, Timer timer) {
     this.guiRenderer = guiRenderer;
     this.gameRenderer = gameRenderer;
@@ -56,6 +78,12 @@ public class GameScreen implements IScreen {
     hud = new Hud();
   }
 
+  /**
+   * Initialise values when game starts
+   * 
+   * @author Joseph, Adam C, Lewis
+   * 
+   */
   @Override
   public void startup(Object... args) {
     Audio.stop(Audio.getCurrentMusic());
@@ -131,6 +159,12 @@ public class GameScreen implements IScreen {
     countDown.setStartTime();
   }
 
+  /**
+   * Check for user input
+   * 
+   * @author Joseph, Adam C, Lewis
+   * 
+   */
   @Override
   public void input() {
     GameModel gameModel = GameConnection.gameModel;
@@ -165,6 +199,12 @@ public class GameScreen implements IScreen {
     }
   }
 
+  /**
+   * Update game screen
+   * 
+   * @author Joseph, Adam C, Lewis
+   * 
+   */
   @Override
   public void update(float delta) {
     GameModel gameModel = GameConnection.gameModel;
@@ -245,6 +285,12 @@ public class GameScreen implements IScreen {
     }
   }
 
+  /**
+   * Render the screen and update text positions
+   * 
+   * @author Joseph
+   * 
+   */
   @Override
   public void render() {
     hud.updateSize();
@@ -253,6 +299,12 @@ public class GameScreen implements IScreen {
     guiRenderer.render(hud);
   }
 
+  /**
+   * Reset values when screen shutdown
+   * 
+   * @author Joseph, Adam C, Lewis
+   * 
+   */
   @Override
   public void shutdown(ClientState nextScreen) {
     Mouse.showCursor();
@@ -270,11 +322,24 @@ public class GameScreen implements IScreen {
     }
   }
 
+  /**
+   * Cleanup the gui
+   * 
+   * @author Joseph
+   * 
+   */
   @Override
   public void cleanUp() {
     hud.cleanup();
   }
 
+  /**
+   * Return the current input direction
+   * 
+   * @return Direction
+   * @author Adam C
+   * 
+   */
   Direction getPlayerInputDirection() {
     if (Keyboard.isKeyPressed(GLFW_KEY_W) // Player presses W
         && !Keyboard.isKeyPressed(GLFW_KEY_A)

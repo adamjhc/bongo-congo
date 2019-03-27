@@ -59,7 +59,6 @@ public class Level {
     Enemy enemy = enemySet.get(enemySetIndex, position);
     enemy.setId(enemyIdInc);
     enemyIdInc++;
-
     enemies.add(enemy);
   }
 }

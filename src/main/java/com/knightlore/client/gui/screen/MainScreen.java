@@ -16,6 +16,7 @@ import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;
+import com.knightlore.client.networking.HighScoreCache;
 import com.knightlore.client.networking.LobbyCache;
 import com.knightlore.client.networking.ServerConnection;
 import com.knightlore.client.render.GuiRenderer;
@@ -102,9 +103,22 @@ public class MainScreen implements IScreen {
       if (Mouse.isLeftButtonPressed()) {
         Audio.play(SELECT);
 
+        Client.showLoadingScreen();
         if (!connectToServer()) {
           Client.changeScreen(ClientState.SHOW_ERROR, false, "Error connecting to server");
           return;
+        }
+
+        ServerConnection.instance.getHighscores();
+
+        int currentCache = HighScoreCache.instance.cache;
+
+        while(currentCache == HighScoreCache.instance.cache){
+          try{
+            TimeUnit.MILLISECONDS.sleep(50);
+          }catch(InterruptedException e){
+
+          }
         }
 
         Client.changeScreen(ClientState.HIGHSCORE, false);

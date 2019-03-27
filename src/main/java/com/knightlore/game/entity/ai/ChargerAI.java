@@ -4,14 +4,14 @@ package com.knightlore.game.entity.ai;
 // TODO: Do A* Euclidean distance pathfinding towards player entity
 
 import java.util.List;
+
+import com.knightlore.game.entity.Direction;
 import org.joml.Vector3f;
 
-public class ChargerAI extends EnemyAI {
+public class ChargerAI {
   public float range;
 
-  @Override
-  public List<Vector3f> pathfind() {
 
-    return null;
+  public Vector3f pathfind(Vector3f position, float delta, int speed, Direction direction) { return new Vector3f();
   }
 }

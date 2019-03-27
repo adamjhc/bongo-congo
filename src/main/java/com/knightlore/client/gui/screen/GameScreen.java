@@ -18,6 +18,7 @@ import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.render.GameRenderer;
+import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.GameState;
 import com.knightlore.game.Level;
@@ -43,13 +44,13 @@ public class GameScreen implements IScreen {
 
   Timer countDown;
   Timer timer;
-
   GameRenderer gameRenderer;
-
+  private GuiRenderer guiRenderer;
   private GameServer gameServer;
   private com.knightlore.client.networking.backend.Client gameClient;
 
-  public GameScreen(GameRenderer gameRenderer, Timer timer) {
+  public GameScreen(GuiRenderer guiRenderer, GameRenderer gameRenderer, Timer timer) {
+    this.guiRenderer = guiRenderer;
     this.gameRenderer = gameRenderer;
     this.timer = timer;
     hud = new Hud();
@@ -232,11 +233,13 @@ public class GameScreen implements IScreen {
 
     // Check for complete
     if (gameModel.getState() == GameState.SCORE) {
-      Client.changeScreen(ClientState.END, false, gameModel);
+      System.out.println("DETECT END");
+      Client.changeScreen(ClientState.END, false, gameModel.getPlayers());
       return;
     }
 
     if (gameModel.getState() == GameState.NEXT_LEVEL) {
+      System.out.println("NEXT LEVEL DETECTED");
       hud.setLevel(gameModel.getCurrentLevelIndex());
       timer.resetStartTime();
     }
@@ -246,7 +249,8 @@ public class GameScreen implements IScreen {
   public void render() {
     hud.updateSize();
 
-    gameRenderer.render(GameConnection.gameModel, hud);
+    gameRenderer.render(GameConnection.gameModel);
+    guiRenderer.render(hud);
   }
 
   @Override

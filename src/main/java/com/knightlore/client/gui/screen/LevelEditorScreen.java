@@ -7,6 +7,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_E;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_PERIOD;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_Q;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
@@ -100,15 +101,15 @@ public class LevelEditorScreen implements IScreen {
   /** Method to process camera movement from mouse movement */
   private void cameraControl() {
     if (Mouse.isInScreen()) {
-      if (Mouse.getXPos() <= 5) {
+      if (Mouse.getXPos() <= 15) {
         levelEditorRenderer.addToCameraPosition(new Vector3f(-0.1f, 0, 0), editorMap.getSize());
-      } else if (Mouse.getXPos() >= Window.getWidth() - 5) {
+      } else if (Mouse.getXPos() >= Window.getWidth() - 15) {
         levelEditorRenderer.addToCameraPosition(new Vector3f(0.1f, 0, 0), editorMap.getSize());
       }
 
-      if (Mouse.getYPos() <= 5) {
+      if (Mouse.getYPos() <= 15) {
         levelEditorRenderer.addToCameraPosition(new Vector3f(0, 0.1f, 0), editorMap.getSize());
-      } else if (Mouse.getYPos() >= Window.getHeight() - 5) {
+      } else if (Mouse.getYPos() >= Window.getHeight() - 15) {
         levelEditorRenderer.addToCameraPosition(new Vector3f(0, -0.1f, 0), editorMap.getSize());
       }
     }
@@ -155,7 +156,11 @@ public class LevelEditorScreen implements IScreen {
       levelEditorRenderer.zoomIn(editorMap.getSize());
     } else if (Keyboard.isKeyReleased(GLFW_KEY_X)) {
       levelEditorRenderer.zoomOut(editorMap.getSize());
-    }
+    } else if (Keyboard.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
+        levelEditorHud.moveScore(35, levelEditorHud.getControlsSideGap());
+      } else {
+        levelEditorHud.moveScore(-10, levelEditorHud.getControlsHide());
+      }
 
     if (checkPosition(levelEditorHud, levelEditorHud.getSave().getId(), "")) {
       levelEditorHud.getSave().setColour();

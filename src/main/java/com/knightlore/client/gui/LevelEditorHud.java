@@ -24,6 +24,11 @@ import java.util.Arrays;
  *
  */
 public class LevelEditorHud implements IGui {
+	
+  private static final int CONTROLS_SIDE_GAP = 6;
+  
+  private static final int CONTROLS_HIDE =
+	      -CONTROLS_SIDE_GAP - FONT_SIZE_SMALL * 28 - CONTROLS_SIDE_GAP;
 
   /** Save text */
   private final TextObject save;
@@ -51,6 +56,18 @@ public class LevelEditorHud implements IGui {
   private final TextObject charger;
   /** Spawners text */
   private final TextObject spawners;
+  /** wasd text*/
+  private final TextObject selectTile;
+  /** qe text*/
+  private final TextObject upDownLayer;
+  /** mouse text*/
+  private final TextObject moveCamera;
+  /** zx text*/
+  private final TextObject zoomInOut;
+  /** ,. text*/
+  private final TextObject rotateLeftRight;
+  /** controls text*/
+  private final TextObject controls;
   /** Gui vertical divider */
   private final TextObject[] vDivider;
   /** Gui horizontal divider */
@@ -60,6 +77,8 @@ public class LevelEditorHud implements IGui {
   private TextObject[] textObjects;
   /** List of all the gui objects */
   private GuiObject[] guiObjects;
+  
+  private TextObject[] controlTextObjects;
 
   /**
    * Create gui objects
@@ -122,9 +141,54 @@ public class LevelEditorHud implements IGui {
     
     this.hDivider = new TextObject("------------------------------------", fontTextureSmall);
     this.hDivider.setColour(Colour.YELLOW);
+    
+    this.controls = new TextObject("Controls", fontTextureLarge);
+    this.controls.setColour(Colour.YELLOW);
+    
+    this.selectTile = new TextObject("WASD  : Select Tile", fontTextureSmall);
+    this.selectTile.setColour(Colour.YELLOW);
+    
+    this.upDownLayer = new TextObject("Q/E   : Down/Up layer", fontTextureSmall);
+    this.upDownLayer.setColour(Colour.YELLOW);
+    
+    this.zoomInOut = new TextObject("Z/X   : Zoom in/out", fontTextureSmall);
+    this.zoomInOut.setColour(Colour.YELLOW);
+    
+    this.rotateLeftRight = new TextObject(",/.   : Rotate left/right", fontTextureSmall);
+    this.rotateLeftRight.setColour(Colour.YELLOW);
+    
+    this.moveCamera = new TextObject("Mouse : Move camera", fontTextureSmall);
+    this.moveCamera.setColour(Colour.YELLOW);
 
-    guiObjects = new GuiObject[] {save, tiles, empty, floor, slab, block, hazard, finish, walker, randomer, circler, charger, spawners, hDivider};
+    guiObjects = new GuiObject[] {save, 
+    							  tiles, 
+    							  empty, 
+    							  floor, 
+    							  slab, 
+    							  block, 
+    							  hazard, 
+    							  finish, 
+    							  walker, 
+    							  randomer, 
+    							  circler, 
+    							  charger, 
+    							  spawners, 
+    							  hDivider, 
+    							  controls,
+    							  selectTile, 
+    							  upDownLayer, 
+    							  zoomInOut, 
+    							  rotateLeftRight, 
+    							  moveCamera};
     textObjects = new TextObject[] {save, empty, floor, slab, block, hazard, finish, walker, randomer, circler, charger};
+    controlTextObjects = new TextObject[] {controls, selectTile, upDownLayer, zoomInOut, rotateLeftRight, moveCamera};
+    
+    controls.setPosition(CONTROLS_HIDE, CONTROLS_SIDE_GAP);
+    selectTile.setPosition(CONTROLS_HIDE, CONTROLS_SIDE_GAP + GAP * 1.75f);
+    upDownLayer.setPosition(CONTROLS_HIDE, CONTROLS_SIDE_GAP + GAP * 2.75f);
+    zoomInOut.setPosition(CONTROLS_HIDE, CONTROLS_SIDE_GAP + GAP * 3.75f);
+    rotateLeftRight.setPosition(CONTROLS_HIDE, CONTROLS_SIDE_GAP + GAP * 4.75f);
+    moveCamera.setPosition(CONTROLS_HIDE, CONTROLS_SIDE_GAP + GAP * 5.75f);
     
     this.vDivider = new TextObject[8];
     ArrayList<GuiObject> tempG = new ArrayList<GuiObject>(Arrays.asList(guiObjects));
@@ -137,6 +201,37 @@ public class LevelEditorHud implements IGui {
     guiObjects = tempG.toArray(guiObjects);
     
   }
+  
+  public void moveScore(float move, float targetXPos) {
+    float xPosControls = controls.getPositionX();
+
+	  if (xPosControls < targetXPos && move > 0) {
+	    setPosition(move, xPosControls);
+	    if (controls.getPositionX() > targetXPos) {
+	      setPosition(0, targetXPos);
+	    }
+	  } else if (xPosControls > targetXPos && move < 0) {
+	    setPosition(move, xPosControls);
+	  }
+	}
+  
+  public void setPosition(float move, float xPosControls) {
+    controls.setPositionX(xPosControls + move);
+	selectTile.setPositionX(xPosControls + move);
+	moveCamera.setPositionX(xPosControls + move);
+	rotateLeftRight.setPositionX(xPosControls + move);
+	zoomInOut.setPositionX(xPosControls + move);
+	upDownLayer.setPositionX(xPosControls + move);
+  }
+  
+  public int getControlsSideGap() {
+	  return CONTROLS_SIDE_GAP;
+  }
+  
+  public int getControlsHide() {
+	  return CONTROLS_HIDE;
+  }
+  
   
   /**
    * Return save

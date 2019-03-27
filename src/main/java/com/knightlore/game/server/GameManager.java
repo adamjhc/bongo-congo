@@ -39,17 +39,17 @@ public class GameManager extends Thread {
         model.serverUpdate(interval);
 
         accumulator -= interval;
-        Sendable sendable = new Sendable();
-        sendable.setFunction("enemy_location_update");
-        EnemyLocationUpdate update = new EnemyLocationUpdate();
-
-        for(Enemy current : model.getCurrentLevel().getEnemies()){
-          update.addEnemy(current.getId(), new EnemyLocationUpdateObject(current.getPosition(), current.getDirection(), current.getCurrentState()));
-        }
-
-        sendable.setData(gson.toJson(update));
-
-        server.sendToRegistered(sendable);
+//        Sendable sendable = new Sendable();
+//        sendable.setFunction("enemy_location_update");
+//        EnemyLocationUpdate update = new EnemyLocationUpdate();
+//
+//        for(Enemy current : model.getCurrentLevel().getEnemies()){
+//          update.addEnemy(current.getId(), new EnemyLocationUpdateObject(current.getPosition(), current.getDirection(), current.getCurrentState()));
+//        }
+//
+//        sendable.setData(gson.toJson(update));
+//
+//        server.sendToRegistered(sendable);
       }
 
 

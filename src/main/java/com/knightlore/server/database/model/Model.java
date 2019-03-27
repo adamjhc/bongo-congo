@@ -14,6 +14,7 @@ public abstract class Model {
     public String createStatement;
     private boolean isSaved;
 
+
     private Connection conn = com.knightlore.server.database.Connection.getConnection();
 
     public void orderBy(){

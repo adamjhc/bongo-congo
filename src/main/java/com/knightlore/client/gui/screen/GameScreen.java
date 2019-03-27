@@ -232,11 +232,13 @@ public class GameScreen implements IScreen {
 
     // Check for complete
     if (gameModel.getState() == GameState.SCORE) {
+      System.out.println("DETECT END");
       Client.changeScreen(ClientState.END, false, gameModel);
       return;
     }
 
     if (gameModel.getState() == GameState.NEXT_LEVEL) {
+      System.out.println("NEXT LEVEL DETECTED");
       hud.setLevel(gameModel.getCurrentLevelIndex());
       timer.resetStartTime();
     }

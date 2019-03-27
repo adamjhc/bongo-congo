@@ -107,6 +107,8 @@ public class MainScreen implements IScreen {
           return;
         }
 
+        ServerConnection.instance.getHighscores();
+
         Client.changeScreen(ClientState.HIGHSCORE, false);
         return;
       }

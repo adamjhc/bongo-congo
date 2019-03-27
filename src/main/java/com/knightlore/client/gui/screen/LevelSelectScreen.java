@@ -84,6 +84,9 @@ public class LevelSelectScreen implements IScreen {
       if (Mouse.isLeftButtonPressed() && selectedLevels.size() == 3) {
     	Audio.play(SELECT);
         List<Level> levelList = getSelectedLevelsFromFile();
+
+        Gson gson = new Gson();
+        System.out.println(gson.toJson(levelList.get(0)));
         Client.changeScreen(ClientState.GAME, true, levelList);
         return;
       }

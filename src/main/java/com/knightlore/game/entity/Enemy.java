@@ -1,14 +1,10 @@
 package com.knightlore.game.entity;
 
-import com.knightlore.game.entity.ai.EnemyAI;
-import com.knightlore.game.entity.ai.WalkerAI;
+
 import com.knightlore.game.map.LevelMap;
-import com.knightlore.game.util.CoordinateUtils;
 import org.joml.Vector3f;
 
 import static com.knightlore.game.util.CoordinateUtils.getTileIndex;
-
-//import static com.knightlore.game.util.CoordinateUtils.getTileIndex;
 
 public class Enemy extends Entity {
 
@@ -55,7 +51,8 @@ public class Enemy extends Entity {
         move(newPos, levelMap);
         break;
       case CIRCLER:
-        newPos = enemyType.getCircle().pathfind(position, delta, speed, direction);
+        newPos = enemyType.getCircle().pathfind(position, delta);
+        setDirection(enemyType.getCircle().getDirection());
         move(newPos, levelMap);
         break;
       case RANDOMER:
@@ -82,7 +79,6 @@ public class Enemy extends Entity {
       setDirection(direction.getReverse(direction));
     }
   }
-
 
   @Override
   void update() {}

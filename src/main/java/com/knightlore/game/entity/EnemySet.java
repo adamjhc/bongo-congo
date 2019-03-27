@@ -18,6 +18,9 @@ public class EnemySet {
   public Enemy get(int index, Vector3f position) {
     Enemy enemy = new Enemy(set.get(index));
     enemy.setPosition(position);
+    if (enemy.getEnemyType() == EnemyType.CIRCLER) {
+      enemy.getEnemyType().getCircle().setHome(position);
+    }
     return enemy;
   }
 }

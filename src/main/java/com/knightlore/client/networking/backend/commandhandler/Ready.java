@@ -12,7 +12,6 @@ public class Ready implements GenericHandler {
     // Set state
     GameConnection.gameModel.setState(GameState.PLAYING);
 
-    GameConnection.instance.updater = new PeriodicStatusUpdater(GameConnection.instance);
-    GameConnection.instance.updater.start();
+    new PeriodicStatusUpdater(client).start();
   }
 }

@@ -26,7 +26,10 @@ public class Enemy extends Entity {
   }
 
   @Override
-  void update() {}
+  public void update() {
+    setPosition(AI.pathfind(position));
+    System.out.println("AI move");
+  }
 
   public EnemyType getEnemyType() {
     return enemyType;

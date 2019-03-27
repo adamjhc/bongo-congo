@@ -9,9 +9,5 @@ import org.joml.Vector3f;
 public class ChargerAI extends EnemyAI {
   public float range;
 
-  @Override
-  public List<Vector3f> pathfind() {
 
-    return null;
-  }
 }

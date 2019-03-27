@@ -15,7 +15,7 @@ import org.joml.Vector3f;
 public abstract class EnemyAI {
 
   public Vector3f
-      home; // Enemy 'start' point and where the pathfinding assumes the enemy is at that moment
+      home;
   private List<Vector3f> path;
 
   protected EnemyAI() {}
@@ -24,9 +24,8 @@ public abstract class EnemyAI {
     this.home = home;
   }
 
-  public List<Vector3f> pathfind() {
-    this.path = new LinkedList<Vector3f>(); // TODO: confirm what the 'coordinates' are
-    return path;
+  public Vector3f pathfind(Vector3f current) {
+    return new Vector3f();
   }
 
   public void setHome(Vector3f home) {

@@ -6,9 +6,4 @@ import org.joml.Vector3f;
 // Walks around in a circle of a set radius
 public class CirclerAI extends EnemyAI {
   public float radius;
-
-  @Override
-  public List<Vector3f> pathfind() {
-    return null;
   }
-}

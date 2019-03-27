@@ -127,7 +127,7 @@ public class GameServer extends Thread {
   public void startGame() {
     // Update model
     this.model.setState(GameState.PLAYING);
-
+    
     // Send
     Gson gson = new Gson();
     Sendable sendable = new Sendable();

@@ -12,9 +12,4 @@ public class RandomerAI extends EnemyAI {
     this.home = home;
     this.distance = distance;
   }
-
-  @Override
-  public List<Vector3f> pathfind() {
-    return null;
-  }
-}
+ }

@@ -37,6 +37,9 @@ public class MainMenu implements IGui {
 
   /** Quit game text */
   private final TextObject quit;
+  
+  /**Help text */
+  private final TextObject help;
 
   /** Sound icon text */
   private final TextObject soundOn;
@@ -82,6 +85,9 @@ public class MainMenu implements IGui {
 
     this.options = new TextObject("Options", SMALL);
     this.options.setColour(Colour.YELLOW);
+    
+    this.help = new TextObject("Help", SMALL);
+    this.help.setColour(Colour.YELLOW);
 
     this.quit = new TextObject("Quit", SMALL);
     this.quit.setColour(Colour.YELLOW);
@@ -105,11 +111,12 @@ public class MainMenu implements IGui {
           soundOn,
           soundOff,
           levelEditor,
-          highScore
+          highScore,
+          help
         };
     textObjects =
         new TextObject[] {
-          singleplayer, multiplayer, options, quit, soundOn, levelEditor, highScore
+          singleplayer, multiplayer, options, quit, soundOn, levelEditor, highScore, help
         };
   }
 
@@ -172,6 +179,10 @@ public class MainMenu implements IGui {
   public TextObject getQuit() {
     return quit;
   }
+  
+  public TextObject getHelp() {
+	  return help;
+  }
 
   /**
    * Returns sound
@@ -217,8 +228,10 @@ public class MainMenu implements IGui {
         Window.getHalfHeight() + MENU_POS + gap * 3);
     this.options.setPosition(
         Window.getHalfWidth() - options.getSize() / 2, Window.getHalfHeight() + MENU_POS + gap * 4);
+    this.help.setPosition(
+    	Window.getHalfWidth() - help.getSize() / 2, Window.getHalfHeight() + MENU_POS + gap * 5);
     this.quit.setPosition(
-        Window.getHalfWidth() - quit.getSize() / 2, Window.getHalfHeight() + MENU_POS + gap * 5);
+        Window.getHalfWidth() - quit.getSize() / 2, Window.getHalfHeight() + MENU_POS + gap * 6);
 
     this.soundOn.setPosition(
         Window.getWidth() - soundOn.getSize() * soundOn.getScale(),

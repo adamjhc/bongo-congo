@@ -142,6 +142,16 @@ public class MainScreen implements IScreen {
         return;
       }
     } else menu.getOptions().setColour(Colour.YELLOW);
+    
+    // HELP BUTTON
+    if (checkPosition(menu, menu.getHelp().getId())) {
+    	menu.getHelp().setColour();
+    	if (Mouse.isLeftButtonPressed()) {
+    		Audio.play(SELECT);
+    		Client.changeScreen(ClientState.HELP, false);
+    		return;
+    	}
+    } else menu.getHelp().setColour(Colour.YELLOW);
 
     // QUIT BUTTON
     if (checkPosition(menu, menu.getQuit().getId())) {

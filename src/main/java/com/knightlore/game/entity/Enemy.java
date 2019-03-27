@@ -44,9 +44,10 @@ public class Enemy extends Entity {
   }
 
   public void update(float delta, LevelMap levelMap) {
+    Vector3f newPos = new Vector3f();
     switch(enemyType) {
       case WALKER:
-        Vector3f newPos = enemyType.getWalk().pathfind(position, delta, speed, direction);
+        newPos = enemyType.getWalk().pathfind(position, delta, speed, direction);
         move(newPos, levelMap);
         break;
       case CHARGER:
@@ -58,7 +59,10 @@ public class Enemy extends Entity {
         move(newPos, levelMap);
         break;
       case RANDOMER:
-        newPos = enemyType.getRandom().pathfind(position, delta, speed, direction);
+        Direction newDir = enemyType.getRandom().pathfind(position, delta, speed, direction);
+        setDirection(newDir);
+        direction.getNormalisedDirection().mul(speed * delta, newPos);
+        newPos.add(position);
         move(newPos, levelMap);
         break;
     }

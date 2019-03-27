@@ -15,4 +15,5 @@ public enum ClientState {
   GAME_CLOSED,
   END,
   SHOW_ERROR,
+  HIGHSCORE,
 }

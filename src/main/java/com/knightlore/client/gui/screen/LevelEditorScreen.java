@@ -40,21 +40,6 @@ public class LevelEditorScreen implements IScreen {
   private static final AudioName SELECT = AudioName.SOUND_MENUSELECT;
 
   /**
-   * The width of the level
-   */
-  private int WIDTH;
-  
-  /**
-   * The height of the level
-   */
-  private int HEIGHT;
-  
-  /**
-   * The length of the level
-   */
-  private int LENGTH;
-
-  /**
    * The renderer used for the level
    */
   private LevelEditorRenderer levelEditorRenderer;
@@ -63,11 +48,6 @@ public class LevelEditorScreen implements IScreen {
    * The GUI displayed on the screen
    */
   private LevelEditorHud levelEditorHud;
-
-  /**
-   * The model used to represent the level being edited
-   */
-  private GameModel gameModel;
   
   /**
    * The x coordinate of the currently selected tile
@@ -100,13 +80,11 @@ public class LevelEditorScreen implements IScreen {
   @Override
   public void startup(Object... args) {
     editorMap = (LevelMap) args[0];
-    WIDTH = editorMap.getTiles()[0][0].length;
-    LENGTH = editorMap.getTiles()[0].length;
-    HEIGHT = editorMap.getTiles().length;
     currentTileX = 0;
     currentTileY = 0;
     currentTileZ = 0;
-    Audio.stop(Audio.getCurrentMusic());
+    if (Audio.getCurrentMusic() != Audio.AudioName.MUSIC_EDITOR)
+    	Audio.stop(Audio.getCurrentMusic());
     Audio.play(Audio.AudioName.MUSIC_EDITOR);
   }
 
@@ -189,6 +167,7 @@ public class LevelEditorScreen implements IScreen {
       List<Level> levelList = new ArrayList<>();
       levelList.add(new Level(editorMap));
       Client.changeScreen(ClientState.TESTING_LEVEL, true, levelList);
+      return;
     } else if (Keyboard.isKeyReleased(GLFW_KEY_COMMA)) {
       editorMap.rotate(true);
     } else if (Keyboard.isKeyReleased(GLFW_KEY_PERIOD)) {
@@ -205,7 +184,7 @@ public class LevelEditorScreen implements IScreen {
     	Audio.play(SELECT);
         try {
           editorMap.resetRotation();
-          Client.changeScreen(ClientState.NAMING_LEVEL, false, editorMap);
+          Client.changeScreen(ClientState.NAMING_LEVEL, false, editorMap, false);
         } catch (Exception e) {
           e.printStackTrace();
         }
@@ -304,6 +283,7 @@ public class LevelEditorScreen implements IScreen {
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU, false);
+      return;
     }
 
     levelEditorRenderer.setCurrentTiles(currentTileX, currentTileY, currentTileZ);

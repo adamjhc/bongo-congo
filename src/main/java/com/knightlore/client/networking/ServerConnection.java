@@ -54,9 +54,9 @@ public class ServerConnection {
         }
 
         // Check for api key in config
-        Optional<String> apikey = Config.apiKey();
+        Optional<String> apiKey = Config.apiKey();
 
-        if(!apikey.isPresent()){
+        if(!apiKey.isPresent()){
             throw new ConfigItemNotFoundException();
         }
 
@@ -67,7 +67,7 @@ public class ServerConnection {
 
         Gson gson = new Gson();
 
-        ApiKey myKey = new ApiKey(apikey.get());
+        ApiKey myKey = new ApiKey(apiKey.get());
         sendable.setData(gson.toJson(myKey));
 
         ResponseHandler.waiting.put(sendable.getUuid(), new SessionKey());
@@ -175,7 +175,7 @@ public class ServerConnection {
         return sessionKey;
     }
 
-    public static void makeConnection() throws ConfigItemNotFoundException{
+    public static boolean makeConnection() throws ConfigItemNotFoundException{
         Optional<Integer> authServerPort = Config.authServerPort();
         Optional<String> authServerIp = Config.authServerIp();
 
@@ -183,24 +183,33 @@ public class ServerConnection {
             com.knightlore.client.networking.backend.Client authClient;
             try{
                 authClient = new com.knightlore.client.networking.backend.Client(InetAddress.getByName(authServerIp.get()), authServerPort.get());
-                authClient.run();
+                if (!authClient.run()) {
+                    return false;
+                }
                 ServerConnection.instance = new ServerConnection(authClient);
             }catch(UnknownHostException e){
-                System.out.println("Warning: Invalid IP");
-                System.exit(1);
+                e.printStackTrace();
+                return false;
             }
         }else{
             throw new ConfigItemNotFoundException();
         }
 
         // Wait for instance to be ready
+        int timeout = 5;
+        int wait = 0;
         while(!ServerConnection.instance.ready()){
             try{
                 TimeUnit.SECONDS.sleep(1);
-            }catch(InterruptedException e){
+            }catch(InterruptedException ignored){
                 // Timeout should never interrupt
             }
             System.out.println("WAITING");
+            wait++;
+
+            if (wait == timeout) {
+                return false;
+            }
         }
 
         // Send authenticaton packet
@@ -209,11 +218,12 @@ public class ServerConnection {
         }catch(ClientAlreadyAuthenticatedException e){
         }catch (IOException e){
             System.out.println("Client could not connect ");
+            return false;
         }catch (ConfigItemNotFoundException e){
             System.out.println("ApiKey not provided");
-            System.exit(1);
+            return false;
         }
 
-
+        return true;
     }
 }

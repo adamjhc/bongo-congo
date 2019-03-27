@@ -24,23 +24,24 @@ import java.util.concurrent.TimeUnit;
 
 public class MainScreen implements IScreen {
 
-  MainMenu menu;
-  GuiRenderer renderer;
-  AudioName SELECT = AudioName.SOUND_MENUSELECT;
+  private static final AudioName SELECT = AudioName.SOUND_MENUSELECT;
+
+  private MainMenu menu;
+  private GuiRenderer renderer;
 
   public MainScreen(GuiRenderer renderer) {
     menu = new MainMenu();
     this.renderer = renderer;
 
     Audio.restart();
-    }
+  }
 
   @Override
   public void startup(Object... args) {
-	    if (Audio.getCurrentMusic() != AudioName.MUSIC_MENU)
-	    	Audio.stop(Audio.getCurrentMusic());
-	    Audio.play(Audio.AudioName.MUSIC_MENU);
-
+    if (Audio.getCurrentMusic() != AudioName.MUSIC_MENU) {
+      Audio.stop(Audio.getCurrentMusic());
+    }
+    Audio.play(Audio.AudioName.MUSIC_MENU);
   }
 
   @Override
@@ -50,8 +51,9 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getSingleplayer().getId())) {
       menu.getSingleplayer().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
-        Client.changeScreen(ClientState.LEVEL_SELECT, true);
+        Audio.play(SELECT);
+        Client.changeScreen(ClientState.LEVEL_SELECT, false);
+        return;
       }
     } else menu.getSingleplayer().setColour(Colour.YELLOW);
 
@@ -59,38 +61,11 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getMultiplayer().getId())) {
       menu.getMultiplayer().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
-        // Do network connection
-        Client.showLoadingScreen();
+        Audio.play(SELECT);
 
-        // Check for multiplayer connection
-        if(ServerConnection.instance == null){
-          try {
-            // Make connection
-            ServerConnection.makeConnection();
-
-            // Authenticate
-            try {
-              ServerConnection.instance.auth();
-            } catch (IOException e) {
-              System.out.println("Auth error");
-            } catch (ClientAlreadyAuthenticatedException e) {
-              // Ignore
-            }
-
-            // Wait for auth
-            while (!ServerConnection.instance.isAuthenticated()) {
-              // Wait
-              try {
-                TimeUnit.SECONDS.sleep(1);
-                System.out.println("Waiting");
-              } catch (InterruptedException e) {
-
-              }
-            }
-          }catch(ConfigItemNotFoundException e){
-
-          }
+        if (!connectToServer()) {
+          Client.changeScreen(ClientState.SHOW_ERROR, false, "Error connecting to server");
+          return;
         }
 
         // Retrieve Games
@@ -107,6 +82,7 @@ public class MainScreen implements IScreen {
         }
 
         Client.changeScreen(ClientState.LOBBY_MENU, false);
+        return;
       }
     } else menu.getMultiplayer().setColour(Colour.YELLOW);
 
@@ -114,17 +90,35 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getLevelEditor().getId())) {
       menu.getLevelEditor().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         Client.changeScreen(ClientState.PRE_EDITOR, false);
+        return;
       }
     } else menu.getLevelEditor().setColour(Colour.YELLOW);
+
+    // HIGHSCORE BUTTON
+    if (checkPosition(menu, menu.getHighscore().getId())) {
+      menu.getHighscore().setColour();
+      if (Mouse.isLeftButtonPressed()) {
+        Audio.play(SELECT);
+
+        if (!connectToServer()) {
+          Client.changeScreen(ClientState.SHOW_ERROR, false, "Error connecting to server");
+          return;
+        }
+
+        Client.changeScreen(ClientState.HIGHSCORE, false);
+        return;
+      }
+    } else menu.getHighscore().setColour(Colour.YELLOW);
 
     // OPTIONS BUTTON
     if (checkPosition(menu, menu.getOptions().getId())) {
       menu.getOptions().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         Client.changeScreen(ClientState.OPTIONS_MENU, false);
+        return;
       }
     } else menu.getOptions().setColour(Colour.YELLOW);
 
@@ -132,7 +126,7 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getQuit().getId())) {
       menu.getQuit().setColour();
       if (Mouse.isLeftButtonPressed()) {
-    	Audio.play(SELECT);
+        Audio.play(SELECT);
         Window.setShouldClose();
       }
     } else menu.getQuit().setColour(Colour.YELLOW);
@@ -145,13 +139,13 @@ public class MainScreen implements IScreen {
       }
     }
 
-    if (Keyboard.isKeyReleased(GLFW_KEY_EQUAL)) {
-      menu.incFont();
-    }
-
-    if (Keyboard.isKeyReleased(GLFW_KEY_MINUS)) {
-      menu.decFont();
-    }
+//    if (Keyboard.isKeyReleased(GLFW_KEY_EQUAL)) {
+//    	menu.incFont();
+//    }
+//    
+//    if (Keyboard.isKeyReleased(GLFW_KEY_MINUS)) {
+//    	menu.decFont();
+//    }
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Window.setShouldClose();
@@ -169,5 +163,48 @@ public class MainScreen implements IScreen {
   @Override
   public void cleanUp() {
     menu.cleanup();
+  }
+
+  private boolean connectToServer() {
+    Client.showLoadingScreen();
+
+    // Check for multiplayer connection
+    if (ServerConnection.instance == null) {
+      try {
+        // Make connection
+        if (!ServerConnection.makeConnection()) {
+          return false;
+        }
+
+        // Authenticate
+        try {
+          ServerConnection.instance.auth();
+        } catch (IOException e) {
+          return false;
+        } catch (ClientAlreadyAuthenticatedException e) {
+          return true;
+        }
+
+        // Wait for auth
+        int timeout = 5;
+        int wait = 0;
+        while (!ServerConnection.instance.isAuthenticated()) {
+          // Wait
+          try {
+            TimeUnit.SECONDS.sleep(1);
+          } catch (InterruptedException ignored) {
+          }
+
+          wait++;
+
+          if (wait == timeout) {
+            return false;
+          }
+        }
+      } catch (ConfigItemNotFoundException ignored) {
+      }
+    }
+
+    return true;
   }
 }

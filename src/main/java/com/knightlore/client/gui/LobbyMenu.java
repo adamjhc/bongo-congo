@@ -12,32 +12,64 @@ import com.knightlore.networking.ListGameObject;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * Screen that shows the list of all the joinable lobbies
+ * and has the option to create / refresh games
+ * 
+ * @author Joseph
+ *
+ */
 public class LobbyMenu implements IGui {
 
+	/** Position of the top separator line */
   private static final int SEPARATOR_TOP_POS = 185;
+  /** Position of the bottom separator line */
   private static final int SEPARATOR_BOT_POS = 200;
+  /** Gap between each line of text */
   private static final int SEPARATOR_GAP = FONT_SIZE_SMALL;
 
+  /** The maximum number of servers that can be displayed */
   private static final int MAX_SERVERS = (SEPARATOR_TOP_POS + SEPARATOR_BOT_POS - GAP) / GAP;
 
+  /** Top separator line text */
   private final TextObject separatorTop;
+  /** Bottom separator line text*/
   private final TextObject separatorBot;
+  /** Create game text */
   private final TextObject create;
+  /** Exit screen text */
   private final TextObject exit;
+  /** Bongo text */
   private final TextObject bongo;
+  /** Congo text */
   private final TextObject congo;
+  /** Multiplayer title text */
   private final TextObject multiplayer;
+  /** Join game text */
   private final TextObject join;
+  /** Refresh games text */
   private final TextObject refresh;
+  
+  /** List of lobbies */
   private ArrayList<LobbyObject> lobbies;
+  /** List of gui objects */
   private GuiObject[] guiObjects;
+  /** List of text objects */
   private TextObject[] textObjects;
+  
+  /** Length of gui objects initially */
   private int length;
-
+  /** Current lobby */
   private int current;
-
+  /** Position of the next gui object */
   private int yPos = SEPARATOR_TOP_POS - GAP;
 
+  /**
+   * Create gui objects
+   * 
+   * @author Joseph
+   * 
+   */
   public LobbyMenu() {
     this.bongo = new TextObject("Bongo", TITLE);
     this.bongo.setColour(Colour.LIGHT_BLUE);
@@ -110,6 +142,13 @@ public class LobbyMenu implements IGui {
     }
   }
 
+  /**
+   * Deletes a lobby
+   * 
+   * @param game The game to delete
+   * @author Joseph
+   * 
+   */
   public void deleteLobby(ListGameObject game) {
     int i = 0;
     int deleteIndex = -1;
@@ -125,7 +164,13 @@ public class LobbyMenu implements IGui {
       refreshLobbies();
     }
   }
-
+  
+  /**
+   * Adds a lobby
+   * 
+   * @author Joseph
+   * 
+   */
   private void addLobby() {
     if (lobbies.size() <= MAX_SERVERS) {
       GuiObject[] guiObjectsNew = new GuiObject[length + lobbies.size()];
@@ -137,6 +182,12 @@ public class LobbyMenu implements IGui {
     }
   }
 
+  /**
+   * Adds list of lobbies
+   * 
+   * @author Joseph
+   * 
+   */
   private void addLobbies() {
     if (lobbies.size() <= MAX_SERVERS) {
       GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length + lobbies.size()];
@@ -155,6 +206,12 @@ public class LobbyMenu implements IGui {
     }
   }
 
+  /**
+   * Scroll down 
+   * 
+   * @author Joseph
+   * 
+   */
   public void moveDown() {
     if (lobbies.size() > MAX_SERVERS && current < lobbies.size() - MAX_SERVERS) {
       current++;
@@ -171,6 +228,12 @@ public class LobbyMenu implements IGui {
     }
   }
 
+  /**
+   * Scroll up
+   * 
+   * @author Joseph
+   * 
+   */
   public void moveUp() {
     if (current > 0) {
       current--;
@@ -188,6 +251,12 @@ public class LobbyMenu implements IGui {
     }
   }
 
+  /**
+   * Highlight a lobby
+   * 
+   * @author Joseph
+   * 
+   */
   public void highlight() {
     double pos = (Mouse.getYPos() - (Window.getHalfHeight() - (SEPARATOR_TOP_POS - GAP * 2))) / GAP;
     int posInt = (int) Math.ceil(pos);
@@ -196,6 +265,12 @@ public class LobbyMenu implements IGui {
     }
   }
 
+  /**
+   * Reset all highlights
+   * 
+   * @author Joseph
+   * 
+   */
   private void resetHighlight() {
     for (LobbyObject lobby : lobbies) {
       if (lobby.getHighlighted()) {
@@ -207,6 +282,13 @@ public class LobbyMenu implements IGui {
     }
   }
 
+  /**
+   * Sets the highlight for a specific lobby
+   * 
+   * @param listPos The lobby to highlight
+   * @author Joseph
+   * 
+   */
   private void setHighlight(int listPos) {
     resetHighlight();
     lobbies.get(listPos + current).setHighlighted();
@@ -217,6 +299,12 @@ public class LobbyMenu implements IGui {
         .setPositionX(Window.getHalfWidth() - lobbies.get(listPos + current).getSize() / 2);
   }
 
+  /**
+   * Gets the highlighted lobby
+   * 
+   * @return The highlighted lobby
+   * @author Joseph
+   */
   public LobbyObject getHighlighted() {
     for (LobbyObject lobby : lobbies) {
       if (lobby.getHighlighted()) {
@@ -226,30 +314,72 @@ public class LobbyMenu implements IGui {
     return null;
   }
 
+  /**
+   * Returns create
+   * 
+   * @return Create
+   * @author Joseph
+   */
   public TextObject getCreate() {
     return create;
   }
 
+  /**
+   * Returns separatorTop
+   * 
+   * @return SeparatorTop
+   * @author Joseph
+   */
   public TextObject getSeparatorTop() {
     return separatorTop;
   }
 
+  /**
+   * Returns separatorBot
+   * 
+   * @return SeparatorBot
+   * @author Joseph
+   */
   public TextObject getSeparatorBot() {
     return separatorBot;
   }
 
+  /**
+   * Returns exit
+   * 
+   * @return Exit
+   * @author Joseph
+   */
   public TextObject getExit() {
     return exit;
   }
 
+  /**
+   * Returns refresh
+   * 
+   * @return Refresh
+   * @author Joseph
+   */
   public TextObject getRefresh() {
     return refresh;
   }
 
+  /**
+   * Returns join
+   * 
+   * @return Join
+   * @author Joseph
+   */
   public TextObject getJoin() {
     return join;
   }
 
+  /**
+   * Updates the position of the gui objects
+   * 
+   * @author Joseph
+   * 
+   */
   public void updateSize() {
     this.bongo.setPosition(
         Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);

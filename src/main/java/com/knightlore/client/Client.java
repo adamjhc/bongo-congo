@@ -99,15 +99,15 @@ public class Client {
     screens.put(ClientState.MAIN_MENU, new MainScreen(guiRenderer));
     screens.put(ClientState.LOBBY_MENU, new LobbySelectScreen(guiRenderer));
     screens.put(ClientState.PRE_EDITOR, new LevelEditorSetupScreen(guiRenderer));
-    screens.put(ClientState.LEVEL_EDITOR, new LevelEditorScreen(levelEditorRenderer));
-    screens.put(ClientState.TESTING_LEVEL, new TestingLevelScreen(gameRenderer, timer));
+    screens.put(ClientState.LEVEL_EDITOR, new LevelEditorScreen(guiRenderer, levelEditorRenderer));
+    screens.put(ClientState.TESTING_LEVEL, new TestingLevelScreen(guiRenderer, gameRenderer, timer));
     screens.put(ClientState.OPTIONS_MENU, new OptionsScreen(guiRenderer));
-    screens.put(ClientState.GAME, new GameScreen(gameRenderer, timer));
+    screens.put(ClientState.GAME, new GameScreen(guiRenderer, gameRenderer, timer));
     screens.put(ClientState.NAMING_LEVEL, new NameLevelScreen(guiRenderer));
     screens.put(ClientState.LOBBY, new LobbyScreen(guiRenderer));
     screens.put(ClientState.LOADING_LEVEL, new LoadLevelScreen(guiRenderer));
     screens.put(ClientState.END, new GameEndScreen(guiRenderer));
-    screens.put(ClientState.LEVEL_SELECT, new LevelSelectScreen(levelSelectRenderer));
+    screens.put(ClientState.LEVEL_SELECT, new LevelSelectScreen(guiRenderer, levelSelectRenderer));
     screens.put(ClientState.SHOW_ERROR, new ShowErrorScreen(guiRenderer));
     screens.put(ClientState.HIGHSCORE, new HighscoreScreen(guiRenderer));
 

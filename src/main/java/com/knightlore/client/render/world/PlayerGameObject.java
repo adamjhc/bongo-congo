@@ -119,6 +119,7 @@ public class PlayerGameObject extends EntityGameObject {
 
     switch (currentState) {
       case IDLE:
+      case FINISHED:
         idleTextures.get(currentDirection).bind(0);
         resetUnloopedAnimatedTextures();
         break;

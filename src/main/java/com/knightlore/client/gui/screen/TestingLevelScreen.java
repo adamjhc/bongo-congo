@@ -5,6 +5,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_SHIFT;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 
+import com.knightlore.client.render.GuiRenderer;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,8 +22,8 @@ import com.knightlore.game.entity.PlayerState;
 
 public class TestingLevelScreen extends GameScreen {
 
-  public TestingLevelScreen(GameRenderer gameRenderer, Timer timer) {
-    super(gameRenderer, timer);
+  public TestingLevelScreen(GuiRenderer guiRenderer, GameRenderer gameRenderer, Timer timer) {
+    super(guiRenderer, gameRenderer, timer);
   }
 
   /** Method to process keyboard input during the level test */

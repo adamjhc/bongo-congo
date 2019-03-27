@@ -207,6 +207,18 @@ public class Player extends Entity {
         }
       }
 
+      if (newTile.getIndex() == 5 && playerState != PlayerState.FINISHED) { // Checks for goal
+        addToScore(10000);
+        setPosition(newPos);
+        // TODO: Switch game state here
+        setPlayerState(PlayerState.FINISHED);
+
+        if(GameConnection.instance != null){
+          Audio.play(Audio.AudioName.JINGLE_VICTORY);
+          GameConnection.instance.sendLevelComplete();
+        }
+      }
+
       // TODO: Enemy collisions
       // catches SW and SE edges    catches NE and NW edges
     } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
@@ -260,7 +272,6 @@ public class Player extends Entity {
   }
 
   public void decrementLives(){
-	Audio.play(Audio.AudioName.SOUND_HIT);
     this.lives --;
   }
 

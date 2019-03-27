@@ -24,9 +24,10 @@ import java.util.concurrent.TimeUnit;
 
 public class MainScreen implements IScreen {
 
+  private static final AudioName SELECT = AudioName.SOUND_MENUSELECT;
+
   private MainMenu menu;
   private GuiRenderer renderer;
-  private AudioName SELECT = AudioName.SOUND_MENUSELECT;
 
   public MainScreen(GuiRenderer renderer) {
     menu = new MainMenu();
@@ -61,37 +62,10 @@ public class MainScreen implements IScreen {
       menu.getMultiplayer().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Audio.play(SELECT);
-        // Do network connection
-        Client.showLoadingScreen();
 
-        // Check for multiplayer connection
-        if (ServerConnection.instance == null) {
-          try {
-            // Make connection
-            ServerConnection.makeConnection();
-
-            // Authenticate
-            try {
-              ServerConnection.instance.auth();
-            } catch (IOException e) {
-              System.out.println("Auth error");
-            } catch (ClientAlreadyAuthenticatedException e) {
-              // Ignore
-            }
-
-            // Wait for auth
-            while (!ServerConnection.instance.isAuthenticated()) {
-              // Wait
-              try {
-                TimeUnit.SECONDS.sleep(1);
-                System.out.println("Waiting");
-              } catch (InterruptedException e) {
-
-              }
-            }
-          } catch (ConfigItemNotFoundException e) {
-
-          }
+        if (!connectToServer()) {
+          Client.changeScreen(ClientState.SHOW_ERROR, false, "Error connecting to server");
+          return;
         }
 
         // Retrieve Games
@@ -126,10 +100,17 @@ public class MainScreen implements IScreen {
     if (checkPosition(menu, menu.getHighscore().getId())) {
       menu.getHighscore().setColour();
       if (Mouse.isLeftButtonPressed()) {
+        Audio.play(SELECT);
+
+        if (!connectToServer()) {
+          Client.changeScreen(ClientState.SHOW_ERROR, false, "Error connecting to server");
+          return;
+        }
+
         Client.changeScreen(ClientState.HIGHSCORE, false);
         return;
       }
-    }
+    } else menu.getHighscore().setColour(Colour.YELLOW);
 
     // OPTIONS BUTTON
     if (checkPosition(menu, menu.getOptions().getId())) {
@@ -182,5 +163,48 @@ public class MainScreen implements IScreen {
   @Override
   public void cleanUp() {
     menu.cleanup();
+  }
+
+  private boolean connectToServer() {
+    Client.showLoadingScreen();
+
+    // Check for multiplayer connection
+    if (ServerConnection.instance == null) {
+      try {
+        // Make connection
+        if (!ServerConnection.makeConnection()) {
+          return false;
+        }
+
+        // Authenticate
+        try {
+          ServerConnection.instance.auth();
+        } catch (IOException e) {
+          return false;
+        } catch (ClientAlreadyAuthenticatedException e) {
+          return true;
+        }
+
+        // Wait for auth
+        int timeout = 5;
+        int wait = 0;
+        while (!ServerConnection.instance.isAuthenticated()) {
+          // Wait
+          try {
+            TimeUnit.SECONDS.sleep(1);
+          } catch (InterruptedException ignored) {
+          }
+
+          wait++;
+
+          if (wait == timeout) {
+            return false;
+          }
+        }
+      } catch (ConfigItemNotFoundException ignored) {
+      }
+    }
+
+    return true;
   }
 }

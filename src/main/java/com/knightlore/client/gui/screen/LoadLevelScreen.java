@@ -21,6 +21,7 @@ import java.io.FileReader;
 
 public class LoadLevelScreen implements IScreen {
 
+  /** Audio clip name for selection */
   private static final AudioName SELECT = AudioName.SOUND_MENUSELECT;
 
   /** The file path for all finished levels */
@@ -38,6 +39,11 @@ public class LoadLevelScreen implements IScreen {
   /** The object containing the menu */
   private LoadLevelMenu loadLevelMenu;
 
+  /**
+   * Initialise LoadLevelScreen
+   *
+   * @param guiRenderer renderer used to render gui elements
+   */
   public LoadLevelScreen(GuiRenderer guiRenderer) {
     this.guiRenderer = guiRenderer;
     loadLevelMenu = new LoadLevelMenu();
@@ -45,6 +51,7 @@ public class LoadLevelScreen implements IScreen {
   }
 
   /** Method to initialise the menu when it is changed to */
+  @Override
   public void startup(Object... args) {
     File[] fLevels = (new File(finishedFilePath)).listFiles();
     File[] uLevels = (new File(unfinishedFilePath)).listFiles();
@@ -73,6 +80,7 @@ public class LoadLevelScreen implements IScreen {
   }
 
   /** Method to process users clicking on menu items */
+  @Override
   public void input() {
     if (checkPosition(loadLevelMenu, loadLevelMenu.getLoad().getId())) {
       loadLevelMenu.getLoad().setColour();
@@ -132,6 +140,7 @@ public class LoadLevelScreen implements IScreen {
   }
 
   /** Method to render the GUI */
+  @Override
   public void render() {
     loadLevelMenu.updateSize();
     guiRenderer.render(loadLevelMenu);

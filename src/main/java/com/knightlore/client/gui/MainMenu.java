@@ -14,44 +14,52 @@ import com.knightlore.client.io.Window;
  * Editor
  * 
  * @author Joseph
- *
  */
 public class MainMenu implements IGui {
 
-	/** Position of the menu */
+  /** Position of the menu */
   private static final int MENU_POS = 0;
 
   /** Singleplayer text */
   private final TextObject singleplayer;
+
   /** Multiplayer text */
   private final TextObject multiplayer;
+
   /** Level editor text */
   private final TextObject levelEditor;
-  /** Highscore text */
-  private final TextObject highscore;
+
+  /** HighScore text */
+  private final TextObject highScore;
+
   /** Options text */
   private final TextObject options;
+
   /** Quit game text */
   private final TextObject quit;
+
   /** Sound icon text */
   private final TextObject soundOn;
+
   /** Sound off icon text */
   private final TextObject soundOff;
+
   /** Bongo text */
   private final TextObject bongo;
+
   /** Congo text */
   private final TextObject congo;
-  
+
   /** List of gui objects */
   private GuiObject[] guiObjects;
+
   /** List of text objects */
   private TextObject[] textObjects;
 
   /**
    * Create gui objects
-   * 
+   *
    * @author Joseph
-   * 
    */
   public MainMenu() {
     this.bongo = new TextObject("Bongo", TITLE);
@@ -69,8 +77,8 @@ public class MainMenu implements IGui {
     this.levelEditor = new TextObject("Editor", SMALL);
     this.levelEditor.setColour(Colour.YELLOW);
 
-    this.highscore = new TextObject("Highscores", SMALL);
-    this.highscore.setColour(Colour.YELLOW);
+    this.highScore = new TextObject("Highscores", SMALL);
+    this.highScore.setColour(Colour.YELLOW);
 
     this.options = new TextObject("Options", SMALL);
     this.options.setColour(Colour.YELLOW);
@@ -97,20 +105,19 @@ public class MainMenu implements IGui {
           soundOn,
           soundOff,
           levelEditor,
-          highscore
+          highScore
         };
     textObjects =
         new TextObject[] {
-          singleplayer, multiplayer, options, quit, soundOn, levelEditor, highscore
+          singleplayer, multiplayer, options, quit, soundOn, levelEditor, highScore
         };
   }
 
   /**
    * Returns singleplayer
-   * 
+   *
    * @return Singleplayer
    * @author Joseph
-   * 
    */
   public TextObject getSingleplayer() {
     return singleplayer;
@@ -118,10 +125,9 @@ public class MainMenu implements IGui {
 
   /**
    * Returns multiplayer
-   * 
+   *
    * @return Multiplayer
    * @author Joseph
-   * 
    */
   public TextObject getMultiplayer() {
     return multiplayer;
@@ -129,31 +135,29 @@ public class MainMenu implements IGui {
 
   /**
    * Returns level editor
-   * 
+   *
    * @return Level editor
    * @author Joseph
-   * 
    */
   public TextObject getLevelEditor() {
     return levelEditor;
   }
 
   /**
-   * Returns highscore
-   * 
-   * @return Highscore
+   * Returns highScore
+   *
+   * @return HighScore
    * @author Adam C
    */
-  public TextObject getHighscore() {
-    return highscore;
+  public TextObject getHighScore() {
+    return highScore;
   }
 
   /**
    * Return options
-   * 
+   *
    * @return Options
    * @author Joseph
-   * 
    */
   public TextObject getOptions() {
     return options;
@@ -161,10 +165,9 @@ public class MainMenu implements IGui {
 
   /**
    * Returns quit
-   * 
+   *
    * @return Quit
    * @author Joseph
-   * 
    */
   public TextObject getQuit() {
     return quit;
@@ -172,31 +175,28 @@ public class MainMenu implements IGui {
 
   /**
    * Returns sound
-   * 
+   *
    * @return SoundOn
    * @author Joseph
-   * 
    */
   public TextObject getSound() {
     return soundOn;
   }
 
   /**
-   * Returns sound off 
-   * 
+   * Returns sound off
+   *
    * @return SoundOff
    * @author Joseph
-   * 
    */
   public TextObject getSoundMute() {
     return soundOff;
   }
-  
+
   /**
    * Updates the position of the gui objects
-   * 
+   *
    * @author Joseph
-   * 
    */
   public void updateSize() {
     int gap = singleplayer.getHeight() + 5;
@@ -212,8 +212,8 @@ public class MainMenu implements IGui {
     this.levelEditor.setPosition(
         Window.getHalfWidth() - levelEditor.getSize() / 2,
         Window.getHalfHeight() + MENU_POS + gap * 2);
-    this.highscore.setPosition(
-        Window.getHalfWidth() - highscore.getSize() / 2,
+    this.highScore.setPosition(
+        Window.getHalfWidth() - highScore.getSize() / 2,
         Window.getHalfHeight() + MENU_POS + gap * 3);
     this.options.setPosition(
         Window.getHalfWidth() - options.getSize() / 2, Window.getHalfHeight() + MENU_POS + gap * 4);
@@ -229,30 +229,28 @@ public class MainMenu implements IGui {
 
   /**
    * Increases the size of the menu font
-   * 
+   *
    * @author Joseph
-   * 
    */
   public void incFont() {
     singleplayer.setFontTexture(MEDIUM);
     multiplayer.setFontTexture(MEDIUM);
     levelEditor.setFontTexture(MEDIUM);
-    highscore.setFontTexture(MEDIUM);
+    highScore.setFontTexture(MEDIUM);
     options.setFontTexture(MEDIUM);
     quit.setFontTexture(MEDIUM);
   }
 
   /**
    * Decreases the size of the menu font
-   * 
+   *
    * @author Joseph
-   * 
    */
   public void decFont() {
     singleplayer.setFontTexture(SMALL);
     multiplayer.setFontTexture(SMALL);
     levelEditor.setFontTexture(SMALL);
-    highscore.setFontTexture(SMALL);
+    highScore.setFontTexture(SMALL);
     options.setFontTexture(SMALL);
     quit.setFontTexture(SMALL);
   }

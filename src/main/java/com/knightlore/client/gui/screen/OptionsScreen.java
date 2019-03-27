@@ -15,11 +15,20 @@ import com.knightlore.client.render.GuiRenderer;
 
 public class OptionsScreen implements IScreen {
 
+  /** Audio clip name used for selection */
   private static final AudioName SELECT = AudioName.SOUND_MENUSELECT;
 
+  /** Renderer used for rendering gui elements */
   private GuiRenderer guiRenderer;
+
+  /** Gui elements to render */
   private OptionsMenu optionsMenu;
 
+  /**
+   * Initialise OptionsScreen
+   *
+   * @param guiRenderer renderer used for rendering gui elements
+   */
   public OptionsScreen(GuiRenderer guiRenderer) {
     this.guiRenderer = guiRenderer;
     optionsMenu = new OptionsMenu();

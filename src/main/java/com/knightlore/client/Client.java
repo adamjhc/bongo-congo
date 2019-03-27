@@ -11,7 +11,7 @@ import com.knightlore.client.gui.Loading;
 import com.knightlore.client.gui.engine.Timer;
 import com.knightlore.client.gui.screen.GameEndScreen;
 import com.knightlore.client.gui.screen.GameScreen;
-import com.knightlore.client.gui.screen.HighscoreScreen;
+import com.knightlore.client.gui.screen.HighScoreScreen;
 import com.knightlore.client.gui.screen.IScreen;
 import com.knightlore.client.gui.screen.LevelEditorScreen;
 import com.knightlore.client.gui.screen.LevelEditorSetupScreen;
@@ -109,7 +109,7 @@ public class Client {
     screens.put(ClientState.END, new GameEndScreen(guiRenderer));
     screens.put(ClientState.LEVEL_SELECT, new LevelSelectScreen(guiRenderer, levelSelectRenderer));
     screens.put(ClientState.SHOW_ERROR, new ShowErrorScreen(guiRenderer));
-    screens.put(ClientState.HIGHSCORE, new HighscoreScreen(guiRenderer));
+    screens.put(ClientState.HIGHSCORE, new HighScoreScreen(guiRenderer));
 
     loadingScreen = new Loading();
 

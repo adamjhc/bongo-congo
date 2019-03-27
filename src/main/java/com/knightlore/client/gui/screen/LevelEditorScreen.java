@@ -58,6 +58,11 @@ public class LevelEditorScreen implements IScreen {
   /** The Map being edited */
   private LevelMap editorMap;
 
+  /**
+   * Initialise LevelEditorScreeen
+   * @param guiRenderer renderer used to render gui elements
+   * @param levelEditorRenderer renderer used to render editor map
+   */
   public LevelEditorScreen(GuiRenderer guiRenderer, LevelEditorRenderer levelEditorRenderer) {
     this.guiRenderer = guiRenderer;
     this.levelEditorRenderer = levelEditorRenderer;

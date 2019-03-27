@@ -5,6 +5,7 @@ import com.knightlore.client.gui.engine.Timer;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.entity.Enemy;
 import com.knightlore.networking.EnemyLocationUpdate;
+import com.knightlore.networking.EnemyLocationUpdateObject;
 import com.knightlore.networking.Sendable;
 
 import java.util.Map;
@@ -43,7 +44,7 @@ public class GameManager extends Thread {
         EnemyLocationUpdate update = new EnemyLocationUpdate();
 
         for(Enemy current : model.getCurrentLevel().getEnemies()){
-          update.addEnemy(current.getId(), current.getPosition());
+          update.addEnemy(current.getId(), new EnemyLocationUpdateObject(current.getPosition(), current.getDirection(), current.getCurrentState()));
         }
 
         sendable.setData(gson.toJson(update));

@@ -173,6 +173,25 @@ public class ServerConnection {
         }
     }
 
+    public void getHighscores(){
+        if(this.authenticated){
+            // Build up get session string
+            Sendable sendable = new Sendable();
+            sendable.setUuid();
+            sendable.setFunction("list_highscores");
+
+            // Specify handler
+            //ResponseHandler.waiting.put(sendable.getUuid(), new ListLevels());
+
+            try{
+                client.dos.writeObject(sendable);
+            }catch(IOException e){
+                System.out.println(e);
+            }
+        }
+    }
+
+
     public Optional<String> getSessionKey() {
         return sessionKey;
     }

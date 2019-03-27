@@ -20,7 +20,7 @@ public class LevelComplete extends Command {
     // Check for all complete
     boolean allFinished = true;
     for(Player current: handler.model().getPlayers().values()){
-      if(current.getPlayerState() != PlayerState.FINISHED){
+      if(!(current.getPlayerState() == PlayerState.FINISHED || current.getPlayerState() == PlayerState.DEAD)){
         allFinished = false;
         break;
       }

@@ -44,11 +44,8 @@ public class GameScreen implements IScreen {
 
   Timer countDown;
   Timer timer;
-
-  private GuiRenderer guiRenderer;
-
   GameRenderer gameRenderer;
-
+  private GuiRenderer guiRenderer;
   private GameServer gameServer;
   private com.knightlore.client.networking.backend.Client gameClient;
 
@@ -236,11 +233,13 @@ public class GameScreen implements IScreen {
 
     // Check for complete
     if (gameModel.getState() == GameState.SCORE) {
+      System.out.println("DETECT END");
       Client.changeScreen(ClientState.END, false, gameModel.getPlayers());
       return;
     }
 
     if (gameModel.getState() == GameState.NEXT_LEVEL) {
+      System.out.println("NEXT LEVEL DETECTED");
       hud.setLevel(gameModel.getCurrentLevelIndex());
       timer.resetStartTime();
     }

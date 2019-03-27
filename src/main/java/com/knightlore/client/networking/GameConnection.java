@@ -1,10 +1,12 @@
 package com.knightlore.client.networking;
 
 import com.google.gson.Gson;
+import com.knightlore.client.ClientState;
 import com.knightlore.client.networking.backend.Client;
 import com.knightlore.client.networking.backend.ResponseHandler;
 import com.knightlore.client.networking.backend.responsehandlers.game.GameRegister;
 import com.knightlore.game.GameModel;
+import com.knightlore.game.GameState;
 import com.knightlore.game.entity.Player;
 import com.knightlore.networking.ApiKey;
 import com.knightlore.networking.PositionUpdate;
@@ -40,6 +42,11 @@ public class GameConnection {
       this.client.close();
     } catch (IOException e) {
       System.out.println("Error occurred while disconnecting");
+    }
+
+    // TODO game cancelled for 5 seconds
+    if (GameConnection.gameModel.getState() != GameState.SCORE) {
+      com.knightlore.client.Client.changeScreen(ClientState.MAIN_MENU, false);
     }
   }
 

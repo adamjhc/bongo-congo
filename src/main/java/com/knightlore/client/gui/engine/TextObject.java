@@ -9,18 +9,34 @@ import com.knightlore.client.gui.engine.graphics.FontTexture;
 import com.knightlore.client.gui.engine.graphics.Material;
 import com.knightlore.client.gui.engine.graphics.Mesh;
 
+/**
+ * Object to render on the screen that has text
+ * 
+ * @author Joseph
+ *
+ */
 public class TextObject extends GuiObject {
 
+		/** Fixed z position */
     private static final float ZPOS = 0.0f;
-
+    /** Number of vertices required */
     private static final int VERTICES_PER_QUAD = 4;
 
+    /** Font texture used */
     private FontTexture fontTexture;
-    
+    /** Text to draw */
     private String text;
-    
+    /** id to uniquely identify */
     private String id;
 
+    /**
+     * Initialise the object
+     * 
+     * @param text The text to draw
+     * @param fontTexture The font texture used
+     * @author Joseph
+     * 
+     */
     public TextObject(String text, FontTexture fontTexture) {
         super();
         this.text = text;
@@ -29,6 +45,16 @@ public class TextObject extends GuiObject {
         setMesh(buildMesh());
     }
     
+    /**
+     * Builds the mesh
+     * Quad is made up of a set of tiles each one being a single character
+     * Assigns the texture coordinates depending on character
+     * Loops through for each character
+     * 
+     * @return Mesh
+     * @author Joseph
+     * 
+     */
     private Mesh buildMesh() {
         List<Float> positions = new ArrayList();
         List<Float> textCoords = new ArrayList();
@@ -90,10 +116,25 @@ public class TextObject extends GuiObject {
         return mesh;
     }
 
+    /**
+     * Return the text
+     * 
+     * @return Text
+     * @author Joseph
+     * 
+     */
     public String getText() {
         return text;
     }
     
+    /**
+     * Set the text
+     * Save old colour before deleting and rebuilding mesh
+     * 
+     * @param text The new text
+     * @author Joseph
+     * 
+     */
     public void setText(String text) {
         this.text = text;
         Vector4f colour = getColour();
@@ -104,14 +145,36 @@ public class TextObject extends GuiObject {
         this.setColour(colour);
     }
 
+    /**
+     * Return text size
+     * 
+     * @return Length multiplied by height
+     * @author Joseph
+     * 
+     */
     public float getSize() {
     	return text.length()*fontTexture.getHeight();
     }
     
+    /**
+     * Returns text height
+     * 
+     * @return Height
+     * @author Joseph
+     * 
+     */
     public int getHeight() {
     	return fontTexture.getHeight();
     }
     
+    /**
+     * Sets the font texture
+     * 
+     * 
+     * @param fontTexture The new font texture
+     * @author Joseph
+     * 
+     */
     public void setFontTexture(FontTexture fontTexture) {
     	this.fontTexture = fontTexture;
     	Vector4f colour = getColour();
@@ -122,10 +185,24 @@ public class TextObject extends GuiObject {
       this.setColour(colour);
     }
     
+    /**
+     * Sets the id
+     * 
+     * @param id The new id
+     * @author Joseph
+     * 
+     */
     public void setId(String id) {
     	this.id = id;
     }
     
+    /**
+     * Returns id
+     * 
+     * @return Id
+     * @author Joseph
+     * 
+     */
     public String getId() {
     	return id;
     }

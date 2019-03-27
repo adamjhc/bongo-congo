@@ -36,38 +36,40 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Handles the game screen startup, input, updates, rendering and cleanup
+ * 
+ * @author Joseph, Adam C, Lewis
+ *
+ */
 public class GameScreen implements IScreen {
 
-  /** Direction player has inputted to move */
+	/** Input direction */
   Direction playerInputDirection;
 
-  /** Gui elements */
+  /** Head up display */
   Hud hud;
-
-  /** Timer used for count down */
+  /** Level start counter */
   Timer countDown;
-
-  /** Timer used for game time */
+  /** level duration counter */
   Timer timer;
-
-  /** Renderer used for rendering the game */
+  /** Game renderer */
   GameRenderer gameRenderer;
-
-  /** Renderer used for rendering gui elements */
+  /** Gui renderer */
   private GuiRenderer guiRenderer;
-
-  /** GameServer reference used in singleplayer */
+  /** Game server */
   private GameServer gameServer;
-
-  /** GameClient reference used in singleplayer */
+  /** Client */
   private com.knightlore.client.networking.backend.Client gameClient;
 
   /**
-   * Initialise GameScreen
-   *
-   * @param guiRenderer renderer used for rendering gui elements
-   * @param gameRenderer renderer used for rendering the game
-   * @param timer Timer used for game time
+   * Initialise renderers, timer and gui
+   * 
+   * @param guiRenderer The gui renderer
+   * @param gameRenderer The game renderer
+   * @param timer The game timer
+   * @author Joseph
+   * 
    */
   public GameScreen(GuiRenderer guiRenderer, GameRenderer gameRenderer, Timer timer) {
     this.guiRenderer = guiRenderer;
@@ -193,7 +195,7 @@ public class GameScreen implements IScreen {
     int countDownTime = 5;
     int countDownLeft = countDownTime + 1 - Math.round(countDown);
     if (gameModel.getCurrentLevelIndex() > 0) {
-      countDownLeft += 1;
+      countDownLeft += 0;
     }
     if (countDownLeft <= 0) countDownLeft = 0;
     if (countDownLeft <= countDownTime && countDownLeft > 0) hud.getCountDown().setRender(true);
@@ -246,7 +248,11 @@ public class GameScreen implements IScreen {
     }
 
     if (gameModel.getState() == GameState.NEXT_LEVEL) {
+    	System.out.println("NEXT LEVEL DETECTED");
       gameRenderer.init(gameModel);
+      hud.setLevel(gameModel.getCurrentLevelIndex());
+      timer.resetStartTime();
+      this.countDown.setStartTime();
     }
 
     gameModel.clientUpdate(delta, playerInputDirection);
@@ -256,12 +262,6 @@ public class GameScreen implements IScreen {
       System.out.println("DETECT END");
       Client.changeScreen(ClientState.END, false, gameModel.getPlayers().values());
       return;
-    }
-
-    if (gameModel.getState() == GameState.NEXT_LEVEL) {
-      System.out.println("NEXT LEVEL DETECTED");
-      hud.setLevel(gameModel.getCurrentLevelIndex());
-      timer.resetStartTime();
     }
   }
 
@@ -296,9 +296,11 @@ public class GameScreen implements IScreen {
   }
 
   /**
-   * Gets the direction the user has inputted to move the player in
-   *
-   * @return Direction enum to move in
+   * Return the current input direction
+   * 
+   * @return Direction
+   * @author Adam C
+   * 
    */
   Direction getPlayerInputDirection() {
     if (Keyboard.isKeyPressed(GLFW_KEY_W) // Player presses W

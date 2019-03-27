@@ -147,26 +147,6 @@ public class HighScore implements IGui {
     System.out.println(highScores.length);
   }
 
-  /**
-   * Method to get the list of TextObjects
-   *
-   * @return The list of TextObjects
-   */
-  @Override
-  public TextObject[] getTextObjects() {
-    return textObjects;
-  }
-
-  /**
-   * Method to get the list of GuiObjects
-   *
-   * @return the list of GuiObjects
-   */
-  @Override
-  public GuiObject[] getGuiObjects() {
-    return guiObjects;
-  }
-
   /** Method to increment the start pointer of the list of highscore */
   public void incPage() {
     if (highScoreIndex + 12 < highScores.length) {
@@ -248,5 +228,15 @@ public class HighScore implements IGui {
 
     guiObjects = tempG.toArray(setGuiObjects);
     textObjects = tempT.toArray(setTextObjects);
+  }
+  
+  @Override
+  public TextObject[] getTextObjects() {
+    return textObjects;
+  }
+
+  @Override
+  public GuiObject[] getGuiObjects() {
+    return guiObjects;
   }
 }

@@ -1,35 +1,22 @@
 package com.knightlore.game.entity.ai;
 
-
 import com.knightlore.game.entity.Direction;
 import org.joml.Vector3f;
-
-
-
 import static com.knightlore.game.entity.Direction.*;
 
 // Walks around in a circle of a set radius
 public class CirclerAI {
-  public static float radius = 70f;
-  public static int angle; // in degrees
-  private Vector3f home;
+  public float radius = 70f;
 
-  public CirclerAI() {
-    angle = 0;
-  }
+  public CirclerAI() { }
 
-    public Vector3f pathfind(Vector3f pos, float delta) {
+    public Vector3f pathfind(Vector3f home, float delta, int angle) {
       Vector3f newPos = new Vector3f();
-      if (angle < 360) {
-        newPos.x = home.x + (float)((Math.cos(Math.toRadians(angle)) * radius * delta));
-        newPos.y = home.y + (float)((Math.sin(Math.toRadians(angle)) * radius * delta));
-        angle += 2;
-      } else {
-        angle = 0;
-      }
+      newPos.x = home.x + (float)((Math.cos(Math.toRadians(angle)) * radius * delta ));
+      newPos.y = home.y + (float)((Math.sin(Math.toRadians(angle)) * radius * delta ));
       return newPos;}
 
-      public Direction getDirection() {
+      public Direction getDirection(int angle) {
         if (angle >= 0 && angle < 45) {
           return SOUTH_WEST;
         } else if (angle >= 45 && angle < 90) {
@@ -45,8 +32,6 @@ public class CirclerAI {
         } else if (angle >= 270 && angle < 315) {
           return NORTH_WEST;
         } else { return WEST; }
-
-
         }
-        public void setHome(Vector3f home) {this.home = home;}
+
   }

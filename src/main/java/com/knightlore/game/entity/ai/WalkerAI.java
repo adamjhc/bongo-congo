@@ -10,9 +10,7 @@ import org.joml.Vector3f;
 // Walks back and forth on the same plane
 public class WalkerAI {
 
-  public WalkerAI() {
-
-  }
+  public WalkerAI() {}
 
   public Vector3f pathfind(Vector3f current, float delta, float speed, Direction direction) {
     Vector3f newPos = new Vector3f();

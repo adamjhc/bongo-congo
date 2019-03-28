@@ -11,15 +11,22 @@ import com.knightlore.game.entity.Direction;
 public class RandomerAI {
 
   private static Random random = new Random();
-  public static int distance;
+  public static int distance; // Technically game updates but this correlates to the distance moved
   public int accumulator;
 
+  /**
+   * Default constructor
+   */
   public RandomerAI() {
     accumulator = 0;
     genDistance();
   }
 
-
+  /**
+   *
+   * @param direction Current enemy direction
+   * @return Direction to be moved in (may be the same!)
+   */
   public Direction pathfind(Direction direction) {
     if (accumulator >= distance) {
       direction = direction.getRandom();

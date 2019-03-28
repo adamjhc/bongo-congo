@@ -59,7 +59,7 @@ public class Enemy extends Entity {
         } else {
           angle = 0;
         }
-        setDirection(enemyType.getCircle().getDirection(angle));
+
         move(newPos, levelMap);
         break;
       case RANDOMER:
@@ -75,14 +75,16 @@ public class Enemy extends Entity {
   private void move(Vector3f newPos, LevelMap levelMap) {
     try {
       int tileIndex = getTileIndex(levelMap, newPos);
-      System.out.println(newPos);
+      if (enemyType == EnemyType.CIRCLER) { setDirection(enemyType.getCircle().getDirection(angle)); }
       if (tileIndex >= 6 || tileIndex == 1) {
         setCurrentState(EnemyState.MOVING);
         setPosition(newPos);
       } else {
+        if (enemyType == EnemyType.CIRCLER) {return;}
         setDirection(direction.getReverse(direction));
       }
     } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
+      if (enemyType == EnemyType.CIRCLER) {return;}
       setDirection(direction.getReverse(direction));
     }
   }

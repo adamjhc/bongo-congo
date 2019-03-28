@@ -221,13 +221,11 @@ public class NameLevel implements IGui {
 
   @Override
   public TextObject[] getTextObjects() {
-    // TODO Auto-generated method stub
     return textObjects;
   }
 
   @Override
   public GuiObject[] getGuiObjects() {
-    // TODO Auto-generated method stub
     return guiObjects;
   }
 }

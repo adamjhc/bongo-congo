@@ -15,22 +15,28 @@ import com.knightlore.game.entity.Player;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * Handles the game end screen startup, input, updates, rendering and cleanup
+ * 
+ * @author Joseph, Adam C
+ *
+ */
 public class GameEndScreen implements IScreen {
 
-  /** Renderer to render gui elements */
+	/** Players */
+	private Collection<Player> players;
+	
+  /** Gui renderer */
   private GuiRenderer guiRenderer;
-
-  /** GUI elements to render */
+  /** Game end gui */
   private GameEnd gameEnd;
 
-  /** Player objects from game model */
-  private Collection<Player> players;
-
   /**
-   * Initialise GameEndScreen
-   *
-   * @param guiRenderer Renderer to render gui elements
-   * @author Joseph Tuffin
+   * Initialise renderer and gui
+   * 
+   * @param guiRenderer The gui renderer
+   * @author Joseph
+   * 
    */
   public GameEndScreen(GuiRenderer guiRenderer) {
     this.guiRenderer = guiRenderer;
@@ -60,19 +66,12 @@ public class GameEndScreen implements IScreen {
     }
   }
 
-  @Override
-  public void render() {
-    gameEnd.updateSize();
-
-    guiRenderer.render(gameEnd);
-  }
-
-  @Override
-  public void cleanUp() {
-    gameEnd.cleanup();
-  }
-
-  /** Sort players collection and display on gui */
+  /**
+   * Set the order of the finishing positions
+   * 
+   * @author Joseph
+   * 
+   */
   private void listFinishingPositions() {
     ArrayList<Player> playersList = new ArrayList<>(players);
 
@@ -81,7 +80,12 @@ public class GameEndScreen implements IScreen {
     gameEnd.displayScores(playersList);
   }
 
-  /** Calculate the winner and set to display on gui */
+  /**
+   * Set the winner of the game
+   * 
+   * @author Joseph
+   * 
+   */
   private void setWinner() {
     boolean draw = false;
     int highestScore = -1;
@@ -101,5 +105,17 @@ public class GameEndScreen implements IScreen {
     } else {
       gameEnd.getWinner().setText("Winner: " + highestScorePlayer.getId());
     }
+  }
+
+  @Override
+  public void render() {
+    gameEnd.updateSize();
+
+    guiRenderer.render(gameEnd);
+  }
+
+  @Override
+  public void cleanUp() {
+    gameEnd.cleanup();
   }
 }

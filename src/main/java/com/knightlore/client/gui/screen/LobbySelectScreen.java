@@ -29,7 +29,7 @@ public class LobbySelectScreen implements IScreen {
 
   /** Gui elements to render */
   private LobbyMenu menu;
-
+  
   /**
    * Initialise LobbySelectScreen
    *

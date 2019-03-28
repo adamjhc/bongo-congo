@@ -21,14 +21,29 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
+/**
+ * Loads a png and creates the texture
+ * 
+ * @author Joseph
+ *
+ */
 public class Texture {
 
+	/** Texture id */
   private final int id;
-
+  /** Texture width */
   private final int width;
-
+  /** Texture height */
   private final int height;
 
+  /**
+   * Create texture
+   * 
+   * @param is Byte array
+   * @throws IOException Exception
+   * @author Joseph
+   * 
+   */
   public Texture(InputStream is) throws IOException {
     // Load Texture file
     PNGDecoder decoder = new PNGDecoder(is);
@@ -61,22 +76,55 @@ public class Texture {
     glGenerateMipmap(GL_TEXTURE_2D);
   }
 
+  /**
+   * Return texture width
+   * 
+   * @return Width
+   * @author Joseph
+   * 
+   */
   public int getWidth() {
     return this.width;
   }
 
+  /**
+   * Return the texture height
+   * 
+   * @return Height
+   * @author Joseph
+   * 
+   */
   public int getHeight() {
     return this.height;
   }
 
+  /**
+   * Bind the texture
+   * 
+   * @author Joseph
+   * 
+   */
   public void bind() {
     glBindTexture(GL_TEXTURE_2D, id);
   }
 
+  /**
+   * Return texture id
+   * 
+   * @return Id
+   * @author Joseph
+   * 
+   */
   public int getId() {
     return id;
   }
 
+  /**
+   * Delete the textures
+   * 
+   * @author Joseph
+   * 
+   */
   public void cleanup() {
     glDeleteTextures(id);
   }

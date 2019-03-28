@@ -115,15 +115,6 @@ public enum Direction {
   public Direction getReverse(Direction dir) { return opposite; }
 
   /**
-   * Randomly chooses a direction
-   *
-   * @return Randomly selected direction
-   * @author Jacqui Henes
-   */
-  public Direction getRandom() {
-    return dirs[random.nextInt(dirs.length)];
-    }
-  /**
    * Get the reverse direction
    *
    * @return reverse direction

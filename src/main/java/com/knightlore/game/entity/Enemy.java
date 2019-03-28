@@ -82,10 +82,10 @@ public class Enemy extends Entity {
         setCurrentState(EnemyState.MOVING);
         setPosition(newPos);
       } else {
-        setDirection(direction.getReverse(direction));
+        setDirection(direction.getReverse());
       }
     } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
-      setDirection(direction.getReverse(direction));
+      setDirection(direction.getReverse());
     }
   }
 

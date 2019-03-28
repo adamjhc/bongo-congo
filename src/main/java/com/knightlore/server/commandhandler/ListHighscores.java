@@ -18,6 +18,7 @@ public class ListHighscores extends Command{
         logger.info("List Highscores requested");
 
         GamePlayer model = new GamePlayer();
+        model.orderBy("score", OrderBy.DESC);
         ArrayList<Model> models = model.get();
 
 

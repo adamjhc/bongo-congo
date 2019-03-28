@@ -13,12 +13,14 @@ public abstract class Model {
     protected ArrayList<Condition> conditions = new ArrayList<>();
     public String createStatement;
     private boolean isSaved;
-
+    public OrderBy order;
+    public String orderColumn;
 
     private Connection conn = com.knightlore.server.database.Connection.getConnection();
 
-    public void orderBy(){
-
+    public void orderBy(String column, OrderBy order){
+        this.orderColumn = column;
+        this.order = order;
     }
 
     public Optional<Integer> randomKey(){
@@ -239,13 +241,31 @@ public abstract class Model {
             for(String column: columns){
                 statement += column + ",";
             }
-
             // Remove last
             statement = statement.substring(0, statement.length() - 1);
         }
 
         statement += " FROM " + table;
         statement += " " + this.whereStatement();
+
+        // Add order by
+        if(order != null){
+            statement += " ORDER BY " + orderColumn + " ";
+
+            switch(order){
+                case ASC:
+                    statement += "ASC";
+                    break;
+
+                case DESC:
+                    statement += "DESC";
+                    break;
+
+                case RAND:
+                    statement += "RAND()";
+                    break;
+            }
+        }
 
         // Now bind
         try{

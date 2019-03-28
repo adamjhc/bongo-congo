@@ -14,6 +14,11 @@ public class Config {
     return sessionKey;
   }
 
+  /**
+   * Get API Key from configuration file
+   *
+   * @return
+   */
   public static Optional<String> apiKey() {
     Optional<String> apiKey = env.getVariable("api_key");
 
@@ -21,6 +26,11 @@ public class Config {
     return apiKey;
   }
 
+  /**
+   * Get Auth Server IP from configuration file
+   *
+   * @return
+   */
   public static Optional<String> authServerIp() {
     Optional<String> authServerIp = env.getVariable("auth_server_ip");
 
@@ -28,11 +38,75 @@ public class Config {
     return authServerIp;
   }
 
+  /**
+   * Get Auth Server Port Key from configuration file
+   *
+   * @return
+   */
   public static Optional<Integer> authServerPort() {
     Optional<String> string = env.getVariable("auth_server_port");
 
     if (string.isPresent()) {
       return Optional.of(Integer.valueOf(string.get()));
+    } else {
+      return Optional.empty();
+    }
+  }
+
+  /**
+   * Get Database Host Key from configuration file
+   *
+   * @return
+   */
+  public static Optional<String> databaseHost() {
+    Optional<String> string = env.getVariable("database_host");
+
+    if (string.isPresent()) {
+      return Optional.of(string.get());
+    } else {
+      return Optional.empty();
+    }
+  }
+
+  /**
+   * Get Database User from configuration file
+   *
+   * @return
+   */
+  public static Optional<String> databaseUser() {
+    Optional<String> string = env.getVariable("database_user");
+
+    if (string.isPresent()) {
+      return Optional.of(string.get());
+    } else {
+      return Optional.empty();
+    }
+  }
+
+  /**
+   * Get Database Password from configuration file
+   *
+   * @return
+   */
+  public static Optional<String> databasePassword() {
+    Optional<String> string = env.getVariable("database_password");
+
+    if (string.isPresent()) {
+      return Optional.of(string.get());
+    } else {
+      return Optional.empty();
+    }
+  }
+  /**
+   * Get Database Name from configuration file
+   *
+   * @return
+   */
+  public static Optional<String> databaseName() {
+    Optional<String> string = env.getVariable("database_name");
+
+    if (string.isPresent()) {
+      return Optional.of(string.get());
     } else {
       return Optional.empty();
     }

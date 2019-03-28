@@ -7,9 +7,8 @@ import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Window;
 
 /**
- * 
+ * UI for the help screen
  * @author Adam W
- *
  */
 public class HelpMenu implements IGui {
 	

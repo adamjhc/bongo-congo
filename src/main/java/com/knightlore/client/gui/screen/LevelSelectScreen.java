@@ -93,7 +93,7 @@ public class LevelSelectScreen implements IScreen {
   public void input() {
     if (checkPosition(levelSelectMenu, levelSelectMenu.getStart().getId())) {
       levelSelectMenu.getStart().setColour();
-      if (Mouse.isLeftButtonPressed()) {
+      if (Mouse.isLeftButtonPressed() && !selectedLevels.isEmpty()) {
         Audio.play(SELECT);
         List<Level> levelList = getSelectedLevelsFromFile();
 

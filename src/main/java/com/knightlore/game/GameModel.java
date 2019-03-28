@@ -124,9 +124,13 @@ public class GameModel {
       rollCountdown();
     }
 
-    if (getTileIndex(myPlayer().getPosition()) == 5) { // Checks for goal
+
+    if (getTileIndex(myPlayer().getPosition()) == 5 && myPlayer().getPlayerState() != PlayerState.FINISHED) { // Checks for goal
       myPlayer().addToScore(10000);
+      myPlayer().setPlayerState(PlayerState.FINISHED);
+
       if(GameConnection.instance != null){
+        Audio.play(Audio.AudioName.JINGLE_VICTORY);
         GameConnection.instance.sendLevelComplete();
       }
     }

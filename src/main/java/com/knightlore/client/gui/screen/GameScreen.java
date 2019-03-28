@@ -38,13 +38,12 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Handles the game screen startup, input, updates, rendering and cleanup
- * 
- * @author Joseph, Adam C, Lewis
  *
+ * @author Joseph, Adam C, Lewis
  */
 public class GameScreen implements IScreen {
 
-	/** Input direction */
+  /** Input direction */
   Direction playerInputDirection;
 
   /** Head up display */
@@ -64,12 +63,11 @@ public class GameScreen implements IScreen {
 
   /**
    * Initialise renderers, timer and gui
-   * 
+   *
    * @param guiRenderer The gui renderer
    * @param gameRenderer The game renderer
    * @param timer The game timer
    * @author Joseph
-   * 
    */
   public GameScreen(GuiRenderer guiRenderer, GameRenderer gameRenderer, Timer timer) {
     this.guiRenderer = guiRenderer;
@@ -249,7 +247,7 @@ public class GameScreen implements IScreen {
     }
 
     if (gameModel.getState() == GameState.NEXT_LEVEL) {
-    	System.out.println("NEXT LEVEL DETECTED");
+      System.out.println("NEXT LEVEL DETECTED");
       gameRenderer.init(gameModel);
       hud.setLevel(gameModel.getCurrentLevelIndex());
       timer.resetStartTime();
@@ -298,10 +296,9 @@ public class GameScreen implements IScreen {
 
   /**
    * Return the current input direction
-   * 
+   *
    * @return Direction
-   * @author Adam C
-   * 
+   * @author Adam Cox
    */
   Direction getPlayerInputDirection() {
     if (Keyboard.isKeyPressed(GLFW_KEY_W) // Player presses W

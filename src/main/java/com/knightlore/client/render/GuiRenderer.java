@@ -1,7 +1,7 @@
 package com.knightlore.client.render;
 
 import com.knightlore.client.gui.engine.GuiObject;
-import com.knightlore.client.gui.engine.IGui;
+import com.knightlore.client.gui.engine.Gui;
 import com.knightlore.client.gui.engine.graphics.Mesh;
 import com.knightlore.client.gui.engine.graphics.Transformation;
 import com.knightlore.client.io.Window;
@@ -39,7 +39,7 @@ public class GuiRenderer extends Renderer {
    * @param gui GUI to render
    * @author Joseph Tuffin
    */
-  public void render(IGui gui) {
+  public void render(Gui gui) {
     shaderProgram.bind();
 
     Matrix4f ortho =

@@ -1,37 +1,31 @@
 package com.knightlore.client.gui;
 
 import com.knightlore.client.gui.engine.Colour;
+import com.knightlore.client.gui.engine.Gui;
 import com.knightlore.client.gui.engine.GuiObject;
-import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Window;
 
 /**
  * Screen to show error messages
- * 
- * @author Adam C, Joseph
  *
+ * @author Adam Cox, Joseph
  */
-public class ShowError implements IGui {
+public class ShowError extends Gui {
 
-	/** Position of the bottom separator line */
+  /** Position of the bottom separator line */
   private static final int SEPARATOR_BOT_POS = 200;
-
-  /** List of the text objects that have user interaction */
-  private TextObject[] textObjects;
-  /** List of all the gui objects */
-  private GuiObject[] guiObjects;
 
   /** Error message text */
   private TextObject errorMessage;
+
   /** Exit text */
   private TextObject exit;
 
   /**
    * Create gui objects
-   * 
-   * @author Adam C
-   * 
+   *
+   * @author Adam Cox
    */
   public ShowError() {
     errorMessage = new TextObject("", SMALL);
@@ -47,10 +41,9 @@ public class ShowError implements IGui {
 
   /**
    * Return exit
-   * 
+   *
    * @return Exit
-   * @author Adam C
-   * 
+   * @author Adam Cox
    */
   public TextObject getExit() {
     return exit;
@@ -58,10 +51,9 @@ public class ShowError implements IGui {
 
   /**
    * Set the error message
-   * 
-   * @param errorMessageText
-   * @author Adam C
-   * 
+   *
+   * @param errorMessageText text to display
+   * @author Adam Cox
    */
   public void setErrorMessageText(String errorMessageText) {
     errorMessage.setText(errorMessageText);
@@ -69,9 +61,8 @@ public class ShowError implements IGui {
 
   /**
    * Updates the position of the gui objects
-   * 
-   * @author Adam C
-   * 
+   *
+   * @author Adam Cox
    */
   public void updateSize() {
     errorMessage.setPosition(
@@ -80,15 +71,5 @@ public class ShowError implements IGui {
     exit.setPosition(
         Window.getHalfWidth() - exit.getSize() / 2,
         Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
-  }
-  
-  @Override
-  public TextObject[] getTextObjects() {
-    return textObjects;
-  }
-
-  @Override
-  public GuiObject[] getGuiObjects() {
-    return guiObjects;
   }
 }

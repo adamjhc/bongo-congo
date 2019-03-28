@@ -40,28 +40,37 @@ import org.lwjgl.system.MemoryStack;
 
 public class Window {
 
+  /** Set window width while windowed */
   public static final int WINDOWED_WIDTH = 1280;
+
+  /** Set window height while windowed */
   public static final int WINDOWED_HEIGHT = 720;
 
+  /** Title of window */
   private static final String TITLE = "Bongo Congo";
+
+  /** Current width of window */
   private static int width = WINDOWED_WIDTH;
+
+  /** Current height of window */
   private static int height = WINDOWED_HEIGHT;
 
-  private static int oldWidth = width;
-  private static int oldHeight = height;
-
+  /** Half of the current window width */
   private static float widthHalf = width / 2f;
+
+  /** Half of the current window height */
   private static float heightHalf = height / 2f;
 
-  private static float oldWidthHalf = widthHalf;
-  private static float oldHeightHalf = heightHalf;
-
+  /** GLFW window handle */
   private static long windowHandle;
 
+  /** Whether window is fullscreen */
   private static boolean fullScreen = false;
 
+  /** Private constructor so window can't be instantiated */
   private Window() {}
 
+  /** Initialise Window */
   public static void init() {
     // Setup an error callback. The default implementation
     // will print the error message in System.err.
@@ -123,29 +132,21 @@ public class Window {
     GL.createCapabilities();
   }
 
-  public static boolean isFullscreen() {
-    return fullScreen;
-  }
-
+  /** Set window to fullscreen */
   public static void setFullscreen() {
     fullScreen = !fullScreen;
     GLFWVidMode vidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
     if (fullScreen) {
-      oldWidth = width;
-      oldHeight = height;
-      oldWidthHalf = widthHalf;
-      oldHeightHalf = heightHalf;
-
       width = vidMode.width();
       height = vidMode.height();
       widthHalf = width / 2f;
       heightHalf = height / 2f;
     } else {
-      width = oldWidth;
-      height = oldHeight;
-      widthHalf = oldWidthHalf;
-      heightHalf = oldHeightHalf;
+      width = WINDOWED_WIDTH;
+      height = WINDOWED_HEIGHT;
+      widthHalf = WINDOWED_WIDTH / 2f;
+      heightHalf = WINDOWED_HEIGHT / 2f;
     }
     glfwSetWindowMonitor(
         windowHandle,
@@ -162,47 +163,82 @@ public class Window {
     glViewport(0, 0, Window.getWidth(), Window.getHeight());
   }
 
-  public static long getWindowHandle() {
+  /**
+   * Get the GLFW window handle
+   *
+   * @return GLFW window handle
+   */
+  static long getWindowHandle() {
     return windowHandle;
   }
 
+  /**
+   * Get current width of window
+   *
+   * @return current width of window
+   */
   public static int getWidth() {
     return width;
   }
 
+  /**
+   * Get half the current window width
+   *
+   * @return half the current window width
+   */
   public static float getHalfWidth() {
     return widthHalf;
   }
 
+  /**
+   * Get the current height of the window
+   *
+   * @return current height of the window
+   */
   public static int getHeight() {
     return height;
   }
 
+  /**
+   * Get half the current window height
+   *
+   * @return half the current window height
+   */
   public static float getHalfHeight() {
     return heightHalf;
   }
 
+  /**
+   * Gets whether the window should close
+   *
+   * @return whether the window should close
+   */
   public static boolean shouldClose() {
     return glfwWindowShouldClose(windowHandle);
   }
 
+  /** Sets should close to true */
   public static void setShouldClose() {
     glfwSetWindowShouldClose(windowHandle, true);
   }
 
+  /** Swap the buffers of the window */
   public static void swapBuffers() {
     glfwSwapBuffers(windowHandle);
   }
 
+  /** Cycle callbacks */
   public static void update() {
     glfwPollEvents();
   }
 
+  /** Free set callbacks */
   public static void freeCallbacks() {
     glfwFreeCallbacks(windowHandle);
     glfwSetErrorCallback(null).free();
   }
 
+  /** Destroy GLFW window */
   public static void destroyWindow() {
     glfwDestroyWindow(windowHandle);
   }

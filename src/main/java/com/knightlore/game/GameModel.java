@@ -1,5 +1,6 @@
 package com.knightlore.game;
 
+import static org.joml.Math.round;
 
 import com.knightlore.client.audio.Audio;
 import com.knightlore.client.gui.engine.Colour;
@@ -17,7 +18,6 @@ import java.util.Map;
 import java.util.Random;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
-import static org.joml.Math.round;
 
 public class GameModel {
 
@@ -115,11 +115,12 @@ public class GameModel {
 
   /**
    * Main method called by the game loop that updates the model
+   *
    * @param delta Time elapsed since last client update
    * @param playerInputDirection User input direction
    * @author Jacqui Henes
    */
-  public void clientUpdate(float delta, Direction playerInputDirection) {
+  public void clientUpdate(float delta, Direction playerInputDirection, int timeLeft) {
     if (currentState == GameState.NEXT_LEVEL) {
       currentState = GameState.PLAYING;
     }
@@ -131,11 +132,11 @@ public class GameModel {
 
     // Checks if player has reached the goal
     if (CoordinateUtils.getTileIndex(getCurrentLevel(), myPlayer().getPosition()) == 5
-            && myPlayer().getPlayerState() != PlayerState.FINISHED) {
-      myPlayer().addToScore(10000);
+        && myPlayer().getPlayerState() != PlayerState.FINISHED) {
+      myPlayer().addToScore(10000 * timeLeft * myPlayer().getLives());
       myPlayer().setPlayerState(PlayerState.FINISHED);
 
-      if(GameConnection.instance != null){
+      if (GameConnection.instance != null) {
         Audio.play(Audio.AudioName.JINGLE_VICTORY);
         GameConnection.instance.sendLevelComplete();
       }
@@ -213,9 +214,9 @@ public class GameModel {
 
     // Checks for hazard collisions
     if (CoordinateUtils.getTileIndex(getCurrentLevel(), myPlayer().getPosition()) == 4
-            && myPlayer().getPlayerState() != PlayerState.ROLLING
-            && myPlayer().getPlayerState() != PlayerState.DEAD
-            && myPlayer().getPlayerState() != PlayerState.FALLING) {
+        && myPlayer().getPlayerState() != PlayerState.ROLLING
+        && myPlayer().getPlayerState() != PlayerState.DEAD
+        && myPlayer().getPlayerState() != PlayerState.FALLING) {
       Audio.play(Audio.AudioName.SOUND_HIT);
       delay(200);
       myPlayer().loseLife();
@@ -225,7 +226,7 @@ public class GameModel {
     List<Enemy> enemies = getCurrentLevel().getEnemies();
     for (Enemy enemy : enemies) {
       if (myPlayer().getPlayerState() != PlayerState.ROLLING
-              && enemy.getPosition().distance(myPlayer().getPosition()) < 0.3f) {
+          && enemy.getPosition().distance(myPlayer().getPosition()) < 0.3f) {
         Audio.play(Audio.AudioName.SOUND_HIT);
         delay(200);
         myPlayer().loseLife();
@@ -238,6 +239,7 @@ public class GameModel {
 
   /**
    * Update all enemies currently in the map.
+   *
    * @param delta Time elapsed since last server update
    * @author Jacqui Henes
    */
@@ -309,6 +311,7 @@ public class GameModel {
 
   /**
    * Decrements the cooldown for Player rolling
+   *
    * @author Jacqui Henes
    */
   private void rollCountdown() {
@@ -329,6 +332,7 @@ public class GameModel {
 
   /**
    * Rounds the z value to nearest float
+   *
    * @param pos Position to be rounded
    * @return rounded position
    * @author Jacqui Henes
@@ -338,5 +342,4 @@ public class GameModel {
     rounded.z = round(pos.z);
     return rounded;
   }
-
 }

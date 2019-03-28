@@ -188,6 +188,7 @@ public class GameServer extends Thread {
   }
 
   public void removeConnection(String session){
+    this.poqhandler.close();
     ClientHandler clientToRemove = null;
 
     for(ClientHandler client: registeredClients()){

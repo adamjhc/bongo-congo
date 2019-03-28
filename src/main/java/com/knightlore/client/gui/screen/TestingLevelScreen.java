@@ -20,8 +20,8 @@ import java.util.Map;
 
 /**
  * Screen used to play through an edited level
- * @author Adam W
  *
+ * @author Adam W
  */
 public class TestingLevelScreen extends GameScreen {
 
@@ -37,7 +37,9 @@ public class TestingLevelScreen extends GameScreen {
     super(guiRenderer, gameRenderer, timer);
   }
 
-  /** Method to process keyboard input during the level test 
+  /**
+   * Method to process keyboard input during the level test
+   *
    * @author Adam W
    */
   @Override
@@ -79,6 +81,7 @@ public class TestingLevelScreen extends GameScreen {
 
   /**
    * updates the game model during testing, including the timer and player lives
+   *
    * @author Adam W
    */
   @Override
@@ -145,7 +148,7 @@ public class TestingLevelScreen extends GameScreen {
       gameRenderer.init(gameModel);
     }
 
-    gameModel.clientUpdate(delta, playerInputDirection);
+    gameModel.clientUpdate(delta, playerInputDirection, timeLeft);
 
     // Check for complete
     if (gameModel.getState() == GameState.SCORE

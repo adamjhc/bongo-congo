@@ -4,6 +4,9 @@ import com.knightlore.client.render.world.TileGameObject;
 import java.util.Random;
 import org.joml.Vector3f;
 
+import java.util.Random;
+import org.joml.Vector3f;
+
 public enum Direction {
   /** Positive in x */
   NORTH("n"),
@@ -43,6 +46,7 @@ public enum Direction {
     SOUTH_WEST.normalisedDirection = new Vector3f(-normalised, normalised, 0);
     NORTH_WEST.normalisedDirection = new Vector3f(normalised, normalised, 0);
 
+    // Each directions has a opposite
     NORTH.opposite = SOUTH;
     NORTH_EAST.opposite = SOUTH_WEST;
     EAST.opposite = WEST;
@@ -101,6 +105,14 @@ public enum Direction {
   public Vector3f getNormalisedDirection() {
     return normalisedDirection;
   }
+
+  /**
+   * Get the reverse direction
+   *
+   * @return reverse direction
+   * @author Adam Cox
+   */
+  public Direction getReverse(Direction dir) { return opposite; }
 
   /**
    * Get the reverse direction

@@ -9,12 +9,13 @@ import org.joml.Vector3f;
 import org.joml.Vector3i;
 import org.joml.Vector4f;
 
-import static org.joml.Math.ceil;
-import static org.joml.Math.round;
-
+/**
+ * The entity that the user controls!
+ * Handles collisions, player movement, life and death.
+ */
 public class Player extends Entity {
 
-  static final Vector3f START_POSITION = new Vector3f(0.5f, 0.5f, 0);
+  static final Vector3f START_POSITION = new Vector3f(0.1f, 0.1f, 0);
   static final Direction START_DIRECTION = Direction.NORTH_WEST;
   static final PlayerState START_PLAYER_STATE = PlayerState.IDLE;
   static final int START_LIVES = 3;
@@ -161,8 +162,8 @@ public class Player extends Entity {
   void update() {}
 
   /**
-   * The main method called in the game loop. Continuously checks for collision events with specific
-   * tiles such as blocking or hazards. Also allows the player to climb up and down layers of the levelMap.
+   * The main method called in the client game loop. Continuously checks for collision events with specific
+   * tiles such as air tiles and wall tiles. Also allows the player to climb up and down layers of the levelMap.
    *
    * @param oldPos The position of the player before collision check update
    * @param newPos The potential position of the player after collision check update
@@ -191,14 +192,16 @@ public class Player extends Entity {
 
       } else if (newTile.getIndex() == 2) { // Wall tile collision
         setPosition(oldPos);
-      } else { // Sets new position
+      } else {
         setPosition(newPos);
       }
 
-      if (newTile.getIndex() == 3 ) { // Climbing
-        coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z+1));
+      if (newTile.getIndex() == 3) { // Climbing
+        coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z + 1));
         Tile above = levelMap.getTile(coords);
-        if ((above.getIndex() == 1 || above.getIndex() >=5) && playerState != PlayerState.ROLLING && climbFlag) { // Checks if the tile above climbable tile is accessible
+        if ((above.getIndex() == 1 || above.getIndex() >= 5)
+            && playerState != PlayerState.ROLLING
+            && climbFlag) { // Checks if the tile above climbable tile is accessible
           climbVal = 0.1f;
           Audio.play(Audio.AudioName.SOUND_CLIMB);
           setPlayerState(PlayerState.CLIMBING);
@@ -206,18 +209,6 @@ public class Player extends Entity {
           setPosition(oldPos);
         }
       }
-
-      if (newTile.getIndex() == 5 && playerState != PlayerState.FINISHED) { // Checks for goal
-        addToScore(10000);
-        setPosition(newPos);
-        setPlayerState(PlayerState.FINISHED);
-
-        if(GameConnection.instance != null){
-          Audio.play(Audio.AudioName.JINGLE_VICTORY);
-          GameConnection.instance.sendLevelComplete();
-        }
-      }
-
 
       // catches SW and SE edges    catches NE and NW edges
     } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
@@ -247,17 +238,15 @@ public class Player extends Entity {
   }
 
   /**
-   * Resets player to spawn point having lost a life
-   *
+   * Resets player to spawn point having lost a life, or sets their
+   * PlayerState to dead, triggering the level's end.
    * @author Jacqui Henes
    */
   public void loseLife() {
-
     if(GameConnection.instance != null){
       GameConnection.instance.sendDeath();
     }
-
-      lives -= 1;
+      decrementLives();
       if (lives <= 0) {
     	Audio.play(Audio.AudioName.JINGLE_GAMEOVER);
         lives = 0;
@@ -270,10 +259,18 @@ public class Player extends Entity {
       }
   }
 
+  /**
+   * Reduces life count by 1
+   */
   public void decrementLives(){
     this.lives --;
   }
 
+  /**
+   * Setter for property 'score'.
+   *
+   * @param score Value to set for property 'score'.
+   */
   public void setScore(int score){
     this.score = score;
   }

@@ -1,5 +1,8 @@
 package com.knightlore.game;
 
+/**
+ * The Game State
+ */
 public enum GameState {
   LOBBY,
   PLAYING,

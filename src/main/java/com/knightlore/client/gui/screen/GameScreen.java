@@ -155,10 +155,17 @@ public class GameScreen implements IScreen {
   public void input() {
     GameModel gameModel = GameConnection.gameModel;
 
-    if (Integer.parseInt(hud.getCountDown().getText()) == 0) {
+    if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
+      Client.changeScreen(ClientState.MAIN_MENU, false);
+      return;
+    }
+
+    if (Integer.parseInt(hud.getCountDown().getText()) == 0
+        && gameModel.getState() == GameState.PLAYING) {
       playerInputDirection = getPlayerInputDirection();
     } else {
       playerInputDirection = null;
+      return;
     }
 
     if (Keyboard.isKeyReleased(GLFW_KEY_RIGHT_SHIFT)
@@ -171,11 +178,6 @@ public class GameScreen implements IScreen {
 
     if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)) {
       gameModel.myPlayer().setClimbFlag(true);
-    }
-
-    if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
-      Client.changeScreen(ClientState.MAIN_MENU, false);
-      return;
     }
 
     if (Keyboard.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
@@ -253,7 +255,7 @@ public class GameScreen implements IScreen {
       this.countDown.setStartTime();
     }
 
-    gameModel.clientUpdate(delta, playerInputDirection);
+    gameModel.clientUpdate(delta, playerInputDirection, timeLeft);
 
     // Check for complete
     if (gameModel.getState() == GameState.SCORE) {

@@ -160,7 +160,8 @@ public class GameScreen implements IScreen {
       return;
     }
 
-    if (Integer.parseInt(hud.getCountDown().getText()) == 0 && gameModel.getState() == GameState.PLAYING) {
+    if (Integer.parseInt(hud.getCountDown().getText()) == 0
+        && gameModel.getState() == GameState.PLAYING) {
       playerInputDirection = getPlayerInputDirection();
     } else {
       playerInputDirection = null;
@@ -254,7 +255,7 @@ public class GameScreen implements IScreen {
       this.countDown.setStartTime();
     }
 
-    gameModel.clientUpdate(delta, playerInputDirection);
+    gameModel.clientUpdate(delta, playerInputDirection, timeLeft);
 
     // Check for complete
     if (gameModel.getState() == GameState.SCORE) {

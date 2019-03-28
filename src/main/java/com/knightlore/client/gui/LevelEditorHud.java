@@ -24,6 +24,11 @@ import java.util.Arrays;
  *
  */
 public class LevelEditorHud implements IGui {
+	
+  private static final int CONTROLS_SIDE_GAP = 6;
+  
+  private static final int CONTROLS_HIDE =
+	      -CONTROLS_SIDE_GAP - FONT_SIZE_SMALL * 28 - CONTROLS_SIDE_GAP;
 
   /** Save text */
   private final TextObject save;
@@ -47,10 +52,22 @@ public class LevelEditorHud implements IGui {
   private final TextObject randomer;
   /** Circler text */
   private final TextObject circler;
-  /** Charger text */
-  private final TextObject charger;
   /** Spawners text */
   private final TextObject spawners;
+  /** wasd text*/
+  private final TextObject selectTile;
+  /** qe text*/
+  private final TextObject upDownLayer;
+  /** mouse text*/
+  private final TextObject moveCamera;
+  /** zx text*/
+  private final TextObject zoomInOut;
+  /** ,. text*/
+  private final TextObject rotateLeftRight;
+  /** controls text*/
+  private final TextObject controls;
+  /** enter text */
+  private final TextObject testLevel;
   /** Gui vertical divider */
   private final TextObject[] vDivider;
   /** Gui horizontal divider */
@@ -60,6 +77,8 @@ public class LevelEditorHud implements IGui {
   private TextObject[] textObjects;
   /** List of all the gui objects */
   private GuiObject[] guiObjects;
+  
+  private TextObject[] controlTextObjects;
 
   /**
    * Create gui objects
@@ -114,17 +133,63 @@ public class LevelEditorHud implements IGui {
     this.circler = new TextObject("Circler", fontTextureSmall);
     this.circler.setColour(Colour.YELLOW);
     
-    this.charger = new TextObject("Charger", fontTextureSmall);
-    this.charger.setColour(Colour.YELLOW);
-    
     this.spawners = new TextObject("Spawners", fontTextureMedium);
     this.spawners.setColour(Colour.YELLOW);
     
     this.hDivider = new TextObject("------------------------------------", fontTextureSmall);
     this.hDivider.setColour(Colour.YELLOW);
+    
+    this.controls = new TextObject("Controls", fontTextureLarge);
+    this.controls.setColour(Colour.YELLOW);
+    
+    this.selectTile = new TextObject("WASD  : Select Tile", fontTextureSmall);
+    this.selectTile.setColour(Colour.YELLOW);
+    
+    this.upDownLayer = new TextObject("Q/E   : Down/Up layer", fontTextureSmall);
+    this.upDownLayer.setColour(Colour.YELLOW);
+    
+    this.zoomInOut = new TextObject("Z/X   : Zoom in/out", fontTextureSmall);
+    this.zoomInOut.setColour(Colour.YELLOW);
+    
+    this.rotateLeftRight = new TextObject(",/.   : Rotate left/right", fontTextureSmall);
+    this.rotateLeftRight.setColour(Colour.YELLOW);
+    
+    this.moveCamera = new TextObject("Mouse : Move camera", fontTextureSmall);
+    this.moveCamera.setColour(Colour.YELLOW);
+    
+    this.testLevel = new TextObject("Enter : Test Level", fontTextureSmall);
+    this.testLevel.setColour(Colour.YELLOW);
 
-    guiObjects = new GuiObject[] {save, tiles, empty, floor, slab, block, hazard, finish, walker, randomer, circler, charger, spawners, hDivider};
-    textObjects = new TextObject[] {save, empty, floor, slab, block, hazard, finish, walker, randomer, circler, charger};
+    guiObjects = new GuiObject[] {save, 
+    							  tiles, 
+    							  empty, 
+    							  floor, 
+    							  slab, 
+    							  block, 
+    							  hazard, 
+    							  finish, 
+    							  walker, 
+    							  randomer, 
+    							  circler,  
+    							  spawners, 
+    							  hDivider, 
+    							  controls,
+    							  selectTile, 
+    							  upDownLayer, 
+    							  zoomInOut, 
+    							  rotateLeftRight, 
+    							  moveCamera,
+    							  testLevel};
+    textObjects = new TextObject[] {save, empty, floor, slab, block, hazard, finish, walker, randomer, circler};
+    controlTextObjects = new TextObject[] {controls, selectTile, upDownLayer, zoomInOut, rotateLeftRight, moveCamera, testLevel};
+    
+    controls.setPosition(CONTROLS_HIDE, CONTROLS_SIDE_GAP);
+    selectTile.setPosition(CONTROLS_HIDE, CONTROLS_SIDE_GAP + GAP * 1.75f);
+    upDownLayer.setPosition(CONTROLS_HIDE, CONTROLS_SIDE_GAP + GAP * 2.75f);
+    zoomInOut.setPosition(CONTROLS_HIDE, CONTROLS_SIDE_GAP + GAP * 3.75f);
+    rotateLeftRight.setPosition(CONTROLS_HIDE, CONTROLS_SIDE_GAP + GAP * 4.75f);
+    moveCamera.setPosition(CONTROLS_HIDE, CONTROLS_SIDE_GAP + GAP * 5.75f);
+    testLevel.setPosition(CONTROLS_HIDE, CONTROLS_SIDE_GAP + GAP * 6.75f);
     
     this.vDivider = new TextObject[8];
     ArrayList<GuiObject> tempG = new ArrayList<GuiObject>(Arrays.asList(guiObjects));
@@ -137,6 +202,38 @@ public class LevelEditorHud implements IGui {
     guiObjects = tempG.toArray(guiObjects);
     
   }
+  
+  public void moveScore(float move, float targetXPos) {
+    float xPosControls = controls.getPositionX();
+
+	  if (xPosControls < targetXPos && move > 0) {
+	    setPosition(move, xPosControls);
+	    if (controls.getPositionX() > targetXPos) {
+	      setPosition(0, targetXPos);
+	    }
+	  } else if (xPosControls > targetXPos && move < 0) {
+	    setPosition(move, xPosControls);
+	  }
+	}
+  
+  public void setPosition(float move, float xPosControls) {
+    controls.setPositionX(xPosControls + move);
+	selectTile.setPositionX(xPosControls + move);
+	moveCamera.setPositionX(xPosControls + move);
+	rotateLeftRight.setPositionX(xPosControls + move);
+	zoomInOut.setPositionX(xPosControls + move);
+	upDownLayer.setPositionX(xPosControls + move);
+	testLevel.setPositionX(xPosControls + move);
+  }
+  
+  public int getControlsSideGap() {
+	  return CONTROLS_SIDE_GAP;
+  }
+  
+  public int getControlsHide() {
+	  return CONTROLS_HIDE;
+  }
+  
   
   /**
    * Return save
@@ -260,17 +357,6 @@ public class LevelEditorHud implements IGui {
   }
   
   /**
-   * Return charger
-   * 
-   * @return Charger
-   * @author Adam W
-   * 
-   */
-  public TextObject getCharger() {
-	  return charger;
-  }
-  
-  /**
    * Updates the position of the gui objects
    * 
    * @author Adam W
@@ -288,8 +374,7 @@ public class LevelEditorHud implements IGui {
 	  this.finish.setPosition(Window.getWidth()/2-finish.getSize()-GAP*5, Window.getHeight()-finish.getHeight()-GAP*2);
 	  this.walker.setPosition(Window.getWidth()/2-walker.getSize()+GAP*8, Window.getHeight()-walker.getHeight()-GAP*5);
 	  this.randomer.setPosition(Window.getWidth()/2-randomer.getSize()+GAP*16, Window.getHeight()-randomer.getHeight()-GAP*5);
-	  this.circler.setPosition(Window.getWidth()/2-circler.getSize()+GAP*8, Window.getHeight()-circler.getHeight()-GAP*3);
-	  this.charger.setPosition(Window.getWidth()/2-charger.getSize()+GAP*16, Window.getHeight()-charger.getHeight()-GAP*3);
+	  this.circler.setPosition(Window.getWidth()/2-circler.getSize()+GAP*12, Window.getHeight()-circler.getHeight()-GAP*3);
 	  this.hDivider.setPosition(Window.getWidth()/2-hDivider.getSize()/2, Window.getHeight()-hDivider.getHeight()-GAP*7);
 	  
 	  for (int i = 0; i < 8; i++) {

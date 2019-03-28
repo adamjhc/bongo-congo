@@ -26,7 +26,6 @@ public class TileGameObjectSet {
     tileSet.add(new TileGameObject(TileType.SPAWN_WALKER, "floor"));
     tileSet.add(new TileGameObject(TileType.SPAWN_RANDOMER, "floor"));
     tileSet.add(new TileGameObject(TileType.SPAWN_CIRCLER, "floor"));
-    tileSet.add(new TileGameObject(TileType.SPAWN_CHARGER, "floor"));
   }
 
   /**

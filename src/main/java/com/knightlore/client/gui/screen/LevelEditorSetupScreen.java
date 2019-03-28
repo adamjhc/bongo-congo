@@ -26,6 +26,11 @@ public class LevelEditorSetupScreen implements IScreen {
   /** The menu object */
   private PreLevelEditor preLevelEditor;
 
+  /**
+   * Initialise LevelEditorSetupScreen
+   *
+   * @param guiRenderer renderer used to render gui elements
+   */
   public LevelEditorSetupScreen(GuiRenderer guiRenderer) {
     this.guiRenderer = guiRenderer;
     preLevelEditor = new PreLevelEditor();

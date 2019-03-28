@@ -6,6 +6,7 @@ import com.knightlore.client.audio.Audio;
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.networking.GameConnection;
 import com.knightlore.game.entity.Direction;
+import com.knightlore.game.entity.Enemy;
 import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.LevelMap;
@@ -15,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import com.knightlore.game.util.CoordinateUtils;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
@@ -123,15 +126,9 @@ public class GameModel {
 
     if (getTileIndex(myPlayer().getPosition()) == 5) { // Checks for goal
       myPlayer().addToScore(10000);
-      // TODO: Switch game state here
-    }
-
-    if (getTileIndex(myPlayer().getPosition()) == 4
-        && myPlayer().getPlayerState() != PlayerState.ROLLING
-        && myPlayer().getPlayerState() != PlayerState.DEAD) {
-      Audio.play(Audio.AudioName.SOUND_HIT);
-      delay(100);
-      myPlayer().loseLife();
+      if(GameConnection.instance != null){
+        GameConnection.instance.sendLevelComplete();
+      }
     }
 
     // Player updates
@@ -153,7 +150,7 @@ public class GameModel {
         Player player = myPlayer();
         Vector3f bottom = player.getPosition();
         // 'Plays' climbing animation
-        if (accumulator < 10) {
+        if (accumulator < 9) {
           bottom.z += player.getClimbVal();
           accumulator++;
           player.setPosition(bottom);
@@ -162,13 +159,14 @@ public class GameModel {
           // Done playing animation, set position
           accumulator = 0;
           player.setPosition(player.setPadding(roundZ(bottom)));
+          System.out.println(player.getPosition());
           player.setClimbFlag(false);
           player.setPlayerState(PlayerState.IDLE);
         }
         break;
       case ROLLING:
         // 'Play' animation
-        if (accumulator < 20) {
+        if (accumulator < 25) {
           delay(5);
           movePlayerInDirection(myPlayer().getDirection(), delta * ROLL_SPEED);
           updatePlayerState(PlayerState.ROLLING);
@@ -194,18 +192,39 @@ public class GameModel {
           delay(5);
         } else {
           // Reset player
-          delay(100);
-          player.setPosition(player.setPadding(player.getPosition()));
+          player.setPosition(top);
+          delay(200);
           player.loseLife();
         }
         break;
       case DEAD:
         break;
     }
+    if (getTileIndex(myPlayer().getPosition()) == 4
+            && myPlayer().getPlayerState() != PlayerState.ROLLING
+            && myPlayer().getPlayerState() != PlayerState.DEAD
+            && myPlayer().getPlayerState() != PlayerState.FALLING) {
+      Audio.play(Audio.AudioName.SOUND_HIT);
+      delay(200);
+      myPlayer().loseLife();
+    }
+
+    List<Enemy> enemies = getCurrentLevel().getEnemies();
+    for (Enemy enemy : enemies) {
+      if (enemy.getPosition().distance(myPlayer().getPosition()) < 0.3f) {
+        Audio.play(Audio.AudioName.SOUND_HIT);
+        delay(200);
+        myPlayer().loseLife();
+      }
+    }
+    myPlayer().setClimbFlag(false);
   }
 
   public void serverUpdate(float delta) {
-
+    List<Enemy> enemies = getCurrentLevel().getEnemies();
+    for (Enemy enemy : enemies) {
+      enemy.update(delta, getCurrentLevel().getLevelMap());
+    }
   }
 
   public void addPlayer(String uuid) {

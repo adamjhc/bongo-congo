@@ -3,6 +3,9 @@ package com.knightlore.game.entity;
 import com.knightlore.client.render.world.TileGameObject;
 import org.joml.Vector3f;
 
+import java.util.List;
+import java.util.Random;
+
 public enum Direction {
   NORTH("n"),
   NORTH_EAST("ne"),
@@ -26,10 +29,22 @@ public enum Direction {
     SOUTH_EAST.normalisedDirection = new Vector3f(-normalised, -normalised, 0);
     SOUTH_WEST.normalisedDirection = new Vector3f(-normalised, normalised, 0);
     NORTH_WEST.normalisedDirection = new Vector3f(normalised, normalised, 0);
+
+    NORTH.opposite = SOUTH;
+    NORTH_EAST.opposite = SOUTH_WEST;
+    EAST.opposite = WEST;
+    SOUTH_EAST.opposite = NORTH_WEST;
+    SOUTH.opposite = NORTH;
+    SOUTH_WEST.opposite = NORTH_EAST;
+    WEST.opposite = EAST;
+    NORTH_WEST.opposite = SOUTH_EAST;
   }
 
   private final String abbreviation;
   private Vector3f normalisedDirection;
+  private Direction opposite;
+  private static Random random = new Random();
+  private static Direction dirs[] = Direction.values();
 
   Direction(String abbreviation) {
     this.abbreviation = abbreviation;
@@ -42,4 +57,11 @@ public enum Direction {
   public Vector3f getNormalisedDirection() {
     return normalisedDirection;
   }
+
+  public Direction getReverse(Direction dir) { return opposite; }
+
+  public Direction getRandom(){
+    return dirs[random.nextInt(dirs.length)];
+  }
+
 }

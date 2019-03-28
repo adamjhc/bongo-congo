@@ -1,9 +1,7 @@
 package com.knightlore.client.gui.screen;
 
 import static com.knightlore.client.util.GuiUtils.checkPosition;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_EQUAL;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_MINUS;
 
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
@@ -25,14 +23,23 @@ import java.util.concurrent.TimeUnit;
 
 public class MainScreen implements IScreen {
 
+  /** Audio clip name for selection */
   private static final AudioName SELECT = AudioName.SOUND_MENUSELECT;
 
-  private MainMenu menu;
+  /** Renderer used for rendering gui elements */
   private GuiRenderer renderer;
 
-  public MainScreen(GuiRenderer renderer) {
+  /** Gui elements to render */
+  private MainMenu menu;
+
+  /**
+   * Initialise MainScreen
+   *
+   * @param guiRenderer renderer used to render gui elements
+   */
+  public MainScreen(GuiRenderer guiRenderer) {
+    this.renderer = guiRenderer;
     menu = new MainMenu();
-    this.renderer = renderer;
 
     Audio.restart();
   }
@@ -98,8 +105,8 @@ public class MainScreen implements IScreen {
     } else menu.getLevelEditor().setColour(Colour.YELLOW);
 
     // HIGHSCORE BUTTON
-    if (checkPosition(menu, menu.getHighscore().getId())) {
-      menu.getHighscore().setColour();
+    if (checkPosition(menu, menu.getHighScore().getId())) {
+      menu.getHighScore().setColour();
       if (Mouse.isLeftButtonPressed()) {
         Audio.play(SELECT);
 
@@ -109,14 +116,14 @@ public class MainScreen implements IScreen {
           return;
         }
 
-        ServerConnection.instance.getHighscores();
+        ServerConnection.instance.getHighScores();
 
         int currentCache = HighScoreCache.instance.cache;
 
-        while(currentCache == HighScoreCache.instance.cache){
-          try{
+        while (currentCache == HighScoreCache.instance.cache) {
+          try {
             TimeUnit.MILLISECONDS.sleep(50);
-          }catch(InterruptedException e){
+          } catch (InterruptedException e) {
 
           }
         }
@@ -124,7 +131,7 @@ public class MainScreen implements IScreen {
         Client.changeScreen(ClientState.HIGHSCORE, false);
         return;
       }
-    } else menu.getHighscore().setColour(Colour.YELLOW);
+    } else menu.getHighScore().setColour(Colour.YELLOW);
 
     // OPTIONS BUTTON
     if (checkPosition(menu, menu.getOptions().getId())) {
@@ -135,6 +142,16 @@ public class MainScreen implements IScreen {
         return;
       }
     } else menu.getOptions().setColour(Colour.YELLOW);
+    
+    // HELP BUTTON
+    if (checkPosition(menu, menu.getHelp().getId())) {
+    	menu.getHelp().setColour();
+    	if (Mouse.isLeftButtonPressed()) {
+    		Audio.play(SELECT);
+    		Client.changeScreen(ClientState.HELP, false);
+    		return;
+    	}
+    } else menu.getHelp().setColour(Colour.YELLOW);
 
     // QUIT BUTTON
     if (checkPosition(menu, menu.getQuit().getId())) {
@@ -153,13 +170,13 @@ public class MainScreen implements IScreen {
       }
     }
 
-//    if (Keyboard.isKeyReleased(GLFW_KEY_EQUAL)) {
-//    	menu.incFont();
-//    }
-//    
-//    if (Keyboard.isKeyReleased(GLFW_KEY_MINUS)) {
-//    	menu.decFont();
-//    }
+    //    if (Keyboard.isKeyReleased(GLFW_KEY_EQUAL)) {
+    //    	menu.incFont();
+    //    }
+    //
+    //    if (Keyboard.isKeyReleased(GLFW_KEY_MINUS)) {
+    //    	menu.decFont();
+    //    }
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Window.setShouldClose();
@@ -179,6 +196,11 @@ public class MainScreen implements IScreen {
     menu.cleanup();
   }
 
+  /**
+   * Attempt to connect to server
+   *
+   * @return boolean whether connection was successful
+   */
   private boolean connectToServer() {
     Client.showLoadingScreen();
 

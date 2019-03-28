@@ -13,15 +13,31 @@ import com.knightlore.client.io.Mouse;
 import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.game.entity.Player;
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.Collection;
 
+/**
+ * Handles the game end screen startup, input, updates, rendering and cleanup
+ * 
+ * @author Joseph, Adam C
+ *
+ */
 public class GameEndScreen implements IScreen {
 
-  private Map<String, Player> players;
-
+	/** Players */
+	private Collection<Player> players;
+	
+  /** Gui renderer */
   private GuiRenderer guiRenderer;
+  /** Game end gui */
   private GameEnd gameEnd;
 
+  /**
+   * Initialise renderer and gui
+   * 
+   * @param guiRenderer The gui renderer
+   * @author Joseph
+   * 
+   */
   public GameEndScreen(GuiRenderer guiRenderer) {
     this.guiRenderer = guiRenderer;
     gameEnd = new GameEnd();
@@ -29,7 +45,7 @@ public class GameEndScreen implements IScreen {
 
   @Override
   public void startup(Object... args) {
-    players = (Map<String, Player>) args[0];
+    players = (Collection<Player>) args[0];
     setWinner();
     listFinishingPositions();
   }
@@ -50,19 +66,31 @@ public class GameEndScreen implements IScreen {
     }
   }
 
+  /**
+   * Set the order of the finishing positions
+   * 
+   * @author Joseph
+   * 
+   */
   private void listFinishingPositions() {
-    ArrayList<Player> playersList = new ArrayList<>(players.values());
+    ArrayList<Player> playersList = new ArrayList<>(players);
 
     playersList.sort((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
 
     gameEnd.displayScores(playersList);
   }
 
+  /**
+   * Set the winner of the game
+   * 
+   * @author Joseph
+   * 
+   */
   private void setWinner() {
     boolean draw = false;
     int highestScore = -1;
     Player highestScorePlayer = null;
-    for (Player player : players.values()) {
+    for (Player player : players) {
       if (player.getScore() > highestScore) {
         highestScorePlayer = player;
         highestScore = player.getScore();

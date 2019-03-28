@@ -17,7 +17,7 @@ public class EditorTileGameObjectSet {
 
   static {
     tileSet = new ArrayList<>();
-    tileSet.add(new TileGameObject(TileType.AIR, "floor"));
+    tileSet.add(new TileGameObject(TileType.AIR, "air"));
     tileSet.add(new TileGameObject(TileType.FLOOR, "floor"));
     tileSet.add(new TileGameObject(TileType.WALL, "slab"));
     tileSet.add(new TileGameObject(TileType.CLIMBABLE_WALL, "block"));
@@ -26,7 +26,6 @@ public class EditorTileGameObjectSet {
     tileSet.add(new TileGameObject(TileType.SPAWN_WALKER, "walkerSpawner"));
     tileSet.add(new TileGameObject(TileType.SPAWN_RANDOMER, "randomerSpawner"));
     tileSet.add(new TileGameObject(TileType.SPAWN_CIRCLER, "circlerSpawner"));
-    tileSet.add(new TileGameObject(TileType.SPAWN_CHARGER, "chargerSpawner"));
   }
 
   /**

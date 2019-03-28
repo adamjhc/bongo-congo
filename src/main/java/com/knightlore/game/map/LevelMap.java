@@ -67,8 +67,11 @@ public class LevelMap {
         rotation += 1;
       }
     }
-
+    
     tiles = newMap;
+    int temp = size.x;
+    size.x = size.y;
+    size.y = temp;
   }
 
   public void resetRotation() {

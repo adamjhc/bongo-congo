@@ -16,16 +16,34 @@ import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.networking.ListGameObject;
 import java.util.Collection;
 
+/**
+ * Handles the lobby screen startup, input, updates, rendering and cleanup
+ * 
+ * @author Joseph, Adam C
+ *
+ */
 public class LobbyScreen implements IScreen {
 
+	/** Menu interaction sound */
   private static final AudioName SELECT = AudioName.SOUND_MENUSELECT;
 
+  /** The gui renderer */
   private GuiRenderer guiRenderer;
+  /** The lobby gui */
   private Lobby lobby;
 
+  /** The lobby object associated with the lobby */
   private LobbyObject lobbyData;
+  /** The game associated with the lobby */
   private ListGameObject game;
 
+  /**
+   * Initialise the renderers and gui
+   * 
+   * @param guiRenderer
+   * @author Joseph
+   * 
+   */
   public LobbyScreen(GuiRenderer guiRenderer) {
     this.guiRenderer = guiRenderer;
     lobby = new Lobby();

@@ -36,19 +36,41 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Handles the game screen startup, input, updates, rendering and cleanup
+ * 
+ * @author Joseph, Adam C, Lewis
+ *
+ */
 public class GameScreen implements IScreen {
 
+	/** Input direction */
   Direction playerInputDirection;
 
+  /** Head up display */
   Hud hud;
-
+  /** Level start counter */
   Timer countDown;
+  /** level duration counter */
   Timer timer;
+  /** Game renderer */
   GameRenderer gameRenderer;
+  /** Gui renderer */
   private GuiRenderer guiRenderer;
+  /** Game server */
   private GameServer gameServer;
+  /** Client */
   private com.knightlore.client.networking.backend.Client gameClient;
 
+  /**
+   * Initialise renderers, timer and gui
+   * 
+   * @param guiRenderer The gui renderer
+   * @param gameRenderer The game renderer
+   * @param timer The game timer
+   * @author Joseph
+   * 
+   */
   public GameScreen(GuiRenderer guiRenderer, GameRenderer gameRenderer, Timer timer) {
     this.guiRenderer = guiRenderer;
     this.gameRenderer = gameRenderer;
@@ -173,7 +195,7 @@ public class GameScreen implements IScreen {
     int countDownTime = 5;
     int countDownLeft = countDownTime + 1 - Math.round(countDown);
     if (gameModel.getCurrentLevelIndex() > 0) {
-      countDownLeft += 1;
+      countDownLeft += 0;
     }
     if (countDownLeft <= 0) countDownLeft = 0;
     if (countDownLeft <= countDownTime && countDownLeft > 0) hud.getCountDown().setRender(true);
@@ -226,7 +248,11 @@ public class GameScreen implements IScreen {
     }
 
     if (gameModel.getState() == GameState.NEXT_LEVEL) {
+    	System.out.println("NEXT LEVEL DETECTED");
       gameRenderer.init(gameModel);
+      hud.setLevel(gameModel.getCurrentLevelIndex());
+      timer.resetStartTime();
+      this.countDown.setStartTime();
     }
 
     gameModel.clientUpdate(delta, playerInputDirection);
@@ -234,14 +260,8 @@ public class GameScreen implements IScreen {
     // Check for complete
     if (gameModel.getState() == GameState.SCORE) {
       System.out.println("DETECT END");
-      Client.changeScreen(ClientState.END, false, gameModel.getPlayers());
+      Client.changeScreen(ClientState.END, false, gameModel.getPlayers().values());
       return;
-    }
-
-    if (gameModel.getState() == GameState.NEXT_LEVEL) {
-      System.out.println("NEXT LEVEL DETECTED");
-      hud.setLevel(gameModel.getCurrentLevelIndex());
-      timer.resetStartTime();
     }
   }
 
@@ -275,6 +295,13 @@ public class GameScreen implements IScreen {
     hud.cleanup();
   }
 
+  /**
+   * Return the current input direction
+   * 
+   * @return Direction
+   * @author Adam C
+   * 
+   */
   Direction getPlayerInputDirection() {
     if (Keyboard.isKeyPressed(GLFW_KEY_W) // Player presses W
         && !Keyboard.isKeyPressed(GLFW_KEY_A)

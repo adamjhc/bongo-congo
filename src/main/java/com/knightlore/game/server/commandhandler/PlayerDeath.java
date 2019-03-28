@@ -41,6 +41,7 @@ public class PlayerDeath extends Command {
 
           handler.model().nextLevel();
         }
+
       }
     }
 

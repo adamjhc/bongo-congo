@@ -57,6 +57,7 @@ public class Level {
 
   private void addEnemy(int enemySetIndex, Vector3f position) {
     Enemy enemy = enemySet.get(enemySetIndex, position);
+    enemy.setHome(position);
     enemy.setId(enemyIdInc);
     enemyIdInc++;
     enemies.add(enemy);

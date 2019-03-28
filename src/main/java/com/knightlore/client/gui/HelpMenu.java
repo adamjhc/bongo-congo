@@ -117,22 +117,22 @@ public class HelpMenu implements IGui {
 	         Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP);
 	    this.move.setPosition(
 	    	 Window.getHalfWidth() - move.getSize() / 2,
-	    	 Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP);
+	    	 Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 2);
 	    this.climb.setPosition(
 	    	 Window.getHalfWidth() - climb.getSize() / 2,
-	    	 Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 3);
+	    	 Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 4);
 	    this.roll.setPosition(
 	    	 Window.getHalfWidth() - roll.getSize() / 2,
-	    	 Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 5);
+	    	 Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 6);
 	    this.escape.setPosition(
 	    	 Window.getHalfWidth() - escape.getSize() / 2,
-	    	 Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 7);
+	    	 Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 8);
 	    this.seeMore.setPosition(
 	    	 Window.getHalfWidth() - seeMore.getSize() / 2,
-	    	 Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 9);
+	    	 Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 10);
 	    this.moreSeeMore.setPosition(
 	    	 Window.getHalfWidth() - moreSeeMore.getSize() / 2,
-	    	 Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 10);
+	    	 Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 11);
 	}
 
 }

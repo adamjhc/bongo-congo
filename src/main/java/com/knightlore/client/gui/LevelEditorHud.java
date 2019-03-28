@@ -68,6 +68,8 @@ public class LevelEditorHud implements IGui {
   private final TextObject rotateLeftRight;
   /** controls text*/
   private final TextObject controls;
+  /** enter text */
+  private final TextObject testLevel;
   /** Gui vertical divider */
   private final TextObject[] vDivider;
   /** Gui horizontal divider */
@@ -159,6 +161,9 @@ public class LevelEditorHud implements IGui {
     
     this.moveCamera = new TextObject("Mouse : Move camera", fontTextureSmall);
     this.moveCamera.setColour(Colour.YELLOW);
+    
+    this.testLevel = new TextObject("Enter : Test Level", fontTextureSmall);
+    this.testLevel.setColour(Colour.YELLOW);
 
     guiObjects = new GuiObject[] {save, 
     							  tiles, 
@@ -179,9 +184,10 @@ public class LevelEditorHud implements IGui {
     							  upDownLayer, 
     							  zoomInOut, 
     							  rotateLeftRight, 
-    							  moveCamera};
+    							  moveCamera,
+    							  testLevel};
     textObjects = new TextObject[] {save, empty, floor, slab, block, hazard, finish, walker, randomer, circler, charger};
-    controlTextObjects = new TextObject[] {controls, selectTile, upDownLayer, zoomInOut, rotateLeftRight, moveCamera};
+    controlTextObjects = new TextObject[] {controls, selectTile, upDownLayer, zoomInOut, rotateLeftRight, moveCamera, testLevel};
     
     controls.setPosition(CONTROLS_HIDE, CONTROLS_SIDE_GAP);
     selectTile.setPosition(CONTROLS_HIDE, CONTROLS_SIDE_GAP + GAP * 1.75f);
@@ -189,6 +195,7 @@ public class LevelEditorHud implements IGui {
     zoomInOut.setPosition(CONTROLS_HIDE, CONTROLS_SIDE_GAP + GAP * 3.75f);
     rotateLeftRight.setPosition(CONTROLS_HIDE, CONTROLS_SIDE_GAP + GAP * 4.75f);
     moveCamera.setPosition(CONTROLS_HIDE, CONTROLS_SIDE_GAP + GAP * 5.75f);
+    testLevel.setPosition(CONTROLS_HIDE, CONTROLS_SIDE_GAP + GAP * 6.75f);
     
     this.vDivider = new TextObject[8];
     ArrayList<GuiObject> tempG = new ArrayList<GuiObject>(Arrays.asList(guiObjects));
@@ -222,6 +229,7 @@ public class LevelEditorHud implements IGui {
 	rotateLeftRight.setPositionX(xPosControls + move);
 	zoomInOut.setPositionX(xPosControls + move);
 	upDownLayer.setPositionX(xPosControls + move);
+	testLevel.setPositionX(xPosControls + move);
   }
   
   public int getControlsSideGap() {

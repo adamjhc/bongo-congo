@@ -13,7 +13,9 @@ public class Ready extends Command {
     if (handler.server().allReady()) {
       // Start supervisor
       GameManager manager = new GameManager(handler.model(), handler.server());
+      EnemyPositionUpdateManager manager1 = new EnemyPositionUpdateManager(handler.model(), handler.server());
       manager.start();
+      manager1.start();
 
       handler.server().poqhandler =
               new PositionUpdateQueueHandler(PositionUpdateQueue.instance,handler.server());

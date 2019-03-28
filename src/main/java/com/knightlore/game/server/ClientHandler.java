@@ -67,13 +67,14 @@ public class ClientHandler extends Thread {
       System.out.println("Client disconnect");
       gameServer.close();
 
+      gameServer.removeConnection(this.sessionKey.get());
+
       // Check for server owner
       if (this.sessionKey.isPresent() && gameServer.sessionOwner.equals(this.sessionKey.get())) {
         // Delete server
         if(GameRepository.instance.getServers().containsKey(this.server().getUUID())){
           GameRepository.instance.removeServer(this.server().getUUID());
         }
-
       }
     } catch (IOException e) {
       e.printStackTrace();

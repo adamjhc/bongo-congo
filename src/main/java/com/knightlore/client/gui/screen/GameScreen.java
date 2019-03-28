@@ -29,12 +29,7 @@ import com.knightlore.game.server.GameServer;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -161,7 +156,8 @@ public class GameScreen implements IScreen {
       return;
     }
 
-    if (Integer.parseInt(hud.getCountDown().getText()) == 0 && gameModel.getState() == GameState.PLAYING) {
+    if (Integer.parseInt(hud.getCountDown().getText()) == 0
+        && gameModel.getState() == GameState.PLAYING) {
       playerInputDirection = getPlayerInputDirection();
     } else {
       playerInputDirection = null;
@@ -256,7 +252,7 @@ public class GameScreen implements IScreen {
       this.countDown.setStartTime();
     }
 
-    gameModel.clientUpdate(delta, playerInputDirection);
+    gameModel.clientUpdate(delta, playerInputDirection, timeLeft);
 
     // Check for complete
     if (gameModel.getState() == GameState.SCORE) {

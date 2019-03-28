@@ -1,3 +1,7 @@
 package com.knightlore.server.database.model;
 
-public interface Result {}
+public enum OrderBy {
+  ASC,
+  DESC,
+  RAND
+}

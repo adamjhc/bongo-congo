@@ -29,8 +29,8 @@ import org.joml.Vector3i;
 
 /**
  * Screen for selecting 3 levels to use in Single Player
- * @author Adam Cox
  *
+ * @author Adam Cox
  */
 public class LevelSelectScreen implements IScreen {
 
@@ -93,7 +93,7 @@ public class LevelSelectScreen implements IScreen {
   public void input() {
     if (checkPosition(levelSelectMenu, levelSelectMenu.getStart().getId())) {
       levelSelectMenu.getStart().setColour();
-      if (Mouse.isLeftButtonPressed() && selectedLevels.size() == 3) {
+      if (Mouse.isLeftButtonPressed() && !selectedLevels.isEmpty()) {
         Audio.play(SELECT);
         List<Level> levelList = getSelectedLevelsFromFile();
 
@@ -131,15 +131,13 @@ public class LevelSelectScreen implements IScreen {
 
     for (int i = 0; i < levelSelectMenu.numOnScreenLevels(); i++) {
       if (checkPosition(levelSelectMenu, levelSelectMenu.getLevel(i).getId())) {
-        if (selectedLevels.contains(new LevelDisplay(i)) || selectedLevels.size() != 3) {
-          levelSelectMenu.getLevel(i).setColour();
-        }
+        levelSelectMenu.getLevel(i).setColour();
 
         if (Mouse.isLeftButtonPressed()) {
           Audio.play(SELECT);
           if (selectedLevels.contains(new LevelDisplay(i))) {
             selectedLevels.remove(new LevelDisplay(i));
-          } else if (selectedLevels.size() != 3) {
+          } else {
             selectedLevels.add(new LevelDisplay(i, levelSelectMenu.getLevel(i).getId()));
           }
 
@@ -147,7 +145,7 @@ public class LevelSelectScreen implements IScreen {
           Vector3i mapSize = selectedMap.getSize();
 
           levelSelectRenderer.setWorldScale(
-              Math.round((Window.WINDOWED_WIDTH / 2 - 50) / (mapSize.x + mapSize.y)));
+              (Window.WINDOWED_WIDTH / 2 - 50) / (mapSize.x + mapSize.y));
           levelSelectRenderer.setCameraPosition(
               new Vector3f(-mapSize.y, (mapSize.x + mapSize.z) / 2f, 0));
         }

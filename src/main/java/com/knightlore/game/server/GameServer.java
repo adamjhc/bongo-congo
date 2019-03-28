@@ -1,6 +1,7 @@
 package com.knightlore.game.server;
 
 import com.google.gson.Gson;
+import com.knightlore.client.Client;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.GameState;
 import com.knightlore.networking.game.GameStart;
@@ -184,5 +185,18 @@ public class GameServer extends Thread {
 
   public boolean inLobby(){
     return this.lobby;
+  }
+
+  public void removeConnection(String session){
+    this.poqhandler.close();
+    ClientHandler clientToRemove = null;
+
+    for(ClientHandler client: registeredClients()){
+      if(client.sessionKey.equals(session)){
+        clientToRemove = client;
+      }
+    }
+    if(clientToRemove != null)
+      registeredClients().remove(clientToRemove);
   }
 }

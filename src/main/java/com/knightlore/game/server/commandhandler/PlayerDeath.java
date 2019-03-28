@@ -34,7 +34,6 @@ public class PlayerDeath extends Command {
           gameComplete.setFunction("game_complete");
           handler.server().sendToRegistered(gameComplete);
           System.out.println("GAME COMPLETE");
-          GameRepository.instance.removeServer(handler.server().getUUID());
         }else{
           Sendable levelComplete = new Sendable();
           levelComplete.setFunction("level_complete");

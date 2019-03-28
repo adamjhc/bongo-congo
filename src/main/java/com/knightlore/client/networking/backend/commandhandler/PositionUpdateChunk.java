@@ -11,14 +11,13 @@ import javax.swing.text.Position;
 public class PositionUpdateChunk implements GenericHandler {
 
   public void run(Client client, Sendable sendable) {
-    System.out.println("XXX");
     // Decode
     Gson gson = new Gson();
     com.knightlore.networking.game.PositionUpdateChunk chunk =
         gson.fromJson(sendable.getData(), com.knightlore.networking.game.PositionUpdateChunk.class);
 
     for(PositionUpdate update: chunk.getQueue()){
-      if(update.sessionId != GameConnection.instance.sessionKey){
+      if(!update.sessionId.equals(GameConnection.instance.sessionKey)){
         // Update location
         GameConnection.gameModel.getPlayers().get(update.sessionId).setPosition(update.coordinates);
         GameConnection.gameModel.getPlayers().get(update.sessionId).setDirection(update.direction);

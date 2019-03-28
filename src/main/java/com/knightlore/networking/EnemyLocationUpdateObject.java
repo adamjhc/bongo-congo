@@ -4,19 +4,20 @@ import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.EnemyState;
 import org.joml.Vector3f;
 
-import java.util.HashMap;
-import java.util.Vector;
-
+/**
+ * Singular enemy location/state data
+ *
+ * @author Lewis Relph
+ */
 public class EnemyLocationUpdateObject {
 
-    public Vector3f position;
-    public Direction direction;
-    public EnemyState state;
+  public Vector3f position;
+  public Direction direction;
+  public EnemyState state;
 
-    public EnemyLocationUpdateObject(Vector3f position, Direction direction, EnemyState state) {
-        this.position = position;
-        this.direction = direction;
-        this.state = state;
-    }
-
+  public EnemyLocationUpdateObject(Vector3f position, Direction direction, EnemyState state) {
+    this.position = position;
+    this.direction = direction;
+    this.state = state;
+  }
 }

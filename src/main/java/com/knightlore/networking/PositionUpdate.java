@@ -4,6 +4,11 @@ import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.PlayerState;
 import org.joml.Vector3f;
 
+/**
+ * Player position update, update location, direction, state and score
+ *
+ * @author Lewis Relph
+ */
 public class PositionUpdate {
 
     public Vector3f coordinates;

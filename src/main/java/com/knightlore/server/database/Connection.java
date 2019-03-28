@@ -29,6 +29,10 @@ public class Connection {
         return false;
     }
 
+    /**
+     * Retrieve active connection
+     * @return
+     */
     public static java.sql.Connection getConnection(){
         return connection;
     }

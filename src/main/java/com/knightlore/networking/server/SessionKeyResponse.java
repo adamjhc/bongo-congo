@@ -1,4 +1,4 @@
-package com.knightlore.networking;
+package com.knightlore.networking.server;
 
 /**
  * Response to session key request, return username and session key

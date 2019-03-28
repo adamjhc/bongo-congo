@@ -1,4 +1,4 @@
-package com.knightlore.networking;
+package com.knightlore.networking.server;
 
 /**
  * Holds the API Key for authentication

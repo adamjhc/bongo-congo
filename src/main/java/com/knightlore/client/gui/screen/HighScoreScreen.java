@@ -14,7 +14,7 @@ import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.networking.HighScoreCache;
 import com.knightlore.client.render.GuiRenderer;
-import com.knightlore.networking.HighScoreResponseObject;
+import com.knightlore.networking.server.HighScoreResponseObject;
 import java.util.List;
 
 public class HighScoreScreen implements IScreen {

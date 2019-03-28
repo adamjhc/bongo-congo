@@ -3,14 +3,17 @@ package com.knightlore.client.networking;
 import com.google.gson.Gson;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.networking.backend.Client;
+import com.knightlore.client.networking.backend.PeriodicStatusUpdater;
 import com.knightlore.client.networking.backend.ResponseHandler;
 import com.knightlore.client.networking.backend.responsehandlers.game.GameRegister;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.GameState;
 import com.knightlore.game.entity.Player;
-import com.knightlore.networking.ApiKey;
-import com.knightlore.networking.PositionUpdate;
+import com.knightlore.networking.server.ApiKey;
+import com.knightlore.networking.game.PositionUpdate;
 import com.knightlore.networking.Sendable;
+import com.knightlore.networking.server.GameRequest;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.UUID;
@@ -26,6 +29,7 @@ public class GameConnection {
   public boolean gameCancelled;
   boolean authenticated = false;
   private Client client;
+  public PeriodicStatusUpdater updater;
 
   // Key already validated
   public GameConnection(Client client, String sessionKey) {
@@ -38,6 +42,11 @@ public class GameConnection {
   }
 
   public void close() {
+    // Check for periodic
+    if(this.updater != null){
+      this.updater.close();
+    }
+
     try {
       this.client.close();
     } catch (IOException e) {
@@ -58,7 +67,7 @@ public class GameConnection {
 
     Gson gson = new Gson();
 
-    com.knightlore.networking.GameRequest request = new com.knightlore.networking.GameRequest();
+    GameRequest request = new GameRequest();
     sendable.setData(gson.toJson(request));
 
     // Specify handler
@@ -82,7 +91,7 @@ public class GameConnection {
     Player player = GameConnection.gameModel.myPlayer();
 
     PositionUpdate request =
-        new com.knightlore.networking.PositionUpdate(
+        new PositionUpdate(
             player.getPosition(),
             this.sessionKey,
             player.getDirection(),
@@ -90,9 +99,6 @@ public class GameConnection {
             player.getScore());
 
     sendable.setData(gson.toJson(request));
-
-    // Specify handler
-    System.out.println("SENDING " + sendable.getData());
 
     try {
       client.dos.writeObject(sendable);

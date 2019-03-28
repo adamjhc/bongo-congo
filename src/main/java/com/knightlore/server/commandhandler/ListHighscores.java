@@ -1,6 +1,6 @@
 package com.knightlore.server.commandhandler;
 
-import com.knightlore.networking.HighScoreResponse;
+import com.knightlore.networking.server.HighScoreResponse;
 import com.knightlore.networking.Sendable;
 import com.knightlore.server.ClientHandler;
 import com.knightlore.server.database.model.*;

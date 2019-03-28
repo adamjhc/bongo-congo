@@ -1,8 +1,8 @@
 package com.knightlore.server.commandhandler;
 
-import com.knightlore.networking.ApiKey;
+import com.knightlore.networking.server.ApiKey;
 import com.knightlore.networking.Sendable;
-import com.knightlore.networking.SessionKeyResponse;
+import com.knightlore.networking.server.SessionKeyResponse;
 import com.knightlore.server.ClientHandler;
 import com.knightlore.server.database.SessionGenerator;
 import com.knightlore.server.database.model.Condition;

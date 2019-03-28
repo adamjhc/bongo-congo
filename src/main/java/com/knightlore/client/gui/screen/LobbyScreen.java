@@ -13,7 +13,7 @@ import com.knightlore.client.io.Mouse;
 import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.networking.LobbyCache;
 import com.knightlore.client.render.GuiRenderer;
-import com.knightlore.networking.ListGameObject;
+import com.knightlore.networking.server.ListGameObject;
 import java.util.Collection;
 
 /**

@@ -1,4 +1,4 @@
-package com.knightlore.networking;
+package com.knightlore.networking.server;
 
 /**
  * Singular highscore, holds username and score associated

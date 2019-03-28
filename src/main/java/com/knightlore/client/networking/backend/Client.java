@@ -42,7 +42,6 @@ public class Client {
       receiver.start();
 
       this.ready = true;
-      running = true;
     } catch (Exception e) {
       System.out.println("There wan an error establishing the socket connection");
       return false;
@@ -51,15 +50,13 @@ public class Client {
     return true;
   }
 
-  boolean isRunning() {
-    return running;
-  }
 
   public void close() throws IOException {
     // closing resources
-    running = false;
+    receiver.close();
     dis.close();
     dos.close();
     socket.close();
+
   }
 }

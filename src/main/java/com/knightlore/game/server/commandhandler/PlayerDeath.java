@@ -6,8 +6,7 @@ import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.server.ClientHandler;
 import com.knightlore.networking.Sendable;
-
-import java.util.UUID;
+import com.knightlore.server.game.GameRepository;
 
 public class PlayerDeath extends Command {
 
@@ -34,6 +33,8 @@ public class PlayerDeath extends Command {
           handler.model().setState(GameState.FINISHED);
           gameComplete.setFunction("game_complete");
           handler.server().sendToRegistered(gameComplete);
+          System.out.println("GAME COMPLETE");
+          GameRepository.instance.removeServer(handler.server().getUUID());
         }else{
           Sendable levelComplete = new Sendable();
           levelComplete.setFunction("level_complete");
@@ -49,7 +50,7 @@ public class PlayerDeath extends Command {
     Sendable lifeLost = new Sendable();
     lifeLost.setFunction("player_death");
 
-    com.knightlore.networking.PlayerDeath death = new com.knightlore.networking.PlayerDeath(handler.sessionKey.get());
+    com.knightlore.networking.game.PlayerDeath death = new com.knightlore.networking.game.PlayerDeath(handler.sessionKey.get());
     Gson gson = new Gson();
     lifeLost.setData(gson.toJson(death));
 

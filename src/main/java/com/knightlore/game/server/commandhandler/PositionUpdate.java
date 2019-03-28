@@ -10,8 +10,8 @@ public class PositionUpdate extends Command {
     System.out.println("Position changed");
 
     Gson gson = new Gson();
-    com.knightlore.networking.PositionUpdate newPosition =
-        gson.fromJson(sendable.getData(), com.knightlore.networking.PositionUpdate.class);
+    com.knightlore.networking.game.PositionUpdate newPosition =
+        gson.fromJson(sendable.getData(), com.knightlore.networking.game.PositionUpdate.class);
 
     // Update our model to reflect position change
     handler.model().getPlayers().get(newPosition.sessionId).setPosition(newPosition.coordinates);

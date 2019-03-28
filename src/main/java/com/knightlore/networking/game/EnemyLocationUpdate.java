@@ -1,4 +1,4 @@
-package com.knightlore.networking;
+package com.knightlore.networking.game;
 
 import java.util.HashMap;
 

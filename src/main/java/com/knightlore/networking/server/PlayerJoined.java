@@ -1,4 +1,4 @@
-package com.knightlore.networking;
+package com.knightlore.networking.server;
 
 /**
  * Broadcast player joined to others in the lobby

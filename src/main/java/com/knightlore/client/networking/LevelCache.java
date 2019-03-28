@@ -1,9 +1,7 @@
 package com.knightlore.client.networking;
 
-import com.knightlore.networking.ListGameObject;
-import com.knightlore.networking.ListGameResponse;
-import com.knightlore.networking.ListLevelObject;
-import com.knightlore.networking.ListLevelsResponse;
+import com.knightlore.networking.server.ListLevelObject;
+import com.knightlore.networking.server.ListLevelsResponse;
 
 import java.util.Collection;
 import java.util.HashMap;

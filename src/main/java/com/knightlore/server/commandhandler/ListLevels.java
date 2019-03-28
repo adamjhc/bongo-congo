@@ -1,22 +1,13 @@
 package com.knightlore.server.commandhandler;
 
-import com.knightlore.game.Level;
-import com.knightlore.game.server.GameServer;
-import com.knightlore.networking.ListGameResponse;
-import com.knightlore.networking.ListLevelsResponse;
+import com.knightlore.networking.server.ListLevelsResponse;
 import com.knightlore.networking.Sendable;
 import com.knightlore.server.ClientHandler;
-import com.knightlore.server.database.SessionGenerator;
 import com.knightlore.server.database.model.Model;
-import com.knightlore.server.game.GameRepository;
-import com.knightlore.util.Config;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.UUID;
 
 public class ListLevels extends Command{

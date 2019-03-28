@@ -12,7 +12,7 @@ public class PlayerDeath implements GenericHandler {
     System.out.println("Player death detected");
 
     Gson gson = new Gson();
-    com.knightlore.networking.PlayerDeath death = gson.fromJson(sendable.getData(), com.knightlore.networking.PlayerDeath.class);
+    com.knightlore.networking.game.PlayerDeath death = gson.fromJson(sendable.getData(), com.knightlore.networking.game.PlayerDeath.class);
 
     GameConnection.gameModel.getPlayers().get(death.playerID).decrementLives();
   }

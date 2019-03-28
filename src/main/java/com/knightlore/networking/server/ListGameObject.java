@@ -1,4 +1,4 @@
-package com.knightlore.networking;
+package com.knightlore.networking.server;
 
 import java.net.InetAddress;
 import java.util.ArrayList;

@@ -3,7 +3,7 @@ package com.knightlore.client.networking.backend.responsehandlers.server;
 import com.knightlore.client.networking.ServerConnection;
 import com.knightlore.client.networking.backend.responsehandlers.GenericHandler;
 import com.knightlore.networking.Sendable;
-import com.knightlore.networking.SessionKeyResponse;
+import com.knightlore.networking.server.SessionKeyResponse;
 import com.google.gson.Gson;
 
 public class SessionKey implements GenericHandler {

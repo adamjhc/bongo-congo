@@ -3,14 +3,15 @@ package com.knightlore.game.server;
 import com.google.gson.Gson;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.GameState;
-import com.knightlore.networking.GameStart;
+import com.knightlore.networking.game.GameStart;
 import com.knightlore.networking.Sendable;
+import com.knightlore.server.GameServerSupervisor;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -176,7 +177,6 @@ public class GameServer extends Thread {
       // Close client
       client.close();
     }
-
     running = false;
     this.interrupt();
   }

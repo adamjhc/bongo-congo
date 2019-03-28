@@ -1,4 +1,4 @@
-package com.knightlore.networking;
+package com.knightlore.networking.game;
 
 import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.EnemyState;

@@ -91,13 +91,13 @@ public class LevelSelectMenu extends Gui {
     this.congo = new TextObject("Congo", TITLE);
     this.congo.setColour(Colour.RED);
 
-    this.selectLevel = new TextObject("Select 3 Levels", SMALL);
+    this.selectLevel = new TextObject("Select levels to play", SMALL);
     this.selectLevel.setColour(Colour.YELLOW);
 
-    this.separatorTop = new TextObject("-------------------", SMALL);
+    this.separatorTop = new TextObject("---------------------", SMALL);
     this.separatorTop.setColour(Colour.YELLOW);
 
-    this.separatorBottom = new TextObject("-------------------", SMALL);
+    this.separatorBottom = new TextObject("---------------------", SMALL);
     this.separatorBottom.setColour(Colour.YELLOW);
 
     this.start = new TextObject("Start", SMALL);

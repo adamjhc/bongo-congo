@@ -26,7 +26,6 @@ public class EditorTileGameObjectSet {
     tileSet.add(new TileGameObject(TileType.SPAWN_WALKER, "walkerSpawner"));
     tileSet.add(new TileGameObject(TileType.SPAWN_RANDOMER, "randomerSpawner"));
     tileSet.add(new TileGameObject(TileType.SPAWN_CIRCLER, "circlerSpawner"));
-    tileSet.add(new TileGameObject(TileType.SPAWN_CHARGER, "chargerSpawner"));
   }
 
   /**

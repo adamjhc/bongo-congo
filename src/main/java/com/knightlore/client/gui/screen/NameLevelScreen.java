@@ -70,6 +70,11 @@ import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import org.joml.Vector4f;
 
+/**
+ * The screen for naming and saving an edited level
+ * @author Adam W
+ *
+ */
 public class NameLevelScreen implements IScreen {
 
   /** Audio clip name for selection */
@@ -139,15 +144,17 @@ public class NameLevelScreen implements IScreen {
 
   /**
    * Initialise NameLevelScreen
-   *
    * @param guiRenderer renderer used for rendering gui elements
+   * @author Adam W
    */
   public NameLevelScreen(GuiRenderer guiRenderer) {
     this.guiRenderer = guiRenderer;
     this.nameLevelUi = new NameLevel();
   }
 
-  /** Method to set up the screen with the level being saved */
+  /** Method to set up the screen with the level being saved 
+   * @author Adam W
+   */
   @Override
   public void startup(Object... args) {
     level = (LevelMap) args[0];
@@ -157,7 +164,9 @@ public class NameLevelScreen implements IScreen {
     } else nameLevelUi.removePublish();
   }
 
-  /** Method to process user keyboard input and clicking on menu items */
+  /** Method to process user keyboard input and clicking on menu items 
+   * @author Adam W
+   */
   @Override
   public void input() {
     int lastKey = Keyboard.getKeyCode();
@@ -229,14 +238,18 @@ public class NameLevelScreen implements IScreen {
     } else nameLevelUi.getPublish().setColour(new Vector4f(1, 1, 0, 1));
   }
 
-  /** Method to render the GUI */
+  /** Method to render the GUI 
+   * @author Adam W
+   */
   @Override
   public void render() {
     nameLevelUi.updateSize();
     guiRenderer.render(nameLevelUi);
   }
 
-  /** Method to clean up the GUI */
+  /** Method to clean up the GUI
+   * @author Adam W
+   */
   @Override
   public void cleanUp() {
     nameLevelUi.cleanup();
@@ -244,9 +257,9 @@ public class NameLevelScreen implements IScreen {
 
   /**
    * Method to save the level being named to a file
-   *
    * @param name The name of the level
    * @throws IOException Thrown when the file path can't be found
+   * @author Adam W
    */
   private void save(String name) throws IOException {
     String filePath = "customMaps/";
@@ -271,8 +284,8 @@ public class NameLevelScreen implements IScreen {
 
   /**
    * Attempt to connect to server
-   *
    * @return boolean whether connection was successful
+   * @author Adam W
    */
   private boolean connectToServer() {
     Client.showLoadingScreen();

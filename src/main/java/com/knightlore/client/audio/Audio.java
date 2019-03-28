@@ -1,5 +1,10 @@
 package com.knightlore.client.audio;
 
+/**
+ * The source of all audio played during the game
+ * @author Adam W, Joseph
+ *
+ */
 public class Audio {
 
   /**
@@ -67,10 +72,15 @@ public class Audio {
    */
   private static int currentMusic;
 
+  /**
+   * Default constructor
+   * @author Joseph
+   */
   private Audio() {}
 
   /**
    * Method to retrieve all the audio files and choose the initial music
+   * author Adam W
    */
   public static void init() {
     try {
@@ -148,6 +158,7 @@ public class Audio {
   /**
    * Method to get whether music has been muted or not
    * @return Whether music has been muted or not
+   * @author Adam W
    */
   public static boolean isOn() {
     return isOn;
@@ -156,6 +167,7 @@ public class Audio {
   /**
    * Method to get the current music being played
    * @return The MusicPlayer for the current music being played
+   * @author Adam W
    */
   public static AudioName getCurrentMusic() {
 	  return AudioName.values()[currentMusic];
@@ -164,6 +176,7 @@ public class Audio {
   /**
    * Method to play a given audio file
    * @param file The name of the file to be played
+   * @author Adam W
    */
   public static void play(AudioName file) {
     if (isOn) {
@@ -180,6 +193,7 @@ public class Audio {
   /**
    * Method to stop a given audio file
    * @param file The name of the file to be played
+   * @author Adam W
    */
   public static void stop(AudioName file) {
 	  if (audioFiles[file.ordinal()].isPlaying()) {
@@ -189,6 +203,7 @@ public class Audio {
 
   /**
    * Method to close any unused audio clips so that they can be played again
+   * @author Adam W
    */
   public static void closeInactiveClips() {
     for (MusicPlayer audioFile : audioFiles) {
@@ -200,6 +215,7 @@ public class Audio {
 
   /**
    * Method to toggle whether music is muted or not
+   * @author Adam W
    */
   public static void toggle() {
     isOn = !isOn;
@@ -212,6 +228,7 @@ public class Audio {
 
   /**
    * Method to restart the current music
+   * @author Joseph
    */
   public static void restart() {
     if (isOn) {
@@ -222,6 +239,7 @@ public class Audio {
 
   /**
    * Method to increment the volume for all audio files
+   * @author Joseph
    */
   public static void incVolume() {
 	for (MusicPlayer audioFile : audioFiles) {
@@ -231,6 +249,7 @@ public class Audio {
 
   /**
    * Method to decrement the volume for all audio files
+   * @author Joseph
    */
   public static void decVolume() {
 	for (MusicPlayer audioFile : audioFiles) {
@@ -240,7 +259,7 @@ public class Audio {
 
   /**
    * The names of all the audio files in use
-   * @author GreenMario
+   * @author Adam W
    *
    */
   public enum AudioName {

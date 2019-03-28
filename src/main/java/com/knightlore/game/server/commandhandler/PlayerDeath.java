@@ -38,9 +38,9 @@ public class PlayerDeath extends Command {
           Sendable levelComplete = new Sendable();
           levelComplete.setFunction("level_complete");
           handler.server().sendToRegistered(levelComplete);
-        }
 
-        handler.model().incrementLevel();
+          handler.model().nextLevel();
+        }
       }
     }
 

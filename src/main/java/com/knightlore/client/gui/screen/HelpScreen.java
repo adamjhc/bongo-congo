@@ -15,6 +15,7 @@ import com.knightlore.client.io.Mouse;
 import com.knightlore.client.render.GuiRenderer;
 
 /**
+ * Screen for displaying general game controls
  * @author Adam W
  */
 public class HelpScreen implements IScreen {

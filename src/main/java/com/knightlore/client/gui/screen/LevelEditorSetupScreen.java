@@ -15,6 +15,11 @@ import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.game.map.LevelMap;
 import org.joml.Vector4f;
 
+/**
+ * Screen to choose the inital paramaters for a new level to edit
+ * @author Adam W
+ *
+ */
 public class LevelEditorSetupScreen implements IScreen {
 
   /** The sound that plays when the users selects a menu item */
@@ -28,15 +33,17 @@ public class LevelEditorSetupScreen implements IScreen {
 
   /**
    * Initialise LevelEditorSetupScreen
-   *
    * @param guiRenderer renderer used to render gui elements
+   * @author Adam W
    */
   public LevelEditorSetupScreen(GuiRenderer guiRenderer) {
     this.guiRenderer = guiRenderer;
     preLevelEditor = new PreLevelEditor();
   }
 
-  /** Method to process the user clicking on menu items */
+  /** Method to process the user clicking on menu items
+   * @author Adam W
+   */
   @Override
   public void input() {
     if (checkPosition(preLevelEditor, preLevelEditor.getWLeft().getId())) {
@@ -132,7 +139,9 @@ public class LevelEditorSetupScreen implements IScreen {
     guiRenderer.render(preLevelEditor);
   }
 
-  /** Method to cleanup the GUI */
+  /** Method to cleanup the GUI 
+   * @author Adam W
+   */
   @Override
   public void cleanUp() {
     preLevelEditor.cleanup();
@@ -145,6 +154,7 @@ public class LevelEditorSetupScreen implements IScreen {
    * @param length The length of the level
    * @param height The height of the level
    * @return A new LevelMap with only floor tiles on the bottom layer and empty tiles on all others
+   * @author Adam W
    */
   private LevelMap initialiseMap(int width, int length, int height) {
     int[][][] emptyMap = new int[height][length][width];

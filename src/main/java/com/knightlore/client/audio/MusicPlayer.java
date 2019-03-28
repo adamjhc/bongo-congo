@@ -9,6 +9,11 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+/**
+ * Individual object for one audio source
+ * @author Adam W, Joseph
+ *
+ */
 class MusicPlayer {
 
   /**
@@ -48,6 +53,7 @@ class MusicPlayer {
    * @throws UnsupportedAudioFileException When the given audio file isn't of the correct file type
    * @throws IOException When the given audio file can't be found
    * @throws LineUnavailableException When the line hasn't been closed but the audio is trying to play anyway
+   * @author Adam W
    */
   MusicPlayer(String file, boolean shouldLoop)
       throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -71,6 +77,7 @@ class MusicPlayer {
    * @throws UnsupportedAudioFileException When this audio file is of the wrong type
    * @throws IOException When this audio file can't be found
    * @throws LineUnavailableException When this audio file can't be played on this line
+   * @author Adam W
    */
   void play() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
     if (!this.isPlaying()) {
@@ -84,6 +91,7 @@ class MusicPlayer {
 
   /**
    * Method to stop this audio file
+   * @author Adam W
    */
   void stop() {
     this.clip.stop();
@@ -93,6 +101,7 @@ class MusicPlayer {
   /**
    * Method to get whether or not this audio file should repeat
    * @return Whether this audio file should loop
+   * @author Adam W
    */
   boolean shouldLoop() {
 	  return this.loops;
@@ -100,6 +109,7 @@ class MusicPlayer {
 
   /**
    * Method to increase of the volume of this audio file
+   * @author Joseph
    */
   void incVolume() {
     float prev = gainControl.getValue();
@@ -109,6 +119,7 @@ class MusicPlayer {
 
   /**
    * Method to decrease the volume of this audio file
+   * @author Joseph
    */
   void decVolume() {
     float prev = gainControl.getValue();
@@ -119,6 +130,7 @@ class MusicPlayer {
   /**
    * Method to get whether or not this audio file is currently playing
    * @return Whether or not this audio file is currently playing
+   * @author Adam W
    */
   boolean isPlaying() {
     return this.clip.isActive();
@@ -129,6 +141,7 @@ class MusicPlayer {
    * @throws UnsupportedAudioFileException When this audio file is of the wrong type
    * @throws IOException When this audio file cannot be found
    * @throws LineUnavailableException When the line this audio file uses is already in use
+   * @author Adam W
    */
   private void resetStream()
       throws UnsupportedAudioFileException, IOException, LineUnavailableException {

@@ -16,4 +16,5 @@ public enum ClientState {
   END,
   SHOW_ERROR,
   HIGHSCORE,
+  HELP
 }

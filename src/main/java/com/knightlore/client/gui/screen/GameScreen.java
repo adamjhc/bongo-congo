@@ -29,11 +29,7 @@ import com.knightlore.game.server.GameServer;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -230,7 +226,7 @@ public class GameScreen implements IScreen {
 
     hud.getScore(playerIndex).setColour(gameModel.myPlayer().getColour());
 
-    Map<String, Player> players = new HashMap<>(gameModel.getPlayers());
+    Map<String, Player> players = new LinkedHashMap<>(gameModel.getPlayers());
     if (GameConnection.instance == null) {
       players.remove("1");
     } else {

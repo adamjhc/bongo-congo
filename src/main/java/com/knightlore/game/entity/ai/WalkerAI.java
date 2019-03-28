@@ -5,7 +5,7 @@ import org.joml.Vector3f;
 
 /**
  * Determines the behaviour of the 'Walker' enemy in-game.
- * @author Jacqui
+ * @author Jacqui Henes
  */
 public class WalkerAI {
 

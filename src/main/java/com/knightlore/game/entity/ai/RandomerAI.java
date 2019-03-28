@@ -6,7 +6,7 @@ import com.knightlore.game.entity.Direction;
 
 /**
  * Determines the 'Randomer' enemy behaviour
- * @author Jacqui
+ * @author Jacqui Henes
  */
 public class RandomerAI {
 
@@ -23,7 +23,8 @@ public class RandomerAI {
   }
 
   /**
-   *
+   * For a randomly selected amount of game updates, move forward, and then
+   * switch to a 
    * @param direction Current enemy direction
    * @return Direction to be moved in (may be the same!)
    */

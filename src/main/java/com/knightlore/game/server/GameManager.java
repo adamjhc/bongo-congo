@@ -51,8 +51,6 @@ public class GameManager extends Thread {
 //
 //        server.sendToRegistered(sendable);
       }
-
-
     }
   }
 }

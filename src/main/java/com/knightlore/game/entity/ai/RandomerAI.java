@@ -19,7 +19,7 @@ public class RandomerAI {
   }
 
 
-  public Direction pathfind(Vector3f current, float delta, float speed, Direction direction) {
+  public Direction pathfind(Direction direction) {
     if (accumulator >= distance) {
       direction = direction.getRandom();
       genDistance();

@@ -21,7 +21,7 @@ public class RandomerAI {
 
   public Direction pathfind(Direction direction) {
     if (accumulator >= distance) {
-      direction = direction.getRandom();
+      direction = Direction.getRandom();
       genDistance();
       accumulator = 0;
     } else {

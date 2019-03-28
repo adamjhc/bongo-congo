@@ -70,10 +70,10 @@ public class HelpMenu extends Gui {
     this.congo = new TextObject("Congo", TITLE);
     this.congo.setColour(Colour.RED);
 
-    this.separatorTop = new TextObject("------------------------------", SMALL);
+    this.separatorTop = new TextObject("--------------------------------------------------", SMALL);
     this.separatorTop.setColour(Colour.YELLOW);
 
-    this.separatorBot = new TextObject("------------------------------", SMALL);
+    this.separatorBot = new TextObject("--------------------------------------------------", SMALL);
     this.separatorBot.setColour(Colour.YELLOW);
 
     this.move = new TextObject("WASD : Move", SMALL);

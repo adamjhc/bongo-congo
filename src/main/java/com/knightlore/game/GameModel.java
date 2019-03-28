@@ -10,6 +10,7 @@ import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.util.CoordinateUtils;
+import com.knightlore.game.util.CoordinateUtils.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -117,6 +118,7 @@ public class GameModel {
    * Main method called by the game loop that updates the model
    * @param delta Time elapsed since last client update
    * @param playerInputDirection User input direction
+   * @author Jacqui Henes
    */
   public void clientUpdate(float delta, Direction playerInputDirection) {
     if (currentState == GameState.NEXT_LEVEL) {
@@ -129,7 +131,8 @@ public class GameModel {
     }
 
     // Checks if player has reached the goal
-    if (getTileIndex(myPlayer().getPosition()) == 5 && myPlayer().getPlayerState() != PlayerState.FINISHED) {
+    if (CoordinateUtils.getTileIndex(getCurrentLevel(), myPlayer().getPosition()) == 5
+            && myPlayer().getPlayerState() != PlayerState.FINISHED) {
       myPlayer().addToScore(10000);
       myPlayer().setPlayerState(PlayerState.FINISHED);
 
@@ -210,7 +213,7 @@ public class GameModel {
     }
 
     // Checks for hazard collisions
-    if (getTileIndex(myPlayer().getPosition()) == 4
+    if (CoordinateUtils.getTileIndex(getCurrentLevel(), myPlayer().getPosition()) == 4
             && myPlayer().getPlayerState() != PlayerState.ROLLING
             && myPlayer().getPlayerState() != PlayerState.DEAD
             && myPlayer().getPlayerState() != PlayerState.FALLING) {
@@ -307,7 +310,6 @@ public class GameModel {
 
   /**
    * Decrements the cooldown for Player rolling
-   *
    * @author Jacqui Henes
    */
   private void rollCountdown() {
@@ -326,13 +328,16 @@ public class GameModel {
     this.currentLevelIndex++;
   }
 
-  public Vector3f roundZ(Vector3f pos) {
+  /**
+   * Rounds the z value to nearest float
+   * @param pos Position to be rounded
+   * @return rounded position
+   * @author Jacqui Henes
+   */
+  private Vector3f roundZ(Vector3f pos) {
     Vector3f rounded = new Vector3f(pos);
     rounded.z = round(pos.z);
     return rounded;
   }
 
-  public int getTileIndex(Vector3f coords) {
-    return getCurrentLevel().getLevelMap().getTile(CoordinateUtils.getTileCoord(coords)).getIndex();
-  }
 }

@@ -4,6 +4,9 @@ import com.knightlore.client.render.world.TileGameObject;
 import java.util.Random;
 import org.joml.Vector3f;
 
+import java.util.Random;
+import org.joml.Vector3f;
+
 public enum Direction {
   /** Positive in x */
   NORTH("n"),
@@ -102,6 +105,14 @@ public enum Direction {
   public Vector3f getNormalisedDirection() {
     return normalisedDirection;
   }
+
+  /**
+   * Get the reverse direction
+   *
+   * @return reverse direction
+   * @author Adam Cox
+   */
+  public Direction getReverse(Direction dir) { return opposite; }
 
   /**
    * Get the reverse direction

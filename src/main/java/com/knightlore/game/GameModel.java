@@ -1,6 +1,5 @@
 package com.knightlore.game;
 
-import static org.joml.Math.round;
 
 import com.knightlore.client.audio.Audio;
 import com.knightlore.client.gui.engine.Colour;
@@ -16,10 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
-import com.knightlore.game.util.CoordinateUtils;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+import static org.joml.Math.round;
 
 public class GameModel {
 
@@ -115,17 +113,23 @@ public class GameModel {
     currentLevelIndex++;
   }
 
+  /**
+   * Main method called by the game loop that updates the model
+   * @param delta Time elapsed since last client update
+   * @param playerInputDirection User input direction
+   */
   public void clientUpdate(float delta, Direction playerInputDirection) {
     if (currentState == GameState.NEXT_LEVEL) {
       currentState = GameState.PLAYING;
     }
 
+    // Decrements roll cooldown on each game update
     if (myPlayer().getPlayerState() != PlayerState.ROLLING) {
       rollCountdown();
     }
 
-
-    if (getTileIndex(myPlayer().getPosition()) == 5 && myPlayer().getPlayerState() != PlayerState.FINISHED) { // Checks for goal
+    // Checks if player has reached the goal
+    if (getTileIndex(myPlayer().getPosition()) == 5 && myPlayer().getPlayerState() != PlayerState.FINISHED) {
       myPlayer().addToScore(10000);
       myPlayer().setPlayerState(PlayerState.FINISHED);
 
@@ -135,7 +139,7 @@ public class GameModel {
       }
     }
 
-    // Player updates
+    // Player state updates
     switch (myPlayer().getPlayerState()) {
       case IDLE:
         if (playerInputDirection != null) {
@@ -204,6 +208,8 @@ public class GameModel {
       case DEAD:
         break;
     }
+
+    // Checks for hazard collisions
     if (getTileIndex(myPlayer().getPosition()) == 4
             && myPlayer().getPlayerState() != PlayerState.ROLLING
             && myPlayer().getPlayerState() != PlayerState.DEAD
@@ -213,6 +219,7 @@ public class GameModel {
       myPlayer().loseLife();
     }
 
+    // Checks for enemy collisions
     List<Enemy> enemies = getCurrentLevel().getEnemies();
     for (Enemy enemy : enemies) {
       if (myPlayer().getPlayerState() != PlayerState.ROLLING
@@ -222,9 +229,16 @@ public class GameModel {
         myPlayer().loseLife();
       }
     }
+
+    // Resets climb flag
     myPlayer().setClimbFlag(false);
   }
 
+  /**
+   * Update all enemies currently in the map.
+   * @param delta Time elapsed since last server update
+   * @author Jacqui Henes
+   */
   public void serverUpdate(float delta) {
     List<Enemy> enemies = getCurrentLevel().getEnemies();
     for (Enemy enemy : enemies) {

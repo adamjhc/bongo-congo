@@ -27,24 +27,24 @@ public class GameEnd extends Gui {
 
   /** Bongo text */
   private final TextObject bongo;
+  
   /** Congo text */
   private final TextObject congo;
+  
   /** Exit screen text */
   private final TextObject exit;
+  
   /** Top separator line text */
   private final TextObject separatorTop;
+  
   /** Bottom separator line text */
   private final TextObject separatorBot;
+  
   /** Game winner text */
   private final TextObject winner;
+  
   /** Length of gui objects initially */
   private int length;
-  
-  /** List of all the gui objects */
-  private GuiObject[] guiObjects;
-  /** List of the text objects that have user interaction */
-  private TextObject[] textObjects;
-
 
   /**
    * Create gui objects

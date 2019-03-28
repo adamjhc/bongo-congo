@@ -1,15 +1,15 @@
 package com.knightlore.client.gui;
 
 import com.knightlore.client.gui.engine.Colour;
+import com.knightlore.client.gui.engine.Gui;
 import com.knightlore.client.gui.engine.GuiObject;
-import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Window;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class HighScore implements IGui {
+public class HighScore extends Gui {
 
   /** The position in the window of the top --------------- */
   private static final int SEPARATOR_TOP_POS = 185;
@@ -67,12 +67,6 @@ public class HighScore implements IGui {
 
   /** The TextObject for the "<" icon */
   private TextObject lastPage;
-
-  /** The list of all the TextObjects that a user can click on */
-  private TextObject[] textObjects;
-
-  /** The list of all the GuiObjects in this UI */
-  private GuiObject[] guiObjects;
 
   public HighScore() {
     this.bongo = new TextObject("Bongo", TITLE);
@@ -144,7 +138,6 @@ public class HighScore implements IGui {
     } else {
       pageCount = highScores.length / 12 + 1;
     }
-    System.out.println(highScores.length);
   }
 
   /** Method to increment the start pointer of the list of highscore */
@@ -228,15 +221,5 @@ public class HighScore implements IGui {
 
     guiObjects = tempG.toArray(setGuiObjects);
     textObjects = tempT.toArray(setTextObjects);
-  }
-  
-  @Override
-  public TextObject[] getTextObjects() {
-    return textObjects;
-  }
-
-  @Override
-  public GuiObject[] getGuiObjects() {
-    return guiObjects;
   }
 }

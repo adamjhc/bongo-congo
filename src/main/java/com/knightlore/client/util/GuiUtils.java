@@ -8,16 +8,16 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.knightlore.client.gui.engine.IGui;
+import com.knightlore.client.gui.engine.Gui;
 import com.knightlore.client.io.Mouse;
 
 public class GuiUtils {
 	
-	public static boolean checkPosition(IGui gui, String textObject) {
+	public static boolean checkPosition(Gui gui, String textObject) {
 		return checkPosition(gui, textObject, "");
 	}
 
-  public static boolean checkPosition(IGui gui, String textObject, String textObjectLower) {
+  public static boolean checkPosition(Gui gui, String textObject, String textObjectLower) {
     int objectIndex = -1;
     int objectIndexLower = -1;
     for (int i = 0; i < gui.getTextObjects().length; i++) {

@@ -261,15 +261,6 @@ public class LevelEditorScreen implements IScreen {
       }
     } else levelEditorHud.getCircler().setColour(new Vector4f(1, 1, 0, 1));
 
-    if (checkPosition(levelEditorHud, levelEditorHud.getCharger().getId(), "")) {
-      levelEditorHud.getCharger().setColour();
-      if (Mouse.isLeftButtonPressed()) {
-        Audio.play(SELECT);
-        editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
-            TileType.values()[9]);
-      }
-    } else levelEditorHud.getCharger().setColour(new Vector4f(1, 1, 0, 1));
-
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU, false);
       return;

@@ -96,8 +96,7 @@ public class TileGameObject extends GameObject {
     return  tileType == TileType.FLOOR ||
     		tileType == TileType.SPAWN_WALKER ||
     		tileType == TileType.SPAWN_RANDOMER ||
-    		tileType == TileType.SPAWN_CIRCLER ||
-    		tileType == TileType.SPAWN_CHARGER;
+    		tileType == TileType.SPAWN_CIRCLER;
   }
 
   /**

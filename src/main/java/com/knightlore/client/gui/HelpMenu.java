@@ -6,6 +6,11 @@ import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Window;
 
+/**
+ * 
+ * @author Adam W
+ *
+ */
 public class HelpMenu implements IGui {
 	
 	/** Position of the top separator line */
@@ -38,11 +43,15 @@ public class HelpMenu implements IGui {
 	private TextObject seeMore;
 	/** left shit text pt II */
 	private TextObject moreSeeMore;
-	
+	/** list of all clickable textObjects */
 	private TextObject[] textObjects;
-	
+	/** list of all displayed guiobjects */
 	private GuiObject[] guiObjects;
 	
+	/**
+	 * Initialises all text objects
+	 * @author Adam W
+	 */
 	public HelpMenu() {
 		
 		this.help = new TextObject("Help", SMALL);
@@ -85,20 +94,39 @@ public class HelpMenu implements IGui {
 	    guiObjects = new GuiObject[] {help, exit, bongo, congo, separatorTop, separatorBot, move, climb, roll, escape, seeMore, moreSeeMore};
 	}
 	
+	/**
+	 * Gets exit
+	 * @return exit
+	 * @author Adam W
+	 */
 	public TextObject getExit() {
 		return exit;
 	}
 
+	/**
+	 * gets all clickable text objects
+	 * @return all clickable text objects
+	 * @author Adam W
+	 */
 	@Override
 	public TextObject[] getTextObjects() {
 		return textObjects;
 	}
 
+	/**
+	 * gets all displayed gui objects
+	 * @return all displayed guiobjects
+	 * @author Adam W
+	 */
 	@Override
 	public GuiObject[] getGuiObjects() {
 		return guiObjects;
 	}
 	
+	/**
+	 * updates position of all text objects on screen
+	 * @author Adam W
+	 */
 	public void updateSize() {
 		this.bongo.setPosition(
 		     Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);

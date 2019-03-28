@@ -52,8 +52,6 @@ public class LevelEditorHud implements IGui {
   private final TextObject randomer;
   /** Circler text */
   private final TextObject circler;
-  /** Charger text */
-  private final TextObject charger;
   /** Spawners text */
   private final TextObject spawners;
   /** wasd text*/
@@ -135,9 +133,6 @@ public class LevelEditorHud implements IGui {
     this.circler = new TextObject("Circler", fontTextureSmall);
     this.circler.setColour(Colour.YELLOW);
     
-    this.charger = new TextObject("Charger", fontTextureSmall);
-    this.charger.setColour(Colour.YELLOW);
-    
     this.spawners = new TextObject("Spawners", fontTextureMedium);
     this.spawners.setColour(Colour.YELLOW);
     
@@ -175,8 +170,7 @@ public class LevelEditorHud implements IGui {
     							  finish, 
     							  walker, 
     							  randomer, 
-    							  circler, 
-    							  charger, 
+    							  circler,  
     							  spawners, 
     							  hDivider, 
     							  controls,
@@ -186,7 +180,7 @@ public class LevelEditorHud implements IGui {
     							  rotateLeftRight, 
     							  moveCamera,
     							  testLevel};
-    textObjects = new TextObject[] {save, empty, floor, slab, block, hazard, finish, walker, randomer, circler, charger};
+    textObjects = new TextObject[] {save, empty, floor, slab, block, hazard, finish, walker, randomer, circler};
     controlTextObjects = new TextObject[] {controls, selectTile, upDownLayer, zoomInOut, rotateLeftRight, moveCamera, testLevel};
     
     controls.setPosition(CONTROLS_HIDE, CONTROLS_SIDE_GAP);
@@ -363,17 +357,6 @@ public class LevelEditorHud implements IGui {
   }
   
   /**
-   * Return charger
-   * 
-   * @return Charger
-   * @author Adam W
-   * 
-   */
-  public TextObject getCharger() {
-	  return charger;
-  }
-  
-  /**
    * Updates the position of the gui objects
    * 
    * @author Adam W
@@ -391,8 +374,7 @@ public class LevelEditorHud implements IGui {
 	  this.finish.setPosition(Window.getWidth()/2-finish.getSize()-GAP*5, Window.getHeight()-finish.getHeight()-GAP*2);
 	  this.walker.setPosition(Window.getWidth()/2-walker.getSize()+GAP*8, Window.getHeight()-walker.getHeight()-GAP*5);
 	  this.randomer.setPosition(Window.getWidth()/2-randomer.getSize()+GAP*16, Window.getHeight()-randomer.getHeight()-GAP*5);
-	  this.circler.setPosition(Window.getWidth()/2-circler.getSize()+GAP*8, Window.getHeight()-circler.getHeight()-GAP*3);
-	  this.charger.setPosition(Window.getWidth()/2-charger.getSize()+GAP*16, Window.getHeight()-charger.getHeight()-GAP*3);
+	  this.circler.setPosition(Window.getWidth()/2-circler.getSize()+GAP*12, Window.getHeight()-circler.getHeight()-GAP*3);
 	  this.hDivider.setPosition(Window.getWidth()/2-hDivider.getSize()/2, Window.getHeight()-hDivider.getHeight()-GAP*7);
 	  
 	  for (int i = 0; i < 8; i++) {

@@ -12,6 +12,7 @@ import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.util.CoordinateUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -44,7 +45,7 @@ public class GameModel {
     levels = new ArrayList<>();
     currentLevelIndex = 0;
 
-    players = new HashMap<>();
+    players = new LinkedHashMap<>();
     playerIdInc = 0;
     playerColours = new ArrayList<>();
     playerColours.add(Colour.BLUE);

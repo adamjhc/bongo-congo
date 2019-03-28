@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -228,8 +229,9 @@ public class GameScreen implements IScreen {
     hud.setScore(playerIndex, score, Integer.toString(gameModel.myPlayer().getId()));
 
     hud.getScore(playerIndex).setColour(gameModel.myPlayer().getColour());
+    System.err.println(gameModel.myPlayer().getColour());
 
-    Map<String, Player> players = new HashMap<>(gameModel.getPlayers());
+    Map<String, Player> players = new LinkedHashMap<>(gameModel.getPlayers());
     if (GameConnection.instance == null) {
       players.remove("1");
     } else {

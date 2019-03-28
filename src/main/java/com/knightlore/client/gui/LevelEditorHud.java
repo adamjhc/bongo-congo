@@ -72,6 +72,14 @@ public class LevelEditorHud implements IGui {
   private final TextObject[] vDivider;
   /** Gui horizontal divider */
   private final TextObject hDivider;
+  /** time text */
+  private final TextObject time;
+  /** the actual time text*/
+  private final TextObject timeNum;
+  /** the incrementer for the time */
+  private final TextObject inc;
+  /** the decrementer for the time */
+  private final TextObject dec;
 
   /** List of the text objects that have user interaction */
   private TextObject[] textObjects;
@@ -79,6 +87,9 @@ public class LevelEditorHud implements IGui {
   private GuiObject[] guiObjects;
   
   private TextObject[] controlTextObjects;
+  
+  /** the actual time integer */
+  private int timeInt;
 
   /**
    * Create gui objects
@@ -87,6 +98,8 @@ public class LevelEditorHud implements IGui {
    * 
    */
   public LevelEditorHud() {
+	timeInt = 60;
+	  
     try (InputStream myStream =
         new BufferedInputStream(
             new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"))) {
@@ -159,6 +172,18 @@ public class LevelEditorHud implements IGui {
     
     this.testLevel = new TextObject("Enter : Test Level", fontTextureSmall);
     this.testLevel.setColour(Colour.YELLOW);
+    
+    this.time = new TextObject("Timer", fontTextureSmall);
+    this.time.setColour(Colour.YELLOW);
+    
+    this.timeNum = new TextObject("" + timeInt, fontTextureLarge);
+    this.timeNum.setColour(Colour.YELLOW);
+    
+    this.inc = new TextObject(">", fontTextureLarge);
+    this.inc.setColour(Colour.YELLOW);
+    
+    this.dec = new TextObject("<", fontTextureLarge);
+    this.dec.setColour(Colour.YELLOW);
 
     guiObjects = new GuiObject[] {save, 
     							  tiles, 
@@ -179,9 +204,13 @@ public class LevelEditorHud implements IGui {
     							  zoomInOut, 
     							  rotateLeftRight, 
     							  moveCamera,
-    							  testLevel};
-    textObjects = new TextObject[] {save, empty, floor, slab, block, hazard, finish, walker, randomer, circler};
-    controlTextObjects = new TextObject[] {controls, selectTile, upDownLayer, zoomInOut, rotateLeftRight, moveCamera, testLevel};
+    							  testLevel,
+    							  time,
+    							  timeNum,
+    							  inc,
+    							  dec};
+    textObjects = new TextObject[] {save, empty, floor, slab, block, hazard, finish, walker, randomer, circler, inc, dec};
+    controlTextObjects = new TextObject[] {controls, selectTile, upDownLayer, zoomInOut, rotateLeftRight, moveCamera, testLevel, time, timeNum, inc, dec};
     
     controls.setPosition(CONTROLS_HIDE, CONTROLS_SIDE_GAP);
     selectTile.setPosition(CONTROLS_HIDE, CONTROLS_SIDE_GAP + GAP * 1.75f);
@@ -266,6 +295,30 @@ public class LevelEditorHud implements IGui {
    */
   public TextObject getEmpty() {
 	  return empty;
+  }
+  
+  public TextObject getInc() {
+	  return inc;
+  }
+  
+  public TextObject getDec() {
+	  return dec;
+  }
+  
+  public void incTime() {
+	  if (timeInt < 180) {
+		  timeInt += 1;
+	  } else {
+		  timeInt = 0;
+	  }
+  }
+  
+  public void decTime() {
+	  if (timeInt > 0) {
+		  timeInt -= 1;
+	  } else {
+		  timeInt = 180;
+	  }
   }
   
   /**
@@ -376,6 +429,12 @@ public class LevelEditorHud implements IGui {
 	  this.randomer.setPosition(Window.getWidth()/2-randomer.getSize()+GAP*16, Window.getHeight()-randomer.getHeight()-GAP*5);
 	  this.circler.setPosition(Window.getWidth()/2-circler.getSize()+GAP*12, Window.getHeight()-circler.getHeight()-GAP*3);
 	  this.hDivider.setPosition(Window.getWidth()/2-hDivider.getSize()/2, Window.getHeight()-hDivider.getHeight()-GAP*7);
+	  
+	  this.time.setPosition(controls.getPositionX() + (0-CONTROLS_HIDE) + 35, controls.getPositionY());
+	  this.timeNum.setPosition(time.getPositionX() + time.getSize()/2 - timeNum.getSize()/2, time.getPositionY() + GAP);
+	  this.timeNum.setText("" + timeInt);
+	  this.inc.setPosition(time.getPositionX() + time.getSize() + inc.getSize()*0.3f, timeNum.getPositionY());
+	  this.dec.setPosition(time.getPositionX() - dec.getSize(), timeNum.getPositionY());
 	  
 	  for (int i = 0; i < 8; i++) {
 		  this.vDivider[i].setPosition(Window.getHalfWidth()-vDivider[i].getSize()/2, Window.getHeight()-vDivider[i].getHeight()-GAP*i);

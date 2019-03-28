@@ -6,6 +6,8 @@ import org.joml.Vector3i;
 
 public class LevelMap {
   private Tile[][][] tiles;
+  
+  private int time;
 
   private Vector3i size;
 
@@ -14,6 +16,7 @@ public class LevelMap {
   public LevelMap(int[][][] tiles) {
     this.tiles = new Tile[tiles.length][tiles[0].length][tiles[0][0].length];
     this.rotation = 0;
+    this.time = 60;
 
     TileSet tileSet = new TileSet();
 
@@ -30,6 +33,14 @@ public class LevelMap {
 
   public Tile[][][] getTiles() {
     return tiles;
+  }
+  
+  public void setTime(int t) {
+	  time = t;
+  }
+  
+  public int getTime() {
+	  return time;
   }
 
   public Tile getTile(Vector3i location) {

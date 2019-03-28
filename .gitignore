@@ -504,4 +504,7 @@ TSWLatexianTemp*
 # glossaries
 *.glstex
 
+### Extra ###
+.env
+
 # End of https://www.gitignore.io/api/linux,macos,gradle,windows,eclipse,intellij,latex

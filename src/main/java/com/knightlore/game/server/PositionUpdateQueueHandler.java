@@ -12,16 +12,18 @@ public class PositionUpdateQueueHandler extends Thread{
 
     PositionUpdateQueue queue;
     GameServer server;
+    boolean running;
 
     public PositionUpdateQueueHandler(PositionUpdateQueue queue, GameServer server){
         this.server = server;
         this.queue = queue;
+        this.running = true;
     }
 
     @Override
     public void run(){
         Gson gson = new Gson();
-        while(true){
+        while(running){
             System.out.println("Relaying");
 
             Sendable sendable = new Sendable();
@@ -41,5 +43,10 @@ public class PositionUpdateQueueHandler extends Thread{
             }
 
         }
+    }
+
+    public void close(){
+        this.running = false;
+        this.interrupt();
     }
 }

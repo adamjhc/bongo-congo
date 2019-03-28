@@ -18,6 +18,11 @@ public class Factory {
             handler.run(client, sendable);
         }
 
+        if(sendable.getFunction().equals("position_update_chunk")){
+            PositionUpdateChunk handler = new PositionUpdateChunk();
+            handler.run(client, sendable);
+        }
+
         if(sendable.getFunction().equals("player_joined")){
             PlayerJoined handler = new PlayerJoined();
             handler.run(client, sendable);

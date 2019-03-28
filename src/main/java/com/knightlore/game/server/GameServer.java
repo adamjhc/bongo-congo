@@ -24,6 +24,7 @@ public class GameServer extends Thread {
   ArrayList<ClientHandler> clients;
   boolean running;
   boolean lobby;
+  public PositionUpdateQueueHandler poqhandler;
 
   GameModel model;
 

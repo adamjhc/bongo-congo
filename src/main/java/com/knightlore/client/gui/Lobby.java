@@ -45,11 +45,7 @@ public class Lobby extends Gui {
   /** Start game text */
   private final TextObject start;
 
-  /** Number of gui objects initially */
-  private int length;
-
-  /** List of players */
-  private List<TextObject> players;
+  private GuiObject[] baseGuiObjects;
 
   /**
    * Create gui objects
@@ -82,9 +78,9 @@ public class Lobby extends Gui {
 
     this.start.setRender(false);
 
-    guiObjects = new GuiObject[] {bongo, congo, lobby, separatorTop, separatorBot, exit, start};
-    length = guiObjects.length;
+    baseGuiObjects = new GuiObject[] {bongo, congo, lobby, separatorTop, separatorBot, exit, start};
 
+    guiObjects = new GuiObject[0];
     textObjects = new TextObject[] {exit, start};
   }
 
@@ -107,34 +103,32 @@ public class Lobby extends Gui {
   public void refreshPlayers(List<String> players) {
     int yPos = SEPARATOR_TOP_POS - GAP;
 
-    this.players = new ArrayList<>();
+    List<TextObject> playerTextObjects = new ArrayList<>();
 
     for (String player : players) {
-      this.players.add(new TextObject(player, SMALL));
-    }
-
-    for (TextObject player : this.players) {
-      player.setColour(Colour.YELLOW);
-      player.setPosition(
-          Window.getHalfWidth() - player.getSize() / 2, Window.getHalfHeight() - yPos);
+      TextObject playerTextObject = new TextObject(player, SMALL);
+      playerTextObject.setColour(Colour.YELLOW);
+      playerTextObject.setPosition(
+          Window.getHalfWidth() - playerTextObject.getSize() / 2, Window.getHalfHeight() - yPos);
       yPos -= GAP;
+      playerTextObjects.add(playerTextObject);
     }
 
-    addPlayers();
+    addPlayers(playerTextObjects);
   }
 
   /**
-   * Adds players to the list of gui objects
+   * Adds playerGameObjects to the list of gui objects
    *
    * @author Joseph
    */
-  public void addPlayers() {
-    GuiObject[] guiObjectsNew = new GuiObject[length + players.size()];
-    System.arraycopy(guiObjects, 0, guiObjectsNew, 0, length);
-    for (int i = length; i < length + players.size(); i++) {
-      guiObjectsNew[i] = players.get(i - length);
+  public void addPlayers(List<TextObject> playerTextObjects) {
+    guiObjects = new GuiObject[baseGuiObjects.length + playerTextObjects.size()];
+
+    System.arraycopy(baseGuiObjects, 0, guiObjects, 0, baseGuiObjects.length);
+    for (int i = baseGuiObjects.length; i < baseGuiObjects.length + playerTextObjects.size(); i++) {
+      guiObjects[i] = playerTextObjects.get(i - baseGuiObjects.length);
     }
-    guiObjects = guiObjectsNew.clone();
   }
 
   /**

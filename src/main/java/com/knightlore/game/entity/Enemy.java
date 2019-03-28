@@ -9,8 +9,8 @@ public class Enemy extends Entity {
 
   private EnemyType enemyType;
   private EnemyState currentState;
-  private Vector3f home;
-  private int angle;
+  private Vector3f home; // Spawn point of enemy
+  private int angle; // Angle of circle for Circler enemy
 
   public Enemy(EnemyType enemyType) {
     super();
@@ -31,20 +31,45 @@ public class Enemy extends Entity {
     angle = 0;
   }
 
+  /**
+   * Getter for property 'enemyType'.
+   *
+   * @return Value for property 'enemyType'.
+   */
   public EnemyType getEnemyType() {
     return enemyType;
   }
 
+  /**
+   * Getter for property 'currentState'.
+   *
+   * @return Value for property 'currentState'.
+   */
   public EnemyState getCurrentState() {
     return currentState;
   }
 
+  /**
+   * Setter for property 'currentState'.
+   *
+   * @param currentState Value to set for property 'currentState'.
+   */
   public void setCurrentState(EnemyState currentState) {
     this.currentState = currentState;
   }
 
+  /**
+   * Setter for property 'home'.
+   *
+   * @param home Value to set for property 'home'.
+   */
   public void setHome(Vector3f home) {this.home = home;}
 
+  /**
+   *
+   * @param delta Time elapsed since last server update
+   * @param levelMap
+   */
   public void update(float delta, LevelMap levelMap) {
     Vector3f newPos = new Vector3f();
     switch(enemyType) {
@@ -89,6 +114,7 @@ public class Enemy extends Entity {
     }
   }
 
+  /** {@inheritDoc} */
   @Override
   void update() {}
 }

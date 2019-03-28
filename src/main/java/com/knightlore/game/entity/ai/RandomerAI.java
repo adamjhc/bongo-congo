@@ -1,7 +1,6 @@
 package com.knightlore.game.entity.ai;
 
 import java.util.Random;
-
 import com.knightlore.game.entity.Direction;
 
 /**
@@ -11,8 +10,8 @@ import com.knightlore.game.entity.Direction;
 public class RandomerAI {
 
   private static Random random = new Random();
-  public static int distance; // Technically game updates but this correlates to the distance moved
-  public int accumulator;
+  private static int distance; // Technically game updates but this correlates to the distance moved
+  private int accumulator;
 
   /**
    * Default constructor
@@ -24,7 +23,7 @@ public class RandomerAI {
 
   /**
    * For a randomly selected amount of game updates, move forward, and then
-   * switch to a 
+   * switch to a new random direction.
    * @param direction Current enemy direction
    * @return Direction to be moved in (may be the same!)
    */
@@ -39,6 +38,10 @@ public class RandomerAI {
     return direction;
   }
 
+  /**
+   * Generates a random distance between 10-200 for the Randomer to move before
+   * changing direction.
+   */
   private void genDistance() { distance = random.nextInt(200-10) + 10; }
 
 

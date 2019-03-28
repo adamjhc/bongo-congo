@@ -169,6 +169,7 @@ public class LevelEditorScreen implements IScreen {
     } else if (Keyboard.isKeyReleased(GLFW_KEY_ENTER)) {
       Client.showLoadingScreen();
       editorMap.resetRotation();
+      editorMap.setTime(levelEditorHud.getTime());
       List<Level> levelList = new ArrayList<>();
       levelList.add(new Level(editorMap));
       Client.changeScreen(ClientState.TESTING_LEVEL, true, levelList);
@@ -193,6 +194,7 @@ public class LevelEditorScreen implements IScreen {
         Audio.play(SELECT);
         try {
           editorMap.resetRotation();
+          editorMap.setTime(levelEditorHud.getTime());
           Client.changeScreen(ClientState.NAMING_LEVEL, false, editorMap, false);
         } catch (Exception e) {
           e.printStackTrace();

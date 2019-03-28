@@ -333,6 +333,10 @@ public class LevelEditorHud extends Gui {
 		  timeInt = 180;
 	  }
   }
+  
+  public int getTime() {
+	  return timeInt;
+  }
 
   /**
    * Return floor
@@ -450,5 +454,13 @@ public class LevelEditorHud extends Gui {
           Window.getHalfWidth() - vDivider[i].getSize() / 2,
           Window.getHeight() - vDivider[i].getHeight() - GAP * i);
     }
+  }
+  
+  public TextObject[] getTextObjects() {
+	  return textObjects;
+  }
+  
+  public GuiObject[] getGuiObjects() {
+	  return guiObjects;
   }
 }

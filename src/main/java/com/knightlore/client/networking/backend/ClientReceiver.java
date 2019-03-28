@@ -11,10 +11,12 @@ public class ClientReceiver extends Thread{
 
     ObjectInputStream dis;
     Client client;
+    boolean running;
 
     public ClientReceiver(Client client, ObjectInputStream dis){
         this.client = client;
         this.dis = dis;
+        this.running = true;
     }
 
     @Override
@@ -22,7 +24,7 @@ public class ClientReceiver extends Thread{
 
         Sendable received;
 
-        while (true) {
+        while (running) {
             try {
                 System.out.println("WAITING FOR MESSAGE");
                 received = (Sendable) dis.readObject();
@@ -48,5 +50,10 @@ public class ClientReceiver extends Thread{
         }
 
         System.out.println("Connection lost");
+    }
+
+    public void close(){
+        this.running = false;
+        this.interrupt();
     }
 }

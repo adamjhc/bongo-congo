@@ -1,7 +1,7 @@
 package com.knightlore.client.gui.engine;
 
 import com.knightlore.client.gui.engine.graphics.FontTexture;
-import com.knightlore.networking.ListGameObject;
+import com.knightlore.networking.server.ListGameObject;
 
 /**
  * Special type of text object for a lobby that holds a game

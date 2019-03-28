@@ -1,8 +1,13 @@
-package com.knightlore.networking;
+package com.knightlore.networking.server;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Response to requesting highscore, holds list of highscore objects
+ *
+ * @author Lewis Relph
+ */
 public class HighScoreResponse {
 
   public List<HighScoreResponseObject> scores;

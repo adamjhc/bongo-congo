@@ -12,5 +12,7 @@ public class GameComplete implements GenericHandler {
 
     // Set state to score
     GameConnection.gameModel.setState(GameState.SCORE);
+
+    GameConnection.instance.close();
   }
 }

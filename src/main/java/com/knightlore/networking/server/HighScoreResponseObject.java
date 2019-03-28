@@ -1,5 +1,10 @@
-package com.knightlore.networking;
+package com.knightlore.networking.server;
 
+/**
+ * Singular highscore, holds username and score associated
+ *
+ * @author Lewis Relph
+ */
 public class HighScoreResponseObject {
 
   public String username;

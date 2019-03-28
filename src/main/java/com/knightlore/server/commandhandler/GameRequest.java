@@ -1,11 +1,8 @@
 package com.knightlore.server.commandhandler;
 
-import com.knightlore.networking.ApiKey;
-import com.knightlore.networking.GameRequestResponse;
+import com.knightlore.networking.server.GameRequestResponse;
 import com.knightlore.networking.Sendable;
-import com.knightlore.networking.SessionKeyResponse;
 import com.knightlore.server.ClientHandler;
-import com.knightlore.server.database.SessionGenerator;
 import com.knightlore.server.database.model.*;
 import com.knightlore.server.game.GameRepository;
 import com.knightlore.util.Config;
@@ -27,7 +24,7 @@ public class GameRequest extends Command{
 
         // Create json data
         String json = sendable.getData();
-        com.knightlore.networking.GameRequest data = gson.fromJson(json, com.knightlore.networking.GameRequest.class);
+        com.knightlore.networking.server.GameRequest data = gson.fromJson(json, com.knightlore.networking.server.GameRequest.class);
 
         Sendable response = sendable.makeResponse();
         GameRequestResponse gameRequestResponse;

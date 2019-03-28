@@ -2,9 +2,9 @@ package com.knightlore.client.networking.backend.responsehandlers.server;
 
 import com.google.gson.Gson;
 import com.knightlore.client.networking.LevelCache;
-import com.knightlore.client.networking.LobbyCache;
 import com.knightlore.client.networking.backend.responsehandlers.GenericHandler;
 import com.knightlore.networking.*;
+import com.knightlore.networking.server.ListLevelsResponse;
 
 public class ListLevels implements GenericHandler {
 

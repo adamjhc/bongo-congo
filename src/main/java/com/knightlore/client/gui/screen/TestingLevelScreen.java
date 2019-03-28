@@ -18,6 +18,11 @@ import com.knightlore.game.entity.PlayerState;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Screen used to play through an edited level
+ * @author Adam W
+ *
+ */
 public class TestingLevelScreen extends GameScreen {
 
   /**
@@ -26,12 +31,15 @@ public class TestingLevelScreen extends GameScreen {
    * @param guiRenderer renderer used for rendering gui elements
    * @param gameRenderer renderer used for rendering the game
    * @param timer time used for the game time
+   * @author Adam W
    */
   public TestingLevelScreen(GuiRenderer guiRenderer, GameRenderer gameRenderer, Timer timer) {
     super(guiRenderer, gameRenderer, timer);
   }
 
-  /** Method to process keyboard input during the level test */
+  /** Method to process keyboard input during the level test 
+   * @author Adam W
+   */
   @Override
   public void input() {
     GameModel gameModel = GameConnection.gameModel;
@@ -69,6 +77,10 @@ public class TestingLevelScreen extends GameScreen {
     }
   }
 
+  /**
+   * updates the game model during testing, including the timer and player lives
+   * @author Adam W
+   */
   @Override
   public void update(float delta) {
     GameModel gameModel = GameConnection.gameModel;

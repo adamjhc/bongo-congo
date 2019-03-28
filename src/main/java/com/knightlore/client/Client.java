@@ -37,23 +37,50 @@ import java.util.Map;
 
 public class Client {
 
+  /** Target number of times game should update per second */
   private static final int TARGET_UPS = 60;
 
+  /** Map between client state and screen to show */
   private static Map<ClientState, IScreen> screens;
+
+  /** Current screen showing */
   private static IScreen currentScreen;
+
+  /** Gui elements for loading screen */
   private static Loading loadingScreen;
 
+  /** Renderer used for rendering the game */
   private static GameRenderer gameRenderer;
+
+  /** Renderer used for rendering gui elements */
   private static GuiRenderer guiRenderer;
+
+  /** Renderer used for rendering level editing */
   private static LevelEditorRenderer levelEditorRenderer;
+
+  /** Renderer used for rendering map preview in level select */
   private static LevelSelectRenderer levelSelectRenderer;
 
+  /** Timer used in game */
   private static Timer timer;
 
+  /**
+   * Main method for client
+   *
+   * @param args unused
+   */
   public static void main(String[] args) {
     Client.run();
   }
 
+  /**
+   * Change current screen being shown
+   *
+   * @param newScreen New screen to show
+   * @param showLoadingScreen whether to show the loading screen while switching screens
+   * @param args Variable arguments to pass onto new screen
+   * @author Adam Cox
+   */
   public static void changeScreen(
       ClientState newScreen, boolean showLoadingScreen, Object... args) {
     if (showLoadingScreen) {
@@ -65,6 +92,11 @@ public class Client {
     currentScreen.startup(args);
   }
 
+  /**
+   * Display loading screen
+   *
+   * @author Adam Cox
+   */
   public static void showLoadingScreen() {
     loadingScreen.updateSize();
     clearBuffers();
@@ -72,12 +104,22 @@ public class Client {
     Window.swapBuffers();
   }
 
+  /**
+   * Run client
+   *
+   * @author Adam Cox
+   */
   public static void run() {
     init();
     loop();
     dispose();
   }
 
+  /**
+   * Initialise client
+   *
+   * @author Adam Cox
+   */
   private static void init() {
     // Setting up GLFW
     Window.init();
@@ -120,6 +162,11 @@ public class Client {
     currentScreen.startup();
   }
 
+  /**
+   * Game loop
+   *
+   * @author Adam Cox, Joseph Tuffin
+   */
   private static void loop() {
     float elapsedTime;
     float accumulator = 0f;
@@ -147,6 +194,11 @@ public class Client {
     }
   }
 
+  /**
+   * Dispose of memory allocated objects
+   *
+   * @author Adam Cox
+   */
   private static void dispose() {
     gameRenderer.cleanup();
     guiRenderer.cleanup();

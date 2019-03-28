@@ -1,18 +1,35 @@
 package com.knightlore.game.entity;
 
 import com.knightlore.client.render.world.TileGameObject;
+import java.util.Random;
+import org.joml.Vector3f;
 
 import java.util.Random;
 import org.joml.Vector3f;
 
 public enum Direction {
+  /** Positive in x */
   NORTH("n"),
+
+  /** Positive in x, negative in y */
   NORTH_EAST("ne"),
+
+  /** Negative in y */
   EAST("e"),
+
+  /** Negative in x, negative in y */
   SOUTH_EAST("se"),
+
+  /** Negative in x */
   SOUTH("s"),
+
+  /** Negative in x, positive in y */
   SOUTH_WEST("sw"),
+
+  /** Positive in y */
   WEST("w"),
+
+  /** Positive in x, positive in y */
   NORTH_WEST("nw");
 
   static {
@@ -40,29 +57,50 @@ public enum Direction {
     NORTH_WEST.opposite = SOUTH_EAST;
   }
 
+  /** Abbreviation used in texture file names */
   private final String abbreviation;
-  private Vector3f normalisedDirection;
-  private Direction opposite;
-  private static Random random = new Random();
-  private static Direction dirs[] = Direction.values();
 
+  /** Normalised direction vector for isometric movement */
+  private Vector3f normalisedDirection;
+
+  /** Polar opposite direction */
+  private Direction opposite;
+
+  /**
+   * Initialisation of Direction enum
+   *
+   * @param abbreviation Abbreviation used in texture file names
+   * @author Adam Cox
+   */
   Direction(String abbreviation) {
     this.abbreviation = abbreviation;
   }
 
   /**
-   * Getter for property 'abbreviation'.
+   * Get a random direction
    *
-   * @return Value for property 'abbreviation'.
+   * @return a random direction
+   * @author Jacqui Henes
+   */
+  public static Direction getRandom() {
+    return values()[new Random().nextInt(values().length)];
+  }
+
+  /**
+   * Get the abbreviation
+   *
+   * @return abbreviation
+   * @author Adam Cox
    */
   public String getAbbreviation() {
     return abbreviation;
   }
 
   /**
-   * Getter for property 'normalisedDirection'.
+   * Get the normalised direction
    *
-   * @return Value for property 'normalisedDirection'.
+   * @return normalised direction
+   * @author Adam Cox
    */
   public Vector3f getNormalisedDirection() {
     return normalisedDirection;
@@ -82,6 +120,13 @@ public enum Direction {
    */
   public Direction getRandom(){
     return dirs[random.nextInt(dirs.length)];
+  /**
+   * Get the reverse direction
+   *
+   * @return reverse direction
+   * @author Adam Cox
+   */
+  public Direction getReverse() {
+    return opposite;
   }
-
 }

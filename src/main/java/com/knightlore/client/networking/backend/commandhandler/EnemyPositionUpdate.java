@@ -4,10 +4,9 @@ package com.knightlore.client.networking.backend.commandhandler;
 import com.google.gson.Gson;
 import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.networking.backend.Client;
-import com.knightlore.networking.EnemyLocationUpdate;
-import com.knightlore.networking.EnemyLocationUpdateObject;
+import com.knightlore.networking.game.EnemyLocationUpdate;
+import com.knightlore.networking.game.EnemyLocationUpdateObject;
 import com.knightlore.networking.Sendable;
-import org.joml.Vector3f;
 
 import java.util.Map;
 

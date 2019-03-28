@@ -3,12 +3,6 @@ package com.knightlore.game.server;
 import com.google.gson.Gson;
 import com.knightlore.client.gui.engine.Timer;
 import com.knightlore.game.GameModel;
-import com.knightlore.game.entity.Enemy;
-import com.knightlore.networking.EnemyLocationUpdate;
-import com.knightlore.networking.EnemyLocationUpdateObject;
-import com.knightlore.networking.Sendable;
-
-import java.util.Map;
 
 public class GameManager extends Thread {
 

@@ -20,6 +20,7 @@ import com.knightlore.client.ClientState;
 import com.knightlore.client.audio.Audio;
 import com.knightlore.client.audio.Audio.AudioName;
 import com.knightlore.client.gui.LevelEditorHud;
+import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;
@@ -33,6 +34,11 @@ import java.util.List;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
+/**
+ * The screen used for creating and editing your own levels
+ * @author Adam W
+ *
+ */
 public class LevelEditorScreen implements IScreen {
 
   /** The sound that plays whenever the user clicks on a GUI element */
@@ -63,6 +69,7 @@ public class LevelEditorScreen implements IScreen {
    * Initialise LevelEditorScreeen
    * @param guiRenderer renderer used to render gui elements
    * @param levelEditorRenderer renderer used to render editor map
+   * @author Adam W
    */
   public LevelEditorScreen(GuiRenderer guiRenderer, LevelEditorRenderer levelEditorRenderer) {
     this.guiRenderer = guiRenderer;
@@ -70,26 +77,33 @@ public class LevelEditorScreen implements IScreen {
     levelEditorHud = new LevelEditorHud();
   }
 
-  /** Method to setup the level once the level editor is started */
+  /** Method to setup the level once the level editor is started
+   * @author Adam W 
+   */
   @Override
   public void startup(Object... args) {
     editorMap = (LevelMap) args[0];
     currentTileX = 0;
     currentTileY = 0;
     currentTileZ = 0;
+    editorMap.setTime(60);
     if (Audio.getCurrentMusic() != Audio.AudioName.MUSIC_EDITOR)
       Audio.stop(Audio.getCurrentMusic());
     Audio.play(Audio.AudioName.MUSIC_EDITOR);
   }
 
-  /** Method to process user input */
+  /** Method to process user input 
+   * @author Adam W
+   */
   @Override
   public void input() {
     cameraControl();
     levelEditorInput();
   }
 
-  /** Method to process GUI and level rendering */
+  /** Method to process GUI and level rendering 
+   * @author Adam W
+   */
   @Override
   public void render() {
     levelEditorHud.updateSize();
@@ -97,13 +111,17 @@ public class LevelEditorScreen implements IScreen {
     guiRenderer.render(levelEditorHud);
   }
 
-  /** Method to clean the GUI */
+  /** Method to clean the GUI 
+   * @author Adam W
+   */
   @Override
   public void cleanUp() {
     levelEditorHud.cleanup();
   }
 
-  /** Method to process camera movement from mouse movement */
+  /** Method to process camera movement from mouse movement 
+   * @author Adam W
+   */
   private void cameraControl() {
     if (Mouse.isInScreen()) {
       if (Mouse.getXPos() <= 15) {
@@ -120,7 +138,9 @@ public class LevelEditorScreen implements IScreen {
     }
   }
 
-  /** Method to process keyboard input */
+  /** Method to process keyboard input 
+   * @author Adam W
+   */
   private void levelEditorInput() {
     if (Keyboard.isKeyReleased(GLFW_KEY_W)) {
       if (currentTileX != editorMap.getTiles()[currentTileZ][currentTileY].length - 1) {
@@ -149,6 +169,7 @@ public class LevelEditorScreen implements IScreen {
     } else if (Keyboard.isKeyReleased(GLFW_KEY_ENTER)) {
       Client.showLoadingScreen();
       editorMap.resetRotation();
+      editorMap.setTime(levelEditorHud.getTime());
       List<Level> levelList = new ArrayList<>();
       levelList.add(new Level(editorMap));
       Client.changeScreen(ClientState.TESTING_LEVEL, true, levelList);
@@ -173,12 +194,13 @@ public class LevelEditorScreen implements IScreen {
         Audio.play(SELECT);
         try {
           editorMap.resetRotation();
+          editorMap.setTime(levelEditorHud.getTime());
           Client.changeScreen(ClientState.NAMING_LEVEL, false, editorMap, false);
         } catch (Exception e) {
           e.printStackTrace();
         }
       }
-    } else levelEditorHud.getSave().setColour(new Vector4f(1, 1, 0, 1));
+    } else levelEditorHud.getSave().setColour(Colour.YELLOW);
 
     if (checkPosition(levelEditorHud, levelEditorHud.getEmpty().getId(), "")) {
       levelEditorHud.getEmpty().setColour();
@@ -187,7 +209,7 @@ public class LevelEditorScreen implements IScreen {
         editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
             TileType.values()[0]);
       }
-    } else levelEditorHud.getEmpty().setColour(new Vector4f(1, 1, 0, 1));
+    } else levelEditorHud.getEmpty().setColour(Colour.YELLOW);
 
     if (checkPosition(levelEditorHud, levelEditorHud.getFloor().getId(), "")) {
       levelEditorHud.getFloor().setColour();
@@ -196,7 +218,7 @@ public class LevelEditorScreen implements IScreen {
         editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
             TileType.values()[1]);
       }
-    } else levelEditorHud.getFloor().setColour(new Vector4f(1, 1, 0, 1));
+    } else levelEditorHud.getFloor().setColour(Colour.YELLOW);
 
     if (checkPosition(levelEditorHud, levelEditorHud.getSlab().getId(), "")) {
       levelEditorHud.getSlab().setColour();
@@ -205,7 +227,7 @@ public class LevelEditorScreen implements IScreen {
         editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
             TileType.values()[2]);
       }
-    } else levelEditorHud.getSlab().setColour(new Vector4f(1, 1, 0, 1));
+    } else levelEditorHud.getSlab().setColour(Colour.YELLOW);
 
     if (checkPosition(levelEditorHud, levelEditorHud.getBlock().getId(), "")) {
       levelEditorHud.getBlock().setColour();
@@ -214,7 +236,7 @@ public class LevelEditorScreen implements IScreen {
         editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
             TileType.values()[3]);
       }
-    } else levelEditorHud.getBlock().setColour(new Vector4f(1, 1, 0, 1));
+    } else levelEditorHud.getBlock().setColour(Colour.YELLOW);
 
     if (checkPosition(levelEditorHud, levelEditorHud.getHazard().getId(), "")) {
       levelEditorHud.getHazard().setColour();
@@ -223,7 +245,7 @@ public class LevelEditorScreen implements IScreen {
         editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
             TileType.values()[4]);
       }
-    } else levelEditorHud.getHazard().setColour(new Vector4f(1, 1, 0, 1));
+    } else levelEditorHud.getHazard().setColour(Colour.YELLOW);
 
     if (checkPosition(levelEditorHud, levelEditorHud.getFinish().getId(), "")) {
       levelEditorHud.getFinish().setColour();
@@ -232,7 +254,7 @@ public class LevelEditorScreen implements IScreen {
         editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
             TileType.values()[5]);
       }
-    } else levelEditorHud.getFinish().setColour(new Vector4f(1, 1, 0, 1));
+    } else levelEditorHud.getFinish().setColour(Colour.YELLOW);
 
     if (checkPosition(levelEditorHud, levelEditorHud.getWalker().getId(), "")) {
       levelEditorHud.getWalker().setColour();
@@ -241,7 +263,7 @@ public class LevelEditorScreen implements IScreen {
         editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
             TileType.values()[6]);
       }
-    } else levelEditorHud.getWalker().setColour(new Vector4f(1, 1, 0, 1));
+    } else levelEditorHud.getWalker().setColour(Colour.YELLOW);
 
     if (checkPosition(levelEditorHud, levelEditorHud.getRandomer().getId(), "")) {
       levelEditorHud.getRandomer().setColour();
@@ -250,7 +272,7 @@ public class LevelEditorScreen implements IScreen {
         editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
             TileType.values()[7]);
       }
-    } else levelEditorHud.getRandomer().setColour(new Vector4f(1, 1, 0, 1));
+    } else levelEditorHud.getRandomer().setColour(Colour.YELLOW);
 
     if (checkPosition(levelEditorHud, levelEditorHud.getCircler().getId(), "")) {
       levelEditorHud.getCircler().setColour();
@@ -259,7 +281,23 @@ public class LevelEditorScreen implements IScreen {
         editorMap.getTiles()[currentTileZ][currentTileY][currentTileX].setType(
             TileType.values()[8]);
       }
-    } else levelEditorHud.getCircler().setColour(new Vector4f(1, 1, 0, 1));
+    } else levelEditorHud.getCircler().setColour(Colour.YELLOW);
+    
+    if (checkPosition(levelEditorHud, levelEditorHud.getInc().getId())) {
+    	levelEditorHud.getInc().setColour();
+    	if (Mouse.isLeftButtonHeld()) {
+    		Audio.play(SELECT);
+    		levelEditorHud.incTime();
+    	}
+    } else levelEditorHud.getInc().setColour(Colour.YELLOW);
+    
+    if (checkPosition(levelEditorHud, levelEditorHud.getDec().getId())) {
+    	levelEditorHud.getDec().setColour();
+    	if (Mouse.isLeftButtonHeld()) {
+    		Audio.play(SELECT);
+    		levelEditorHud.decTime();
+    	}
+    } else levelEditorHud.getDec().setColour(Colour.YELLOW);
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
       Client.changeScreen(ClientState.MAIN_MENU, false);

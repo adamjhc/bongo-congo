@@ -25,6 +25,7 @@ public class Level {
     enemySet = new EnemySet();
     enemies = new ArrayList<>();
     enemyIdInc = 0;
+    duration = levelMap.getTime();
 
     Tile[][][] tiles = levelMap.getTiles();
     for (int z = 0; z < tiles.length; z++) {

@@ -68,8 +68,10 @@ public abstract class Gui {
   /** Gap between large text items */
   protected static final int GAP_LARGE = FONT_SIZE_LARGE + 5;
 
+  /** List of text objects that have interaction */
   protected TextObject[] textObjects;
 
+  /** List of all gui objects */
   protected GuiObject[] guiObjects;
 
   /** Return the text objects */

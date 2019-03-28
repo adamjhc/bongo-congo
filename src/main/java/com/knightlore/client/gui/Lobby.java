@@ -107,12 +107,6 @@ public class Lobby extends Gui {
   public void refreshPlayers(List<String> players) {
     int yPos = SEPARATOR_TOP_POS - GAP;
 
-    if (players != null) {
-      GuiObject[] guiObjectsNew = new GuiObject[length];
-      System.arraycopy(guiObjects, 0, guiObjectsNew, 0, length);
-      guiObjects = guiObjectsNew.clone();
-    }
-
     this.players = new ArrayList<>();
 
     for (String player : players) {
@@ -134,11 +128,11 @@ public class Lobby extends Gui {
    *
    * @author Joseph
    */
-  private void addPlayers() {
-    GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length + players.size()];
-    System.arraycopy(guiObjects, 0, guiObjectsNew, 0, guiObjects.length);
-    for (int i = guiObjects.length; i < guiObjects.length + players.size(); i++) {
-      guiObjectsNew[i] = players.get(i - guiObjects.length);
+  public void addPlayers() {
+    GuiObject[] guiObjectsNew = new GuiObject[length + players.size()];
+    System.arraycopy(guiObjects, 0, guiObjectsNew, 0, length);
+    for (int i = length; i < length + players.size(); i++) {
+      guiObjectsNew[i] = players.get(i - length);
     }
     guiObjects = guiObjectsNew.clone();
   }

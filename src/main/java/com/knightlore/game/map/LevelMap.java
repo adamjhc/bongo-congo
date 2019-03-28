@@ -92,7 +92,7 @@ public class LevelMap {
 
     for (int i = 0; i < size.x; i++) {
       for (int j = 0; j < size.y; j++) {
-        rotatedLayer[i][j] = layer[size.x - j - 1][i];
+        rotatedLayer[i][j] = layer[size.y - j - 1][i];
       }
     }
 

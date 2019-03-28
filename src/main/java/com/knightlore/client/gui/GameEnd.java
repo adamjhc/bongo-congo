@@ -18,8 +18,10 @@ public class GameEnd implements IGui {
 
   /** Position of the top separator line */
   private static final int SEPARATOR_TOP_POS = 185;
+
   /** Position of the bottom separator line */
   private static final int SEPARATOR_BOT_POS = 200;
+
   /** Gap between each line of text */
   private static final int SEPARATOR_GAP = FONT_SIZE_SMALL;
 
@@ -75,6 +77,8 @@ public class GameEnd implements IGui {
     this.winner.setColour(Colour.YELLOW);
 
     baseGuiObjects = new GuiObject[] {bongo, congo, exit, separatorTop, separatorBot, winner};
+
+    guiObjects = new GuiObject[0];
     textObjects = new TextObject[] {exit};
   }
 

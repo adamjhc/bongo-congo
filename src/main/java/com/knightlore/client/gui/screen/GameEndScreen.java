@@ -28,6 +28,7 @@ public class GameEndScreen implements IScreen {
 	
   /** Gui renderer */
   private GuiRenderer guiRenderer;
+
   /** Game end gui */
   private GameEnd gameEnd;
 

@@ -108,14 +108,6 @@ public class Lobby implements IGui {
   public void refreshPlayers(ArrayList<String> players) {
     yPos = SEPARATOR_TOP_POS - GAP;
 
-    if (players != null) {
-      GuiObject[] guiObjectsNew = new GuiObject[length];
-      for (int i = 0; i < length; i++) {
-        guiObjectsNew[i] = guiObjects[i];
-      }
-      guiObjects = guiObjectsNew.clone();
-    }
-
     this.players = new ArrayList<>();
 
     for (String player : players) {
@@ -139,10 +131,10 @@ public class Lobby implements IGui {
    * 
    */
   public void addPlayers() {
-    GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length + players.size()];
-    System.arraycopy(guiObjects, 0, guiObjectsNew, 0, guiObjects.length);
-    for (int i = guiObjects.length; i < guiObjects.length + players.size(); i++) {
-      guiObjectsNew[i] = players.get(i - guiObjects.length);
+    GuiObject[] guiObjectsNew = new GuiObject[length + players.size()];
+    System.arraycopy(guiObjects, 0, guiObjectsNew, 0, length);
+    for (int i = length; i < length + players.size(); i++) {
+      guiObjectsNew[i] = players.get(i - length);
     }
     guiObjects = guiObjectsNew.clone();
   }

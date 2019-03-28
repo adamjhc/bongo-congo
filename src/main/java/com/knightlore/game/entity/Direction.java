@@ -107,9 +107,10 @@ public enum Direction {
   }
 
   /**
-   * Returns the reverse direction to the one supplied
-   * @param dir direction
-   * @return The opposite direction
+   * Get the reverse direction
+   *
+   * @return reverse direction
+   * @author Adam Cox
    */
   public Direction getReverse(Direction dir) { return opposite; }
 

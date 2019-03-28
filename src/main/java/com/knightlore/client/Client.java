@@ -57,7 +57,6 @@ public class Client {
   public static void changeScreen(
       ClientState newScreen, boolean showLoadingScreen, Object... args) {
     if (showLoadingScreen) {
-      loadingScreen.updateSize();
       showLoadingScreen();
     }
 
@@ -67,6 +66,7 @@ public class Client {
   }
 
   public static void showLoadingScreen() {
+    loadingScreen.updateSize();
     clearBuffers();
     guiRenderer.render(loadingScreen);
     Window.swapBuffers();
@@ -101,7 +101,8 @@ public class Client {
     screens.put(ClientState.LOBBY_MENU, new LobbySelectScreen(guiRenderer));
     screens.put(ClientState.PRE_EDITOR, new LevelEditorSetupScreen(guiRenderer));
     screens.put(ClientState.LEVEL_EDITOR, new LevelEditorScreen(guiRenderer, levelEditorRenderer));
-    screens.put(ClientState.TESTING_LEVEL, new TestingLevelScreen(guiRenderer, gameRenderer, timer));
+    screens.put(
+        ClientState.TESTING_LEVEL, new TestingLevelScreen(guiRenderer, gameRenderer, timer));
     screens.put(ClientState.OPTIONS_MENU, new OptionsScreen(guiRenderer));
     screens.put(ClientState.GAME, new GameScreen(guiRenderer, gameRenderer, timer));
     screens.put(ClientState.NAMING_LEVEL, new NameLevelScreen(guiRenderer));

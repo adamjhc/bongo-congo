@@ -1,83 +1,100 @@
 package com.knightlore.client.gui;
 
 import com.knightlore.client.gui.engine.Colour;
+import com.knightlore.client.gui.engine.Gui;
 import com.knightlore.client.gui.engine.GuiObject;
-import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Window;
 
 /**
  * Screen that allows you to create a new level or load an existing one
- * 
- * @author Adam W, Joseph
  *
+ * @author Adam W, Joseph
  */
-public class PreLevelEditor implements IGui {
+public class PreLevelEditor extends Gui {
 
-	/** Position of the top separator line */
+  /** Position of the top separator line */
   private static final int SEPARATOR_TOP_POS = 185;
+
   /** Position of the bottom separator line */
   private static final int SEPARATOR_BOT_POS = 200;
+
   /** Gap between each line of text */
   private static final int SEPARATOR_GAP = FONT_SIZE_SMALL;
 
   /** The maximum width of a level */
   private static final int MAX_WIDTH = 50;
+
   /** The maximum length of a level */
   private static final int MAX_LENGTH = 50;
+
   /** The maximum height of a level */
   private static final int MAX_HEIGHT = 50;
+
   /** Width text */
   private final TextObject width;
+
   /** Length text */
   private final TextObject length;
+
   /** Height text */
   private final TextObject height;
+
   /** width text */
   private final TextObject wNum;
+
   /** Length text */
   private final TextObject lNum;
+
   /** Height text */
   private final TextObject hNum;
+
   /** Decrease width */
   private final TextObject wLeft;
+
   /** Increase width */
   private final TextObject wRight;
-  /** Decrease length  */
+
+  /** Decrease length */
   private final TextObject lLeft;
+
   /** Increase length */
   private final TextObject lRight;
+
   /** Decrease height */
   private final TextObject hLeft;
+
   /** Increase height */
   private final TextObject hRight;
+
   /** Create level text */
   private final TextObject createLevel;
+
   /** Exit text */
   private final TextObject exit;
+
   /** Load level text */
   private final TextObject loadLevel;
+
   /** Bongo text */
   private final TextObject bongo;
+
   /** Congo text */
   private final TextObject congo;
+
   /** Level editor text */
   private final TextObject editor;
+
   /** Top separator line text */
   private final TextObject separatorTop;
+
   /** Bottom separator line text */
   private final TextObject separatorBottom;
-  
-  /** List of all the gui objects */
-  private GuiObject[] guiObjects;
-  /** List of the text objects that have user interaction */
-  private TextObject[] textObjects;
 
   /**
    * Create gui objects
-   * 
+   *
    * @author Adam W
-   * 
    */
   public PreLevelEditor() {
     this.bongo = new TextObject("Bongo", TITLE);
@@ -177,9 +194,8 @@ public class PreLevelEditor implements IGui {
 
   /**
    * Increase the width of the level
-   * 
+   *
    * @author Adam W
-   * 
    */
   public void incWidth() {
     int newWidth = Integer.parseInt(this.wNum.getText());
@@ -190,9 +206,8 @@ public class PreLevelEditor implements IGui {
 
   /**
    * Decrease the width of the level
-   * 
+   *
    * @author Adam W
-   * 
    */
   public void decWidth() {
     int newWidth = Integer.parseInt(this.wNum.getText());
@@ -203,9 +218,8 @@ public class PreLevelEditor implements IGui {
 
   /**
    * Increase the length of the level
-   * 
+   *
    * @author Adam W
-   * 
    */
   public void incLength() {
     int newLength = Integer.parseInt(this.lNum.getText());
@@ -216,9 +230,8 @@ public class PreLevelEditor implements IGui {
 
   /**
    * Decrease the length of the level
-   * 
+   *
    * @author Adam W
-   * 
    */
   public void decLength() {
     int newLength = Integer.parseInt(this.lNum.getText());
@@ -229,9 +242,8 @@ public class PreLevelEditor implements IGui {
 
   /**
    * Increase the height of the level
-   * 
+   *
    * @author Adam W
-   * 
    */
   public void incHeight() {
     int newHeight = Integer.parseInt(this.hNum.getText());
@@ -242,9 +254,8 @@ public class PreLevelEditor implements IGui {
 
   /**
    * Decrease the height of the level
-   * 
+   *
    * @author Adam W
-   * 
    */
   public void decHeight() {
     int newHeight = Integer.parseInt(this.hNum.getText());
@@ -255,10 +266,9 @@ public class PreLevelEditor implements IGui {
 
   /**
    * Return the current width
-   * 
+   *
    * @return Width
    * @author Adam W
-   * 
    */
   public int getWidthNum() {
     return Integer.parseInt(this.wNum.getText());
@@ -266,10 +276,9 @@ public class PreLevelEditor implements IGui {
 
   /**
    * Return the current length
-   * 
+   *
    * @return Length
    * @author Adam W
-   * 
    */
   public int getLengthNum() {
     return Integer.parseInt(this.lNum.getText());
@@ -277,10 +286,9 @@ public class PreLevelEditor implements IGui {
 
   /**
    * Return the current height
-   * 
+   *
    * @return Height
    * @author Adam W
-   * 
    */
   public int getHeightNum() {
     return Integer.parseInt(this.hNum.getText());
@@ -288,10 +296,9 @@ public class PreLevelEditor implements IGui {
 
   /**
    * Return decrease width
-   * 
+   *
    * @return Decrease width
    * @author Adam W
-   * 
    */
   public TextObject getWLeft() {
     return wLeft;
@@ -299,10 +306,9 @@ public class PreLevelEditor implements IGui {
 
   /**
    * Return increase width
-   * 
+   *
    * @return Increase width
    * @author Adam W
-   * 
    */
   public TextObject getWRight() {
     return wRight;
@@ -310,10 +316,9 @@ public class PreLevelEditor implements IGui {
 
   /**
    * Return decrease length
-   * 
+   *
    * @return Decrease length
    * @author Adam W
-   * 
    */
   public TextObject getLLeft() {
     return lLeft;
@@ -321,10 +326,9 @@ public class PreLevelEditor implements IGui {
 
   /**
    * Return increase length
-   * 
+   *
    * @return Increase length
    * @author Adam W
-   * 
    */
   public TextObject getLRight() {
     return lRight;
@@ -332,10 +336,9 @@ public class PreLevelEditor implements IGui {
 
   /**
    * Return decrease height
-   * 
+   *
    * @return Decrease height
    * @author Adam W
-   * 
    */
   public TextObject getHLeft() {
     return hLeft;
@@ -343,10 +346,9 @@ public class PreLevelEditor implements IGui {
 
   /**
    * Return increase height
-   * 
+   *
    * @return Increase height
    * @author Adam W
-   * 
    */
   public TextObject getHRight() {
     return hRight;
@@ -354,10 +356,9 @@ public class PreLevelEditor implements IGui {
 
   /**
    * Return exit
-   * 
+   *
    * @return Exit
    * @author Adam W
-   * 
    */
   public TextObject getExit() {
     return exit;
@@ -365,22 +366,19 @@ public class PreLevelEditor implements IGui {
 
   /**
    * Return create level
-   * 
+   *
    * @return Create level
    * @author Adam W
-   * 
    */
   public TextObject getCreateLevel() {
     return createLevel;
   }
 
-  
   /**
    * Return load level
-   * 
+   *
    * @return Load level
    * @author Adam W
-   * 
    */
   public TextObject getLoadLevel() {
     return loadLevel;
@@ -388,9 +386,8 @@ public class PreLevelEditor implements IGui {
 
   /**
    * Updates the position of the gui objects
-   * 
+   *
    * @author Adam W
-   * 
    */
   public void updateSize() {
     this.bongo.setPosition(
@@ -458,15 +455,5 @@ public class PreLevelEditor implements IGui {
     this.loadLevel.setPosition(
         Window.getHalfWidth() - loadLevel.getSize() / 2,
         Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
-  }
-
-  @Override
-  public GuiObject[] getGuiObjects() {
-    return guiObjects;
-  }
-
-  @Override
-  public TextObject[] getTextObjects() {
-    return textObjects;
   }
 }

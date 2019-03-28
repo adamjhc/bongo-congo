@@ -2,24 +2,24 @@ package com.knightlore.client.gui;
 
 import com.knightlore.client.audio.Audio;
 import com.knightlore.client.gui.engine.Colour;
+import com.knightlore.client.gui.engine.Gui;
 import com.knightlore.client.gui.engine.GuiObject;
-import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Window;
 
 /**
- * Screen that allows you to change various options
- * in the game 
- * 
- * @author Joseph
+ * Screen that allows you to change various options in the game
  *
+ * @author Joseph
  */
-public class OptionsMenu implements IGui {
+public class OptionsMenu extends Gui {
 
-	/** Position of the top separator line */
+  /** Position of the top separator line */
   private static final int SEPARATOR_TOP_POS = 185;
+
   /** Position of the bottom separator line */
   private static final int SEPARATOR_BOT_POS = 200;
+
   /** Gap between each line of text */
   private static final int SEPARATOR_GAP = FONT_SIZE_SMALL;
 
@@ -28,43 +28,50 @@ public class OptionsMenu implements IGui {
 
   /** Increase volume text */
   private final TextObject incVolume;
+
   /** Decrease volume text */
   private final TextObject decVolume;
+
   /** Current volume text */
   private final TextObject volume;
+
   /** Exit screen text */
   private final TextObject exit;
+
   /** Is the game fullscreen */
   private final TextObject isFullscreen;
+
   /** Bongo text */
   private final TextObject bongo;
-  /** Congo text */ 
+
+  /** Congo text */
   private final TextObject congo;
+
   /** Options title text */
   private final TextObject options;
+
   /** Top separator line text */
   private final TextObject separatorTop;
+
   /** Bottom separator line text */
   private final TextObject separatorBot;
+
   /** Music volume title text */
   private final TextObject musicVolume;
+
   /** Fullscreen title text */
   private final TextObject fullScreen;
+
   /** Mute audio title text */
   private final TextObject mute;
+
   /** Is the audio muted */
   private final TextObject isMute;
-  
-  /** List of gui objects */
-  private GuiObject[] guiObjects;
-  /** List of text objects */
-  private TextObject[] textObjects;
 
   /**
    * Create gui objects
-   * 
+   *
    * @author Joseph
-   * 
    */
   public OptionsMenu() {
     this.bongo = new TextObject("Bongo", TITLE);
@@ -130,10 +137,9 @@ public class OptionsMenu implements IGui {
   }
 
   /**
-   * Increase the volume 
-   * 
+   * Increase the volume
+   *
    * @author Joseph
-   * 
    */
   public void incVolume() {
     int volumeAmount = Integer.parseInt(this.volume.getText());
@@ -144,9 +150,8 @@ public class OptionsMenu implements IGui {
 
   /**
    * Decrease the volume
-   * 
+   *
    * @author Joseph
-   * 
    */
   public void decVolume() {
     int volumeAmount = Integer.parseInt(this.volume.getText());
@@ -157,23 +162,21 @@ public class OptionsMenu implements IGui {
 
   /**
    * Set the game to be fullscreen
-   * 
+   *
    * @author Joseph
-   * 
    */
   public void setFullscreen() {
-    if (this.isFullscreen.getText() == "Off") this.isFullscreen.setText("On");
+    if (this.isFullscreen.getText().equals("Off")) this.isFullscreen.setText("On");
     else this.isFullscreen.setText("Off");
     this.isFullscreen.setPositionX(Window.getHalfWidth() - isFullscreen.getSize() / 2);
 
     Window.setFullscreen();
   }
-  
+
   /**
    * Set the audio to be muted
-   * 
+   *
    * @author Joseph
-   * 
    */
   public void setMute() {
     if (Audio.isOn()) this.isMute.setText("Off");
@@ -183,10 +186,9 @@ public class OptionsMenu implements IGui {
 
   /**
    * Return volume increase
-   * 
+   *
    * @return IncVolume
    * @author Joseph
-   * 
    */
   public TextObject getIncVolume() {
     return incVolume;
@@ -194,10 +196,9 @@ public class OptionsMenu implements IGui {
 
   /**
    * Return volume decrease
-   * 
+   *
    * @return DecVolume
    * @author Joseph
-   * 
    */
   public TextObject getDecVolume() {
     return decVolume;
@@ -205,10 +206,9 @@ public class OptionsMenu implements IGui {
 
   /**
    * Return exit
-   * 
+   *
    * @return Exit
    * @author Joseph
-   * 
    */
   public TextObject getExit() {
     return exit;
@@ -216,10 +216,9 @@ public class OptionsMenu implements IGui {
 
   /**
    * Return is fullscreen enabled
-   * 
+   *
    * @return IsFullscreen
    * @author Joseph
-   * 
    */
   public TextObject getIsFullscreen() {
     return isFullscreen;
@@ -227,10 +226,9 @@ public class OptionsMenu implements IGui {
 
   /**
    * Return is audio muted
-   * 
+   *
    * @return IsMute
    * @author Joseph
-   * 
    */
   public TextObject getIsMute() {
     return isMute;
@@ -238,9 +236,8 @@ public class OptionsMenu implements IGui {
 
   /**
    * Updates the position of the gui objects
-   * 
+   *
    * @author Joseph
-   * 
    */
   public void updateSize() {
     this.bongo.setPosition(
@@ -282,15 +279,5 @@ public class OptionsMenu implements IGui {
     this.isMute.setPosition(
         Window.getHalfWidth() - isMute.getSize() / 2,
         Window.getHalfHeight() - SEPARATOR_TOP_POS + GAP * 6 + GAP_LARGE * 2);
-  }
-
-  @Override
-  public TextObject[] getTextObjects() {
-    return textObjects;
-  }
-
-  @Override
-  public GuiObject[] getGuiObjects() {
-    return guiObjects;
   }
 }

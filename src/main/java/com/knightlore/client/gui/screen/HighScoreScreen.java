@@ -1,6 +1,6 @@
 package com.knightlore.client.gui.screen;
 
-import static com.knightlore.client.gui.engine.IGui.SMALL;
+import static com.knightlore.client.gui.engine.Gui.SMALL;
 import static com.knightlore.client.util.GuiUtils.checkPosition;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 

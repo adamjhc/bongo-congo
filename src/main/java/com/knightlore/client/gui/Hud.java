@@ -1,8 +1,8 @@
 package com.knightlore.client.gui;
 
 import com.knightlore.client.gui.engine.Colour;
+import com.knightlore.client.gui.engine.Gui;
 import com.knightlore.client.gui.engine.GuiObject;
-import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Window;
 import com.knightlore.game.GameModel;
@@ -12,19 +12,21 @@ import org.joml.Vector4f;
 
 /**
  * The Head-up display shown when the game is in play
- * 
- * @author Joseph
  *
+ * @author Joseph
  */
-public class Hud implements IGui {
+public class Hud extends Gui {
 
-	/** Gap between the side of the screen and the score */
+  /** Gap between the side of the screen and the score */
   private static final int SCORE_SIDE_GAP = 4;
+
   /** Gap between the side of the screen and the lives */
   private static final int LIVES_SIDE_GAP = 6;
+
   /** Position of the scores when hidden */
   private static final int SCORE_HIDE =
       -SCORE_SIDE_GAP - FONT_SIZE_SMALL * 10 - SCORE_SIDE_GAP - FONT_SIZE_LIVES * 3;
+
   /** Position of the lives when hidden */
   private static final int LIVES_HIDE = SCORE_HIDE + FONT_SIZE_SMALL * 10 + SCORE_SIDE_GAP;
 
@@ -33,50 +35,59 @@ public class Hud implements IGui {
 
   /** Player 1 score */
   private final TextObject player1Score;
+
   /** Player 1 lives */
   private final TextObject player1Lives;
+
   /** Player 2 score */
   private final TextObject player2Score;
+
   /** Player 2 lives */
   private final TextObject player2Lives;
+
   /** Player 3 score */
   private final TextObject player3Score;
+
   /** Player 3 lives */
   private final TextObject player3Lives;
+
   /** Player 4 score */
   private final TextObject player4Score;
+
   /** Player 4 lives */
   private final TextObject player4Lives;
+
   /** Player 5 score */
   private final TextObject player5Score;
+
   /** Player 5 lives */
   private final TextObject player5Lives;
+
   /** Player 6 score */
   private final TextObject player6Score;
+
   /** Player 6 lives */
   private final TextObject player6Lives;
-  /** Counter to show time left in level  */
+
+  /** Counter to show time left in level */
   private final TextObject counter;
+
   /** Count-down at the start of each level */
   private final TextObject countDown;
+
   /** Current level */
   private final TextObject level;
-  
-  /** List of all the gui objects */
-  private GuiObject[] guiObjects;
-  /** List of the text objects that have user interaction */
-  private TextObject[] textObjects;
+
   /** List of the scores */
   private TextObject[] scores;
+
   /** List of the lives */
   private TextObject[] lives;
 
-  
   /**
    * Create gui objects
-   * 
+   *
    * @author Joseph
-   * 
    */
   public Hud() {
     this.player1Score = new TextObject("1:00000000", SMALL);
@@ -181,12 +192,11 @@ public class Hud implements IGui {
   }
 
   /**
-   * Moves the hidden scores for other players onto or off the screen  
-   * 
+   * Moves the hidden scores for other players onto or off the screen
+   *
    * @param move The number of pixels to move
    * @param targetXPos The target position to reach
    * @author Joseph
-   * 
    */
   public void moveScore(float move, float targetXPos) {
     float xPosScore = player2Score.getPositionX();
@@ -204,12 +214,11 @@ public class Hud implements IGui {
 
   /**
    * Sets the position for the lives and scores
-   * 
+   *
    * @param move The number of pixels to move
    * @param xPosScore The x position for scores
    * @param xPosLives The x position for lives
    * @author Joseph
-   * 
    */
   public void setPosition(float move, float xPosScore, float xPosLives) {
     player2Score.setPositionX(xPosScore + move);
@@ -226,11 +235,10 @@ public class Hud implements IGui {
 
   /**
    * Sets the lives for a given player
-   * 
+   *
    * @param index The player index
    * @param lives The number of lives for that player
    * @author Joseph
-   * 
    */
   public void setLives(int index, int lives) {
     if (lives <= 0) {
@@ -246,10 +254,9 @@ public class Hud implements IGui {
 
   /**
    * Sets the current level
-   * 
+   *
    * @param levelIndex The current level index
    * @author Joseph
-   * 
    */
   public void setLevel(int levelIndex) {
     level.setText("L=" + (levelIndex + 1));
@@ -257,10 +264,9 @@ public class Hud implements IGui {
 
   /**
    * Returns counter
-   * 
+   *
    * @return Counter
    * @author Joseph
-   * 
    */
   public TextObject getCounter() {
     return counter;
@@ -268,10 +274,9 @@ public class Hud implements IGui {
 
   /**
    * Sets the counter to the statusText
-   * 
+   *
    * @param statusText The counter text
    * @author Joseph
-   * 
    */
   public void setCounter(String statusText) {
     this.counter.setText(statusText);
@@ -279,10 +284,9 @@ public class Hud implements IGui {
 
   /**
    * Returns countDown
-   * 
+   *
    * @return countDown
    * @author Joseph
-   * 
    */
   public TextObject getCountDown() {
     return countDown;
@@ -290,10 +294,9 @@ public class Hud implements IGui {
 
   /**
    * Sets the countdown to the statusText
-   * 
+   *
    * @param statusText The countdown text
    * @author Joseph
-   * 
    */
   public void setCountDown(String statusText) {
     this.countDown.setText(statusText);
@@ -305,7 +308,6 @@ public class Hud implements IGui {
    * @param index The player index
    * @return The score for the indexed player
    * @author Joseph
-   * 
    */
   public TextObject getScore(int index) {
     return this.scores[index];
@@ -313,12 +315,11 @@ public class Hud implements IGui {
 
   /**
    * Sets the score for a given player
-   * 
+   *
    * @param index The player index
    * @param score The new score
    * @param name The player name
    * @author Joseph
-   * 
    */
   public void setScore(int index, int score, String name) {
     if (score > MAX_SCORE) {
@@ -330,10 +331,9 @@ public class Hud implements IGui {
 
   /**
    * Returns the position to hide scores in
-   * 
+   *
    * @return SCORE_HIDE
    * @author Joseph
-   * 
    */
   public int getScoreHide() {
     return SCORE_HIDE;
@@ -341,10 +341,9 @@ public class Hud implements IGui {
 
   /**
    * Returns the gap for scores
-   * 
+   *
    * @return SCORE_SIDE_GAP
    * @author Joseph
-   * 
    */
   public int getScoreSideGap() {
     return SCORE_SIDE_GAP;
@@ -352,9 +351,8 @@ public class Hud implements IGui {
 
   /**
    * Updates the position of the gui objects
-   * 
+   *
    * @author Joseph
-   * 
    */
   public void updateSize() {
     this.counter.setPosition(
@@ -372,10 +370,9 @@ public class Hud implements IGui {
 
   /**
    * Sets which scores need to be rendered
-   * 
+   *
    * @param gameModel The game model containing players
    * @author Joseph
-   * 
    */
   public void renderScores(GameModel gameModel) {
     Map<String, Player> players = gameModel.getPlayers();
@@ -391,15 +388,5 @@ public class Hud implements IGui {
     player5Lives.setRender(numPlayers > 4);
     player6Score.setRender(numPlayers > 5);
     player6Lives.setRender(numPlayers > 5);
-  }
-
-  @Override
-  public TextObject[] getTextObjects() {
-    return textObjects;
-  }
-
-  @Override
-  public GuiObject[] getGuiObjects() {
-    return guiObjects;
   }
 }

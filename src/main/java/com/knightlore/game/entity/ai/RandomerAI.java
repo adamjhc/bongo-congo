@@ -1,16 +1,17 @@
 package com.knightlore.game.entity.ai;
 
-import java.util.List;
 import java.util.Random;
 
 import com.knightlore.game.entity.Direction;
-import org.joml.Vector3f;
 
-// Walks in a random direction for a set distance before changing direction and continuing
+/**
+ * Determines the 'Randomer' enemy behaviour
+ * @author Jacqui
+ */
 public class RandomerAI {
 
   private static Random random = new Random();
-  public static int distance; // number of game updates before changing direction
+  public static int distance;
   public int accumulator;
 
   public RandomerAI() {

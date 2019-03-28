@@ -1,7 +1,5 @@
 package com.knightlore.game.entity;
 
-
-import com.knightlore.game.entity.ai.CirclerAI;
 import com.knightlore.game.map.LevelMap;
 import org.joml.Vector3f;
 

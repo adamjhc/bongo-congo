@@ -14,7 +14,7 @@ import static org.joml.Math.round;
 
 public class Player extends Entity {
 
-  static final Vector3f START_POSITION = new Vector3f(0.5f, 0.5f, 0);
+  static final Vector3f START_POSITION = new Vector3f(0.1f, 0.1f, 0);
   static final Direction START_DIRECTION = Direction.NORTH_WEST;
   static final PlayerState START_PLAYER_STATE = PlayerState.IDLE;
   static final int START_LIVES = 3;
@@ -252,12 +252,10 @@ public class Player extends Entity {
    * @author Jacqui Henes
    */
   public void loseLife() {
-
     if(GameConnection.instance != null){
       GameConnection.instance.sendDeath();
     }
-
-      lives -= 1;
+      decrementLives();
       if (lives <= 0) {
     	Audio.play(Audio.AudioName.JINGLE_GAMEOVER);
         lives = 0;

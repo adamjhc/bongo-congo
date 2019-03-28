@@ -40,12 +40,12 @@ import org.lwjgl.system.MemoryStack;
 
 public class Window {
 
-  public static final int ORIGINAL_WIDTH = 1280;
-  public static final int ORIGINAL_HEIGHT = 720;
+  public static final int WINDOWED_WIDTH = 1280;
+  public static final int WINDOWED_HEIGHT = 720;
 
   private static final String TITLE = "Bongo Congo";
-  private static int width = ORIGINAL_WIDTH;
-  private static int height = ORIGINAL_HEIGHT;
+  private static int width = WINDOWED_WIDTH;
+  private static int height = WINDOWED_HEIGHT;
 
   private static int oldWidth = width;
   private static int oldHeight = height;

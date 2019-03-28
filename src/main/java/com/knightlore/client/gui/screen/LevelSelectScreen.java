@@ -13,6 +13,7 @@ import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Mouse;
+import com.knightlore.client.io.Window;
 import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.client.render.LevelSelectRenderer;
 import com.knightlore.game.Level;
@@ -140,7 +141,8 @@ public class LevelSelectScreen implements IScreen {
           selectedMap = getMap(levelSelectMenu.getLevel(i).getId());
           Vector3i mapSize = selectedMap.getSize();
 
-          levelSelectRenderer.setWorldScale(Math.round(590f / (mapSize.x + mapSize.y)));
+          levelSelectRenderer.setWorldScale(
+              Math.round((Window.WINDOWED_WIDTH / 2 - 50) / (mapSize.x + mapSize.y)));
           levelSelectRenderer.setCameraPosition(
               new Vector3f(-mapSize.y, (mapSize.x + mapSize.z) / 2f, 0));
         }

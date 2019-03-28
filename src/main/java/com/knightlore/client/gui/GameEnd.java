@@ -25,30 +25,24 @@ public class GameEnd implements IGui {
 
   /** Bongo text */
   private final TextObject bongo;
-
   /** Congo text */
   private final TextObject congo;
-
   /** Exit screen text */
   private final TextObject exit;
-
   /** Top separator line text */
   private final TextObject separatorTop;
-
   /** Bottom separator line text */
   private final TextObject separatorBot;
-
   /** Game winner text */
   private final TextObject winner;
-
-  /** List of base gui objects */
-  private GuiObject[] baseGuiObjects;
-
+  /** Length of gui objects initially */
+  private int length;
+  
   /** List of all the gui objects */
   private GuiObject[] guiObjects;
-
   /** List of the text objects that have user interaction */
   private TextObject[] textObjects;
+
 
   /**
    * Create gui objects
@@ -74,8 +68,9 @@ public class GameEnd implements IGui {
     this.winner = new TextObject("Winner", SMALL);
     this.winner.setColour(Colour.YELLOW);
 
-    baseGuiObjects = new GuiObject[] {bongo, congo, exit, separatorTop, separatorBot, winner};
+    guiObjects = new GuiObject[] {bongo, congo, exit, separatorTop, separatorBot, winner};
     textObjects = new TextObject[] {exit};
+    length = guiObjects.length;
   }
 
   /**
@@ -106,12 +101,12 @@ public class GameEnd implements IGui {
    * @author Joseph
    */
   private void addScores(List<TextObject> scores) {
-    guiObjects = new GuiObject[baseGuiObjects.length + scores.size()];
-
-    System.arraycopy(baseGuiObjects, 0, guiObjects, 0, baseGuiObjects.length);
-    for (int i = baseGuiObjects.length; i < baseGuiObjects.length + scores.size(); i++) {
-      guiObjects[i] = scores.get(i - baseGuiObjects.length);
+    GuiObject[] guiObjectsNew = new GuiObject[length + scores.size()];
+    System.arraycopy(guiObjects, 0, guiObjectsNew, 0, length);
+    for (int i = length; i < length + scores.size(); i++) {
+      guiObjectsNew[i] = scores.get(i - length);
     }
+    guiObjects = guiObjectsNew.clone();
   }
 
   /**

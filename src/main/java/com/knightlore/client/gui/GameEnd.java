@@ -25,26 +25,30 @@ public class GameEnd implements IGui {
 
   /** Bongo text */
   private final TextObject bongo;
+
   /** Congo text */
   private final TextObject congo;
+
   /** Exit screen text */
   private final TextObject exit;
+
   /** Top separator line text */
   private final TextObject separatorTop;
+
   /** Bottom separator line text */
   private final TextObject separatorBot;
+
   /** Game winner text */
   private final TextObject winner;
-  /** List of each players score */
-  private ArrayList<TextObject> scores;
+
+  /** List of base gui objects */
+  private GuiObject[] baseGuiObjects;
 
   /** List of all the gui objects */
   private GuiObject[] guiObjects;
+
   /** List of the text objects that have user interaction */
   private TextObject[] textObjects;
-
-  /** Position of the next gui object */
-  private int yPos = SEPARATOR_TOP_POS - GAP;
 
   /**
    * Create gui objects
@@ -70,7 +74,7 @@ public class GameEnd implements IGui {
     this.winner = new TextObject("Winner", SMALL);
     this.winner.setColour(Colour.YELLOW);
 
-    guiObjects = new GuiObject[] {bongo, congo, exit, separatorTop, separatorBot, winner};
+    baseGuiObjects = new GuiObject[] {bongo, congo, exit, separatorTop, separatorBot, winner};
     textObjects = new TextObject[] {exit};
   }
 
@@ -81,18 +85,19 @@ public class GameEnd implements IGui {
    * @author Joseph
    */
   public void displayScores(List<Player> players) {
-    yPos = SEPARATOR_TOP_POS - GAP;
+    int yPos = SEPARATOR_TOP_POS - GAP;
 
-    this.scores = new ArrayList<>();
+    List<TextObject> scores = new ArrayList<>();
 
     for (Player player : players) {
       TextObject score = new TextObject(player.getId() + ": " + player.getScore(), SMALL);
       score.setColour(player.getColour());
       score.setPosition(Window.getHalfWidth() - score.getSize() / 2, Window.getHalfHeight() - yPos);
-      this.scores.add(score);
+      scores.add(score);
       yPos -= GAP;
     }
-    addScores();
+
+    addScores(scores);
   }
 
   /**
@@ -100,13 +105,13 @@ public class GameEnd implements IGui {
    *
    * @author Joseph
    */
-  private void addScores() {
-    GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length + scores.size()];
-    System.arraycopy(guiObjects, 0, guiObjectsNew, 0, guiObjects.length);
-    for (int i = guiObjects.length; i < guiObjects.length + scores.size(); i++) {
-      guiObjectsNew[i] = scores.get(i - guiObjects.length);
+  private void addScores(List<TextObject> scores) {
+    guiObjects = new GuiObject[baseGuiObjects.length + scores.size()];
+
+    System.arraycopy(baseGuiObjects, 0, guiObjects, 0, baseGuiObjects.length);
+    for (int i = baseGuiObjects.length; i < baseGuiObjects.length + scores.size(); i++) {
+      guiObjects[i] = scores.get(i - baseGuiObjects.length);
     }
-    guiObjects = guiObjectsNew.clone();
   }
 
   /**

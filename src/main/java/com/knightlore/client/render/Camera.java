@@ -82,10 +82,10 @@ class Camera {
         CoordinateUtils.toIsometric(mapSize.x - 1f, mapSize.y - 1f, mapSize.z - 1f);
     Vector3f bottomMostMapPos = CoordinateUtils.toIsometric(0, 0, 0);
 
-    float cameraMinX = leftMostMapPos.x * worldScale + Window.ORIGINAL_WIDTH / 2f - worldScale;
-    float cameraMaxX = rightMostMapPos.x * worldScale - Window.ORIGINAL_WIDTH / 2f + worldScale;
-    float cameraMinY = bottomMostMapPos.y * worldScale + Window.ORIGINAL_HEIGHT / 4f - worldScale;
-    float cameraMaxY = topMostMapPos.y * worldScale - Window.ORIGINAL_HEIGHT / 4f + worldScale;
+    float cameraMinX = leftMostMapPos.x * worldScale + Window.WINDOWED_WIDTH / 2f - worldScale;
+    float cameraMaxX = rightMostMapPos.x * worldScale - Window.WINDOWED_WIDTH / 2f + worldScale;
+    float cameraMinY = bottomMostMapPos.y * worldScale + Window.WINDOWED_HEIGHT / 4f - worldScale;
+    float cameraMaxY = topMostMapPos.y * worldScale - Window.WINDOWED_HEIGHT / 4f + worldScale;
 
     float newX = newWorldPosition.x * worldScale;
     float newY = newWorldPosition.y * worldScale;

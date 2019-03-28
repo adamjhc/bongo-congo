@@ -1,8 +1,8 @@
 package com.knightlore.client.gui;
 
 import com.knightlore.client.gui.engine.Colour;
+import com.knightlore.client.gui.engine.Gui;
 import com.knightlore.client.gui.engine.GuiObject;
-import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Window;
 import com.knightlore.game.entity.Player;
@@ -14,37 +14,37 @@ import java.util.List;
  *
  * @author Joseph
  */
-public class GameEnd implements IGui {
+public class GameEnd extends Gui {
 
   /** Position of the top separator line */
   private static final int SEPARATOR_TOP_POS = 185;
+
   /** Position of the bottom separator line */
   private static final int SEPARATOR_BOT_POS = 200;
+
   /** Gap between each line of text */
   private static final int SEPARATOR_GAP = FONT_SIZE_SMALL;
 
   /** Bongo text */
   private final TextObject bongo;
+  
   /** Congo text */
   private final TextObject congo;
+  
   /** Exit screen text */
   private final TextObject exit;
+  
   /** Top separator line text */
   private final TextObject separatorTop;
+  
   /** Bottom separator line text */
   private final TextObject separatorBot;
+  
   /** Game winner text */
   private final TextObject winner;
-  /** List of each players score */
-  private ArrayList<TextObject> scores;
-
-  /** List of all the gui objects */
-  private GuiObject[] guiObjects;
-  /** List of the text objects that have user interaction */
-  private TextObject[] textObjects;
-
-  /** Position of the next gui object */
-  private int yPos = SEPARATOR_TOP_POS - GAP;
+  
+  /** Length of gui objects initially */
+  private int length;
 
   /**
    * Create gui objects
@@ -72,6 +72,7 @@ public class GameEnd implements IGui {
 
     guiObjects = new GuiObject[] {bongo, congo, exit, separatorTop, separatorBot, winner};
     textObjects = new TextObject[] {exit};
+    length = guiObjects.length;
   }
 
   /**
@@ -81,18 +82,19 @@ public class GameEnd implements IGui {
    * @author Joseph
    */
   public void displayScores(List<Player> players) {
-    yPos = SEPARATOR_TOP_POS - GAP;
+    int yPos = SEPARATOR_TOP_POS - GAP;
 
-    this.scores = new ArrayList<>();
+    List<TextObject> scores = new ArrayList<>();
 
     for (Player player : players) {
       TextObject score = new TextObject(player.getId() + ": " + player.getScore(), SMALL);
       score.setColour(player.getColour());
       score.setPosition(Window.getHalfWidth() - score.getSize() / 2, Window.getHalfHeight() - yPos);
-      this.scores.add(score);
+      scores.add(score);
       yPos -= GAP;
     }
-    addScores();
+
+    addScores(scores);
   }
 
   /**
@@ -100,11 +102,11 @@ public class GameEnd implements IGui {
    *
    * @author Joseph
    */
-  private void addScores() {
-    GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length + scores.size()];
-    System.arraycopy(guiObjects, 0, guiObjectsNew, 0, guiObjects.length);
-    for (int i = guiObjects.length; i < guiObjects.length + scores.size(); i++) {
-      guiObjectsNew[i] = scores.get(i - guiObjects.length);
+  private void addScores(List<TextObject> scores) {
+    GuiObject[] guiObjectsNew = new GuiObject[length + scores.size()];
+    System.arraycopy(guiObjects, 0, guiObjectsNew, 0, length);
+    for (int i = length; i < length + scores.size(); i++) {
+      guiObjectsNew[i] = scores.get(i - length);
     }
     guiObjects = guiObjectsNew.clone();
   }
@@ -150,15 +152,5 @@ public class GameEnd implements IGui {
    */
   public TextObject getExit() {
     return exit;
-  }
-
-  @Override
-  public TextObject[] getTextObjects() {
-    return textObjects;
-  }
-
-  @Override
-  public GuiObject[] getGuiObjects() {
-    return guiObjects;
   }
 }

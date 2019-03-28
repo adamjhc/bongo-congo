@@ -18,13 +18,12 @@ import java.util.Collection;
 
 /**
  * Handles the lobby screen startup, input, updates, rendering and cleanup
- * 
- * @author Joseph, Adam C
  *
+ * @author Joseph, Adam Cox
  */
 public class LobbyScreen implements IScreen {
 
-	/** Menu interaction sound */
+  /** Menu interaction sound */
   private static final AudioName SELECT = AudioName.SOUND_MENUSELECT;
 
   /** The gui renderer */
@@ -39,10 +38,9 @@ public class LobbyScreen implements IScreen {
 
   /**
    * Initialise the renderers and gui
-   * 
+   *
    * @param guiRenderer
    * @author Joseph
-   * 
    */
   public LobbyScreen(GuiRenderer guiRenderer) {
     this.guiRenderer = guiRenderer;

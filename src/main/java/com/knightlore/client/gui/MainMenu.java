@@ -1,21 +1,17 @@
 package com.knightlore.client.gui;
 
 import com.knightlore.client.gui.engine.Colour;
+import com.knightlore.client.gui.engine.Gui;
 import com.knightlore.client.gui.engine.GuiObject;
-import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Window;
 
 /**
- * The main menu which has buttons for:
- * Singleplayer
- * Multiplayer
- * Options
- * Editor
- * 
+ * The main menu which has buttons for: Singleplayer Multiplayer Options Editor
+ *
  * @author Joseph
  */
-public class MainMenu implements IGui {
+public class MainMenu extends Gui {
 
   /** Position of the menu */
   private static final int MENU_POS = -60;
@@ -37,8 +33,8 @@ public class MainMenu implements IGui {
 
   /** Quit game text */
   private final TextObject quit;
-  
-  /**Help text */
+
+  /** Help text */
   private final TextObject help;
 
   /** Sound icon text */
@@ -52,12 +48,6 @@ public class MainMenu implements IGui {
 
   /** Congo text */
   private final TextObject congo;
-
-  /** List of gui objects */
-  private GuiObject[] guiObjects;
-
-  /** List of text objects */
-  private TextObject[] textObjects;
 
   /**
    * Create gui objects
@@ -77,7 +67,7 @@ public class MainMenu implements IGui {
     this.multiplayer = new TextObject("Multiplayer", SMALL);
     this.multiplayer.setColour(Colour.YELLOW);
 
-    this.levelEditor = new TextObject("Editor", SMALL);
+    this.levelEditor = new TextObject("Level Editor", SMALL);
     this.levelEditor.setColour(Colour.YELLOW);
 
     this.highScore = new TextObject("Highscores", SMALL);
@@ -85,7 +75,7 @@ public class MainMenu implements IGui {
 
     this.options = new TextObject("Options", SMALL);
     this.options.setColour(Colour.YELLOW);
-    
+
     this.help = new TextObject("Help", SMALL);
     this.help.setColour(Colour.YELLOW);
 
@@ -154,7 +144,7 @@ public class MainMenu implements IGui {
    * Returns highScore
    *
    * @return HighScore
-   * @author Adam C
+   * @author Adam Cox
    */
   public TextObject getHighScore() {
     return highScore;
@@ -179,9 +169,15 @@ public class MainMenu implements IGui {
   public TextObject getQuit() {
     return quit;
   }
-  
+
+  /**
+   * Returns help
+   *
+   * @return Help
+   * @author Joseph
+   */
   public TextObject getHelp() {
-	  return help;
+    return help;
   }
 
   /**
@@ -229,7 +225,7 @@ public class MainMenu implements IGui {
     this.options.setPosition(
         Window.getHalfWidth() - options.getSize() / 2, Window.getHalfHeight() + MENU_POS + gap * 4);
     this.help.setPosition(
-    	Window.getHalfWidth() - help.getSize() / 2, Window.getHalfHeight() + MENU_POS + gap * 5);
+        Window.getHalfWidth() - help.getSize() / 2, Window.getHalfHeight() + MENU_POS + gap * 5);
     this.quit.setPosition(
         Window.getHalfWidth() - quit.getSize() / 2, Window.getHalfHeight() + MENU_POS + gap * 6);
 
@@ -266,15 +262,5 @@ public class MainMenu implements IGui {
     highScore.setFontTexture(SMALL);
     options.setFontTexture(SMALL);
     quit.setFontTexture(SMALL);
-  }
-
-  @Override
-  public TextObject[] getTextObjects() {
-    return textObjects;
-  }
-
-  @Override
-  public GuiObject[] getGuiObjects() {
-    return guiObjects;
   }
 }

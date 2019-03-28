@@ -10,7 +10,7 @@ import com.knightlore.client.audio.Audio;
 import com.knightlore.client.audio.Audio.AudioName;
 import com.knightlore.client.gui.LevelSelectMenu;
 import com.knightlore.client.gui.engine.Colour;
-import com.knightlore.client.gui.engine.IGui;
+import com.knightlore.client.gui.engine.Gui;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;
@@ -74,7 +74,7 @@ public class LevelSelectScreen implements IScreen {
       for (int i = 0; i < fCount; i++) {
         String fileName = fLevels[i].getName();
         if (fileName.endsWith(".fmap")) {
-          allLevels[i] = new TextObject(fileName.substring(0, fileName.length() - 5), IGui.SMALL);
+          allLevels[i] = new TextObject(fileName.substring(0, fileName.length() - 5), Gui.SMALL);
           allLevels[i].setId(fileName);
           allLevels[i].setColour(Colour.YELLOW);
         }
@@ -137,15 +137,12 @@ public class LevelSelectScreen implements IScreen {
           } else if (selectedLevels.size() != 3) {
             selectedLevels.add(new LevelDisplay(i, levelSelectMenu.getLevel(i).getId()));
           }
-        }
 
-        if (Mouse.isRightButtonPressed()) {
-          Audio.play(SELECT);
           selectedMap = getMap(levelSelectMenu.getLevel(i).getId());
           Vector3i mapSize = selectedMap.getSize();
 
           levelSelectRenderer.setWorldScale(
-              Math.round((Window.getHalfWidth() - 50) / (mapSize.x + mapSize.y)));
+              Math.round((Window.WINDOWED_WIDTH / 2 - 50) / (mapSize.x + mapSize.y)));
           levelSelectRenderer.setCameraPosition(
               new Vector3f(-mapSize.y, (mapSize.x + mapSize.z) / 2f, 0));
         }

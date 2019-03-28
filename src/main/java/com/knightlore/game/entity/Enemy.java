@@ -129,11 +129,11 @@ public class Enemy extends Entity {
         setPosition(newPos);
       } else { // If you bump into unwalkable tile reverse direction
         if (enemyType == EnemyType.CIRCLER) {return;}
-        setDirection(direction.getReverse(direction));
+        setDirection(direction.getReverse());
       }
     } catch (NullPointerException | ArrayIndexOutOfBoundsException e) { // Doesn't allow enemies to move beyond the boundaries of the map
       if (enemyType == EnemyType.CIRCLER) {return;}
-      setDirection(direction.getReverse(direction));
+      setDirection(direction.getReverse());
     }
   }
 

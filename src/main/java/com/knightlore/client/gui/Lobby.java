@@ -1,59 +1,60 @@
 package com.knightlore.client.gui;
 
 import com.knightlore.client.gui.engine.Colour;
+import com.knightlore.client.gui.engine.Gui;
 import com.knightlore.client.gui.engine.GuiObject;
-import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Window;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Multiplayer lobby screen
- * 
- * @author Joseph
  *
+ * @author Joseph
  */
-public class Lobby implements IGui {
+public class Lobby extends Gui {
 
-	/** Position of the top separator line */
-	private static final int SEPARATOR_TOP_POS = 185;
-	/** Position of the bottom separator line */
+  /** Position of the top separator line */
+  private static final int SEPARATOR_TOP_POS = 185;
+
+  /** Position of the bottom separator line */
   private static final int SEPARATOR_BOT_POS = 200;
+
   /** Gap between each line of text */
   private static final int SEPARATOR_GAP = FONT_SIZE_SMALL;
 
   /** Bongo text */
   private final TextObject bongo;
+
   /** Congo text */
   private final TextObject congo;
+
   /** Lobby text */
   private final TextObject lobby;
+
   /** Top separator line text */
   private final TextObject separatorTop;
+
   /** Bottom separator line text */
   private final TextObject separatorBot;
+
   /** Exit screen text */
   private final TextObject exit;
+
   /** Start game text */
   private final TextObject start;
+
   /** Number of gui objects initially */
   private int length;
-  
-  /** List of players */
-  private ArrayList<TextObject> players;
-  /** List of gui objects */
-  private GuiObject[] guiObjects;
-  /** List of text objects */
-  private TextObject[] textObjects;
 
-  /** Position of the next gui object */
-  private int yPos = SEPARATOR_TOP_POS - GAP;
+  /** List of players */
+  private List<TextObject> players;
 
   /**
    * Create gui objects
-   * 
+   *
    * @author Joseph
-   * 
    */
   public Lobby() {
     this.bongo = new TextObject("Bongo", TITLE);
@@ -89,10 +90,9 @@ public class Lobby implements IGui {
 
   /**
    * Sets the name of the lobby
-   * 
+   *
    * @param name The lobby name
    * @author Joseph
-   * 
    */
   public void setLobbyName(String name) {
     this.lobby.setText(name);
@@ -100,19 +100,16 @@ public class Lobby implements IGui {
 
   /**
    * Refreshes to show the players who are currently in the lobby
-   * 
+   *
    * @param players
    * @author Joseph
-   * 
    */
-  public void refreshPlayers(ArrayList<String> players) {
-    yPos = SEPARATOR_TOP_POS - GAP;
+  public void refreshPlayers(List<String> players) {
+    int yPos = SEPARATOR_TOP_POS - GAP;
 
     if (players != null) {
       GuiObject[] guiObjectsNew = new GuiObject[length];
-      for (int i = 0; i < length; i++) {
-        guiObjectsNew[i] = guiObjects[i];
-      }
+      System.arraycopy(guiObjects, 0, guiObjectsNew, 0, length);
       guiObjects = guiObjectsNew.clone();
     }
 
@@ -133,12 +130,11 @@ public class Lobby implements IGui {
   }
 
   /**
-   * Adds players to the list of gui objects 
-   * 
+   * Adds players to the list of gui objects
+   *
    * @author Joseph
-   * 
    */
-  public void addPlayers() {
+  private void addPlayers() {
     GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length + players.size()];
     System.arraycopy(guiObjects, 0, guiObjectsNew, 0, guiObjects.length);
     for (int i = guiObjects.length; i < guiObjects.length + players.size(); i++) {
@@ -146,13 +142,12 @@ public class Lobby implements IGui {
     }
     guiObjects = guiObjectsNew.clone();
   }
-  
+
   /**
    * Updates the position of the gui objects
-   * 
+   *
    * @param includeStart Whether start is displayed or not
    * @author Joseph
-   * 
    */
   public void updateSize(boolean includeStart) {
     this.bongo.setPosition(
@@ -173,20 +168,19 @@ public class Lobby implements IGui {
           Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
       this.start.setPosition(
           Window.getHalfWidth() - start.getSize() / 2,
-          Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 1);
+          Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP);
     } else {
       this.exit.setPosition(
           Window.getHalfWidth() - exit.getSize() / 2,
-          Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 1);
+          Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP);
     }
   }
-  
+
   /**
    * Returns start
-   * 
+   *
    * @return start
    * @author Joseph
-   * 
    */
   public TextObject getStart() {
     return start;
@@ -194,22 +188,11 @@ public class Lobby implements IGui {
 
   /**
    * Returns exit
-   * 
+   *
    * @return Exit
    * @author Joseph
-   * 
    */
   public TextObject getExit() {
     return exit;
-  }
-
-  @Override
-  public TextObject[] getTextObjects() {
-    return textObjects;
-  }
-
-  @Override
-  public GuiObject[] getGuiObjects() {
-    return guiObjects;
   }
 }

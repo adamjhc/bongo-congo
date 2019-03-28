@@ -1,8 +1,8 @@
 package com.knightlore.client.gui;
 
 import com.knightlore.client.gui.engine.Colour;
+import com.knightlore.client.gui.engine.Gui;
 import com.knightlore.client.gui.engine.GuiObject;
-import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Window;
 import com.knightlore.game.entity.Player;
@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author Joseph
  */
-public class GameEnd implements IGui {
+public class GameEnd extends Gui {
 
   /** Position of the top separator line */
   private static final int SEPARATOR_TOP_POS = 185;
@@ -45,12 +45,6 @@ public class GameEnd implements IGui {
 
   /** List of base gui objects */
   private GuiObject[] baseGuiObjects;
-
-  /** List of all the gui objects */
-  private GuiObject[] guiObjects;
-
-  /** List of the text objects that have user interaction */
-  private TextObject[] textObjects;
 
   /**
    * Create gui objects
@@ -159,15 +153,5 @@ public class GameEnd implements IGui {
    */
   public TextObject getExit() {
     return exit;
-  }
-
-  @Override
-  public TextObject[] getTextObjects() {
-    return textObjects;
-  }
-
-  @Override
-  public GuiObject[] getGuiObjects() {
-    return guiObjects;
   }
 }

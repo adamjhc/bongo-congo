@@ -10,7 +10,7 @@ import com.knightlore.client.audio.Audio;
 import com.knightlore.client.audio.Audio.AudioName;
 import com.knightlore.client.gui.LevelSelectMenu;
 import com.knightlore.client.gui.engine.Colour;
-import com.knightlore.client.gui.engine.IGui;
+import com.knightlore.client.gui.engine.Gui;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;
@@ -74,7 +74,7 @@ public class LevelSelectScreen implements IScreen {
       for (int i = 0; i < fCount; i++) {
         String fileName = fLevels[i].getName();
         if (fileName.endsWith(".fmap")) {
-          allLevels[i] = new TextObject(fileName.substring(0, fileName.length() - 5), IGui.SMALL);
+          allLevels[i] = new TextObject(fileName.substring(0, fileName.length() - 5), Gui.SMALL);
           allLevels[i].setId(fileName);
           allLevels[i].setColour(Colour.YELLOW);
         }

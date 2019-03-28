@@ -1,8 +1,8 @@
 package com.knightlore.client.gui;
 
 import com.knightlore.client.gui.engine.Colour;
+import com.knightlore.client.gui.engine.Gui;
 import com.knightlore.client.gui.engine.GuiObject;
-import com.knightlore.client.gui.engine.IGui;
 import com.knightlore.client.gui.engine.LobbyObject;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Mouse;
@@ -11,20 +11,22 @@ import com.knightlore.client.networking.LobbyCache;
 import com.knightlore.networking.ListGameObject;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
- * Screen that shows the list of all the joinable lobbies
- * and has the option to create / refresh games
- * 
- * @author Joseph
+ * Screen that shows the list of all the joinable lobbies and has the option to create / refresh
+ * games
  *
+ * @author Joseph
  */
-public class LobbyMenu implements IGui {
+public class LobbyMenu extends Gui {
 
-	/** Position of the top separator line */
+  /** Position of the top separator line */
   private static final int SEPARATOR_TOP_POS = 185;
+
   /** Position of the bottom separator line */
   private static final int SEPARATOR_BOT_POS = 200;
+
   /** Gap between each line of text */
   private static final int SEPARATOR_GAP = FONT_SIZE_SMALL;
 
@@ -33,42 +35,44 @@ public class LobbyMenu implements IGui {
 
   /** Top separator line text */
   private final TextObject separatorTop;
-  /** Bottom separator line text*/
+
+  /** Bottom separator line text */
   private final TextObject separatorBot;
+
   /** Create game text */
   private final TextObject create;
+
   /** Exit screen text */
   private final TextObject exit;
+
   /** Bongo text */
   private final TextObject bongo;
+
   /** Congo text */
   private final TextObject congo;
+
   /** Multiplayer title text */
   private final TextObject multiplayer;
+
   /** Join game text */
   private final TextObject join;
+
   /** Refresh games text */
   private final TextObject refresh;
-  
+
   /** List of lobbies */
-  private ArrayList<LobbyObject> lobbies;
-  /** List of gui objects */
-  private GuiObject[] guiObjects;
-  /** List of text objects */
-  private TextObject[] textObjects;
-  
+  private List<LobbyObject> lobbies;
+
   /** Length of gui objects initially */
   private int length;
+
   /** Current lobby */
   private int current;
-  /** Position of the next gui object */
-  private int yPos = SEPARATOR_TOP_POS - GAP;
 
   /**
    * Create gui objects
-   * 
+   *
    * @author Joseph
-   * 
    */
   public LobbyMenu() {
     this.bongo = new TextObject("Bongo", TITLE);
@@ -110,14 +114,12 @@ public class LobbyMenu implements IGui {
   }
 
   public void refreshLobbies() {
-    yPos = SEPARATOR_TOP_POS - GAP;
+    int yPos = SEPARATOR_TOP_POS - GAP;
     current = 0;
 
     if (lobbies != null) {
       GuiObject[] guiObjectsNew = new GuiObject[length];
-      for (int i = 0; i < length; i++) {
-        guiObjectsNew[i] = guiObjects[i];
-      }
+      System.arraycopy(guiObjects, 0, guiObjectsNew, 0, length);
       guiObjects = guiObjectsNew.clone();
     }
 
@@ -144,10 +146,9 @@ public class LobbyMenu implements IGui {
 
   /**
    * Deletes a lobby
-   * 
+   *
    * @param game The game to delete
    * @author Joseph
-   * 
    */
   public void deleteLobby(ListGameObject game) {
     int i = 0;
@@ -164,12 +165,11 @@ public class LobbyMenu implements IGui {
       refreshLobbies();
     }
   }
-  
+
   /**
    * Adds a lobby
-   * 
+   *
    * @author Joseph
-   * 
    */
   private void addLobby() {
     if (lobbies.size() <= MAX_SERVERS) {
@@ -184,9 +184,8 @@ public class LobbyMenu implements IGui {
 
   /**
    * Adds list of lobbies
-   * 
+   *
    * @author Joseph
-   * 
    */
   private void addLobbies() {
     if (lobbies.size() <= MAX_SERVERS) {
@@ -207,10 +206,9 @@ public class LobbyMenu implements IGui {
   }
 
   /**
-   * Scroll down 
-   * 
+   * Scroll down
+   *
    * @author Joseph
-   * 
    */
   public void moveDown() {
     if (lobbies.size() > MAX_SERVERS && current < lobbies.size() - MAX_SERVERS) {
@@ -230,9 +228,8 @@ public class LobbyMenu implements IGui {
 
   /**
    * Scroll up
-   * 
+   *
    * @author Joseph
-   * 
    */
   public void moveUp() {
     if (current > 0) {
@@ -253,9 +250,8 @@ public class LobbyMenu implements IGui {
 
   /**
    * Highlight a lobby
-   * 
+   *
    * @author Joseph
-   * 
    */
   public void highlight() {
     double pos = (Mouse.getYPos() - (Window.getHalfHeight() - (SEPARATOR_TOP_POS - GAP * 2))) / GAP;
@@ -267,9 +263,8 @@ public class LobbyMenu implements IGui {
 
   /**
    * Reset all highlights
-   * 
+   *
    * @author Joseph
-   * 
    */
   private void resetHighlight() {
     for (LobbyObject lobby : lobbies) {
@@ -284,10 +279,9 @@ public class LobbyMenu implements IGui {
 
   /**
    * Sets the highlight for a specific lobby
-   * 
+   *
    * @param listPos The lobby to highlight
    * @author Joseph
-   * 
    */
   private void setHighlight(int listPos) {
     resetHighlight();
@@ -301,7 +295,7 @@ public class LobbyMenu implements IGui {
 
   /**
    * Gets the highlighted lobby
-   * 
+   *
    * @return The highlighted lobby
    * @author Joseph
    */
@@ -316,7 +310,7 @@ public class LobbyMenu implements IGui {
 
   /**
    * Returns create
-   * 
+   *
    * @return Create
    * @author Joseph
    */
@@ -326,7 +320,7 @@ public class LobbyMenu implements IGui {
 
   /**
    * Returns separatorTop
-   * 
+   *
    * @return SeparatorTop
    * @author Joseph
    */
@@ -336,7 +330,7 @@ public class LobbyMenu implements IGui {
 
   /**
    * Returns separatorBot
-   * 
+   *
    * @return SeparatorBot
    * @author Joseph
    */
@@ -346,7 +340,7 @@ public class LobbyMenu implements IGui {
 
   /**
    * Returns exit
-   * 
+   *
    * @return Exit
    * @author Joseph
    */
@@ -356,7 +350,7 @@ public class LobbyMenu implements IGui {
 
   /**
    * Returns refresh
-   * 
+   *
    * @return Refresh
    * @author Joseph
    */
@@ -366,7 +360,7 @@ public class LobbyMenu implements IGui {
 
   /**
    * Returns join
-   * 
+   *
    * @return Join
    * @author Joseph
    */
@@ -376,9 +370,8 @@ public class LobbyMenu implements IGui {
 
   /**
    * Updates the position of the gui objects
-   * 
+   *
    * @author Joseph
-   * 
    */
   public void updateSize() {
     this.bongo.setPosition(
@@ -395,7 +388,7 @@ public class LobbyMenu implements IGui {
         Window.getHalfHeight() + SEPARATOR_BOT_POS);
     this.create.setPosition(
         Window.getHalfWidth() - create.getSize() / 2,
-        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 1);
+        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP);
     this.join.setPosition(
         Window.getHalfWidth() - join.getSize() / 2,
         Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
@@ -413,15 +406,5 @@ public class LobbyMenu implements IGui {
           Window.getHalfHeight() - yPos - current * GAP);
       yPos -= GAP;
     }
-  }
-
-  @Override
-  public TextObject[] getTextObjects() {
-    return textObjects;
-  }
-
-  @Override
-  public GuiObject[] getGuiObjects() {
-    return guiObjects;
   }
 }

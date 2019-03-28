@@ -17,15 +17,14 @@ import java.util.Collection;
 
 /**
  * Handles the game end screen startup, input, updates, rendering and cleanup
- * 
- * @author Joseph, Adam C
  *
+ * @author Joseph, Adam Cox
  */
 public class GameEndScreen implements IScreen {
 
-	/** Players */
-	private Collection<Player> players;
-	
+  /** Players */
+  private Collection<Player> players;
+
   /** Gui renderer */
   private GuiRenderer guiRenderer;
 
@@ -34,10 +33,9 @@ public class GameEndScreen implements IScreen {
 
   /**
    * Initialise renderer and gui
-   * 
+   *
    * @param guiRenderer The gui renderer
    * @author Joseph
-   * 
    */
   public GameEndScreen(GuiRenderer guiRenderer) {
     this.guiRenderer = guiRenderer;
@@ -69,9 +67,8 @@ public class GameEndScreen implements IScreen {
 
   /**
    * Set the order of the finishing positions
-   * 
+   *
    * @author Joseph
-   * 
    */
   private void listFinishingPositions() {
     ArrayList<Player> playersList = new ArrayList<>(players);
@@ -83,9 +80,8 @@ public class GameEndScreen implements IScreen {
 
   /**
    * Set the winner of the game
-   * 
+   *
    * @author Joseph
-   * 
    */
   private void setWinner() {
     boolean draw = false;

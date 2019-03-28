@@ -18,7 +18,7 @@ public class Loading extends Gui {
   /**
    * Create gui objects
    *
-   * @author Adam C
+   * @author Adam Cox
    */
   public Loading() {
     loading = new TextObject("Loading...", TITLE);
@@ -31,7 +31,7 @@ public class Loading extends Gui {
   /**
    * Updates the position of the gui objects
    *
-   * @author Adam C
+   * @author Adam Cox
    */
   public void updateSize() {
     loading.setPosition(Window.getHalfWidth() - loading.getSize() / 2, Window.getHalfHeight());

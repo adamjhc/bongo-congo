@@ -82,7 +82,7 @@ public class LevelSelectMenu extends Gui {
   /**
    * Create gui objects
    *
-   * @author Adam C
+   * @author Adam Cox
    */
   public LevelSelectMenu() {
     this.bongo = new TextObject("Bongo", TITLE);
@@ -142,7 +142,7 @@ public class LevelSelectMenu extends Gui {
    * Returns start
    *
    * @return Start
-   * @author Adam C
+   * @author Adam Cox
    */
   public TextObject getStart() {
     return start;
@@ -152,7 +152,7 @@ public class LevelSelectMenu extends Gui {
    * Returns exit
    *
    * @return Exit
-   * @author Adam C
+   * @author Adam Cox
    */
   public TextObject getBack() {
     return exit;
@@ -162,7 +162,7 @@ public class LevelSelectMenu extends Gui {
    * Initialise levels
    *
    * @param l Level list
-   * @author Adam C
+   * @author Adam Cox
    */
   public void setLevels(TextObject[] l) {
     levels = l;
@@ -178,7 +178,7 @@ public class LevelSelectMenu extends Gui {
    *
    * @param i Level index
    * @return Level
-   * @author Adam C
+   * @author Adam Cox
    */
   public TextObject getLevel(int i) {
     return levels[levelIndex + i];
@@ -187,7 +187,7 @@ public class LevelSelectMenu extends Gui {
   /**
    * Increase the page
    *
-   * @author Adam C
+   * @author Adam Cox
    */
   public void incPage() {
     if (levelIndex + 12 < levels.length) {
@@ -199,7 +199,7 @@ public class LevelSelectMenu extends Gui {
   /**
    * Decrease the page
    *
-   * @author Adam C
+   * @author Adam Cox
    */
   public void decPage() {
     if (levelIndex >= 12) {
@@ -212,7 +212,7 @@ public class LevelSelectMenu extends Gui {
    * Gets the next page
    *
    * @return NextPage
-   * @author Adam C
+   * @author Adam Cox
    */
   public TextObject getNextPage() {
     return nextPage;
@@ -222,7 +222,7 @@ public class LevelSelectMenu extends Gui {
    * Gets the last page
    *
    * @return LastPage
-   * @author Adam C
+   * @author Adam Cox
    */
   public TextObject getLastPage() {
     return lastPage;
@@ -232,7 +232,7 @@ public class LevelSelectMenu extends Gui {
    * Returns the number of levels on screen
    *
    * @return Number of levels on screen
-   * @author Adam C
+   * @author Adam Cox
    */
   public int numOnScreenLevels() {
     return Math.min(MAX_LEVEL_COUNT, levels.length - levelIndex);
@@ -247,7 +247,7 @@ public class LevelSelectMenu extends Gui {
   /**
    * Updates the position of the gui objects
    *
-   * @author Adam C
+   * @author Adam Cox
    */
   public void updateSize() {
     this.bongo.setPosition(

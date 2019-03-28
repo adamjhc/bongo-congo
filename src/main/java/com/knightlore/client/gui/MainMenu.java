@@ -144,7 +144,7 @@ public class MainMenu extends Gui {
    * Returns highScore
    *
    * @return HighScore
-   * @author Adam C
+   * @author Adam Cox
    */
   public TextObject getHighScore() {
     return highScore;

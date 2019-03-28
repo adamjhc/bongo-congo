@@ -25,7 +25,7 @@ public class ShowError extends Gui {
   /**
    * Create gui objects
    *
-   * @author Adam C
+   * @author Adam Cox
    */
   public ShowError() {
     errorMessage = new TextObject("", SMALL);
@@ -43,7 +43,7 @@ public class ShowError extends Gui {
    * Return exit
    *
    * @return Exit
-   * @author Adam C
+   * @author Adam Cox
    */
   public TextObject getExit() {
     return exit;
@@ -53,7 +53,7 @@ public class ShowError extends Gui {
    * Set the error message
    *
    * @param errorMessageText text to display
-   * @author Adam C
+   * @author Adam Cox
    */
   public void setErrorMessageText(String errorMessageText) {
     errorMessage.setText(errorMessageText);
@@ -62,7 +62,7 @@ public class ShowError extends Gui {
   /**
    * Updates the position of the gui objects
    *
-   * @author Adam C
+   * @author Adam Cox
    */
   public void updateSize() {
     errorMessage.setPosition(

@@ -117,12 +117,6 @@ public class LobbyMenu extends Gui {
     int yPos = SEPARATOR_TOP_POS - GAP;
     current = 0;
 
-    if (lobbies != null) {
-      GuiObject[] guiObjectsNew = new GuiObject[length];
-      System.arraycopy(guiObjects, 0, guiObjectsNew, 0, length);
-      guiObjects = guiObjectsNew.clone();
-    }
-
     this.lobbies = new ArrayList<>();
 
     if (LobbyCache.instance != null) {
@@ -189,17 +183,17 @@ public class LobbyMenu extends Gui {
    */
   private void addLobbies() {
     if (lobbies.size() <= MAX_SERVERS) {
-      GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length + lobbies.size()];
-      System.arraycopy(guiObjects, 0, guiObjectsNew, 0, guiObjects.length);
-      for (int i = guiObjects.length; i < guiObjects.length + lobbies.size(); i++) {
-        guiObjectsNew[i] = lobbies.get(i - guiObjects.length);
+      GuiObject[] guiObjectsNew = new GuiObject[length + lobbies.size()];
+      System.arraycopy(guiObjects, 0, guiObjectsNew, 0, length);
+      for (int i = length; i < length + lobbies.size(); i++) {
+        guiObjectsNew[i] = lobbies.get(i - length);
       }
       guiObjects = guiObjectsNew.clone();
     } else {
-      GuiObject[] guiObjectsNew = new GuiObject[guiObjects.length + MAX_SERVERS];
-      System.arraycopy(guiObjects, 0, guiObjectsNew, 0, guiObjects.length);
-      for (int i = guiObjects.length; i < guiObjects.length + MAX_SERVERS; i++) {
-        guiObjectsNew[i] = lobbies.get(i - guiObjects.length);
+      GuiObject[] guiObjectsNew = new GuiObject[length + MAX_SERVERS];
+      System.arraycopy(guiObjects, 0, guiObjectsNew, 0, length);
+      for (int i = length; i < length + MAX_SERVERS; i++) {
+        guiObjectsNew[i] = lobbies.get(i - length);
       }
       guiObjects = guiObjectsNew.clone();
     }

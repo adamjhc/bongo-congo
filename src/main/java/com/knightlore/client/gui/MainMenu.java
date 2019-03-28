@@ -67,7 +67,7 @@ public class MainMenu extends Gui {
     this.multiplayer = new TextObject("Multiplayer", SMALL);
     this.multiplayer.setColour(Colour.YELLOW);
 
-    this.levelEditor = new TextObject("Editor", SMALL);
+    this.levelEditor = new TextObject("Level Editor", SMALL);
     this.levelEditor.setColour(Colour.YELLOW);
 
     this.highScore = new TextObject("Highscores", SMALL);

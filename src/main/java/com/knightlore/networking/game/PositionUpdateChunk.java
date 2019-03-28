@@ -5,6 +5,8 @@ import com.knightlore.game.entity.PlayerState;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Player position update, update location, direction, state and score
@@ -13,10 +15,10 @@ import java.util.ArrayList;
  */
 public class PositionUpdateChunk {
 
-    ArrayList<PositionUpdate> queue;
+    Queue<PositionUpdate> queue = new ConcurrentLinkedQueue<>();
 
     public PositionUpdateChunk() {
-        this.queue = new ArrayList<>();
+        this.queue = new ConcurrentLinkedQueue<>();
     }
 
     public void add(PositionUpdate u){
@@ -27,7 +29,7 @@ public class PositionUpdateChunk {
         this.queue.clear();
     }
 
-    public ArrayList<PositionUpdate> getQueue(){
+    public Queue<PositionUpdate> getQueue(){
         return queue;
     }
 }

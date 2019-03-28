@@ -33,6 +33,11 @@ import java.util.List;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
+/**
+ * The screen used for creating and editing your own levels
+ * @author Adam W
+ *
+ */
 public class LevelEditorScreen implements IScreen {
 
   /** The sound that plays whenever the user clicks on a GUI element */
@@ -63,6 +68,7 @@ public class LevelEditorScreen implements IScreen {
    * Initialise LevelEditorScreeen
    * @param guiRenderer renderer used to render gui elements
    * @param levelEditorRenderer renderer used to render editor map
+   * @author Adam W
    */
   public LevelEditorScreen(GuiRenderer guiRenderer, LevelEditorRenderer levelEditorRenderer) {
     this.guiRenderer = guiRenderer;
@@ -70,7 +76,9 @@ public class LevelEditorScreen implements IScreen {
     levelEditorHud = new LevelEditorHud();
   }
 
-  /** Method to setup the level once the level editor is started */
+  /** Method to setup the level once the level editor is started
+   * @author Adam W 
+   */
   @Override
   public void startup(Object... args) {
     editorMap = (LevelMap) args[0];
@@ -82,14 +90,18 @@ public class LevelEditorScreen implements IScreen {
     Audio.play(Audio.AudioName.MUSIC_EDITOR);
   }
 
-  /** Method to process user input */
+  /** Method to process user input 
+   * @author Adam W
+   */
   @Override
   public void input() {
     cameraControl();
     levelEditorInput();
   }
 
-  /** Method to process GUI and level rendering */
+  /** Method to process GUI and level rendering 
+   * @author Adam W
+   */
   @Override
   public void render() {
     levelEditorHud.updateSize();
@@ -97,13 +109,17 @@ public class LevelEditorScreen implements IScreen {
     guiRenderer.render(levelEditorHud);
   }
 
-  /** Method to clean the GUI */
+  /** Method to clean the GUI 
+   * @author Adam W
+   */
   @Override
   public void cleanUp() {
     levelEditorHud.cleanup();
   }
 
-  /** Method to process camera movement from mouse movement */
+  /** Method to process camera movement from mouse movement 
+   * @author Adam W
+   */
   private void cameraControl() {
     if (Mouse.isInScreen()) {
       if (Mouse.getXPos() <= 15) {
@@ -120,7 +136,9 @@ public class LevelEditorScreen implements IScreen {
     }
   }
 
-  /** Method to process keyboard input */
+  /** Method to process keyboard input 
+   * @author Adam W
+   */
   private void levelEditorInput() {
     if (Keyboard.isKeyReleased(GLFW_KEY_W)) {
       if (currentTileX != editorMap.getTiles()[currentTileZ][currentTileY].length - 1) {

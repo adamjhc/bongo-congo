@@ -27,6 +27,11 @@ import java.util.List;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
+/**
+ * Screen for selecting 3 levels to use in Single Player
+ * @author Adam Cox
+ *
+ */
 public class LevelSelectScreen implements IScreen {
 
   /** Audio clip name used for selection */

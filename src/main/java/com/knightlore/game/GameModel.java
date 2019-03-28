@@ -228,6 +228,12 @@ public class GameModel {
         myPlayer().loseLife();
       }
     }
+    
+    if (timeLeft <= 0) {
+    	for (int i = 0; i < myPlayer().getLives(); i++) {
+    		myPlayer().loseLife();
+    	}
+    }
 
     // Resets climb flag
     myPlayer().setClimbFlag(false);

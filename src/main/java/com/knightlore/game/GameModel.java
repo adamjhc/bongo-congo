@@ -10,7 +10,6 @@ import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.util.CoordinateUtils;
-import com.knightlore.game.util.CoordinateUtils.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

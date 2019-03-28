@@ -91,6 +91,24 @@ public class LevelEditorHud extends Gui {
 
   /** Gui horizontal divider */
   private final TextObject hDivider;
+  /** time text */
+  private final TextObject time;
+  /** the actual time text*/
+  private final TextObject timeNum;
+  /** the incrementer for the time */
+  private final TextObject inc;
+  /** the decrementer for the time */
+  private final TextObject dec;
+
+  /** List of the text objects that have user interaction */
+  private TextObject[] textObjects;
+  /** List of all the gui objects */
+  private GuiObject[] guiObjects;
+  
+  private TextObject[] controlTextObjects;
+  
+  /** the actual time integer */
+  private int timeInt;
 
   /**
    * Create gui objects
@@ -98,6 +116,8 @@ public class LevelEditorHud extends Gui {
    * @author Adam W
    */
   public LevelEditorHud() {
+	timeInt = 60;
+	  
     try (InputStream myStream =
         new BufferedInputStream(
             new FileInputStream("src/main/resources/fonts/Press Start 2P.ttf"))) {
@@ -170,35 +190,46 @@ public class LevelEditorHud extends Gui {
 
     this.testLevel = new TextObject("Enter : Test Level", fontTextureSmall);
     this.testLevel.setColour(Colour.YELLOW);
+    
+    this.time = new TextObject("Timer", fontTextureSmall);
+    this.time.setColour(Colour.YELLOW);
+    
+    this.timeNum = new TextObject("" + timeInt, fontTextureLarge);
+    this.timeNum.setColour(Colour.YELLOW);
+    
+    this.inc = new TextObject(">", fontTextureLarge);
+    this.inc.setColour(Colour.YELLOW);
+    
+    this.dec = new TextObject("<", fontTextureLarge);
+    this.dec.setColour(Colour.YELLOW);
 
-    guiObjects =
-        new GuiObject[] {
-          save,
-          tiles,
-          empty,
-          floor,
-          slab,
-          block,
-          hazard,
-          finish,
-          walker,
-          randomer,
-          circler,
-          spawners,
-          hDivider,
-          controls,
-          selectTile,
-          upDownLayer,
-          zoomInOut,
-          rotateLeftRight,
-          moveCamera,
-          testLevel
-        };
-    textObjects =
-        new TextObject[] {
-          save, empty, floor, slab, block, hazard, finish, walker, randomer, circler
-        };
-
+    guiObjects = new GuiObject[] {save, 
+    							  tiles, 
+    							  empty, 
+    							  floor, 
+    							  slab, 
+    							  block, 
+    							  hazard, 
+    							  finish, 
+    							  walker, 
+    							  randomer, 
+    							  circler,  
+    							  spawners, 
+    							  hDivider, 
+    							  controls,
+    							  selectTile, 
+    							  upDownLayer, 
+    							  zoomInOut, 
+    							  rotateLeftRight, 
+    							  moveCamera,
+    							  testLevel,
+    							  time,
+    							  timeNum,
+    							  inc,
+    							  dec};
+    textObjects = new TextObject[] {save, empty, floor, slab, block, hazard, finish, walker, randomer, circler, inc, dec};
+    controlTextObjects = new TextObject[] {controls, selectTile, upDownLayer, zoomInOut, rotateLeftRight, moveCamera, testLevel, time, timeNum, inc, dec};
+    
     controls.setPosition(CONTROLS_HIDE, CONTROLS_SIDE_GAP);
     selectTile.setPosition(CONTROLS_HIDE, CONTROLS_SIDE_GAP + GAP * 1.75f);
     upDownLayer.setPosition(CONTROLS_HIDE, CONTROLS_SIDE_GAP + GAP * 2.75f);
@@ -277,6 +308,34 @@ public class LevelEditorHud extends Gui {
    */
   public TextObject getEmpty() {
     return empty;
+  }
+  
+  public TextObject getInc() {
+	  return inc;
+  }
+  
+  public TextObject getDec() {
+	  return dec;
+  }
+  
+  public void incTime() {
+	  if (timeInt < 180) {
+		  timeInt += 1;
+	  } else {
+		  timeInt = 0;
+	  }
+  }
+  
+  public void decTime() {
+	  if (timeInt > 0) {
+		  timeInt -= 1;
+	  } else {
+		  timeInt = 180;
+	  }
+  }
+  
+  public int getTime() {
+	  return timeInt;
   }
 
   /**
@@ -365,48 +424,43 @@ public class LevelEditorHud extends Gui {
    * @author Adam W
    */
   public void updateSize() {
-    this.save.setPosition(Window.getWidth() - save.getSize() * 1.1f, 10);
-    this.tiles.setPosition(
-        Window.getHalfWidth() - tiles.getSize() / 2 - GAP * 11,
-        Window.getHeight() - tiles.getHeight() - GAP * 8);
-    this.spawners.setPosition(
-        Window.getHalfWidth() - spawners.getSize() / 2 + GAP * 10,
-        Window.getHeight() - spawners.getHeight() - GAP * 8);
-    this.empty.setPosition(
-        Window.getHalfWidth() - empty.getSize() - GAP * 12,
-        Window.getHeight() - empty.getHeight() - GAP * 6);
-    this.floor.setPosition(
-        Window.getHalfWidth() - floor.getSize() - GAP * 5,
-        Window.getHeight() - floor.getHeight() - GAP * 6);
-    this.slab.setPosition(
-        Window.getHalfWidth() - slab.getSize() - GAP * 12,
-        Window.getHeight() - slab.getHeight() - GAP * 4);
-    this.block.setPosition(
-        Window.getHalfWidth() - block.getSize() - GAP * 5,
-        Window.getHeight() - block.getHeight() - GAP * 4);
-    this.hazard.setPosition(
-        Window.getHalfWidth() - hazard.getSize() - GAP * 12,
-        Window.getHeight() - hazard.getHeight() - GAP * 2);
-    this.finish.setPosition(
-        Window.getHalfWidth() - finish.getSize() - GAP * 5,
-        Window.getHeight() - finish.getHeight() - GAP * 2);
-    this.walker.setPosition(
-        Window.getHalfWidth() - walker.getSize() + GAP * 8,
-        Window.getHeight() - walker.getHeight() - GAP * 5);
-    this.randomer.setPosition(
-        Window.getHalfWidth() - randomer.getSize() + GAP * 16,
-        Window.getHeight() - randomer.getHeight() - GAP * 5);
-    this.circler.setPosition(
-        Window.getHalfWidth() - circler.getSize() + GAP * 12,
-        Window.getHeight() - circler.getHeight() - GAP * 3);
-    this.hDivider.setPosition(
-        Window.getHalfWidth() - hDivider.getSize() / 2,
-        Window.getHeight() - hDivider.getHeight() - GAP * 7);
+	  this.save.setPosition(Window.getWidth()-save.getSize()*1.1f, 10);
+	  this.tiles.setPosition(Window.getWidth()/2-tiles.getSize()/2 - GAP*11, Window.getHeight()-tiles.getHeight()-GAP*8);
+	  this.spawners.setPosition(Window.getWidth()/2-spawners.getSize()/2 + GAP*10, Window.getHeight()-spawners.getHeight()-GAP*8);
+	  this.empty.setPosition(Window.getWidth()/2-empty.getSize()-GAP*12, Window.getHeight()-empty.getHeight()-GAP*6);
+	  this.floor.setPosition(Window.getWidth()/2-floor.getSize()-GAP*5, Window.getHeight()-floor.getHeight()-GAP*6);
+	  this.slab.setPosition(Window.getWidth()/2-slab.getSize()-GAP*12, Window.getHeight()-slab.getHeight()-GAP*4);
+	  this.block.setPosition(Window.getWidth()/2-block.getSize()-GAP*5, Window.getHeight()-block.getHeight()-GAP*4);
+	  this.hazard.setPosition(Window.getWidth()/2-hazard.getSize()-GAP*12, Window.getHeight()-hazard.getHeight()-GAP*2);
+	  this.finish.setPosition(Window.getWidth()/2-finish.getSize()-GAP*5, Window.getHeight()-finish.getHeight()-GAP*2);
+	  this.walker.setPosition(Window.getWidth()/2-walker.getSize()+GAP*8, Window.getHeight()-walker.getHeight()-GAP*5);
+	  this.randomer.setPosition(Window.getWidth()/2-randomer.getSize()+GAP*16, Window.getHeight()-randomer.getHeight()-GAP*5);
+	  this.circler.setPosition(Window.getWidth()/2-circler.getSize()+GAP*12, Window.getHeight()-circler.getHeight()-GAP*3);
+	  this.hDivider.setPosition(Window.getWidth()/2-hDivider.getSize()/2, Window.getHeight()-hDivider.getHeight()-GAP*7);
+	  
+	  this.time.setPosition(controls.getPositionX() + (0-CONTROLS_HIDE) + 35, controls.getPositionY());
+	  this.timeNum.setPosition(time.getPositionX() + time.getSize()/2 - timeNum.getSize()/2, time.getPositionY() + GAP);
+	  this.timeNum.setText("" + timeInt);
+	  this.inc.setPosition(time.getPositionX() + time.getSize() + inc.getSize()*0.3f, timeNum.getPositionY());
+	  this.dec.setPosition(time.getPositionX() - dec.getSize(), timeNum.getPositionY());
+	  
+	  for (int i = 0; i < 8; i++) {
+		  this.vDivider[i].setPosition(Window.getHalfWidth()-vDivider[i].getSize()/2, Window.getHeight()-vDivider[i].getHeight()-GAP*i);
+	  }
+
 
     for (int i = 0; i < 8; i++) {
       this.vDivider[i].setPosition(
           Window.getHalfWidth() - vDivider[i].getSize() / 2,
           Window.getHeight() - vDivider[i].getHeight() - GAP * i);
     }
+  }
+  
+  public TextObject[] getTextObjects() {
+	  return textObjects;
+  }
+  
+  public GuiObject[] getGuiObjects() {
+	  return guiObjects;
   }
 }

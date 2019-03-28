@@ -19,6 +19,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
+/**
+ * Screen to choose a saved level to edit
+ * @author Adam W
+ *
+ */
 public class LoadLevelScreen implements IScreen {
 
   /** Audio clip name for selection */
@@ -41,8 +46,8 @@ public class LoadLevelScreen implements IScreen {
 
   /**
    * Initialise LoadLevelScreen
-   *
    * @param guiRenderer renderer used to render gui elements
+   * @author Adam W
    */
   public LoadLevelScreen(GuiRenderer guiRenderer) {
     this.guiRenderer = guiRenderer;
@@ -50,7 +55,9 @@ public class LoadLevelScreen implements IScreen {
     currentLevelName = "";
   }
 
-  /** Method to initialise the menu when it is changed to */
+  /** Method to initialise the menu when it is changed to
+   * @author Adam W
+   */
   @Override
   public void startup(Object... args) {
     File[] fLevels = (new File(finishedFilePath)).listFiles();
@@ -79,7 +86,9 @@ public class LoadLevelScreen implements IScreen {
     loadLevelMenu.setLevels(allLevels);
   }
 
-  /** Method to process users clicking on menu items */
+  /** Method to process users clicking on menu items 
+   * @author Adam W
+   */
   @Override
   public void input() {
     if (checkPosition(loadLevelMenu, loadLevelMenu.getLoad().getId())) {
@@ -139,14 +148,18 @@ public class LoadLevelScreen implements IScreen {
     }
   }
 
-  /** Method to render the GUI */
+  /** Method to render the GUI 
+   * @author Adam W
+   */
   @Override
   public void render() {
     loadLevelMenu.updateSize();
     guiRenderer.render(loadLevelMenu);
   }
 
-  /** Method to clean up the GUI */
+  /** Method to clean up the GUI
+   * @author AdamW
+   */
   @Override
   public void cleanUp() {
     loadLevelMenu.cleanup();
@@ -157,6 +170,7 @@ public class LoadLevelScreen implements IScreen {
    *
    * @param filePath The path to the map file being loaded
    * @return A new LevelMap built from the loaded map file
+   * @author Adam W
    */
   private LevelMap getMap(String filePath) {
     File levelFile = new File(filePath);

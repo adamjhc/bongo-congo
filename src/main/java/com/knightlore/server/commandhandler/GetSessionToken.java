@@ -16,6 +16,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Optional;
 
+/**
+ * Request session token request handler
+ *
+ * @author Lewis Relph
+ */
 public class GetSessionToken extends Command{
 
     SessionGenerator apikey = new SessionGenerator();

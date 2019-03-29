@@ -3,6 +3,11 @@ package com.knightlore.game.server;
 import com.knightlore.networking.game.PositionUpdate;
 import com.knightlore.networking.game.PositionUpdateChunk;
 
+/**
+ * Queue for storing position update before they are sent out
+ *
+ * @author Lewis Relph
+ */
 public class PositionUpdateQueue {
 
     public static PositionUpdateQueue instance = new PositionUpdateQueue();

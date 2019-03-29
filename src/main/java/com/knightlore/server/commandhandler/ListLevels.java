@@ -10,6 +10,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
+/**
+ * List levels request handler
+ *
+ * @author Lewis Relph
+ */
 public class ListLevels extends Command{
 
     final static Logger logger = Logger.getLogger(ListLevels.class);

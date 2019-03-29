@@ -15,9 +15,13 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
 
+/**
+ * List game response handler
+ *
+ * @author Lewis Relph
+ */
 public class ListGames extends Command{
 
-    SessionGenerator apikey = new SessionGenerator();
     final static Logger logger = Logger.getLogger(ListGames.class);
 
 

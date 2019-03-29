@@ -4,6 +4,11 @@ import com.knightlore.game.entity.Player;
 import com.knightlore.game.server.ClientHandler;
 import com.knightlore.networking.Sendable;
 
+/**
+ * Factory for routing incoming game server commands
+ *
+ * @author Lewis Relph
+ */
 public class Factory {
 
   public static void create(ClientHandler clientHandler, Sendable sendable) {

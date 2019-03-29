@@ -8,6 +8,11 @@ import com.knightlore.networking.game.PositionUpdateChunk;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Thread for handling sending updated positions to clients
+ *
+ * @author Lewis Relph
+ */
 public class PositionUpdateQueueHandler extends Thread{
 
     PositionUpdateQueue queue;
@@ -24,17 +29,17 @@ public class PositionUpdateQueueHandler extends Thread{
     public void run(){
         Gson gson = new Gson();
         while(running){
-            System.out.println("Relaying");
-
+            // Retrieve latest chunk
             Sendable sendable = new Sendable();
             sendable.setFunction("position_update_chunk");
             PositionUpdateChunk chunk = queue.getQueue();
 
-            System.out.println("SENDING CHUNK");
             sendable.setData(gson.toJson(chunk));
 
+            // Send to all clients
             this.server.sendToRegistered(sendable);
 
+            // Reset queue
             queue.clear();
 
             try{

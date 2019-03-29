@@ -10,6 +10,11 @@ import com.knightlore.server.database.model.Model;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Thread for updating the enemy positions in the model periodically
+ *
+ * @author Lewis Relph
+ */
 public class EnemyPositionUpdateManager extends Thread{
 
     GameModel model;

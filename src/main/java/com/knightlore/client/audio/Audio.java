@@ -196,9 +196,9 @@ public class Audio {
    * @author Adam W
    */
   public static void stop(AudioName file) {
-	  if (audioFiles[file.ordinal()].isPlaying()) {
-		  audioFiles[file.ordinal()].stop();
-	  }
+//	  if (audioFiles[file.ordinal()].isPlaying()) {
+//		  audioFiles[file.ordinal()].stop();
+//	  }
   }
 
   /**
@@ -206,11 +206,11 @@ public class Audio {
    * @author Adam W
    */
   public static void closeInactiveClips() {
-    for (MusicPlayer audioFile : audioFiles) {
-      if (!audioFile.isPlaying() && audioFile != audioFiles[currentMusic]) {
-        audioFile.stop();
-      }
-    }
+//    for (MusicPlayer audioFile : audioFiles) {
+//      if (!audioFile.isPlaying() && audioFile != audioFiles[currentMusic]) {
+//        audioFile.stop();
+//      }
+//    }
   }
 
   /**

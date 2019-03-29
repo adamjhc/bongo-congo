@@ -17,6 +17,11 @@ import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.UUID;
 
+/**
+ * Thread to run the actual game server
+ *
+ * @author Lewis Relph
+ */
 public class GameServer extends Thread {
   public int socket;
   UUID id;
@@ -110,6 +115,7 @@ public class GameServer extends Thread {
     System.out.println("SENDING TO ALL");
     try {
       for (ClientHandler registered : this.registeredClients()) {
+        System.out.println("SENDING TO: " + registered.sessionKey.get());
         registered.dos.writeObject(sendable);
       }
     } catch (IOException e) {

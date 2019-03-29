@@ -10,7 +10,11 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Optional;
 
-// Client handler class for game
+/**
+ * Thread given when incoming client is assigned, handles input and output with network
+ *
+ * @author Lewis Relph
+ */
 public class ClientHandler extends Thread {
   // Declare input and output streams
   final ObjectInputStream dis;

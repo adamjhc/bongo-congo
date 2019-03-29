@@ -33,12 +33,12 @@ public class LevelComplete extends Command {
 
     if(allFinished){
       // Send out
-      Sendable update = new Sendable();
-      sendable.setFunction("position_update_chunk");
-      PositionUpdateChunk chunk = new PositionUpdateChunk();
-      chunk.add(new PositionUpdate(player.getPosition(), handler.sessionKey.get(), player.getDirection(), player.getPlayerState(), player.getScore()));
-      update.setData(gson.toJson(chunk));
-      handler.server().sendToRegisteredExceptSelf(update, handler.sessionKey.get());
+//      Sendable update = new Sendable();
+//      sendable.setFunction("position_update_chunk");
+//      PositionUpdateChunk chunk = new PositionUpdateChunk();
+//      chunk.add(new PositionUpdate(player.getPosition(), handler.sessionKey.get(), player.getDirection(), player.getPlayerState(), player.getScore()));
+//      update.setData(gson.toJson(chunk));
+//      handler.server().sendToRegisteredExceptSelf(update, handler.sessionKey.get());
 
       if(handler.model().lastLevel()){
         // Finish game

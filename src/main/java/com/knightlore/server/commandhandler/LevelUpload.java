@@ -8,6 +8,11 @@ import org.apache.log4j.Logger;
 
 import java.util.*;
 
+/**
+ * Level upload request handler
+ *
+ * @author Lewis Relph
+ */
 public class LevelUpload extends Command{
 
     final static Logger logger = Logger.getLogger(LevelUpload.class);

@@ -19,6 +19,11 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Store for current server connection & related information
+ *
+ * @author Lewis Relph
+ */
 public class ServerConnection {
 
     public static ServerConnection instance;
@@ -29,23 +34,39 @@ public class ServerConnection {
     Client client;
 
 
-    // Generate new key
+    /**
+     * Default constructor, no key provided
+     * @param client
+     */
     public ServerConnection(Client client) {
         this.client = client;
         this.sessionKey = Optional.empty();
     }
 
-    // Key already validated
+    /**
+     * Constructor if session key has already been established
+     * @param client
+     * @param sessionKey
+     */
     public ServerConnection(Client client, String sessionKey) {
         this.client = client;
         this.sessionKey = Optional.of(sessionKey);
     }
 
-    // Manually overwrite
+    /**
+     * Setter for session key
+     * @param sessionKey
+     */
     public void setSessionKey(String sessionKey){
         this.sessionKey = Optional.of(sessionKey);
     }
 
+    /**
+     * Authenticate with the remote server
+     * @throws ClientAlreadyAuthenticatedException
+     * @throws IOException
+     * @throws ConfigItemNotFoundException
+     */
     public void auth() throws ClientAlreadyAuthenticatedException, IOException, ConfigItemNotFoundException{
         // Check if already authenticated
         if(authenticated){
@@ -72,9 +93,13 @@ public class ServerConnection {
         ResponseHandler.waiting.put(sendable.getUuid(), new SessionKey());
 
         client.dos.writeObject(sendable);
-
     }
 
+    /**
+     * Listeners for authentication success
+     * @param sessionKey
+     * @param username
+     */
     public void authSuccess(String sessionKey, String username){
         // Update local variables
         this.sessionKey = Optional.of(sessionKey);
@@ -82,22 +107,40 @@ public class ServerConnection {
         this.authenticated = true;
     }
 
+    /**
+     * Listeners for authentication fail
+     */
     public void authFail(){
         // Listeners for auth fail
     }
 
+    /**
+     * Getter for client ready
+     * @return
+     */
     public boolean ready(){
         return this.client.ready;
     }
 
+    /**
+     * Getter for authenticated
+     * @return
+     */
     public boolean isAuthenticated(){
         return this.authenticated;
     }
 
+    /**
+     * Close current connection
+     * @throws IOException
+     */
     public void close() throws IOException{
         this.client.close();
     }
 
+    /**
+     * Send new game request to server
+     */
     public void requestGame(){
         if(this.authenticated){
             // Build up get session string
@@ -108,8 +151,11 @@ public class ServerConnection {
             Gson gson = new Gson();
 
             com.knightlore.networking.server.GameRequest request = new com.knightlore.networking.server.GameRequest();
-            // TODO make dynamic
-            request.addLevel(UUID.fromString("47eb096a-a88c-4933-afc2-ed961ce2158e"));
+
+            // Space to implement requesting specific levels
+            //request.addLevel(UUID.fromString("47eb096a-a88c-4933-afc2-ed961ce2158e"));
+
+
             sendable.setData(gson.toJson(request));
 
             // Specify handler
@@ -125,6 +171,9 @@ public class ServerConnection {
         }
     }
 
+    /**
+     * Send list game request to server
+     */
     public void listGames(){
         if(this.authenticated){
             // Build up get session string
@@ -144,13 +193,15 @@ public class ServerConnection {
         }
     }
 
+    /**
+     * Send list level request ot server
+     */
     public void listLevels(){
         if(this.authenticated){
             // Build up get session string
             Sendable sendable = new Sendable();
             sendable.setUuid();
             sendable.setFunction("list_levels");
-
 
             // Specify handler
             ResponseHandler.waiting.put(sendable.getUuid(), new ListLevels());
@@ -163,6 +214,9 @@ public class ServerConnection {
         }
     }
 
+    /**
+     * Send highscore request to server
+     */
     public void getHighScores(){
         if(this.authenticated){
             // Build up get session string
@@ -181,11 +235,19 @@ public class ServerConnection {
         }
     }
 
-
+    /**
+     * Getter for session key
+     * @return
+     */
     public Optional<String> getSessionKey() {
         return sessionKey;
     }
 
+    /**
+     * Make connection to database
+     * @return
+     * @throws ConfigItemNotFoundException
+     */
     public static boolean makeConnection() throws ConfigItemNotFoundException{
         Optional<Integer> authServerPort = Config.authServerPort();
         Optional<String> authServerIp = Config.authServerIp();
@@ -238,6 +300,11 @@ public class ServerConnection {
         return true;
     }
 
+    /**
+     * Send request to upload level to server
+     * @param level
+     * @param name
+     */
     public void sendLevel(Level level, String name){
         Sendable sendable = new Sendable();
         sendable.setFunction("level_upload");

@@ -35,6 +35,9 @@ import com.knightlore.client.render.LevelSelectRenderer;
 import java.util.EnumMap;
 import java.util.Map;
 
+/**
+ * Master client class, called when client runs
+ */
 public class Client {
 
   /** Target number of times game should update per second */

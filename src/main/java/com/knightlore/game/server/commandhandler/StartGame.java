@@ -5,24 +5,21 @@ import com.knightlore.networking.server.ApiKey;
 import com.knightlore.networking.Sendable;
 import com.knightlore.networking.server.SessionKeyResponse;
 
+/**
+ * Handler for start game command
+ *
+ * @author Lewis Relph
+ */
 public class StartGame extends Command {
 
   public void run(ClientHandler handler, Sendable sendable) {
-    System.out.println("START GAME CALLED");
-
     // Create json data
     String json = sendable.getData();
-    ApiKey apikey = gson.fromJson(json, ApiKey.class);
 
-    Sendable response = sendable.makeResponse();
-    SessionKeyResponse sessionKeyResponse;
-
-    // Check if session key is equal to game owner
+    // Check if request was made by the owner
     if (handler.isOwner()) {
       // Start Game
       handler.server().startGame();
-    } else {
-      System.out.println("NOT OWNER");
     }
   }
 }

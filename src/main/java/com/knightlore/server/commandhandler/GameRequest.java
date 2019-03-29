@@ -15,6 +15,11 @@ import java.net.UnknownHostException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Command handler for requesting a new game
+ *
+ * @author Lewis Relph
+ */
 public class GameRequest extends Command{
 
     final static Logger logger = Logger.getLogger(GameRequest.class);

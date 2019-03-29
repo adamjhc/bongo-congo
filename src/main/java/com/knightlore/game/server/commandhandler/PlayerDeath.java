@@ -8,6 +8,11 @@ import com.knightlore.game.server.ClientHandler;
 import com.knightlore.networking.Sendable;
 import com.knightlore.server.game.GameRepository;
 
+/**
+ * Handler for incoming player death command
+ *
+ * @author Lewis Relph
+ */
 public class PlayerDeath extends Command {
 
   public void run(ClientHandler handler, Sendable sendable) {
@@ -33,7 +38,6 @@ public class PlayerDeath extends Command {
           handler.model().setState(GameState.FINISHED);
           gameComplete.setFunction("game_complete");
           handler.server().sendToRegistered(gameComplete);
-          System.out.println("GAME COMPLETE");
         }else{
           Sendable levelComplete = new Sendable();
           levelComplete.setFunction("level_complete");

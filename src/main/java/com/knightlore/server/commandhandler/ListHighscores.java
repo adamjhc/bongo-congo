@@ -10,6 +10,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 
+/**
+ * List highscore request handler
+ *
+ * @author Lewis Relph
+ */
 public class ListHighscores extends Command{
 
     final static Logger logger = Logger.getLogger(ListHighscores.class);

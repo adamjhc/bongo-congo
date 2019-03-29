@@ -8,6 +8,11 @@ import com.knightlore.networking.Sendable;
 import com.knightlore.networking.game.EnemyLocationUpdate;
 import com.knightlore.networking.game.EnemyLocationUpdateObject;
 
+/**
+ * Thread for periodically updating the model server side, handle enemy movement etc
+ *
+ * @author Lewis Relph
+ */
 public class GameManager extends Thread {
 
   private static final int TARGET_UPS = 60;

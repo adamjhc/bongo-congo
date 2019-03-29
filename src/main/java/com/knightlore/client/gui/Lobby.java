@@ -114,13 +114,7 @@ public class Lobby extends Gui {
   }
 
   /**
-<<<<<<< HEAD
    * Adds players to the list of gui objects
-=======
-   * Adds playerGameObjects to the list of gui objects
-   *
-   * @author Joseph
->>>>>>> e38b29c6bd31906ff45ebfb3ad5232ba6364c0c1
    */
   public void addPlayers(List<TextObject> playerTextObjects) {
     guiObjects = new GuiObject[baseGuiObjects.length + playerTextObjects.size()];

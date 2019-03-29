@@ -5,7 +5,7 @@ import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.networking.ServerConnection;
 import com.knightlore.client.networking.backend.Client;
 import com.knightlore.client.networking.backend.responsehandlers.GenericHandler;
-import com.knightlore.networking.GameRequestResponse;
+import com.knightlore.networking.server.GameRequestResponse;
 import com.knightlore.networking.Sendable;
 
 import java.util.concurrent.TimeUnit;
@@ -25,11 +25,17 @@ public class GameRequest implements GenericHandler {
             Client gameClient = new Client(data.ip, data.port);
             gameClient.run();
 
-            GameConnection.instance = new GameConnection(gameClient);
-
+            GameConnection.instance = new GameConnection(gameClient, ServerConnection.instance.getSessionKey().get());
             // Connection established
             // Call additional listeners
             GameConnection.instance.gameConnectionMade();
+
+            try{
+                TimeUnit.SECONDS.sleep(1);
+            }catch(InterruptedException e){
+
+            }
+
         }else{
             GameConnection.instance.gameConnectionFailed();
         }

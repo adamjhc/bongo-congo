@@ -1,214 +1,226 @@
 package com.knightlore.client;
 
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_L;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_P;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
-import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
+import static com.knightlore.client.util.GuiUtils.registerFont;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.glClear;
 
-import com.knightlore.client.audio.AudioHandler;
-import com.knightlore.client.render.Renderer;
-import com.knightlore.game.Game;
-import com.knightlore.game.entity.Direction;
-import com.knightlore.game.entity.PlayerState;
-import com.knightlore.game.map.MapSet;
-import com.knightlore.game.map.TileSet;
-import com.knightlore.hud.engine.MouseInput;
-import com.knightlore.hud.engine.Timer;
-import com.knightlore.hud.engine.Window;
-import com.knightlore.hud.game.Hud;
+import com.knightlore.client.audio.Audio;
+import com.knightlore.client.gui.Loading;
+import com.knightlore.client.gui.engine.Timer;
+import com.knightlore.client.gui.screen.GameEndScreen;
+import com.knightlore.client.gui.screen.GameScreen;
+import com.knightlore.client.gui.screen.HelpScreen;
+import com.knightlore.client.gui.screen.HighScoreScreen;
+import com.knightlore.client.gui.screen.IScreen;
+import com.knightlore.client.gui.screen.LevelEditorScreen;
+import com.knightlore.client.gui.screen.LevelEditorSetupScreen;
+import com.knightlore.client.gui.screen.LevelSelectScreen;
+import com.knightlore.client.gui.screen.LoadLevelScreen;
+import com.knightlore.client.gui.screen.LobbyScreen;
+import com.knightlore.client.gui.screen.LobbySelectScreen;
+import com.knightlore.client.gui.screen.MainScreen;
+import com.knightlore.client.gui.screen.NameLevelScreen;
+import com.knightlore.client.gui.screen.OptionsScreen;
+import com.knightlore.client.gui.screen.ShowErrorScreen;
+import com.knightlore.client.gui.screen.TestingLevelScreen;
+import com.knightlore.client.io.Keyboard;
+import com.knightlore.client.io.Mouse;
+import com.knightlore.client.io.Window;
+import com.knightlore.client.render.GameRenderer;
+import com.knightlore.client.render.GuiRenderer;
+import com.knightlore.client.render.LevelEditorRenderer;
+import com.knightlore.client.render.LevelSelectRenderer;
+import java.util.EnumMap;
+import java.util.Map;
 
-public class Client extends Thread {
+/**
+ * Master client class, called when client runs
+ */
+public class Client {
 
-  public static Game model;
-
+  /** Target number of times game should update per second */
   private static final int TARGET_UPS = 60;
 
-  private Window window;
+  /** Map between client state and screen to show */
+  private static Map<ClientState, IScreen> screens;
 
-  private Renderer renderer;
+  /** Current screen showing */
+  private static IScreen currentScreen;
 
-  private Game gameModel;
+  /** Gui elements for loading screen */
+  private static Loading loadingScreen;
 
-  private AudioHandler audio;
+  /** Renderer used for rendering the game */
+  private static GameRenderer gameRenderer;
 
-  private MouseInput mouseInput;
+  /** Renderer used for rendering gui elements */
+  private static GuiRenderer guiRenderer;
 
-  private Timer timer;
+  /** Renderer used for rendering level editing */
+  private static LevelEditorRenderer levelEditorRenderer;
 
-  private Hud hud;
+  /** Renderer used for rendering map preview in level select */
+  private static LevelSelectRenderer levelSelectRenderer;
 
+  /** Timer used in game */
+  private static Timer timer;
+
+  /**
+   * Main method for client
+   *
+   * @param args unused
+   */
   public static void main(String[] args) {
-    new Client().run();
+    Client.run();
   }
 
-  public void run() {
-    try {
-      init();
-      loop();
-    } catch (Exception e) {
-      e.printStackTrace();
-    } finally {
-      dispose();
+  /**
+   * Change current screen being shown
+   *
+   * @param newScreen New screen to show
+   * @param showLoadingScreen whether to show the loading screen while switching screens
+   * @param args Variable arguments to pass onto new screen
+   * @author Adam Cox
+   */
+  public static void changeScreen(
+      ClientState newScreen, boolean showLoadingScreen, Object... args) {
+    if (showLoadingScreen) {
+      showLoadingScreen();
     }
+
+    currentScreen.shutdown(newScreen);
+    currentScreen = screens.get(newScreen);
+    currentScreen.startup(args);
   }
 
-  private void init() throws Exception {
+  /**
+   * Display loading screen
+   *
+   * @author Adam Cox
+   */
+  public static void showLoadingScreen() {
+    loadingScreen.updateSize();
+    clearBuffers();
+    guiRenderer.render(loadingScreen);
+    Window.swapBuffers();
+  }
+
+  /**
+   * Run client
+   *
+   * @author Adam Cox
+   */
+  public static void run() {
+    init();
+    loop();
+    dispose();
+  }
+
+  /**
+   * Initialise client
+   *
+   * @author Adam Cox
+   */
+  private static void init() {
     // Setting up GLFW
-    window = new Window("Bongo Congo", 1280, 720);
-    mouseInput = new MouseInput();
+    Window.init();
+
+    // Setup peripherals
+    Audio.init();
+    Mouse.init();
+    Keyboard.init();
 
     timer = new Timer();
-    audio = new AudioHandler();
 
-    window.init();
-    timer.init();
-    mouseInput.init(window);
+    registerFont();
 
-    hud = new Hud(window);
+    gameRenderer = new GameRenderer();
+    guiRenderer = new GuiRenderer();
+    levelEditorRenderer = new LevelEditorRenderer();
+    levelSelectRenderer = new LevelSelectRenderer();
 
-    renderer = new Renderer(window);
-    if (model == null) {
-      MapSet mapSet = new MapSet(new TileSet());
-      gameModel = new Game("", mapSet);
-      gameModel.createNewLevel(mapSet.getMap(0));
-    } else {
-      gameModel = model;
-    }
+    screens = new EnumMap<>(ClientState.class);
+    screens.put(ClientState.MAIN_MENU, new MainScreen(guiRenderer));
+    screens.put(ClientState.LOBBY_MENU, new LobbySelectScreen(guiRenderer));
+    screens.put(ClientState.PRE_EDITOR, new LevelEditorSetupScreen(guiRenderer));
+    screens.put(ClientState.LEVEL_EDITOR, new LevelEditorScreen(guiRenderer, levelEditorRenderer));
+    screens.put(
+        ClientState.TESTING_LEVEL, new TestingLevelScreen(guiRenderer, gameRenderer, timer));
+    screens.put(ClientState.OPTIONS_MENU, new OptionsScreen(guiRenderer));
+    screens.put(ClientState.GAME, new GameScreen(guiRenderer, gameRenderer, timer));
+    screens.put(ClientState.NAMING_LEVEL, new NameLevelScreen(guiRenderer));
+    screens.put(ClientState.LOBBY, new LobbyScreen(guiRenderer));
+    screens.put(ClientState.LOADING_LEVEL, new LoadLevelScreen(guiRenderer, levelSelectRenderer));
+    screens.put(ClientState.END, new GameEndScreen(guiRenderer));
+    screens.put(ClientState.LEVEL_SELECT, new LevelSelectScreen(guiRenderer, levelSelectRenderer));
+    screens.put(ClientState.SHOW_ERROR, new ShowErrorScreen(guiRenderer));
+    screens.put(ClientState.HIGHSCORE, new HighScoreScreen(guiRenderer));
+    screens.put(ClientState.HELP, new HelpScreen(guiRenderer));
 
-    audio.toggle();
+    loadingScreen = new Loading();
+
+    currentScreen = screens.get(ClientState.MAIN_MENU);
+    currentScreen.startup();
   }
 
-  private void loop() {
+  /**
+   * Game loop
+   *
+   * @author Adam Cox, Joseph Tuffin
+   */
+  private static void loop() {
     float elapsedTime;
     float accumulator = 0f;
     float interval = 1f / TARGET_UPS;
 
-    while (!window.windowShouldClose()) {
+    while (!Window.shouldClose()) {
       elapsedTime = timer.getElapsedTime();
 
       accumulator += elapsedTime;
 
-      input(interval);
+      Window.update();
+      currentScreen.input();
 
       while (accumulator >= interval) {
-        update(interval);
+        currentScreen.update(interval);
 
         accumulator -= interval;
       }
 
-      render(gameModel);
+      clearBuffers();
+      currentScreen.render();
+      Window.swapBuffers();
+
+      Audio.closeInactiveClips();
     }
   }
 
-  private void input(float delta) {
-    window.update();
+  /**
+   * Dispose of memory allocated objects
+   *
+   * @author Adam Cox
+   */
+  private static void dispose() {
+    gameRenderer.cleanup();
+    guiRenderer.cleanup();
+    levelEditorRenderer.cleanup();
+    levelSelectRenderer.cleanup();
+    screens.forEach((state, screen) -> screen.cleanUp());
 
-    if (window.isKeyPressed(GLFW_KEY_W) // Player presses W
-        && !window.isKeyPressed(GLFW_KEY_A)
-        && !window.isKeyPressed(GLFW_KEY_S)
-        && !window.isKeyPressed(GLFW_KEY_D)) {
-      gameModel.movePlayerInDirection(Direction.NORTH_WEST, delta);
-    } else if (window.isKeyPressed(GLFW_KEY_W) // Player presses W and D
-        && window.isKeyPressed(GLFW_KEY_D)) {
-      gameModel.movePlayerInDirection(Direction.NORTH, delta);
-    } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses D
-        && !window.isKeyPressed(GLFW_KEY_A)
-        && !window.isKeyPressed(GLFW_KEY_S)
-        && window.isKeyPressed(GLFW_KEY_D)) {
-      gameModel.movePlayerInDirection(Direction.NORTH_EAST, delta);
-    } else if (window.isKeyPressed(GLFW_KEY_S) // Player presses S and D
-        && window.isKeyPressed(GLFW_KEY_D)) {
-      gameModel.movePlayerInDirection(Direction.EAST, delta);
-    } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses S
-        && !window.isKeyPressed(GLFW_KEY_A)
-        && window.isKeyPressed(GLFW_KEY_S)
-        && !window.isKeyPressed(GLFW_KEY_D)) {
-      gameModel.movePlayerInDirection(Direction.SOUTH_EAST, delta);
-    } else if (window.isKeyPressed(GLFW_KEY_S) // Player presses S and A
-        && window.isKeyPressed(GLFW_KEY_A)) {
-      gameModel.movePlayerInDirection(Direction.SOUTH, delta);
-    } else if (!window.isKeyPressed(GLFW_KEY_W) // Player presses A
-        && window.isKeyPressed(GLFW_KEY_A)
-        && !window.isKeyPressed(GLFW_KEY_S)
-        && !window.isKeyPressed(GLFW_KEY_D)) {
-      gameModel.movePlayerInDirection(Direction.SOUTH_WEST, delta);
-    } else if (window.isKeyPressed(GLFW_KEY_W) // Player presses W and A
-        && window.isKeyPressed(GLFW_KEY_A)) {
-      gameModel.movePlayerInDirection(Direction.WEST, delta);
-    } else {
-      gameModel.updatePlayerState(PlayerState.IDLE);
-    }
-
-    if (window.isKeyReleased(GLFW_KEY_L)) {
-      hud.setP1Lives();
-    }
-
-    if (window.isKeyReleased(GLFW_KEY_P)) {
-      hud.setP1Score();
-    }
-
-    if (mouseInput.getXPos() < 65 && mouseInput.getYPos() > window.getHeight() - 25) {
-      hud.setExit();
-      if (mouseInput.isLeftButtonPressed()) {
-        glfwSetWindowShouldClose(window.getWindowHandle(), true);
-      }
-    } else hud.setRestoreExit();
-
-    if (mouseInput.getXPos() > window.getWidth() - 35
-        && mouseInput.getYPos() > window.getHeight() - 35) {
-      // hud.setSound();
-      if (mouseInput.isLeftButtonPressed()) {
-        hud.setSoundOff();
-        audio.toggle();
-      }
-    } else hud.setRestoreSound();
-
-    if (mouseInput.getXPos() > window.getWidth() / 2 - 90
-        && mouseInput.getXPos() < window.getWidth() / 2 + 90
-        && mouseInput.getYPos() > window.getHeight() / 2 + 90
-        && mouseInput.getYPos() < window.getHeight() / 2 + 115) {
-      hud.setSingleplayer();
-      if (mouseInput.isLeftButtonPressed()) {
-        // System.out.println("Singleplayer button pressed");
-        // hud.deleteGameItem();
-      }
-    } else hud.setRestoreSingleplayer();
-
-    if (mouseInput.isLeftButtonPressed()) {
-      // System.out.println(mouseInput.getXPos()+" "+mouseInput.getYPos());
-    }
-    if (mouseInput.isRightButtonPressed()) {
-      // System.out.println(mouseInput.getXPos()+" "+mouseInput.getYPos());
-    }
-  }
-
-  private void update(float delta) {
-    float gameTime = timer.getGameTime();
-
-    int timeLeft = 90 - Math.round(gameTime);
-    if (timeLeft < 0) {
-      timeLeft = 0;
-    }
-
-    hud.setCounter("Time: " + timeLeft);
-    gameModel.update(delta);
-  }
-
-  private void render(Game gameModel) {
-    renderer.render(gameModel, window, hud);
-  }
-
-  private void dispose() {
-    hud.cleanup();
-    renderer.cleanup();
-
-    window.freeCallbacks();
-    window.destroyWindow();
+    Window.freeCallbacks();
+    Window.destroyWindow();
 
     glfwTerminate();
+  }
+
+  /**
+   * Clear buffer
+   *
+   * @author Adam Cox
+   */
+  private static void clearBuffers() {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   }
 }

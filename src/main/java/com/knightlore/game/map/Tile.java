@@ -1,62 +1,74 @@
 package com.knightlore.game.map;
 
-public abstract class Tile {
+import org.joml.Vector3f;
 
-  private static int inc = 0;
-  private int id;
+public class Tile {
+  private TileType type;
+  private Vector3f position;
 
-  private boolean walkable;
-  private boolean climbable;
-  private boolean hazard;
-  private boolean goal;
-
-  public Tile(){
-
+  public Tile(TileType type) {
+    this.type = type;
   }
 
-  public Tile(boolean walkable, boolean climbable, boolean hazard, boolean goal) {
-    id = inc;
-    inc++;
-
-    this.walkable = walkable;
-    this.climbable = climbable;
-    this.hazard = hazard;
-    this.goal = goal;
+  public Tile(Tile copy) {
+    type = copy.type;
+    position = copy.position;
   }
 
-  public int getId() {
-    return id;
+  /**
+   * Getter for property 'type'.
+   *
+   * @return Value for property 'type'.
+   */
+  public TileType getType() {
+    return type;
   }
 
-  public boolean isWalkable() {
-    return walkable;
+  /**
+   * Setter for property 'type'.
+   *
+   * @param type Value to set for property 'type'.
+   */
+  public void setType(TileType type) {
+    this.type = type;
   }
 
-  public void setWalkable(boolean walkable) {
-    this.walkable = walkable;
+  /**
+   * Getter for property 'position'.
+   *
+   * @return Value for property 'position'.
+   */
+  public Vector3f getPosition() {
+    return position;
   }
 
-  public boolean isClimbable() {
-    return climbable;
+  /**
+   * Setter for property 'position'.
+   *
+   * @param position Value to set for property 'position'.
+   */
+  public void setPosition(Vector3f position) {
+    this.position = position;
   }
 
-  public void setClimbable(boolean climbable) {
-    this.climbable = climbable;
+  /**
+   * Getter for the type index of the Tile
+   *
+   * @return Value for property 'index'.
+   */
+  public int getIndex() {
+    return type.ordinal();
   }
 
-  public boolean isHazard() {
-    return hazard;
-  }
+  /** {@inheritDoc} */
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof Tile)) {
+      return false;
+    }
 
-  public void setHazard(boolean hazard) {
-    this.hazard = hazard;
-  }
+    Tile tile = (Tile) obj;
 
-  public boolean isGoal() {
-    return goal;
-  }
-
-  public void setGoal(boolean goal) {
-    this.goal = goal;
+    return this.type == tile.type && this.position.equals(tile.position, 0.01f);
   }
 }

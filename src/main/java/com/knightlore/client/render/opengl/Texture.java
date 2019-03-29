@@ -1,10 +1,40 @@
 package com.knightlore.client.render.opengl;
 
-public abstract class Texture {
+/**
+ * Texture interface used in GameObject
+ *
+ * @author Adam Cox
+ */
+public interface Texture {
 
-  public abstract int getWidth();
+  /**
+   * Get the width of the texture in pixels
+   *
+   * @return width of the texture in pixels
+   * @author Adam Cox
+   */
+  int getWidth();
 
-  public abstract int getHeight();
+  /**
+   * Get the height of the texture in pixels
+   *
+   * @return height of the texture in pixels
+   * @author Adam Cox
+   */
+  int getHeight();
 
-  public abstract void bind(int sampler);
+  /**
+   * Bind the texture to OpenGL
+   *
+   * @param sampler sampler used in shader
+   * @author Adam Cox
+   */
+  void bind(int sampler);
+
+  /**
+   * Memory cleanup of texture
+   *
+   * @author Adam Cox
+   */
+  void cleanup();
 }

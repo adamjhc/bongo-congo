@@ -1,27 +1,31 @@
 package com.knightlore.game.server.commandhandler;
 
 import com.google.gson.Gson;
-import com.knightlore.game.Game;
 import com.knightlore.game.server.ClientHandler;
-import com.knightlore.game.server.GameServer;
-import com.knightlore.networking.ApiKey;
+import com.knightlore.game.server.PositionUpdateQueue;
 import com.knightlore.networking.Sendable;
 
-import javax.swing.text.Position;
-import java.util.Optional;
-
+/**
+ * Handler for new position update from client
+ *
+ * @author Lewis Relph
+ */
 public class PositionUpdate extends Command {
 
-    public void run(ClientHandler handler, Sendable sendable) {
-        System.out.println("Position changed");
+  public void run(ClientHandler handler, Sendable sendable) {
 
-        Gson gson = new Gson();
-        com.knightlore.networking.PositionUpdate newPosition = gson.fromJson(sendable.getData(), com.knightlore.networking.PositionUpdate.class);
+    // Get position
+    Gson gson = new Gson();
+    com.knightlore.networking.game.PositionUpdate newPosition =
+        gson.fromJson(sendable.getData(), com.knightlore.networking.game.PositionUpdate.class);
 
-        Sendable response = new Sendable();
-        response.setFunction("position_update");
-        response.setData(gson.toJson(newPosition));
+    // Update our model to reflect position change
+    handler.model().getPlayers().get(newPosition.sessionId).setPosition(newPosition.coordinates);
+    handler.model().getPlayers().get(newPosition.sessionId).setScore(newPosition.score);
+    handler.model().getPlayers().get(newPosition.sessionId).setDirection(newPosition.direction);
+    handler.model().getPlayers().get(newPosition.sessionId).setPlayerState(newPosition.state);
 
-        handler.server().sendToRegisteredExceptSelf(response, handler.sessionKey.get());
-    }
+    // Queue in position update queue
+    PositionUpdateQueue.instance.add(newPosition);
+  }
 }

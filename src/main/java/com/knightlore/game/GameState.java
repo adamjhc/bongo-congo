@@ -1,6 +1,15 @@
 package com.knightlore.game;
 
+/**
+ * The Game State
+ */
 public enum GameState {
   LOBBY,
-  PLAYING
+  PLAYING,
+  NEXT_LEVEL,
+  SCORE,
+  WAITING_READY,
+  CLOSED,
+  FINISHED,
+  LEVEL_FINISHED
 }

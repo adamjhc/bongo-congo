@@ -1,10 +1,7 @@
 package com.knightlore.server;
 
-import com.knightlore.client.networking.backend.responsehandlers.server.SessionKey;
 import com.knightlore.networking.Sendable;
 import com.knightlore.server.commandhandler.Factory;
-import com.knightlore.server.commandhandler.GameRequest;
-import com.knightlore.server.database.Authenticate;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -13,80 +10,105 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Optional;
+import java.util.UUID;
 
-// Client handler class
-public class ClientHandler extends Thread
-{
-    final static Logger logger = Logger.getLogger(ClientHandler.class);
+/**
+ * Class for handling a single client connection to the main server
+ *
+ * @author Lewis Relph
+ */
+public class ClientHandler extends Thread {
+  static final Logger logger = Logger.getLogger(ClientHandler.class);
 
-    // Declare input and output streams
-    public final ObjectInputStream dis;
-    public final ObjectOutputStream dos;
+  // Input/Output streams
+  public final ObjectInputStream dis;
+  public final ObjectOutputStream dos;
 
-    public Authenticate authenticate = new Authenticate();
-    public Optional<String> sessionKey = Optional.empty();
+  // Session key and username
+  public Optional<String> sessionKey = Optional.empty();
+  public Optional<String> username = Optional.empty();
 
-    // Socket
-    final Socket s;
+  // Socket
+  final Socket s;
 
-    public ClientHandler(Socket s, ObjectInputStream dis, ObjectOutputStream dos)
-    {
-        this.s = s;
-        this.dis = dis;
-        this.dos = dos;
-    }
+  // Server callback
+  private Server server;
 
-    @Override
-    public void run()
-    {
-        Sendable sendable;
+  // Client unique reference for callback
+  private UUID serverClientReference;
 
-        // Continuously wait for messages
-        while (true)
-        {
-            try {
-                // Retrieve new incoming sendable object
-                sendable = (Sendable) dis.readObject();
+  /**
+   * Default constructor
+   *
+   * @param s
+   * @param dis
+   * @param dos
+   * @param server
+   * @param serverClientReference
+   */
+  public ClientHandler(
+      Socket s,
+      ObjectInputStream dis,
+      ObjectOutputStream dos,
+      Server server,
+      UUID serverClientReference) {
+    this.s = s;
+    this.dis = dis;
+    this.dos = dos;
+    this.server = server;
+    this.serverClientReference = serverClientReference;
+  }
 
-                // First check for connection close
-                if(sendable.getFunction().equals("close_connection")){
-                    logger.info("Closing this connection.");
-                    this.s.close();
-                    logger.info("Connection closed");
-                    break;
-                }
+  @Override
+  public void run() {
+    Sendable sendable;
 
-                // If not, pass to factory
-                Factory.create(this, sendable);
+    // Wait for messages
+    while (true) {
+      try {
+        // Retrieve new incoming Sendable object
+        sendable = (Sendable) dis.readObject();
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }  catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+        // First check for connection close
+        if (sendable.getFunction().equals("close_connection")) {
+          logger.info("Closing this connection.");
+          this.s.close();
+          logger.info("Connection closed");
+          break;
         }
 
-        try
-        {
-            // closing resources
-            this.dis.close();
-            this.dos.close();
+        // If not, pass to factory
+        Factory.create(this, sendable);
 
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+      } catch (IOException e) {
+        break;
+      } catch (ClassNotFoundException e) {
+        logger.warn("Unknown class requested: " + e);
+      }
     }
 
-    public InetAddress getSocketIP(){
-        return this.s.getInetAddress();
+    // Close resources
+    try {
+      // Close streams
+      this.dis.close();
+      this.dos.close();
+
+      logger.info("Client connection to game closed session key: " + this.sessionKey.get());
+
+    } catch (IOException e) {
+      e.printStackTrace();
     }
 
-    public SessionKey getSessionKey(){
-        if(this.sessionKey.isPresent()){
-            // Return session key with that value
+    // Parent callback
+    this.server.removeConnection(this.serverClientReference);
+  }
 
-        }
-
-        return null;
-    }
+  /**
+   * Getter for socket inetaddress
+   *
+   * @return socket ip
+   */
+  public InetAddress getSocketIP() {
+    return this.s.getInetAddress();
+  }
 }

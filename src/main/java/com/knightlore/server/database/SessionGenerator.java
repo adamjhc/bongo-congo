@@ -10,8 +10,10 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class SessionGenerator {
 
-    java.sql.Connection con = Connection.getConnection();
-
+    /**
+     * Code for generating a session key randomly
+     * @return
+     */
     public static String generateActivationKey(){
         String letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
         String toReturn = "";
@@ -20,7 +22,6 @@ public class SessionGenerator {
             toReturn += letters.charAt(randomNum);
         }
 
-        System.out.println(toReturn);
         return toReturn;
     }
 

@@ -1,16 +1,13 @@
 package com.knightlore.server.commandhandler;
 
-import com.knightlore.networking.ApiKey;
-import com.knightlore.networking.GameRequestResponse;
+import com.knightlore.networking.server.GameRequestResponse;
 import com.knightlore.networking.Sendable;
-import com.knightlore.networking.SessionKeyResponse;
 import com.knightlore.server.ClientHandler;
-import com.knightlore.server.database.SessionGenerator;
 import com.knightlore.server.database.model.*;
 import com.knightlore.server.game.GameRepository;
 import com.knightlore.util.Config;
 import org.apache.log4j.Logger;
-import sun.security.x509.IPAddressName;
+
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -18,6 +15,11 @@ import java.net.UnknownHostException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Command handler for requesting a new game
+ *
+ * @author Lewis Relph
+ */
 public class GameRequest extends Command{
 
     final static Logger logger = Logger.getLogger(GameRequest.class);
@@ -27,13 +29,14 @@ public class GameRequest extends Command{
 
         // Create json data
         String json = sendable.getData();
-        ApiKey apikey = gson.fromJson(json, ApiKey.class);
+        com.knightlore.networking.server.GameRequest data = gson.fromJson(json, com.knightlore.networking.server.GameRequest.class);
 
         Sendable response = sendable.makeResponse();
         GameRequestResponse gameRequestResponse;
 
         if(handler.sessionKey.isPresent()){
             String sessionKey = handler.sessionKey.get();
+            String username = handler.username.get();
 
             // Find session id
             SessionToken token = new SessionToken();
@@ -47,8 +50,25 @@ public class GameRequest extends Command{
             int port = GameRepository.instance.getNewPort();
             UUID uuid = UUID.randomUUID();
 
+            // Convert to level objects
+            ArrayList<com.knightlore.game.Level> levels = new ArrayList<>();
+
+            for(UUID levelID :  data.getLevels()){
+                // Retrieve level from database
+                Level model = new Level();
+                model.where(new Condition("uuid", "=", levelID.toString()));
+                Optional<Model> level = model.first();
+
+                if(level.isPresent()){
+                    Level levelCast = (Level) level.get();
+                    levels.add(levelCast.getModelLevel());
+                }else{
+                    logger.warn("User sent incorrect level id: " + levelID.toString());
+                }
+            }
+
             // Create new game server
-            GameRepository.instance.newServer(uuid, port, handler.sessionKey.get());
+            GameRepository.instance.newServer(uuid, port, handler.sessionKey.get(), levels, username);
 
             // Start server
             GameRepository.instance.startServer(uuid);
@@ -68,6 +88,7 @@ public class GameRequest extends Command{
             game.setAttribute("ends_at", currentTimestamp);
             game.setAttribute("ip", ip);
             game.setAttribute("port", port);
+            game.setAttribute("name", username + "'s game");
             game.save();
 
             // Build response

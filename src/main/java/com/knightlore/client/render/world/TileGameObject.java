@@ -5,29 +5,37 @@ import com.knightlore.client.render.opengl.RenderModel;
 import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.opengl.StaticTexture;
 import com.knightlore.client.render.opengl.Texture;
-import com.knightlore.game.util.CoordinateUtils;
+import com.knightlore.game.map.TileType;
 import org.joml.Matrix4f;
 
+/**
+ * GameObject used for map tiles
+ *
+ * @author Adam Cox
+ */
 public class TileGameObject extends GameObject {
 
   /** Set rendering width of the tiles */
-  public static float tileWidth = 2f;
+  public static final float TILE_WIDTH = 2f;
 
   /** Set rendering height of the tiles */
-  public static float tileHeight = 1f;
+  public static final float TILE_HEIGHT = 1f;
 
   /** Texture rendered on the tile */
   private Texture texture;
 
-  /** Empty constructor for tiles without textures (e.g. air tiles) */
-  TileGameObject() {}
+  /** Type of tile */
+  private TileType tileType;
 
   /**
    * Initialise tile game object with static texture
    *
+   * @param tileType Type of tile
    * @param textureFileName Name of the texture file
+   * @author Adam Cox
    */
-  TileGameObject(String textureFileName) {
+  TileGameObject(TileType tileType, String textureFileName) {
+    this.tileType = tileType;
     texture = new StaticTexture(textureFileName);
     setupRenderModel();
   }
@@ -38,74 +46,107 @@ public class TileGameObject extends GameObject {
    * @param textFileName Name of the texture file without _X
    * @param frames Number of frames
    * @param fps Frames to render per second
+   * @author Adam Cox
    */
-  TileGameObject(String textFileName, int frames, int fps) {
+  TileGameObject(TileType tileType, String textFileName, int frames, int fps) {
+    this.tileType = tileType;
     texture = new AnimatedTexture(textFileName, frames, fps);
     setupRenderModel();
   }
 
   /**
-   * Render the tile
+   * Copy constructor
    *
-   * @param x Isometric x position of the tile
-   * @param y Isometric y position of the tile
+   * @param copy Copy to copy fields from
+   * @author Adam Cox
+   */
+  TileGameObject(TileGameObject copy) {
+    texture = copy.texture;
+    model = copy.model;
+    tileType = copy.tileType;
+  }
+
+  /**
+   * Setup OpenGL render model
+   *
+   * @author Adam Cox
+   */
+  private void setupRenderModel() {
+    float scaledTextureHeight = 2f * texture.getHeight() / texture.getWidth();
+
+    float[] vertices =
+        new float[] {
+          -1f, scaledTextureHeight, 0, // TOP LEFT     0
+          1f, scaledTextureHeight, 0, // TOP RIGHT    1
+          1f, 0, 0, // BOTTOM RIGHT 2
+          -1f, 0, 0, // BOTTOM LEFT  3
+        };
+
+    model = new RenderModel(vertices, textureCoordinates, indices);
+  }
+
+  /**
+<<<<<<< HEAD
+   * Get whether the tile is a floor
+   *
+   * @return whether the tile is a floor
+   * @author Adam Cox
+   */
+  public boolean isFloor() {
+    return  tileType == TileType.FLOOR ||
+    		tileType == TileType.SPAWN_WALKER ||
+    		tileType == TileType.SPAWN_RANDOMER ||
+    		tileType == TileType.SPAWN_CIRCLER;
+  }
+
+  /**
+=======
+>>>>>>> dev
+   * Render the tile - unhighlighted
+   *
    * @param shaderProgram Shader program to use
    * @param world World projection
    * @param camera Camera projection
+   * @author Adam Cox
    */
-  public void render(
-      float x, float y, ShaderProgram shaderProgram, Matrix4f world, Matrix4f camera) {
-    if (texture != null) {
+  public void render(ShaderProgram shaderProgram, Matrix4f world, Matrix4f camera) {
+    render(shaderProgram, world, camera, 0);
+  }
+
+  /**
+   * Render the TileGameObject
+   *
+   * @param shaderProgram Shader program to use
+   * @param world world projection
+   * @param camera camera projection
+   * @param highlight whether to highlight the tile
+   * @author Adam Cox
+   */
+  public void render(ShaderProgram shaderProgram, Matrix4f world, Matrix4f camera, int highlight) {
+    if (tileType != TileType.AIR || highlight == 1) {
       shaderProgram.bind();
 
       texture.bind(0);
 
-      Matrix4f position = new Matrix4f().translate(CoordinateUtils.toIsometric(x, y));
-      Matrix4f target = new Matrix4f();
-      camera.mul(world, target);
-      target.mul(position);
+      Matrix4f position = new Matrix4f(camera).mul(world).translate(isometricPosition);
 
       shaderProgram.setUniform("sampler", 0);
-      shaderProgram.setUniform("projection", target);
+      shaderProgram.setUniform("projection", position);
+      shaderProgram.setUniform("highlight", highlight);
 
       model.render();
     }
   }
 
-  /** Setup OpenGL render model */
-  private void setupRenderModel() {
-    float scaledTextureHeight = 2 * (float) texture.getHeight() / texture.getWidth();
-
-    float[] vertices =
-        new float[] {
-          -1f,
-          scaledTextureHeight,
-          0, // TOP LEFT     0
-          1f,
-          scaledTextureHeight,
-          0, // TOP RIGHT    1
-          1f,
-          0,
-          0, // BOTTOM RIGHT 2
-          -1f,
-          0,
-          0, // BOTTOM LEFT  3
-        };
-
-    float[] textureCoords =
-        new float[] {
-          0, 0,
-          1, 0,
-          1, 1,
-          0, 1,
-        };
-
-    int[] indices =
-        new int[] {
-          0, 1, 2,
-          2, 3, 0
-        };
-
-    model = new RenderModel(vertices, textureCoords, indices);
+  /**
+   * Memory cleanup of textures and render model
+   *
+   * @author Adam Cox
+   */
+  public void cleanup() {
+    if (texture != null) {
+      texture.cleanup();
+      model.cleanup();
+    }
   }
 }

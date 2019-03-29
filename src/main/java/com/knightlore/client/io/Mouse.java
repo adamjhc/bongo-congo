@@ -1,99 +1,168 @@
 package com.knightlore.client.io;
 
-import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LAST;
+import static org.lwjgl.glfw.GLFW.GLFW_CURSOR;
+import static org.lwjgl.glfw.GLFW.GLFW_CURSOR_DISABLED;
+import static org.lwjgl.glfw.GLFW.GLFW_CURSOR_NORMAL;
+import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_1;
+import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_2;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
-import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
-import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
-import static org.lwjgl.glfw.GLFW.glfwGetMouseButton;
+import static org.lwjgl.glfw.GLFW.glfwSetCursorEnterCallback;
+import static org.lwjgl.glfw.GLFW.glfwSetCursorPosCallback;
+import static org.lwjgl.glfw.GLFW.glfwSetInputMode;
+import static org.lwjgl.glfw.GLFW.glfwSetMouseButtonCallback;
+import static org.lwjgl.glfw.GLFW.glfwSetScrollCallback;
 
-import java.nio.DoubleBuffer;
-import org.joml.Vector2i;
-import org.lwjgl.glfw.GLFWMouseButtonCallback;
-import org.lwjgl.system.MemoryStack;
+public class Mouse {
 
-public class Mouse extends GLFWMouseButtonCallback {
+  /** X position of mouse in screen */
+  private static double xPos = 0;
 
-  /** Reference to the GLFW window */
-  private static long window = 0;
+  /** Y position of mouse in screen */
+  private static double yPos = 0;
 
-  /** Stores button state at the time glfwPollEvents is called */
-  private static boolean[] previousMouseButtonStates = new boolean[GLFW_MOUSE_BUTTON_LAST];
+  /** Boolean whether mouse can be found within the screen */
+  private static boolean isInScreen = false;
 
-  /**
-   * Sets the reference to the window
-   *
-   * @param windowNew The GLFW window
-   */
-  public static void setWindow(long windowNew) {
-    window = windowNew;
+  /** Boolean whether left mouse button is pressed */
+  private static boolean leftButtonPressed = false;
+
+  /** Boolean whether right mouse button is pressed */
+  private static boolean rightButtonPressed = false;
+
+  /** Boolean whether mouse is scrolling up */
+  private static boolean scrollUp = false;
+
+  /** Boolean whether mouse is scrolling down */
+  private static boolean scrollDown = false;
+
+  /** Private constructor so Mouse cannot be instantiated */
+  private Mouse() {}
+
+  /** Initialised Mouse and set callbacks */
+  public static void init() {
+    glfwSetCursorPosCallback(
+        Window.getWindowHandle(),
+        (windowHandle, xPosNew, yPosNew) -> {
+          xPos = xPosNew;
+          yPos = yPosNew;
+        });
+
+    glfwSetMouseButtonCallback(
+        Window.getWindowHandle(),
+        (windowHandle, button, action, mode) -> {
+          leftButtonPressed = button == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS;
+          rightButtonPressed = button == GLFW_MOUSE_BUTTON_2 && action == GLFW_PRESS;
+        });
+
+    glfwSetScrollCallback(
+        Window.getWindowHandle(),
+        (windowHandle, xOffset, yOffset) -> {
+          scrollUp = yOffset > 0;
+          scrollDown = yOffset < 0;
+        });
+
+    glfwSetCursorEnterCallback(
+        Window.getWindowHandle(),
+        (windowHandle, entered) -> {
+          isInScreen = entered;
+        });
+  }
+
+  /** Hide cursor while mouse is on screen */
+  public static void hideCursor() {
+    glfwSetInputMode(Window.getWindowHandle(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+  }
+
+  /** Unhides cursor */
+  public static void showCursor() {
+    glfwSetInputMode(Window.getWindowHandle(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
   }
 
   /**
-   * Returns whether a given mouse button is held down
+   * Get the x position of the mouse
    *
-   * @param button The GLFW button
-   * @return True when a button is held down
+   * @return x position of the mouse
    */
-  public static boolean isButtonDown(int button) {
-    return glfwGetMouseButton(window, button) == GLFW_PRESS;
+  public static double getXPos() {
+    return xPos;
   }
 
   /**
-   * Returns whether a given mouse button is pressed
+   * Get the y position of the mouse
    *
-   * @param button The GLFW button
-   * @return True when a button is pressed
+   * @return y position of the mouse
    */
-  public static boolean isButtonPressed(int button) {
-    return previousMouseButtonStates[button];
+  public static double getYPos() {
+    return yPos;
   }
 
   /**
-   * Returns whether a given mouse button is released
+   * Get whether the mouse is inside the screen
    *
-   * @param button The GLFW button
-   * @return True when a button is released
+   * @return whether the mouse is inside the screen
    */
-  public static boolean isButtonReleased(int button) {
-    return !previousMouseButtonStates[button] && isButtonDown(button);
+  public static boolean isInScreen() {
+    return isInScreen;
   }
 
   /**
-   * Returns whether a given mouse button is released within a given area of the screen
+   * Get whether the mouse is scrolling up
    *
-   * @param button The GLFW button
-   * @param bottomLeft Bottom left coordinates of the area
-   * @param topRight Top right coordinates of the area
-   * @return True when a button is released in the area
+   * @return whether the mouse is scrolling up
    */
-  public static boolean isButtonReleasedInArea(int button, Vector2i bottomLeft, Vector2i topRight) {
-    if (!isButtonReleased(button)) {
-      return false;
+  public static boolean scrolledUp() {
+    if (scrollUp) {
+      scrollUp = false;
+      return true;
     }
-
-    double x, y;
-    try (MemoryStack stack = MemoryStack.stackPush()) {
-      DoubleBuffer xBuffer = stack.mallocDouble(1);
-      DoubleBuffer yBuffer = stack.mallocDouble(1);
-      glfwGetCursorPos(window, xBuffer, yBuffer);
-
-      x = xBuffer.get();
-      y = yBuffer.get();
-    }
-
-    return bottomLeft.x <= x && x <= topRight.x && bottomLeft.y <= y && y <= topRight.y;
+    return false;
   }
 
   /**
-   * Runs when glfwPollEvents is called
+   * Get whether the mouse is scrolling down
    *
-   * @param window The GLFW window
-   * @param button The mouse button that caused the invoke
-   * @param action The action of the key
-   * @param mods The modifiers
+   * @return whether the mouse is scrolling down
    */
-  @Override
-  public void invoke(long window, int button, int action, int mods) {
-    previousMouseButtonStates[button] = action != GLFW_RELEASE;
+  public static boolean scrolledDown() {
+    if (scrollDown) {
+      scrollDown = false;
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Get whether the left mouse button is pressed
+   *
+   * @return whether the left mouse button is pressed
+   */
+  public static boolean isLeftButtonPressed() {
+    if (leftButtonPressed) {
+      leftButtonPressed = false;
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Get whether the left mouse button is held
+   *
+   * @return whether the left mouse button is held
+   */
+  public static boolean isLeftButtonHeld() {
+    return leftButtonPressed;
+  }
+
+  /**
+   * Get whether the right mouse button is pressed
+   *
+   * @return whether the right mouse button is pressed
+   */
+  public static boolean isRightButtonPressed() {
+    if (rightButtonPressed) {
+      rightButtonPressed = false;
+      return true;
+    }
+    return false;
   }
 }

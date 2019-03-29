@@ -1,42 +1,32 @@
 package com.knightlore.game.entity.ai;
 
+import com.knightlore.game.entity.Direction;
 import org.joml.Vector3f;
-import org.lwjgl.system.CallbackI;
 
-import java.util.LinkedList;
-import java.util.List;
+/**
+ * Determines the behaviour of the 'Walker' enemy in-game.
+ * @author Jacqui Henes
+ */
+public class WalkerAI {
 
-// Walks back and forth on the same plane
-public class WalkerAI extends EnemyAI {
+  /**
+   * Default constructor
+   */
+  public WalkerAI() {}
 
-    Object startDirection;
-
-
-    public WalkerAI(Vector3f home, Object startDirection) {
-        this.home = home;
-        this.startDirection = startDirection;
-    }
-
-
-    @Override
-    public List<Vector3f> pathfind() {
-
-        LinkedList<Vector3f> path = new LinkedList<Vector3f>();
-
-        // some maths to get direction i guess
-        //-------------------------------------------------------------------------
-        // do (add tile to list if not a wall else get the other direction ??)
-        // while (list.peek(!home))
-        //      get next tile up/down
-        //      if (tile not wall)
-        //          add to list
-        //      else
-        //          reverse direction, continue
-        //-------------------------------------------------------------------------
-        // ^ do this twice to get the whole path (?)
-        // ???
-        // profit
-
-        return path;
-    }
+  /**
+   * Calculates the next position of the enemy. For Walkers,
+   * this is just moving forwards.
+   *
+   * @param current Current enemy position
+   * @param delta Time elapsed since last server update
+   * @param speed Enemy speed
+   * @param direction Current enemy direction
+   * @return The next position of the enemy
+   */
+  public Vector3f pathfind(Vector3f current, float delta, float speed, Direction direction) {
+    Vector3f newPos = new Vector3f();
+    direction.getNormalisedDirection().mul(speed * delta, newPos);
+    return newPos.add(current);
+  }
 }

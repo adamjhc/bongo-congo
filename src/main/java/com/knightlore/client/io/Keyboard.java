@@ -1,72 +1,62 @@
 package com.knightlore.client.io;
 
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_LAST;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 import static org.lwjgl.glfw.GLFW.glfwGetKey;
+import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
 
-import org.lwjgl.glfw.GLFWKeyCallback;
+public class Keyboard {
 
-public class Keyboard extends GLFWKeyCallback {
+  /** Last keyCode */
+  private static int keyCode;
 
-  /** Reference to the GLFW window */
-  private static long window = 0;
+  /** Private constructor so class cannot be instantiated */
+  private Keyboard() {}
 
-  /** Stores key state at time glfwPollEvents is called */
-  private static boolean[] previousKeyStates = new boolean[GLFW_KEY_LAST];
-
-  /**
-   * Set the window reference
-   *
-   * @param windowNew The GLFW window
-   */
-  public static void setWindow(long windowNew) {
-    window = windowNew;
+  /** Initialise Keyboard */
+  public static void init() {
+    // Setup a key callback. It will be called every time a key is pressed, repeated or released.
+    glfwSetKeyCallback(
+        Window.getWindowHandle(),
+        (window, key, scanCode, action, mods) -> {
+          if (action == GLFW_RELEASE) {
+            keyCode = key;
+          }
+        });
   }
 
   /**
-   * Returns whether a given key is pressed down
+   * Get whether a key has been released
    *
-   * @param keyCode GLFW Key code
-   * @return True for key is down/False for key is up
+   * @param newKeyCode GLFW key code of key to be released
+   * @return boolean on whether key has been released
    */
-  public static boolean isKeyDown(int keyCode) {
-    return glfwGetKey(window, keyCode) == GLFW_PRESS;
-  }
-
-  /**
-   * Returns whether a given key is pressed, returns true only once while the key is down
-   *
-   * @param keyCode GLFW Key code
-   * @return True for when a key is pressed
-   */
-  public static boolean isKeyPressed(int keyCode) {
-    return previousKeyStates[keyCode];
-  }
-
-  /**
-   * Returns whether a given key is released, returns true only once while the key is up
-   *
-   * @param keyCode GLFW Key code
-   * @return True for when a key is released
-   */
-  public static boolean isKeyReleased(int keyCode) {
-    return !previousKeyStates[keyCode] && isKeyDown(keyCode);
-  }
-
-  /**
-   * Runs when glfwPollEvents is called
-   *
-   * @param window The GLFW window
-   * @param key The GLFW key that has triggered the invoke
-   * @param scancode The scancode
-   * @param action The action of the key
-   * @param mods The modifiers
-   */
-  @Override
-  public void invoke(long window, int key, int scancode, int action, int mods) {
-    if (key != -1) {
-      previousKeyStates[key] = action != GLFW_RELEASE;
+  public static boolean isKeyReleased(int newKeyCode) {
+    if (keyCode == newKeyCode) {
+      keyCode = -1;
+      return true;
     }
+    return false;
+  }
+
+  /**
+   * Gets the last key code used
+   *
+   * @return GLFW key code for last key used
+   */
+  public static int getKeyCode() {
+    int x = keyCode;
+    keyCode = -1;
+    return x;
+  }
+
+  /**
+   * Get whether a key has been pressed
+   *
+   * @param newKeyCode GLFW key code of key to be pressed
+   * @return boolean on whether key has been pressed
+   */
+  public static boolean isKeyPressed(int newKeyCode) {
+    return glfwGetKey(Window.getWindowHandle(), newKeyCode) == GLFW_PRESS;
   }
 }

@@ -11,10 +11,13 @@ public class ClientReceiver extends Thread{
 
     ObjectInputStream dis;
     Client client;
+    boolean running;
+    int yeetCount = 0;
 
     public ClientReceiver(Client client, ObjectInputStream dis){
         this.client = client;
         this.dis = dis;
+        this.running = true;
     }
 
     @Override
@@ -22,7 +25,7 @@ public class ClientReceiver extends Thread{
 
         Sendable received;
 
-        while (true) {
+        while (running) {
             try {
                 received = (Sendable) dis.readObject();
                 System.out.println(received.getFunction());
@@ -40,10 +43,20 @@ public class ClientReceiver extends Thread{
 
                 System.out.println("CLIENT RECEIVED: " + received);
             }catch (IOException e){
-                e.printStackTrace();
+                if(yeetCount== 0){
+                    System.out.println("ERR");
+                    yeetCount ++;
+                }
             }catch (ClassNotFoundException e){
                 e.printStackTrace();
             }
         }
+
+        System.out.println("Connection lost");
+    }
+
+    public void close(){
+        this.running = false;
+        this.interrupt();
     }
 }

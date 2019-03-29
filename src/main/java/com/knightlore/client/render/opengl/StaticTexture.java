@@ -18,27 +18,36 @@ import com.knightlore.client.util.FileUtils;
 import java.nio.ByteBuffer;
 import org.lwjgl.BufferUtils;
 
-public class StaticTexture extends Texture {
+/**
+ * Single framed texture used in GameObject
+ *
+ * @author Adam Cox
+ */
+public class StaticTexture implements Texture {
 
   /** Path to the textures directory */
-  private static final String texturePathPrefix = "./src/main/resources/textures/";
+  private static final String TEXTURE_PATH_PREFIX = "./src/main/resources/textures/";
 
   /** File extension of images */
-  private static final String fileExtension = ".png";
+  private static final String FILE_EXTENSION = ".png";
 
   /** The OpenGL id of the texture */
   private final int id;
 
-  /** Width and height in pixels of the texture */
-  private int width, height;
+  /** Width in pixels of the texture */
+  private int width;
+
+  /** Height in pixels of the texture */
+  private int height;
 
   /**
    * Initialise the texture object
    *
    * @param fileName Name of the texture file
+   * @author Adam Cox
    */
   public StaticTexture(String fileName) {
-    Image image = FileUtils.loadImage(texturePathPrefix + fileName + fileExtension);
+    Image image = FileUtils.loadTexture(TEXTURE_PATH_PREFIX + fileName + FILE_EXTENSION);
     width = image.getWidth();
     height = image.getHeight();
 
@@ -67,6 +76,7 @@ public class StaticTexture extends Texture {
    * Get the width of the texture in pixels
    *
    * @return Width of the texture in pixels
+   * @author Adam Cox
    */
   @Override
   public int getWidth() {
@@ -77,6 +87,7 @@ public class StaticTexture extends Texture {
    * Get the height of the texture in pixels
    *
    * @return Height of the texture in pixels
+   * @author Adam Cox
    */
   @Override
   public int getHeight() {
@@ -87,6 +98,7 @@ public class StaticTexture extends Texture {
    * Binds the texture to the current object and activates
    *
    * @param sampler Sampler of the texture
+   * @author Adam Cox
    */
   @Override
   public void bind(int sampler) {
@@ -99,14 +111,17 @@ public class StaticTexture extends Texture {
   /**
    * Cleans up memory
    *
-   * @throws Throwable Exception
+   * @author Adam Cox
    */
-  protected void finalize() throws Throwable {
+  public void cleanup() {
     glDeleteTextures(id);
-    super.finalize();
   }
 
-  /** Binds the texture to the current object */
+  /**
+   * Binds the texture to the current object
+   *
+   * @author Adam Cox
+   */
   private void bind() {
     glBindTexture(GL_TEXTURE_2D, id);
   }
@@ -116,6 +131,7 @@ public class StaticTexture extends Texture {
    *
    * @param pixels Raw pixel array
    * @return ByteBuffer
+   * @author Adam Cox
    */
   private ByteBuffer createPixelBuffer(int[] pixels) {
     ByteBuffer pixelBuffer = BufferUtils.createByteBuffer(width * height * 4);
@@ -130,7 +146,11 @@ public class StaticTexture extends Texture {
     return pixelBuffer;
   }
 
-  /** Unbinds the textures */
+  /**
+   * Unbinds the textures
+   *
+   * @author Adam Cox
+   */
   private void unbind() {
     glBindTexture(GL_TEXTURE_2D, 0);
   }

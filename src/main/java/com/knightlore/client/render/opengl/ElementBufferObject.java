@@ -12,13 +12,22 @@ import static org.lwjgl.opengl.GL15.glGenBuffers;
 
 import java.nio.IntBuffer;
 
+/**
+ * EBO used to store vertex indices for OpenGL
+ *
+ * @author Adam Cox
+ */
 public class ElementBufferObject {
 
   /** OpenGL id of the EBO */
   private final int id;
 
-  /** Initialise EBO */
-  ElementBufferObject() {
+  /**
+   * Initialise EBO
+   *
+   * @author Adam Cox
+   */
+  public ElementBufferObject() {
     id = glGenBuffers();
   }
 
@@ -26,13 +35,18 @@ public class ElementBufferObject {
    * Get the OpenGL id
    *
    * @return OpenGL id
+   * @author Adam Cox
    */
   public int getId() {
     return id;
   }
 
-  /** Sets the buffer object as the current working object */
-  void bind() {
+  /**
+   * Sets the buffer object as the current working object
+   *
+   * @author Adam Cox
+   */
+  public void bind() {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);
   }
 
@@ -40,8 +54,9 @@ public class ElementBufferObject {
    * Send the data off to the graphics card
    *
    * @param data Data to send
+   * @author Adam Cox
    */
-  void upload(IntBuffer data) {
+  public void upload(IntBuffer data) {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, data, GL_STATIC_DRAW);
   }
 
@@ -49,13 +64,18 @@ public class ElementBufferObject {
    * Draw the triangles according to the bound indices
    *
    * @param count The number of indices
+   * @author Adam Cox
    */
-  void draw(int count) {
+  public void draw(int count) {
     glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, 0);
   }
 
-  /** Delete the buffer object */
-  void delete() {
+  /**
+   * Delete the buffer object
+   *
+   * @author Adam Cox
+   */
+  public void delete() {
     glDeleteBuffers(id);
   }
 }

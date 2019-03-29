@@ -11,6 +11,11 @@ import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 
 import java.nio.FloatBuffer;
 
+/**
+ * Wrapper class for OpenGL VBOs
+ *
+ * @author Adam Cox
+ */
 public class VertexBufferObject {
 
   /** The OpenGL id of the VBO */
@@ -28,13 +33,18 @@ public class VertexBufferObject {
    * Get the OpenGL id of the VBO
    *
    * @return OpenGL id of the VBO
+   * @author Adam Cox
    */
   public int getId() {
     return id;
   }
 
-  /** Bind the VBO */
-  void bind() {
+  /**
+   * Bind the VBO
+   *
+   * @author Adam Cox
+   */
+  public void bind() {
     glBindBuffer(GL_ARRAY_BUFFER, id);
   }
 
@@ -42,6 +52,7 @@ public class VertexBufferObject {
    * Send the data off to the graphics card
    *
    * @param data Data to send
+   * @author Adam Cox
    */
   void upload(FloatBuffer data) {
     size = data.capacity() / 4;
@@ -52,12 +63,28 @@ public class VertexBufferObject {
    * Define an array of generic vertex attribute data
    *
    * @param index Index to define the array at
+   * @author Adam Cox
    */
   void vertexAttribPointer(int index) {
+    vertexAttribPointer(index, size);
+  }
+
+  /**
+   * Define an array of generic vertex attribute data using a given size
+   *
+   * @param index Index to define the array at
+   * @param size Size of the array
+   * @author Adam Cox
+   */
+  private void vertexAttribPointer(int index, int size) {
     glVertexAttribPointer(index, size, GL_FLOAT, false, 0, 0);
   }
 
-  /** Delete the buffer */
+  /**
+   * Delete the buffer
+   *
+   * @author Adam Cox
+   */
   void delete() {
     glDeleteBuffers(id);
   }

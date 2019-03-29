@@ -51,8 +51,6 @@ public class MainMenu extends Gui {
 
   /**
    * Create gui objects
-   *
-   * @author Joseph
    */
   public MainMenu() {
     this.bongo = new TextObject("Bongo", TITLE);
@@ -114,7 +112,6 @@ public class MainMenu extends Gui {
    * Returns singleplayer
    *
    * @return Singleplayer
-   * @author Joseph
    */
   public TextObject getSingleplayer() {
     return singleplayer;
@@ -124,7 +121,6 @@ public class MainMenu extends Gui {
    * Returns multiplayer
    *
    * @return Multiplayer
-   * @author Joseph
    */
   public TextObject getMultiplayer() {
     return multiplayer;
@@ -134,7 +130,6 @@ public class MainMenu extends Gui {
    * Returns level editor
    *
    * @return Level editor
-   * @author Joseph
    */
   public TextObject getLevelEditor() {
     return levelEditor;
@@ -144,7 +139,6 @@ public class MainMenu extends Gui {
    * Returns highScore
    *
    * @return HighScore
-   * @author Adam Cox
    */
   public TextObject getHighScore() {
     return highScore;
@@ -154,7 +148,6 @@ public class MainMenu extends Gui {
    * Return options
    *
    * @return Options
-   * @author Joseph
    */
   public TextObject getOptions() {
     return options;
@@ -164,7 +157,6 @@ public class MainMenu extends Gui {
    * Returns quit
    *
    * @return Quit
-   * @author Joseph
    */
   public TextObject getQuit() {
     return quit;
@@ -174,7 +166,6 @@ public class MainMenu extends Gui {
    * Returns help
    *
    * @return Help
-   * @author Joseph
    */
   public TextObject getHelp() {
     return help;
@@ -184,7 +175,6 @@ public class MainMenu extends Gui {
    * Returns sound
    *
    * @return SoundOn
-   * @author Joseph
    */
   public TextObject getSound() {
     return soundOn;
@@ -194,7 +184,6 @@ public class MainMenu extends Gui {
    * Returns sound off
    *
    * @return SoundOff
-   * @author Joseph
    */
   public TextObject getSoundMute() {
     return soundOff;
@@ -202,8 +191,6 @@ public class MainMenu extends Gui {
 
   /**
    * Updates the position of the gui objects
-   *
-   * @author Joseph
    */
   public void updateSize() {
     int gap = singleplayer.getHeight() + 5;
@@ -238,8 +225,6 @@ public class MainMenu extends Gui {
 
   /**
    * Increases the size of the menu font
-   *
-   * @author Joseph
    */
   public void incFont() {
     singleplayer.setFontTexture(MEDIUM);
@@ -252,8 +237,6 @@ public class MainMenu extends Gui {
 
   /**
    * Decreases the size of the menu font
-   *
-   * @author Joseph
    */
   public void decFont() {
     singleplayer.setFontTexture(SMALL);

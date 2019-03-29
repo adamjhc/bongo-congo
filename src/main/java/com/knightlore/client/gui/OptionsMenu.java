@@ -70,8 +70,6 @@ public class OptionsMenu extends Gui {
 
   /**
    * Create gui objects
-   *
-   * @author Joseph
    */
   public OptionsMenu() {
     this.bongo = new TextObject("Bongo", TITLE);
@@ -138,8 +136,6 @@ public class OptionsMenu extends Gui {
 
   /**
    * Increase the volume
-   *
-   * @author Joseph
    */
   public void incVolume() {
     int volumeAmount = Integer.parseInt(this.volume.getText());
@@ -150,8 +146,6 @@ public class OptionsMenu extends Gui {
 
   /**
    * Decrease the volume
-   *
-   * @author Joseph
    */
   public void decVolume() {
     int volumeAmount = Integer.parseInt(this.volume.getText());
@@ -162,8 +156,6 @@ public class OptionsMenu extends Gui {
 
   /**
    * Set the game to be fullscreen
-   *
-   * @author Joseph
    */
   public void setFullscreen() {
     if (this.isFullscreen.getText().equals("Off")) this.isFullscreen.setText("On");
@@ -175,8 +167,6 @@ public class OptionsMenu extends Gui {
 
   /**
    * Set the audio to be muted
-   *
-   * @author Joseph
    */
   public void setMute() {
     if (Audio.isOn()) this.isMute.setText("Off");
@@ -188,7 +178,6 @@ public class OptionsMenu extends Gui {
    * Return volume increase
    *
    * @return IncVolume
-   * @author Joseph
    */
   public TextObject getIncVolume() {
     return incVolume;
@@ -198,7 +187,6 @@ public class OptionsMenu extends Gui {
    * Return volume decrease
    *
    * @return DecVolume
-   * @author Joseph
    */
   public TextObject getDecVolume() {
     return decVolume;
@@ -208,7 +196,6 @@ public class OptionsMenu extends Gui {
    * Return exit
    *
    * @return Exit
-   * @author Joseph
    */
   public TextObject getExit() {
     return exit;
@@ -218,7 +205,6 @@ public class OptionsMenu extends Gui {
    * Return is fullscreen enabled
    *
    * @return IsFullscreen
-   * @author Joseph
    */
   public TextObject getIsFullscreen() {
     return isFullscreen;
@@ -228,16 +214,13 @@ public class OptionsMenu extends Gui {
    * Return is audio muted
    *
    * @return IsMute
-   * @author Joseph
    */
   public TextObject getIsMute() {
     return isMute;
   }
 
   /**
-   * Updates the position of the gui objects
-   *
-   * @author Joseph
+   * Updates the position of the gui objectss
    */
   public void updateSize() {
     this.bongo.setPosition(

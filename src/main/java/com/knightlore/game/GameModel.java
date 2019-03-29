@@ -11,9 +11,7 @@ import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.util.CoordinateUtils;
-
 import java.util.*;
-
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
@@ -138,6 +136,12 @@ public class GameModel {
         Audio.play(Audio.AudioName.JINGLE_VICTORY);
         GameConnection.instance.sendLevelComplete();
       }
+    }
+    
+    if (timeLeft <= 0) {
+    	for (int i = 0; i < myPlayer().getLives(); i++) {
+    		myPlayer().loseLife();
+    	}
     }
 
     // Player state updates

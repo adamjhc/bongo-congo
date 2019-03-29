@@ -71,8 +71,6 @@ public class LobbyMenu extends Gui {
 
   /**
    * Create gui objects
-   *
-   * @author Joseph
    */
   public LobbyMenu() {
     this.bongo = new TextObject("Bongo", TITLE);
@@ -142,7 +140,6 @@ public class LobbyMenu extends Gui {
    * Deletes a lobby
    *
    * @param game The game to delete
-   * @author Joseph
    */
   public void deleteLobby(ListGameObject game) {
     int i = 0;
@@ -162,8 +159,6 @@ public class LobbyMenu extends Gui {
 
   /**
    * Adds a lobby
-   *
-   * @author Joseph
    */
   private void addLobby() {
     if (lobbies.size() <= MAX_SERVERS) {
@@ -178,8 +173,6 @@ public class LobbyMenu extends Gui {
 
   /**
    * Adds list of lobbies
-   *
-   * @author Joseph
    */
   private void addLobbies() {
     if (lobbies.size() <= MAX_SERVERS) {
@@ -201,8 +194,6 @@ public class LobbyMenu extends Gui {
 
   /**
    * Scroll down
-   *
-   * @author Joseph
    */
   public void moveDown() {
     if (lobbies.size() > MAX_SERVERS && current < lobbies.size() - MAX_SERVERS) {
@@ -222,8 +213,6 @@ public class LobbyMenu extends Gui {
 
   /**
    * Scroll up
-   *
-   * @author Joseph
    */
   public void moveUp() {
     if (current > 0) {
@@ -257,8 +246,6 @@ public class LobbyMenu extends Gui {
 
   /**
    * Reset all highlights
-   *
-   * @author Joseph
    */
   private void resetHighlight() {
     for (LobbyObject lobby : lobbies) {
@@ -275,7 +262,6 @@ public class LobbyMenu extends Gui {
    * Sets the highlight for a specific lobby
    *
    * @param listPos The lobby to highlight
-   * @author Joseph
    */
   private void setHighlight(int listPos) {
     resetHighlight();
@@ -291,7 +277,6 @@ public class LobbyMenu extends Gui {
    * Gets the highlighted lobby
    *
    * @return The highlighted lobby
-   * @author Joseph
    */
   public LobbyObject getHighlighted() {
     for (LobbyObject lobby : lobbies) {
@@ -306,7 +291,6 @@ public class LobbyMenu extends Gui {
    * Returns create
    *
    * @return Create
-   * @author Joseph
    */
   public TextObject getCreate() {
     return create;
@@ -316,7 +300,6 @@ public class LobbyMenu extends Gui {
    * Returns separatorTop
    *
    * @return SeparatorTop
-   * @author Joseph
    */
   public TextObject getSeparatorTop() {
     return separatorTop;
@@ -326,7 +309,6 @@ public class LobbyMenu extends Gui {
    * Returns separatorBot
    *
    * @return SeparatorBot
-   * @author Joseph
    */
   public TextObject getSeparatorBot() {
     return separatorBot;
@@ -336,7 +318,6 @@ public class LobbyMenu extends Gui {
    * Returns exit
    *
    * @return Exit
-   * @author Joseph
    */
   public TextObject getExit() {
     return exit;
@@ -346,7 +327,6 @@ public class LobbyMenu extends Gui {
    * Returns refresh
    *
    * @return Refresh
-   * @author Joseph
    */
   public TextObject getRefresh() {
     return refresh;
@@ -356,7 +336,6 @@ public class LobbyMenu extends Gui {
    * Returns join
    *
    * @return Join
-   * @author Joseph
    */
   public TextObject getJoin() {
     return join;
@@ -364,8 +343,6 @@ public class LobbyMenu extends Gui {
 
   /**
    * Updates the position of the gui objects
-   *
-   * @author Joseph
    */
   public void updateSize() {
     this.bongo.setPosition(

@@ -5,8 +5,7 @@ import org.joml.Vector3f;
 public enum EnemyType {
   WALKER,
   RANDOMER,
-  CIRCLER,
-  CHARGER;
+  CIRCLER;
 
   private static WalkerAI walk;
   private static RandomerAI random;

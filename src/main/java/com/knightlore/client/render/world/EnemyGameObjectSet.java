@@ -20,10 +20,9 @@ public class EnemyGameObjectSet {
     String enemyTextureFileName = "player";
 
     enemySet = new ArrayList<>();
-    enemySet.add(new EnemyGameObject(enemyTextureFileName, Colour.BLACK));
+    enemySet.add(new EnemyGameObject(enemyTextureFileName, Colour.WHITE));
     enemySet.add(new EnemyGameObject(enemyTextureFileName, Colour.DARK_GREY));
     enemySet.add(new EnemyGameObject(enemyTextureFileName, Colour.LIGHT_GREY));
-    enemySet.add(new EnemyGameObject(enemyTextureFileName, Colour.WHITE));
   }
 
   /**

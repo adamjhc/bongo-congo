@@ -34,6 +34,9 @@ public class LoadLevelMenu extends Gui {
   /** List of the set text objects that have user interaction */
   private final TextObject[] setTextObjects;
 
+  /** Offset from centre to make space for map preview */
+  private int menuOffset;
+
   /** Total number of pages */
   private int pageCount;
 
@@ -91,10 +94,10 @@ public class LoadLevelMenu extends Gui {
     this.loadLevel = new TextObject("Load Level", SMALL);
     this.loadLevel.setColour(Colour.YELLOW);
 
-    this.separatorTop = new TextObject("------------------------------", SMALL);
+    this.separatorTop = new TextObject("---------------------", SMALL);
     this.separatorTop.setColour(Colour.YELLOW);
 
-    this.separatorBottom = new TextObject("------------------------------", SMALL);
+    this.separatorBottom = new TextObject("---------------------", SMALL);
     this.separatorBottom.setColour(Colour.YELLOW);
 
     this.load = new TextObject("Load", SMALL);
@@ -114,6 +117,7 @@ public class LoadLevelMenu extends Gui {
 
     levelIndex = 0;
     currentPageNum = 1;
+    menuOffset = 0;
 
     setGuiObjects =
         new GuiObject[] {
@@ -235,6 +239,18 @@ public class LoadLevelMenu extends Gui {
   }
 
   /**
+   * Offsets the menu to the left by an amount
+   *
+   * @param amount amount to offset by
+   * @author Adam Cox
+   */
+  public void offsetMenu(float amount) {
+    if (menuOffset <= 250) {
+      menuOffset += amount;
+    }
+  }
+
+  /**
    * Updates the position of the gui objects
    *
    * @author Adam W
@@ -243,30 +259,32 @@ public class LoadLevelMenu extends Gui {
     this.bongo.setPosition(
         Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);
     this.congo.setPosition(Window.getHalfWidth(), Window.getHalfHeight() - TITLE_POS);
+
     this.separatorTop.setPosition(
-        Window.getHalfWidth() - separatorTop.getSize() / 2,
+        Window.getHalfWidth() - separatorTop.getSize() / 2 - menuOffset,
         Window.getHalfHeight() - SEPARATOR_TOP_POS);
     this.separatorBottom.setPosition(
-        Window.getHalfWidth() - separatorBottom.getSize() / 2,
+        Window.getHalfWidth() - separatorBottom.getSize() / 2 - menuOffset,
         Window.getHalfHeight() + SEPARATOR_BOT_POS);
     this.loadLevel.setPosition(
-        Window.getHalfWidth() - loadLevel.getSize() / 2,
+        Window.getHalfWidth() - loadLevel.getSize() / 2 - menuOffset,
         Window.getHalfHeight() - SEPARATOR_TOP_POS - SEPARATOR_GAP);
     this.load.setPosition(
-        Window.getHalfWidth() - load.getSize() / 2,
+        Window.getHalfWidth() - load.getSize() / 2 - menuOffset,
         Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP);
     this.exit.setPosition(
-        Window.getHalfWidth() - exit.getSize() / 2,
+        Window.getHalfWidth() - exit.getSize() / 2 - menuOffset,
         Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP * 2);
     this.nextPage.setPosition(
-        (Window.getHalfWidth() + nextPage.getSize() * 2) / 2,
-        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP + nextPage.getHeight() / 2);
+        Window.getHalfWidth() - separatorBottom.getSize() / 2 + nextPage.getSize() - menuOffset,
+        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP + (float) nextPage.getHeight() / 2);
     this.lastPage.setPosition(
-        (Window.getHalfWidth() - lastPage.getSize() / 2) / 2,
-        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP + lastPage.getHeight() / 2);
+        Window.getHalfWidth() - separatorBottom.getSize() / 2 - menuOffset,
+        Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP + (float) lastPage.getHeight() / 2);
+
     this.pageCounter.setText(currentPageNum + "/" + pageCount);
     this.pageCounter.setPosition(
-        (Window.getHalfWidth() - pageCounter.getSize() / 2) * 1.5f,
+        Window.getHalfWidth() + separatorBottom.getSize() / 2 - pageCounter.getSize() - menuOffset,
         Window.getHalfHeight() + SEPARATOR_BOT_POS + GAP + pageCounter.getHeight());
 
     List<GuiObject> tempG = new ArrayList<>(Arrays.asList(setGuiObjects));
@@ -276,7 +294,7 @@ public class LoadLevelMenu extends Gui {
       tempG.add(levels[levelIndex + i]);
       tempT.add(levels[levelIndex + i]);
       levels[levelIndex + i].setPosition(
-          Window.getHalfWidth() - levels[levelIndex + i].getSize() / 2,
+          Window.getHalfWidth() - levels[levelIndex + i].getSize() / 2 - menuOffset,
           Window.getHalfHeight()
               - SEPARATOR_TOP_POS
               + SEPARATOR_GAP

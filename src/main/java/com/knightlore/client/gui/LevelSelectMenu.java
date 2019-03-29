@@ -238,6 +238,12 @@ public class LevelSelectMenu extends Gui {
     return Math.min(MAX_LEVEL_COUNT, levels.length - levelIndex);
   }
 
+  /**
+   * Offsets the menu to the left by an amount
+   *
+   * @param amount amount to offset by
+   * @author Adam Cox
+   */
   public void offsetMenu(float amount) {
     if (menuOffset <= 250) {
       menuOffset += amount;

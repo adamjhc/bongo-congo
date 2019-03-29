@@ -4,6 +4,7 @@ import java.sql.Types;
 
 /**
  * Game Player instance of model
+ *
  * @author Lewis Relph
  */
 public class GamePlayer extends Model {

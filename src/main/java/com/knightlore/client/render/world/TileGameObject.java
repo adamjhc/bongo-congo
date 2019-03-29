@@ -1,10 +1,6 @@
 package com.knightlore.client.render.world;
 
-import com.knightlore.client.render.opengl.AnimatedTexture;
-import com.knightlore.client.render.opengl.RenderModel;
-import com.knightlore.client.render.opengl.ShaderProgram;
-import com.knightlore.client.render.opengl.StaticTexture;
-import com.knightlore.client.render.opengl.Texture;
+import com.knightlore.client.render.opengl.*;
 import com.knightlore.game.map.TileType;
 import org.joml.Matrix4f;
 
@@ -76,33 +72,38 @@ public class TileGameObject extends GameObject {
 
     float[] vertices =
         new float[] {
-          -1f, scaledTextureHeight, 0, // TOP LEFT     0
-          1f, scaledTextureHeight, 0, // TOP RIGHT    1
-          1f, 0, 0, // BOTTOM RIGHT 2
-          -1f, 0, 0, // BOTTOM LEFT  3
+          -1f,
+          scaledTextureHeight,
+          0, // TOP LEFT     0
+          1f,
+          scaledTextureHeight,
+          0, // TOP RIGHT    1
+          1f,
+          0,
+          0, // BOTTOM RIGHT 2
+          -1f,
+          0,
+          0, // BOTTOM LEFT  3
         };
 
     model = new RenderModel(vertices, textureCoordinates, indices);
   }
 
   /**
-<<<<<<< HEAD
-   * Get whether the tile is a floor
+   * <<<<<<< HEAD Get whether the tile is a floor
    *
    * @return whether the tile is a floor
    * @author Adam Cox
    */
   public boolean isFloor() {
-    return  tileType == TileType.FLOOR ||
-    		tileType == TileType.SPAWN_WALKER ||
-    		tileType == TileType.SPAWN_RANDOMER ||
-    		tileType == TileType.SPAWN_CIRCLER;
+    return tileType == TileType.FLOOR
+        || tileType == TileType.SPAWN_WALKER
+        || tileType == TileType.SPAWN_RANDOMER
+        || tileType == TileType.SPAWN_CIRCLER;
   }
 
   /**
-=======
->>>>>>> dev
-   * Render the tile - unhighlighted
+   * ======= >>>>>>> dev Render the tile - unhighlighted
    *
    * @param shaderProgram Shader program to use
    * @param world World projection

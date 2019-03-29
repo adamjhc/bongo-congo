@@ -28,6 +28,11 @@ public class Server {
 
   public HashMap<UUID, ClientHandler> connectedClients;
 
+  /** Default constructor */
+  public Server() {
+    this.connectedClients = new HashMap<>();
+  }
+
   /**
    * Main function, no arguments
    *
@@ -48,11 +53,6 @@ public class Server {
     } catch (ConfigItemNotFoundException e) {
       logger.warn("A configuration item was not found in the system.env: " + e);
     }
-  }
-
-  /** Default constructor */
-  public Server() {
-    this.connectedClients = new HashMap<>();
   }
 
   /** Initial setup of server, database connection & logging */

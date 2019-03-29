@@ -14,16 +14,13 @@ import java.util.Optional;
  */
 public class ConfigReader {
 
+  private static final Logger logger = Logger.getLogger(ConfigReader.class);
   // Static reader instance (prevent re-read of file)
   public static ConfigReader handler = new ConfigReader();
-
   // File path for configuration
   private final String ENV_PATH = "system.env";
-
   // Stored variables
   private HashMap<String, String> variables = new HashMap<>();
-
-  private static final Logger logger = Logger.getLogger(ConfigReader.class);
 
   /** Default constructor Read file on creation */
   private ConfigReader() {

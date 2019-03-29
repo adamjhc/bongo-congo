@@ -1,35 +1,23 @@
 package com.knightlore.client.gui.engine.graphics;
 
-import static org.lwjgl.opengl.GL11.GL_NEAREST;
-import static org.lwjgl.opengl.GL11.GL_RGBA;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_MAG_FILTER;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_MIN_FILTER;
-import static org.lwjgl.opengl.GL11.GL_UNPACK_ALIGNMENT;
-import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
-import static org.lwjgl.opengl.GL11.glBindTexture;
-import static org.lwjgl.opengl.GL11.glDeleteTextures;
-import static org.lwjgl.opengl.GL11.glGenTextures;
-import static org.lwjgl.opengl.GL11.glPixelStorei;
-import static org.lwjgl.opengl.GL11.glTexImage2D;
-import static org.lwjgl.opengl.GL11.glTexParameteri;
-import static org.lwjgl.opengl.GL30.glGenerateMipmap;
-
 import de.matthiasmann.twl.utils.PNGDecoder;
 import de.matthiasmann.twl.utils.PNGDecoder.Format;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL30.glGenerateMipmap;
+
 /**
  * Loads a png and creates the texture
- * 
- * @author Joseph
  *
+ * @author Joseph
  */
 public class Texture {
 
-	/** Texture id */
+  /** Texture id */
   private final int id;
   /** Texture width */
   private final int width;
@@ -38,11 +26,10 @@ public class Texture {
 
   /**
    * Create texture
-   * 
+   *
    * @param is Byte array
    * @throws IOException Exception
    * @author Joseph
-   * 
    */
   public Texture(InputStream is) throws IOException {
     // Load Texture file
@@ -78,10 +65,9 @@ public class Texture {
 
   /**
    * Return texture width
-   * 
+   *
    * @return Width
    * @author Joseph
-   * 
    */
   public int getWidth() {
     return this.width;
@@ -89,10 +75,9 @@ public class Texture {
 
   /**
    * Return the texture height
-   * 
+   *
    * @return Height
    * @author Joseph
-   * 
    */
   public int getHeight() {
     return this.height;
@@ -100,9 +85,8 @@ public class Texture {
 
   /**
    * Bind the texture
-   * 
+   *
    * @author Joseph
-   * 
    */
   public void bind() {
     glBindTexture(GL_TEXTURE_2D, id);
@@ -110,10 +94,9 @@ public class Texture {
 
   /**
    * Return texture id
-   * 
+   *
    * @return Id
    * @author Joseph
-   * 
    */
   public int getId() {
     return id;
@@ -121,9 +104,8 @@ public class Texture {
 
   /**
    * Delete the textures
-   * 
+   *
    * @author Joseph
-   * 
    */
   public void cleanup() {
     glDeleteTextures(id);

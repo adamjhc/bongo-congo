@@ -1,20 +1,11 @@
 package com.knightlore.server;
 
-import com.knightlore.game.GameState;
-import com.knightlore.game.entity.Player;
-import com.knightlore.game.server.ClientHandler;
 import com.knightlore.game.server.GameServer;
-import com.knightlore.server.database.model.*;
-import com.knightlore.server.game.GameRepository;
 import com.knightlore.server.supervisortasks.DetectGameComplete;
 import com.knightlore.server.supervisortasks.DetectPlayers;
 import com.knightlore.server.supervisortasks.SupervisorTask;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -60,7 +51,7 @@ public class GameServerSupervisor extends Thread {
     }
   }
 
-  public void close(){
+  public void close() {
     System.out.println("Closign supervisor");
     this.running = false;
     this.interrupt();

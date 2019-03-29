@@ -3,8 +3,8 @@ package com.knightlore.client.networking.backend.responsehandlers.server;
 import com.google.gson.Gson;
 import com.knightlore.client.networking.HighScoreCache;
 import com.knightlore.client.networking.backend.responsehandlers.GenericHandler;
-import com.knightlore.networking.server.HighScoreResponse;
 import com.knightlore.networking.Sendable;
+import com.knightlore.networking.server.HighScoreResponse;
 
 public class HighScores implements GenericHandler {
 

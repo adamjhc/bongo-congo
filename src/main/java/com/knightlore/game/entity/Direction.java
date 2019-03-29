@@ -1,11 +1,9 @@
 package com.knightlore.game.entity;
 
 import com.knightlore.client.render.world.TileGameObject;
-import java.util.Random;
 import org.joml.Vector3f;
 
 import java.util.Random;
-import org.joml.Vector3f;
 
 public enum Direction {
   /** Positive in x */
@@ -112,7 +110,9 @@ public enum Direction {
    * @return reverse direction
    * @author Adam Cox
    */
-  public Direction getReverse(Direction dir) { return opposite; }
+  public Direction getReverse(Direction dir) {
+    return opposite;
+  }
 
   /**
    * Get the reverse direction

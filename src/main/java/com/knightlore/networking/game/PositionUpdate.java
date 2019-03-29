@@ -11,17 +11,18 @@ import org.joml.Vector3f;
  */
 public class PositionUpdate {
 
-    public Vector3f coordinates;
-    public String sessionId;
-    public Direction direction;
-    public PlayerState state;
-    public int score;
+  public Vector3f coordinates;
+  public String sessionId;
+  public Direction direction;
+  public PlayerState state;
+  public int score;
 
-    public PositionUpdate(Vector3f c, String sessionId, Direction direction, PlayerState state, int score) {
-        this.coordinates = c;
-        this.sessionId = sessionId;
-        this.direction = direction;
-        this.state = state;
-        this.score = score;
-    }
+  public PositionUpdate(
+      Vector3f c, String sessionId, Direction direction, PlayerState state, int score) {
+    this.coordinates = c;
+    this.sessionId = sessionId;
+    this.direction = direction;
+    this.state = state;
+    this.score = score;
+  }
 }

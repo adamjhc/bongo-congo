@@ -5,6 +5,7 @@ import com.knightlore.client.gui.engine.Gui;
 import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Window;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,9 +48,7 @@ public class Lobby extends Gui {
 
   private GuiObject[] baseGuiObjects;
 
-  /**
-   * Create gui objects
-   */
+  /** Create gui objects */
   public Lobby() {
     this.bongo = new TextObject("Bongo", TITLE);
     this.bongo.setColour(Colour.LIGHT_BLUE);
@@ -113,9 +112,7 @@ public class Lobby extends Gui {
     addPlayers(playerTextObjects);
   }
 
-  /**
-   * Adds players to the list of gui objects
-   */
+  /** Adds players to the list of gui objects */
   public void addPlayers(List<TextObject> playerTextObjects) {
     guiObjects = new GuiObject[baseGuiObjects.length + playerTextObjects.size()];
 

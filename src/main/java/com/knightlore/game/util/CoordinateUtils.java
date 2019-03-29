@@ -12,6 +12,7 @@ public class CoordinateUtils {
 
   /**
    * Converts Vector3f to its isometric coordinates
+   *
    * @param x x coordinate
    * @param y y coordinate
    * @return Isometric coordinates
@@ -23,6 +24,7 @@ public class CoordinateUtils {
 
   /**
    * Converts Vector3f to its isometric coordinates
+   *
    * @param pos Vector3f coordinates
    * @return Isometric coordinates
    */
@@ -32,6 +34,7 @@ public class CoordinateUtils {
 
   /**
    * Converts Vector3f to its isometric coordinates
+   *
    * @param x x coordinate
    * @param y y coordinate
    * @param z z coordinate
@@ -43,6 +46,7 @@ public class CoordinateUtils {
 
   /**
    * Converts Vector3f to its cartesian coordinates
+   *
    * @param x
    * @param y
    * @return
@@ -56,6 +60,7 @@ public class CoordinateUtils {
 
   /**
    * Checks if a map is big enough to contain a specific coordinate
+   *
    * @param mapSize
    * @param position
    * @return
@@ -71,6 +76,7 @@ public class CoordinateUtils {
 
   /**
    * Converts between Vector3f and Vector 3i
+   *
    * @param coord Vector3f tile coordinates
    * @return Vector3i tile coordinates
    */
@@ -80,6 +86,7 @@ public class CoordinateUtils {
 
   /**
    * Returns the tile index of a tile from a map
+   *
    * @param level The level being referenced
    * @param coords Coordinates of the tile being checked
    * @return Tile type index
@@ -90,6 +97,7 @@ public class CoordinateUtils {
 
   /**
    * Returns the tile index of a tile from a map
+   *
    * @param levelMap Level map being referenced
    * @param coords Coordinates of tile being checked
    * @return Tile type index

@@ -15,11 +15,12 @@ public class EnemyLocationUpdate {
     this.updates = new HashMap<>();
   }
 
-    /**
-     * Add an enemy to our bank based on update object
-     * @param id
-     * @param loc
-     */
+  /**
+   * Add an enemy to our bank based on update object
+   *
+   * @param id
+   * @param loc
+   */
   public void addEnemy(Integer id, EnemyLocationUpdateObject loc) {
     updates.put(id, loc);
   }

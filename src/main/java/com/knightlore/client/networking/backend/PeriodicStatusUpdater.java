@@ -1,12 +1,13 @@
 package com.knightlore.client.networking.backend;
 
 import com.knightlore.client.networking.GameConnection;
+
 import java.util.concurrent.TimeUnit;
 
 public class PeriodicStatusUpdater extends Thread {
 
-  private Client client;
   boolean running;
+  private Client client;
 
   public PeriodicStatusUpdater(Client client) {
     this.client = client;
@@ -28,7 +29,7 @@ public class PeriodicStatusUpdater extends Thread {
     }
   }
 
-  public void close(){
+  public void close() {
     System.out.println("Closing periodic status");
     this.running = false;
     this.interrupt();

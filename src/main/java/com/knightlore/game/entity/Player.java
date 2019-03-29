@@ -9,10 +9,7 @@ import org.joml.Vector3f;
 import org.joml.Vector3i;
 import org.joml.Vector4f;
 
-/**
- * The entity that the user controls!
- * Handles collisions, player movement, life and death.
- */
+/** The entity that the user controls! Handles collisions, player movement, life and death. */
 public class Player extends Entity {
 
   static final Vector3f START_POSITION = new Vector3f(0.1f, 0.1f, 0);
@@ -30,12 +27,13 @@ public class Player extends Entity {
   private String associatedSession;
   private Vector4f colour;
 
-    /** Constructor for a Player object
-     *
-     * @param sessionID ID for the session where the player is instantiated
-     * @param id Used to differentiate between multiple Players in one session
-     * @param colour Colour of the player character
-     */
+  /**
+   * Constructor for a Player object
+   *
+   * @param sessionID ID for the session where the player is instantiated
+   * @param id Used to differentiate between multiple Players in one session
+   * @param colour Colour of the player character
+   */
   public Player(String sessionID, int id, Vector4f colour) {
     this.associatedSession = sessionID;
     this.id = id;
@@ -105,6 +103,15 @@ public class Player extends Entity {
     return score;
   }
 
+  /**
+   * Setter for property 'score'.
+   *
+   * @param score Value to set for property 'score'.
+   */
+  public void setScore(int score) {
+    this.score = score;
+  }
+
   public void addToScore(int amount) {
     score += amount;
   }
@@ -141,7 +148,9 @@ public class Player extends Entity {
    *
    * @param climbFlag Value to set for property 'climbFlag'.
    */
-  public void setClimbFlag(boolean climbFlag) {this.climbFlag = climbFlag; }
+  public void setClimbFlag(boolean climbFlag) {
+    this.climbFlag = climbFlag;
+  }
 
   /** {@inheritDoc} */
   @Override
@@ -162,8 +171,9 @@ public class Player extends Entity {
   void update() {}
 
   /**
-   * The main method called in the client game loop. Continuously checks for collision events with specific
-   * tiles such as air tiles and wall tiles. Also allows the player to climb up and down layers of the levelMap.
+   * The main method called in the client game loop. Continuously checks for collision events with
+   * specific tiles such as air tiles and wall tiles. Also allows the player to climb up and down
+   * layers of the levelMap.
    *
    * @param oldPos The position of the player before collision check update
    * @param newPos The potential position of the player after collision check update
@@ -180,7 +190,8 @@ public class Player extends Entity {
       if (newTile.getIndex() == 0) { // Air tile collision
         coords = CoordinateUtils.getTileCoord(new Vector3f(coords.x, coords.y, coords.z - 1));
         Tile below = levelMap.getTile(coords);
-        if (below.getIndex() == 2 || below.getIndex() == 3) { // Check if the tile you are falling onto is walkable
+        if (below.getIndex() == 2
+            || below.getIndex() == 3) { // Check if the tile you are falling onto is walkable
           setPosition(oldPos);
         } else if (below.getIndex() == 0) {
           setPosition(setPadding(position, 0.3f));
@@ -238,40 +249,30 @@ public class Player extends Entity {
   }
 
   /**
-   * Resets player to spawn point having lost a life, or sets their
-   * PlayerState to dead, triggering the level's end.
+   * Resets player to spawn point having lost a life, or sets their PlayerState to dead, triggering
+   * the level's end.
+   *
    * @author Jacqui Henes
    */
   public void loseLife() {
-    if(GameConnection.instance != null){
+    if (GameConnection.instance != null) {
       GameConnection.instance.sendDeath();
     }
-      decrementLives();
-      if (lives <= 0) {
-    	Audio.play(Audio.AudioName.JINGLE_GAMEOVER);
-        lives = 0;
-        playerState = PlayerState.DEAD;
-      } else {
-        setPlayerState(START_PLAYER_STATE);
-        setPosition(START_POSITION);
-        setDirection(START_DIRECTION);
-        setCooldown(START_ROLL_COOLDOWN);
-      }
+    decrementLives();
+    if (lives <= 0) {
+      Audio.play(Audio.AudioName.JINGLE_GAMEOVER);
+      lives = 0;
+      playerState = PlayerState.DEAD;
+    } else {
+      setPlayerState(START_PLAYER_STATE);
+      setPosition(START_POSITION);
+      setDirection(START_DIRECTION);
+      setCooldown(START_ROLL_COOLDOWN);
+    }
   }
 
-  /**
-   * Reduces life count by 1
-   */
-  public void decrementLives(){
-    this.lives --;
-  }
-
-  /**
-   * Setter for property 'score'.
-   *
-   * @param score Value to set for property 'score'.
-   */
-  public void setScore(int score){
-    this.score = score;
+  /** Reduces life count by 1 */
+  public void decrementLives() {
+    this.lives--;
   }
 }

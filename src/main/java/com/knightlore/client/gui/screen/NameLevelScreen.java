@@ -1,51 +1,5 @@
 package com.knightlore.client.gui.screen;
 
-import static com.knightlore.client.util.GuiUtils.checkPosition;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_0;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_1;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_2;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_3;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_4;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_5;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_6;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_7;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_8;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_9;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_APOSTROPHE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_B;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_BACKSPACE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_C;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_E;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_F;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_G;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_H;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_I;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_J;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_K;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_ADD;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_SUBTRACT;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_L;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_BRACKET;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_M;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_N;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_O;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_P;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_Q;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_R;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_BRACKET;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_SEMICOLON;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_T;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_U;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_V;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_X;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_Y;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_Z;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.knightlore.client.Client;
@@ -62,18 +16,22 @@ import com.knightlore.client.networking.ServerConnection;
 import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.game.Level;
 import com.knightlore.game.map.LevelMap;
+import org.joml.Vector4f;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
-import org.joml.Vector4f;
+
+import static com.knightlore.client.util.GuiUtils.checkPosition;
+import static org.lwjgl.glfw.GLFW.*;
 
 /**
  * The screen for naming and saving an edited level
- * @author Adam W
  *
+ * @author Adam W
  */
 public class NameLevelScreen implements IScreen {
 
@@ -144,6 +102,7 @@ public class NameLevelScreen implements IScreen {
 
   /**
    * Initialise NameLevelScreen
+   *
    * @param guiRenderer renderer used for rendering gui elements
    * @author Adam W
    */
@@ -152,7 +111,9 @@ public class NameLevelScreen implements IScreen {
     this.nameLevelUi = new NameLevel();
   }
 
-  /** Method to set up the screen with the level being saved 
+  /**
+   * Method to set up the screen with the level being saved
+   *
    * @author Adam W
    */
   @Override
@@ -164,7 +125,9 @@ public class NameLevelScreen implements IScreen {
     } else nameLevelUi.removePublish();
   }
 
-  /** Method to process user keyboard input and clicking on menu items 
+  /**
+   * Method to process user keyboard input and clicking on menu items
+   *
    * @author Adam W
    */
   @Override
@@ -191,8 +154,8 @@ public class NameLevelScreen implements IScreen {
         Audio.play(SELECT);
         try {
           if (nameLevelUi.getLevelName().getText().equals("")) {
-        	  nameLevelUi.getLevelName().setText("NAME ME");
-        	  return;
+            nameLevelUi.getLevelName().setText("NAME ME");
+            return;
           }
           save(nameLevelUi.getLevelName().getText());
         } catch (IOException e) {
@@ -209,8 +172,8 @@ public class NameLevelScreen implements IScreen {
         Audio.play(SELECT);
         try {
           if (nameLevelUi.getLevelName().getText().equals("")) {
-          	nameLevelUi.getLevelName().setText("NAME ME");
-          	return;
+            nameLevelUi.getLevelName().setText("NAME ME");
+            return;
           }
           save(nameLevelUi.getLevelName().getText());
         } catch (IOException e) {
@@ -246,7 +209,9 @@ public class NameLevelScreen implements IScreen {
     } else nameLevelUi.getPublish().setColour(new Vector4f(1, 1, 0, 1));
   }
 
-  /** Method to render the GUI 
+  /**
+   * Method to render the GUI
+   *
    * @author Adam W
    */
   @Override
@@ -255,7 +220,9 @@ public class NameLevelScreen implements IScreen {
     guiRenderer.render(nameLevelUi);
   }
 
-  /** Method to clean up the GUI
+  /**
+   * Method to clean up the GUI
+   *
    * @author Adam W
    */
   @Override
@@ -265,6 +232,7 @@ public class NameLevelScreen implements IScreen {
 
   /**
    * Method to save the level being named to a file
+   *
    * @param name The name of the level
    * @throws IOException Thrown when the file path can't be found
    * @author Adam W
@@ -292,6 +260,7 @@ public class NameLevelScreen implements IScreen {
 
   /**
    * Attempt to connect to server
+   *
    * @return boolean whether connection was successful
    * @author Adam W
    */

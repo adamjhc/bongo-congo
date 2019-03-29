@@ -1,7 +1,5 @@
 package com.knightlore.client.gui.screen;
 
-import static com.knightlore.client.util.GuiUtils.checkPosition;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.knightlore.client.Client;
@@ -18,14 +16,17 @@ import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.client.render.LevelSelectRenderer;
 import com.knightlore.game.Level;
 import com.knightlore.game.map.LevelMap;
+import org.joml.Vector3f;
+import org.joml.Vector3i;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.joml.Vector3f;
-import org.joml.Vector3i;
+
+import static com.knightlore.client.util.GuiUtils.checkPosition;
 
 /**
  * Screen for selecting 3 levels to use in Single Player

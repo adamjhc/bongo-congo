@@ -4,15 +4,16 @@ import com.knightlore.game.entity.Enemy;
 import com.knightlore.game.entity.EnemySet;
 import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.Tile;
+import org.joml.Vector3f;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.joml.Vector3f;
 
 public class Level {
 
-  private int duration;
   Date startedAt;
+  private int duration;
   private LevelMap levelMap;
 
   private EnemySet enemySet;

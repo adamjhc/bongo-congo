@@ -2,142 +2,112 @@ package com.knightlore.client.audio;
 
 /**
  * The source of all audio played during the game
- * @author Adam W, Joseph
  *
+ * @author Adam W, Joseph
  */
 public class Audio {
 
-  /**
-   * The file path to all the audio files
-   */
+  /** The file path to all the audio files */
   private static final String AUDIO_PATH = "src/main/resources/audio/";
 
-  /**
-   * The MusicPlayer for the menu music
-   */
+  /** The MusicPlayer for the menu music */
   private static MusicPlayer menuMusic;
-  
-  /**
-   * The MusicPlayer for the main game music
-   */
+
+  /** The MusicPlayer for the main game music */
   private static MusicPlayer gameMusic;
-  
-  /**
-   * The MusicPlayer for the level editor music
-   */
+
+  /** The MusicPlayer for the level editor music */
   private static MusicPlayer editorMusic;
-  
-  /**
-   * The sound effect for selecting a menu item
-   */
+
+  /** The sound effect for selecting a menu item */
   private static MusicPlayer menuSelectSound;
 
-  /**
-   * The sound effect for dying
-   */
+  /** The sound effect for dying */
   private static MusicPlayer hitSound;
-  
-  /**
-   * The sound effect for rolling
-   */
+
+  /** The sound effect for rolling */
   private static MusicPlayer rollSound;
-  
-  /**
-   * The sound effect for climbing
-   */
+
+  /** The sound effect for climbing */
   private static MusicPlayer climbSound;
-  
-  /**
-   * The jingle that plays when you win
-   */
+
+  /** The jingle that plays when you win */
   private static MusicPlayer victoryJingle;
-  
-  /**
-   * The jingle that plays when you lose
-   */
+
+  /** The jingle that plays when you lose */
   private static MusicPlayer gameOverJingle;
-  
-  /**
-   * The list of all the audio files
-   */
+
+  /** The list of all the audio files */
   private static MusicPlayer[] audioFiles;
-  
-  /**
-   * Whether music has been muted or not
-   */
+
+  /** Whether music has been muted or not */
   private static boolean isOn;
-  
-  /**
-   * The index in audioFiles of the current music being played
-   */
+
+  /** The index in audioFiles of the current music being played */
   private static int currentMusic;
 
   /**
    * Default constructor
+   *
    * @author Joseph
    */
   private Audio() {}
 
-  /**
-   * Method to retrieve all the audio files and choose the initial music
-   * author Adam W
-   */
+  /** Method to retrieve all the audio files and choose the initial music author Adam W */
   public static void init() {
     try {
-      menuMusic = 		new MusicPlayer(AUDIO_PATH + "MUSIC_MENU.wav", true);
+      menuMusic = new MusicPlayer(AUDIO_PATH + "MUSIC_MENU.wav", true);
     } catch (Exception e) {
       System.err.println("Could not load menu music: " + e);
     }
-    
+
     try {
       gameMusic = new MusicPlayer((AUDIO_PATH + "MUSIC_GAME.wav"), true);
     } catch (Exception e) {
       System.err.println("Could not load game music: " + e);
     }
-    
+
     try {
-      editorMusic = 		new MusicPlayer(AUDIO_PATH + "MUSIC_EDITOR.wav", true);
+      editorMusic = new MusicPlayer(AUDIO_PATH + "MUSIC_EDITOR.wav", true);
     } catch (Exception e) {
       System.err.println("Could not load endgame music: " + e);
     }
 
     try {
-      menuSelectSound = 	new MusicPlayer(AUDIO_PATH + "SOUND_MENUSELECT.wav", false);
+      menuSelectSound = new MusicPlayer(AUDIO_PATH + "SOUND_MENUSELECT.wav", false);
     } catch (Exception e) {
       System.err.println("Could not load menu select sound: " + e);
     }
 
     try {
-       hitSound = 			new MusicPlayer(AUDIO_PATH + "SOUND_HIT.wav", false);
+      hitSound = new MusicPlayer(AUDIO_PATH + "SOUND_HIT.wav", false);
     } catch (Exception e) {
-       System.err.println("Could not load hit sound: " + e);
-    }
-    
-    
-    try {
-    	rollSound = 		new MusicPlayer(AUDIO_PATH + "SOUND_ROLL.wav", false);
-    } catch (Exception e) {
-        System.err.println("Could not load roll sound: " + e);
-    }
-  
-    try {
-        climbSound =		new MusicPlayer(AUDIO_PATH + "SOUND_CLIMB.wav", false);
-    } catch (Exception e) {
-        System.err.println("Could not load climb sound: " + e);
-    }
-    
-    try {
-       victoryJingle = 	new MusicPlayer(AUDIO_PATH + "JINGLE_VICTORY.wav", false);
-    } catch (Exception e) {
-       System.err.println("Could not load victory jingle: " + e);
+      System.err.println("Could not load hit sound: " + e);
     }
 
     try {
-       gameOverJingle = 	new MusicPlayer(AUDIO_PATH + "JINGLE_GAMEOVER.wav", false);
+      rollSound = new MusicPlayer(AUDIO_PATH + "SOUND_ROLL.wav", false);
     } catch (Exception e) {
-       System.err.println("Could not load game over jingle: " + e);
+      System.err.println("Could not load roll sound: " + e);
     }
-     
+
+    try {
+      climbSound = new MusicPlayer(AUDIO_PATH + "SOUND_CLIMB.wav", false);
+    } catch (Exception e) {
+      System.err.println("Could not load climb sound: " + e);
+    }
+
+    try {
+      victoryJingle = new MusicPlayer(AUDIO_PATH + "JINGLE_VICTORY.wav", false);
+    } catch (Exception e) {
+      System.err.println("Could not load victory jingle: " + e);
+    }
+
+    try {
+      gameOverJingle = new MusicPlayer(AUDIO_PATH + "JINGLE_GAMEOVER.wav", false);
+    } catch (Exception e) {
+      System.err.println("Could not load game over jingle: " + e);
+    }
 
     audioFiles =
         new MusicPlayer[] {
@@ -151,30 +121,33 @@ public class Audio {
           victoryJingle,
           gameOverJingle
         };
-    
+
     currentMusic = 0;
   }
 
   /**
    * Method to get whether music has been muted or not
+   *
    * @return Whether music has been muted or not
    * @author Adam W
    */
   public static boolean isOn() {
     return isOn;
   }
-  
+
   /**
    * Method to get the current music being played
+   *
    * @return The MusicPlayer for the current music being played
    * @author Adam W
    */
   public static AudioName getCurrentMusic() {
-	  return AudioName.values()[currentMusic];
+    return AudioName.values()[currentMusic];
   }
 
   /**
    * Method to play a given audio file
+   *
    * @param file The name of the file to be played
    * @author Adam W
    */
@@ -182,39 +155,41 @@ public class Audio {
     if (isOn) {
       try {
         audioFiles[file.ordinal()].play();
-        if (file.ordinal() < 3)
-        	currentMusic = file.ordinal();
+        if (file.ordinal() < 3) currentMusic = file.ordinal();
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
   }
-  
+
   /**
    * Method to stop a given audio file
+   *
    * @param file The name of the file to be played
    * @author Adam W
    */
   public static void stop(AudioName file) {
-//	  if (audioFiles[file.ordinal()].isPlaying()) {
-//		  audioFiles[file.ordinal()].stop();
-//	  }
+    //	  if (audioFiles[file.ordinal()].isPlaying()) {
+    //		  audioFiles[file.ordinal()].stop();
+    //	  }
   }
 
   /**
    * Method to close any unused audio clips so that they can be played again
+   *
    * @author Adam W
    */
   public static void closeInactiveClips() {
-//    for (MusicPlayer audioFile : audioFiles) {
-//      if (!audioFile.isPlaying() && audioFile != audioFiles[currentMusic]) {
-//        audioFile.stop();
-//      }
-//    }
+    //    for (MusicPlayer audioFile : audioFiles) {
+    //      if (!audioFile.isPlaying() && audioFile != audioFiles[currentMusic]) {
+    //        audioFile.stop();
+    //      }
+    //    }
   }
 
   /**
    * Method to toggle whether music is muted or not
+   *
    * @author Adam W
    */
   public static void toggle() {
@@ -228,6 +203,7 @@ public class Audio {
 
   /**
    * Method to restart the current music
+   *
    * @author Joseph
    */
   public static void restart() {
@@ -239,28 +215,30 @@ public class Audio {
 
   /**
    * Method to increment the volume for all audio files
+   *
    * @author Joseph
    */
   public static void incVolume() {
-	for (MusicPlayer audioFile : audioFiles) {
-		audioFile.incVolume();
-	}
+    for (MusicPlayer audioFile : audioFiles) {
+      audioFile.incVolume();
+    }
   }
 
   /**
    * Method to decrement the volume for all audio files
+   *
    * @author Joseph
    */
   public static void decVolume() {
-	for (MusicPlayer audioFile : audioFiles) {
-		audioFile.decVolume();
-	}
+    for (MusicPlayer audioFile : audioFiles) {
+      audioFile.decVolume();
+    }
   }
 
   /**
    * The names of all the audio files in use
-   * @author Adam W
    *
+   * @author Adam W
    */
   public enum AudioName {
     MUSIC_MENU,

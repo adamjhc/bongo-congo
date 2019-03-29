@@ -2,22 +2,20 @@ package com.knightlore.client.gui.engine;
 
 /**
  * Keeps track of all the loop timing and game time
- * 
- * @author Joseph
  *
+ * @author Joseph
  */
 public class Timer {
 
-	/** Last update loop time */
+  /** Last update loop time */
   private double lastLoopTime;
   /** Game start time */
   private double startTime;
 
   /**
    * Initialise timer
-   * 
+   *
    * @author Joseph
-   * 
    */
   public Timer() {
     lastLoopTime = getTime();
@@ -25,41 +23,37 @@ public class Timer {
 
   /**
    * Set start time to current time
-   * 
+   *
    * @author Joseph
-   * 
    */
   public void setStartTime() {
     startTime = getTime();
   }
-  
+
   /**
    * Set start time to zero
-   * 
+   *
    * @author Joseph
-   * 
    */
   public void resetStartTime() {
-  	startTime = 0;
+    startTime = 0;
   }
-  
+
   /**
    * Return start time
-   * 
+   *
    * @return StartTime
    * @author Joseph
-   * 
    */
   public double getStartTime() {
-  	return startTime;
+    return startTime;
   }
 
   /**
    * Returns time since game started
-   * 
+   *
    * @return Time - startTime
    * @author Joseph
-   * 
    */
   public float getGameTime() {
     double time = getTime();
@@ -67,12 +61,10 @@ public class Timer {
   }
 
   /**
-   * Gets the time since the last loop
-   * Resets the lastLoopTime
-   * 
+   * Gets the time since the last loop Resets the lastLoopTime
+   *
    * @return ElapsedTime
    * @author Joseph
-   * 
    */
   public float getElapsedTime() {
     double time = getTime();
@@ -83,10 +75,9 @@ public class Timer {
 
   /**
    * Returns the last loop time
-   * 
+   *
    * @return LastLoopTime
    * @author Joseph
-   * 
    */
   public double getLastLoopTime() {
     return lastLoopTime;
@@ -94,10 +85,9 @@ public class Timer {
 
   /**
    * Get the current time
-   * 
+   *
    * @return Time
    * @author Joseph
-   * 
    */
   private double getTime() {
     return System.nanoTime() / 1000_000_000.0;

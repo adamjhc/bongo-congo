@@ -4,6 +4,7 @@ import java.sql.Types;
 
 /**
  * Session Token instance of model
+ *
  * @author Lewis Relph
  */
 public class SessionToken extends Model {

@@ -3,10 +3,6 @@ package com.knightlore.game.server;
 import com.google.gson.Gson;
 import com.knightlore.client.gui.engine.Timer;
 import com.knightlore.game.GameModel;
-import com.knightlore.game.entity.Enemy;
-import com.knightlore.networking.Sendable;
-import com.knightlore.networking.game.EnemyLocationUpdate;
-import com.knightlore.networking.game.EnemyLocationUpdateObject;
 
 /**
  * Thread for periodically updating the model server side, handle enemy movement etc

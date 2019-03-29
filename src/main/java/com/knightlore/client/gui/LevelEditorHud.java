@@ -6,9 +6,8 @@ import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.gui.engine.graphics.FontTexture;
 import com.knightlore.client.io.Window;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.GraphicsEnvironment;
+
+import java.awt.*;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;

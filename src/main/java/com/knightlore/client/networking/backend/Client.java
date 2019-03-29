@@ -50,13 +50,11 @@ public class Client {
     return true;
   }
 
-
   public void close() throws IOException {
     // closing resources
     receiver.close();
     dis.close();
     dos.close();
     socket.close();
-
   }
 }

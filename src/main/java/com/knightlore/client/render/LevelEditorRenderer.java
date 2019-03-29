@@ -19,7 +19,7 @@ public class LevelEditorRenderer extends Renderer {
 
   /** The world being rendered */
   private World world;
-  /** The camera used as a viewpoint for the world*/
+  /** The camera used as a viewpoint for the world */
   private Camera camera;
   /** The shader program used to render the world's shaders */
   private ShaderProgram shaderProgram;
@@ -27,11 +27,11 @@ public class LevelEditorRenderer extends Renderer {
   private float viewX;
   private float viewY;
 
-  /** The x coordinate of the currently selected tile in the level editor*/
+  /** The x coordinate of the currently selected tile in the level editor */
   private int currentTileX;
-  /** The y coordinate of the currently selected tile in the level editor*/
+  /** The y coordinate of the currently selected tile in the level editor */
   private int currentTileY;
-  /** The z coordinate of the currently selected tile in the level editor*/
+  /** The z coordinate of the currently selected tile in the level editor */
   private int currentTileZ;
 
   public LevelEditorRenderer() {
@@ -90,6 +90,7 @@ public class LevelEditorRenderer extends Renderer {
 
   /**
    * enlarges the scale of the world, giving the impression of moving the camera closer
+   *
    * @param mapSize the size of the map being enlarged
    * @author Adam W
    */
@@ -104,6 +105,7 @@ public class LevelEditorRenderer extends Renderer {
 
   /**
    * shrinks the scale of the world, giving the impression of moving the camera further away
+   *
    * @param mapSize the size of the map being shrunk
    * @author Adam W
    */

@@ -1,13 +1,13 @@
 package com.knightlore.client.gui.screen;
 
-import static com.knightlore.client.util.GuiUtils.checkPosition;
-
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.gui.ShowError;
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.render.GuiRenderer;
+
+import static com.knightlore.client.util.GuiUtils.checkPosition;
 
 public class ShowErrorScreen implements IScreen {
 

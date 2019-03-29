@@ -1,7 +1,7 @@
 package com.knightlore.client.render;
 
-import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.Gui;
+import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.graphics.Mesh;
 import com.knightlore.client.gui.engine.graphics.Transformation;
 import com.knightlore.client.io.Window;

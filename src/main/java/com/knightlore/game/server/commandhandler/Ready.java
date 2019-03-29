@@ -18,15 +18,15 @@ public class Ready extends Command {
     if (handler.server().allReady()) {
       // Start supervisor and enemy position updater
       GameManager manager = new GameManager(handler.model(), handler.server());
-      EnemyPositionUpdateManager manager1 = new EnemyPositionUpdateManager(handler.model(), handler.server());
+      EnemyPositionUpdateManager manager1 =
+          new EnemyPositionUpdateManager(handler.model(), handler.server());
       manager.start();
       manager1.start();
 
       // Attach threads to server
       handler.server().poqhandler =
-              new PositionUpdateQueueHandler(PositionUpdateQueue.instance,handler.server());
+          new PositionUpdateQueueHandler(PositionUpdateQueue.instance, handler.server());
       handler.server().poqhandler.start();
-
 
       // Relay ready to clients to que game countdown
       Sendable ready = new Sendable();

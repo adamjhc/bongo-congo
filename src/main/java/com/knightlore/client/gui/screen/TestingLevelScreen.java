@@ -1,9 +1,5 @@
 package com.knightlore.client.gui.screen;
 
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_SHIFT;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
-
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.gui.engine.Timer;
@@ -15,8 +11,11 @@ import com.knightlore.game.GameModel;
 import com.knightlore.game.GameState;
 import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
+
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.lwjgl.glfw.GLFW.*;
 
 /**
  * Screen used to play through an edited level

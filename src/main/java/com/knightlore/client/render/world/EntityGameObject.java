@@ -6,10 +6,11 @@ import com.knightlore.client.render.opengl.ShaderProgram;
 import com.knightlore.client.render.opengl.StaticTexture;
 import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.Entity;
-import java.util.EnumMap;
-import java.util.Map;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
+
+import java.util.EnumMap;
+import java.util.Map;
 
 /**
  * Abstract class for shared EntityGameObject code
@@ -58,14 +59,24 @@ public abstract class EntityGameObject extends GameObject {
       movingTextures.put(direction, new AnimatedTexture(directionPath + "_run", 10, 15));
     }
 
-    float textureHeight = 2f * idleTextures.get(Direction.NORTH).getHeight()
-        / idleTextures.get(Direction.NORTH).getWidth();
+    float textureHeight =
+        2f
+            * idleTextures.get(Direction.NORTH).getHeight()
+            / idleTextures.get(Direction.NORTH).getWidth();
     float[] vertices =
         new float[] {
-          -1f, textureHeight, 0, // TOP LEFT     0
-          1f, textureHeight, 0, // TOP RIGHT    1
-          1f, 0, 0, // BOTTOM RIGHT 2
-          -1f, 0, 0, // BOTTOM LEFT  3
+          -1f,
+          textureHeight,
+          0, // TOP LEFT     0
+          1f,
+          textureHeight,
+          0, // TOP RIGHT    1
+          1f,
+          0,
+          0, // BOTTOM RIGHT 2
+          -1f,
+          0,
+          0, // BOTTOM LEFT  3
         };
 
     model = new RenderModel(vertices, textureCoordinates, indices);

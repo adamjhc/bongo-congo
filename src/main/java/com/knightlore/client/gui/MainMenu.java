@@ -49,9 +49,7 @@ public class MainMenu extends Gui {
   /** Congo text */
   private final TextObject congo;
 
-  /**
-   * Create gui objects
-   */
+  /** Create gui objects */
   public MainMenu() {
     this.bongo = new TextObject("Bongo", TITLE);
     this.bongo.setColour(Colour.LIGHT_BLUE);
@@ -189,9 +187,7 @@ public class MainMenu extends Gui {
     return soundOff;
   }
 
-  /**
-   * Updates the position of the gui objects
-   */
+  /** Updates the position of the gui objects */
   public void updateSize() {
     int gap = singleplayer.getHeight() + 5;
 
@@ -223,9 +219,7 @@ public class MainMenu extends Gui {
         Window.getWidth() - soundOff.getSize(), Window.getHeight() - soundOff.getHeight());
   }
 
-  /**
-   * Increases the size of the menu font
-   */
+  /** Increases the size of the menu font */
   public void incFont() {
     singleplayer.setFontTexture(MEDIUM);
     multiplayer.setFontTexture(MEDIUM);
@@ -235,9 +229,7 @@ public class MainMenu extends Gui {
     quit.setFontTexture(MEDIUM);
   }
 
-  /**
-   * Decreases the size of the menu font
-   */
+  /** Decreases the size of the menu font */
   public void decFont() {
     singleplayer.setFontTexture(SMALL);
     multiplayer.setFontTexture(SMALL);

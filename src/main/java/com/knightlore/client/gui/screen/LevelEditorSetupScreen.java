@@ -1,8 +1,5 @@
 package com.knightlore.client.gui.screen;
 
-import static com.knightlore.client.util.GuiUtils.checkPosition;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
-
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.audio.Audio;
@@ -15,10 +12,13 @@ import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.game.map.LevelMap;
 import org.joml.Vector4f;
 
+import static com.knightlore.client.util.GuiUtils.checkPosition;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+
 /**
  * Screen to choose the inital paramaters for a new level to edit
- * @author Adam W
  *
+ * @author Adam W
  */
 public class LevelEditorSetupScreen implements IScreen {
 
@@ -33,6 +33,7 @@ public class LevelEditorSetupScreen implements IScreen {
 
   /**
    * Initialise LevelEditorSetupScreen
+   *
    * @param guiRenderer renderer used to render gui elements
    * @author Adam W
    */
@@ -41,7 +42,9 @@ public class LevelEditorSetupScreen implements IScreen {
     preLevelEditor = new PreLevelEditor();
   }
 
-  /** Method to process the user clicking on menu items
+  /**
+   * Method to process the user clicking on menu items
+   *
    * @author Adam W
    */
   @Override
@@ -139,7 +142,9 @@ public class LevelEditorSetupScreen implements IScreen {
     guiRenderer.render(preLevelEditor);
   }
 
-  /** Method to cleanup the GUI 
+  /**
+   * Method to cleanup the GUI
+   *
    * @author Adam W
    */
   @Override

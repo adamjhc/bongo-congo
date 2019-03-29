@@ -23,14 +23,11 @@ public class ClientHandler extends Thread {
   // Input/Output streams
   public final ObjectInputStream dis;
   public final ObjectOutputStream dos;
-
+  // Socket
+  final Socket s;
   // Session key and username
   public Optional<String> sessionKey = Optional.empty();
   public Optional<String> username = Optional.empty();
-
-  // Socket
-  final Socket s;
-
   // Server callback
   private Server server;
 

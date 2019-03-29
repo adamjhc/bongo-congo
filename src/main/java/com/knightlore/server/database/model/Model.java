@@ -12,13 +12,12 @@ import java.util.Optional;
 public abstract class Model {
 
   public String table;
-  AttributeBag attributes;
-  String identifier;
-  protected ArrayList<Condition> conditions = new ArrayList<>();
-  private boolean isSaved;
   public OrderBy order;
   public String orderColumn;
-
+  protected ArrayList<Condition> conditions = new ArrayList<>();
+  AttributeBag attributes;
+  String identifier;
+  private boolean isSaved;
   private Connection conn = com.knightlore.server.database.Connection.getConnection();
 
   /**

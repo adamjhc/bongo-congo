@@ -1,7 +1,8 @@
 package com.knightlore.client.gui.engine;
 
 import com.knightlore.client.gui.engine.graphics.FontTexture;
-import java.awt.Font;
+
+import java.awt.*;
 
 /**
  * Interface for GUI screens

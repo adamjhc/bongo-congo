@@ -9,14 +9,13 @@ import com.knightlore.client.networking.backend.responsehandlers.game.GameRegist
 import com.knightlore.game.GameModel;
 import com.knightlore.game.GameState;
 import com.knightlore.game.entity.Player;
-import com.knightlore.networking.game.LevelComplete;
-import com.knightlore.networking.server.ApiKey;
-import com.knightlore.networking.game.PositionUpdate;
 import com.knightlore.networking.Sendable;
+import com.knightlore.networking.game.LevelComplete;
+import com.knightlore.networking.game.PositionUpdate;
+import com.knightlore.networking.server.ApiKey;
 import com.knightlore.networking.server.GameRequest;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.util.UUID;
 
 /**
@@ -33,12 +32,13 @@ public class GameConnection {
   public String sessionKey;
   public int playerIndex;
   public boolean gameCancelled;
+  public PeriodicStatusUpdater updater;
   boolean authenticated = false;
   private Client client;
-  public PeriodicStatusUpdater updater;
 
   /**
    * Constructor for when key is already provided
+   *
    * @param client
    * @param sessionKey
    */
@@ -49,18 +49,17 @@ public class GameConnection {
 
   /**
    * Getter for client ready value
+   *
    * @return client is ready to accept commands
    */
   public boolean ready() {
     return this.client.ready;
   }
 
-  /**
-   * Close current thread
-   */
+  /** Close current thread */
   public void close() {
     // Check for periodic
-    if(this.updater != null){
+    if (this.updater != null) {
       this.updater.close();
     }
 
@@ -70,14 +69,13 @@ public class GameConnection {
       System.out.println("Error occurred while disconnecting");
     }
 
-    if (GameConnection.gameModel != null && GameConnection.gameModel.getState() != GameState.SCORE) {
+    if (GameConnection.gameModel != null
+        && GameConnection.gameModel.getState() != GameState.SCORE) {
       com.knightlore.client.Client.changeScreen(ClientState.MAIN_MENU, false);
     }
   }
 
-  /**
-   * Send start game command to server
-   */
+  /** Send start game command to server */
   public void startGame() {
     // Build up get session string
     Sendable sendable = new Sendable();
@@ -96,9 +94,7 @@ public class GameConnection {
     }
   }
 
-  /**
-   * Update position based on current player model
-   */
+  /** Update position based on current player model */
   public void updateStatus() {
     // Build up get session string
     Sendable sendable = new Sendable();
@@ -126,9 +122,7 @@ public class GameConnection {
     }
   }
 
-  /**
-   * Send register command to server
-   */
+  /** Send register command to server */
   public void register() {
     // Build up get session string
     Gson gson = new Gson();
@@ -149,9 +143,7 @@ public class GameConnection {
     }
   }
 
-  /**
-   * Send level complete command to server
-   */
+  /** Send level complete command to server */
   public void sendLevelComplete() {
     Gson gson = new Gson();
     Sendable sendable = new Sendable();
@@ -166,9 +158,7 @@ public class GameConnection {
     }
   }
 
-  /**
-   * Send ready command to server
-   */
+  /** Send ready command to server */
   public void sendReady() {
     // Build up get session string
     Sendable sendable = new Sendable();
@@ -182,9 +172,7 @@ public class GameConnection {
     }
   }
 
-  /**
-   * Send death command to server
-   */
+  /** Send death command to server */
   public void sendDeath() {
     Sendable sendable = new Sendable();
     sendable.setFunction("player_death");
@@ -196,18 +184,15 @@ public class GameConnection {
     }
   }
 
-  /**
-   * Additional listeners for when a game connection is made
-   */
+  /** Additional listeners for when a game connection is made */
   public void gameConnectionMade() {}
 
-  /**
-   * Additional listeners for when a game connection fails
-   */
+  /** Additional listeners for when a game connection fails */
   public void gameConnectionFailed() {}
 
   /**
    * Getter for client port
+   *
    * @return
    */
   public int port() {

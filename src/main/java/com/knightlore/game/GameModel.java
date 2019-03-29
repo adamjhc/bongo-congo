@@ -1,7 +1,5 @@
 package com.knightlore.game;
 
-import static org.joml.Math.round;
-
 import com.knightlore.client.audio.Audio;
 import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.networking.GameConnection;
@@ -11,9 +9,12 @@ import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.util.CoordinateUtils;
-import java.util.*;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+
+import java.util.*;
+
+import static org.joml.Math.round;
 
 public class GameModel {
 
@@ -137,11 +138,11 @@ public class GameModel {
         GameConnection.instance.sendLevelComplete();
       }
     }
-    
+
     if (timeLeft <= 0) {
-    	for (int i = 0; i < myPlayer().getLives(); i++) {
-    		myPlayer().loseLife();
-    	}
+      for (int i = 0; i < myPlayer().getLives(); i++) {
+        myPlayer().loseLife();
+      }
     }
 
     // Player state updates

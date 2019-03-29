@@ -1,12 +1,13 @@
 package com.knightlore.client.util;
 
 import com.knightlore.client.render.opengl.Image;
+
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 
 public class FileUtils {
 

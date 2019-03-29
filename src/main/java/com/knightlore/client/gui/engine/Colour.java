@@ -4,13 +4,12 @@ import org.joml.Vector4f;
 
 /**
  * Stores the colours used throughout the game
- * 
- * @author Adam C, Joseph
  *
+ * @author Adam C, Joseph
  */
 public class Colour {
-	
-	/** Black colour */
+
+  /** Black colour */
   public static final Vector4f BLACK = new Vector4f(0, 0, 0, 1);
   /** Dark grey colour */
   public static final Vector4f DARK_GREY = new Vector4f(0.411f, 0.411f, 0.411f, 1);

@@ -5,7 +5,7 @@ import com.knightlore.networking.Sendable;
 
 public class GetGame implements GenericHandler {
 
-    public void run(Sendable response){
-        System.out.println("GET GAME" + response.getData());
-    }
+  public void run(Sendable response) {
+    System.out.println("GET GAME" + response.getData());
+  }
 }

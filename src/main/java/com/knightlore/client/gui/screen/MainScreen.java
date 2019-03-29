@@ -21,6 +21,11 @@ import com.knightlore.client.render.GuiRenderer;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Handles the main screen startup, input, updates, rendering and cleanup
+ *
+ * @author Joseph, Adam Cox
+ */
 public class MainScreen implements IScreen {
 
   /** Audio clip name for selection */

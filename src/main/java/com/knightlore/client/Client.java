@@ -149,7 +149,7 @@ public class Client {
     screens.put(ClientState.GAME, new GameScreen(guiRenderer, gameRenderer, timer));
     screens.put(ClientState.NAMING_LEVEL, new NameLevelScreen(guiRenderer));
     screens.put(ClientState.LOBBY, new LobbyScreen(guiRenderer));
-    screens.put(ClientState.LOADING_LEVEL, new LoadLevelScreen(guiRenderer));
+    screens.put(ClientState.LOADING_LEVEL, new LoadLevelScreen(guiRenderer, levelSelectRenderer));
     screens.put(ClientState.END, new GameEndScreen(guiRenderer));
     screens.put(ClientState.LEVEL_SELECT, new LevelSelectScreen(guiRenderer, levelSelectRenderer));
     screens.put(ClientState.SHOW_ERROR, new ShowErrorScreen(guiRenderer));

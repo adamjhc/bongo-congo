@@ -13,16 +13,20 @@ import com.knightlore.client.gui.engine.Colour;
 import com.knightlore.client.gui.engine.Gui;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Mouse;
+import com.knightlore.client.io.Window;
 import com.knightlore.client.render.GuiRenderer;
+import com.knightlore.client.render.LevelSelectRenderer;
 import com.knightlore.game.map.LevelMap;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import org.joml.Vector3f;
+import org.joml.Vector3i;
 
 /**
  * Screen to choose a saved level to edit
- * @author Adam W
  *
+ * @author Adam W
  */
 public class LoadLevelScreen implements IScreen {
 
@@ -41,21 +45,32 @@ public class LoadLevelScreen implements IScreen {
   /** The renderer used to render the menu */
   private GuiRenderer guiRenderer;
 
+  /** The renderer used to render the map preview */
+  private LevelSelectRenderer levelSelectRenderer;
+
+  /** Selected map for preview */
+  private LevelMap selectedMap;
+
   /** The object containing the menu */
   private LoadLevelMenu loadLevelMenu;
 
   /**
    * Initialise LoadLevelScreen
+   *
    * @param guiRenderer renderer used to render gui elements
    * @author Adam W
    */
-  public LoadLevelScreen(GuiRenderer guiRenderer) {
+  public LoadLevelScreen(GuiRenderer guiRenderer, LevelSelectRenderer levelSelectRenderer) {
     this.guiRenderer = guiRenderer;
+    this.levelSelectRenderer = levelSelectRenderer;
+
     loadLevelMenu = new LoadLevelMenu();
     currentLevelName = "";
   }
 
-  /** Method to initialise the menu when it is changed to
+  /**
+   * Method to initialise the menu when it is changed to
+   *
    * @author Adam W
    */
   @Override
@@ -86,7 +101,9 @@ public class LoadLevelScreen implements IScreen {
     loadLevelMenu.setLevels(allLevels);
   }
 
-  /** Method to process users clicking on menu items 
+  /**
+   * Method to process users clicking on menu items
+   *
    * @author Adam W
    */
   @Override
@@ -139,6 +156,18 @@ public class LoadLevelScreen implements IScreen {
           Audio.play(SELECT);
           loadLevelMenu.getLevel(i).setColour(Colour.GREEN);
           currentLevelName = loadLevelMenu.getLevel(i).getId();
+
+          if (currentLevelName.contains(".fmap")) {
+            selectedMap = getMap(finishedFilePath + "/" + currentLevelName);
+          } else {
+            selectedMap = getMap(unfinishedFilePath + "/" + currentLevelName);
+          }
+          Vector3i mapSize = selectedMap.getSize();
+
+          levelSelectRenderer.setWorldScale(
+              (Window.WINDOWED_WIDTH / 2 - 50) / (mapSize.x + mapSize.y));
+          levelSelectRenderer.setCameraPosition(
+              new Vector3f(-mapSize.y, (mapSize.x + mapSize.z) / 2f, 0));
         }
       } else {
         if (!currentLevelName.equals(loadLevelMenu.getLevel(i).getId())) {
@@ -148,16 +177,35 @@ public class LoadLevelScreen implements IScreen {
     }
   }
 
-  /** Method to render the GUI 
+  @Override
+  public void update(float delta) {
+    if (selectedMap != null) {
+      loadLevelMenu.offsetMenu(delta * 300);
+    }
+  }
+
+  /**
+   * Method to render the GUI
+   *
    * @author Adam W
    */
   @Override
   public void render() {
     loadLevelMenu.updateSize();
+
+    levelSelectRenderer.render(selectedMap);
     guiRenderer.render(loadLevelMenu);
   }
 
-  /** Method to clean up the GUI
+  @Override
+  public void shutdown(ClientState nextScreen) {
+    selectedMap = null;
+    loadLevelMenu = new LoadLevelMenu();
+  }
+
+  /**
+   * Method to clean up the GUI
+   *
    * @author AdamW
    */
   @Override

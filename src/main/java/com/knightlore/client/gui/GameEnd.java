@@ -48,8 +48,6 @@ public class GameEnd extends Gui {
 
   /**
    * Create gui objects
-   *
-   * @author Joseph
    */
   public GameEnd() {
     this.bongo = new TextObject("Bongo", TITLE);
@@ -79,7 +77,6 @@ public class GameEnd extends Gui {
    * Creates a text object for each player to display their score
    *
    * @param players List of the player names
-   * @author Joseph
    */
   public void displayScores(List<Player> players) {
     int yPos = SEPARATOR_TOP_POS - GAP;
@@ -99,8 +96,6 @@ public class GameEnd extends Gui {
 
   /**
    * Adds the scores to the list of gui objects
-   *
-   * @author Joseph
    */
   private void addScores(List<TextObject> scores) {
     GuiObject[] guiObjectsNew = new GuiObject[length + scores.size()];
@@ -113,8 +108,6 @@ public class GameEnd extends Gui {
 
   /**
    * Updates the position of the gui objects
-   *
-   * @author Joseph
    */
   public void updateSize() {
     this.bongo.setPosition(
@@ -138,7 +131,6 @@ public class GameEnd extends Gui {
    * Returns winner
    *
    * @return Winner
-   * @author Joseph
    */
   public TextObject getWinner() {
     return winner;
@@ -148,7 +140,6 @@ public class GameEnd extends Gui {
    * Returns Exit
    *
    * @return Exit
-   * @author Joseph
    */
   public TextObject getExit() {
     return exit;

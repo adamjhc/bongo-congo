@@ -6,7 +6,7 @@ import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Window;
 
-/** @author Adam W */
+/** @author Adam W, Joseph */
 public class HelpMenu extends Gui {
 
   /** Position of the top separator line */

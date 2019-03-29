@@ -53,8 +53,6 @@ public class Lobby extends Gui {
 
   /**
    * Create gui objects
-   *
-   * @author Joseph
    */
   public Lobby() {
     this.bongo = new TextObject("Bongo", TITLE);
@@ -92,7 +90,6 @@ public class Lobby extends Gui {
    * Sets the name of the lobby
    *
    * @param name The lobby name
-   * @author Joseph
    */
   public void setLobbyName(String name) {
     this.lobby.setText(name);
@@ -102,7 +99,6 @@ public class Lobby extends Gui {
    * Refreshes to show the players who are currently in the lobby
    *
    * @param players
-   * @author Joseph
    */
   public void refreshPlayers(List<String> players) {
     int yPos = SEPARATOR_TOP_POS - GAP;
@@ -125,8 +121,6 @@ public class Lobby extends Gui {
 
   /**
    * Adds players to the list of gui objects
-   *
-   * @author Joseph
    */
   public void addPlayers() {
     GuiObject[] guiObjectsNew = new GuiObject[length + players.size()];
@@ -141,7 +135,6 @@ public class Lobby extends Gui {
    * Updates the position of the gui objects
    *
    * @param includeStart Whether start is displayed or not
-   * @author Joseph
    */
   public void updateSize(boolean includeStart) {
     this.bongo.setPosition(
@@ -174,7 +167,6 @@ public class Lobby extends Gui {
    * Returns start
    *
    * @return start
-   * @author Joseph
    */
   public TextObject getStart() {
     return start;
@@ -184,7 +176,6 @@ public class Lobby extends Gui {
    * Returns exit
    *
    * @return Exit
-   * @author Joseph
    */
   public TextObject getExit() {
     return exit;

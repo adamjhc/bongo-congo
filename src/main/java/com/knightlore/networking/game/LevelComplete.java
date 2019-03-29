@@ -1,7 +1,5 @@
 package com.knightlore.networking.game;
 
-import com.knightlore.game.GameModel;
-
 /**
  * Response to game starting, send over the model
  *

@@ -10,24 +10,23 @@ import com.knightlore.networking.game.PositionUpdateChunk;
  */
 public class PositionUpdateQueue {
 
-    public static PositionUpdateQueue instance = new PositionUpdateQueue();
+  public static PositionUpdateQueue instance = new PositionUpdateQueue();
 
-    PositionUpdateChunk chunk;
+  PositionUpdateChunk chunk;
 
-    public PositionUpdateQueue() {
-        this.chunk = new PositionUpdateChunk();
-    }
+  public PositionUpdateQueue() {
+    this.chunk = new PositionUpdateChunk();
+  }
 
-    public void add(PositionUpdate u){
-        this.chunk.add(u);
-    }
+  public void add(PositionUpdate u) {
+    this.chunk.add(u);
+  }
 
-    public PositionUpdateChunk getQueue(){
-        return this.chunk;
-    }
+  public PositionUpdateChunk getQueue() {
+    return this.chunk;
+  }
 
-    public void clear(){
-        this.chunk.clear();
-    }
-
+  public void clear() {
+    this.chunk.clear();
+  }
 }

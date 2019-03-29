@@ -1,11 +1,12 @@
 package com.knightlore.client.util;
 
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.system.MemoryStack;
+
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
 public class BufferUtils {
 

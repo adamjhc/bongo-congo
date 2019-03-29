@@ -10,6 +10,7 @@ import java.util.Map;
 
 /**
  * Repository to hold all the attributes a model has and data regarding them
+ *
  * @author Lewis Relph
  */
 public class AttributeBag {
@@ -36,6 +37,20 @@ public class AttributeBag {
   }
 
   /**
+   * Update attributes from bag based on result NB resultset must include all keys
+   *
+   * @param result
+   * @throws SQLException
+   */
+  public void setAttributes(ResultSet result) throws SQLException {
+    for (String key : this.attributes.keySet()) {
+      Attribute current = this.attributes.get(key);
+      current.value = result.getObject(key);
+      this.attributes.put(key, current);
+    }
+  }
+
+  /**
    * Retrieve specifi attribute object from key
    *
    * @param key
@@ -54,20 +69,6 @@ public class AttributeBag {
   public void setAttribute(String key, Attribute attribute) {
     attribute.isDirty = true;
     this.attributes.put(key, attribute);
-  }
-
-  /**
-   * Update attributes from bag based on result NB resultset must include all keys
-   *
-   * @param result
-   * @throws SQLException
-   */
-  public void setAttributes(ResultSet result) throws SQLException {
-    for (String key : this.attributes.keySet()) {
-      Attribute current = this.attributes.get(key);
-      current.value = result.getObject(key);
-      this.attributes.put(key, current);
-    }
   }
 
   /**

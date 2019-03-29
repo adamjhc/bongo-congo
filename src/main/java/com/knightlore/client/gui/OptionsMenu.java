@@ -68,9 +68,7 @@ public class OptionsMenu extends Gui {
   /** Is the audio muted */
   private final TextObject isMute;
 
-  /**
-   * Create gui objects
-   */
+  /** Create gui objects */
   public OptionsMenu() {
     this.bongo = new TextObject("Bongo", TITLE);
     this.bongo.setColour(Colour.LIGHT_BLUE);
@@ -134,9 +132,7 @@ public class OptionsMenu extends Gui {
     textObjects = new TextObject[] {incVolume, decVolume, exit, isFullscreen, isMute};
   }
 
-  /**
-   * Increase the volume
-   */
+  /** Increase the volume */
   public void incVolume() {
     int volumeAmount = Integer.parseInt(this.volume.getText());
     if (volumeAmount < MAX_VOLUME) volumeAmount++;
@@ -144,9 +140,7 @@ public class OptionsMenu extends Gui {
     this.volume.setColour(Colour.YELLOW);
   }
 
-  /**
-   * Decrease the volume
-   */
+  /** Decrease the volume */
   public void decVolume() {
     int volumeAmount = Integer.parseInt(this.volume.getText());
     if (volumeAmount > 0) volumeAmount--;
@@ -154,9 +148,7 @@ public class OptionsMenu extends Gui {
     this.volume.setColour(Colour.YELLOW);
   }
 
-  /**
-   * Set the game to be fullscreen
-   */
+  /** Set the game to be fullscreen */
   public void setFullscreen() {
     if (this.isFullscreen.getText().equals("Off")) this.isFullscreen.setText("On");
     else this.isFullscreen.setText("Off");
@@ -165,9 +157,7 @@ public class OptionsMenu extends Gui {
     Window.setFullscreen();
   }
 
-  /**
-   * Set the audio to be muted
-   */
+  /** Set the audio to be muted */
   public void setMute() {
     if (Audio.isOn()) this.isMute.setText("Off");
     else this.isMute.setText("On");
@@ -219,9 +209,7 @@ public class OptionsMenu extends Gui {
     return isMute;
   }
 
-  /**
-   * Updates the position of the gui objectss
-   */
+  /** Updates the position of the gui objectss */
   public void updateSize() {
     this.bongo.setPosition(
         Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);

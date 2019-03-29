@@ -1,14 +1,12 @@
 package com.knightlore.client.render.opengl;
 
-import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
-import static org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER;
-import static org.lwjgl.opengl.GL15.glBindBuffer;
+import com.knightlore.client.util.BufferUtils;
+import org.lwjgl.system.MemoryStack;
+
+import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.system.MemoryStack.stackPush;
-
-import com.knightlore.client.util.BufferUtils;
-import org.lwjgl.system.MemoryStack;
 
 /**
  * OpenGL render model, all renderable objects must have an instance of this

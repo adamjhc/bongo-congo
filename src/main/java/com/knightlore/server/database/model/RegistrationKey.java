@@ -4,6 +4,7 @@ import java.sql.Types;
 
 /**
  * Registration Key instance of model
+ *
  * @author Lewis Relph
  */
 public class RegistrationKey extends Model {

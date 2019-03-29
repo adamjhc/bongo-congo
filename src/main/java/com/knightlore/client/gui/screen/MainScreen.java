@@ -1,8 +1,5 @@
 package com.knightlore.client.gui.screen;
 
-import static com.knightlore.client.util.GuiUtils.checkPosition;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
-
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.audio.Audio;
@@ -18,8 +15,12 @@ import com.knightlore.client.networking.HighScoreCache;
 import com.knightlore.client.networking.LobbyCache;
 import com.knightlore.client.networking.ServerConnection;
 import com.knightlore.client.render.GuiRenderer;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+
+import static com.knightlore.client.util.GuiUtils.checkPosition;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 
 /**
  * Handles the main screen startup, input, updates, rendering and cleanup
@@ -147,15 +148,15 @@ public class MainScreen implements IScreen {
         return;
       }
     } else menu.getOptions().setColour(Colour.YELLOW);
-    
+
     // HELP BUTTON
     if (checkPosition(menu, menu.getHelp().getId())) {
-    	menu.getHelp().setColour();
-    	if (Mouse.isLeftButtonPressed()) {
-    		Audio.play(SELECT);
-    		Client.changeScreen(ClientState.HELP, false);
-    		return;
-    	}
+      menu.getHelp().setColour();
+      if (Mouse.isLeftButtonPressed()) {
+        Audio.play(SELECT);
+        Client.changeScreen(ClientState.HELP, false);
+        return;
+      }
     } else menu.getHelp().setColour(Colour.YELLOW);
 
     // QUIT BUTTON

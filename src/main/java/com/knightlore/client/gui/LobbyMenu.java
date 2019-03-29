@@ -1,14 +1,11 @@
 package com.knightlore.client.gui;
 
-import com.knightlore.client.gui.engine.Colour;
-import com.knightlore.client.gui.engine.Gui;
-import com.knightlore.client.gui.engine.GuiObject;
-import com.knightlore.client.gui.engine.LobbyObject;
-import com.knightlore.client.gui.engine.TextObject;
+import com.knightlore.client.gui.engine.*;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;
 import com.knightlore.client.networking.LobbyCache;
 import com.knightlore.networking.server.ListGameObject;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -69,9 +66,7 @@ public class LobbyMenu extends Gui {
   /** Current lobby */
   private int current;
 
-  /**
-   * Create gui objects
-   */
+  /** Create gui objects */
   public LobbyMenu() {
     this.bongo = new TextObject("Bongo", TITLE);
     this.bongo.setColour(Colour.LIGHT_BLUE);
@@ -157,9 +152,7 @@ public class LobbyMenu extends Gui {
     }
   }
 
-  /**
-   * Adds a lobby
-   */
+  /** Adds a lobby */
   private void addLobby() {
     if (lobbies.size() <= MAX_SERVERS) {
       GuiObject[] guiObjectsNew = new GuiObject[length + lobbies.size()];
@@ -171,9 +164,7 @@ public class LobbyMenu extends Gui {
     }
   }
 
-  /**
-   * Adds list of lobbies
-   */
+  /** Adds list of lobbies */
   private void addLobbies() {
     if (lobbies.size() <= MAX_SERVERS) {
       GuiObject[] guiObjectsNew = new GuiObject[length + lobbies.size()];
@@ -192,9 +183,7 @@ public class LobbyMenu extends Gui {
     }
   }
 
-  /**
-   * Scroll down
-   */
+  /** Scroll down */
   public void moveDown() {
     if (lobbies.size() > MAX_SERVERS && current < lobbies.size() - MAX_SERVERS) {
       current++;
@@ -211,9 +200,7 @@ public class LobbyMenu extends Gui {
     }
   }
 
-  /**
-   * Scroll up
-   */
+  /** Scroll up */
   public void moveUp() {
     if (current > 0) {
       current--;
@@ -244,9 +231,7 @@ public class LobbyMenu extends Gui {
     }
   }
 
-  /**
-   * Reset all highlights
-   */
+  /** Reset all highlights */
   private void resetHighlight() {
     for (LobbyObject lobby : lobbies) {
       if (lobby.getHighlighted()) {
@@ -341,9 +326,7 @@ public class LobbyMenu extends Gui {
     return join;
   }
 
-  /**
-   * Updates the position of the gui objects
-   */
+  /** Updates the position of the gui objects */
   public void updateSize() {
     this.bongo.setPosition(
         Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);

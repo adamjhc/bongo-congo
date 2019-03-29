@@ -6,10 +6,7 @@ import com.knightlore.server.ClientHandler;
 
 public abstract class Command {
 
-    Gson gson = new Gson();
+  Gson gson = new Gson();
 
-    public abstract void run(ClientHandler clientHandler, Sendable sendable);
-
-
-
+  public abstract void run(ClientHandler clientHandler, Sendable sendable);
 }

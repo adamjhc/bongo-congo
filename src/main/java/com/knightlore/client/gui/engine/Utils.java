@@ -4,20 +4,17 @@ import java.util.List;
 
 /**
  * Utilities needed in gui engine
- * 
- * @author Joseph
  *
+ * @author Joseph
  */
 class Utils {
 
-	/**
-	 * 
-	 */
+  /** */
   private Utils() {}
 
   /**
    * Converts a float list to a float array
-   * 
+   *
    * @param list Float list
    * @return Float array
    */

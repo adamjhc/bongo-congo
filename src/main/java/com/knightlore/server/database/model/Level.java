@@ -6,6 +6,7 @@ import java.sql.Types;
 
 /**
  * Level instance of model
+ *
  * @author Lewis Relph
  */
 public class Level extends Model {

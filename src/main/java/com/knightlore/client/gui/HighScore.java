@@ -5,13 +5,14 @@ import com.knightlore.client.gui.engine.Gui;
 import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Window;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * Screen that displays the highscore for the game
- * 
+ *
  * @author Adam Cox, Joseph
  */
 public class HighScore extends Gui {

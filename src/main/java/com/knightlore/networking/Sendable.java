@@ -11,10 +11,10 @@ import java.util.UUID;
  */
 public class Sendable implements Serializable {
 
+  public boolean success;
   private String function;
   private String uuid;
   private String data;
-  public boolean success;
 
   /** Default constructor */
   public Sendable() {

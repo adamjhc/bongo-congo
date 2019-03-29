@@ -7,8 +7,9 @@ import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Window;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.entity.Player;
-import java.util.Map;
 import org.joml.Vector4f;
+
+import java.util.Map;
 
 /**
  * The Head-up display shown when the game is in play
@@ -84,9 +85,7 @@ public class Hud extends Gui {
   /** List of the lives */
   private TextObject[] lives;
 
-  /**
-   * Create gui objects
-   */
+  /** Create gui objects */
   public Hud() {
     this.player1Score = new TextObject("1:00000000", SMALL);
     this.player1Score.setColour();
@@ -335,9 +334,7 @@ public class Hud extends Gui {
     return SCORE_SIDE_GAP;
   }
 
-  /**
-   * Updates the position of the gui objects
-   */
+  /** Updates the position of the gui objects */
   public void updateSize() {
     this.counter.setPosition(
         Window.getWidth() - counter.getSize() * counter.getScale(),

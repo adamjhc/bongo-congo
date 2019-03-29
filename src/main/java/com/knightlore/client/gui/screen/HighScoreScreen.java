@@ -1,9 +1,5 @@
 package com.knightlore.client.gui.screen;
 
-import static com.knightlore.client.gui.engine.Gui.SMALL;
-import static com.knightlore.client.util.GuiUtils.checkPosition;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
-
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.audio.Audio;
@@ -15,7 +11,12 @@ import com.knightlore.client.io.Mouse;
 import com.knightlore.client.networking.HighScoreCache;
 import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.networking.server.HighScoreResponseObject;
+
 import java.util.List;
+
+import static com.knightlore.client.gui.engine.Gui.SMALL;
+import static com.knightlore.client.util.GuiUtils.checkPosition;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 
 public class HighScoreScreen implements IScreen {
 

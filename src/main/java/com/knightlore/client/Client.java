@@ -1,30 +1,9 @@
 package com.knightlore.client;
 
-import static com.knightlore.client.util.GuiUtils.registerFont;
-import static org.lwjgl.glfw.GLFW.glfwTerminate;
-import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.glClear;
-
 import com.knightlore.client.audio.Audio;
 import com.knightlore.client.gui.Loading;
 import com.knightlore.client.gui.engine.Timer;
-import com.knightlore.client.gui.screen.GameEndScreen;
-import com.knightlore.client.gui.screen.GameScreen;
-import com.knightlore.client.gui.screen.HelpScreen;
-import com.knightlore.client.gui.screen.HighScoreScreen;
-import com.knightlore.client.gui.screen.IScreen;
-import com.knightlore.client.gui.screen.LevelEditorScreen;
-import com.knightlore.client.gui.screen.LevelEditorSetupScreen;
-import com.knightlore.client.gui.screen.LevelSelectScreen;
-import com.knightlore.client.gui.screen.LoadLevelScreen;
-import com.knightlore.client.gui.screen.LobbyScreen;
-import com.knightlore.client.gui.screen.LobbySelectScreen;
-import com.knightlore.client.gui.screen.MainScreen;
-import com.knightlore.client.gui.screen.NameLevelScreen;
-import com.knightlore.client.gui.screen.OptionsScreen;
-import com.knightlore.client.gui.screen.ShowErrorScreen;
-import com.knightlore.client.gui.screen.TestingLevelScreen;
+import com.knightlore.client.gui.screen.*;
 import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;
@@ -32,12 +11,15 @@ import com.knightlore.client.render.GameRenderer;
 import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.client.render.LevelEditorRenderer;
 import com.knightlore.client.render.LevelSelectRenderer;
+
 import java.util.EnumMap;
 import java.util.Map;
 
-/**
- * Master client class, called when client runs
- */
+import static com.knightlore.client.util.GuiUtils.registerFont;
+import static org.lwjgl.glfw.GLFW.glfwTerminate;
+import static org.lwjgl.opengl.GL11.*;
+
+/** Master client class, called when client runs */
 public class Client {
 
   /** Target number of times game should update per second */

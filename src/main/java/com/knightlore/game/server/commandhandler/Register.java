@@ -2,10 +2,11 @@ package com.knightlore.game.server.commandhandler;
 
 import com.google.gson.Gson;
 import com.knightlore.game.server.ClientHandler;
-import com.knightlore.networking.server.ApiKey;
-import com.knightlore.networking.game.GameRegisterResponse;
-import com.knightlore.networking.server.PlayerJoined;
 import com.knightlore.networking.Sendable;
+import com.knightlore.networking.game.GameRegisterResponse;
+import com.knightlore.networking.server.ApiKey;
+import com.knightlore.networking.server.PlayerJoined;
+
 import java.util.Optional;
 
 /**
@@ -32,7 +33,8 @@ public class Register extends Command {
     // Build register response
     Gson gson = new Gson();
     Sendable response = sendable.makeResponse();
-    GameRegisterResponse gameRegisterResponse = new GameRegisterResponse(handler.server().getUUID());
+    GameRegisterResponse gameRegisterResponse =
+        new GameRegisterResponse(handler.server().getUUID());
     response.setData(gson.toJson(gameRegisterResponse));
 
     // Send

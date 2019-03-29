@@ -1,9 +1,9 @@
 package com.knightlore.client.render.opengl;
 
-import static org.lwjgl.glfw.GLFW.glfwGetTime;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.lwjgl.glfw.GLFW.glfwGetTime;
 
 /**
  * Multi-framed animated texture used in GameObject

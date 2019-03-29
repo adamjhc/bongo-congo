@@ -6,12 +6,9 @@ import com.knightlore.game.map.LevelMapSet;
 import com.knightlore.game.server.GameServer;
 import com.knightlore.server.GameServerSupervisor;
 import com.knightlore.server.database.model.Model;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.util.UUID;
 import org.apache.log4j.Logger;
+
+import java.util.*;
 
 /**
  * Repository for storing current games running on the machine
@@ -146,7 +143,7 @@ public class GameRepository {
    */
   public void removeServer(UUID uuid) {
     // stop supervisor
-    //supervisors.get(uuid).close();
+    // supervisors.get(uuid).close();
 
     this.servers.get(uuid).close();
     this.servers.remove(uuid);

@@ -1,7 +1,5 @@
 package com.knightlore.client.gui.screen;
 
-import static com.knightlore.client.util.GuiUtils.checkPosition;
-
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.audio.Audio;
@@ -14,7 +12,10 @@ import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.networking.LobbyCache;
 import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.networking.server.ListGameObject;
+
 import java.util.Collection;
+
+import static com.knightlore.client.util.GuiUtils.checkPosition;
 
 /**
  * Handles the lobby screen startup, input, updates, rendering and cleanup

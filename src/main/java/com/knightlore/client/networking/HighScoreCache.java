@@ -2,6 +2,7 @@ package com.knightlore.client.networking;
 
 import com.knightlore.networking.server.HighScoreResponse;
 import com.knightlore.networking.server.HighScoreResponseObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,15 +17,14 @@ public class HighScoreCache {
   public int cache = 0;
   private List<HighScoreResponseObject> scores;
 
-  /**
-   * Default constructor
-   */
+  /** Default constructor */
   public HighScoreCache() {
     this.scores = new ArrayList<>();
   }
 
   /**
    * Getter for scores list
+   *
    * @return
    */
   public List<HighScoreResponseObject> getScores() {
@@ -33,6 +33,7 @@ public class HighScoreCache {
 
   /**
    * Setter for scores
+   *
    * @param response
    */
   public void setScores(HighScoreResponse response) {

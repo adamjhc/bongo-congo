@@ -6,6 +6,7 @@ import com.knightlore.client.gui.engine.GuiObject;
 import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Window;
 import com.knightlore.game.entity.Player;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,9 +47,7 @@ public class GameEnd extends Gui {
   /** List of base gui objects */
   private GuiObject[] baseGuiObjects;
 
-  /**
-   * Create gui objects
-   */
+  /** Create gui objects */
   public GameEnd() {
     this.bongo = new TextObject("Bongo", TITLE);
     this.bongo.setColour(Colour.LIGHT_BLUE);
@@ -95,9 +94,7 @@ public class GameEnd extends Gui {
     addScores(scores);
   }
 
-  /**
-   * Adds the scores to the list of gui objects
-   */
+  /** Adds the scores to the list of gui objects */
   private void addScores(List<TextObject> scores) {
     guiObjects = new GuiObject[baseGuiObjects.length + scores.size()];
 
@@ -107,9 +104,7 @@ public class GameEnd extends Gui {
     }
   }
 
-  /**
-   * Updates the position of the gui objects
-   */
+  /** Updates the position of the gui objects */
   public void updateSize() {
     this.bongo.setPosition(
         Window.getHalfWidth() - bongo.getSize(), Window.getHalfHeight() - TITLE_POS);

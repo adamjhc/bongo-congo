@@ -1,8 +1,6 @@
 package com.knightlore.game.map;
 
-/**
- * Types of tiles
- */
+/** Types of tiles */
 public enum TileType {
   AIR,
   FLOOR,

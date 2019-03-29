@@ -2,6 +2,7 @@ package com.knightlore.server.database.model;
 
 /**
  * Conditions used in where statements, simple datatype
+ *
  * @author Lewis Relph
  */
 public class Condition {

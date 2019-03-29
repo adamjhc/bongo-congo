@@ -5,18 +5,16 @@ import org.joml.Vector3f;
 
 /**
  * Determines the behaviour of the 'Walker' enemy in-game.
+ *
  * @author Jacqui Henes
  */
 public class WalkerAI {
 
-  /**
-   * Default constructor
-   */
+  /** Default constructor */
   public WalkerAI() {}
 
   /**
-   * Calculates the next position of the enemy. For Walkers,
-   * this is just moving forwards.
+   * Calculates the next position of the enemy. For Walkers, this is just moving forwards.
    *
    * @param current Current enemy position
    * @param delta Time elapsed since last server update

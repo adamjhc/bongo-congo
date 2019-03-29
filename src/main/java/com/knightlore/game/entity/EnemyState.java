@@ -1,8 +1,6 @@
 package com.knightlore.game.entity;
 
-/**
- * Enemy States
- */
+/** Enemy States */
 public enum EnemyState {
   IDLE,
   MOVING,

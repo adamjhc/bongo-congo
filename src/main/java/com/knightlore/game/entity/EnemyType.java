@@ -1,6 +1,8 @@
 package com.knightlore.game.entity;
-import com.knightlore.game.entity.ai.*;
-import org.joml.Vector3f;
+
+import com.knightlore.game.entity.ai.CirclerAI;
+import com.knightlore.game.entity.ai.RandomerAI;
+import com.knightlore.game.entity.ai.WalkerAI;
 
 public enum EnemyType {
   WALKER,
@@ -45,6 +47,3 @@ public enum EnemyType {
     return walk;
   }
 }
-
-
-

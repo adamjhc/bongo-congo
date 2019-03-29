@@ -1,8 +1,5 @@
 package com.knightlore.client.gui.screen;
 
-import static com.knightlore.client.util.GuiUtils.checkPosition;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
-
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.audio.Audio;
@@ -17,7 +14,11 @@ import com.knightlore.client.networking.LobbyCache;
 import com.knightlore.client.networking.ServerConnection;
 import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.networking.server.ListGameObject;
+
 import java.util.concurrent.TimeUnit;
+
+import static com.knightlore.client.util.GuiUtils.checkPosition;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 
 /**
  * Handles the lobby select screen startup, input, updates, rendering and cleanup
@@ -34,7 +35,7 @@ public class LobbySelectScreen implements IScreen {
 
   /** Gui elements to render */
   private LobbyMenu menu;
-  
+
   /**
    * Initialise LobbySelectScreen
    *

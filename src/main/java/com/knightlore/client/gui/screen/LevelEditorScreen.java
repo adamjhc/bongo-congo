@@ -1,20 +1,5 @@
 package com.knightlore.client.gui.screen;
 
-import static com.knightlore.client.util.GuiUtils.checkPosition;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_COMMA;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_E;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_PERIOD;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_Q;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_X;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_Z;
-
 import com.knightlore.client.Client;
 import com.knightlore.client.ClientState;
 import com.knightlore.client.audio.Audio;
@@ -29,15 +14,18 @@ import com.knightlore.client.render.LevelEditorRenderer;
 import com.knightlore.game.Level;
 import com.knightlore.game.map.LevelMap;
 import com.knightlore.game.map.TileType;
+import org.joml.Vector3f;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.joml.Vector3f;
-import org.joml.Vector4f;
+
+import static com.knightlore.client.util.GuiUtils.checkPosition;
+import static org.lwjgl.glfw.GLFW.*;
 
 /**
  * The screen used for creating and editing your own levels
- * @author Adam W
  *
+ * @author Adam W
  */
 public class LevelEditorScreen implements IScreen {
 
@@ -67,6 +55,7 @@ public class LevelEditorScreen implements IScreen {
 
   /**
    * Initialise LevelEditorScreeen
+   *
    * @param guiRenderer renderer used to render gui elements
    * @param levelEditorRenderer renderer used to render editor map
    * @author Adam W
@@ -77,8 +66,10 @@ public class LevelEditorScreen implements IScreen {
     levelEditorHud = new LevelEditorHud();
   }
 
-  /** Method to setup the level once the level editor is started
-   * @author Adam W 
+  /**
+   * Method to setup the level once the level editor is started
+   *
+   * @author Adam W
    */
   @Override
   public void startup(Object... args) {
@@ -92,7 +83,9 @@ public class LevelEditorScreen implements IScreen {
     Audio.play(Audio.AudioName.MUSIC_EDITOR);
   }
 
-  /** Method to process user input 
+  /**
+   * Method to process user input
+   *
    * @author Adam W
    */
   @Override
@@ -101,7 +94,9 @@ public class LevelEditorScreen implements IScreen {
     levelEditorInput();
   }
 
-  /** Method to process GUI and level rendering 
+  /**
+   * Method to process GUI and level rendering
+   *
    * @author Adam W
    */
   @Override
@@ -111,7 +106,9 @@ public class LevelEditorScreen implements IScreen {
     guiRenderer.render(levelEditorHud);
   }
 
-  /** Method to clean the GUI 
+  /**
+   * Method to clean the GUI
+   *
    * @author Adam W
    */
   @Override
@@ -119,7 +116,9 @@ public class LevelEditorScreen implements IScreen {
     levelEditorHud.cleanup();
   }
 
-  /** Method to process camera movement from mouse movement 
+  /**
+   * Method to process camera movement from mouse movement
+   *
    * @author Adam W
    */
   private void cameraControl() {
@@ -138,7 +137,9 @@ public class LevelEditorScreen implements IScreen {
     }
   }
 
-  /** Method to process keyboard input 
+  /**
+   * Method to process keyboard input
+   *
    * @author Adam W
    */
   private void levelEditorInput() {
@@ -183,10 +184,10 @@ public class LevelEditorScreen implements IScreen {
     } else if (Keyboard.isKeyReleased(GLFW_KEY_X)) {
       levelEditorRenderer.zoomOut(editorMap.getSize());
     } else if (Keyboard.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
-        levelEditorHud.moveScore(35, levelEditorHud.getControlsSideGap());
-      } else {
-        levelEditorHud.moveScore(-10, levelEditorHud.getControlsHide());
-      }
+      levelEditorHud.moveScore(35, levelEditorHud.getControlsSideGap());
+    } else {
+      levelEditorHud.moveScore(-10, levelEditorHud.getControlsHide());
+    }
 
     if (checkPosition(levelEditorHud, levelEditorHud.getSave().getId(), "")) {
       levelEditorHud.getSave().setColour();
@@ -282,21 +283,21 @@ public class LevelEditorScreen implements IScreen {
             TileType.values()[8]);
       }
     } else levelEditorHud.getCircler().setColour(Colour.YELLOW);
-    
+
     if (checkPosition(levelEditorHud, levelEditorHud.getInc().getId())) {
-    	levelEditorHud.getInc().setColour();
-    	if (Mouse.isLeftButtonHeld()) {
-    		Audio.play(SELECT);
-    		levelEditorHud.incTime();
-    	}
+      levelEditorHud.getInc().setColour();
+      if (Mouse.isLeftButtonHeld()) {
+        Audio.play(SELECT);
+        levelEditorHud.incTime();
+      }
     } else levelEditorHud.getInc().setColour(Colour.YELLOW);
-    
+
     if (checkPosition(levelEditorHud, levelEditorHud.getDec().getId())) {
-    	levelEditorHud.getDec().setColour();
-    	if (Mouse.isLeftButtonHeld()) {
-    		Audio.play(SELECT);
-    		levelEditorHud.decTime();
-    	}
+      levelEditorHud.getDec().setColour();
+      if (Mouse.isLeftButtonHeld()) {
+        Audio.play(SELECT);
+        levelEditorHud.decTime();
+      }
     } else levelEditorHud.getDec().setColour(Colour.YELLOW);
 
     if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {

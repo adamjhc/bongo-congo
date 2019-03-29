@@ -1,10 +1,7 @@
 package com.knightlore.client.gui.engine.graphics;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -14,17 +11,15 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
 import java.util.HashMap;
 import java.util.Map;
-import javax.imageio.ImageIO;
 
 /**
  * Creates a texture that contains all the characters for a given font
- * 
- * @author Joseph
  *
+ * @author Joseph
  */
 public class FontTexture {
-	
-	/** Character image format */
+
+  /** Character image format */
   private static final String IMAGE_FORMAT = "png";
   /** Font used */
   private final Font font;
@@ -38,15 +33,14 @@ public class FontTexture {
   private int height;
   /** Width of all characters */
   private int width;
-  
-/**
- * Initialise values and build texture
- * 
- * @param font
- * @param charSetName
- * @author Joseph
- * 
- */
+
+  /**
+   * Initialise values and build texture
+   *
+   * @param font
+   * @param charSetName
+   * @author Joseph
+   */
   public FontTexture(Font font, String charSetName) {
     this.font = font;
     this.charSetName = charSetName;
@@ -57,10 +51,9 @@ public class FontTexture {
 
   /**
    * Return width
-   * 
+   *
    * @return Width
    * @author Joseph
-   * 
    */
   public int getWidth() {
     return width;
@@ -68,10 +61,9 @@ public class FontTexture {
 
   /**
    * Return height
-   * 
+   *
    * @return Height
    * @author Joseph
-   * 
    */
   public int getHeight() {
     return height;
@@ -79,10 +71,9 @@ public class FontTexture {
 
   /**
    * Return texture
-   * 
+   *
    * @return Texture
    * @author Joseph
-   * 
    */
   public Texture getTexture() {
     return texture;
@@ -90,11 +81,10 @@ public class FontTexture {
 
   /**
    * Returns the character info for a specific character
-   * 
+   *
    * @param c Character
    * @return Character info
    * @author Joseph
-   * 
    */
   public CharInfo getCharInfo(char c) {
     return charMap.get(c);
@@ -102,11 +92,10 @@ public class FontTexture {
 
   /**
    * Returns all the available characters
-   * 
+   *
    * @param charsetName Character set
    * @return All available characters
    * @author Joseph
-   * 
    */
   private String getAllAvailableChars(String charsetName) {
     CharsetEncoder ce = Charset.forName(charsetName).newEncoder();
@@ -121,9 +110,8 @@ public class FontTexture {
 
   /**
    * Creates the texture
-   * 
+   *
    * @author Joseph
-   * 
    */
   private void buildTexture() {
     // Get the font metrics for each character for the selected font by using image
@@ -168,24 +156,22 @@ public class FontTexture {
 
   /**
    * Character information
-   * 
-   * @author Joseph
    *
+   * @author Joseph
    */
   public static class CharInfo {
 
-  	/** Starting x */
+    /** Starting x */
     private final int startX;
     /** Character width */
     private final int width;
 
     /**
      * Initialise values
-     * 
+     *
      * @param startX Starting x
      * @param width Character width
      * @author Joseph
-     * 
      */
     public CharInfo(int startX, int width) {
       this.startX = startX;
@@ -194,10 +180,9 @@ public class FontTexture {
 
     /**
      * Return the starting x position
-     * 
+     *
      * @return StartX
      * @author Joseph
-     * 
      */
     public int getStartX() {
       return startX;
@@ -205,10 +190,9 @@ public class FontTexture {
 
     /**
      * Return the width
-     * 
+     *
      * @return Width
      * @author Joseph
-     * 
      */
     public int getWidth() {
       return width;

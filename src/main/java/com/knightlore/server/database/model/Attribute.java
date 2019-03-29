@@ -5,9 +5,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 
-/**
- * Singular attribute, allows model to define their columns in the database
- */
+/** Singular attribute, allows model to define their columns in the database */
 public class Attribute {
 
   public Integer type;

@@ -9,5 +9,5 @@ import com.knightlore.game.server.GameServer;
  */
 public interface SupervisorTask {
 
-    public void run(GameServer server);
+  public void run(GameServer server);
 }

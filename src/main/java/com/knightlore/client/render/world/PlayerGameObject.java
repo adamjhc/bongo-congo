@@ -7,14 +7,11 @@ import com.knightlore.game.entity.Direction;
 import com.knightlore.game.entity.Entity;
 import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+
+import java.util.*;
 
 /**
  * GameObject used for the Player entities

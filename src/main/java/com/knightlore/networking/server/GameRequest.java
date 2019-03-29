@@ -25,11 +25,11 @@ public class GameRequest {
     this.levels.add(levelUUID);
   }
 
-  public void setLevels(ArrayList<UUID> levelUUIDS) {
-    this.levels = levelUUIDS;
-  }
-
   public ArrayList<UUID> getLevels() {
     return this.levels;
+  }
+
+  public void setLevels(ArrayList<UUID> levelUUIDS) {
+    this.levels = levelUUIDS;
   }
 }

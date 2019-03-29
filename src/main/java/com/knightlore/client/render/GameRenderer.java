@@ -2,23 +2,18 @@ package com.knightlore.client.render;
 
 import com.knightlore.client.io.Window;
 import com.knightlore.client.render.opengl.ShaderProgram;
-import com.knightlore.client.render.world.EnemyGameObject;
-import com.knightlore.client.render.world.EnemyGameObjectSet;
-import com.knightlore.client.render.world.EntityGameObject;
-import com.knightlore.client.render.world.GameObject;
-import com.knightlore.client.render.world.PlayerGameObject;
-import com.knightlore.client.render.world.TileGameObject;
-import com.knightlore.client.render.world.TileGameObjectSet;
+import com.knightlore.client.render.world.*;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.entity.Enemy;
 import com.knightlore.game.entity.EnemyState;
 import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
+import org.joml.Vector3f;
+import org.joml.Vector3i;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.joml.Vector3f;
-import org.joml.Vector3i;
 
 /**
  * Renderer used in normal gameplay

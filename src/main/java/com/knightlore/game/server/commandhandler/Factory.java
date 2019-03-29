@@ -1,6 +1,5 @@
 package com.knightlore.game.server.commandhandler;
 
-import com.knightlore.game.entity.Player;
 import com.knightlore.game.server.ClientHandler;
 import com.knightlore.networking.Sendable;
 

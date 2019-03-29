@@ -1,12 +1,10 @@
 package com.knightlore.game.server;
 
 import com.google.gson.Gson;
-import com.knightlore.client.Client;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.GameState;
-import com.knightlore.networking.game.GameStart;
 import com.knightlore.networking.Sendable;
-import com.knightlore.server.GameServerSupervisor;
+import com.knightlore.networking.game.GameStart;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -24,14 +22,13 @@ import java.util.UUID;
  */
 public class GameServer extends Thread {
   public int socket;
+  public PositionUpdateQueueHandler poqhandler;
   UUID id;
   String sessionOwner;
   String name;
   ArrayList<ClientHandler> clients;
   boolean running;
   boolean lobby;
-  public PositionUpdateQueueHandler poqhandler;
-
   GameModel model;
 
   public GameServer(UUID id, int socket, String sessionOwner, GameModel model, String name) {
@@ -140,7 +137,7 @@ public class GameServer extends Thread {
   public void startGame() {
     // Update model
     this.model.setState(GameState.PLAYING);
-    
+
     // Send
     Gson gson = new Gson();
     Sendable sendable = new Sendable();
@@ -189,20 +186,19 @@ public class GameServer extends Thread {
     this.interrupt();
   }
 
-  public boolean inLobby(){
+  public boolean inLobby() {
     return this.lobby;
   }
 
-  public void removeConnection(String session){
+  public void removeConnection(String session) {
     this.poqhandler.close();
     ClientHandler clientToRemove = null;
 
-    for(ClientHandler client: registeredClients()){
-      if(client.sessionKey.equals(session)){
+    for (ClientHandler client : registeredClients()) {
+      if (client.sessionKey.equals(session)) {
         clientToRemove = client;
       }
     }
-    if(clientToRemove != null)
-      registeredClients().remove(clientToRemove);
+    if (clientToRemove != null) registeredClients().remove(clientToRemove);
   }
 }

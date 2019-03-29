@@ -14,31 +14,30 @@ import java.util.UUID;
  */
 public class LevelCache {
 
-    public static LevelCache instance = new LevelCache();
+  public static LevelCache instance = new LevelCache();
 
-    HashMap<UUID, ListLevelObject> levels;
+  HashMap<UUID, ListLevelObject> levels;
 
-    /**
-     * default constructor
-     */
-    public LevelCache(){
-        this.levels = new HashMap<>();
-    }
+  /** default constructor */
+  public LevelCache() {
+    this.levels = new HashMap<>();
+  }
 
-    /**
-     * Setter for levels
-     * @param response
-     */
-    public void setLevels(ListLevelsResponse response){
-        this.levels = response.getLevels();
-    }
+  /**
+   * Getter for levels
+   *
+   * @return
+   */
+  public Collection<ListLevelObject> getLevels() {
+    return this.levels.values();
+  }
 
-    /**
-     * Getter for levels
-     * @return
-     */
-    public Collection<ListLevelObject> getLevels(){
-        return this.levels.values();
-    }
-
+  /**
+   * Setter for levels
+   *
+   * @param response
+   */
+  public void setLevels(ListLevelsResponse response) {
+    this.levels = response.getLevels();
+  }
 }

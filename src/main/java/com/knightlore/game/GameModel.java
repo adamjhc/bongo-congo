@@ -137,6 +137,12 @@ public class GameModel {
         GameConnection.instance.sendLevelComplete();
       }
     }
+    
+    if (timeLeft <= 0) {
+    	for (int i = 0; i < myPlayer().getLives(); i++) {
+    		myPlayer().loseLife();
+    	}
+    }
 
     // Player state updates
     switch (myPlayer().getPlayerState()) {
@@ -227,12 +233,6 @@ public class GameModel {
         delay(200);
         myPlayer().loseLife();
       }
-    }
-    
-    if (timeLeft <= 0) {
-    	for (int i = 0; i < myPlayer().getLives(); i++) {
-    		myPlayer().loseLife();
-    	}
     }
 
     // Resets climb flag

@@ -146,7 +146,7 @@ public class GameRepository {
    */
   public void removeServer(UUID uuid) {
     // stop supervisor
-    supervisors.get(uuid).close();
+    //supervisors.get(uuid).close();
 
     this.servers.get(uuid).close();
     this.servers.remove(uuid);

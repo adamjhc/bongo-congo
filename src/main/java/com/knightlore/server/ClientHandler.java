@@ -2,7 +2,6 @@ package com.knightlore.server;
 
 import com.knightlore.networking.Sendable;
 import com.knightlore.server.commandhandler.Factory;
-import com.knightlore.server.database.Authenticate;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;

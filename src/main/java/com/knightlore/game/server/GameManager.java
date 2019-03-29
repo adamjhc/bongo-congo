@@ -4,11 +4,9 @@ import com.google.gson.Gson;
 import com.knightlore.client.gui.engine.Timer;
 import com.knightlore.game.GameModel;
 import com.knightlore.game.entity.Enemy;
-import com.knightlore.networking.EnemyLocationUpdate;
-import com.knightlore.networking.EnemyLocationUpdateObject;
 import com.knightlore.networking.Sendable;
-
-import java.util.Map;
+import com.knightlore.networking.game.EnemyLocationUpdate;
+import com.knightlore.networking.game.EnemyLocationUpdateObject;
 
 public class GameManager extends Thread {
 
@@ -38,7 +36,7 @@ public class GameManager extends Thread {
       while (accumulator >= interval) {
         model.serverUpdate(interval);
 
-        accumulator -= interval;
+//        accumulator -= interval;
 //        Sendable sendable = new Sendable();
 //        sendable.setFunction("enemy_location_update");
 //        EnemyLocationUpdate update = new EnemyLocationUpdate();

@@ -1,7 +1,6 @@
 package com.knightlore.game.server.commandhandler;
 
-import com.knightlore.game.server.ClientHandler;
-import com.knightlore.game.server.GameManager;
+import com.knightlore.game.server.*;
 import com.knightlore.networking.Sendable;
 
 public class Ready extends Command {
@@ -15,6 +14,10 @@ public class Ready extends Command {
       // Start supervisor
       GameManager manager = new GameManager(handler.model(), handler.server());
       manager.start();
+
+      handler.server().poqhandler =
+              new PositionUpdateQueueHandler(PositionUpdateQueue.instance,handler.server());
+      handler.server().poqhandler.start();
 
 
       // Send

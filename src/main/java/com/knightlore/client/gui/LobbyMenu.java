@@ -8,7 +8,7 @@ import com.knightlore.client.gui.engine.TextObject;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.io.Window;
 import com.knightlore.client.networking.LobbyCache;
-import com.knightlore.networking.ListGameObject;
+import com.knightlore.networking.server.ListGameObject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

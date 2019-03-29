@@ -6,14 +6,16 @@ import java.util.concurrent.TimeUnit;
 public class PeriodicStatusUpdater extends Thread {
 
   private Client client;
+  boolean running;
 
   public PeriodicStatusUpdater(Client client) {
     this.client = client;
+    running = true;
   }
 
   @Override
   public void run() {
-    while (client.isRunning()) {
+    while (running) {
       if (GameConnection.gameModel != null) {
         GameConnection.instance.updateStatus();
       }
@@ -23,8 +25,12 @@ public class PeriodicStatusUpdater extends Thread {
       } catch (InterruptedException e) {
 
       }
-
-      System.out.println("send");
     }
+  }
+
+  public void close(){
+    System.out.println("Closing periodic status");
+    this.running = false;
+    this.interrupt();
   }
 }

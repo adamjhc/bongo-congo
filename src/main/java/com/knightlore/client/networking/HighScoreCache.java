@@ -1,7 +1,7 @@
 package com.knightlore.client.networking;
 
-import com.knightlore.networking.HighScoreResponse;
-import com.knightlore.networking.HighScoreResponseObject;
+import com.knightlore.networking.server.HighScoreResponse;
+import com.knightlore.networking.server.HighScoreResponseObject;
 import java.util.ArrayList;
 import java.util.List;
 

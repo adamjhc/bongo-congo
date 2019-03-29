@@ -7,8 +7,8 @@ import com.knightlore.client.networking.backend.Client;
 import com.knightlore.client.networking.backend.ResponseHandler;
 import com.knightlore.client.networking.backend.responsehandlers.server.*;
 import com.knightlore.game.Level;
-import com.knightlore.networking.ApiKey;
-import com.knightlore.networking.LevelUpload;
+import com.knightlore.networking.server.ApiKey;
+import com.knightlore.networking.server.LevelUpload;
 import com.knightlore.networking.Sendable;
 import com.knightlore.util.Config;
 
@@ -71,7 +71,6 @@ public class ServerConnection {
 
         ResponseHandler.waiting.put(sendable.getUuid(), new SessionKey());
 
-        System.out.println("SENDING" + sendable.getData());
         client.dos.writeObject(sendable);
 
     }
@@ -81,15 +80,10 @@ public class ServerConnection {
         this.sessionKey = Optional.of(sessionKey);
         this.username = Optional.of(username);
         this.authenticated = true;
-
-
-        // Listeners for auth success
-        System.out.println("SUCCESSFUL");
     }
 
     public void authFail(){
         // Listeners for auth fail
-        System.out.println("FAILIURE");
     }
 
     public boolean ready(){
@@ -113,7 +107,7 @@ public class ServerConnection {
 
             Gson gson = new Gson();
 
-            com.knightlore.networking.GameRequest request = new com.knightlore.networking.GameRequest();
+            com.knightlore.networking.server.GameRequest request = new com.knightlore.networking.server.GameRequest();
             // TODO make dynamic
             request.addLevel(UUID.fromString("47eb096a-a88c-4933-afc2-ed961ce2158e"));
             sendable.setData(gson.toJson(request));
@@ -138,11 +132,10 @@ public class ServerConnection {
             sendable.setUuid();
             sendable.setFunction("list_games");
 
-
             // Specify handler
             ResponseHandler.waiting.put(sendable.getUuid(), new GameList());
 
-
+            // Write
             try{
                 client.dos.writeObject(sendable);
             }catch(IOException e){

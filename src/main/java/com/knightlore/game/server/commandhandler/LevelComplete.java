@@ -1,13 +1,11 @@
 package com.knightlore.game.server.commandhandler;
 
-import com.knightlore.game.GameModel;
 import com.knightlore.game.GameState;
 import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.server.ClientHandler;
-import com.knightlore.networking.ApiKey;
 import com.knightlore.networking.Sendable;
-import com.knightlore.networking.SessionKeyResponse;
+import com.knightlore.server.game.GameRepository;
 
 public class LevelComplete extends Command {
 
@@ -33,13 +31,16 @@ public class LevelComplete extends Command {
         handler.model().setState(GameState.FINISHED);
         gameComplete.setFunction("game_complete");
         handler.server().sendToRegistered(gameComplete);
+
+        // Stop
+        System.out.println("GAME COMPLETE");
+        GameRepository.instance.removeServer(handler.server().getUUID());
       }else{
         Sendable levelComplete = new Sendable();
         levelComplete.setFunction("level_complete");
         handler.server().sendToRegistered(levelComplete);
+        handler.model().nextLevel();
       }
-
-      handler.model().incrementLevel();
     }
 
   }

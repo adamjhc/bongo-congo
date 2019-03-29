@@ -5,7 +5,7 @@ import com.knightlore.client.networking.GameConnection;
 import com.knightlore.client.networking.ServerConnection;
 import com.knightlore.client.networking.backend.Client;
 import com.knightlore.client.networking.backend.responsehandlers.GenericHandler;
-import com.knightlore.networking.GameRequestResponse;
+import com.knightlore.networking.server.GameRequestResponse;
 import com.knightlore.networking.Sendable;
 
 import java.util.concurrent.TimeUnit;

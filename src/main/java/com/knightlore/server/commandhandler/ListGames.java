@@ -2,9 +2,10 @@ package com.knightlore.server.commandhandler;
 
 import com.knightlore.game.server.GameServer;
 import com.knightlore.networking.*;
+import com.knightlore.networking.server.ListGameObject;
+import com.knightlore.networking.server.ListGameResponse;
 import com.knightlore.server.ClientHandler;
 import com.knightlore.server.database.SessionGenerator;
-import com.knightlore.server.database.model.*;
 import com.knightlore.server.game.GameRepository;
 import com.knightlore.util.Config;
 import org.apache.log4j.Logger;

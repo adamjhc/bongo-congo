@@ -12,7 +12,6 @@ public class EnemySet {
     set.add(new Enemy(EnemyType.WALKER));
     set.add(new Enemy(EnemyType.RANDOMER));
     set.add(new Enemy(EnemyType.CIRCLER));
-    set.add(new Enemy(EnemyType.CHARGER));
   }
 
   public Enemy get(int index, Vector3f position) {

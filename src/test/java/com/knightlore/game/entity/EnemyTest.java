@@ -17,7 +17,7 @@ public class EnemyTest {
 
   @Test
   public void idleStateIsDefaultTest() {
-    Enemy enemy = new Enemy(EnemyType.CHARGER);
+    Enemy enemy = new Enemy(EnemyType.WALKER);
 
     assertThat(enemy.getCurrentState(), is(equalTo(EnemyState.IDLE)));
   }
@@ -25,7 +25,7 @@ public class EnemyTest {
   @Test
   public void canSetCurrentState() {
     // arrange
-    Enemy enemy = new Enemy(EnemyType.CHARGER);
+    Enemy enemy = new Enemy(EnemyType.WALKER);
     EnemyState expectedState = EnemyState.MOVING;
 
     // act

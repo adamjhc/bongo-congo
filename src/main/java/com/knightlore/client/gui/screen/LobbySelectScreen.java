@@ -80,7 +80,7 @@ public class LobbySelectScreen implements IScreen {
           }
         }
         // Sent off register request
-        GameConnection.instance.register();
+          GameConnection.instance.register();
 
         // Wait for register response
         while (GameConnection.instance.uuid == null) {

@@ -9,6 +9,7 @@ import com.knightlore.client.networking.backend.responsehandlers.game.GameRegist
 import com.knightlore.game.GameModel;
 import com.knightlore.game.GameState;
 import com.knightlore.game.entity.Player;
+import com.knightlore.networking.game.LevelComplete;
 import com.knightlore.networking.server.ApiKey;
 import com.knightlore.networking.game.PositionUpdate;
 import com.knightlore.networking.Sendable;
@@ -128,8 +129,11 @@ public class GameConnection {
   }
 
   public void sendLevelComplete() {
+    Gson gson = new Gson();
     Sendable sendable = new Sendable();
     sendable.setFunction("level_complete");
+    LevelComplete lc = new LevelComplete(GameConnection.gameModel.myPlayer().getScore());
+    sendable.setData(gson.toJson(lc));
 
     try {
       client.dos.writeObject(sendable);

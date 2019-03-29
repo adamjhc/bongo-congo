@@ -1,5 +1,6 @@
 package com.knightlore.game.server.commandhandler;
 
+import com.google.gson.Gson;
 import com.knightlore.game.GameState;
 import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
@@ -12,7 +13,11 @@ public class LevelComplete extends Command {
   public void run(ClientHandler handler, Sendable sendable) {
     System.out.println("Level complete called");
 
+    Gson gson = new Gson();
+    com.knightlore.networking.game.LevelComplete lc = gson.fromJson(sendable.getData(), com.knightlore.networking.game.LevelComplete.class);
+
     Player player = handler.model().getPlayers().get(handler.sessionKey.get());
+    player.setScore(lc.score);
     player.setPlayerState(PlayerState.FINISHED);
 
     // Check for all complete

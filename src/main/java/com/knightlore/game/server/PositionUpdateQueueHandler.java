@@ -30,6 +30,7 @@ public class PositionUpdateQueueHandler extends Thread{
             sendable.setFunction("position_update_chunk");
             PositionUpdateChunk chunk = queue.getQueue();
 
+            System.out.println("SENDING CHUNK");
             sendable.setData(gson.toJson(chunk));
 
             this.server.sendToRegistered(sendable);

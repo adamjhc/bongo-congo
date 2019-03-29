@@ -32,11 +32,11 @@ public class EnemyPositionUpdateManager extends Thread{
             }
 
             sendable.setData(gson.toJson(update));
-
+            System.out.println("SENDING enemylocupdate");
             server.sendToRegistered(sendable);
 
             try{
-                TimeUnit.SECONDS.sleep(1);
+                TimeUnit.MILLISECONDS.sleep(55);
             }catch(InterruptedException e){
 
             }

@@ -22,7 +22,18 @@ public class PositionUpdateChunk {
     }
 
     public void add(PositionUpdate u){
-        queue.add(u);
+        boolean used = false;
+        for(PositionUpdate current : queue){
+            if(current.sessionId.equals(u.sessionId)){
+                current = u;
+                used = true;
+                break;
+            }
+        }
+
+        if(!used){
+            queue.add(u);
+        }
     }
 
     public void clear(){

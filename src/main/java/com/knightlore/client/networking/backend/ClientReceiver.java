@@ -12,6 +12,7 @@ public class ClientReceiver extends Thread{
     ObjectInputStream dis;
     Client client;
     boolean running;
+    int yeetCount = 0;
 
     public ClientReceiver(Client client, ObjectInputStream dis){
         this.client = client;
@@ -26,7 +27,6 @@ public class ClientReceiver extends Thread{
 
         while (running) {
             try {
-                System.out.println("WAITING FOR MESSAGE");
                 received = (Sendable) dis.readObject();
                 System.out.println(received.getFunction());
 
@@ -43,7 +43,10 @@ public class ClientReceiver extends Thread{
 
                 System.out.println("CLIENT RECEIVED: " + received);
             }catch (IOException e){
-                break;
+                if(yeetCount== 0){
+                    System.out.println("ERR");
+                    yeetCount ++;
+                }
             }catch (ClassNotFoundException e){
                 e.printStackTrace();
             }

@@ -13,6 +13,11 @@ import com.knightlore.client.io.Keyboard;
 import com.knightlore.client.io.Mouse;
 import com.knightlore.client.render.GuiRenderer;
 
+/**
+ * Handles the options screen startup, input, updates, rendering and cleanup
+ *
+ * @author Joseph, Adam Cox
+ */
 public class OptionsScreen implements IScreen {
 
   /** Audio clip name used for selection */

@@ -19,6 +19,11 @@ import com.knightlore.client.render.GuiRenderer;
 import com.knightlore.networking.server.ListGameObject;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Handles the lobby select screen startup, input, updates, rendering and cleanup
+ *
+ * @author Joseph, Adam Cox
+ */
 public class LobbySelectScreen implements IScreen {
 
   /** Audio clip name for selection */

@@ -225,6 +225,7 @@ public class GameScreen implements IScreen {
     hud.setScore(playerIndex, score, Integer.toString(gameModel.myPlayer().getId()));
 
     hud.getScore(playerIndex).setColour(gameModel.myPlayer().getColour());
+    System.err.println(gameModel.myPlayer().getColour());
 
     Map<String, Player> players = new LinkedHashMap<>(gameModel.getPlayers());
     if (GameConnection.instance == null) {

@@ -21,7 +21,7 @@ public class EnemyPositionUpdateManager extends Thread{
     }
 
     public void run(){
-        Gson gson = new Gson();
+        /*Gson gson = new Gson();
         while(true){
             Sendable sendable = new Sendable();
             sendable.setFunction("enemy_location_update");
@@ -38,10 +38,10 @@ public class EnemyPositionUpdateManager extends Thread{
             try{
                 TimeUnit.SECONDS.sleep(1);
             }catch(InterruptedException e){
-
+            
             }
 
         }
-
+*/
     }
 }

@@ -9,6 +9,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Screen that displays the highscore for the game
+ * 
+ * @author Adam Cox, Joseph
+ */
 public class HighScore extends Gui {
 
   /** The position in the window of the top --------------- */

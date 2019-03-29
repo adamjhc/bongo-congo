@@ -86,8 +86,6 @@ public class Hud extends Gui {
 
   /**
    * Create gui objects
-   *
-   * @author Joseph
    */
   public Hud() {
     this.player1Score = new TextObject("1:00000000", SMALL);
@@ -196,7 +194,6 @@ public class Hud extends Gui {
    *
    * @param move The number of pixels to move
    * @param targetXPos The target position to reach
-   * @author Joseph
    */
   public void moveScore(float move, float targetXPos) {
     float xPosScore = player2Score.getPositionX();
@@ -218,7 +215,6 @@ public class Hud extends Gui {
    * @param move The number of pixels to move
    * @param xPosScore The x position for scores
    * @param xPosLives The x position for lives
-   * @author Joseph
    */
   public void setPosition(float move, float xPosScore, float xPosLives) {
     player2Score.setPositionX(xPosScore + move);
@@ -238,7 +234,6 @@ public class Hud extends Gui {
    *
    * @param index The player index
    * @param lives The number of lives for that player
-   * @author Joseph
    */
   public void setLives(int index, int lives) {
     if (lives <= 0) {
@@ -256,7 +251,6 @@ public class Hud extends Gui {
    * Sets the current level
    *
    * @param levelIndex The current level index
-   * @author Joseph
    */
   public void setLevel(int levelIndex) {
     level.setText("L=" + (levelIndex + 1));
@@ -266,7 +260,6 @@ public class Hud extends Gui {
    * Returns counter
    *
    * @return Counter
-   * @author Joseph
    */
   public TextObject getCounter() {
     return counter;
@@ -276,7 +269,6 @@ public class Hud extends Gui {
    * Sets the counter to the statusText
    *
    * @param statusText The counter text
-   * @author Joseph
    */
   public void setCounter(String statusText) {
     this.counter.setText(statusText);
@@ -286,7 +278,6 @@ public class Hud extends Gui {
    * Returns countDown
    *
    * @return countDown
-   * @author Joseph
    */
   public TextObject getCountDown() {
     return countDown;
@@ -296,7 +287,6 @@ public class Hud extends Gui {
    * Sets the countdown to the statusText
    *
    * @param statusText The countdown text
-   * @author Joseph
    */
   public void setCountDown(String statusText) {
     this.countDown.setText(statusText);
@@ -307,7 +297,6 @@ public class Hud extends Gui {
    *
    * @param index The player index
    * @return The score for the indexed player
-   * @author Joseph
    */
   public TextObject getScore(int index) {
     return this.scores[index];
@@ -319,7 +308,6 @@ public class Hud extends Gui {
    * @param index The player index
    * @param score The new score
    * @param name The player name
-   * @author Joseph
    */
   public void setScore(int index, int score, String name) {
     if (score > MAX_SCORE) {
@@ -333,7 +321,6 @@ public class Hud extends Gui {
    * Returns the position to hide scores in
    *
    * @return SCORE_HIDE
-   * @author Joseph
    */
   public int getScoreHide() {
     return SCORE_HIDE;
@@ -343,7 +330,6 @@ public class Hud extends Gui {
    * Returns the gap for scores
    *
    * @return SCORE_SIDE_GAP
-   * @author Joseph
    */
   public int getScoreSideGap() {
     return SCORE_SIDE_GAP;
@@ -351,8 +337,6 @@ public class Hud extends Gui {
 
   /**
    * Updates the position of the gui objects
-   *
-   * @author Joseph
    */
   public void updateSize() {
     this.counter.setPosition(
@@ -372,7 +356,6 @@ public class Hud extends Gui {
    * Sets which scores need to be rendered
    *
    * @param gameModel The game model containing players
-   * @author Joseph
    */
   public void renderScores(GameModel gameModel) {
     Map<String, Player> players = gameModel.getPlayers();

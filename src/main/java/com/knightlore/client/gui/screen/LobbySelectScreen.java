@@ -79,8 +79,16 @@ public class LobbySelectScreen implements IScreen {
             // Shouldn't happen
           }
         }
+
+        while (!GameConnection.instance.ready()) {
+          try {
+            TimeUnit.SECONDS.sleep(1);
+          } catch (InterruptedException e) {
+            // Shouldn't happen
+          }
+        }
         // Sent off register request
-          GameConnection.instance.register();
+        GameConnection.instance.register();
 
         // Wait for register response
         while (GameConnection.instance.uuid == null) {

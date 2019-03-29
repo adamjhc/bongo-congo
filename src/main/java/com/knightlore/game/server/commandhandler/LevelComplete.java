@@ -6,6 +6,8 @@ import com.knightlore.game.entity.Player;
 import com.knightlore.game.entity.PlayerState;
 import com.knightlore.game.server.ClientHandler;
 import com.knightlore.networking.Sendable;
+import com.knightlore.networking.game.PositionUpdate;
+import com.knightlore.networking.game.PositionUpdateChunk;
 import com.knightlore.server.game.GameRepository;
 
 public class LevelComplete extends Command {
@@ -30,6 +32,14 @@ public class LevelComplete extends Command {
     }
 
     if(allFinished){
+      // Send out
+      Sendable update = new Sendable();
+      sendable.setFunction("position_update_chunk");
+      PositionUpdateChunk chunk = new PositionUpdateChunk();
+      chunk.add(new PositionUpdate(player.getPosition(), handler.sessionKey.get(), player.getDirection(), player.getPlayerState(), player.getScore()));
+      update.setData(gson.toJson(chunk));
+      handler.server().sendToRegisteredExceptSelf(update, handler.sessionKey.get());
+
       if(handler.model().lastLevel()){
         // Finish game
         Sendable gameComplete = new Sendable();
